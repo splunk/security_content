@@ -7,8 +7,7 @@ type: TTP
 datamodel: []
 description: The following analytic looks for changes to the sIDHistory AD attribute of user or computer objects within different domains. 
  The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
-<<<<<<< HEAD:detections/endpoint/windows_ad_cross_domain_sid_history_addition.yml
- continuity when migrating user accounts to different domains, this attribute can be abused for inter-domain privilege escalation and persistence. 
+ continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries for inter-domain privilege escalation and persistence. 
 search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -)
  | rex field=SidHistory "(^%{|^)(?P<SidHistoryMatch>.*)(\-|\\\)"
  | rex field=TargetSid "^(?P<TargetSidmatch>.*)(\-|\\\)"
@@ -16,12 +15,6 @@ search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistor
  | rename TargetSid as userSid
  | table _time action status host user userSid SidHistory Logon_ID src_user
  | `windows_ad_cross_domain_sid_history_addition_filter`'
-=======
- continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries for inter-domain privilege escalation and persistence. 
-search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) (SidHistory!="%%1793" AND SidHistory!="-")
-  | rename TargetSid as userSid
-  | table _time action status host user userSid SidHistory Logon_ID src_user | `windows_active_directory_sid_history_addition_filter`'
->>>>>>> refs/remotes/origin/TR_2410_Domain_Controller_Attacks:detections/endpoint/windows_active_directory_sid_history_addition.yml
 how_to_implement: To successfully implement this search, you need to be ingesting eventcodes
  `4738` and `4742`. The Advanced Security Audit policy settings
  `Audit User Account Management` and  `Audit Computer Account Management`
