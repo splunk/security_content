@@ -6,13 +6,14 @@ author: Michael Haag, Splunk
 type: Anomaly
 datamodel: []
 description: The following analytic uses the Exchange Management logs, that are enabled by default, to identify suspicious Cmdlet usage related to ProxyShell and ProxyNotShell abuse.
-search: 'sourcetype=MSExchange:management EventCode=1 Message IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "*Search-Mailbox*")
+search: '`msexchange_management` EventCode=1 Message IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "*Search-Mailbox*")
   | stats count min(_time) as firstTime max(_time) as lastTime by host Message 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | rename host AS dest 
   | `windows_msexchange_management_mailbox_cmdlet_usage_filter`'
 how_to_implement: The following analytic requires collecting the Exchange Management logs via a input. An example inputs is here https://gist.github.com/MHaggis/f66f1d608ea046efb9157020cd34c178. We used multiline as the XML format of the logs will require props/transforms. Multiline gives us everything we need in Message for now. 
+  Update the macro with your correct sourcetype.
 known_false_positives: False positives may be present when an Administrator utilizes the cmdlets in the query. Filter or monitor as needed.
 references:
   - https://gist.github.com/MHaggis/f66f1d608ea046efb9157020cd34c178
