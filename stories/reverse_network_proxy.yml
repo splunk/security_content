@@ -1,0 +1,20 @@
+name: Reverse Network Proxy
+id: 265e4127-21fd-43e4-adac-ec5d12274111
+version: 1
+date: '2022-11-16'
+author: Michael Haag, Splunk
+description: The following analytic story describes applications that may be abused to reverse proxy back into an organization, either for persistence or remote access. 
+narrative: This analytic story covers tools like Ngrok which is a legitimate reverse proxy tool that can create a secure tunnel to servers located behind firewalls or on local machines that do not have a public IP.
+  Ngrok in particular has been leveraged by threat actors in several campaigns including use for lateral movement and data exfiltration. There are many open source and closed/paid that fall into this reverse proxy category. The analytic story and complemented analytics will be released as more are identified.
+references:
+  - https://attack.mitre.org/software/S0508/
+  - https://www.cisa.gov/uscert/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf
+tags:
+  analytic_story: Reverse Network Proxy
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
