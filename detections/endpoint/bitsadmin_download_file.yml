@@ -2,7 +2,7 @@ name: BITSAdmin Download File
 id: 80630ff4-8e4c-11eb-aab5-acde48001122
 version: 2
 date: '2022-11-29'
-author: Michael Haag, Splunk
+author: Michael Haag, Sittikorn S
 type: TTP
 datamodel:
 - Endpoint
