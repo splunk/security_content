@@ -1,7 +1,7 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
-version: 4
-date: '2022-10-05'
+version: 5
+date: '2022-11-21'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
@@ -20,7 +20,7 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
   
   Module - New-MailboxSearch cmdlet to create a mailbox search and either get an estimate of search results, place search results on In-Place Hold or copy them to a Discovery mailbox. You can also place all contents in a mailbox on hold by not specifying a search query, which accomplishes similar results as Litigation Hold. \
   Module - Get-Recipient cmdlet to view existing recipient objects in your organization. This cmdlet returns all mail-enabled objects (for example, mailboxes, mail users, mail contacts, and distribution groups).'
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*")
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "Search-Mailbox")
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
   UserID EventCode ScriptBlockText| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `exchange_powershell_module_usage_filter`'
