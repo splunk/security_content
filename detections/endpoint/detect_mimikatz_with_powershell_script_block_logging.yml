@@ -38,6 +38,7 @@ tags:
   - Hermetic Wiper 
   - Malicious PowerShell
   - CISA AA22-264A
+  - CISA AA22-320A
   confidence: 100
   context:
   - Source:Endpoint

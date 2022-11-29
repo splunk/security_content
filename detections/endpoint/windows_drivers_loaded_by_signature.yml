@@ -25,6 +25,7 @@ references:
 tags:
   analytic_story:
   - Windows Drivers
+  - CISA AA22-320A
   - AgentTesla
   cis20:
   - CIS 3
