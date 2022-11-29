@@ -42,6 +42,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Living Off The Land
+  - Qakbot
   confidence: 60
   context:
   - Source:Endpoint

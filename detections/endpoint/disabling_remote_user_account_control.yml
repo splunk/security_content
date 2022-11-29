@@ -29,6 +29,7 @@ tags:
   - Remcos
   - Windows Registry Abuse
   - Azorult
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 8

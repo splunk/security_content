@@ -30,6 +30,8 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  - Qakbot
+  - IcedID
   confidence: 90
   context:
   - Stage:Execution
