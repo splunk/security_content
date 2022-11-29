@@ -37,6 +37,7 @@ tags:
   - HAFNIUM Group
   - DarkSide Ransomware
   - Active Directory Lateral Movement
+  - CISA AA22-320A
   asset_type: Endpoint
   cis20:
   - CIS 8
