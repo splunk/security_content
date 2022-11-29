@@ -88,5 +88,5 @@ test:
     pass_condition: '| stats count | where count > 0'
     attack_data:
     - file_name: pwsh_multipass.log
-      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/pwsh_multipass.log
-      source: WinEventLog
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
+      source: XmlWinEventLog
