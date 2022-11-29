@@ -30,6 +30,7 @@ tags:
   - Remcos
   - Windows Defense Evasion Tactics
   - WhisperGate
+  - AgentTesla
   confidence: 80
   context:
   - Source:Endpoint

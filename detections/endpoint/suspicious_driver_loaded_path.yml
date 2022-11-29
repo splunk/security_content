@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - AgentTesla
   confidence: 90
   context:
   - Source:Endpoint
