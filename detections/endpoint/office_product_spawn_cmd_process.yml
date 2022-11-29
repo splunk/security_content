@@ -35,6 +35,8 @@ tags:
   - DarkCrystal RAT
   - Azorult
   - Remcos
+  - Qakbot
+  - AgentTesla
   confidence: 80
   context:
   - Source:Endpoint
@@ -47,8 +49,8 @@ tags:
   message: an office product parent process $parent_process_name$ spawn child process
     $process_name$ in host $dest$
   mitre_attack_id:
-  - T1218
-  - T1218.005
+  - T1566
+  - T1566.001
   observable:
   - name: dest
     type: Hostname

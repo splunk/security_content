@@ -31,6 +31,7 @@ tags:
   - Windows Defense Evasion Tactics
   - WhisperGate
   - CISA AA22-320A
+  - AgentTesla
   confidence: 80
   context:
   - Source:Endpoint
