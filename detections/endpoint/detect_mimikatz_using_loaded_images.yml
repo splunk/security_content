@@ -32,6 +32,7 @@ tags:
   - DarkSide Ransomware
   - CISA AA22-257A
   - CISA AA22-264A
+  - CISA AA22-320A
   asset_type: Windows
   cis20:
   - CIS 6

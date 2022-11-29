@@ -46,6 +46,7 @@ tags:
   - WhisperGate
   - DarkCrystal RAT
   - Qakbot
+  - CISA AA22-320A
   asset_type: Endpoint
   cis20:
   - CIS 3

@@ -1,0 +1,73 @@
+name: Powershell Load Module in Meterpreter
+id: d5905da5-d050-48db-9259-018d8f034fcf
+version: 1
+date: '2022-11-22'
+author: Michael Haag, Splunk
+type: TTP
+datamodel: []
+description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify suspicious PowerShell execution. Script Block Logging captures the command
+  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
+  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
+  \
+
+  This analytic identifies "MSF.Powershell","MSF.Powershell.Meterpreter","MSF.Powershell.Meterpreter.Kiwi","MSF.Powershell.Meterpreter.Transport" being used. This behavior is related to when a Meterpreter session is started and the operator runs load_kiwi. \
+  
+  During triage, review parallel processes using an EDR product or 4688 events. It
+  will be important to understand the timeline of events around this activity. Review
+  the entire logged PowerShell script block.'
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*MSF.Powershell*","*MSF.Powershell.Meterpreter*","*MSF.Powershell.Meterpreter.Kiwi*","*MSF.Powershell.Meterpreter.Transport*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `powershell_load_module_in_meterpreter_filter`'
+how_to_implement: The following analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: False positives should be very limited as this is strict to MetaSploit behavior.
+references:
+  - https://github.com/OJ/metasploit-payloads/blob/master/powershell/MSF.Powershell/Scripts.cs
+tags:
+  analytic_story:
+  - MetaSploit
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/metasploit/msf.powershell.powershell.log
+  impact: 100
+  kill_chain_phases:
+  - Exploitation
+  message: PowerShell was identified running a script utilized by Meterpreter from MetaSploit on endpoint
+    $Computer$ by user $user_id$.
+  mitre_attack_id:
+  - T1059
+  - T1059.001
+  observable:
+  - name: user_id
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  - User_id
+  risk_score: 100
+  security_domain: endpoint
+  asset_type: Endpoint
