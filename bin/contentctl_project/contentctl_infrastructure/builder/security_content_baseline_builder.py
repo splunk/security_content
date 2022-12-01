@@ -58,8 +58,6 @@ class SecurityContentBaselineBuilder(BaselineBuilder):
         if len(matched_deployments) == 0:
             raise ValueError('No deployment found for baseline: ' + self.baseline.name)
 
-        print(matched_deployments[-1])
-
         self.baseline.deployment = matched_deployments[-1]
 
 
