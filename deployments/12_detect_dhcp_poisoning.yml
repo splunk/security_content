@@ -20,4 +20,4 @@ alert_action:
     - count
     - message_type
 tags:
-  detection_name: Detect Rogue DHCP Server
+  name: Detect Rogue DHCP Server

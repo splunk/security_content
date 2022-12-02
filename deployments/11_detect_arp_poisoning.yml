@@ -19,4 +19,4 @@ alert_action:
     - lastTime
     - count
 tags:
-  detection_name: Detect ARP Poisoning
+  name: Detect ARP Poisoning
