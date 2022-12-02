@@ -14,4 +14,3 @@ alert_action:
     enabled: 'true'
 tags:
   type: Anomaly
-  product: ESCU
