@@ -10,5 +10,4 @@ scheduling:
   latest_time: -10m@m
   schedule_window: auto
 tags:
-  deployments:
-  - Hourly Cache Updates
+  deployments: Hourly Cache Updates
