@@ -14,7 +14,7 @@ search: '`okta` eventType=user.authentication.auth_via_mfa | bin span=10m _time
 | `security_content_ctime(_time)`
 | table _time, src_user, mfa_attempts, average_attempts, upper_threshold
 | `okta_large_mfa_attempts_filter`'
-how_to_implement: 'This analytic is specific to Okta and requires Okta logs to be ingested. You must run the search "Large Amount Of Okta MFA Attempts - Baseline" first to generate the MLTK model that this search uses. You can adjust the threshold value specified to increase or decrease the amount of anomalies you see. This search can be tuned using the search Large Amount Of Okta MFA Attempts - Tuning" or by modifying the lookup ignore_list_okta_mfa_attempts'
+how_to_implement: 'This analytic is specific to Okta and requires Okta logs to be ingested. You must run the search "Large Amount Of Okta MFA Attempts - Baseline" first to generate the MLTK model that this search uses. You can adjust the threshold value of the apply command to increase or decrease the amount of anomalies you see. This search can be tuned using the search "Large Amount Of Okta MFA Attempts - Tuning" which modifys the lookup in the output filter. You can also modify the output filter directly.'
 known_false_positives: A large amount of OKTA MFA Attempts is not necessarily indicative of malicious behavoir. If the number of anomalies are too high, the threshold should be adjusted. If any one account consistently creates anomalies and the tuning search does not eliminate it, it can be removed using the output filter.
 references:
   - https://developer.okta.com/docs/reference/api/event-types/?q=user.authentication.auth_via_mfa
