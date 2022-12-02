@@ -1,0 +1,70 @@
+name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView
+id: dc3f2af7-ca69-47ce-a122-9f9787e19417
+version: 1
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of the `Get-DomainUser` commandlet with specific parameters.
+  `Get-DomainUser` is part of PowerView, a PowerShell tool used to perform enumeration
+  on Windows Active Directory networks. As the name suggests, `Get-DomainUser` is
+  used to identify domain users and combining it with `-PreauthNotRequired` allows
+  adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\
+  Red Teams and adversaries alike use may leverage PowerView to enumerate these accounts
+  and attempt to crack their passwords offline.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL | where (like (cmd_line, "%get-domainuser%")
+  AND like (cmd_line, "%preauthnotrequired%")) | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
+  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
+  "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use PowerView for troubleshooting
+references:
+- https://attack.mitre.org/techniques/T1558/004/
+- https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
+- https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
+tags:
+  analytic_story:
+  - Active Directory Kerberos Attacks
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1558
+  - T1558.004
+  nist:
+  - DE.CM
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 54
+  security_domain: endpoint
+  risk_severity: medium
+  research_site_url: https://research.splunk.com/endpoint/dc3f2af7-ca69-47ce-a122-9f9787e19417/
+  event_schema: cim
+test:
+  name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView
+    Unit Test
+  tests:
+  - name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView
+    file: endpoint/ssa___windows_powershell_disabled_kerberos_pre_authentication_discovery_with_powerview.yml
+    pass_condition: '| stats count | where count > 0'
+    attack_data:
+    - file_name: getdomainuser.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getdomainuser.log
+      source: XmlWinEventLog

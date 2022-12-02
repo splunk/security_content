@@ -1,0 +1,13 @@
+name: Windows MSExchange Management Mailbox Cmdlet Usage Unit Test
+tests:
+- name: Windows MSExchange Management Mailbox Cmdlet Usage
+  file: endpoint/windows_msexchange_management_mailbox_cmdlet_usage.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: msexchangemanagement.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/msexchangemanagement.log
+    source: WinEventLog:MSExchange Management 
+    sourcetype: MSExchange:management
+    update_timestamp: true

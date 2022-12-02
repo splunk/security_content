@@ -73,6 +73,7 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
+  - CISA AA22-320A
   asset_type: Web Server
   confidence: 50
   context:

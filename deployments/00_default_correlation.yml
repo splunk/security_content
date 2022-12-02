@@ -18,4 +18,3 @@ alert_action:
     - dest
 tags:
   type: 'Correlation'
-  product: ESCU
