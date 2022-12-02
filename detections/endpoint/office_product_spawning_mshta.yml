@@ -35,6 +35,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - IcedID
+  - Azorult
   confidence: 90
   context:
   - Source:Endpoint

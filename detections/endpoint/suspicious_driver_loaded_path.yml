@@ -30,6 +30,8 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - CISA AA22-320A
+  - AgentTesla
   confidence: 90
   context:
   - Source:Endpoint

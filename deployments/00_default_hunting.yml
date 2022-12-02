@@ -10,4 +10,3 @@ scheduling:
   schedule_window: auto
 tags:
   type: Hunting
-  product: ESCU
