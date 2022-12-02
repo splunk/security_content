@@ -10,7 +10,7 @@ description: This search is to detect a suspicious excessive usage of sc.exe in 
   host machine. This technique was seen in several ransomware , xmrig and other malware
   to create, modify, delete or disable a service may related to security application
   or to gain privilege escalation.
-search: '`sysmon` EventCode = 1 process_name = "sc.exe" |  bucket _time span=15m |
+search: '`sysmon` EventCode=1 process_name = "sc.exe" |  bucket _time span=15m |
   stats values(process) as process count as numScExe by Computer, _time |  eventstats
   avg(numScExe) as avgScExe, stdev(numScExe) as stdScExe, count as numSlots by Computer
   |  eval upperThreshold=(avgScExe + stdScExe *3) |  eval isOutlier=if(avgScExe >

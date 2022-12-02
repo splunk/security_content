@@ -1,0 +1,23 @@
+name: Sysmon Event ID 5
+id: 8d428099-2731-4f82-af18-3e38bcf76830
+date: '2022-10-20'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: process_terminated
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - Guid
+  - Image
+  - ProcessGuid
+  - ProcessId
+  - SecurityID
+  - UserID

@@ -12,7 +12,7 @@ description: This search is to detect potential DNS exfiltration using nslookup 
   use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
   commonly used by attacker and also the retry parameter which is designed to query
   C2 DNS multiple tries.
-search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" 
+search: '`sysmon` EventCode=1 process_name = "nslookup.exe" 
   | bucket _time span=1m 
   | stats count as numNsLookup by Computer, _time 
   | eventstats avg(numNsLookup) as avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by Computer 
