@@ -1,0 +1,55 @@
+name: Baseline Of OKTA MFA Attempts
+id: 5f5c1aa4-3548-4533-be7a-3f1a60eef43f
+version: 1
+date: '2022-12-02'
+author: David Dorsey, Splunk
+type: Baseline
+datamodel: []
+description: 'This search is designed to find users that fire the detection
+  "Large Amount Of Okta MFA Attempts - MLTK" enough times that it does not make sense 
+  for the alert to be applied to that user. It will then populate the lookup file used by
+  the detection with all users that should be filtered out.
+search: '`okta` eventType=user.authentication.auth_via_mfa | bin span=10m _time
+    | stats count as mfa_attempts by src_user, _time
+    | apply escu_okta_mfa_attempts_v1 upper_threshold=0.001
+    | rename IsOutlier(mfa_attempts) as outlier | where outlier=1
+    | eventstats count as total
+    | stats count, max(total) as total by src_user
+    | eval percent = count/total
+    | where (percent >= 0.10 and total >= 300) or (percent >= 0.30 and total >= 100)
+    | fields src_user
+    | eval ignore = 1
+    | outputlookup ignore_list_okta_mfa_attempts'
+
+how_to_implement: 'You must run the search "Baseline Of OKTA MFA Attempts" before this search.'
+known_false_positives: none
+references:
+  - https://developer.okta.com/docs/reference/api/event-types/?q=app.generic.unauth_app_access_attempt
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  - Suspicious Cloud Instance Activities
+  asset_type: Infrastructure
+  deployments:
+  - Weekly Run 30 Day Lookback
+  cis20:
+  - CIS 16
+  mitre_attack_id:
+  - T1078
+  - T1078.001
+  nist:
+  - DE.CM
+  kill_chain_phases:
+  - Exploitation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  detections:
+  - Abnormally High Number Of Okta MFA Attempts
+  required_fields:
+  - _time
+  - src_user
+  - event_type
+  security_domain: access
+
