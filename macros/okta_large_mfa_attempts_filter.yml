@@ -1,0 +1,3 @@
+definition: lookup ignore_list_okta_mfa_attempts src_user as src_user outputnew ignore | where isnull(ignore) | fields - ignore
+description: A filter for the detection Large Amount Of Okta MFA Attempts - MLTK. It can be populated manually or be the search Large Amount Of Okta MFA Attempts - Tuning
+name: okta_large_mfa_attempts_filter

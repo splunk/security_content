@@ -10,12 +10,14 @@ description: The following analytic identifies an account that has rejected more
 search: '`okta` eventType=user.authentication.auth_via_mfa | bin span=10m _time
 | stats count as mfa_attempts by src_user, _time | eventstats avg(mfa_attempts) as average_attempts
 | apply escu_okta_mfa_attempts_v1 upper_threshold=0.001 | rename IsOutlier(mfa_attempts) as outlier | where outlier=1
+| lookup ignore_list_okta_mfa_attempts src_user as src_user outputnew ignore
+| where isnull(ignore)
 | eval upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0)
 | `security_content_ctime(_time)`
 | table _time, src_user, mfa_attempts, average_attempts, upper_threshold
 | `okta_large_mfa_attempts_filter`'
-how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested. You must run the search Baseline Of OKTA MFA Attempts first to generate the MLTK model that this search uses. You can adjust the threshold value specified to increase or decrease the amount of anomalies you see.
-known_false_positives: A large amount of OKTA MFA Attempts is not necessarily indicative of malicious behavoir. If the amount of anomalies is too high, the threshold should be adjusted. If any one account consistently creates anomalies, it can be removed using the output filter.
+how_to_implement: 'This analytic is specific to Okta and requires Okta logs to be ingested. You must run the search "Large Amount Of Okta MFA Attempts - Baseline" first to generate the MLTK model that this search uses. You can adjust the threshold value specified to increase or decrease the amount of anomalies you see. This search can be tuned using the search Large Amount Of Okta MFA Attempts - Tuning" or by modifying the lookup ignore_list_okta_mfa_attempts'
+known_false_positives: A large amount of OKTA MFA Attempts is not necessarily indicative of malicious behavoir. If the number of anomalies are too high, the threshold should be adjusted. If any one account consistently creates anomalies and the tuning search does not eliminate it, it can be removed using the output filter.
 references:
   - https://developer.okta.com/docs/reference/api/event-types/?q=user.authentication.auth_via_mfa
 tags:

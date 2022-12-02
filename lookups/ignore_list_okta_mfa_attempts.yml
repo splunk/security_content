@@ -1,0 +1,4 @@
+description: A list of src_user names to tune out of the detection Large Amount Of Okta MFA Attempts
+collection: ignore_list_okta_mfa_attempts
+name: ignore_list_okta_mfa_attempts
+fields_list: _key, src_user, ignore

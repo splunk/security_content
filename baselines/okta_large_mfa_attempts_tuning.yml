@@ -1,5 +1,5 @@
-name: Tuning - OKTA MFA Attempt
-id: 5f5c1aa4-3548-4533-be7a-3f1a60eef43f
+name: Large Amount Of Okta MFA Attempts - Tuning
+id: e20d19d3-c4fc-4815-9eec-36468db43b4d
 version: 1
 date: '2022-12-02'
 author: David Dorsey, Splunk
