@@ -8,7 +8,7 @@ datamodel: []
 description: 'This search is designed to find users that trigger the detection
   "Large Amount Of Okta MFA Attempts - MLTK" enough times that it does not make sense 
   for the alert to be applied to that user. It will then populate the lookup file in
-  the output filter used by the detection with all users that should be filtered out.
+  the output filter used by the detection with all users that should be filtered out.'
 search: '`okta` eventType=user.authentication.auth_via_mfa | bin span=10m _time
     | stats count as mfa_attempts by src_user, _time
     | apply escu_okta_mfa_attempts_v1 upper_threshold=0.001
