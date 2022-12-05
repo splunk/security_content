@@ -30,6 +30,8 @@ tags:
   - Active Directory Discovery
   - Windows Discovery Techniques
   - Azorult
+  - Windows Post-Exploitation
+  - Prestige Ransomware
   confidence: 50
   context:
   - Source:Endpoint

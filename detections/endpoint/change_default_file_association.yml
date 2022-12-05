@@ -7,10 +7,10 @@ type: TTP
 datamodel:
 - Endpoint
 description: This analytic is developed to detect suspicious registry modification
-  to change the default file association of windows to malicious payload. This techninique
+  to change the default file association of windows to malicious payload. This technique
   was seen in some APT where it modify the default process to run file association,
   like .txt to notepad.exe. Instead notepad.exe it will point to a Script or other
-  payload that will load malicious command to the compromised host.
+  payload that will load malicious commands to the compromised host.
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   ="*\\shell\\open\\command\\*" Registry.registry_path = "*HKCR\\*" by Registry.dest  Registry.user
@@ -32,6 +32,7 @@ tags:
   - Windows Privilege Escalation
   - Windows Registry Abuse
   - Hermetic Wiper
+  - Prestige Ransomware
   confidence: 100
   context:
   - Source:Endpoint
