@@ -3,7 +3,7 @@ id: 2181f261-93e6-4166-a5a9-47deac58feff
 version: 1
 date: '2022-11-30'
 author: Teoderick Contreras, Splunk
-type: Anomaly
+type: Hunting
 datamodel:
 - Endpoint
 description: The following analytic identifies a process execution of Windows OS built-in tool FSUTIL to discover file system information. 
