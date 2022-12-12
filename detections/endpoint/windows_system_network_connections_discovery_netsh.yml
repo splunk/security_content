@@ -3,7 +3,7 @@ id: abfb7cc5-c275-4a97-9029-62cd8d4ffeca
 version: 1
 date: '2022-11-30'
 author: Teoderick Contreras, Splunk
-type: AnomHuntingaly
+type: Hunting
 datamodel:
 - Endpoint
 description: The following analytic identifies a process execution of Windows OS built-in tool netsh.exe to show state, configuration and profile of host firewall. 
