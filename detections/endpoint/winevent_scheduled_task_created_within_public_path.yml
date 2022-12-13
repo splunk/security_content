@@ -50,6 +50,7 @@ tags:
   - Active Directory Lateral Movement
   - Industroyer2
   - CISA AA22-257A
+  - Prestige Ransomware
   confidence: 100
   context:
   - Source:Endpoint

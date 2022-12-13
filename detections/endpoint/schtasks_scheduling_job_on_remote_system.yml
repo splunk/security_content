@@ -30,6 +30,7 @@ tags:
   - Active Directory Lateral Movement
   - NOBELIUM Group
   - Living Off The Land
+  - Prestige Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 3
