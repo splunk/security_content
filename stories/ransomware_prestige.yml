@@ -1,0 +1,26 @@
+name: Prestige Ransomware
+id: 8b8d8506-b931-450c-b794-f24184ca1deb
+version: 1
+date: '2022-11-30'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Prestige Ransomware
+narrative: This story addresses Prestige ransomware. This ransomware payload seen by Microsoft 
+  Threat Intelligence Center(MSTIC) as a ransomware campaign targeting organization in the transportation
+  and logistic industries in some countries. This ransomware campaign highlight the destructive attack to its target 
+  organization that directly supplies or transporting military and humanitarian services or assistance.
+  MSTIC observed this ransomware has similarities in terms of its deployment techniques with CaddyWiper and HermeticWiper which 
+  is also known malware campaign impacted multiple targeted critical infrastructure organizations. This analytic story will 
+  provide techniques and analytics that may help SOC or security researchers to monitor this threat. 
+references:
+- https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+tags:
+  analytic_story: Prestige Ransomware
+  category:
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
