@@ -41,6 +41,7 @@ tags:
   - WhisperGate
   - Industroyer2
   - CISA AA22-277A
+  - Prestige Ransomware
   confidence: 70
   context:
   - Source:Endpoint

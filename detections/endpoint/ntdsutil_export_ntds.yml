@@ -39,6 +39,7 @@ tags:
   - Credential Dumping
   - HAFNIUM Group
   - Living Off The Land
+  - Prestige Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8
