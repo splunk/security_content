@@ -38,6 +38,7 @@ tags:
   - AgentTesla
   - Qakbot
   - Trickbot
+  - Prestige Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 3
