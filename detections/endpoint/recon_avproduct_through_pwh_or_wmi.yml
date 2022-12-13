@@ -35,6 +35,8 @@ tags:
   - Ransomware
   - Malicious PowerShell
   - Qakbot
+  - Windows Post-Exploitation
+  - Prestige Ransomware
   confidence: 80
   context:
   - Source:Endpoint
