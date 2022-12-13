@@ -1,0 +1,78 @@
+name: Windows Change Default File Association For No File Ext
+id: dbdf52ad-d6a1-4b68-975f-0a10939d8e38
+version: 1
+date: '2022-11-30'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This analytic is developed to detect suspicious process commandline 
+  to change or set the default file association of a file without file extension with notepad.exe. This technique
+  was seen in some APT and ransomware Prestige where it set/modify the default process to run file association,
+  like .txt to notepad.exe. 
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes 
+  where `process_reg` AND Processes.process="* add *" AND Processes.process="* HKCR\\*" AND Processes.process="*\\shell\\open\\command*" AND  Processes.process= *Notepad.exe*
+  by  Process.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid Processes.parent_process_name Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user 
+  | `drop_dm_object_name(Processes)` 
+  | rex field=process "Notepad\.exe (?<file_name_association>.*$)" 
+  | rex field=file_name_association "\.(?<extension>[^\.]*$)"
+  | where isnull(extension) and isnotnull(file_name_association)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_change_default_file_association_for_no_file_ext_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: unknown
+references:
+- https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+tags:
+  analytic_story:
+  - Prestige Ransomware
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: process with commandline $process$ set or change the file association of a file with no file extension in $dest$
+  mitre_attack_id:
+  - T1546.001
+  - T1546
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 80
+  security_domain: endpoint
