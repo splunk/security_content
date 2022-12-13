@@ -28,6 +28,8 @@ tags:
   analytic_story:
   - XMRig
   - Azorult
+  - Windows Post-Exploitation
+  - Prestige Ransomware
   confidence: 100
   context:
   - Source:Endpoint
