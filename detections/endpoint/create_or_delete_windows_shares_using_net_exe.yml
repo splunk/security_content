@@ -27,6 +27,8 @@ tags:
   analytic_story:
   - Hidden Cobra Malware
   - CISA AA22-277A
+  - Windows Post-Exploitation
+  - Prestige Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8
