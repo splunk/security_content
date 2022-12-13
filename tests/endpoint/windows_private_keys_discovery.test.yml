@@ -1,0 +1,13 @@
+name: Windows Private Keys Discovery Unit Test
+tests:
+- name: Windows Private Keys Discovery
+  file: endpoint/windows_private_keys_discovery.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: dir-private-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/winpeas_search_private_key/dir-private-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
