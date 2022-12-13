@@ -29,6 +29,8 @@ tags:
   - XMRig
   - Ransomware
   - Azorult
+  - Windows Post-Exploitation
+  - Prestige Ransomware
   confidence: 70
   context:
   - Source:Endpoint

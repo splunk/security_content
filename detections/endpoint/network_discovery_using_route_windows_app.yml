@@ -30,6 +30,8 @@ tags:
   - Active Directory Discovery
   - Qakbot
   - CISA AA22-277A
+  - Windows Post-Exploitation
+  - Prestige Ransomware
   confidence: 30
   context:
   - Source:Endpoint
