@@ -1,0 +1,54 @@
+name: Windows Hunting System Account Targeting Lsass
+id: 1c6abb08-73d1-11ec-9ca0-acde48001122
+version: 1
+date: '2022-01-12'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following hunting analytic identifies all processes requesting access
+  into Lsass.exe. his behavior may be related to credential dumping or applications
+  requiring access to credentials. Triaging this event will require understanding
+  the GrantedAccess from the SourceImage. In addition, whether the account is privileged
+  or not. Review the process requesting permissions and review parallel processes.
+data_source:
+- Sysmon Event ID 1
+search: '`sysmon` EventCode=10 TargetImage=*lsass.exe | stats count min(_time) as
+  firstTime max(_time) as lastTime by Computer, TargetImage, GrantedAccess, SourceImage,
+  SourceProcessId, SourceUser, TargetUser | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_hunting_system_account_targeting_lsass_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
+known_false_positives: False positives will occur based on GrantedAccess and SourceUser,
+  filter based on source image as needed. Utilize this hunting analytic to tune out
+  false positives in TTP or anomaly analytics.
+references:
+- https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service
+- https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump
+- https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for_22.html
+- https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1
+- https://docs.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights?redirectedfrom=MSDN
+tags:
+  analytic_story:
+  - Credential Dumping
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A process, $SourceImage$, has requested access to LSASS on $dest$. Review
+    for further details.
+  mitre_attack_id:
+  - T1003.001
+  - T1003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

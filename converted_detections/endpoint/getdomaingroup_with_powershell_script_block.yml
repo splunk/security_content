@@ -1,0 +1,48 @@
+name: GetDomainGroup with PowerShell Script Block
+id: 09725404-a44f-4ed3-9efa-8ed5d69e4c53
+version: 2
+date: '2022-05-02'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of the `Get-DomainGroup` commandlet. `Get-DomainGroup`
+  is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
+  As the name suggests, `Get-DomainGroup` is used to query domain groups. Red Teams
+  and adversaries may leverage this function to enumerate domain groups for situational
+  awareness and Active Directory Discovery.
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroup*") | stats
+  count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
+  ScriptBlockText | `security_content_ctime(firstTime)` | `getdomaingroup_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerView functions
+  for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1069/002/
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGroup/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Domain group discovery enumeration using PowerView on $Computer$ by $UserID$
+  mitre_attack_id:
+  - T1069
+  - T1069.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/domaingroup.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

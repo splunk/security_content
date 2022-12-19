@@ -1,0 +1,24 @@
+name: Sysmon Event ID 9
+id: 9a790824-025b-41a9-9166-5ab3fd2a6b22
+date: '2022-12-02'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: raw_access_thread
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - Device
+  - Guid
+  - Image
+  - ProcessGuid
+  - ProcessId
+  - SecurityID
+  - UserID

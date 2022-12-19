@@ -1,0 +1,49 @@
+name: Check Elevated CMD using whoami
+id: a9079b18-1633-11ec-859c-acde48001122
+version: 1
+date: '2021-09-15'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search is to detect a suspicious whoami execution to check if the
+  cmd or shell instance process is with elevated privileges. This technique was seen
+  in FIN7 js implant where it execute this as part of its data collection to the infected
+  machine to check if the running shell cmd process is elevated or not. This TTP is
+  really a good alert for known attacker that recon on the targetted host. This command
+  is not so commonly executed by a normal user or even an admin to check if a process
+  is elevated.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where  Processes.process = "*whoami*"
+  Processes.process = "*/group*" Processes.process = "* find *" Processes.process
+  = "*12288*" by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `check_elevated_cmd_using_whoami_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: unknown
+references: []
+tags:
+  analytic_story:
+  - FIN7
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Process name $process_name$ with commandline $process$ in $dest$
+  mitre_attack_id:
+  - T1033
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

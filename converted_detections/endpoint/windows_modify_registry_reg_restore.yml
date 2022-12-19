@@ -1,0 +1,53 @@
+name: Windows Modify Registry Reg Restore
+id: d0072bd2-6d73-4c1b-bc77-ded6d2da3a4e
+version: 1
+date: '2022-12-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies a process execution of reg.exe with
+  "restore" parameter. This reg.exe parameter is commonly used to restore registry
+  backup data in a targeted host. This approach or technique was also seen in post-exploitation
+  tool like winpeas where it uses "reg save" and "reg restore" to check the registry
+  modification restriction in targeted host after gaining access to it.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where  `process_reg` AND Processes.process
+  = "* restore *" by Process.process_name Processes.original_file_name Processes.process
+  Processes.process_id Processes.process_guid Processes.parent_process_name Processes.parent_process
+  Processes.parent_process_guid Processes.dest Processes.user | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_reg_restore_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+known_false_positives: network administrator can use this command tool to backup registry
+  before updates or modifying critical registries.
+references:
+- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/quser
+- https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+- https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+tags:
+  analytic_story:
+  - Windows Post-Exploitation
+  - Prestige Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: execution of process $process_name$ in $dest$
+  mitre_attack_id:
+  - T1012
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

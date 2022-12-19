@@ -1,0 +1,63 @@
+name: Windows Phishing Recent ISO Exec Registry
+id: cb38ee66-8ae5-47de-bd66-231c7bbc0b2c
+version: 2
+date: '2022-09-19'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following hunting analytic identifies registry artifacts when an
+  ISO container is opened, clicked or mounted on the Windows operating system. As
+  Microsoft makes changes to macro based document execution, adversaries have begun
+  to utilize container based initial access based phishing campaigns to evade preventative
+  controls. Once the ISO is clicked or mounted it will create a registry artifact
+  related to this event as a recent application executed or opened.
+data_source:
+- Sysmon Event ID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso"
+  OR Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.img"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_phishing_recent_iso_exec_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives may be high depending on the environment and
+  consistent use of ISOs. Restrict to servers, or filter out based on commonly used
+  ISO names. Filter as needed.
+references:
+- https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/
+- https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
+- https://isc.sans.edu/diary/Recent+AZORult+activity/25120
+- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+tags:
+  analytic_story:
+  - Brute Ratel C4
+  - AgentTesla
+  - Qakbot
+  - IcedID
+  - Azorult
+  - Remcos
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: An ISO file was mounted on $dest$ and should be reviewed and filtered as
+    needed.
+  mitre_attack_id:
+  - T1566.001
+  - T1566
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 40
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

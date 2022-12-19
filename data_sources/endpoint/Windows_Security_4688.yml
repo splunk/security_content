@@ -1,0 +1,57 @@
+name: Windows Security 4688
+id: 11eac27c-8252-496e-82e8-a10e70e1d2d3
+date: '2022-10-04'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+category: process_creation
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688
+supported_targets:
+  - Endpoint.Processes
+  - ocsf
+  - Sysmon Event ID 1
+raw_fields: 
+  - New_Process_ID
+  - New_Process_Name
+  - Process_Command_Line
+  - Subject_Security_ID
+  - Creator_Process_ID
+  - Creator_Process_Name
+  - ComputerName
+field_mappings:
+  - data_model: cim
+    data_set: Endpoint.Processes
+    mapping:
+      New_Process_ID: Processes.process_id
+      New_Process_Name: Processes.process_path
+      Process_Command_Line: Processes.process
+      Subject_Security_ID: Processes.user
+      Creator_Process_ID: Processes.parent_process_id
+      Creator_Process_Name: Processes.parent_process_path
+      ComputerName: Processes.dest
+  - data_model: ocsf
+    mapping:
+      New_Process_ID: process.pid
+      New_Process_Name: process.file
+      Process_Command_Line: process.cmd_line
+      Subject_Security_ID: user.name
+      Creator_Process_ID: actor_process.pid
+      Creator_Process_Name: actor_process.file
+      ComputerName: origin.device.name
+convert_to_log_source:
+  - data_source: Sysmon Event ID 1
+    mapping:
+      New_Process_ID: ProcessId #New_Process_ID in Hex
+      New_Process_Name: Image
+      Process_Command_Line: CommandLine
+      Subject_Security_ID: User
+      Creator_Process_ID: ParentProcessId
+      Creator_Process_Name: ParentImage
+      ComputerName: Computer

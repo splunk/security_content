@@ -1,0 +1,49 @@
+name: Short Lived Scheduled Task
+id: 6fa31414-546e-11ec-adfa-acde48001122
+version: 1
+date: '2021-12-03'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic leverages Windows Security EventCode 4698, `A
+  scheduled task was created` and Windows Security EventCode 4699, `A scheduled task
+  was deleted` to identify scheduled tasks created and deleted in less than 30 seconds.
+  This behavior may represent a lateral movement attack abusing the Task Scheduler
+  to obtain code execution. Red Teams and adversaries alike may abuse the Task Scheduler
+  for lateral movement and remote code execution.
+data_source:
+- Windows Security 4698
+search: ' `wineventlog_security` EventCode=4698 OR EventCode=4699 | xmlkv Message
+  | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699) |
+  eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | table
+  _time, ComputerName, Account_Name, Command, Task_Name, short_lived | `short_lived_scheduled_task_filter` '
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
+  required.
+known_false_positives: Although uncommon, legitimate applications may create and delete
+  a Scheduled Task within 30 seconds. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1053/005/
+- https://docs.microsoft.com/en-us/windows/win32/taskschd/about-the-task-scheduler
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  - CISA AA22-257A
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A windows scheduled task was created and deleted in 30 seconds on $ComputerName$
+  mitre_attack_id:
+  - T1053.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

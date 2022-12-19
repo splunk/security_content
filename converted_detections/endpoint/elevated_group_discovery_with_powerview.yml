@@ -1,0 +1,52 @@
+name: Elevated Group Discovery with PowerView
+id: 10d62950-0de5-4199-a710-cff9ea79b413
+version: 1
+date: '2021-08-25'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of the `Get-DomainGroupMember` commandlet. `Get-DomainGroupMember`
+  is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
+  As the name suggests, `Get-DomainGroupMember` is used to list the members of an
+  specific domain group. Red Teams and adversaries alike use PowerView to enumerate
+  elevated domain groups for situational awareness and Active Directory Discovery
+  to identify high privileged users.
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 (Message = "*Get-DomainGroupMember*") AND Message
+  IN ("*Domain Admins*","*Enterprise Admins*", "*Schema Admins*", "*Account Operators*"
+  , "*Server Operators*", "*Protected Users*",  "*Dns Admins*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `elevated_group_discovery_with_powerview_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerView for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1069/002/
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGroupMember/
+- https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory
+- https://attack.mitre.org/techniques/T1069/002/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Elevated group discovery using PowerView on $dest$ by $user$
+  mitre_attack_id:
+  - T1069
+  - T1069.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 21
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: wineventlog

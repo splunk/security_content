@@ -1,0 +1,52 @@
+name: Suspicious Computer Account Name Change
+id: 35a61ed8-61c4-11ec-bc1e-acde48001122
+version: 1
+date: '2021-12-20'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller
+  Impersonation (CVE-2021-42287) exploitation chain, adversaries need to create a
+  new computer account name and rename it to match the name of a domain controller
+  account without the ending '$'. In Windows Active Directory environments, computer
+  account names always end with `$`. This analytic leverages Event Id 4781, `The name
+  of an account was changed`, to identify a computer account rename event with a suspicious
+  name that does not terminate with `$`. This behavior could represent an exploitation
+  attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
+data_source:
+- Windows Security 4781
+search: '`wineventlog_security` EventCode=4781 Old_Account_Name="*$" New_Account_Name!="*$"
+  | table _time, ComputerName, Account_Name, Old_Account_Name, New_Account_Name |
+  `suspicious_computer_account_name_change_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+known_false_positives: Renaming a computer account name to a name that not end with
+  '$' is highly unsual and may not have any legitimate scenarios.
+references:
+- https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287
+tags:
+  analytic_story:
+  - sAMAccountName Spoofing and Domain Controller Impersonation
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A computer account $Old_Account_Name$ was renamed with a suspicious computer
+    name
+  mitre_attack_id:
+  - T1078
+  - T1078.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 70
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/samaccountname_spoofing/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

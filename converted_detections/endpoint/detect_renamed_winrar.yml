@@ -1,0 +1,54 @@
+name: Detect Renamed WinRAR
+id: 1b7bfb2c-b8e6-11eb-99ac-acde48001122
+version: 3
+date: '2021-09-16'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following analtyic identifies renamed instances of `WinRAR.exe`.
+  In most cases, it is not common for WinRAR to be used renamed, however it is common
+  to be installed by a third party application and executed from a non-standard path.
+  During triage, validate additional metadata from the binary that this is `WinRAR`.
+  Review parallel processes and file modifications.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=WinRAR.exe
+  (Processes.process_name!=rar.exe OR Processes.process_name!=winrar.exe) by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id Processes.original_file_name |
+  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `detect_renamed_winrar_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Unknown. It is possible third party applications use renamed
+  instances of WinRAR.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
+tags:
+  analytic_story:
+  - Collection and Staging
+  - CISA AA22-277A
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ by $user$.
+  mitre_attack_id:
+  - T1560.001
+  - T1560
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 27
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

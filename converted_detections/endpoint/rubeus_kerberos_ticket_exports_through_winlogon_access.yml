@@ -1,0 +1,59 @@
+name: Rubeus Kerberos Ticket Exports Through Winlogon Access
+id: 5ed8c50a-8869-11ec-876f-acde48001122
+version: 1
+date: '2022-02-07'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic looks for a process accessing the winlogon.exe
+  system process. The Splunk Threat Research team identified this behavior when using
+  the Rubeus tool to monitor for and export kerberos tickets from memory. Before being
+  able to export tickets. Rubeus will try to escalate privileges to SYSTEM by obtaining
+  a handle to winlogon.exe before trying to monitor for kerberos tickets. Exporting
+  tickets from memory is typically the first step for pass the ticket attacks. Red
+  teams and adversaries alike may use the pass the ticket technique using stolen Kerberos
+  tickets to move laterally within an environment, bypassing normal system access
+  controls. Defenders should be aware that adversaries may customize the source code
+  of Rubeus to potentially bypass this analytic.
+data_source:
+- Sysmon Event ID 1
+search: ' `sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe (GrantedAccess=0x1f3fff)
+  (SourceImage!=C:\\Windows\\system32\\svchost.exe AND SourceImage!=C:\\Windows\\system32\\lsass.exe
+  AND SourceImage!=C:\\Windows\\system32\\LogonUI.exe AND SourceImage!=C:\\Windows\\system32\\smss.exe
+  AND SourceImage!=C:\\Windows\\system32\\wbem\\wmiprvse.exe) | stats count min(_time)
+  as firstTime max(_time) as lastTime by Computer, SourceImage, SourceProcessId, TargetImage,
+  TargetProcessId, EventCode, GrantedAccess | rename Computer as dest | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `rubeus_kerberos_ticket_exports_through_winlogon_access_filter`'
+how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
+  includes EventCode 10. This search uses an input macro named `sysmon`. We strongly
+  recommend that you specify your environment-specific configurations (index, source,
+  sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations
+  for your Splunk environment.
+known_false_positives: Legitimate applications may obtain a handle for winlogon.exe.
+  Filter as needed
+references:
+- https://github.com/GhostPack/Rubeus
+- https://web.archive.org/web/20210725005734/http://www.harmj0y.net/blog/redteaming/from-kekeo-to-rubeus/
+- https://attack.mitre.org/techniques/T1550/003/
+tags:
+  analytic_story:
+  - Active Directory Kerberos Attacks
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Winlogon.exe was accessed by $SourceImage$ on $dest$
+  mitre_attack_id:
+  - T1550
+  - T1550.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

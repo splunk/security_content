@@ -1,0 +1,50 @@
+name: Windows Process Injection With Public Source Path
+id: 492f09cf-5d60-4d87-99dd-0bc325532dda
+version: 1
+date: '2022-08-24'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies a process in a non-standard file path
+  on Windows attempting to create a remote thread into a process. This Windows API,CreateRemoteThread,
+  is commonly used by adversaries for process injection to evade detections or gain
+  privilege escalation.
+data_source:
+- Sysmon Event ID 8
+search: '`sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*",
+  "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time)
+  as lastTime by SourceImage TargetImage signature TargetProcessGuid SourceProcessGuid
+  TargetProcessId SourceProcessId StartAddress EventCode Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_process_injection_with_public_source_path_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+known_false_positives: Some security products or third party applications may utilize
+  CreateRemoteThread, filter as needed before enabling as a notable.
+references:
+- https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
+tags:
+  analytic_story:
+  - Brute Ratel C4
+  asset_type: 80
+  atomic_guid: []
+  drilldown_search: []
+  message: process $SourceImage$ create a remote thread to process $TargetImage$ on
+    host $Computer$
+  mitre_attack_id:
+  - T1055
+  - T1055.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/create_remote_thread/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

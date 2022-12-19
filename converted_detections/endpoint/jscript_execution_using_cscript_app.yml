@@ -1,0 +1,53 @@
+name: Jscript Execution Using Cscript App
+id: 002f1e24-146e-11ec-a470-acde48001122
+version: 1
+date: '2021-09-13'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search is to detect a execution of jscript using cscript process.
+  Commonly when a user run jscript file it was executed by wscript.exe application.
+  This technique was seen in FIN7 js implant to execute its malicious script using
+  cscript process. This behavior is uncommon and a good artifacts to check further
+  anomalies within the network
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
+  = "cscript.exe" AND Processes.parent_process = "*//e:jscript*") OR (Processes.process_name
+  = "cscript.exe" AND Processes.process = "*//e:jscript*") by Processes.parent_process_name
+  Processes.parent_process Processes.process_name Processes.process_id Processes.process
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `jscript_execution_using_cscript_app_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: unknown
+references:
+- https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+- https://attack.mitre.org/groups/G0046/
+tags:
+  analytic_story:
+  - FIN7
+  - Remcos
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Process name $process_name$ with commandline $process$ to execute jscript
+    in $dest$
+  mitre_attack_id:
+  - T1059
+  - T1059.007
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

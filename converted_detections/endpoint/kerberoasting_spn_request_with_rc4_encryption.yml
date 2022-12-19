@@ -1,0 +1,56 @@
+name: Kerberoasting spn request with RC4 encryption
+id: 5cc67381-44fa-4111-8a37-7a230943f027
+version: 4
+date: '2022-02-09'
+author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic leverages Kerberos Event 4769, A Kerberos service
+  ticket was requested, to identify a potential kerberoasting attack against Active
+  Directory networks. Kerberoasting allows an adversary to request kerberos tickets
+  for domain accounts typically used as service accounts and attempt to crack them
+  offline allowing them to obtain privileged access to the domain. This analytic looks
+  for a specific combination of the Ticket_Options field based on common kerberoasting
+  tools. Defenders should be aware that it may be possible for a Kerberoast attack
+  to use different Ticket_Options.
+data_source:
+- Windows Security 4769
+search: '`wineventlog_security` EventCode=4769 Service_Name!="*$" (Ticket_Options=0x40810000
+  OR Ticket_Options=0x40800000 OR Ticket_Options=0x40810010) Ticket_Encryption_Type=0x17
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
+  Ticket_Encryption_Type, Ticket_Options | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  | `kerberoasting_spn_request_with_rc4_encryption_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
+  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: Older systems that support kerberos RC4 by default like NetApp
+  may generate false positives. Filter as needed
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/4e3e9c8096dde00639a6b98845ec349135554ed5/atomics/T1208/T1208.md
+- https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-kerberoasting-activity
+tags:
+  analytic_story:
+  - Windows Privilege Escalation
+  - Active Directory Kerberos Attacks
+  - Hermetic Wiper
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Potential kerberoasting attack via service principal name requests detected
+    on $dest$
+  mitre_attack_id:
+  - T1558
+  - T1558.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

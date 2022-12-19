@@ -1,0 +1,51 @@
+name: Linux Preload Hijack Library Calls
+id: cbe2ca30-631e-11ec-8670-acde48001122
+version: 1
+date: '2021-12-22'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to detect a suspicious command that may hijack a library
+  function in linux platform. This technique is commonly abuse by adversaries, malware
+  author and red teamers to gain privileges and persist on the machine. This detection
+  pertains to loading a dll to hijack or hook a library function of specific program
+  using LD_PRELOAD command.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process = "*LD_PRELOAD*"
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `linux_preload_hijack_library_calls_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://compilepeace.medium.com/memory-malware-part-0x2-writing-userland-rootkits-via-ld-preload-30121c8343d5
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A commandline $process$ that may hijack library function on $dest$
+  mitre_attack_id:
+  - T1574.006
+  - T1574
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.006/lib_hijack/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

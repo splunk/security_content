@@ -1,0 +1,35 @@
+name: Windows Security 4625
+id: 5a18c59e-1a7e-4cbb-b4c6-092675df6fe1
+date: '2022-11-28'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
+raw_fields: 
+  - Account_Domain
+  - Account_Name
+  - Authentication_Package
+  - Caller_Process_ID
+  - Caller_Process_Name
+  - ComputerName
+  - Error_Code
+  - EventCode
+  - Failure_Reason
+  - Logon_ID
+  - Logon_Process
+  - Logon_Type
+  - Security_ID
+  - Source_Network_Address
+  - Source_Port
+  - Status
+  - Sub_Status
+  - Transited_Services
+  - Workstation_Name

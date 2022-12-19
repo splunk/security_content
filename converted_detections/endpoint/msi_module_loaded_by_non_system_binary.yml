@@ -1,0 +1,64 @@
+name: MSI Module Loaded by Non-System Binary
+id: ccb98a66-5851-11ec-b91c-acde48001122
+version: 1
+date: '2021-12-08'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: 'The following hunting analytic identifies `msi.dll` being loaded by
+  a binary not located in `system32`, `syswow64`, `winsxs` or `windows` paths. This
+  behavior is most recently related to InstallerFileTakeOver, or CVE-2021-41379, and
+  DLL side-loading. CVE-2021-41379 requires a binary to be dropped and `msi.dll` to
+  be loaded by it. To Successful exploitation of this issue happens in four parts
+  \
+
+  1. Generation of an MSI that will trigger bad behavior. \
+
+  1. Preparing a directory for MSI installation. \
+
+  1. Inducing an error state. \
+
+  1. Racing to introduce a junction and a symlink to trick msiexec.exe to modify the
+  attacker specified file. \
+
+  In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded
+  by non-system binaries.'
+data_source:
+- Sysmon Event ID 7
+search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*",
+  "*\\winsxs\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by
+  Image ImageLoaded process_name Computer EventCode ProcessId | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `msi_module_loaded_by_non_system_binary_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and imageloaded executions from your endpoints. If you
+  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: It is possible some Administrative utilities will load msi.dll
+  outside of normal system paths, filter as needed.
+references:
+- https://attackerkb.com/topics/7LstI2clmF/cve-2021-41379/rapid7-analysis
+- https://github.com/klinix5/InstallerFileTakeOver
+- https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/msi.dll%20Hijack%20(Methodology).ioc
+tags:
+  analytic_story:
+  - Windows Privilege Escalation
+  - Hermetic Wiper
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: The following module $ImageLoaded$ was loaded by $Image$ outside of the
+    normal system paths on endpoint $Computer$, potentally related to DLL side-loading.
+  mitre_attack_id:
+  - T1574.002
+  - T1574
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/msi_module_load/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

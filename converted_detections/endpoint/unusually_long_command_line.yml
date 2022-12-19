@@ -1,0 +1,42 @@
+name: Unusually Long Command Line
+id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
+version: 5
+date: '2020-12-08'
+author: David Dorsey, Splunk
+status: experimental
+type: Anomaly
+description: Command lines that are extremely long may be indicative of malicious
+  activity on your hosts.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name
+  Processes.process | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`|  eval processlen=len(process) | eventstats stdev(processlen)
+  as stdev, avg(processlen) as avg by dest | stats max(processlen) as maxlen, values(stdev)
+  as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process
+  | `unusually_long_command_line_filter` |eval threshold = 3 | where maxlen > ((threshold*stdevperhost)
+  + avgperhost)'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships, from your endpoints to populate the Endpoint
+  data model in the Processes node. The command-line arguments are mapped to the process
+  field in the Endpoint data model.
+known_false_positives: Some legitimate applications start with long command lines.
+references: []
+tags:
+  analytic_story:
+  - Suspicious Command-Line Executions
+  - Unusual Processes
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Unusually long command line $Processes.process_name$ on $dest$
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 42
+  security_domain: endpoint
+tests: []

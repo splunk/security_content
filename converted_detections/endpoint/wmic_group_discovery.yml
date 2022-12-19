@@ -1,0 +1,53 @@
+name: Wmic Group Discovery
+id: 83317b08-155b-11ec-8e00-acde48001122
+version: 1
+date: '2021-09-14'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: 'The following hunting analytic identifies the use of `wmic.exe` enumerating
+  local groups on the endpoint. \
+
+  Typically, by itself, is not malicious but may raise suspicion based on time of
+  day, endpoint and username. \
+
+  During triage, review parallel processes and identify any further suspicious behavior.'
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wmic.exe
+  (Processes.process="*group get name*") by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.original_file_name Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `wmic_group_discovery_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1069/001/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Local group discovery on $dest$ by $user$.
+  mitre_attack_id:
+  - T1069
+  - T1069.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

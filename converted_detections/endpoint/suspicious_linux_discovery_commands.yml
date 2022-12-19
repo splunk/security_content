@@ -1,0 +1,56 @@
+name: Suspicious Linux Discovery Commands
+id: 0edd5112-56c9-11ec-b990-acde48001122
+version: 1
+date: '2021-12-06'
+author: Bhavin Patel, Splunk
+status: production
+type: TTP
+description: 'This search, detects execution of suspicious bash commands from various
+  commonly leveraged bash scripts like (AutoSUID, LinEnum, LinPeas) to perform discovery
+  of possible paths of privilege execution, password files, vulnerable directories,
+  executables and file permissions on a Linux host.\
+
+  The search logic specifically looks for high number of distinct commands run in
+  a short period of time.'
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count values(Processes.process)
+  values(Processes.process_name) values(Processes.parent_process_name) dc(Processes.process)
+  as distinct_commands dc(Processes.process_name) as distinct_process_names min(_time)
+  as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where [|inputlookup
+  linux_tool_discovery_process.csv | rename process as Processes.process |table Processes.process]
+  by _time span=5m Processes.user Processes.dest | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| where
+  distinct_commands > 40 AND distinct_process_names > 3| `suspicious_linux_discovery_commands_filter`'
+how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.(https://splunkbase.splunk.com/app/6176/).
+  Please install this add-on to parse fields correctly and execute detection search.
+  Consider customizing the time window and threshold values according to your environment.
+known_false_positives: Unless an administrator is using these commands to troubleshoot
+  or audit a system, the execution of these commands should be monitored.
+references:
+- https://attack.mitre.org/matrices/enterprise/linux/
+- https://attack.mitre.org/techniques/T1059/004/
+- https://github.com/IvanGlinkin/AutoSUID
+- https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
+- https://github.com/rebootuser/LinEnum
+tags:
+  analytic_story:
+  - Linux Post-Exploitation
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Suspicious Linux Discovery Commands detected on $dest$
+  mitre_attack_id:
+  - T1059.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

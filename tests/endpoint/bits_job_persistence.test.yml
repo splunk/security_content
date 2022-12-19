@@ -1,6 +1,6 @@
 name: BITS Job Persistence Unit Test
 tests:
-- name: BITS Job Persistence Sysmon
+- name: BITS Job Persistence
   file: endpoint/bits_job_persistence.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

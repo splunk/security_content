@@ -1,0 +1,54 @@
+name: DLLHost with no Command Line Arguments with Network
+id: f1c07594-a141-11eb-8407-acde48001122
+version: 3
+date: '2022-03-15'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies DLLHost.exe with no command line arguments
+  with a network connection. It is unusual for DLLHost.exe to execute with no command
+  line arguments present. This particular behavior is common with malicious software,
+  including Cobalt Strike. During investigation, triage any network connections and
+  parallel processes. Identify any suspicious module loads related to credential dumping
+  or file writes. DLLHost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=dllhost.exe by _time span=1h  Processes.process_id
+  Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | regex process="(?i)(dllhost\.exe.{0,4}$)" | join  process_id [| tstats `security_content_summariesonly`
+  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port !=
+  0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)`
+  | rename dest as C2 ] | table _time dest parent_process_name process_name process_path
+  process process_id dest_port C2 | `dllhost_with_no_command_line_arguments_with_network_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
+known_false_positives: Although unlikely, some legitimate third party applications
+  may use a moved copy of dllhost, triggering a false positive.
+references:
+- https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
+- https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
+tags:
+  analytic_story:
+  - Cobalt Strike
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: The process $process_name$ was spawned by $parent_image$ without any command-line
+    arguments on $dest$ by $user$.
+  mitre_attack_id:
+  - T1055
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_dllhost.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

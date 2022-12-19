@@ -1,6 +1,6 @@
 name: Windows Disable Memory Crash Dump Unit Test
 tests:
-- name: Windows Disable Memory Crash Drump
+- name: Windows Disable Memory Crash Dump
   file: endpoint/windows_disable_memory_crash_dump.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'

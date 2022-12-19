@@ -1,0 +1,54 @@
+name: Linux Kworker Process In Writable Process Path
+id: 1cefb270-74a5-4e27-aa0c-2b6fa7c5b4ed
+version: 2
+date: '2022-04-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: This analytic looks for suspicious process kworker commandline in a linux
+  machine. kworker process name or thread are common names of kernel threads in linux
+  process. This hunting detections can lead to investigate process contains process
+  path in writable directory in linux like /home/, /var/log and /tmp/. This technique
+  was seen in cyclopsblink malware to blend its core and other of its child process
+  as normal kworker on the compromised machine. This detection might be a good pivot
+  to look for other IOC related to cyclopsblink malware or attacks.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where  Processes.parent_process =
+  "*[kworker/*" Processes.parent_process_path IN ("/home/*", "/tmp/*", "/var/log/*")
+  Processes.process="*iptables*" by  Processes.parent_process_name Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.parent_process_path Processes.process_guid Processes.dest Processes.user
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `linux_kworker_process_in_writable_process_path_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: unknown
+references:
+- https://www.ncsc.gov.uk/files/Cyclops-Blink-Malware-Analysis-Report.pdf
+- https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
+tags:
+  analytic_story:
+  - CyclopsBLink
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: a $process_name$ with kworker commandline in $dest$
+  mitre_attack_id:
+  - T1036.004
+  - T1036
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/cyclopsblink/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

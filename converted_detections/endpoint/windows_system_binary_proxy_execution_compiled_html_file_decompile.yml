@@ -1,0 +1,55 @@
+name: Windows System Binary Proxy Execution Compiled HTML File Decompile
+id: 2acf0e19-4149-451c-a3f3-39cd3c77e37d
+version: 1
+date: '2022-08-31'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the decompile parameter with the HTML
+  Help application, HH.exe. This is a uncommon command to see ran and behavior. Most
+  recently this was seen in a APT41 campaign where a CHM file was delivered and a
+  script inside used a technique for running an arbitrary command in a CHM file via
+  an ActiveX object. This unpacks an HTML help file to a specified path for launching
+  the next stage.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_hh` Processes.process=*-decompile*
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_system_binary_proxy_execution_compiled_html_file_decompile_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited, filter as needed.
+references:
+- https://www.ptsecurity.com/ww-en/analytics/pt-esc-threat-intelligence/higaisa-or-winnti-apt-41-backdoors-old-and-new/
+- https://redcanary.com/blog/introducing-atomictestharnesses/
+- https://attack.mitre.org/techniques/T1218/001/
+- https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
+tags:
+  analytic_story:
+  - Suspicious Compiled HTML Activity
+  - Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: $process_name$ has been identified using decompile against a CHM on $dest$
+    under user $user$.
+  mitre_attack_id:
+  - T1218.001
+  - T1218
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/4688_windows-security.log
+    source: XmlWinEventLog
+    update_timestamp: true

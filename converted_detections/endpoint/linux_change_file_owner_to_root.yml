@@ -1,0 +1,54 @@
+name: Linux Change File Owner To Root
+id: c1400ea2-6257-11ec-ad49-acde48001122
+version: 1
+date: '2021-12-21'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic looks for a commandline that change the file owner to root
+  using chown utility tool. This technique is commonly abuse by adversaries, malware
+  author and red teamers to escalate privilege to the targeted or compromised host
+  by changing the owner of their malicious file to root. This event is not so common
+  in corporate network except from the administrator doing normal task that needs
+  high privilege.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = chown
+  OR Processes.process = "*chown *") AND Processes.process = "* root *" by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_change_file_owner_to_root_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://unix.stackexchange.com/questions/101073/how-to-change-permissions-from-root-user-to-all-users
+- https://askubuntu.com/questions/617850/changing-from-user-to-superuser
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A commandline $process$ that may change ownership to root on $dest$
+  mitre_attack_id:
+  - T1222.002
+  - T1222
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

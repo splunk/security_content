@@ -1,0 +1,49 @@
+name: Randomly Generated Scheduled Task Name
+id: 9d22a780-5165-11ec-ad4f-3e22fbd008af
+version: 1
+date: '2021-11-29'
+author: Mauricio Velazco, Splunk
+status: experimental
+type: Hunting
+description: The following hunting analytic leverages Event ID 4698, `A scheduled
+  task was created`, to identify the creation of a Scheduled Task with a suspicious,
+  high entropy, Task Name. To achieve this, this analytic also leverages the `ut_shannon`
+  function from the URL ToolBox Splunk application. Red teams and adversaries alike
+  may abuse the Task Scheduler to create and start a remote Scheduled Task and obtain
+  remote code execution. To achieve this goal, tools like Impacket or Crapmapexec,
+  typically create a Scheduled Task with a random task name on the victim host. This
+  hunting analytic may help defenders identify Scheduled Tasks created as part of
+  a lateral movement attack. The entropy threshold `ut_shannon > 3` should be customized
+  by users. The Command field can be used to determine if the task has malicious intent
+  or not.
+data_source:
+- Windows Security 4698
+search: ' `wineventlog_security` EventCode=4698 | xmlkv Message | lookup ut_shannon_lookup
+  word as Task_Name | where ut_shannon > 3 | table  _time, dest, Task_Name, ut_shannon,
+  Command, Author, Enabled, Hidden | `randomly_generated_scheduled_task_name_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well
+  as the URL ToolBox application are also required.
+known_false_positives: Legitimate applications may use random Scheduled Task names.
+references:
+- https://attack.mitre.org/techniques/T1053/005/
+- https://splunkbase.splunk.com/app/2734/
+- https://en.wikipedia.org/wiki/Entropy_(information_theory)
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  - CISA AA22-257A
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A windows scheduled task with a suspicious task name was created on $dest$
+  mitre_attack_id:
+  - T1053
+  - T1053.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 45
+  security_domain: endpoint
+tests: []

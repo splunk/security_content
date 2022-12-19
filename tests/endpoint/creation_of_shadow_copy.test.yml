@@ -1,6 +1,6 @@
 name: Creation of Shadow Copy Unit Test
 tests:
-- name: Creation of Shadow Copy Sysmon
+- name: Creation of Shadow Copy
   file: endpoint/creation_of_shadow_copy.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
@@ -10,7 +10,7 @@ tests:
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-- name: Creation of Shadow Copy Crowdstrike
+- name: Creation of Shadow Copy
   file: endpoint/creation_of_shadow_copy.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

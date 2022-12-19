@@ -1,0 +1,50 @@
+name: Suspicious IcedID Rundll32 Cmdline
+id: bed761f8-ee29-11eb-8bf3-acde48001122
+version: 2
+date: '2021-07-26'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search is to detect a suspicious rundll32.exe commandline to execute
+  dll file. This technique was seen in IcedID malware to load its payload dll with
+  the following parameter to load encrypted dll payload which is the license.dat.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*/i:*
+  by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process
+  Processes.process_id Processes.parent_process_id Processes.dest Processes.user |
+  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `suspicious_icedid_rundll32_cmdline_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: limitted. this parameter is not commonly used by windows application
+  but can be used by the network operator.
+references:
+- https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+tags:
+  analytic_story:
+  - IcedID
+  - Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: rundll32 process $process_name$ with commandline $process$ in host $dest$
+  mitre_attack_id:
+  - T1218
+  - T1218.011
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

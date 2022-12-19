@@ -1,0 +1,53 @@
+name: PetitPotam Suspicious Kerberos TGT Request
+id: e3ef244e-0a67-11ec-abf2-acde48001122
+version: 1
+date: '2021-08-31'
+author: Michael Haag, Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifes Event Code 4768, A `Kerberos authentication
+  ticket (TGT) was requested`, successfull occurs. This behavior has been identified
+  to assist with detecting PetitPotam, CVE-2021-36942. Once an attacer obtains a computer
+  certificate by abusing Active Directory Certificate Services in combination with
+  PetitPotam, the next step would be to leverage the certificate for malicious purposes.
+  One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool
+  like Rubeus. This request will generate a 4768 event with some unusual fields depending
+  on the environment. This analytic will require tuning, we recommend filtering Account_Name
+  to Domain Controllers for your environment.
+data_source:
+- Windows Security 4768
+search: '`wineventlog_security` EventCode=4768 Client_Address!="::1" Certificate_Thumbprint!=""
+  Account_Name=*$ | stats count min(_time) as firstTime max(_time) as lastTime by
+  dest, Account_Name, Client_Address, action, Message | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `petitpotam_suspicious_kerberos_tgt_request_filter`'
+how_to_implement: The following analytic requires Event Code 4768. Ensure that it
+  is logging no Domain Controllers and appearing in Splunk.
+known_false_positives: False positives are possible if the environment is using certificates
+  for authentication.
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4768
+- https://isc.sans.edu/forums/diary/Active+Directory+Certificate+Services+ADCS+PKI+domain+admin+vulnerability/27668/
+tags:
+  analytic_story:
+  - PetitPotam NTLM Relay on Active Directory Certificate Services
+  - Active Directory Kerberos Attacks
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A Kerberos TGT was requested in a non-standard manner against $dest$, potentially
+    related to CVE-2021-36942, PetitPotam.
+  mitre_attack_id:
+  - T1003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

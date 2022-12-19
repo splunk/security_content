@@ -1,0 +1,52 @@
+name: Linux Possible Access To Sudoers File
+id: 4479539c-71fc-11ec-b2e2-acde48001122
+version: 1
+date: '2022-01-10'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to detect a possible access or modification of /etc/sudoers
+  file. "/etc/sudoers" file controls who can run what command as what users on what
+  machine and can also control whether a specific user need a password for particular
+  commands.  adversaries and threat actors abuse this file to gain persistence and/or
+  privilege escalation during attack on targeted host.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN("cat",
+  "nano*","vim*", "vi*")  AND Processes.process IN("*/etc/sudoers*") by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_possible_access_to_sudoers_file_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://attack.mitre.org/techniques/T1548/003/
+- https://web.archive.org/web/20210708035426/https://www.cobaltstrike.com/downloads/csmanual43.pdf
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A commandline $process$ executed on $dest$
+  mitre_attack_id:
+  - T1548.003
+  - T1548
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.008/copy_file_stdoutpipe/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

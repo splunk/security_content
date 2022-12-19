@@ -1,0 +1,46 @@
+name: Windows Security Account Manager Stopped
+id: 69c12d59-d951-431e-ab77-ec426b8d65e6
+version: 1
+date: '2020-11-06'
+author: Rod Soto, Jose Hernandez, Splunk
+status: production
+type: TTP
+description: The search looks for a Windows Security Account Manager (SAM) was stopped
+  via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe"
+  "Processes.process"="*stop \"samss\"*") BY "Processes.dest", "Processes.user", "Processes.process"
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  | `windows_security_account_manager_stopped_filter`'
+how_to_implement: You must be ingesting data that records the process-system activity
+  from your hosts to populate the Endpoint Processes data-model object. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
+known_false_positives: SAM is a critical windows service, stopping it would cause
+  major issues on an endpoint this makes false positive rare. AlthoughNo false positives
+  have been identified.
+references: []
+tags:
+  analytic_story:
+  - Ryuk Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: 'The Windows Security Account Manager (SAM) was stopped via cli by $user$
+    on $dest$ by this command: $processs$'
+  mitre_attack_id:
+  - T1489
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 70
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

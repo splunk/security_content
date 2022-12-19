@@ -1,0 +1,47 @@
+name: Domain Controller Discovery with Nltest
+id: 41243735-89a7-4c83-bcdd-570aa78f00a1
+version: 1
+date: '2021-08-30'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: This analytic looks for the execution of `nltest.exe` with command-line
+  arguments utilized to discover remote systems. The arguments `/dclist:` and '/dsgetdc:',
+  can be used to return a list of all domain controllers. Red Teams and adversaries
+  alike may use nltest.exe to identify domain controllers in a Windows Domain for
+  situational awareness and Active Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="nltest.exe")
+  (Processes.process="*/dclist:*" OR Processes.process="*/dsgetdc:*") by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `domain_controller_discovery_with_nltest_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1018/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Domain controller discovery on $dest$ by $user$
+  mitre_attack_id:
+  - T1018
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 21
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

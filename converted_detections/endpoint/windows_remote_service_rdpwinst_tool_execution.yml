@@ -1,0 +1,53 @@
+name: Windows Remote Service Rdpwinst Tool Execution
+id: c8127f87-c7c9-4036-89ed-8fe4b30e678c
+version: 1
+date: '2022-06-24'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic identifies RDPWInst.exe tool, which is a RDP wrapper
+  library tool designed to enable remote desktop host support and concurrent RDP session
+  on reduced functionality system. Unfortunately, this open project was abused by
+  adversaries to enable RDP connection to the targeted host for remote access and
+  potentially be for lateral movement.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where (Processes.process_name="RDPWInst.exe" OR Processes.original_file_name="RDPWInst.exe")
+  AND Processes.process IN ("* -i*", "* -s*", "* -o*", "* -w*", "* -r*") by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.original_file_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_remote_service_rdpwinst_tool_execution_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: This tool was designed for home usage and not commonly seen
+  in production environment. Filter as needed.
+references:
+- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+tags:
+  analytic_story:
+  - Azorult
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Rdpwinst.exe executed on $dest$.
+  mitre_attack_id:
+  - T1021.001
+  - T1021
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

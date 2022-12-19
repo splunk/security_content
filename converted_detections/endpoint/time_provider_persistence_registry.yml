@@ -1,0 +1,62 @@
+name: Time Provider Persistence Registry
+id: 5ba382c4-2105-11ec-8d8f-acde48001122
+version: 2
+date: '2022-01-26'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to detect a suspicious modification of time provider
+  registry for persistence and autostart. This technique can allow the attacker to
+  persist on the compromised host and autostart as soon as the machine boot up. This
+  TTP can be a good indicator of suspicious behavior since this registry is not commonly
+  modified by normal user or even an admin.
+data_source:
+- Sysmon Event ID 13
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
+  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
+  ="*\\CurrentControlSet\\Services\\W32Time\\TimeProviders*" by _time span=1h Registry.dest
+  Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` |rename process_guid as
+  proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
+  FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid | fields _time dest user parent_process_name parent_process process_name
+  process_path process proc_guid registry_path registry_value_name registry_value_data]
+  | table _time dest user parent_process_name parent_process process_name process_path
+  process proc_guid registry_path registry_value_name registry_value_data | `time_provider_persistence_registry_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: unknown
+references:
+- https://pentestlab.blog/2019/10/22/persistence-time-providers/
+- https://attack.mitre.org/techniques/T1547/003/
+tags:
+  analytic_story:
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation
+  - Windows Registry Abuse
+  - Hermetic Wiper
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
+  mitre_attack_id:
+  - T1547.003
+  - T1547
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.003/timeprovider_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

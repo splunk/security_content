@@ -1,0 +1,55 @@
+name: Windows Raw Access To Master Boot Record Drive
+id: 7b83f666-900c-11ec-a2d9-acde48001122
+version: 1
+date: '2022-02-17'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to look for suspicious raw access read to drive where
+  the master boot record is placed. This technique was seen in several attacks by
+  adversaries or threat actor to wipe, encrypt or overwrite the master boot record
+  code as part of their impact payload. This detection is a good indicator that there
+  is a process try to read or write on MBR sector.
+data_source:
+- Sysmon Event ID 9
+search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*",
+  "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
+  lastTime by Computer Image Device ProcessGuid ProcessId EventDescription EventCode
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_master_boot_record_drive_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the raw access read event (like sysmon eventcode 9), process name and
+  process guid from your endpoints. If you are using Sysmon, you must have at least
+  version 6.0.4 of the Sysmon TA.
+known_false_positives: This event is really notable but we found minimal number of
+  normal application from system32 folder like svchost.exe accessing it too. In this
+  case we used 'system32' and 'syswow64' path as a filter for this detection.
+references:
+- https://www.splunk.com/en_us/blog/security/threat-advisory-strt-ta02-destructive-software.html
+- https://www.crowdstrike.com/blog/technical-analysis-of-whispergate-malware/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+tags:
+  analytic_story:
+  - Data Destruction
+  - Caddy Wiper
+  - WhisperGate
+  - Hermetic Wiper
+  - CISA AA22-264A
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: process accessing MBR $device$ in $dest$
+  mitre_attack_id:
+  - T1561.002
+  - T1561
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

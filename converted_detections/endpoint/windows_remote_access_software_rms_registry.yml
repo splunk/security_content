@@ -1,0 +1,50 @@
+name: Windows Remote Access Software RMS Registry
+id: e5b7b5a9-e471-4be8-8c5d-4083983ba329
+version: 1
+date: '2022-06-22'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic is to identify a modification or creation of Windows
+  registry related to the Remote Manipulator System (RMS) Remote Admin tool. RMS is
+  a legitimate tool developed by russian organization TektonIT and has been observed
+  being abused by adversaries to gain remote access to the targeted host. Azorult
+  malware utilized RMS to gain remote access.
+data_source:
+- Sysmon Event ID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SYSTEM\\Remote
+  Manipulator System*" by Registry.registry_key_name Registry.user Registry.registry_path
+  Registry.registry_value_data Registry.action Registry.dest | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_remote_access_software_rms_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: administrators may enable or disable this feature that may
+  cause some false positive.
+references:
+- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.rms
+tags:
+  analytic_story:
+  - Azorult
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: the registry related to RMS tool is created in $dest$
+  mitre_attack_id:
+  - T1219
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

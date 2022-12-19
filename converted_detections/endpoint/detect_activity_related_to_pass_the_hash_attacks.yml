@@ -1,0 +1,45 @@
+name: Detect Activity Related to Pass the Hash Attacks
+id: f5939373-8054-40ad-8c64-cec478a22a4b
+version: 5
+date: '2020-10-15'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+status: production
+type: TTP
+description: This search looks for specific authentication events from the Windows
+  Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
+data_source:
+- Windows Security 4624
+search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 Logon_Process=NtLmSsp
+  WorkstationName=WORKSTATION NOT AccountName="ANONYMOUS LOGON") OR (Logon_Type=9
+  Logon_Process=seclogo) | fillnull | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode, Logon_Type, WorkstationName, user, dest | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `detect_activity_related_to_pass_the_hash_attacks_filter` '
+how_to_implement: To successfully implement this search, you must ingest your Windows
+  Security Event logs and leverage the latest TA for Windows.
+known_false_positives: Legitimate logon activity by authorized NTLM systems may be
+  detected by this search. Please investigate as appropriate.
+references: []
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: The following $EventCode$ occurred on $dest$ by $user$ with Logon Type
+    3, which may be indicative of the pass the hash technique.
+  mitre_attack_id:
+  - T1550
+  - T1550.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

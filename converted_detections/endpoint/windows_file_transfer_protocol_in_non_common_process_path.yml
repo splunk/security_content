@@ -1,0 +1,52 @@
+name: Windows File Transfer Protocol In Non-Common Process Path
+id: 0f43758f-1fe9-470a-a9e4-780acc4d5407
+version: 1
+date: '2022-09-16'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies a possible windows application having
+  a FTP connection in a non common installation path in windows operating system.This
+  network protocol is being used by adversaries, threat actors and malware like AgentTesla
+  as a command and control communication to transfer its collected stolen information
+  like the desktop screenshots, browser information and system information of a targeted
+  or compromised host.
+data_source:
+- Sysmon Event ID 3
+search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\windows\\system32\\*","*\\windows\\SysWOW64\\*"))
+  (DestinationPortName="ftp" OR DestinationPort=21) | stats count min(_time) as firstTime
+  max(_time) as lastTime by Image DestinationPort DestinationPortName DestinationHostname
+  DestinationIp SourcePort SourcePortName Protocol SourceHostname Computer user |
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_file_transfer_protocol_in_non_common_process_path_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and sysmon eventcode = 3 connection events from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: third party application may use this network protocol as part
+  of its feature. Filter is needed.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla
+tags:
+  analytic_story:
+  - AgentTesla
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: a process $Image$ is having a FTP connection to $DestinationHostname$ in
+    $Computer$
+  mitre_attack_id:
+  - T1071.003
+  - T1071
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_ftp/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

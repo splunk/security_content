@@ -1,6 +1,6 @@
 name: Dump LSASS via procdump Unit Test
 tests:
-- name: Dump LSASS via procdump Sysmon
+- name: Dump LSASS via procdump
   file: endpoint/dump_lsass_via_procdump.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
@@ -10,7 +10,7 @@ tests:
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-- name: Dump LSASS via procdump Crowdstrike
+- name: Dump LSASS via procdump
   file: endpoint/dump_lsass_via_procdump.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

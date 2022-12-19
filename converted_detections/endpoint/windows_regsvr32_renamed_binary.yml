@@ -1,0 +1,52 @@
+name: Windows Regsvr32 Renamed Binary
+id: 7349a9e9-3cf6-4171-bb0c-75607a8dcd1a
+version: 1
+date: '2022-10-27'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following hunting analytic identifies renamed instances of regsv32.exe
+  executing. regsv32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+  During investigation, validate if it is the legitimate regsv32.exe executing and
+  what dll module content it is loading. This query relies on the original filename
+  or internal name from the PE meta data. Expand the query as needed by looking for
+  specific command line arguments outlined in other analytics.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name != regsvr32.exe
+  AND Processes.original_file_name=regsvr32.exe by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_regsvr32_renamed_binary_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: unknown
+references:
+- https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
+tags:
+  analytic_story:
+  - Qakbot
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: regsvr32 was renamed as $process_name$ in $dest$
+  mitre_attack_id:
+  - T1218.010
+  - T1218
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_3/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

@@ -1,0 +1,59 @@
+name: Windows Command and Scripting Interpreter Hunting Path Traversal
+id: d0026380-b3c4-4da0-ac8e-02790063ff6b
+version: 1
+date: '2022-06-01'
+author: Teoderick Contreras, Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies path traversal command-line execution
+  and should be used to tune and driver other more higher fidelity analytics. This
+  technique was seen in malicious document that execute malicious code using msdt.exe
+  and path traversal technique that serve as defense evasion. This Hunting query is
+  a good pivot to look for possible suspicious process and command-line that runs
+  execute path traversal technique to run malicious code. This may help you to find
+  possible downloaded malware or other lolbin execution.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes  by Processes.original_file_name Processes.process_id
+  Processes.parent_process_id Processes.process_hash Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
+  count_of_pattern1 = (mvcount(split(process,"/.."))-1) | eval count_of_pattern2 =
+  (mvcount(split(process,"\.."))-1) | eval count_of_pattern3 = (mvcount(split(process,"\\.."))-1)
+  | eval count_of_pattern4 = (mvcount(split(process,"//.."))-1) | search count_of_pattern1
+  > 1 OR count_of_pattern2 > 1 OR count_of_pattern3 > 1 OR count_of_pattern4 > 1 |
+  `windows_command_and_scripting_interpreter_hunting_path_traversal_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product
+known_false_positives: false positive may vary depends on the score you want to check.
+  The bigger number of path traversal string count the better.
+references:
+- https://app.any.run/tasks/713f05d2-fe78-4b9d-a744-f7c133e3fafb/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A parent process $parent_process_name$ has spawned a child $process_name$
+    with path traversal commandline $process$ in $dest$
+  mitre_attack_id:
+  - T1059
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/path_traversal/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

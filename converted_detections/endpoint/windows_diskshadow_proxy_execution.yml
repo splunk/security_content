@@ -1,0 +1,51 @@
+name: Windows Diskshadow Proxy Execution
+id: 58adae9e-8ea3-11ec-90f6-acde48001122
+version: 1
+date: '2022-02-15'
+author: Lou Stella, Splunk
+status: production
+type: TTP
+description: DiskShadow.exe is a Microsoft Signed binary present on Windows Server.
+  It has a scripting mode intended for complex scripted backup operations. This feature
+  also allows for execution of arbitrary unsigned code. This analytic looks for the
+  usage of the scripting mode flags in executions of DiskShadow. During triage, compare
+  to known backup behavior in your environment and then review the scripts called
+  by diskshadow.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_diskshadow` (Processes.process=*-s*
+  OR Processes.process=*/s*) by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_diskshadow_proxy_execution_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on processes that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,confirm
+  the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint
+  product.
+known_false_positives: Administrators using the DiskShadow tool in their infrastructure
+  as a main backup tool with scripts will cause false positives that can be filtered
+  with `windows_diskshadow_proxy_execution_filter`
+references:
+- https://bohops.com/2018/03/26/diskshadow-the-return-of-vss-evasion-persistence-and-active-directory-database-extraction/
+tags:
+  analytic_story:
+  - Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Possible Signed Binary Proxy Execution on $dest$
+  mitre_attack_id:
+  - T1218
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/diskshadow/windows-security.log
+    source: WinEventLog:Security

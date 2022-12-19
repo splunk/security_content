@@ -1,0 +1,59 @@
+name: Detect AzureHound File Modifications
+id: 1c34549e-c31b-11eb-996b-acde48001122
+version: 1
+date: '2021-06-01'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic is similar to SharpHound file modifications, but
+  this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound
+  equivilent but for Azure. It's possible this may never be seen in an environment
+  as most attackers may execute this tool remotely. Once execution is complete, a
+  zip file with a similar name will drop `20210601090751-azurecollection.zip`. In
+  addition to the zip, multiple .json files will be written to disk, which are in
+  the zip.
+data_source:
+- Sysmon Event ID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip",
+  "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json",
+  "*-azapplicationadmins.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
+  Filesystem.file_path Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `detect_azurehound_file_modifications_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on file modifications that include the name of the process, and file, responsible
+  for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem`
+  node.
+known_false_positives: False positives should be limited as the analytic is specific
+  to a filename with extension .zip. Filter as needed.
+references:
+- https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
+- https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1
+tags:
+  analytic_story:
+  - Discovery Techniques
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A file - $file_name$ was written to disk that is related to AzureHound,
+    a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$.
+  mitre_attack_id:
+  - T1087.002
+  - T1069.001
+  - T1482
+  - T1087.001
+  - T1087
+  - T1069.002
+  - T1069
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,63 @@
+name: Windows InstallUtil in Non Standard Path
+id: dcf74b22-7933-11ec-857c-acde48001122
+version: 1
+date: '2022-01-19'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the Windows binary InstallUtil.exe
+  running from a non-standard location. The analytic utilizes a macro for InstallUtil
+  and identifies both the process_name and original_file_name.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes where `process_installutil` NOT (Processes.process_path
+  IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",
+  "*\\Windows\\SystemApps\\*", "*\\WinSxS\\*", "*\\Windows\\Microsoft.NET\\*")) by
+  Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.original_file_name Processes.process_id Processes.parent_process_id Processes.process_hash
+  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_installutil_in_non_standard_path_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+- https://attack.mitre.org/techniques/T1036/003/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+tags:
+  analytic_story:
+  - Masquerading - Rename System Utilities
+  - Unusual Processes
+  - Ransomware
+  - Signed Binary Proxy Execution InstallUtil
+  - WhisperGate
+  - Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: An instance of $parent_process_name$ spawning $process_name$ from a non-standard
+    path was identified on endpoint $dest$ by user $user$.
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  - T1218
+  - T1218.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

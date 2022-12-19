@@ -1,0 +1,54 @@
+name: Exchange PowerShell Abuse via SSRF
+id: 29228ab4-0762-11ec-94aa-acde48001122
+version: 2
+date: '2022-10-02'
+author: Michael Haag, Splunk
+status: experimental
+type: TTP
+description: 'This analytic identifies suspicious behavior related to ProxyShell against
+  on-premise Microsoft Exchange servers. This analytic has been replaced by GUID d436f9e7-0ee7-4a47-864b-6dea2c4e2752
+  which utilizes the Web Datamodel. \
+
+  Modification of this analytic is requried to ensure fields are mapped accordingly.
+  \
+
+  A suspicious event will have `PowerShell`, the method `POST` and `autodiscover.json`.
+  This is indicative of accessing PowerShell on the back end of Exchange with SSRF.
+  \
+
+  An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...`
+  (abbreviated) \
+
+  Review the source attempting to perform this activity against your environment.
+  In addition, review PowerShell logs and access recently granted to Exchange roles.'
+data_source: []
+search: '`exchange` c_uri="*//autodiscover*" cs_uri_query="*PowerShell*" cs_method="POST"
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, cs_uri_query,
+  cs_method, c_uri | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `exchange_powershell_abuse_via_ssrf_filter`'
+how_to_implement: The following analytic requires on-premise Exchange to be logging
+  to Splunk using the TA - https://splunkbase.splunk.com/app/3225. Ensure logs are
+  parsed correctly, or tune the analytic for your environment.
+known_false_positives: Limited false positives, however, tune as needed.
+references:
+- https://github.com/GossiTheDog/ThreatHunting/blob/master/AzureSentinel/Exchange-Powershell-via-SSRF
+- https://blog.orange.tw/2021/08/proxylogon-a-new-attack-surface-on-ms-exchange-part-1.html
+- https://peterjson.medium.com/reproducing-the-proxyshell-pwn2own-exploit-49743a4ea9a1
+tags:
+  analytic_story:
+  - ProxyShell
+  - ProxyNotShell
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: Activity related to ProxyShell has been identified on $dest$. Review events
+    and take action accordingly.
+  mitre_attack_id:
+  - T1190
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 80
+  security_domain: endpoint
+tests: []

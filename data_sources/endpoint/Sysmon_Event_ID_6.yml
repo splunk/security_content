@@ -1,0 +1,28 @@
+name: Sysmon Event ID 6
+id: 58d3fb8c-2b4b-40d5-84ee-f00b05be51f7
+date: '2022-12-02'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: driver_load
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - Guid
+  - IMPHASH
+  - ImageLoaded
+  - MD5
+  - ProcessID
+  - SHA256
+  - SecurityID
+  - Signature
+  - SignatureStatus
+  - Signed
+  - UserID

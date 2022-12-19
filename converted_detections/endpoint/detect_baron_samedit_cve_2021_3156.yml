@@ -1,0 +1,32 @@
+name: Detect Baron Samedit CVE-2021-3156
+id: 93fbec4e-0375-440c-8db3-4508eca470c4
+version: 1
+date: '2021-01-27'
+author: Shannon Davis, Splunk
+status: experimental
+type: TTP
+description: This search detects the heap-based buffer overflow of sudoedit
+data_source: []
+search: '`linux_hosts` | search "sudoedit -s \\" | `detect_baron_samedit_cve_2021_3156_filter`'
+how_to_implement: Splunk Universal Forwarder running on Linux systems, capturing logs
+  from the /var/log directory. The vulnerability is exposed when a non privledged
+  user tries passing in a single \ character at the end of the command while using
+  the shell and edit flags.
+known_false_positives: unknown
+references: []
+tags:
+  analytic_story:
+  - Baron Samedit CVE-2021-3156
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: tbd
+  mitre_attack_id:
+  - T1068
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests: []

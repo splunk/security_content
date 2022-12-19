@@ -1,0 +1,49 @@
+name: Remote Process Instantiation via WMI and PowerShell Script Block
+id: 2a048c14-4634-11ec-a618-3e22fbd008af
+version: 2
+date: '2022-11-15'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of the `Invoke-WmiMethod` commandlet with arguments utilized
+  to start a process on a remote endpoint by abusing WMI. Red Teams and adversaries
+  alike may abuse WMI and this commandlet for lateral movement and remote code execution.
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText="*Invoke-WmiMethod*" AND (ScriptBlockText="*-CN*"
+  OR ScriptBlockText="*-ComputerName*") AND ScriptBlockText="*-Class Win32_Process*"
+  AND ScriptBlockText="*-Name create*" | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode ScriptBlockText Computer UserID|  `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `remote_process_instantiation_via_wmi_and_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
+  can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators may leverage WWMI and powershell.exe to start
+  a process on remote systems, but this activity is usually limited to a small set
+  of hosts or users.
+references:
+- https://attack.mitre.org/techniques/T1047/
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/invoke-wmimethod?view=powershell-5.1
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  atomic_guid: []
+  drilldown_search: []
+  message: A process was started on a remote endpoint from $ComputerName by abusing
+    WMI using PowerShell.exe
+  mitre_attack_id:
+  - T1047
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement/wmi_remote_process_powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog
