@@ -42,7 +42,9 @@ tags:
   - Linux Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: A commandline $process$ with process $process_name$ on $dest$
   mitre_attack_id:
   - T1548.001

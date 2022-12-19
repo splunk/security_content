@@ -31,7 +31,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: Recursive Delete of Directory In Batch CMD
   mitre_attack_id:
   - T1070.004

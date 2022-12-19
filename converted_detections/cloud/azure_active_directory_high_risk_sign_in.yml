@@ -1,0 +1,54 @@
+name: Azure Active Directory High Risk Sign-in
+id: 1ecff169-26d7-4161-9a7b-2ac4c8e61bea
+version: 1
+date: '2022-07-11'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic triggers on a high risk sign-in against Azure
+  Active Directory identified by Azure Identity Protection. Identity Protection monitors
+  sign-in events using heuristics and machine learning to identify potentially malicious
+  events and categorizes them in three categories high, medium and low.
+data_source: []
+search: ' `azuread` body.category=UserRiskEvents body.properties.riskLevel=high |
+  rename body.properties.* as * |  stats values(userPrincipalName) by _time, ipAddress,
+  activity, riskLevel, riskEventType, additionalInfo | `azure_active_directory_high_risk_sign_in_filter`'
+how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft
+  Cloud Services from  Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  You must be ingesting Azure Active Directory events in your Splunk environment.
+  Specifically, this analytic leverages the RiskyUsers and UserRiskEvents log category.
+known_false_positives: Details for the risk calculation algorithm used by Identity
+  Protection are unknown and may be prone to false positives.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+- https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/overview-identity-protection
+- https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/concept-identity-protection-risks
+tags:
+  analytic_story:
+  - Azure Active Directory Account Takeover
+  asset_type: Azure Active Directory
+  atomic_guid: []
+  confidence: 90
+  drilldown_search: []
+  impact: 60
+  message: A high risk event was identified by Identify Protection for user $body.properties.userPrincipalName$
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1110
+  - T1110.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 54
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azuread_highrisk/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

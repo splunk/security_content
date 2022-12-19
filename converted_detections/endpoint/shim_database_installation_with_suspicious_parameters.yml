@@ -29,7 +29,9 @@ tags:
   - Windows Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: A process $process_name$ that possible create a shim db silently in host
     $dest$
   mitre_attack_id:

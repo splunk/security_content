@@ -34,7 +34,9 @@ tags:
   - CISA AA22-264A
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: An attacker tool $process_name$,listed in attacker_tools.csv is executed
     on host $dest$ by User $user$. This process $process_name$ is known to do- $description$
   mitre_attack_id:

@@ -36,7 +36,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 80
   message: non-shell parent process has a child process $process_name$ with a commandline
     $process$ to fetch env variables in $dest$
   mitre_attack_id:

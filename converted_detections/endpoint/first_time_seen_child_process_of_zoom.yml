@@ -36,7 +36,9 @@ tags:
   - Suspicious Zoom Child Processes
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us
     which has not been previously on host $dest$
   mitre_attack_id:

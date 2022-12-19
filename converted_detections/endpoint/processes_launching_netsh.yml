@@ -36,7 +36,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 20
   message: A process $process_name$ has launched netsh with command-line $process$
     on $dest$.
   mitre_attack_id:

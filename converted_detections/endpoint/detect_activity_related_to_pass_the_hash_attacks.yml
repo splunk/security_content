@@ -24,7 +24,9 @@ tags:
   - Active Directory Lateral Movement
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: The following $EventCode$ occurred on $dest$ by $user$ with Logon Type
     3, which may be indicative of the pass the hash technique.
   mitre_attack_id:

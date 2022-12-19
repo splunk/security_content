@@ -33,7 +33,9 @@ tags:
   - Clop Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: The Windows Event Log Service shutdown on $ComputerName$
   mitre_attack_id:
   - T1070

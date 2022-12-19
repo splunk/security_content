@@ -41,7 +41,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: modified registry key $registry_key_name$ with registry value $registry_value_name$
     to prepare autoadminlogon
   mitre_attack_id:

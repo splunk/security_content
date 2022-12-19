@@ -32,7 +32,9 @@ tags:
   - Hermetic Wiper
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 80
   message: A suspicious file modification or replace in $file_path$  in host $dest$
   mitre_attack_id:
   - T1546

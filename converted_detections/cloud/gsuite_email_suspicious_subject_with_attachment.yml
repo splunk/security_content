@@ -1,0 +1,60 @@
+name: Gsuite Email Suspicious Subject With Attachment
+id: 8ef3971e-00f2-11ec-b54f-acde48001122
+version: 1
+date: '2021-08-19'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This search is to detect a gsuite email contains suspicious subject having
+  known file type used in spear phishing. This technique is a common and effective
+  entry vector of attacker to compromise a network by luring the user to click or
+  execute the suspicious attachment send from external email account because of the
+  effective social engineering of subject related to delivery, bank and so on. On
+  the other hand this detection may catch a normal email traffic related to legitimate
+  transaction so better to check the email sender, spelling and etc. avoid click link
+  or opening the attachment if you are not expecting this type of e-mail.
+data_source: []
+search: '`gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *",
+  "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps
+  *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") attachment{}.file_extension_type
+  IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar", "html","htm","hta")
+  | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" | rex field=destination{}.address
+  "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"
+  and dest_domain="internal_test_email.com" | eval phase="plan" | eval severity="medium"
+  | stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type)
+  as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size)
+  as payload_size by destination{}.service num_message_attachments  subject destination{}.address
+  source.address phase severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `gsuite_email_suspicious_subject_with_attachment_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file
+  extension, source email, destination email, num of attachment and etc.
+known_false_positives: normal user or normal transaction may contain the subject and
+  file type attachment that this detection try to search.
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
+- https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: GSuite
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: suspicious email from $source.address$ to $destination{}.address$
+  mitre_attack_id:
+  - T1566.001
+  - T1566
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log
+    source: http:gsuite
+    sourcetype: gsuite:gmail:bigquery

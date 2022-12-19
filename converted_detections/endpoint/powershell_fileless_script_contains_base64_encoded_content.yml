@@ -41,7 +41,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: A suspicious powershell script contains base64 command in $Message$ with
     EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:

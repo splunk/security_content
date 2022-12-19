@@ -29,7 +29,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 100
   message: file $file_name$ created in $file_path$ of $dest$
   mitre_attack_id:
   - T1113

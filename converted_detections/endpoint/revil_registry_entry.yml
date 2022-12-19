@@ -39,7 +39,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 60
   message: A registry entry $registry_path$ with registry value $registry_value_name$
     and $registry_value_name$ related to revil ransomware in host $dest$
   mitre_attack_id:

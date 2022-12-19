@@ -33,7 +33,9 @@ tags:
   - Clop Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 100
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting using arguments to execute its main
     code or feature of its code related to Clop ransomware.

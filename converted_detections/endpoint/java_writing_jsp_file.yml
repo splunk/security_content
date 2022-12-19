@@ -39,7 +39,9 @@ tags:
   - Atlassian Confluence Server and Data Center CVE-2022-26134
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 60
   message: An instance of $process_name$ was identified on endpoint $dest$ writing
     a jsp file to disk, potentially indicative of exploitation.
   mitre_attack_id:

@@ -31,7 +31,9 @@ tags:
   - BlackMatter Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 50
   message: bcdedit process with commandline $process$ to bring back to normal boot
     configuration the $dest$
   mitre_attack_id:

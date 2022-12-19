@@ -31,7 +31,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: The registry for DisallowRun settings was modified to enable in $dest$.
   mitre_attack_id:
   - T1112

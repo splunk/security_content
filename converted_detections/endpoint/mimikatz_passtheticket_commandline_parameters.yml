@@ -34,7 +34,9 @@ tags:
   - CISA AA22-320A
   asset_type: endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: Mimikatz command line parameters for pass the ticket attacks were used
     on $dest$
   mitre_attack_id:

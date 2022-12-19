@@ -38,7 +38,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to load a DLL using the silent and
     dllinstall parameter.

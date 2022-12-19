@@ -36,7 +36,9 @@ tags:
   - Linux Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: a commandline $process$ that may modify profile files in $dest$
   mitre_attack_id:
   - T1546.004

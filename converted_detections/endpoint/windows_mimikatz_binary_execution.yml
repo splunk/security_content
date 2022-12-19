@@ -37,7 +37,9 @@ tags:
   - CISA AA22-320A
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 100
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting dump credentials.
   mitre_attack_id:

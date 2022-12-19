@@ -34,7 +34,9 @@ tags:
   - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 90
   message: A parent process $parent_process_name$ has spawned a child $process_name$
     with path traversal commandline $process$ in $dest$
   mitre_attack_id:

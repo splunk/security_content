@@ -38,7 +38,9 @@ tags:
   - Brute Ratel C4
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: modification or creation of transcodedwallpaper file by $process_name$
     in $dest$
   mitre_attack_id:

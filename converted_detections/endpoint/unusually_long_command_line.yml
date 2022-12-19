@@ -31,7 +31,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 70
   message: Unusually long command line $Processes.process_name$ on $dest$
   product:
   - Splunk Enterprise

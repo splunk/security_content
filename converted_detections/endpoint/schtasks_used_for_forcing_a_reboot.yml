@@ -29,7 +29,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: A schedule task process $process_name$ with force reboot commandline $process$
     in host $dest$
   mitre_attack_id:

@@ -45,7 +45,9 @@ tags:
   - Prestige Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 90
   message: Suspicious command line parameters on $dest may represent a lateral movement
     attack with Impackets tools
   mitre_attack_id:

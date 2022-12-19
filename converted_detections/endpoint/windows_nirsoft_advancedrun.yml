@@ -36,7 +36,9 @@ tags:
   - WhisperGate
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 60
   message: An instance of advancedrun.exe, $process_name$, was spawned by $parent_process_name$
     on $dest$ by $user$.
   mitre_attack_id:

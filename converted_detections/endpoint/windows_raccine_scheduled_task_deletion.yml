@@ -32,7 +32,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user user$ attempting to disable Raccines scheduled task.
   mitre_attack_id:

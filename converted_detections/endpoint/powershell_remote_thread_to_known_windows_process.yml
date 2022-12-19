@@ -30,7 +30,9 @@ tags:
   - Trickbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: A suspicious powershell process $process_name$ that tries to create a remote
     thread on target process $TargetImage$ with eventcode $EventCode$ in host $Computer$
   mitre_attack_id:

@@ -30,7 +30,9 @@ tags:
   - Active Directory Discovery
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 30
   message: Remote system discovery using PowerView on $dest$ by $user$
   mitre_attack_id:
   - T1018

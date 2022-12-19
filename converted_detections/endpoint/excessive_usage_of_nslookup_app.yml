@@ -11,9 +11,8 @@ description: This search is to detect potential DNS exfiltration using nslookup 
   use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
   commonly used by attacker and also the retry parameter which is designed to query
   C2 DNS multiple tries.
-data_source: 
-- Sysmon Event Code 1
-search: '`sysmon` EventCode=1 process_name = "nslookup.exe" | bucket _time span=1m
+data_source: []
+search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" | bucket _time span=1m
   | stats count as numNsLookup by Computer, _time | eventstats avg(numNsLookup) as
   avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by Computer |
   eval upperThreshold=(avgNsLookup + stdNsLookup *3) | eval isOutlier=if(numNsLookup
@@ -36,7 +35,9 @@ tags:
   - Command and Control
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 40
   message: Excessive usage of nslookup.exe has been detected on $Computer$. This detection
     is triggered as as it violates the dynamic threshold
   mitre_attack_id:

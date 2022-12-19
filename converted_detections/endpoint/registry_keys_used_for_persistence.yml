@@ -54,7 +54,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 95
   drilldown_search: []
+  impact: 80
   message: A registry activity in $registry_path$ related to persistence in host $dest$
   mitre_attack_id:
   - T1547.001

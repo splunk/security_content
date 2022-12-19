@@ -35,7 +35,9 @@ tags:
   - Linux Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: A doas $process_name$ with commandline $process$ was executed on $dest$
   mitre_attack_id:
   - T1548.003

@@ -42,7 +42,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 50
   message: An ISO file was mounted on $dest$ and should be reviewed and filtered as
     needed.
   mitre_attack_id:

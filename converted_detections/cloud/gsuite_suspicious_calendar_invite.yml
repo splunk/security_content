@@ -1,0 +1,46 @@
+name: Gsuite suspicious calendar invite
+id: 03cdd68a-34fb-11ec-9bd3-acde48001122
+version: 1
+date: '2021-10-24'
+author: Rod Soto, Teoderick Contreras
+status: experimental
+type: Hunting
+description: This search can help the detection of compromised accounts or internal
+  users sending suspcious calendar invites via GSuite calendar. These invites may
+  contain malicious links or attachments.
+data_source: []
+search: '`gsuite_calendar` |bin span=5m _time |rename parameters.* as * |search target_calendar_id!=null
+  email="*yourdomain.com"| stats  count values(target_calendar_id) values(event_title)
+  values(event_guest) by email _time | where count >100| `gsuite_suspicious_calendar_invite_filter`'
+how_to_implement: In order to successfully implement this search, you need to be ingesting
+  logs related to gsuite (gsuite:calendar:json) having the file sharing metadata like
+  file type, source owner, destination target user, description, etc. This search
+  can also be made more specific by selecting specific emails, subdomains timeframe,
+  organizational units, targeted user, etc. In order for the search to work for your
+  environment please update `yourdomain.com` value in the query with the domain relavant
+  for your organization.
+known_false_positives: This search will also produce normal activity statistics. Fields
+  such as email, ip address, name, parameters.organizer_calendar_id, parameters.target_calendar_id
+  and parameters.event_title may give away phishing intent.For more specific results
+  use email parameter.
+references:
+- https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/
+- https://gcn.com/cybersecurity/2012/09/the-20-most-common-words-in-phishing-attacks/280956/
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  asset_type: GSuite
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
+  mitre_attack_id:
+  - T1566
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: threat
+tests: []

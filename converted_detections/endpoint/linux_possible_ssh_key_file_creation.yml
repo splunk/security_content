@@ -33,7 +33,9 @@ tags:
   - Linux Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: A file $file_name$ is created in $file_path$ on $dest$
   mitre_attack_id:
   - T1098.004

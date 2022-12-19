@@ -42,7 +42,9 @@ tags:
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 90
   message: A Kerberos Service TTicket request with RC4 encryption was requested from
     $Client_Address$
   mitre_attack_id:

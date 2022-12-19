@@ -13,9 +13,7 @@ description: The following analytic identifies the use of default or publicly kn
   to collect data to the targeted host. This TTP is a good indicator that this tool
   was install in production premise and need to check if the user has a valid reason
   why it need to install this legitimate application.
-data_source: 
-- Sysmon Event Code 17
-- Sysmon Event Code 18
+data_source: []
 search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe")
   PipeName IN ("\\RManFUSServerNotify32", "\\RManFUSCallbackNotify32", "\\RMSPrint*")
   | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType
@@ -35,7 +33,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 90
   message: possible RMS admin tool named pipe was created in $dest$
   mitre_attack_id:
   - T1071

@@ -34,7 +34,9 @@ tags:
   - Log4Shell CVE-2021-44228
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ spawning a Windows shell, potentially indicative of exploitation.
   mitre_attack_id:

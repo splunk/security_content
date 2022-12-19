@@ -36,7 +36,9 @@ tags:
   - CISA AA22-264A
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 30
   message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest$
   mitre_attack_id:
   - T1562.001

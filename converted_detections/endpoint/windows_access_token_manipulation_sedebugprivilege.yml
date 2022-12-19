@@ -36,7 +36,9 @@ tags:
   - Brute Ratel C4
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: A process $ProcessName$ adjust its privileges with SeDebugPrivilege on
     $Computer$.
   mitre_attack_id:

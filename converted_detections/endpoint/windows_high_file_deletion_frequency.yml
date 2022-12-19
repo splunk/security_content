@@ -33,7 +33,9 @@ tags:
   - DarkCrystal RAT
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 90
   message: High frequency file deletion activity detected on host $Computer$
   mitre_attack_id:
   - T1485

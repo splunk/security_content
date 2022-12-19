@@ -53,7 +53,9 @@ tags:
   - Trickbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 40
   message: Suspicious executable or scripts with file name $file_name$, $file_path$
     and process_id $process_id$ executed in suspicious file path in Windows by $user$
   mitre_attack_id:

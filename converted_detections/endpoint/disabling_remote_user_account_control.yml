@@ -33,7 +33,9 @@ tags:
   - AgentTesla
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 70
   message: The Windows registry keys that control the enforcement of Windows User
     Account Control (UAC) were modified on $dest$ by $user$.
   mitre_attack_id:

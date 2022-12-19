@@ -41,7 +41,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 70
   message: Office document executing a macro on $dest$
   mitre_attack_id:
   - T1566

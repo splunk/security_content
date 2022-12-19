@@ -36,7 +36,9 @@ tags:
   - Linux Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: A commandline $process$ that may modify at allow config file in $dest$
   mitre_attack_id:
   - T1053.002

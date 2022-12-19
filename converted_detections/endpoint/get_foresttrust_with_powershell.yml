@@ -33,7 +33,9 @@ tags:
   - Active Directory Discovery
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 40
   drilldown_search: []
+  impact: 30
   message: Suspicious PowerShell Get-ForestTrust was identified on endpoint $dest$
     by user $user$.
   mitre_attack_id:

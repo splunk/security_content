@@ -32,7 +32,9 @@ tags:
   - PrintNightmare CVE-2021-34527
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 80
   message: $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint
     $Computer$. This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:

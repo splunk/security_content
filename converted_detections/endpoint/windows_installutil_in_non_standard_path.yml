@@ -41,7 +41,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: An instance of $parent_process_name$ spawning $process_name$ from a non-standard
     path was identified on endpoint $dest$ by user $user$.
   mitre_attack_id:

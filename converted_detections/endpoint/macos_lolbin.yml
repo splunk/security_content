@@ -7,8 +7,7 @@ status: production
 type: TTP
 description: Detect multiple executions of Living off the Land (LOLbin) binaries in
   a short period of time.
-data_source: 
-- OSQuery ES Process Events
+data_source: []
 search: '`osquery` name=es_process_events columns.cmdline IN ("find*", "crontab*",
   "screencapture*", "openssl*", "curl*", "wget*", "killall*", "funzip*") | rename
   columns.* as * | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline)
@@ -27,7 +26,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: Multiplle LOLbin are executed on host $host$ by user $user$
   mitre_attack_id:
   - T1059.004

@@ -38,7 +38,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: RDP was moved to a non-standard port on $dest$ by $user$.
   mitre_attack_id:
   - T1021

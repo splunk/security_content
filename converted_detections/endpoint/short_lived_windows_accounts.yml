@@ -26,7 +26,9 @@ tags:
   - Account Monitoring and Controls
   asset_type: Windows
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: A user account created or delete shortly in host $dest$
   mitre_attack_id:
   - T1136.001

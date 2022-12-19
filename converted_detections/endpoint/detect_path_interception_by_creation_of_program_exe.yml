@@ -30,7 +30,9 @@ tags:
   - Windows Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to perform privilege escalation by
     using unquoted service paths.

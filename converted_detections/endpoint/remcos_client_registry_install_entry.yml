@@ -34,7 +34,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 90
   message: A registry entry $registry_path$ with registry keyname $registry_key_name$
     related to Remcos RAT in host $dest$
   mitre_attack_id:

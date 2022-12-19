@@ -49,7 +49,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: The $process_name$ was identified on endpoint $dest$ modifying the registry
     with a known malicious clsid under InProcServer32.
   mitre_attack_id:

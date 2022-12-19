@@ -33,7 +33,9 @@ tags:
   - Revil Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: ''
   mitre_attack_id:
   - T1562.001

@@ -32,7 +32,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 20
   message: Suspicious powerShell script execution by $user$ on $Computer$ via EventCode
     4104, where WMI is performing an event query looking for running processes or
     running services

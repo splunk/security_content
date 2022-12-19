@@ -39,7 +39,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 70
   message: The Windows Task Manager was disabled on $dest$ by $user$.
   mitre_attack_id:
   - T1562.001

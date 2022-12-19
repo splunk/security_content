@@ -29,7 +29,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 20
   drilldown_search: []
+  impact: 30
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to circumvent controls.
   mitre_attack_id:

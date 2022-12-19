@@ -34,7 +34,9 @@ tags:
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: A Kerberos TGT request with RC4 encryption was requested for $Account_Name$
     from $Client_Address$
   mitre_attack_id:

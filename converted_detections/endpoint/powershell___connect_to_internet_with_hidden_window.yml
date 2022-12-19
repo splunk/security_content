@@ -45,7 +45,9 @@ tags:
   - AgentTesla
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 90
   message: PowerShell processes $process$ started with parameters to modify the execution
     policy of the run, run in a hidden window, and connect to the Internet on host
     $dest$ executed by user $user$.

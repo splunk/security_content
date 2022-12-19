@@ -35,7 +35,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 30
   message: Possible SharpHound command-Line arguments identified on $dest$
   mitre_attack_id:
   - T1087.002

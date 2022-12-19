@@ -42,7 +42,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 60
   message: A root certificate was added on $dest$.
   mitre_attack_id:
   - T1553.004

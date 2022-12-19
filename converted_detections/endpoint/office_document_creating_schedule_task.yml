@@ -38,7 +38,9 @@ tags:
   - Spearphishing Attachments
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: Office document creating a schedule task on $dest$
   mitre_attack_id:
   - T1566

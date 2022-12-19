@@ -38,7 +38,9 @@ tags:
   - Prestige Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: A Scheduled Task was scheduled and ran on $dest$.
   mitre_attack_id:
   - T1053.005

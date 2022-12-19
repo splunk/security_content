@@ -31,7 +31,9 @@ tags:
   - CISA AA22-320A
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 60
   message: Service control, $process_name$, loaded a new kernel mode driver on $dest$
     by $user$.
   mitre_attack_id:

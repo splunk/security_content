@@ -41,7 +41,9 @@ tags:
   - Double Zero Destructor
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: registry was deleted by a suspicious $process_name$ with proces path $process_path
     in $dest$
   mitre_attack_id:

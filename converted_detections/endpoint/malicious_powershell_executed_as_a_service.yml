@@ -29,7 +29,9 @@ tags:
   - Malicious Powershell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 90
   message: Identifies the abuse the Windows SC.exe to execute malicious powerShell
     as a service $Service_File_Name$ by $user$ on $dest$
   mitre_attack_id:

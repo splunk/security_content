@@ -1,0 +1,46 @@
+name: O365 Excessive Authentication Failures Alert
+id: d441364c-349c-453b-b55f-12eccab67cf9
+version: 2
+date: '2022-02-18'
+author: Rod Soto, Splunk
+status: production
+type: Anomaly
+description: This search detects when an excessive number of authentication failures
+  occur this search also includes attempts against MFA prompt codes
+data_source: []
+search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=*
+  status=failure | stats count earliest(_time) AS firstTime latest(_time) AS lastTime
+  values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS
+  UserAgent values(status) AS status values(src_ip) AS src_ip by user | where count
+  > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `o365_excessive_authentication_failures_alert_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
+known_false_positives: The threshold for alert is above 10 attempts and this should
+  reduce the number of false positives.
+references:
+- https://attack.mitre.org/techniques/T1110/
+tags:
+  analytic_story:
+  - Office 365 Detections
+  asset_type: Office 365
+  atomic_guid: []
+  confidence: 80
+  drilldown_search: []
+  impact: 80
+  message: User $user$ has caused excessive number of authentication failures from
+    $src_ip$ using UserAgent $UserAgent$.
+  mitre_attack_id:
+  - T1110
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
+    sourcetype: o365:management:activity
+    source: o365

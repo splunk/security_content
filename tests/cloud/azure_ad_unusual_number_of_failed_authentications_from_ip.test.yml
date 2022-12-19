@@ -1,6 +1,6 @@
 name: Azure AD Unusual Number of Failed Authentications From Ip Unit Test
 tests:
-- name: Unusual Number of Failed Authentications From Ip
+- name: Azure AD Unusual Number of Failed Authentications From Ip
   file: cloud/azure_ad_unusual_number_of_failed_authentications_from_ip.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

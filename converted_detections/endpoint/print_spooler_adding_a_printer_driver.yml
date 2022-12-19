@@ -37,7 +37,9 @@ tags:
   - PrintNightmare CVE-2021-34527
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 80
   message: Suspicious print driver was loaded on endpoint $ComputerName$.
   mitre_attack_id:
   - T1547.012

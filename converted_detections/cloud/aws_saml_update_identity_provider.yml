@@ -1,0 +1,51 @@
+name: AWS SAML Update identity provider
+id: 2f0604c6-6030-11eb-ae93-0242ac130002
+version: 1
+date: '2021-01-26'
+author: Rod Soto, Splunk
+status: production
+type: TTP
+description: This search provides detection of updates to SAML provider in AWS. Updates
+  to SAML provider need to be monitored closely as they may indicate possible perimeter
+  compromise of federated credentials, or backdoor access from another cloud provider
+  set by attacker.
+data_source: []
+search: '`cloudtrail` eventName=UpdateSAMLProvider | stats count min(_time) as firstTime
+  max(_time) as lastTime by eventType eventName requestParameters.sAMLProviderArn
+  userIdentity.sessionContext.sessionIssuer.arn sourceIPAddress userIdentity.accessKeyId
+  userIdentity.principalId | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  |`aws_saml_update_identity_provider_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs.
+known_false_positives: Updating a SAML provider or creating a new one may not necessarily
+  be malicious however it needs to be closely monitored.
+references:
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+- https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
+- https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+- https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+tags:
+  analytic_story:
+  - Cloud Federated Credential Abuse
+  asset_type: AWS Federated Account
+  atomic_guid: []
+  confidence: 80
+  drilldown_search: []
+  impact: 80
+  message: User $userIdentity.principalId$ from IP address $sourceIPAddress$ has trigged
+    an event $eventName$ to update the SAML provider to $requestParameters.sAMLProviderArn$
+  mitre_attack_id:
+  - T1078
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

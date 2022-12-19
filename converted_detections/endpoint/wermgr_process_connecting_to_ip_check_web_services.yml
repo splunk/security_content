@@ -34,7 +34,9 @@ tags:
   - Trickbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: Wermgr.exe process connecting IP location web services on $ComputerName$
   mitre_attack_id:
   - T1590

@@ -36,7 +36,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 70
   message: Suspicious msbuild.exe process executed on $dest$ by $user$
   mitre_attack_id:
   - T1127

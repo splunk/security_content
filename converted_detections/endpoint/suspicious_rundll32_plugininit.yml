@@ -30,7 +30,9 @@ tags:
   - IcedID
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 60
   message: rundll32 process $process_name$ with commandline $process$ in host $dest$
   mitre_attack_id:
   - T1218

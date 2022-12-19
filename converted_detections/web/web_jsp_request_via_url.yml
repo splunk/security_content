@@ -1,0 +1,51 @@
+name: Web JSP Request via URL
+id: 2850c734-2d44-4431-8139-1a56f6f54c01
+version: 1
+date: '2022-04-05'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the common URL requests used by a recent
+  CVE - CVE-2022-22965, or Spring4Shell, to access a webshell on the remote webserver.
+  The filename and cmd are arbitrary in this exploitation. Java will write a JSP to
+  disk and a process will spawn from Java based on the cmd passed. This is indicative
+  of typical web shell activity.
+data_source: ''
+search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url
+  IN ("*.jsp?cmd=*","*j&cmd=*") by Web.http_user_agent Web.http_method, Web.url,Web.url_length
+  Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `web_jsp_request_via_url_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on Web traffic that include fields relavent for traffic into the `Web` datamodel.
+known_false_positives: False positives may be present with legitimate applications.
+  Attempt to filter by dest IP or use Asset groups to restrict to servers.
+references:
+- https://www.microsoft.com/security/blog/2022/04/04/springshell-rce-vulnerability-guidance-for-protecting-against-and-detecting-cve-2022-22965/
+- https://github.com/TheGejr/SpringShell
+- https://www.tenable.com/blog/spring4shell-faq-spring-framework-remote-code-execution-vulnerability
+tags:
+  analytic_story:
+  - Spring4Shell CVE-2022-22965
+  asset_type: Web Server
+  atomic_guid: []
+  confidence: 80
+  drilldown_search: []
+  impact: 90
+  message: A suspicious URL has been requested against $dest$ by $src$, related to
+    web shell activity.
+  mitre_attack_id:
+  - T1505.003
+  - T1505
+  - T1190
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/spring4shell_nginx.log
+    source: /var/log/nginx/access.log
+    sourcetype: nginx:plus:kv

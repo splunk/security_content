@@ -1,0 +1,56 @@
+name: Azure AD Successful PowerShell Authentication
+id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
+version: 1
+date: '2022-07-13'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies a successful authentication event against
+  an Azure AD tenant using PowerShell commandlets. This behavior is not common for
+  regular, non administrative users. After compromising an account in Azure AD, attackers
+  and red teams  alike will perform enumeration and discovery techniques. One method
+  of executing these techniques is leveraging the native PowerShell modules.
+data_source: []
+search: ' `azuread` body.category=SignInLogs body.properties.authenticationDetails{}.succeeded=true
+  body.properties.appDisplayName="Azure Active Directory PowerShell" | rename body.properties.*
+  as * |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, userAgent
+  | `azure_ad_successful_powershell_authentication_filter`'
+how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft
+  Cloud Services from  Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events in your Splunk environment.
+  Specifically, this analytic leverages the SignInLogs log category.
+known_false_positives: Administrative users will likely use PowerShell commandlets
+  to troubleshoot and maintain the environment. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1078/004/
+- https://docs.microsoft.com/en-us/powershell/module/azuread/connect-azuread?view=azureadps-2.0
+- https://securitycafe.ro/2022/04/29/pentesting-azure-recon-techniques/
+- https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest.md
+tags:
+  analytic_story:
+  - Azure Active Directory Account Takeover
+  asset_type: Azure Active Directory
+  atomic_guid: []
+  confidence: 90
+  drilldown_search: []
+  impact: 60
+  message: Successful authentication for user $body.properties.userPrincipalName$
+    using PowerShell.
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1078
+  - T1078.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 54
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread_pws/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

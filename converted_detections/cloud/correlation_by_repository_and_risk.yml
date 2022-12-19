@@ -1,0 +1,34 @@
+name: Correlation by Repository and Risk
+id: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
+version: 1
+date: '2021-09-06'
+author: Patrick Bareiss, Splunk
+status: production
+type: Correlation
+description: This search correlations detections by repository and risk_score
+data_source: []
+search: '`signals` | fillnull | stats sum(risk_score) as risk_score values(source)
+  as signals values(user) as user by repository | sort - risk_score | where risk_score
+  > 80 | `correlation_by_repository_and_risk_filter`'
+how_to_implement: For Dev Sec Ops POC
+known_false_positives: unknown
+references: []
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: AWS Account
+  atomic_guid: []
+  confidence: 100
+  drilldown_search: []
+  impact: 70
+  message: Correlation triggered for user $user$
+  mitre_attack_id:
+  - T1204.003
+  - T1204
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 70
+  security_domain: network
+tests: []

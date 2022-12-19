@@ -34,7 +34,9 @@ tags:
   - CISA AA22-257A
   asset_type: Windows
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$
     to disk. This behavior is related to dumping credentials via Task Manager.
   mitre_attack_id:

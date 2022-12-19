@@ -27,7 +27,9 @@ tags:
   - Account Monitoring and Controls
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 20
   message: The following $user$ was added to $dest$ as a local account.
   mitre_attack_id:
   - T1136.001

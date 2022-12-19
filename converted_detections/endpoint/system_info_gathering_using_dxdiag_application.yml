@@ -35,7 +35,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: dxdiag.exe process with commandline $process$ on $dest$
   mitre_attack_id:
   - T1592

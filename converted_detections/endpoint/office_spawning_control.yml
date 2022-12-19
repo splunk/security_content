@@ -40,7 +40,9 @@ tags:
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ clicking a suspicious attachment.
   mitre_attack_id:

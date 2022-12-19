@@ -35,7 +35,9 @@ tags:
   - Hermetic Wiper
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 90
   message: Potential kerberoasting attack via service principal name requests detected
     on $dest$
   mitre_attack_id:

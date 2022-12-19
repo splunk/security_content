@@ -34,7 +34,9 @@ tags:
   - Ingress Tool Transfer
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 10
   drilldown_search: []
+  impact: 10
   message: An instance of $process_name$ was identified on endpoint $dest$ by user
     $user$ utilizing curl or wget.
   mitre_attack_id:

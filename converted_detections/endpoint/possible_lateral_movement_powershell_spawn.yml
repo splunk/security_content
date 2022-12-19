@@ -43,7 +43,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 90
   message: A PowerShell process was spawned as a child process of typically abused
     processes on $dest$
   mitre_attack_id:

@@ -28,7 +28,9 @@ tags:
   - Masquerading - Rename System Utilities
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 80
   message: process $process$ have double extensions in the file name is executed on
     $dest$ by $user$
   mitre_attack_id:

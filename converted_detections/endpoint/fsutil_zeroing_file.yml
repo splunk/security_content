@@ -28,7 +28,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 60
   message: Possible file data deletion on $dest$ using $process$
   mitre_attack_id:
   - T1070

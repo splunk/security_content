@@ -35,7 +35,9 @@ tags:
   - AgentTesla
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: Suspicious driver $ImageLoaded$ on $Computer$
   mitre_attack_id:
   - T1543.003

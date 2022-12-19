@@ -33,7 +33,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: A sc process $process_name$ with commandline $process$ to create of configure
     services in host $dest$
   mitre_attack_id:

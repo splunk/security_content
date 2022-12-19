@@ -25,7 +25,9 @@ tags:
   - Ryuk Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 70
   message: A creation of ryuk test file $file_path$ in host $dest$
   mitre_attack_id:
   - T1486

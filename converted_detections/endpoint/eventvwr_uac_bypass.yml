@@ -45,7 +45,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: Registry values were modified to bypass UAC using Event Viewer on $dest$
     by $user$.
   mitre_attack_id:

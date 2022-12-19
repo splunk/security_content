@@ -31,7 +31,9 @@ tags:
   - FIN7
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: Process name $process_name$ with commandline $process$ in $dest$
   mitre_attack_id:
   - T1033

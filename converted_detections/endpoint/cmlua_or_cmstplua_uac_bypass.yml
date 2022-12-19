@@ -28,7 +28,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: The following module $ImageLoaded$ was loaded by a non-standard application
     on endpoint $Computer$ by user $user$.
   mitre_attack_id:

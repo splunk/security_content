@@ -37,7 +37,9 @@ tags:
   - DarkCrystal RAT
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 60
   message: Process $process_name$ that executed reboot via commandline on $dest$
   mitre_attack_id:
   - T1529

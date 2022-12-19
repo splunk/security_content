@@ -31,7 +31,9 @@ tags:
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: Suspicious modification of registry $registry_path$ with possible payload
     path $registry_value_name$ in $dest$
   mitre_attack_id:

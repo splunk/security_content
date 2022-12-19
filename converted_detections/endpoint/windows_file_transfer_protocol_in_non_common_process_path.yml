@@ -31,7 +31,9 @@ tags:
   - AgentTesla
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: a process $Image$ is having a FTP connection to $DestinationHostname$ in
     $Computer$
   mitre_attack_id:

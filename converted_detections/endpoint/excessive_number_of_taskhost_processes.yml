@@ -35,7 +35,9 @@ tags:
   - Meterpreter
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 80
   message: An excessive amount of $process_name$ was executed on $dest$ indicative
     of suspicious behavior.
   mitre_attack_id:

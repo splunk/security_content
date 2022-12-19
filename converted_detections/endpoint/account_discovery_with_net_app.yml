@@ -37,7 +37,9 @@ tags:
   - IcedID
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 10
   message: Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1087.002

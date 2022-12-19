@@ -31,7 +31,9 @@ tags:
   - Brute Ratel C4
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 60
   message: A service was deleted on $dest$ within the Windows registry.
   mitre_attack_id:
   - T1489

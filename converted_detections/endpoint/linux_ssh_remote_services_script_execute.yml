@@ -29,7 +29,9 @@ tags:
   - Linux Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 80
   message: An instance of $process_name$ was identified on endpoint $dest$ by user
     $user$ attempting to move laterally and download a file.
   mitre_attack_id:

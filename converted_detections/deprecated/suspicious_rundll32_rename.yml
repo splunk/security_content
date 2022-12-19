@@ -1,0 +1,54 @@
+name: Suspicious Rundll32 Rename
+id: 7360137f-abad-473e-8189-acbdaa34d114
+version: 5
+date: '2022-04-07'
+author: Michael Haag, Splunk
+status: deprecated
+type: Hunting
+description: The following hunting analytic identifies renamed instances of rundll32.exe
+  executing. rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+  During investigation, validate it is the legitimate rundll32.exe executing and what
+  script content it is loading. This query relies on the original filename or internal
+  name from the PE meta data. Expand the query as needed by looking for specific command
+  line arguments outlined in other analytics.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=RUNDLL32.exe
+  AND Processes.process_name!=rundll32.exe by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_rundll32_rename_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Although unlikely, some legitimate applications may use a moved
+  copy of rundll32, triggering a false positive.
+references:
+- https://attack.mitre.org/techniques/T1218/011/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+- https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
+tags:
+  analytic_story:
+  - Suspicious Rundll32 Activity
+  - Masquerading - Rename System Utilities
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 90
+  drilldown_search: []
+  impact: 70
+  message: Suspicious renamed rundll32.exe binary ran on $dest$ by $user$
+  mitre_attack_id:
+  - T1218
+  - T1036
+  - T1218.011
+  - T1036.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests: []

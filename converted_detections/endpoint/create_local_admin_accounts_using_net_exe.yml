@@ -31,7 +31,9 @@ tags:
   - CISA AA22-257A
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 50
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to add a user to the local Administrators
     group.

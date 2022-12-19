@@ -31,7 +31,9 @@ tags:
   - Meterpreter
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: Multiple processes were executed out of windows\temp within a short amount
     of time on $dest$.
   mitre_attack_id:

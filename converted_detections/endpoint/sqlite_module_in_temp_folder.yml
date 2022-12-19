@@ -28,7 +28,9 @@ tags:
   - IcedID
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
   mitre_attack_id:
   - T1005

@@ -40,7 +40,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: dynwrapx.dll loaded by process $process_name$ on $Computer$
   mitre_attack_id:
   - T1055

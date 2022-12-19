@@ -43,7 +43,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 70
   message: Suspicious $Processes.process_path.file_path$ process potentially loading
     malicious code
   mitre_attack_id:

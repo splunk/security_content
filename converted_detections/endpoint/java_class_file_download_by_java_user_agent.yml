@@ -26,7 +26,9 @@ tags:
   - Log4Shell CVE-2021-44228
   asset_type: Web Server
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 80
   message: A Java user agent $http_user_agent$ was performing a $http_method$ to retrieve
     a remote class file.
   mitre_attack_id:

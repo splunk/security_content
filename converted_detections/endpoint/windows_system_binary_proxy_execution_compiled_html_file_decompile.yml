@@ -35,7 +35,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 100
   message: $process_name$ has been identified using decompile against a CHM on $dest$
     under user $user$.
   mitre_attack_id:

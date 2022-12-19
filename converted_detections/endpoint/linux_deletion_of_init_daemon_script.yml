@@ -42,7 +42,9 @@ tags:
   - AcidRain
   asset_type: endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: a $process_name$ deleting a daemon script in $dest$
   mitre_attack_id:
   - T1485

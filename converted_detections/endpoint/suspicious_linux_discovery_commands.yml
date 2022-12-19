@@ -38,7 +38,9 @@ tags:
   - Linux Post-Exploitation
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 90
   message: Suspicious Linux Discovery Commands detected on $dest$
   mitre_attack_id:
   - T1059.004

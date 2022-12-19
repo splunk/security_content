@@ -37,7 +37,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: process $process_name$ creating image file $file_path$ in $dest$
   mitre_attack_id:
   - T1113

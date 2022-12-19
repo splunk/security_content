@@ -40,7 +40,9 @@ tags:
   - AcidRain
   asset_type: endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: a $process_name$ deleting a services in $dest$
   mitre_attack_id:
   - T1485

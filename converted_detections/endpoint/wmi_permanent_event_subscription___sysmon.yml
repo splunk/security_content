@@ -46,7 +46,9 @@ tags:
   - Suspicious WMI Use
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 30
   message: 'User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter:
     $filter$. Consumer: $Consumer$.  EventCode: $EventCode$'
   mitre_attack_id:

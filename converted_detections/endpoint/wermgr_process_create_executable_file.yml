@@ -30,7 +30,9 @@ tags:
   - Trickbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: Wermgr.exe writing executable files on $dest$
   mitre_attack_id:
   - T1027

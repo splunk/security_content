@@ -28,7 +28,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: rundll32 process $process_name$ drops a file $TargetFilename$ in host $dest$
   mitre_attack_id:
   - T1218

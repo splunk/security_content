@@ -1,0 +1,43 @@
+name: Circle CI Disable Security Job
+id: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
+version: 1
+date: '2021-09-02'
+author: Patrick Bareiss, Splunk
+status: production
+type: Anomaly
+description: This search looks for disable security job in CircleCI pipeline.
+data_source: []
+search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_message
+  vcs.url as url workflows.* as *  | stats values(job_name) as job_names by workflow_id
+  workflow_name user commit_message url branch | lookup mandatory_job_for_workflow
+  workflow_name OUTPUTNEW job_name AS mandatory_job | search mandatory_job=* | eval
+  mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0) | where
+  mandatory_job_executed=0 | eval phase="build" | rex field=url "(?<repository>[^\/]*\/[^\/]*)$"
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `circle_ci_disable_security_job_filter`'
+how_to_implement: You must index CircleCI logs.
+known_false_positives: unknown
+references: []
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: CircleCI
+  atomic_guid: []
+  confidence: 90
+  drilldown_search: []
+  impact: 80
+  message: disable security job $mandatory_job$ in workflow $workflow_name$ from user
+    $user$
+  mitre_attack_id:
+  - T1554
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json
+    sourcetype: circleci
+    source: circleci

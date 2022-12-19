@@ -28,7 +28,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 70
   message: process $SourceImage$ create a remote thread to shell app process $TargetImage$
     in host $Computer$
   mitre_attack_id:

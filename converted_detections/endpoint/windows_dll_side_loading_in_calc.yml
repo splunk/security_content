@@ -32,7 +32,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 90
   message: a dll modules is loaded by calc.exe in $ImageLoaded$ that are not in common
     windows OS installation folder in $Computer$
   mitre_attack_id:

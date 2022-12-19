@@ -34,7 +34,9 @@ tags:
   - Credential Dumping
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: A process, $SourceImage$, has loaded $ImageLoaded$ that are typically related
     to credential dumping on $dest$. Review for further details.
   mitre_attack_id:

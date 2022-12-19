@@ -40,7 +40,9 @@ tags:
   - AgentTesla
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: an office product parent process $parent_process_name$ spawn child process
     $process_name$ in host $dest$
   mitre_attack_id:

@@ -35,7 +35,9 @@ tags:
   - blackMatter ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: process $Image$ create a file $TargetFilename$ in host $Computer$
   mitre_attack_id:
   - T1087.002

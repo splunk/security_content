@@ -32,7 +32,9 @@ tags:
   - Active Directory Lateral Movement
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 90
   message: A Windows Service was created on a remote endpoint from $dest
   mitre_attack_id:
   - T1543

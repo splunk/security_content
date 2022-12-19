@@ -33,7 +33,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: A wmic.exe process $process$ contain node commandline $process$ in host
     $dest$
   mitre_attack_id:

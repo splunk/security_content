@@ -30,7 +30,9 @@ tags:
   - Brute Ratel C4
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: A process $SourceImage$ is duplicating the handle token of winlogon.exe
     in $Computer$
   mitre_attack_id:

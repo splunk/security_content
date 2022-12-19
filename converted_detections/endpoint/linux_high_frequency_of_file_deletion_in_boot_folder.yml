@@ -43,7 +43,9 @@ tags:
   - Data Destruction
   asset_type: endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 100
   message: a $process_name$ deleting multiple files in /boot/ folder in $dest$
   mitre_attack_id:
   - T1485

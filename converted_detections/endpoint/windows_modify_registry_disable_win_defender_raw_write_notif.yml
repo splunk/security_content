@@ -32,7 +32,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: The registry for raw write notification settings was modified to disable
     in $dest$.
   mitre_attack_id:

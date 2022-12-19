@@ -36,7 +36,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: The regedit app was executed with silet mode parameter to import .reg file
     on $dest$.
   mitre_attack_id:

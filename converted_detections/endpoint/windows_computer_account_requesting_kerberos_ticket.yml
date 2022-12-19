@@ -28,7 +28,9 @@ tags:
   - Local Privilege Escalation With KrbRelayUp
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 50
   message: A Computer Account requested a Kerberos ticket on $dest$, possibly indicative
     of Kerberos relay attack.
   mitre_attack_id:

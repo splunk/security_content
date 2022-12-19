@@ -34,7 +34,9 @@ tags:
   - Credential Dumping
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: The following process $process_name$ accessed the object $Object_Name$
     attempting to gain access to credentials on $dest$ by user $user$.
   mitre_attack_id:

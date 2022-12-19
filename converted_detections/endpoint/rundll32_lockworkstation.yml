@@ -29,7 +29,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: process $process_name$ with cmdline $process$ in host $dest$
   mitre_attack_id:
   - T1218

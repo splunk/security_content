@@ -30,7 +30,9 @@ tags:
   - Revil Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 90
   message: An attempt to delete ShadowCopy was performed using PowerShell on $Computer$
     by $User$.
   mitre_attack_id:

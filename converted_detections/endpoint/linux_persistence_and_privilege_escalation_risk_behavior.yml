@@ -40,7 +40,9 @@ tags:
   - Linux Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: Privilege escalation and persistence behaviors have been identified on
     $risk_object$.
   mitre_attack_id:

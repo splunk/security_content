@@ -44,7 +44,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 90
   message: Svchost.exe spawned a LOLBAS process on $dest$
   mitre_attack_id:
   - T1053

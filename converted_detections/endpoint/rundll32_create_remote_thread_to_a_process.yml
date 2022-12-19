@@ -28,7 +28,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: rundl32 process $SourceImage$ create a remote thread to process $TargetImage$
     in host $Computer$
   mitre_attack_id:

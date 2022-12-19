@@ -32,7 +32,9 @@ tags:
   - Prestige Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 30
   message: System backups deletion on $dest$
   mitre_attack_id:
   - T1490

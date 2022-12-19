@@ -38,7 +38,9 @@ tags:
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 30
   message: Potential Kerberos based user enumeration attack $Client_Address$
   mitre_attack_id:
   - T1589

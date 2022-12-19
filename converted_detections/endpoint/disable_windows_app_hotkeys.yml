@@ -42,7 +42,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 40
   message: Disabled 'Windows App Hotkeys' on $dest$
   mitre_attack_id:
   - T1562.001

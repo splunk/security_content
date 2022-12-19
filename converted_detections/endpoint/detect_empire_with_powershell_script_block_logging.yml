@@ -44,7 +44,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 90
   message: The following behavior was identified and typically related to PowerShell-Empire
     on $Computer$ by $UserID$.
   mitre_attack_id:

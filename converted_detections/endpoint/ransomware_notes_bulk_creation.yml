@@ -32,7 +32,9 @@ tags:
   - BlackMatter Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 90
   message: A high frequency file creation of $file_name$ in different file path in
     host $Computer$
   mitre_attack_id:

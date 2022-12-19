@@ -27,7 +27,9 @@ tags:
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: Service was disabled on $Computer$
   mitre_attack_id:
   - T1562.001

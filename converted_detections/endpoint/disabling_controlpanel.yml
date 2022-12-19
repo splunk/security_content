@@ -37,7 +37,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: The Windows Control Panel was disabled on $dest$ by $user$.
   mitre_attack_id:
   - T1562.001

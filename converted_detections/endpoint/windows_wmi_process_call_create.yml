@@ -34,7 +34,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: process with $process$ commandline executed in $dest$
   mitre_attack_id:
   - T1047

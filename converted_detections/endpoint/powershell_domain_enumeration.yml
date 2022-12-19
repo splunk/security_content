@@ -39,7 +39,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 60
   message: A suspicious powershell script contains domain enumeration command in $ScriptBlockText$
     with EventCode $EventCode$ in host $Computer$
   mitre_attack_id:

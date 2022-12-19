@@ -34,7 +34,9 @@ tags:
   - Prestige Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: A schedule task process $process_name$ with remote job command-line $process$
     in host $dest$ by $user$.
   mitre_attack_id:

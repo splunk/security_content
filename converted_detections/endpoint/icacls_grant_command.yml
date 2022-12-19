@@ -31,7 +31,9 @@ tags:
   - Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: Process name $process_name$ with grant argument executed by $user$ to change
     security permission of a specific file or directory on host $dest$
   mitre_attack_id:

@@ -34,7 +34,9 @@ tags:
   - WhisperGate
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: suspicious $process$ commandline run in $dest$
   mitre_attack_id:
   - T1497

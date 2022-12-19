@@ -41,7 +41,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: Suspicious firewall allow rule modifications were detected via the registry
     on endpoint $dest$ by user $user$.
   mitre_attack_id:

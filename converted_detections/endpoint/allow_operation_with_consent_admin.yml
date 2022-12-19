@@ -44,7 +44,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: Suspicious registry modification was performed on endpoint $dest$ by user
     $user$. This behavior is indicative of privilege escalation.
   mitre_attack_id:

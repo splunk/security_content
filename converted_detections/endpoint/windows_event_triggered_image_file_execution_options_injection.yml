@@ -33,7 +33,9 @@ tags:
   - Windows Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: Windows eventcode 3000 triggered on $dest$ potentially indicating persistence
     or a monitoring of a process has occurred.
   mitre_attack_id:

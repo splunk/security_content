@@ -38,7 +38,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$
   mitre_attack_id:
   - T1036

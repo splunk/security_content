@@ -35,7 +35,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: Wmic $process_name$ with command-line $process$ on $dest$ attempting to
     uninstall software.
   mitre_attack_id:

@@ -34,7 +34,9 @@ tags:
   - FIN7
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: $process_name$ loading wmi modules $ImageLoaded$ in $dest$
   mitre_attack_id:
   - T1059

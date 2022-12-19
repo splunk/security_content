@@ -29,7 +29,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 30
   message: Local user discovery enumeration using PowerShell on $Computer$ by $UserID$
   mitre_attack_id:
   - T1087

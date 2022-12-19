@@ -54,7 +54,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $Computer$ by user $UserID$ attempting to identify service principle
     names.

@@ -33,7 +33,9 @@ tags:
   - Remcos
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: office parent process $parent_process_name$ will execute a suspicious child
     process $process_name$ on host $dest$.
   mitre_attack_id:

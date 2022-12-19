@@ -33,7 +33,9 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 50
   message: A suspicious powershell script contains Thread Mutex in $ScriptBlockText$
     with EventCode $EventCode$ in host $Computer$
   mitre_attack_id:

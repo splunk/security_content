@@ -39,7 +39,9 @@ tags:
   - Clop Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 80
   message: A process $parent_process_name$ attempt to resize shadow copy with commandline
     $process$ in host $dest$
   mitre_attack_id:

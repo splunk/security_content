@@ -38,7 +38,9 @@ tags:
   - Living Off The Land
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 90
   message: An increase of Living Off The Land behavior has been detected on $affected_systems$
   mitre_attack_id:
   - T1105

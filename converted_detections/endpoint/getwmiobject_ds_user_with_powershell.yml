@@ -33,7 +33,9 @@ tags:
   - Active Directory Discovery
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: an instance of process $process_name$ with commandline $process$ in $dest$
   mitre_attack_id:
   - T1087.002

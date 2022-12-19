@@ -37,7 +37,9 @@ tags:
   - PrintNightmare CVE-2021-34527
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: Suspicious rundll32.exe process with no command line arguments executed
     on $dest$ by $user$
   mitre_attack_id:

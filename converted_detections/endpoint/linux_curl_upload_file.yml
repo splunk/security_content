@@ -43,7 +43,9 @@ tags:
   - Ingress Tool Transfer
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: An instance of $process_name$ was identified on endpoint $dest$ by user
     $user$ attempting to upload important files to a remote destination.
   mitre_attack_id:

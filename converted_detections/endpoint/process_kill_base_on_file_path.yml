@@ -30,7 +30,9 @@ tags:
   - XMRig
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: A process $process_name$ attempt to kill process by its file path using
     commandline $process$ in host $dest$
   mitre_attack_id:

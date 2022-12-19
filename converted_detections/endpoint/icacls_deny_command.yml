@@ -32,7 +32,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 90
   message: Process name $process_name$ with deny argument executed by $user$ to change
     security permission of a specific file or directory on host $dest$
   mitre_attack_id:

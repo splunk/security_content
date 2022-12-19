@@ -31,7 +31,9 @@ tags:
   - Brute Ratel C4
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: An instance of $Computer$ that loads $ImageLoaded$ that are related to
     accessing to SAM object information.
   mitre_attack_id:

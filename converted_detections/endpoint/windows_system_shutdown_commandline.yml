@@ -36,7 +36,9 @@ tags:
   - DarkCrystal RAT
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 70
   message: Process $process_name$ seen to execute shutdown via commandline on $dest$
   mitre_attack_id:
   - T1529

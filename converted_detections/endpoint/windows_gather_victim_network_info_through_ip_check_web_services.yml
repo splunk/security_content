@@ -31,7 +31,9 @@ tags:
   - DarkCrystal RAT
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: process connecting IP location web services on $Computer$
   mitre_attack_id:
   - T1590.005

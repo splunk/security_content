@@ -31,7 +31,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 30
   drilldown_search: []
+  impact: 30
   message: parent process $parent_process_name$ spawning chcp process $process_name$
     with parent command line $parent_process$
   mitre_attack_id:

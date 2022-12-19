@@ -33,7 +33,9 @@ tags:
   - Industroyer2
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 60
   message: a commandline $process$ that redirect stdout to dev/null in $dest$
   mitre_attack_id:
   - T1562.004

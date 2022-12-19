@@ -46,7 +46,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 70
   message: A non-standard parent process $parent_process_name$ spawned child process
     $process_name$ to execute command-line tool on $dest$.
   mitre_attack_id:

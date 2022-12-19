@@ -33,7 +33,9 @@ tags:
   - DarkCrystal RAT
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 70
   message: PowerShell local execution policy bypass attempt on $dest$
   mitre_attack_id:
   - T1059

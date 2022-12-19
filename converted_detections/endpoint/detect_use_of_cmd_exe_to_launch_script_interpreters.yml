@@ -30,7 +30,9 @@ tags:
   - Azorult
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 70
   message: cmd.exe launching script interpreters on $dest$
   mitre_attack_id:
   - T1059

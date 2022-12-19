@@ -32,7 +32,9 @@ tags:
   - CISA AA22-264A
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 20
   message: A new driver is present on $dest$.
   mitre_attack_id:
   - T1068

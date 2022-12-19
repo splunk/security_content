@@ -29,7 +29,9 @@ tags:
   - Active Directory Lateral Movement
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 90
   message: A process was started on a remote endpoint from $ComputerName by abusing
     WMI using PowerShell.exe
   mitre_attack_id:

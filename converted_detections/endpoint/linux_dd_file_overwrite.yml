@@ -33,7 +33,9 @@ tags:
   - Industroyer2
   asset_type: endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: A commandline $process$ executed on $dest$
   mitre_attack_id:
   - T1485

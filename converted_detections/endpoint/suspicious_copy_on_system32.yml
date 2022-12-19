@@ -35,7 +35,9 @@ tags:
   - IcedID
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 70
   message: execution of copy exe to copy file from $process$ in $dest$
   mitre_attack_id:
   - T1036.003

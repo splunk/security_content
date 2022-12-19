@@ -30,7 +30,9 @@ tags:
   - Active Directory Discovery
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 30
   message: Domain group discovery enumeration on $dest$ by $user$
   mitre_attack_id:
   - T1069

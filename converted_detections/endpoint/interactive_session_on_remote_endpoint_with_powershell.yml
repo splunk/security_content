@@ -30,7 +30,9 @@ tags:
   - Active Directory Lateral Movement
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 90
   message: An interactive session was opened on a remote endpoint from $ComputerName
   mitre_attack_id:
   - T1021

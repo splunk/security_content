@@ -38,7 +38,9 @@ tags:
   - PetitPotam NTLM Relay on Active Directory Certificate Services
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 80
   message: A remote host is enumerating a $dest$ to identify permissions. This is
     a precursor event to CVE-2021-36942, PetitPotam.
   mitre_attack_id:

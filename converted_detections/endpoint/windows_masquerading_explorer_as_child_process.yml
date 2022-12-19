@@ -33,7 +33,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 90
   message: explorer.exe hash a suspicious parent process $parent_process_name$ in
     $dest$
   mitre_attack_id:

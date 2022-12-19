@@ -1,0 +1,62 @@
+name: Azure Automation Account Created
+id: 860902fd-2e76-46b3-b050-ba548dab576c
+version: 1
+date: '2022-08-18'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the creation of a new Azure Automation
+  account within an Azure tenant. Azure Automation is a cloud-based automation platform
+  that allows administrators to automate Azure management tasks and orchestrate actions
+  across external systems within Azure using PowerShell and Python. Azure Automation
+  can also be configured to automate tasks on on premise infrastructure using a component
+  called a Hybrid Runbook Worker. Automation accounts serve as a container to isolate
+  Automation resources, runbooks, assets, and configurations from the resources of
+  other accounts. They allow administrators to separate resources into logical environments
+  or delegated responsibilities. Adversaries or red teams who have obtained privileged
+  access to an Azure tenant may create an Azure Automation account with elevated privileges
+  to maintain persistence in the Azure tenant. A malicious Automation Runbook can
+  be created to create Global Administrators in Azure AD, execute code on VMs, etc.
+data_source: []
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
+  account" status.value=Succeeded | dedup object | stats values(object) by _time,
+  caller, claims.ipaddr, resourceGroupName, object_path | `azure_automation_account_created_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Audit events into your Splunk environment. Specifically,
+  this analytic leverages the Azure Activity log category.
+known_false_positives: Administrators may legitimately create Azure Automation accounts.
+  Filter as needed.
+references:
+- https://docs.microsoft.com/en-us/azure/automation/overview
+- https://docs.microsoft.com/en-us/azure/automation/automation-create-standalone-account?tabs=azureportal
+- https://docs.microsoft.com/en-us/azure/automation/automation-hybrid-runbook-worker
+- https://www.inversecos.com/2021/12/how-to-detect-malicious-azure.html
+- https://www.netspi.com/blog/technical/cloud-penetration-testing/maintaining-azure-persistence-via-automation-accounts/
+- https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT503/AZT503-3/
+- https://attack.mitre.org/techniques/T1136/003/
+tags:
+  analytic_story:
+  - Azure Active Directory Persistence
+  asset_type: Azure
+  atomic_guid: []
+  confidence: 90
+  drilldown_search: []
+  impact: 70
+  message: A new Azure Automation account $object$ was created by $caller$
+  mitre_attack_id:
+  - T1136
+  - T1136.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_automation_account/azure-activity.log
+    source: mscs:azure:audit
+    sourcetype: mscs:azure:audit
+    update_timestamp: true

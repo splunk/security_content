@@ -35,7 +35,9 @@ tags:
   - AgentTesla
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: exclusion command $Message$ executed on $ComputerName$
   mitre_attack_id:
   - T1562.001

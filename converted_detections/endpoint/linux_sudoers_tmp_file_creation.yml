@@ -33,7 +33,9 @@ tags:
   - Linux Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 80
   message: A file $file_name$ is created in $file_path$ on $dest$
   mitre_attack_id:
   - T1548.003

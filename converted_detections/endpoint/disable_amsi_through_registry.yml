@@ -39,7 +39,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: Disable AMSI Through Registry
   mitre_attack_id:
   - T1562.001

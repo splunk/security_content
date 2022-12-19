@@ -35,7 +35,9 @@ tags:
   - Data Destruction
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: A deletion in known critical list of folder using rm command $process$
     executed on $dest$
   mitre_attack_id:

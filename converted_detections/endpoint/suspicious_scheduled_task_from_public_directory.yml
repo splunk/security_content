@@ -37,7 +37,9 @@ tags:
   - DarkCrystal RAT
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 70
   message: Suspicious scheduled task registered on $dest$
   mitre_attack_id:
   - T1053.005

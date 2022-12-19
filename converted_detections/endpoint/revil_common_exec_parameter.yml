@@ -31,7 +31,9 @@ tags:
   - Revil Ransomware
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 90
   drilldown_search: []
+  impact: 60
   message: A process $process_name$ with commandline $process$ related to revil ransomware
     in host $dest$
   mitre_attack_id:

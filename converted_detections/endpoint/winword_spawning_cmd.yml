@@ -36,7 +36,9 @@ tags:
   - DarkCrystal RAT
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 70
   message: '$parent_process_name$ on $dest$ by $user$ launched command: $process_name$
     which is very common in spearphishing attacks.'
   mitre_attack_id:

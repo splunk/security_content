@@ -1,0 +1,43 @@
+name: Kubernetes Scanner Image Pulling
+id: 4890cd6b-0112-4974-a272-c5c153aee551
+version: 1
+date: '2021-08-24'
+author: Patrick Bareiss, Splunk
+status: production
+type: TTP
+description: This search uses the Kubernetes logs from Splunk Connect from Kubernetes
+  to detect Kubernetes Security Scanner.
+data_source: []
+search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling
+  image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
+  | rename object.* AS * | rename involvedObject.* AS * | rename source.host AS host
+  | eval phase="operate" | eval severity="high" | stats min(_time) as firstTime max(_time)
+  as lastTime count by host, name, namespace, kind, reason, message, phase, severity
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `kubernetes_scanner_image_pulling_filter`'
+how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+known_false_positives: unknown
+references:
+- https://github.com/splunk/splunk-connect-for-kubernetes
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: Kubernetes
+  atomic_guid: []
+  confidence: 90
+  drilldown_search: []
+  impact: 90
+  message: Kubernetes Scanner image pulled on host $host$
+  mitre_attack_id:
+  - T1526
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json
+    sourcetype: kube:objects:events
+    source: kubernetes

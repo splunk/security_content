@@ -31,7 +31,9 @@ tags:
   - sAMAccountName Spoofing and Domain Controller Impersonation
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 100
   message: A computer account $Old_Account_Name$ was renamed with a suspicious computer
     name
   mitre_attack_id:

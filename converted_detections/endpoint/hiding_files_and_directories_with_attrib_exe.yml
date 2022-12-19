@@ -31,7 +31,9 @@ tags:
   - Azorult
   asset_type: ''
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 90
   message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected.
   mitre_attack_id:
   - T1222

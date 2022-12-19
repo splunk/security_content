@@ -41,7 +41,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 60
   message: A System process $process_name$ is running from $process_path$ on $dest$,
     potentially non-standard.
   mitre_attack_id:

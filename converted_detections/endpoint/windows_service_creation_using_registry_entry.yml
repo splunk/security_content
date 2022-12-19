@@ -43,7 +43,9 @@ tags:
   - Brute Ratel C4
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 80
   message: A Windows Service was created on a endpoint from $dest$
   mitre_attack_id:
   - T1574.011

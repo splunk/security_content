@@ -37,7 +37,9 @@ tags:
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 60
   drilldown_search: []
+  impact: 100
   message: A suspicious Kerberos Service Ticket was requested by $Account_Name$
   mitre_attack_id:
   - T1078

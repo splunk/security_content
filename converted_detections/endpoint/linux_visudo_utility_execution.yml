@@ -34,7 +34,9 @@ tags:
   - Linux Persistence Techniques
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 40
   drilldown_search: []
+  impact: 40
   message: A commandline $process$ executed on $dest$
   mitre_attack_id:
   - T1548.003

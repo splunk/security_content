@@ -39,7 +39,9 @@ tags:
   - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 100
   drilldown_search: []
+  impact: 100
   message: Office parent process $parent_process_name$ has spawned a child process
     $process_name$ on host $dest$.
   mitre_attack_id:

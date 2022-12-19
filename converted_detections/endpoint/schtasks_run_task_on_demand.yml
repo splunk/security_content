@@ -33,7 +33,9 @@ tags:
   - Qakbot
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 60
   message: A "on demand" execution of schedule task process $process_name$  using
     commandline $process$ in host $dest$
   mitre_attack_id:

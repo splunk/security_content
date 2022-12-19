@@ -44,7 +44,9 @@ tags:
   - Hermetic Wiper
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 70
   drilldown_search: []
+  impact: 80
   message: The following module $ImageLoaded$ was loaded by $Image$ outside of the
     normal system paths on endpoint $Computer$, potentally related to DLL side-loading.
   mitre_attack_id:

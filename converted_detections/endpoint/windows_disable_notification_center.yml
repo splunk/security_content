@@ -39,7 +39,9 @@ tags:
   - Windows Registry Abuse
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 80
   drilldown_search: []
+  impact: 60
   message: The Windows notification center was disabled on $dest$ by $user$.
   mitre_attack_id:
   - T1112

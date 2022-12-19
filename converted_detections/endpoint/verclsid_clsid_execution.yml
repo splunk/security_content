@@ -35,7 +35,9 @@ tags:
   - Unusual Processes
   asset_type: Endpoint
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 50
   message: process $process_name$ to execute possible clsid commandline $process$
     in $dest$
   mitre_attack_id:
