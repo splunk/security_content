@@ -1,0 +1,56 @@
+name: TCP Command and Scripting Interpreter Outbound LDAP Traffic
+id: 4d16a90c-d1a9-4d17-8156-d0db0c73c449
+version: 1
+date: '2022-02-17'
+author: Jose Hernandez, Michael Haag, Splunk
+status: experimental
+type: Anomaly
+description: Malicious actors often abuse misconfigured LDAP servers or applications
+  that use the LDAP servers in organizations. Outbound LDAP traffic should not be
+  allowed outbound through your perimeter firewall. This search will help determine
+  if you have any LDAP connections to IP addresses outside of private (RFC1918) address
+  space.
+data_source: []
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), dest_port=map_get(input_event, "dest_port"), event_id=ucast(map_get(input_event,
+  "event_id"), "string", null), dest_ip=ucast(map_get(input_event, "dest_device_ips"),
+  "collection<string>", [])[0] | where dest_port=389 OR dest_port=1389 OR dest_port=636
+  | where NOT (cidrmatch(ip: dest_ip, cidr_range: "10.0.0.0/8") OR cidrmatch(ip: dest_ip,
+  cidr_range: "192.168.0.0/16") OR cidrmatch(ip: dest_ip, cidr_range: "172.16.0.0/12"))
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "dest_port", dest_port,
+  "dest_ip", dest_ip]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on network traffic, specifically data that populates the Network_Traffic datamodel.
+  To develop this analytic we used specifically Zeek/Bro conn.log and PAN Traffic
+  events.
+known_false_positives: Unknown at this moment. Outbound LDAP traffic should not be
+  allowed outbound through your perimeter firewall. Please check those servers to
+  verify if the activity is legitimate.
+references:
+- https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+- https://www.splunk.com/en_us/blog/security/simulating-detecting-and-responding-to-log4shell-with-splunk.html
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-356a
+tags:
+  analytic_story:
+  - Log4Shell CVE-2021-44228
+  asset_type: endpoint
+  atomic_guid: []
+  confidence: 70
+  drilldown_search: []
+  impact: 50
+  message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting
+    to dest ip $dest_ip$
+  mitre_attack_id:
+  - T1059
+  product:
+  - Splunk Behavioral Analytics
+  risk_score: 35
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
+    source: pan:traffic
+    sourcetype: pan:traffic

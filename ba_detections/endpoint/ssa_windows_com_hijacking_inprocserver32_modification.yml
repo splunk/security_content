@@ -1,0 +1,61 @@
+name: Windows COM Hijacking InprocServer32 Modification
+id: 0ae05a0f-bc84-456b-822a-a5b9c081c7ca
+version: 1
+date: '2022-10-12'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of reg.exe performing an add
+  to the InProcServer32, which may be related to COM hijacking. Adversaries can use
+  the COM system to insert malicious code that can be executed in place of legitimate
+  software through hijacking the COM references and relationships as a means for persistence.
+  Hijacking a COM object requires a change in the Registry to replace a reference
+  to a legitimate system component which may cause that component to not work when
+  executed. When that system component is executed through normal system operation
+  the adversary's code will be executed instead.
+data_source: []
+search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=ucast(map_get(input_event,
+  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
+  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
+  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
+  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="reg.exe"
+  AND like (cmd_line, "%inprocserver32%") | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)) | eval body=create_map(["event_id", event_id,
+  "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
+  "process_path", process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives may be present and some filtering may be required.
+references:
+- https://attack.mitre.org/techniques/T1546/015/
+- https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md
+tags:
+  analytic_story:
+  - Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 80
+  drilldown_search: []
+  impact: 80
+  message: An instance of $parent_process_name$ has spawned $process_name$ attempting
+    to modify InProcServer32 within the registry on $dest_device_id$ by $dest_user_id$.
+  mitre_attack_id:
+  - T1546.015
+  - T1546
+  product:
+  - Splunk Behavioral Analytics
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/atomic_red_team/windows-security.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

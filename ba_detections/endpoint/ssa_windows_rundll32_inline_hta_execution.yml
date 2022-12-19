@@ -1,0 +1,62 @@
+name: Windows Rundll32 Inline HTA Execution
+id: 0caa1dd6-94f5-11ec-9786-acde48001122
+version: 1
+date: '2022-02-23'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies "rundll32.exe" execution with inline
+  protocol handlers. "JavaScript", "VBScript", and "About" are the only supported
+  options when invoking HTA content directly on the command-line. This type of behavior
+  is commonly observed with fileless malware or application whitelisting bypass techniques.
+  The search will return the first time and last time these command-line arguments
+  were used for these executions, as well as the target system, the user, process
+  "rundll32.exe" and its parent process.
+data_source: []
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="rundll32.exe"
+  AND (like (cmd_line, "%vbscript%") OR like (cmd_line, "%javascript%") OR like (cmd_line,
+  "%about%")) | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Although unlikely, some legitimate applications may exhibit
+  this behavior, triggering a false positive.
+references:
+- https://github.com/redcanaryco/AtomicTestHarnesses
+- https://redcanary.com/blog/introducing-atomictestharnesses/
+- https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+tags:
+  analytic_story:
+  - Suspicious MSHTA Activity
+  - NOBELIUM Group
+  - Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 80
+  drilldown_search: []
+  impact: 70
+  message: Suspicious $process_name$ inline HTA execution on $dest_device_id$.
+  mitre_attack_id:
+  - T1218
+  - T1218.005
+  product:
+  - Splunk Behavioral Analytics
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log
+    source: WinEventLog:Security
