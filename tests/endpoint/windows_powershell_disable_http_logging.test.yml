@@ -1,7 +1,7 @@
-name: Windows PowerShell Disable Windows Event Logging Disable HTTP Logging Unit Test
+name: Windows PowerShell Disable HTTP Logging Unit Test
 tests:
-- name: Windows PowerShell Disable Windows Event Logging Disable HTTP Logging
-  file: endpoint/windows_powershell_disable_windows_event_logging_disable_http_logging.yml
+- name: Windows PowerShell Disable HTTP Logging
+  file: endpoint/windows_powershell_disable_http_logging.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now

@@ -1,4 +1,4 @@
-name: Windows PowerShell Disable Windows Event Logging Disable HTTP Logging
+name: Windows PowerShell Disable HTTP Logging
 id: 27958de0-2857-43ca-9d4c-b255cf59dcab
 version: 1
 date: '2022-12-21'
@@ -10,7 +10,7 @@ description: The following analtyic identifies the use of get-WebConfigurationPr
 search: '`powershell` EventCode=4104 ScriptBlockText IN("*get-WebConfigurationProperty*","*Set-ItemProperty*") AND ScriptBlockText IN ("*httpLogging*","*Logfile.enabled*") AND ScriptBlockText IN ("*dontLog*", "*false*")   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_powershell_disable_windows_event_logging_disable_http_logging_filter`'
+  | `windows_powershell_disable_http_logging_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
