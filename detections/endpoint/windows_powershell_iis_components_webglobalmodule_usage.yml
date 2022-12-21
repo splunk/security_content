@@ -1,0 +1,63 @@
+name: Windows PowerShell IIS Components WebGlobalModule Usage
+id: 33fc9f6f-0ce7-4696-924e-a69ec61a3d57
+version: 1
+date: '2022-12-21'
+author: Michael Haag, Splunk
+type: Anomaly
+datamodel: []
+description: The following analytic identifies the usage of PowerShell Cmdlets - New-WebGlobalModule, Enable-WebGlobalModule and Set-WebGlobalModule being utilized to create (new), enable (start) or modify a current IIS Module.
+  These commands are equivalent to AppCmd.exe parameters.
+  Adversaries may utilize these cmdlets as they are lesser known and perform the same activity as AppCmd. 
+search: '`powershell` EventCode=4104 ScriptBlockText IN("*New-WebGlobalModule*","*Enable-WebGlobalModule*","*Set-WebGlobalModule*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`  | `windows_powershell_iis_components_webglobalmodule_usage_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: It is possible administrators or scripts may run these commands, filtering may be required.
+references:
+  - https://learn.microsoft.com/en-us/powershell/module/webadministration/new-webglobalmodule?view=windowsserver2022-ps
+  - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
+  - https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
+  - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
+  - https://www.secureworks.com/research/bronze-union
+tags:
+  analytic_story:
+  - IIS Components
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/4104_windows-powershell.log
+  impact: 80
+  kill_chain_phases:
+  - Installation
+  message: A PowerShell Cmdlet related to enabling, creating or modifying a IIS module has occurred on $Computer$.
+  mitre_attack_id:
+  - T1505
+  - T1505.004
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - EventCode
+  risk_score: 64
+  security_domain: endpoint
