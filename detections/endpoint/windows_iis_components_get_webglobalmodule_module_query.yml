@@ -29,7 +29,7 @@ tags:
   impact: 10
   kill_chain_phases:
   - Installation
-  message: IIS Modules have listed on $dest$.
+  message: IIS Modules have been listed on $dest$.
   mitre_attack_id:
   - T1505.004
   - T1505
