@@ -33,6 +33,11 @@ tags:
   message: suspicious commit by $commit.commit.author.email$ to main branch
   mitre_attack_id:
   - T1199
+  observable:
+  - name: commit.commit.author.email
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -37,6 +37,11 @@ tags:
   message: Failed to validate certificate on $host$
   mitre_attack_id:
   - T1588.004
+  observable:
+  - name: Hostname
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

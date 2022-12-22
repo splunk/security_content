@@ -6,7 +6,7 @@ author: David Dorsey, Splunk
 status: production
 type: Anomaly
 description: Find EC2 instances being created with previously unseen instance types.
-data_source: ''
+data_source: []
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
@@ -37,6 +37,15 @@ tags:
   impact: 50
   message: User $user$ is creating an instance $dest$ with an instance type $instance_type$
     that has not been previously seen.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

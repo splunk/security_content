@@ -38,6 +38,15 @@ tags:
   message: Suspicious microsoft.workflow.compiler.exe process ran on $dest$ by $user$
   mitre_attack_id:
   - T1127
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -11,7 +11,7 @@ description: By populating the organization's assets within the assets_by_str.cs
   when they attempt to obtain an IP address from the DHCP server. The MAC address
   associated with the source of the DHCP request is checked against the list of known
   devices, and reports on those that are not found.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions
   where nodename=All_Sessions.DHCP All_Sessions.tag=dhcp by All_Sessions.dest_ip All_Sessions.dest_mac
   | dedup All_Sessions.dest_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
@@ -37,10 +37,14 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

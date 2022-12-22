@@ -42,6 +42,15 @@ tags:
     as part of defense evasion in host $Computer$
   mitre_attack_id:
   - T1070
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,0 +1,9 @@
+process_name,uncommon_default,category_default,analytic_story_default,kill_chain_phase_default,mitre_attack_default
+sethc.exe,true,needs_accessibility,Windows Privilege Escalation,Actions on Objectives,Execution|Accessibility Features
+utilman.exe,true,needs_accessibility,Windows Privilege Escalation,Actions on Objectives,Execution|Accessibility Features
+osk.exe,true,needs_accessibility,Windows Privilege Escalation,Actions on Objectives,Execution|Accessibility Features
+magnify.exe,true,needs_accessibility,Windows Privilege Escalation,Actions on Objectives,Execution|Accessibility Features
+narrator.exe,true,needs_accessibility,Windows Privilege Escalation,Actions on Objectives,Execution|Accessibility Features
+displayswitch.exe,true,needs_accessibility,Windows Privilege Escalation,Actions on Objectives,Execution|Accessibility Features
+atbroker.exe,true,needs_accessibility,Windows Privilege Escalation,Actions on Objectives,Execution|Accessibility Features
+quser.exe,true,,DHS Report TA18-074A|Unusual Processes,Actions on Objectives,Execution

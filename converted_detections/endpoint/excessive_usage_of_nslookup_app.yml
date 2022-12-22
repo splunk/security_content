@@ -42,6 +42,11 @@ tags:
     is triggered as as it violates the dynamic threshold
   mitre_attack_id:
   - T1048
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

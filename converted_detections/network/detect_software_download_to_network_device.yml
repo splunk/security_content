@@ -10,7 +10,7 @@ description: Adversaries may abuse netbooting to load an unauthorized network de
   (netbooting) is commonly used by network administrators to load configuration-controlled
   network device images from a centralized management server. Netbooting is one option
   in the boot sequence and can be used to centralize, manage, and control device images.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where (All_Traffic.transport=udp AND
   All_Traffic.dest_port=69) OR (All_Traffic.transport=tcp AND All_Traffic.dest_port=21)
@@ -40,10 +40,14 @@ tags:
   mitre_attack_id:
   - T1542.005
   - T1542
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

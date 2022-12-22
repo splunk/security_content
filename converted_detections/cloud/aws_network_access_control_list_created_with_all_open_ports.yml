@@ -38,6 +38,19 @@ tags:
   mitre_attack_id:
   - T1562.007
   - T1562
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: userName
+    type: User
+    role:
+    - Victim
+  - name: requestParameters.cidrBlock
+    type: IP Address
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

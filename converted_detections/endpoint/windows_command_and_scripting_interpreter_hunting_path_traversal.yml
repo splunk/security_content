@@ -46,6 +46,11 @@ tags:
     with path traversal commandline $process$ in $dest$
   mitre_attack_id:
   - T1059
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

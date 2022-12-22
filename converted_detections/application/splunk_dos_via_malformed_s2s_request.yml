@@ -30,6 +30,15 @@ tags:
   message: An attempt to exploit CVE-2021-3422 was detected from $src$ against $host$
   mitre_attack_id:
   - T1498
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

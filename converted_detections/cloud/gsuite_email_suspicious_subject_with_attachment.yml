@@ -46,6 +46,11 @@ tags:
   mitre_attack_id:
   - T1566.001
   - T1566
+  observable:
+  - name: source.address
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

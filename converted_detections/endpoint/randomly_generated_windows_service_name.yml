@@ -41,10 +41,18 @@ tags:
   mitre_attack_id:
   - T1543
   - T1543.003
+  observable:
+  - name: Service_File_Name
+    type: Other
+    role:
+    - Other
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 45
   security_domain: endpoint
-tests: []

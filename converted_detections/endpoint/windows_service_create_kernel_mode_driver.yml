@@ -40,6 +40,15 @@ tags:
   - T1543.003
   - T1543
   - T1068
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

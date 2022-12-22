@@ -37,6 +37,11 @@ tags:
   mitre_attack_id:
   - T1195.002
   - T1195
+  observable:
+  - name: repository
+    type: Unknown
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

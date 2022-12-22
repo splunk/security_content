@@ -44,6 +44,15 @@ tags:
     by $initiatedBy$
   mitre_attack_id:
   - T1098.003
+  observable:
+  - name: userPrincipalName
+    type: User
+    role:
+    - Victim
+  - name: initiatedBy
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

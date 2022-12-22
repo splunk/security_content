@@ -51,6 +51,15 @@ tags:
   mitre_attack_id:
   - T1218
   - T1218.010
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_path.file_path
+    type: File Name
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

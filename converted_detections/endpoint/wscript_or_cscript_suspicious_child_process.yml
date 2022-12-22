@@ -46,6 +46,15 @@ tags:
   - T1543
   - T1134.004
   - T1134
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

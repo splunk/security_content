@@ -33,6 +33,11 @@ tags:
   message: Path traversal exploitation attempt from $clientip$
   mitre_attack_id:
   - T1083
+  observable:
+  - name: clientip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

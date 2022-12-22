@@ -41,6 +41,15 @@ tags:
   mitre_attack_id:
   - T1580
   - T1110
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -31,6 +31,11 @@ tags:
   message: Remote File Inclusion Attack detected on $host$
   mitre_attack_id:
   - T1212
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

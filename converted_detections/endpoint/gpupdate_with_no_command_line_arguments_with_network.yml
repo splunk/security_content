@@ -44,6 +44,24 @@ tags:
     on port $dest_port$. This behaviour is seen with cobaltstrike.
   mitre_attack_id:
   - T1055
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
+  - name: connection_to_CNC
+    type: IP Address
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

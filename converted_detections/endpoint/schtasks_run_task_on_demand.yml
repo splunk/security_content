@@ -40,6 +40,15 @@ tags:
     commandline $process$ in host $dest$
   mitre_attack_id:
   - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

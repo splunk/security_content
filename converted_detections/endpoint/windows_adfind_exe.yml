@@ -40,6 +40,11 @@ tags:
   message: Windows AdFind Exe
   mitre_attack_id:
   - T1018
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

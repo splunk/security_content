@@ -34,6 +34,15 @@ tags:
     $src$.
   mitre_attack_id:
   - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

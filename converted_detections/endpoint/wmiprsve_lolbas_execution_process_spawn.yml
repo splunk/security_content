@@ -50,6 +50,11 @@ tags:
   message: Wmiprsve.exe spawned a LOLBAS process on $dest$.
   mitre_attack_id:
   - T1047
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

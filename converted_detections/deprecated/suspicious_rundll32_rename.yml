@@ -45,10 +45,18 @@ tags:
   - T1036
   - T1218.011
   - T1036.003
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 63
   security_domain: endpoint
-tests: []

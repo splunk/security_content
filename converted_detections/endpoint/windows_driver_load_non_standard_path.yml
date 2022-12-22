@@ -39,6 +39,11 @@ tags:
   message: A kernel mode driver was loaded from a non-standard path on $ComputerName$.
   mitre_attack_id:
   - T1014
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

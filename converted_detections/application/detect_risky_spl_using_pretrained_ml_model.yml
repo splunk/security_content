@@ -13,7 +13,7 @@ description: The following analytic uses a pretrained machine learning text clas
   a SPL is risky using text classification. The model takes as input the command text,
   user and search type and outputs a risk score between [0,1]. A high score indicates
   higher likelihood of a command being risky. This model is on-prem only.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search_type=adhoc
   Search_Activity.user!=splunk-system-user by Search_Activity.search Search_Activity.user
@@ -43,6 +43,11 @@ tags:
   message: A potentially risky Splunk command has been run by $user$, kindly review.
   mitre_attack_id:
   - T1059
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -56,6 +56,11 @@ tags:
   mitre_attack_id:
   - T1219
   - T1003
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

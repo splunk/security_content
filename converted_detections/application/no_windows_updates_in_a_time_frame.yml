@@ -10,7 +10,7 @@ description: This search looks for Windows endpoints that have not generated an 
   typically released monthly and applied shortly thereafter. An endpoint that has
   not successfully applied an update in this time frame indicates the endpoint is
   not regularly being patched for some reason.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates
   where Updates.status=Installed Updates.vendor_product="Microsoft Windows" by Updates.dest
   Updates.status Updates.vendor_product | rename Updates.dest as Host | rename Updates.status
@@ -35,10 +35,14 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests: []

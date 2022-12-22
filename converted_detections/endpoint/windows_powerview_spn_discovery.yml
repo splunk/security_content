@@ -42,6 +42,11 @@ tags:
   mitre_attack_id:
   - T1558
   - T1558.003
+  observable:
+  - name: Client_Address
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

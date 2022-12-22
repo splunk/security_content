@@ -48,8 +48,12 @@ tags:
   mitre_attack_id:
   - T1548.002
   - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Behavioral Analytics
   risk_score: 63
   security_domain: endpoint
-tests: []

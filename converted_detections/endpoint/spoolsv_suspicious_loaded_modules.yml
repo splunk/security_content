@@ -34,6 +34,20 @@ tags:
   mitre_attack_id:
   - T1547.012
   - T1547
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_id
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
+  - name: ImageLoaded
+    type: File
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

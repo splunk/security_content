@@ -38,6 +38,19 @@ tags:
   - T1621
   - T1556
   - T1556.006
+  observable:
+  - name: aws_account_id
+    type: Other
+    role:
+    - Victim
+  - name: user_name
+    type: User
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

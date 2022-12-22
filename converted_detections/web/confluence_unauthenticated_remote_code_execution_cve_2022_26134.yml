@@ -12,7 +12,7 @@ description: The following analytic assists with identifying CVE-2022-26134 base
   in the wild (scanning). During triage, review any endpoint based logs for further
   activity including writing a jsp file to disk and commands/processes spawning running
   as root from the Confluence process.
-data_source: ''
+data_source: []
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
   where Web.url IN ("*${*", "*%2F%7B*") (Web.url="*org.apache.commons.io.IOUtils*"
   Web.url="*java.lang.Runtime@getRuntime().exec*") OR (Web.url="*java.lang.Runtime%40getRuntime%28%29.exec*")
@@ -44,6 +44,15 @@ tags:
   mitre_attack_id:
   - T1505
   - T1190
+  observable:
+  - name: dest
+    type: IP Address
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

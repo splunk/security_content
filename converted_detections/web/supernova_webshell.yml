@@ -7,7 +7,7 @@ status: experimental
 type: TTP
 description: This search aims to detect the Supernova webshell used in the SUNBURST
   attack.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Web.Web where
   web.url=*logoimagehandler.ashx*codes* OR Web.url=*logoimagehandler.ashx*clazz* OR
   Web.url=*logoimagehandler.ashx*method* OR Web.url=*logoimagehandler.ashx*args* by
@@ -32,10 +32,18 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1505.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

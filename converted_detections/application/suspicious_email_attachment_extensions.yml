@@ -7,7 +7,7 @@ status: experimental
 type: Anomaly
 description: This search looks for emails that have attachments with suspicious file
   extensions.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
   All_Email.file_name All_Email.message_id | `security_content_ctime(firstTime)` |
@@ -41,10 +41,14 @@ tags:
   mitre_attack_id:
   - T1566.001
   - T1566
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

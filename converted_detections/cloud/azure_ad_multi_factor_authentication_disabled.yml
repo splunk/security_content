@@ -41,6 +41,15 @@ tags:
   - T1586.003
   - T1556
   - T1556.006
+  observable:
+  - name: userPrincipalName
+    type: User
+    role:
+    - Victim
+  - name: initiatedBy
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

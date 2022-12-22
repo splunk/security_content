@@ -6,7 +6,7 @@ author: David Dorsey, Splunk
 status: production
 type: Anomaly
 description: This search looks for new commands from each user role.
-data_source: ''
+data_source: []
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,
   All_Changes.command All_Changes.object | `drop_dm_object_name("All_Changes")` |
@@ -38,6 +38,11 @@ tags:
     that have not been seen before
   mitre_attack_id:
   - T1078
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

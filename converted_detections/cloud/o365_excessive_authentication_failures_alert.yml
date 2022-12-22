@@ -32,6 +32,15 @@ tags:
     $src_ip$ using UserAgent $UserAgent$.
   mitre_attack_id:
   - T1110
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

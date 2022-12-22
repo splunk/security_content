@@ -42,6 +42,19 @@ tags:
   mitre_attack_id:
   - T1566
   - T1566.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

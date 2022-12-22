@@ -35,6 +35,11 @@ tags:
   message: Potential exploitation of Code Injection via Dashboard PDF generation.
   mitre_attack_id:
   - T1210
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

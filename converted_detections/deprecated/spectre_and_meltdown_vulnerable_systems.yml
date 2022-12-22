@@ -7,7 +7,7 @@ status: deprecated
 type: TTP
 description: The search is used to detect systems that are still vulnerable to the
   Spectre and Meltdown vulnerabilities.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
   as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve ="CVE-2017-5753"
   OR Vulnerabilities.cve ="CVE-2017-5715" OR Vulnerabilities.cve ="CVE-2017-5754"
@@ -27,10 +27,14 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests: []

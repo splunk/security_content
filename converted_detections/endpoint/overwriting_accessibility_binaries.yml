@@ -39,6 +39,15 @@ tags:
   mitre_attack_id:
   - T1546
   - T1546.008
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_path
+    type: File
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

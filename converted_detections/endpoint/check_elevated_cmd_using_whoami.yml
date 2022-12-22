@@ -37,6 +37,15 @@ tags:
   message: Process name $process_name$ with commandline $process$ in $dest$
   mitre_attack_id:
   - T1033
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -37,6 +37,11 @@ tags:
     WMI using PowerShell.exe
   mitre_attack_id:
   - T1047
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

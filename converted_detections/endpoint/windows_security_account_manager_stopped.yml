@@ -34,6 +34,19 @@ tags:
     on $dest$ by this command: $processs$'
   mitre_attack_id:
   - T1489
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -10,7 +10,7 @@ description: The following analytic identifies cleartext protocols at risk of le
   (port 23), POP3 (port 110), IMAP (port 143), and non-anonymous FTP (port 21) sessions.
   While some of these protocols may be used over SSL, they typically are found on
   different assigned ports in those instances.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where All_Traffic.action!=blocked AND
   All_Traffic.transport="tcp" AND (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143"
@@ -36,10 +36,18 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

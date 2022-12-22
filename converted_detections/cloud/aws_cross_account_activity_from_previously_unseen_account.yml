@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: This search looks for AssumeRole events where an IAM role in a different
   account is requested for the first time.
-data_source: ''
+data_source: []
 search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user
   Authentication.src Authentication.user_role | `drop_dm_object_name(Authentication)`
@@ -39,6 +39,15 @@ tags:
   impact: 30
   message: AWS account $requestingAccountId$ is trying to access resource from some
     other account $requestedAccountId$, for the first time.
+  observable:
+  - name: requestingAccountId
+    type: Other
+    role:
+    - Attacker
+  - name: requestedAccountId
+    type: Other
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

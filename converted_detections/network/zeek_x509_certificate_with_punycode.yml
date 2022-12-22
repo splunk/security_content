@@ -44,10 +44,14 @@ tags:
     alternative name on $dest$.
   mitre_attack_id:
   - T1573
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 15
   security_domain: network
-tests: []

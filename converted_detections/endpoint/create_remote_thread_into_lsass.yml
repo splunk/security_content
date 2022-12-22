@@ -35,6 +35,15 @@ tags:
   mitre_attack_id:
   - T1003.001
   - T1003
+  observable:
+  - name: TargetImage
+    type: Other
+    role:
+    - Other
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

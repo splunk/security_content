@@ -38,6 +38,15 @@ tags:
   mitre_attack_id:
   - T1134.001
   - T1134
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: SourceImage
+    type: Process Name
+    role:
+    - Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

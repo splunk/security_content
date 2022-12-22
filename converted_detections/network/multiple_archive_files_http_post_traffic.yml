@@ -45,6 +45,15 @@ tags:
   mitre_attack_id:
   - T1048.003
   - T1048
+  observable:
+  - name: uri_path
+    type: URL
+    role:
+    - Attacker
+  - name: form_data
+    type: Other
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

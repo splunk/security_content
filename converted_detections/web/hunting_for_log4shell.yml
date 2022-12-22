@@ -76,10 +76,25 @@ tags:
   - CISA AA22-320A
   asset_type: Web Server
   atomic_guid: []
+  confidence: 50
   drilldown_search: []
+  impact: 80
   message: Hunting for Log4Shell exploitation has occurred.
   mitre_attack_id:
   - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: http_method
+    type: Other
+    role:
+    - Other
+  - name: src
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

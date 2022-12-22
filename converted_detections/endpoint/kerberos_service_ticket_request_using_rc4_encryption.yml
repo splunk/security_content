@@ -50,6 +50,11 @@ tags:
   mitre_attack_id:
   - T1558
   - T1558.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

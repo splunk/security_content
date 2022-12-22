@@ -7,7 +7,7 @@ status: experimental
 type: Anomaly
 description: This search allows you to identify DNS requests that are unusually large
   for the record type being requested in your environment.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as start_time
   max(_time) as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
   by DNS.query DNS.record_type | search DNS.record_type=* |  `drop_dm_object_name(DNS)`
@@ -61,10 +61,14 @@ tags:
   mitre_attack_id:
   - T1071.004
   - T1071
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

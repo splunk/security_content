@@ -8,7 +8,7 @@ type: Anomaly
 description: This search looks for cloud provisioning activities from previously unseen
   regions. Provisioning activities are defined broadly as any event that runs or creates
   something.
-data_source: ''
+data_source: []
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
   by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
@@ -52,6 +52,19 @@ tags:
     time in region $Region$ from IP address $src$
   mitre_attack_id:
   - T1078
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: object
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -8,7 +8,7 @@ type: Anomaly
 description: Attackers often use spaces as a means to obfuscate an attachment's file
   extension. This search looks for messages with email attachments that have many
   spaces within the file names.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count values(All_Email.recipient)
   as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email
   where All_Email.file_name="*" by All_Email.src_user, All_Email.file_name All_Email.message_id
@@ -41,10 +41,14 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

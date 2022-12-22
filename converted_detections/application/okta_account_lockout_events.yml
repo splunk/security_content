@@ -39,10 +39,14 @@ tags:
   mitre_attack_id:
   - T1078
   - T1078.001
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: access
-tests: []

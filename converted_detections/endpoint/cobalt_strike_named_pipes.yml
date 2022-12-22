@@ -53,6 +53,19 @@ tags:
     user $user$ accessing known suspicious named pipes related to Cobalt Strike.
   mitre_attack_id:
   - T1055
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

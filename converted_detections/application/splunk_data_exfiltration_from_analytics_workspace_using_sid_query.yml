@@ -36,6 +36,11 @@ tags:
   message: Potential data exfiltration attack using SID query by $user$
   mitre_attack_id:
   - T1567
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

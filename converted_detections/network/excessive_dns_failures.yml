@@ -7,7 +7,7 @@ status: experimental
 type: Anomaly
 description: This search identifies DNS query failures by counting the number of DNS
   responses that do not indicate success, and trigger on more than 50 occurrences.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count values("DNS.query") as queries
   from datamodel=Network_Resolution where nodename=DNS "DNS.reply_code"!="No Error"
   "DNS.reply_code"!="NoError" DNS.reply_code!="unknown" NOT "DNS.query"="*.arpa" "DNS.query"="*.*"
@@ -34,10 +34,14 @@ tags:
   mitre_attack_id:
   - T1071.004
   - T1071
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

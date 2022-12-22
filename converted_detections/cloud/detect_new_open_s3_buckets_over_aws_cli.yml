@@ -39,6 +39,15 @@ tags:
     $requestParameters.accessControlList.x-amz-grant-write-acp$ $requestParameters.accessControlList.x-amz-grant-full-control$
   mitre_attack_id:
   - T1530
+  observable:
+  - name: userIdentity.userName
+    type: User
+    role:
+    - Attacker
+  - name: bucketName
+    type: Other
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

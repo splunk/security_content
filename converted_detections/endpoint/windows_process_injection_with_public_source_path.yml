@@ -37,6 +37,19 @@ tags:
   mitre_attack_id:
   - T1055
   - T1055.002
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: Process
+    role:
+    - Attacker
+  - name: TargetImage
+    type: Process
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

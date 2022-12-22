@@ -38,6 +38,11 @@ tags:
   mitre_attack_id:
   - T1590.005
   - T1590
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

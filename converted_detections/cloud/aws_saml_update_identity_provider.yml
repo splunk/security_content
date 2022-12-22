@@ -36,6 +36,16 @@ tags:
     an event $eventName$ to update the SAML provider to $requestParameters.sAMLProviderArn$
   mitre_attack_id:
   - T1078
+  observable:
+  - name: sourceIPAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: userIdentity.principalId
+    type: User
+    role:
+    - Victim
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

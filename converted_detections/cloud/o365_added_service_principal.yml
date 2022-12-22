@@ -38,6 +38,15 @@ tags:
   mitre_attack_id:
   - T1136.003
   - T1136
+  observable:
+  - name: ActorIpAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: Target.ID
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

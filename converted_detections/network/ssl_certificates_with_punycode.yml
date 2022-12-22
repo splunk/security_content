@@ -12,7 +12,7 @@ description: The following analytic utilizes the Certificates Datamodel to look 
   and decode manually. Note that this is not the exact location of the malicious punycode
   to trip CVE-2022-3602, but a method to at least identify fuzzing occurring on these
   email paths. What does evil look like? it will start with
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Certificates.All_Certificates by All_Certificates.SSL.ssl_issuer_email_domain
   All_Certificates.SSL.ssl_issuer All_Certificates.SSL.ssl_subject_email All_Certificates.SSL.dest
@@ -44,10 +44,14 @@ tags:
     email domain on $dest$.
   mitre_attack_id:
   - T1573
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 15
   security_domain: network
-tests: []

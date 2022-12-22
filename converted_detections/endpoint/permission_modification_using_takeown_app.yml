@@ -36,6 +36,15 @@ tags:
     and commandline $process$ to modify permission of directory or files in host $dest$
   mitre_attack_id:
   - T1222
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

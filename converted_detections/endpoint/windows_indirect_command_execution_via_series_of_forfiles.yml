@@ -42,6 +42,11 @@ tags:
   message: excessive forfiles process execution in $dest$
   mitre_attack_id:
   - T1202
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

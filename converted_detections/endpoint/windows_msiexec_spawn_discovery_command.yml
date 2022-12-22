@@ -40,6 +40,23 @@ tags:
     on endpoint $dest$ by user $user$ running different discovery commands.
   mitre_attack_id:
   - T1218.007
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

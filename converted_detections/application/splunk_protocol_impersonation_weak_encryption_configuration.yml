@@ -49,6 +49,11 @@ tags:
   message: $splunk_server$ may not be properly validating TLS Certificates
   mitre_attack_id:
   - T1001.003
+  observable:
+  - name: splunk_server
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

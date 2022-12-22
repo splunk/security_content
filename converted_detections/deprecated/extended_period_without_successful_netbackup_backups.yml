@@ -29,10 +29,14 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests: []

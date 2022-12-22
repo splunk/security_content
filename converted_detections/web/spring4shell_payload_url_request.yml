@@ -10,7 +10,7 @@ description: The following analytic is static indicators related to CVE-2022-229
   to exploit a web shell on the destination. The filename and cmd are arbitrary in
   this exploitation. Java will write a JSP to disk and a process will spawn from Java
   based on the cmd passed. This is indicative of typical web shell activity.
-data_source: ''
+data_source: []
 search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url
   IN ("*tomcatwar.jsp*","*poc.jsp*","*shell.jsp*") by Web.http_user_agent Web.http_method,
   Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")`
@@ -36,6 +36,15 @@ tags:
   - T1505.003
   - T1505
   - T1190
+  observable:
+  - name: dest
+    type: IP Address
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

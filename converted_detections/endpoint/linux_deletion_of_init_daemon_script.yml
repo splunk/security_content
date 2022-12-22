@@ -50,6 +50,11 @@ tags:
   - T1485
   - T1070.004
   - T1070
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

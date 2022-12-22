@@ -60,6 +60,20 @@ tags:
     and process_id $process_id$ executed in suspicious file path in Windows by $user$
   mitre_attack_id:
   - T1036
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_id
+    type: Process
+    role:
+    - Attacker
+  - name: file_name
+    type: File Name
+    role:
+    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

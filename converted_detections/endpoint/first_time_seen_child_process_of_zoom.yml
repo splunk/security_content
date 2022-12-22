@@ -43,10 +43,23 @@ tags:
     which has not been previously on host $dest$
   mitre_attack_id:
   - T1068
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_name
+    type: Process Name
+    role:
+    - Attacker
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 64
   security_domain: endpoint
-tests: []

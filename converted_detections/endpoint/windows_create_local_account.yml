@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic identifies a new local user account added to a
   computer. Note that, this should be restricted to critical assets.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
   result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
   where All_Changes.result_id=4720 by All_Changes.user All_Changes.dest All_Changes.result
@@ -34,6 +34,15 @@ tags:
   mitre_attack_id:
   - T1136.001
   - T1136
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

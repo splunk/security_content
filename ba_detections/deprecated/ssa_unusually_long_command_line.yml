@@ -43,8 +43,16 @@ tags:
   impact: 30
   message: A  process $process_name$ with a long commandline $cmd_line$ executed in
     host $dest_device_id$
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Behavioral Analytics
   risk_score: 12
   security_domain: endpoint
-tests: []

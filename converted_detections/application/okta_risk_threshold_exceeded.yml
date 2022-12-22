@@ -10,7 +10,7 @@ description: The following correlation will take risk associated with the conten
   tally it up. Once it hits the threshold of 100 (may be changed), it will trigger
   an anomaly. As needed, reduce or raise the risk scores assocaited with the anomaly
   and TTP analytics tagged to these two stories.
-data_source: ''
+data_source: []
 search: '| tstats `summariesonly` sum(All_Risk.calculated_risk_score) as risk_score,
   count(All_Risk.calculated_risk_score) as risk_event_count,values(All_Risk.annotations.mitre_attack.mitre_tactic_id)
   as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id)
@@ -47,10 +47,18 @@ tags:
   mitre_attack_id:
   - T1078
   - T1110
+  observable:
+  - name: risk_object
+    type: Other
+    role:
+    - Victim
+  - name: risk_object_type
+    type: Other
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 56
   security_domain: access
-tests: []

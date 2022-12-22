@@ -45,6 +45,15 @@ tags:
   - T1586.003
   - T1110
   - T1110.003
+  observable:
+  - name: userPrincipalName
+    type: User
+    role:
+    - Victim
+  - name: ipAddress
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

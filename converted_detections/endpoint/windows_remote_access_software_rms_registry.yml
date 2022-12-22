@@ -37,6 +37,11 @@ tags:
   message: the registry related to RMS tool is created in $dest$
   mitre_attack_id:
   - T1219
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

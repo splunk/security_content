@@ -52,6 +52,23 @@ tags:
     within PowerShell.
   mitre_attack_id:
   - T1020
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Behavioral Analytics
   risk_score: 35

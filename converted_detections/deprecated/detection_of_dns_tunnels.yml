@@ -17,7 +17,7 @@ description: 'This search is used to detect DNS tunneling, by calculating the su
   replaced with two other variations, if you are using MLTK then you can use this
   search `ESCU - DNS Query Length Outliers - MLTK - Rule` or use the standard deviation
   version `ESCU - DNS Query Length With High Standard Deviation - Rule`, as an alternantive.'
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` dc("DNS.query") as count  from
   datamodel=Network_Resolution  where nodename=DNS "DNS.message_type"="QUERY" NOT
   (`cim_corporate_web_domain_search("DNS.query")`) NOT "DNS.query"="*.in-addr.arpa"
@@ -57,10 +57,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1048.003
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

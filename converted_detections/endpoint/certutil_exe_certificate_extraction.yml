@@ -37,6 +37,23 @@ tags:
   impact: 90
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting export a certificate.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

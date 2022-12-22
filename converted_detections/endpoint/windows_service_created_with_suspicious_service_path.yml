@@ -42,6 +42,15 @@ tags:
   mitre_attack_id:
   - T1569
   - T1569.002
+  observable:
+  - name: Service_File_Name
+    type: Other
+    role:
+    - Other
+  - name: Service_Name
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

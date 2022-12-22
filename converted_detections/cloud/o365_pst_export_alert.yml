@@ -32,6 +32,11 @@ tags:
     $Operation$ with a severity of $Severity$
   mitre_attack_id:
   - T1114
+  observable:
+  - name: Source
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -34,6 +34,15 @@ tags:
     related api calls- $failures$, within an hour where the access was denied.
   mitre_attack_id:
   - T1580
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: userIdentity.arn
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -39,6 +39,11 @@ tags:
   message: $process$ was executed on $dest$ attempting to stop service.
   mitre_attack_id:
   - T1489
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

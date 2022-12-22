@@ -43,8 +43,20 @@ tags:
   message: High frequency file deletion activity detected on host $Computer$
   mitre_attack_id:
   - T1485
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: deleted_files
+    type: File Name
+    role:
+    - Target
   product:
   - Splunk Behavioral Analytics
   risk_score: 72
   security_domain: endpoint
-tests: []

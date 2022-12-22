@@ -36,6 +36,15 @@ tags:
   - T1586
   - T1586.003
   - T1556
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: actor.email
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

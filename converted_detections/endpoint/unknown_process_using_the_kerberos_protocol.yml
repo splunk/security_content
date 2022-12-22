@@ -39,6 +39,15 @@ tags:
   message: ''
   mitre_attack_id:
   - T1550
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: dest_ip
+    type: IP Address
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

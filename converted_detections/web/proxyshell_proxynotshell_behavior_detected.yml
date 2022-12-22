@@ -15,7 +15,7 @@ description: The following correlation will identify activity related to Windows
   the amount of noise but also require the 3 analytic stories to fire. Adversaries
   will exploit the vulnerable Exchange server, abuse SSRF, drop a web shell, utilize
   the PowerShell Exchange modules and begin post-exploitation.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
   as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
   as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as
@@ -50,6 +50,11 @@ tags:
   message: ProxyShell or ProxyNotShell activity has been identified on $risk_object$.
   mitre_attack_id:
   - T1190
+  observable:
+  - name: risk_object
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

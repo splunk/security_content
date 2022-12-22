@@ -35,6 +35,19 @@ tags:
   mitre_attack_id:
   - T1218
   - T1218.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

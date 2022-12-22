@@ -40,6 +40,11 @@ tags:
     or a monitoring of a process has occurred.
   mitre_attack_id:
   - T1546.012
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

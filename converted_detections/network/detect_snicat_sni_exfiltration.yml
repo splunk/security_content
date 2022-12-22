@@ -33,10 +33,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1041
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

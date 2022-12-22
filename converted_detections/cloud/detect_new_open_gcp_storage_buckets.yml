@@ -36,10 +36,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1530
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

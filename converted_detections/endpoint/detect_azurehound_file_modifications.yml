@@ -47,6 +47,19 @@ tags:
   - T1087
   - T1069.002
   - T1069
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

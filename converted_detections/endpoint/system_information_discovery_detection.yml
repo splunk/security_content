@@ -34,6 +34,15 @@ tags:
   message: Potential system information discovery behavior on $dest$ by $User$
   mitre_attack_id:
   - T1082
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

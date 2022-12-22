@@ -44,10 +44,14 @@ tags:
   message: $src_user$ account has rejected multiple Okta pushes.
   mitre_attack_id:
   - T1110
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 18
   security_domain: access
-tests: []

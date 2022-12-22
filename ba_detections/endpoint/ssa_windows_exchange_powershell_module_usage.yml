@@ -69,6 +69,11 @@ tags:
   mitre_attack_id:
   - T1059
   - T1059.001
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Behavioral Analytics
   risk_score: 32

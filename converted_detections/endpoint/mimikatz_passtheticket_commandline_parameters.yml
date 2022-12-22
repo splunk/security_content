@@ -42,6 +42,19 @@ tags:
   mitre_attack_id:
   - T1550
   - T1550.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

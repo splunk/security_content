@@ -37,6 +37,11 @@ tags:
     possibly indicative of Kerberos relay attack.
   mitre_attack_id:
   - T1558
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

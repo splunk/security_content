@@ -43,6 +43,19 @@ tags:
     by user $dest_user_id$ attempting to register a file.
   mitre_attack_id:
   - T1218.007
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Behavioral Analytics
   risk_score: 35

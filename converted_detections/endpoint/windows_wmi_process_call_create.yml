@@ -40,6 +40,15 @@ tags:
   message: process with $process$ commandline executed in $dest$
   mitre_attack_id:
   - T1047
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -45,6 +45,15 @@ tags:
   mitre_attack_id:
   - T1566.001
   - T1566
+  observable:
+  - name: parameters.owner
+    type: User
+    role:
+    - Attacker
+  - name: email
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

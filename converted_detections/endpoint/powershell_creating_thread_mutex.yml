@@ -42,6 +42,15 @@ tags:
   - T1027
   - T1027.005
   - T1059.001
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: UserID
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

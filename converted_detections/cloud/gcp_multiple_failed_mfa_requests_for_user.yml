@@ -49,6 +49,15 @@ tags:
   - T1621
   - T1078
   - T1078.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: null
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

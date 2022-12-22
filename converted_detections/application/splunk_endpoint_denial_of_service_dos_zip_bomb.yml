@@ -32,6 +32,11 @@ tags:
   message: Potential exposure of environment variables from url embedded in dashboard
   mitre_attack_id:
   - T1499
+  observable:
+  - name: host
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

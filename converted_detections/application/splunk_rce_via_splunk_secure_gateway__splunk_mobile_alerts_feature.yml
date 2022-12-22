@@ -33,6 +33,11 @@ tags:
   message: Possible exploitation attempt from $clientip$
   mitre_attack_id:
   - T1210
+  observable:
+  - name: clientip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

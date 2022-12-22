@@ -40,6 +40,16 @@ tags:
     event $eventName$ for account ID $recipientAccountId$
   mitre_attack_id:
   - T1078
+  observable:
+  - name: sourceIPAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: recipientAccountId
+    type: Other
+    role:
+    - Victim
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

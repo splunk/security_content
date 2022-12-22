@@ -52,6 +52,11 @@ tags:
   - T1087
   - T1069.002
   - T1069
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

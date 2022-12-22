@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment by a user.
-data_source: ''
+data_source: []
 search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change
   where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time
   span=1h | `drop_dm_object_name("All_Changes")` | eval HourOfDay=strftime(_time,
@@ -37,6 +37,11 @@ tags:
   mitre_attack_id:
   - T1078.004
   - T1078
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

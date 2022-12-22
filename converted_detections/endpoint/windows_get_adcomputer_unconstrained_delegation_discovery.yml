@@ -38,6 +38,15 @@ tags:
   message: Suspicious PowerShell Get-ADComputer was identified on endpoint $ComputerName$
   mitre_attack_id:
   - T1018
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

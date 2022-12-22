@@ -47,10 +47,14 @@ tags:
   message: ''
   mitre_attack_id:
   - T1078
+  observable:
+  - name: Client_Address
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 42
   security_domain: endpoint
-tests: []

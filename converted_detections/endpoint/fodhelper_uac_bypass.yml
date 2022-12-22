@@ -51,6 +51,20 @@ tags:
   - T1112
   - T1548.002
   - T1548
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

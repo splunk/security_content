@@ -42,6 +42,11 @@ tags:
   message: Process name $process_name$ is seen to execute logoff commandline on $dest$
   mitre_attack_id:
   - T1529
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

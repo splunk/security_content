@@ -41,6 +41,11 @@ tags:
   message: Process with named pipe in $process$ on $dest$
   mitre_attack_id:
   - T1055
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

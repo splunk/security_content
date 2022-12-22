@@ -32,6 +32,11 @@ tags:
   message: $TotalFailedAuths$ failed authentication events to Splunk from $src$ detected.
   mitre_attack_id:
   - T1078
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

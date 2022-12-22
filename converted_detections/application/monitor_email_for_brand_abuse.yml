@@ -7,7 +7,7 @@ status: experimental
 type: TTP
 description: This search looks for emails claiming to be sent from a domain similar
   to one that you want to have monitored for abuse.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` values(All_Email.recipient) as
   recipients, min(_time) as firstTime, max(_time) as lastTime from datamodel=Email
   by All_Email.src_user, All_Email.message_id | `drop_dm_object_name("All_Email")`
@@ -31,10 +31,14 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

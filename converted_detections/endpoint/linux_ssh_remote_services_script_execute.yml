@@ -36,6 +36,19 @@ tags:
     $user$ attempting to move laterally and download a file.
   mitre_attack_id:
   - T1021.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

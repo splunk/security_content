@@ -8,7 +8,7 @@ type: Anomaly
 description: This search finds for the number successfully destroyed cloud instances
   for every 4 hour block. This is split up between weekdays and the weekend. It then
   applies the probability densitiy model previously created and alerts on any outliers.
-data_source: ''
+data_source: []
 search: '| tstats count as instances_destroyed values(All_Changes.object_id) as object_id
   from datamodel=Change where All_Changes.action=deleted AND All_Changes.status=success
   AND All_Changes.object_category=instance by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")`
@@ -41,10 +41,18 @@ tags:
   mitre_attack_id:
   - T1078.004
   - T1078
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: Cloud
-tests: []

@@ -38,6 +38,11 @@ tags:
     is trying to compromise other accounts.
   mitre_attack_id:
   - T1486
+  observable:
+  - name: userIdentity.principalId
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

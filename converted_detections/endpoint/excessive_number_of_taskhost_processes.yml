@@ -42,6 +42,15 @@ tags:
     of suspicious behavior.
   mitre_attack_id:
   - T1059
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

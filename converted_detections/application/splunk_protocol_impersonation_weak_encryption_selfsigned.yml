@@ -35,6 +35,11 @@ tags:
   message: Splunk default issued certificate at $host$
   mitre_attack_id:
   - T1588.004
+  observable:
+  - name: Hostname
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

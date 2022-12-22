@@ -25,7 +25,7 @@ class Generate:
     def execute(self, input_dto: GenerateInputDto) -> None:
 
         if input_dto.product == SecurityContentProduct.ESCU:
-            factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])
+            factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[])
             factory = Factory(factory_output_dto)
             factory.execute(input_dto.factory_input_dto)
             input_dto.adapter.writeHeaders(input_dto.output_path)
@@ -47,7 +47,7 @@ class Generate:
             input_dto.adapter.writeObjects(factory_output_dto.detections, input_dto.output_path)
 
         elif input_dto.product == SecurityContentProduct.API:
-            factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])
+            factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[])
             factory = Factory(factory_output_dto)
             factory.execute(input_dto.factory_input_dto)
             input_dto.adapter.writeObjects(factory_output_dto.detections, input_dto.output_path, SecurityContentType.detections)

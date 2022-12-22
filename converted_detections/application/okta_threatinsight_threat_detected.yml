@@ -33,10 +33,14 @@ tags:
   mitre_attack_id:
   - T1078
   - T1078.001
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: access
-tests: []

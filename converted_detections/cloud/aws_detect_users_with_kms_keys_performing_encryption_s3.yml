@@ -34,6 +34,15 @@ tags:
     on these files $dest_file$
   mitre_attack_id:
   - T1486
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest_file
+    type: File
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

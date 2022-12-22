@@ -62,8 +62,16 @@ tags:
   mitre_attack_id:
   - T1550
   - T1550.002
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: origin_device_id
+    type: Hostname
+    role:
+    - Other
   product:
   - Splunk Behavioral Analytics
   risk_score: 64
   security_domain: endpoint
-tests: []

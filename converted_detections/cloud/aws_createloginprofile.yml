@@ -38,6 +38,15 @@ tags:
   mitre_attack_id:
   - T1136.003
   - T1136
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

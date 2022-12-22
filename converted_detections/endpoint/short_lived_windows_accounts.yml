@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: This search detects accounts that were created and deleted in a short
   time period.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
   result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
   where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h
@@ -33,6 +33,15 @@ tags:
   mitre_attack_id:
   - T1136.001
   - T1136
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

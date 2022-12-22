@@ -49,6 +49,11 @@ tags:
   - T1562
   - T1059.001
   - T1059
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -8,7 +8,7 @@ type: Correlation
 description: The following correlation identifies a distinct amount of analytics associated
   with the Living Off The Land analytic story that identify potentially suspicious
   behavior.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
   as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
   as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as
@@ -46,6 +46,11 @@ tags:
   - T1105
   - T1190
   - T1059
+  observable:
+  - name: affected_systems
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

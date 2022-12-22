@@ -38,6 +38,15 @@ tags:
     the following command $eventName$
   mitre_attack_id:
   - T1098
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

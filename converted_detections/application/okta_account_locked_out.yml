@@ -31,10 +31,14 @@ tags:
   message: $src_user$ account has been locked out.
   mitre_attack_id:
   - T1110
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 64
   security_domain: access
-tests: []

@@ -40,6 +40,15 @@ tags:
   - T1546.015
   - T1546
   - T1059.001
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

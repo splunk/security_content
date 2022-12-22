@@ -32,6 +32,15 @@ tags:
     using UserAgent $UserAgent$.
   mitre_attack_id:
   - T1556
+  observable:
+  - name: ActorIpAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: UserId
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

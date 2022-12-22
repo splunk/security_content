@@ -34,10 +34,22 @@ tags:
     account.
   mitre_attack_id:
   - T1210
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: EventCode
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 49
   security_domain: endpoint
-tests: []

@@ -43,6 +43,15 @@ tags:
     user a permission to a file or directory in host $dest_device_id$
   mitre_attack_id:
   - T1222
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Behavioral Analytics
   risk_score: 35

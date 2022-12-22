@@ -31,6 +31,15 @@ tags:
   mitre_attack_id:
   - T1114.003
   - T1114
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: ForwardingSmtpAddress
+    type: Email Address
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

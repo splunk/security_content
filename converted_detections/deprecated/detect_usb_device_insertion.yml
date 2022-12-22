@@ -11,7 +11,7 @@ description: The search is used to detect hosts that generate Windows Event ID 4
   we are querying the Change_Analysis data model to look for Windows Event ID 4656
   or 4663 where the priority of the affected host is marked as high in the ES Assets
   and Identity Framework.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count earliest(_time) AS earliest
   latest(_time) AS latest from datamodel=Change_Analysis where (nodename = All_Changes)
   All_Changes.result="Removable Storage device" (All_Changes.result_id=4663 OR All_Changes.result_id=4656)
@@ -35,10 +35,14 @@ tags:
   drilldown_search: []
   impact: 50
   message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests: []

@@ -50,6 +50,15 @@ tags:
   - T1059
   - T1027
   - T1059.001
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

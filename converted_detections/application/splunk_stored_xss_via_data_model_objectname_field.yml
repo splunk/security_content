@@ -33,6 +33,11 @@ tags:
   message: A potential XSS attempt has been detected from $user$
   mitre_attack_id:
   - T1189
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -50,6 +50,11 @@ tags:
   mitre_attack_id:
   - T1003.003
   - T1003
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

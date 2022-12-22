@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: This search detects user accounts that have been locked out a relatively
   high number of times in a short period.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*locked
   out*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
@@ -33,6 +33,15 @@ tags:
   mitre_attack_id:
   - T1078
   - T1078.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: result
+    type: Other
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

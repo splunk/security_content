@@ -31,6 +31,15 @@ tags:
   message: Possible Trickbot namedpipe created on $Computer$ by $Image$
   mitre_attack_id:
   - T1055
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: Image
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

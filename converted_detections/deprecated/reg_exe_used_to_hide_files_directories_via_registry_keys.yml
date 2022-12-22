@@ -35,10 +35,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1564.001
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests: []

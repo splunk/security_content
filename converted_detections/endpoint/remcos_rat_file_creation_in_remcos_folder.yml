@@ -35,6 +35,11 @@ tags:
   message: file $file_name$ created in $file_path$ of $dest$
   mitre_attack_id:
   - T1113
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

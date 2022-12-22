@@ -39,6 +39,15 @@ tags:
     on $dest$ by $user$
   mitre_attack_id:
   - T1055
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

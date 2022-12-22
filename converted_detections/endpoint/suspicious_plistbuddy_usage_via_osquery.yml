@@ -52,10 +52,14 @@ tags:
   mitre_attack_id:
   - T1543.001
   - T1543
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests: []

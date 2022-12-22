@@ -10,7 +10,7 @@ description: This search looks for outbound SMB connections made by hosts within
   One of the techniques often used by attackers involves retrieving the credential
   hash using an SMB request made to a compromised server controlled by the threat
   actor.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` earliest(_time) as start_time latest(_time)
   as end_time values(All_Traffic.action) as action values(All_Traffic.app) as app
   values(All_Traffic.dest_ip) as dest_ip values(All_Traffic.dest_port) as dest_port
@@ -51,10 +51,14 @@ tags:
   mitre_attack_id:
   - T1071.002
   - T1071
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

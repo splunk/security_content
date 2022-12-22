@@ -41,6 +41,11 @@ tags:
   message: process $process_name$ with commandline $process$ is executed in $dest$
   mitre_attack_id:
   - T1082
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

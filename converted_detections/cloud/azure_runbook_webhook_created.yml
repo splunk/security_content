@@ -45,6 +45,15 @@ tags:
   mitre_attack_id:
   - T1078
   - T1078.004
+  observable:
+  - name: object
+    type: Other
+    role:
+    - Victim
+  - name: caller
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

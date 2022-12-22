@@ -38,6 +38,15 @@ tags:
   message: rundll32 process execute $process$ to clear shim cache in $dest$
   mitre_attack_id:
   - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

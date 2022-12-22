@@ -39,6 +39,19 @@ tags:
     $Computer$. This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:
   - T1068
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: ProcessID
+    type: Process
+    role:
+    - Parent Process
+  - name: TargetImage
+    type: Process Name
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

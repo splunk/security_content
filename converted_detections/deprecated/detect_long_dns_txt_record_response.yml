@@ -10,7 +10,7 @@ description: This search is used to detect attempts to use DNS tunneling, by cal
   for data exfiltration, command and control, or evasion of security controls can
   often be detected by noting unusually large volumes of DNS traffic. Deprecated because
   this detection should focus on DNS queries instead of DNS responses.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Resolution where DNS.message_type=response AND
   DNS.record_type=TXT by DNS.src DNS.dest DNS.answer DNS.record_type |  `drop_dm_object_name("DNS")`
@@ -41,10 +41,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1048.003
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

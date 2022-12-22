@@ -60,6 +60,19 @@ tags:
   mitre_attack_id:
   - T1218.001
   - T1218
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Behavioral Analytics
   risk_score: 72

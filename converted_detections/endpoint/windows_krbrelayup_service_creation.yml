@@ -31,6 +31,11 @@ tags:
   message: A service was created on $dest$, related to KrbRelayUp.
   mitre_attack_id:
   - T1543.003
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

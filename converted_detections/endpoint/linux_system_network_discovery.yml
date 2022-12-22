@@ -40,6 +40,11 @@ tags:
   message: A commandline $process$ executed on $dest$
   mitre_attack_id:
   - T1016
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

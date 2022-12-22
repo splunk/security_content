@@ -37,6 +37,11 @@ tags:
   message: A windows scheduled task was created and deleted in 30 seconds on $ComputerName$
   mitre_attack_id:
   - T1053.005
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

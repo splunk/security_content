@@ -35,6 +35,15 @@ tags:
     following permissions $permission$
   mitre_attack_id:
   - T1530
+  observable:
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
+  - name: bucketName
+    type: Other
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

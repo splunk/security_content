@@ -39,6 +39,11 @@ tags:
   message: Wermgr.exe spawning suspicious processes on $dest$
   mitre_attack_id:
   - T1059
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

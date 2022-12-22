@@ -1,0 +1,9 @@
+<panel>
+  <table>
+    <search>
+      <query>`wineventlog_security` EventCode=4768 OR EventCode=4769 | rex field=user "(?&lt;new_user&gt;[^\@]+)" | stats count BY new_user, dest, EventCode | stats max(count) AS max_count sum(count) AS sum_count BY new_user, dest| search dest=$dest$ | where sum_count/max_count!=2 | rename new_user AS user </query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>

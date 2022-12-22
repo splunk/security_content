@@ -41,6 +41,19 @@ tags:
     has been detected on $dest$ by $user$
   mitre_attack_id:
   - T1531
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

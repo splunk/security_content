@@ -35,10 +35,18 @@ tags:
   drilldown_search: []
   impact: 70
   message: Unusually long command line $Processes.process_name$ on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_name
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 42
   security_domain: endpoint
-tests: []

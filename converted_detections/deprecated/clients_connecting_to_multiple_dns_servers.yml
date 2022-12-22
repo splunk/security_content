@@ -7,7 +7,7 @@ status: deprecated
 type: TTP
 description: This search allows you to identify the endpoints that have connected
   to more than five DNS servers and made DNS Queries over the time frame of the search.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest
   dc(DNS.dest) as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
   by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count > 5 |
@@ -42,10 +42,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1048.003
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

@@ -37,6 +37,15 @@ tags:
     $dest$
   mitre_attack_id:
   - T1115
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: UserID
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -35,6 +35,15 @@ tags:
     on host $Computer$
   mitre_attack_id:
   - T1486
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: proc_terminated
+    type: Process
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

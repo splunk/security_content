@@ -39,6 +39,11 @@ tags:
   message: $peer$ downloaded apps from $host$
   mitre_attack_id:
   - T1055
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

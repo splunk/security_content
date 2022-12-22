@@ -29,6 +29,11 @@ tags:
   message: Kubernetes Scanner image pulled on host $host$
   mitre_attack_id:
   - T1526
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

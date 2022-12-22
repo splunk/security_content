@@ -34,6 +34,11 @@ tags:
   message: Remote system discovery with PowerView on $Computer$ by $UserID$
   mitre_attack_id:
   - T1018
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

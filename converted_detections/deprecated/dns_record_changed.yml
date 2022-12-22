@@ -8,7 +8,7 @@ type: TTP
 description: The search takes the DNS records and their answers results of the discovered_dns_records
   lookup and finds if any records have changed by searching DNS response from the
   Network_Resolution datamodel across the last day.
-data_source: ''
+data_source: []
 search: '| inputlookup discovered_dns_records | rename answer as discovered_answer
   | join domain[|tstats `security_content_summariesonly` count values(DNS.record_type)
   as type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution
@@ -45,10 +45,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1071.004
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

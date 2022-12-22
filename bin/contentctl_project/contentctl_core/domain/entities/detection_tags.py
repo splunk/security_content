@@ -12,16 +12,16 @@ class DetectionTags(BaseModel):
     automated_detection_testing: str = None
     cis20: list = None
     confidence: str
-    context: list
+    context: list = None
     dataset: list = None
     impact: int
-    kill_chain_phases: list
+    kill_chain_phases: list = None
     message: str
     mitre_attack_id: list = None
     nist: list = None
     observable: list
     product: list
-    required_fields: list
+    required_fields: list = None
     risk_score: int
     security_domain: str
     risk_severity: str = None

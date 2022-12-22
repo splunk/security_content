@@ -34,6 +34,15 @@ tags:
   mitre_attack_id:
   - T1136.001
   - T1136
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

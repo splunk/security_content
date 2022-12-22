@@ -36,6 +36,15 @@ tags:
   message: Known services $Message$ terminated by a potential ransomware on $dest$
   mitre_attack_id:
   - T1490
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Message
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

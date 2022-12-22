@@ -36,6 +36,20 @@ tags:
   mitre_attack_id:
   - T1036
   - T1036.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

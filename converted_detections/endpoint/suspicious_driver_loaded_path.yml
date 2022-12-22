@@ -42,6 +42,15 @@ tags:
   mitre_attack_id:
   - T1543.003
   - T1543
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: File Name
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

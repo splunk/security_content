@@ -30,6 +30,11 @@ tags:
   drilldown_search: []
   impact: 30
   message: Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

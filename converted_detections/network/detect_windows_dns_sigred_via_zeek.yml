@@ -6,7 +6,7 @@ author: Shannon Davis, Splunk
 status: experimental
 type: TTP
 description: This search detects SIGRed via Zeek DNS and Zeek Conn data.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where DNS.query_type IN (SIG,KEY) by DNS.flow_id | rename DNS.flow_id as flow_id
   | append [| tstats  `security_content_summariesonly` count from datamodel=Network_Traffic
@@ -30,10 +30,14 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1203
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests: []

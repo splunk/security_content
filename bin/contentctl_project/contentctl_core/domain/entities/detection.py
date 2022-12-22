@@ -5,7 +5,7 @@ import time
 from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
-
+from typing import Union
 
 
 
@@ -33,17 +33,18 @@ class Detection(BaseModel, SecurityContentObject):
     date: str
     author: str
     type: str
-    datamodel: list
     description: str
-    search: str
+    data_source : list[str]
+    search: Union[str, dict]
     how_to_implement: str
     known_false_positives: str
-    check_references: bool = False #Validation is done in order, this field must be defined first
     references: list
     tags: DetectionTags
-    
+    tests: list[UnitTest] = None
+
 
     # enrichments
+    datamodel: list = None
     deprecated: bool = None
     experimental: bool = None
     deployment: Deployment = None
@@ -98,12 +99,6 @@ class Detection(BaseModel, SecurityContentObject):
             raise ValueError('not valid analytics type: ' + values["name"])
         return v
 
-    @validator('datamodel')
-    def datamodel_valid(cls, v, values):
-        for datamodel in v:
-            if datamodel not in [el.name for el in DataModel]:
-                raise ValueError('not valid data model: ' + values["name"])
-        return v
 
     @validator('description', 'how_to_implement')
     def encode_error(cls, v, values, field):
@@ -113,15 +108,15 @@ class Detection(BaseModel, SecurityContentObject):
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
         return v
 
-    @root_validator
-    def search_validation(cls, values):
-        if 'ssa_' not in values['file_path']:
-            if not '_filter' in values['search']:
-                raise ValueError('filter macro missing in: ' + values["name"])
-            if any(x in values['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
-                if not 'index=_internal' in values['search']:
-                    raise ValueError('Use source macro instead of eventtype, sourcetype, source or index in detection: ' + values["name"])
-        return values
+    # @root_validator
+    # def search_validation(cls, values):
+    #     if 'ssa_' not in values['file_path']:
+    #         if not '_filter' in values['search']:
+    #             raise ValueError('filter macro missing in: ' + values["name"])
+    #         if any(x in values['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
+    #             if not 'index=_internal' in values['search']:
+    #                 raise ValueError('Use source macro instead of eventtype, sourcetype, source or index in detection: ' + values["name"])
+    #     return values
 
     @root_validator
     def name_max_length(cls, values):
@@ -132,9 +127,9 @@ class Detection(BaseModel, SecurityContentObject):
         return values
 
    
-    @validator('references')
-    def references_check(cls, v, values):
-        return LinkValidator.SecurityContentObject_validate_references(v, values)
+    # @validator('references')
+    # def references_check(cls, v, values):
+    #     return LinkValidator.SecurityContentObject_validate_references(v, values)
 
     @validator('search')
     def search_validate(cls, v, values):

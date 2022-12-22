@@ -38,6 +38,15 @@ tags:
   mitre_attack_id:
   - T1562.007
   - T1562
+  observable:
+  - name: ip_addresses_new_added
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_id
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

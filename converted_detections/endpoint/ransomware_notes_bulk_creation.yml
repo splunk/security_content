@@ -39,6 +39,15 @@ tags:
     host $Computer$
   mitre_attack_id:
   - T1486
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

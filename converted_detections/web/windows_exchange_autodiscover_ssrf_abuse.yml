@@ -14,7 +14,7 @@ description: The following analytic utilizes the Web datamodel and identifies th
   a POST occurring. It will tally a simple score and show the output of the events
   that match. This analytic may be added to by simply creating a new eval statement
   and modifying the hardcode digit for Score.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where (Web.status=200 OR Web.status=302 OR Web.status=401)
   AND Web.http_method=POST by Web.src Web.status Web.uri_path Web.dest Web.http_method
@@ -50,6 +50,11 @@ tags:
     $dest$. Review events and take action accordingly.
   mitre_attack_id:
   - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -7,7 +7,7 @@ status: experimental
 type: Anomaly
 description: The search is used to identify attempts to use your DNS Infrastructure
   for DDoS purposes via a DNS amplification attack leveraging ANY queries.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest"
   | `drop_dm_object_name("DNS")` | where count>200 | `large_volume_of_dns_any_queries_filter`'
@@ -29,10 +29,14 @@ tags:
   mitre_attack_id:
   - T1498
   - T1498.002
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 25
   security_domain: network
-tests: []

@@ -32,6 +32,15 @@ tags:
     $command$.
   mitre_attack_id:
   - T1526
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

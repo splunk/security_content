@@ -40,6 +40,11 @@ tags:
   message: wermgr parent process has a child process $process_name$ in $dest$
   mitre_attack_id:
   - T1055
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

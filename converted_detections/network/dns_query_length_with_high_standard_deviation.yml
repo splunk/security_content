@@ -8,7 +8,7 @@ type: Anomaly
 description: This search allows you to identify DNS requests and compute the standard
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.
-data_source: ''
+data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where NOT DNS.message_type IN("Pointer","PTR") by DNS.query | `drop_dm_object_name("DNS")`
   | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
@@ -35,6 +35,11 @@ tags:
   mitre_attack_id:
   - T1048.003
   - T1048
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

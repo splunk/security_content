@@ -32,6 +32,15 @@ tags:
     by user $user_arn$ from $src_ip$
   mitre_attack_id:
   - T1537
+  observable:
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

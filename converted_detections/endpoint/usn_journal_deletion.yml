@@ -36,6 +36,11 @@ tags:
   message: Possible USN journal deletion on $dest$
   mitre_attack_id:
   - T1070
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
