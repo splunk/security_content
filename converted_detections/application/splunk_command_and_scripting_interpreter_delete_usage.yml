@@ -30,6 +30,8 @@ tags:
   asset_type: Web Server
   atomic_guid: []
   confidence: 30
+  cve:
+  - CVE-2022-32154
   drilldown_search: []
   impact: 90
   message: $user$ executed the 'delete' command, if this is unexpected it should be

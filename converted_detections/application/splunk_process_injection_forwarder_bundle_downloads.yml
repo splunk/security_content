@@ -34,6 +34,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 70
+  cve:
+  - CVE-2022-32157
   drilldown_search: []
   impact: 50
   message: $peer$ downloaded apps from $host$

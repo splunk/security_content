@@ -38,6 +38,9 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 90
+  cve:
+  - CVE-2021-34527
+  - CVE-2021-1675
   drilldown_search: []
   impact: 80
   message: Suspicious print driver was loaded on endpoint $ComputerName$.

@@ -18,6 +18,8 @@ tags:
   asset_type: Splunk Server
   atomic_guid: []
   confidence: 50
+  cve:
+  - CVE-2016-4859
   drilldown_search: []
   impact: 50
   message: tbd

@@ -32,6 +32,9 @@ tags:
   asset_type: Proxy
   atomic_guid: []
   confidence: 70
+  cve:
+  - CVE-2022-32151
+  - CVE-2022-32152
   drilldown_search: []
   impact: 60
   message: The following $dest$ is using the self signed Splunk certificate.

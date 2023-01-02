@@ -38,6 +38,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 90
+  cve:
+  - CVE-2021-34527
   drilldown_search: []
   impact: 80
   message: $process_name$ has been identified writing dll's to $file_path$ on endpoint

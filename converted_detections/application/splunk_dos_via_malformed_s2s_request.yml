@@ -25,6 +25,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 100
+  cve:
+  - CVE-2021-3422
   drilldown_search: []
   impact: 50
   message: An attempt to exploit CVE-2021-3422 was detected from $src$ against $host$

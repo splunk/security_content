@@ -28,6 +28,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 80
+  cve:
+  - CVE-2022-26889
   drilldown_search: []
   impact: 50
   message: Path traversal exploitation attempt from $clientip$

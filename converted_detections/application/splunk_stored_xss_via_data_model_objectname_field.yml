@@ -28,6 +28,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 50
+  cve:
+  - CVE-2022-43569
   drilldown_search: []
   impact: 50
   message: A potential XSS attempt has been detected from $user$

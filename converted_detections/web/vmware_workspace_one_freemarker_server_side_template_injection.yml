@@ -34,6 +34,8 @@ tags:
   asset_type: Web Server
   atomic_guid: []
   confidence: 70
+  cve:
+  - CVE-2022-22954
   drilldown_search: []
   impact: 70
   message: An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on

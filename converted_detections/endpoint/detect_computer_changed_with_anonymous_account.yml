@@ -27,6 +27,8 @@ tags:
   asset_type: Windows
   atomic_guid: []
   confidence: 70
+  cve:
+  - CVE-2020-1472
   drilldown_search: []
   impact: 70
   message: The following $EventCode$ occurred on $dest$ by $user$ with Logon Type

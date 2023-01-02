@@ -28,6 +28,8 @@ tags:
   asset_type: Network
   atomic_guid: []
   confidence: 50
+  cve:
+  - CVE-2020-1472
   drilldown_search: []
   impact: 50
   message: tbd

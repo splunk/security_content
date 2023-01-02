@@ -32,6 +32,9 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 70
+  cve:
+  - CVE-2021-42287
+  - CVE-2021-42278
   drilldown_search: []
   impact: 100
   message: A computer account $Old_Account_Name$ was renamed with a suspicious computer

@@ -29,6 +29,8 @@ tags:
   asset_type: Web Server
   atomic_guid: []
   confidence: 60
+  cve:
+  - CVE-2022-22965
   drilldown_search: []
   impact: 60
   message: A URL was requested related to Spring4Shell POC code on $dest$ by $src$.

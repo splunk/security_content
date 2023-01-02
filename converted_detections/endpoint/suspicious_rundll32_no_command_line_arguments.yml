@@ -38,6 +38,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 70
+  cve:
+  - CVE-2021-34527
   drilldown_search: []
   impact: 70
   message: Suspicious rundll32.exe process with no command line arguments executed

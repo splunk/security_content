@@ -35,6 +35,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 100
+  cve:
+  - CVE-2021-36934
   drilldown_search: []
   impact: 80
   message: The following process $process_name$ accessed the object $Object_Name$

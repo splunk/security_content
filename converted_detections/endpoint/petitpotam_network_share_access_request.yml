@@ -39,6 +39,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 70
+  cve:
+  - CVE-2021-36942
   drilldown_search: []
   impact: 80
   message: A remote host is enumerating a $dest$ to identify permissions. This is

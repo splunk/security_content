@@ -26,6 +26,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 80
+  cve:
+  - CVE-2022-37438
   drilldown_search: []
   impact: 50
   message: Potential exposure of environment variables from url embedded in dashboard

@@ -30,6 +30,8 @@ tags:
   asset_type: Web Server
   atomic_guid: []
   confidence: 60
+  cve:
+  - CVE-2022-22963
   drilldown_search: []
   impact: 70
   message: A suspicious URL has been requested against $dest$ by $src$, related to

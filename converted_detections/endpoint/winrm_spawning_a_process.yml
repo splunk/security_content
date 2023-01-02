@@ -34,6 +34,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 50
+  cve:
+  - CVE-2021-31166
   drilldown_search: []
   impact: 50
   message: tbd

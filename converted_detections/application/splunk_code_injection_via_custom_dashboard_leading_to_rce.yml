@@ -30,6 +30,8 @@ tags:
   asset_type: Endpoint
   atomic_guid: []
   confidence: 50
+  cve:
+  - CVE-2022-43571
   drilldown_search: []
   impact: 50
   message: Potential exploitation of Code Injection via Dashboard PDF generation.
