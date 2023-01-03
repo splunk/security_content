@@ -3,10 +3,11 @@ id: a46923f6-36b9-4806-a681-31f314907c30
 version: 1
 date: '2020-07-11'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides information on Kubernetes accounts accessing sensitve
   objects such as configmpas or secrets
+data_source: []
 search: '`google_gcp_pubsub_message` data.labels.authorization.k8s.io/reason=ClusterRoleBinding
   OR Clusterrole dest=apis/rbac.authorization.k8s.io/v1 src_ip!=::1  | table src_ip
   src_user http_user_agent data.labels.authorization.k8s.io/decision data.labels.authorization.k8s.io/reason
@@ -21,23 +22,19 @@ tags:
   analytic_story:
   - Kubernetes Sensitive Role Activity
   asset_type: GCP GKE EKS Kubernetes cluster
-  kill_chain_phases:
-  - Exploitation
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: threat
+  atomic_guid: []
   confidence: 50
+  drilldown_search: []
   impact: 50
-  risk_score: 25
-  context:
-  - Unknown
   message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: threat

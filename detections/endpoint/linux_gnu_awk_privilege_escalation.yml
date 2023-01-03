@@ -3,20 +3,28 @@ id: 0dcf43b9-50d8-42a6-acd9-d1c9201fe6ae
 version: 1
 date: '2022-08-09'
 author: Gowthamaraj Rajendran, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
-description: gawk command in Linux is used for pattern scanning and processing language. The awk command requires no compiling and allows the user to use variables, numeric functions, string functions, and logical operators. It is a utility that enables programmers to write tiny and effective programs in the form of statements 
-  that define text patterns that are to be searched for, in a text document and the action that is to be taken when a match is found within a line.
-  If sudo right is given to gawk tool for the user, then the user can run system commands as root and possibly get a root shell.
+description: gawk command in Linux is used for pattern scanning and processing language.
+  The awk command requires no compiling and allows the user to use variables, numeric
+  functions, string functions, and logical operators. It is a utility that enables
+  programmers to write tiny and effective programs in the form of statements that
+  define text patterns that are to be searched for, in a text document and the action
+  that is to be taken when a match is found within a line. If sudo right is given
+  to gawk tool for the user, then the user can run system commands as root and possibly
+  get a root shell.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process="*gawk*" AND Processes.process="*BEGIN*{system*" AND Processes.process="*sudo*" by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `linux_gnu_awk_privilege_escalation_filter`'
+  as lastTime from datamodel=Endpoint.Processes where Processes.process="*gawk*" AND
+  Processes.process="*BEGIN*{system*" AND Processes.process="*sudo*" by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `linux_gnu_awk_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
-  Splunkbase.
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the
+  Add-on for Linux Sysmon from Splunkbase.
 known_false_positives: False positives may be present, filter as needed.
 references:
 - https://gtfobins.github.io/gtfobins/gawk/
@@ -26,25 +34,15 @@ tags:
   - Linux Privilege Escalation
   - Linux Living Off The Land
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/gawk/sysmon_linux.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Exploitation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$
   mitre_attack_id:
   - T1548.003
   - T1548
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -62,14 +60,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 30
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/gawk/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true

@@ -3,19 +3,29 @@ id: d7c2c09b-9569-4a9e-a8b6-6a39a99c1d32
 version: 2
 date: '2022-09-19'
 author: Michael Haag, Teoderick Contreras, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
-description: The following analytic identifies the use of a delivered ISO file that has been mounted and the afformention lnk or file opened within it. When the ISO file is opened, the files are saved in the %USER%\AppData\Local\Temp\<random folder name>\ path. 
-  The analytic identifies .iso.lnk written to the path. The name of the ISO file is prepended. 
+description: The following analytic identifies the use of a delivered ISO file that
+  has been mounted and the afformention lnk or file opened within it. When the ISO
+  file is opened, the files are saved in the %USER%\AppData\Local\Temp\<random folder
+  name>\ path. The analytic identifies .iso.lnk written to the path. The name of the
+  ISO file is prepended.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\Microsoft\\Windows\\Recent\\*") Filesystem.file_name IN ("*.iso.lnk", "*.img.lnk", "*.vhd.lnk", "*vhdx.lnk") by Filesystem.file_create_time Filesystem.process_id Filesystem.file_name Filesystem.file_path Filesystem.dest 
-  | `drop_dm_object_name(Filesystem)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_iso_lnk_file_creation_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives may be high depending on the environment and consistent use of ISOs mounting. Restrict to servers, or filter out based on commonly used ISO names. Filter as needed.
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\Microsoft\\Windows\\Recent\\*")
+  Filesystem.file_name IN ("*.iso.lnk", "*.img.lnk", "*.vhd.lnk", "*vhdx.lnk") by
+  Filesystem.file_create_time Filesystem.process_id Filesystem.file_name Filesystem.file_path
+  Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_iso_lnk_file_creation_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives may be high depending on the environment and
+  consistent use of ISOs mounting. Restrict to servers, or filter out based on commonly
+  used ISO names. Filter as needed.
 references:
 - https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/
 - https://github.com/MHaggis/notes/blob/master/utilities/ISOBuilder.ps1
@@ -31,24 +41,17 @@ tags:
   - Azorult
   - Remcos
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.001/atomic_red_team/iso_windows-sysmon.log
-  kill_chain_phases:
-  - Delivery
-  message: An ISO file was mounted on $dest$ and should be reviewed and filtered as needed.
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 80
+  message: An ISO file was mounted on $dest$ and should be reviewed and filtered as
+    needed.
   mitre_attack_id:
   - T1566.001
   - T1566
   - T1204.001
   - T1204
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -58,13 +61,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - Filesystem.file_create_time 
-  - Filesystem.process_id
-  - Filesystem.file_name 
-  - Filesystem.file_path 
-  - Filesystem.dest
-  security_domain: endpoint
-  impact: 80
-  confidence: 50
   risk_score: 40
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.001/atomic_red_team/iso_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

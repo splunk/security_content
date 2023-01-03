@@ -3,14 +3,15 @@ id: 911eacdc-317f-11ec-ad30-acde48001122
 version: 2
 date: '2022-01-28'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This particular behavior is typically executed when an adversaries or
   malware gains access to an endpoint and beings to perform execution and to evade
   detections. Usually, a batch (.bat) will be executed and multiple registry and scheduled
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*" AND (Registry.registry_path
   IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*","*WinDefend*", "*SecurityHealthService*"))
@@ -36,15 +37,11 @@ tags:
   analytic_story:
   - IcedID
   - Windows Registry Abuse
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $registry_path$ in $dest$
   mitre_attack_id:
   - T1562.001
@@ -62,14 +59,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_value_name
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.registry_value_data
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

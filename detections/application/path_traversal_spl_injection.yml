@@ -3,32 +3,35 @@ id: dfe55688-82ed-4d24-a21b-ed8f0e0fda99
 version: 1
 date: '2022-04-29'
 author: Rod Soto, Splunk
+status: production
 type: TTP
-datamodel: []
-search: ' `path_traversal_spl_injection` | search "\/..\/..\/..\/..\/..\/..\/..\/..\/..\/"  | stats count by status clientip method uri_path uri_query | `path_traversal_spl_injection_filter`'
-description: On May 3rd, 2022, Splunk published a security advisory for a Path traversal in search parameter that can potentiall allow SPL injection. An attacker can cause the application to load data from incorrect endpoints, urls leading to outcomes such as running arbitrary SPL queries.
-how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This search will provide search UI requests with path traversal parameter ("../../../../../../../../../") which shows exploitation attempts. This detection is meant for on premise environments, and if executed on internet facing servers without a WAF may produce a lot of results. This detection will not work against obfuscated path traversal requests.
-known_false_positives: This search may find additional path traversal exploitation attempts.
+description: On May 3rd, 2022, Splunk published a security advisory for a Path traversal
+  in search parameter that can potentiall allow SPL injection. An attacker can cause
+  the application to load data from incorrect endpoints, urls leading to outcomes
+  such as running arbitrary SPL queries.
+data_source: []
+search: ' `path_traversal_spl_injection` | search "\/..\/..\/..\/..\/..\/..\/..\/..\/..\/"  |
+  stats count by status clientip method uri_path uri_query | `path_traversal_spl_injection_filter`'
+how_to_implement: This detection does not require you to ingest any new data. The
+  detection does require the ability to search the _internal index. This search will
+  provide search UI requests with path traversal parameter ("../../../../../../../../../")
+  which shows exploitation attempts. This detection is meant for on premise environments,
+  and if executed on internet facing servers without a WAF may produce a lot of results.
+  This detection will not work against obfuscated path traversal requests.
+known_false_positives: This search may find additional path traversal exploitation
+  attempts.
 references:
 - https://www.splunk.com/en_us/product-security/announcements/svd-2022-0506.html
 tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
+  atomic_guid: []
+  confidence: 80
   cve:
   - CVE-2022-26889
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  confidence: 80
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/path_traversal_spl_injection.txt
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: Path traversal exploitation attempt from $clientip$
   mitre_attack_id:
   - T1083
@@ -40,11 +43,12 @@ tags:
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
-  required_fields:
-  - status
-  - clientip
-  - method
-  - uri_path
-  - uri_query
   risk_score: 40
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/path_traversal_spl_injection.txt
+    source: splunkd_ui_access.log
+    sourcetype: splunkd_ui_access
+    custom_index: _internal

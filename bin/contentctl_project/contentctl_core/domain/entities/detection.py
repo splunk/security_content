@@ -33,6 +33,7 @@ class Detection(BaseModel, SecurityContentObject):
     date: str
     author: str
     type: str
+    status: str
     description: str
     data_source : list[str]
     search: Union[str, dict]
@@ -53,7 +54,7 @@ class Detection(BaseModel, SecurityContentObject):
     playbooks: list[Playbook] = None
     baselines: list[Baseline] = None
     mappings: dict = None
-    test: UnitTest = None
+    test: Union[UnitTest, dict] = None
     macros: list[Macro] = None
     lookups: list[Lookup] = None
     cve_enrichment: list = None

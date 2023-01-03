@@ -82,7 +82,7 @@ class Factory():
           if type == SecurityContentType.deployments:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           elif type == SecurityContentType.detections:
-               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, 'converted_detections'))
+               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, 'detections'))
           else:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           

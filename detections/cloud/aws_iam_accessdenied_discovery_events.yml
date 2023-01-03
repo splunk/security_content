@@ -3,12 +3,13 @@ id: 3e1f1568-9633-11eb-a69c-acde48001122
 version: 2
 date: '2021-11-12'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: The following detection identifies excessive AccessDenied events within
   an hour timeframe. It is possible that an access key to AWS may have been stolen
   and is being misused to perform discovery events. In these instances, the access
   is not available with the key stolen therefore these events will be generated.
+data_source: []
 search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
   | bucket _time span=1h | stats count as failures min(_time) as firstTime max(_time)
   as lastTime, dc(eventName) as methods, dc(eventSource) as sources by src_ip, userIdentity.arn,
@@ -25,17 +26,10 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Account
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Blocked
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
+  drilldown_search: []
   impact: 20
-  kill_chain_phases:
-  - Reconnaissance
   message: User $userIdentity.arn$ is seen to perform excessive number of discovery
     related api calls- $failures$, within an hour where the access was denied.
   mitre_attack_id:
@@ -53,14 +47,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - eventName
-  - eventSource
-  - userAgent
-  - errorCode
-  - userIdentity.type
-  risk_object: src_ip
-  risk_object_type: system
   risk_score: 10
   security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

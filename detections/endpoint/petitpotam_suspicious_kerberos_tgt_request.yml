@@ -3,8 +3,8 @@ id: e3ef244e-0a67-11ec-abf2-acde48001122
 version: 1
 date: '2021-08-31'
 author: Michael Haag, Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic identifes Event Code 4768, A `Kerberos authentication
   ticket (TGT) was requested`, successfull occurs. This behavior has been identified
   to assist with detecting PetitPotam, CVE-2021-36942. Once an attacer obtains a computer
@@ -14,6 +14,8 @@ description: The following analytic identifes Event Code 4768, A `Kerberos authe
   like Rubeus. This request will generate a 4768 event with some unusual fields depending
   on the environment. This analytic will require tuning, we recommend filtering Account_Name
   to Domain Controllers for your environment.
+data_source:
+- Windows Security 4768
 search: '`wineventlog_security` EventCode=4768 Client_Address!="::1" Certificate_Thumbprint!=""
   Account_Name=*$ | stats count min(_time) as firstTime max(_time) as lastTime by
   dest, Account_Name, Client_Address, action, Message | `security_content_ctime(firstTime)`
@@ -29,17 +31,13 @@ tags:
   analytic_story:
   - PetitPotam NTLM Relay on Active Directory Certificate Services
   - Active Directory Kerberos Attacks
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
   cve:
   - CVE-2021-36942
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: A Kerberos TGT was requested in a non-standard manner against $dest$, potentially
     related to CVE-2021-36942, PetitPotam.
   mitre_attack_id:
@@ -53,13 +51,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - Account_Name
-  - Client_Address
-  - action
-  - Message
   risk_score: 56
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

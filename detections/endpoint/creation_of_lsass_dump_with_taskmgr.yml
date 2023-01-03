@@ -3,13 +3,15 @@ id: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
 version: 1
 date: '2020-02-03'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
 description: Detect the hands on keyboard behavior of Windows Task Manager creating
   a process dump of lsass.exe. Upon this behavior occurring, a file write/modification
   will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp,
   cannot be renamed, however if the dump occurs more than once, it will be named lsass
   (2).dmp.
+data_source:
+- Sysmon Event ID 1
 search: '`sysmon` EventID=11 process_name=taskmgr.exe TargetFilename=*lsass*.dmp |
   stats count min(_time) as firstTime max(_time) as lastTime by Computer, object_category,
   process_name, TargetFilename | rename Computer as dest | `security_content_ctime(firstTime)`
@@ -31,25 +33,15 @@ tags:
   - Credential Dumping
   - CISA AA22-257A
   asset_type: Windows
-  cis20:
-  - CIS 6
-  - CIS 8
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$
     to disk. This behavior is related to dumping credentials via Task Manager.
   mitre_attack_id:
   - T1003.001
   - T1003
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -71,12 +63,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventID
-  - process_name
-  - TargetFilename
-  - Computer
-  - object_category
   risk_score: 80
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

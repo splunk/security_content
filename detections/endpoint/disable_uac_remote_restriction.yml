@@ -3,14 +3,15 @@ id: 9928b732-210e-11ec-b65e-acde48001122
 version: 2
 date: '2022-01-27'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to detect a suspicious modification of registry to disable
   UAC remote restriction. This technique was well documented in Microsoft page where
   attacker may modify this registry value to bypassed UAC feature of windows host.
   This is a good indicator that some tries to bypassed UAC to suspicious process or
   gain privilege escalation.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\CurrentVersion\\Policies\\System*"
   Registry.registry_value_name="LocalAccountTokenFilterPolicy" Registry.registry_value_data="0x00000001"
@@ -38,15 +39,11 @@ tags:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Registry Abuse
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/LocalAccountTokenFilterPolicy/sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1548.002
@@ -64,14 +61,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
-  - Registry.registry_value_data
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/LocalAccountTokenFilterPolicy/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

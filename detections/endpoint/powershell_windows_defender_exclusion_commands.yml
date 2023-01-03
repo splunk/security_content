@@ -3,15 +3,16 @@ id: 907ac95c-4dd9-11ec-ba2c-acde48001122
 version: 1
 date: '2021-11-25'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic will detect a suspicious process commandline related to
   windows defender exclusion feature. This command is abused by adversaries, malware
   author and red teams to bypassed Windows Defender Anti-Virus product by excluding  folder
   path, file path, process, extensions and etc. from its real time or schedule scan
   to execute their malicious code. This is a good indicator for defense evasion and
   to look further for events after this behavior.
+data_source:
+- Powershell 4104
 search: '`powershell` EventCode=4104 (Message = "*Add-MpPreference *" OR Message =
   "*Set-MpPreference *") AND Message = "*-exclusion*" | stats count min(_time) as
   firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
@@ -32,15 +33,11 @@ tags:
   - WhisperGate
   - CISA AA22-320A
   - AgentTesla
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_powershell/powershell.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: exclusion command $Message$ executed on $ComputerName$
   mitre_attack_id:
   - T1562.001
@@ -58,12 +55,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_powershell/powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: WinEventLog

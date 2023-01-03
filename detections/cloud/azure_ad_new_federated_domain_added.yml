@@ -3,25 +3,33 @@ id: a87cd633-076d-4ab2-9047-977751a3c1a0
 version: 1
 date: '2022-09-02'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
-description: The following analytic identifies the addition of a new federated domain within an Azure Active Directory tenant. This event could represent the execution
-  of the Azure Active Directory identity federation backdoor technique discovered by security researcher Nestori Syynimaa. 
-  Similar to Active Directory, Azure AD uses the concept of domains to manage directories of identities. A new Azure AD tenant will initially contain a
-  single domain that is commonly called the `cloud-only` onmicrosoft.com domain. Organizations can also add their registered custom domains to Azure AD for
-  email addresses to match the organizations domain name. If the organization intends to use a third-party identity provider such as ADFS for authentication, 
-  the added custom domains can be configured as federated. An adversary who has obtained privileged access to an Azure AD tenant may leverage this technique
-  to establish persistence and be able to authenticate to Azure AD impersonating any user and bypassing the requirement to have a valid password and/or perform MFA.
+description: The following analytic identifies the addition of a new federated domain
+  within an Azure Active Directory tenant. This event could represent the execution
+  of the Azure Active Directory identity federation backdoor technique discovered
+  by security researcher Nestori Syynimaa. Similar to Active Directory, Azure AD uses
+  the concept of domains to manage directories of identities. A new Azure AD tenant
+  will initially contain a single domain that is commonly called the `cloud-only`
+  onmicrosoft.com domain. Organizations can also add their registered custom domains
+  to Azure AD for email addresses to match the organizations domain name. If the organization
+  intends to use a third-party identity provider such as ADFS for authentication,
+  the added custom domains can be configured as federated. An adversary who has obtained
+  privileged access to an Azure AD tenant may leverage this technique to establish
+  persistence and be able to authenticate to Azure AD impersonating any user and bypassing
+  the requirement to have a valid password and/or perform MFA.
+data_source: []
 search: ' `azuread` body.operationName="Set domain authentication" "body.properties.result"=success
-  | rename body.properties.* as *
-  | rename body.callerIpAddress as callerIpAddress
-  | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | rename targetResources{}.displayName as domain
-  | stats values(domain) by _time, initiatedBy, result, body.operationName, callerIpAddress
-  | `azure_ad_new_federated_domain_added_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
+  | rename body.properties.* as * | rename body.callerIpAddress as callerIpAddress
+  | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.displayName
+  as domain | stats values(domain) by _time, initiatedBy, result, body.operationName,
+  callerIpAddress | `azure_ad_new_federated_domain_added_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
   Specifically, this analytic leverages the AuditLogs log category.
-known_false_positives: In most organizations, domain federation settings will be updated infrequently. Filter as needed. 
+known_false_positives: In most organizations, domain federation settings will be updated
+  infrequently. Filter as needed.
 references:
 - https://www.mandiant.com/resources/remediation-and-hardening-strategies-microsoft-365-defend-against-apt29-v13
 - https://o365blog.com/post/federation-vulnerability/
@@ -32,26 +40,14 @@ tags:
   analytic_story:
   - Azure Active Directory Persistence
   asset_type: Azure Active Directory
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
   message: A new federated domain, $domain$ , was added by $initiatedBy$
   mitre_attack_id:
   - T1484
   - T1484.002
-  nist:
-  - DE.CM
   observable:
   - name: initiatedBy
     type: User
@@ -61,12 +57,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - body.operationName
-  - body.properties.result
-  - body.callerIpAddress
-  - body.properties.targetResources{}.displayName
-  - body.properties.initiatedBy.user.userPrincipalName
   risk_score: 81
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

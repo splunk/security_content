@@ -3,9 +3,8 @@ id: c184f12e-5c90-11ec-bf1f-497c9a704a72
 version: 1
 date: '2021-12-13'
 author: Jose Hernandez
+status: production
 type: Anomaly
-datamodel:
-- Web
 description: CVE-2021-44228 Log4Shell payloads can be injected via various methods,
   but on of the most common vectors injection is via Web calls. Many of the vulnerable
   java web applications that are using log4j have a web component to them are specially
@@ -23,6 +22,7 @@ description: CVE-2021-44228 Log4Shell payloads can be injected via various metho
   that there was a attempt at a injection, which could be a reconnaissance activity
   or a valid expliotation attempt, but this does not exactly mean that the host was
   indeed successfully exploited.
+data_source: []
 search: '| from datamodel Web.Web | regex _raw="[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)\w+(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?"
   | fillnull | stats count by action, category, dest, dest_port, http_content_type,
   http_method, http_referrer, http_user_agent, site, src, url, url_domain, user |
@@ -39,27 +39,15 @@ tags:
   - CISA AA22-257A
   - CISA AA22-320A
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 30
-  context:
-  - Source:Application Log
-  - Stage:Execution
   cve:
   - CVE-2021-44228
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Reconnaissance
-  - Exploitation
   message: CVE-2021-44228 Log4Shell triggered for host $dest$
   mitre_attack_id:
   - T1190
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -73,21 +61,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - action
-  - category
-  - dest
-  - dest_port
-  - http_content_type
-  - http_method
-  - http_referrer
-  - http_user_agent
-  - site
-  - src
-  - url
-  - url_domain
-  - user
   risk_score: 15
   security_domain: threat
-  supported_tas:
-  - Splunk_TA_nginx
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
+    source: nginx
+    sourcetype: nginx:plus:kv

@@ -3,12 +3,13 @@ id: ada0f478-84a8-4641-a3f1-e32372d4bd53
 version: 1
 date: '2018-04-18'
 author: Bhavin Patel, Splunk
+status: deprecated
 type: Anomaly
-datamodel: []
 description: This search will detect users creating spikes in API activity related
   to security groups in your AWS environment.  It will also update the cache file
   that factors in the latest data.  This search is deprecated and have been translated
   to use the latest Change Datamodel.
+data_source: []
 search: '`cloudtrail` `security_group_api_calls` [search `cloudtrail` `security_group_api_calls`
   | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup
   security_group_activity_baseline append=t | fields - latestCount | stats values(*)
@@ -40,34 +41,21 @@ tags:
   analytic_story:
   - AWS User Monitoring
   asset_type: AWS Instance
-  cis20:
-  - CIS 16
-  kill_chain_phases:
-  - Actions on Objectives
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1078.004
-  nist:
-  - DE.DP
-  - DE.CM
-  - PR.AC
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - serIdentity.arn
-  risk_object: user
-  risk_object_type: user
-  risk_score: 25.0
-  security_domain: network
-  confidence: 50
-  impact: 50
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25.0
+  security_domain: network

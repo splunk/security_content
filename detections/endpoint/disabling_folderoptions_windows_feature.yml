@@ -3,14 +3,15 @@ id: 83776de4-921a-11eb-868a-acde48001122
 version: 2
 date: '2022-01-28'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to identify registry modification to disable folder options
   feature of windows to show hidden files, file extension and etc. This technique
   used by malware in combination if disabling show hidden files feature to hide their
   files and also to hide the file extension to lure the user base on file icons or
   fake file extensions.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFolderOptions"
   Registry.registry_value_data = "0x00000001" by _time span=1h Registry.dest Registry.user
@@ -36,17 +37,11 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: The Windows Folder Options, to hide files, was disabled on $dest$ by $user$.
   mitre_attack_id:
   - T1562.001
@@ -64,13 +59,19 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.user
-  - Registry.dest
-  - Registry.registry_value_name
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

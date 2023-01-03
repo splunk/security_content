@@ -3,8 +3,8 @@ id: 01d9a0c2-cece-11eb-ab46-acde48001122
 version: 1
 date: '2021-06-16'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
 description: 'The following analytic identifies the use of WMI Event Subscription
   to establish persistence or perform privilege escalation.  WMI can be used to install
   event filters, providers, consumers, and bindings that execute code when a defined
@@ -25,6 +25,8 @@ description: 'The following analytic identifies the use of WMI Event Subscriptio
   It may be pertinent to review all 3 to identify the flow of execution. In addition,
   EventCode 4104 may assist with any other PowerShell script usage that registered
   the subscription.'
+data_source:
+- Sysmon Event ID 20
 search: '`sysmon` EventID=20 | stats count min(_time) as firstTime max(_time) as lastTime
   by Computer User Destination | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_wmi_event_subscription_persistence_filter`'
@@ -43,16 +45,11 @@ references:
 tags:
   analytic_story:
   - Suspicious WMI Use
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Possible malicious WMI Subscription created on $dest$
   mitre_attack_id:
   - T1546.003
@@ -66,11 +63,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Destination
-  - Computer
-  - User
   risk_score: 63
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

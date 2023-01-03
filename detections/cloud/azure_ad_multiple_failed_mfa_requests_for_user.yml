@@ -3,55 +3,52 @@ id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
 version: 1
 date: '2022-08-25'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
-description: 'The following analytic identifies multiple failed multi-factor authentication requests for a single user within an Azure AD tenant. Error Code 500121 represents a failed attempt to authenticate using a second factor.
-  Specifically, the analytic triggers when more than 10 MFA user prompts fail within 10 minutes. Azure AD tenants can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds.
-  The detected behavior may represent an adversary who has obtained legitimate credentials for a user and continuously repeats login attempts in order to bombard users with MFA push notifications, SMS messages, and phone calls
-  potentially resulting in the user finally accepting the authentication request.
-  Threat actors like the Lapsus team and APT29 have leveraged this technique to bypass multi-factor authentication controls as reported by Mandiant and others.'
+description: The following analytic identifies multiple failed multi-factor authentication
+  requests for a single user within an Azure AD tenant. Error Code 500121 represents
+  a failed attempt to authenticate using a second factor. Specifically, the analytic
+  triggers when more than 10 MFA user prompts fail within 10 minutes. Azure AD tenants
+  can be very different depending on the organization, Security teams should test
+  this detection and customize these arbitrary thresholds. The detected behavior may
+  represent an adversary who has obtained legitimate credentials for a user and continuously
+  repeats login attempts in order to bombard users with MFA push notifications, SMS
+  messages, and phone calls potentially resulting in the user finally accepting the
+  authentication request. Threat actors like the Lapsus team and APT29 have leveraged
+  this technique to bypass multi-factor authentication controls as reported by Mandiant
+  and others.
+data_source: []
 search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=500121
-  | rename body.properties.* as * 
-  | bucket span=10m _time
-  | stats dc(_raw) AS mfa_prompts values(userPrincipalName) by userPrincipalName, status.additionalDetails, appDisplayName, userAgent, _time
-  | where mfa_prompts > 10
-  | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). 
-  You must be ingesting Azure Active Directory events into your Splunk environment. Specifically, this analytic leverages the SignInLogs
-  log category.
-known_false_positives: Multiple Failed MFA requests may also be a sign of authentication or application issues. Filter as needed.
+  | rename body.properties.* as * | bucket span=10m _time | stats dc(_raw) AS mfa_prompts
+  values(userPrincipalName) by userPrincipalName, status.additionalDetails, appDisplayName,
+  userAgent, _time | where mfa_prompts > 10 | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  Specifically, this analytic leverages the SignInLogs log category.
+known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
+  or application issues. Filter as needed.
 references:
 - https://www.mandiant.com/resources/blog/russian-targeting-gov-business
 - https://arstechnica.com/information-technology/2022/03/lapsus-and-solar-winds-hackers-both-use-the-same-old-trick-to-bypass-mfa/
-- https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/ 
+- https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/
 - https://attack.mitre.org/techniques/T1621/
 - https://attack.mitre.org/techniques/T1078/004/
 tags:
   analytic_story:
-  -  Azure Active Directory Account Takeover
+  - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Initial Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Exploitation
   message: Multiple Failed MFA requests for user $body.properties.userPrincipalName$
   mitre_attack_id:
   - T1586
   - T1586.003
   - T1621
   - T1078
-  - T1078.004 
-  nist:
-  - DE.CM
+  - T1078.004
   observable:
   - name: userPrincipalName
     type: User
@@ -65,12 +62,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - body.properties.status.errorCode
-  - body.category
-  - body.properties.authenticationDetails
-  - body.properties.userPrincipalName
-  - body.properties.ipAddress
   risk_score: 54
   security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

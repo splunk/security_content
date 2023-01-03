@@ -3,15 +3,16 @@ id: 9cf8fe08-7ad8-11eb-9819-acde48001122
 version: 2
 date: '2022-01-28'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following search identifies Eventvwr bypass by identifying the registry
   modification into a specific path that eventvwr.msc looks to (but is not valid)
   upon execution. A successful attack will include a suspicious command to be executed
   upon eventvwr.msc loading. Upon triage, review the parallel processes that have
   executed. Identify any additional registry modifications on the endpoint that may
   look suspicious. Remediate as necessary.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path="*mscfile\\shell\\open\\command\\*"
@@ -42,16 +43,11 @@ tags:
   - IcedID
   - Living Off The Land
   - Windows Registry Abuse
-  automated_detection_testing: passed
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: Registry values were modified to bypass UAC using Event Viewer on $dest$
     by $user$.
   mitre_attack_id:
@@ -70,13 +66,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.user
-  - Registry.dest
-  - Registry.registry_value_name
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

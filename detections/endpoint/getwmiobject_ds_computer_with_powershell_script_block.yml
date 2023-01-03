@@ -3,17 +3,19 @@ id: 29b99201-723c-4118-847a-db2b3d3fb8ea
 version: 2
 date: '2022-05-02'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-WmiObject` commandlet. The `DS_Computer` class
   parameter leverages WMI to query for all domain computers. Red Teams and adversaries
   may leverage this commandlet to enumerate domain computers for situational awareness
   and Active Directory Discovery.
+data_source:
+- Powershell 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace
-  root\\directory\\ldap*" AND ScriptBlockText="*class ds_computer*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
-  | `getwmiobject_ds_computer_with_powershell_script_block_filter`'
+  root\\directory\\ldap*" AND ScriptBlockText="*class ds_computer*") | stats count
+  min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
+  ScriptBlockText | `security_content_ctime(firstTime)` | `getwmiobject_ds_computer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -25,15 +27,11 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Reconnaissance
   message: Remote system discovery enumeration on $Computer$ by $UserID$
   mitre_attack_id:
   - T1018
@@ -46,13 +44,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - ScriptBlockText
-  - Opcode
-  - Computer
-  - UserID
-  - EventCode
   risk_score: 15
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

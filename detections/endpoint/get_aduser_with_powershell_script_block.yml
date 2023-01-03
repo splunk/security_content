@@ -3,16 +3,18 @@ id: 21432e40-04f4-11ec-b7e6-acde48001122
 version: 2
 date: '2022-09-13'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
+status: production
 type: Hunting
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-AdGUser` commandlet. The `Get-AdUser` commandlet
   is used to return a list of all domain users. Red Teams and adversaries may leverage
   this commandlet to enumerate domain groups for situational awareness and Active
   Directory Discovery.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*get-aduser*" ScriptBlockText = "*-filter*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = "*get-aduser*" ScriptBlockText
+  = "*-filter*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
+  ScriptBlockText Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `get_aduser_with_powershell_script_block_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
@@ -25,15 +27,11 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/aduser_powershell.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Reconnaissance
   message: powershell process having commandline $Message$ for user enumeration
   mitre_attack_id:
   - T1087.002
@@ -51,12 +49,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - Message
-  - ComputerName
-  - User
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/aduser_powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

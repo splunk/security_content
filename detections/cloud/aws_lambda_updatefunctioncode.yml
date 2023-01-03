@@ -3,13 +3,14 @@ id: 211b80d3-6340-4345-11ad-212bf3d0d111
 version: 1
 date: '2022-02-24'
 author: Bhavin Patel, Splunk
+status: production
 type: Hunting
-datamodel: []
 description: This analytic is designed to detect IAM users attempting to update/modify
   AWS lambda code via the AWS CLI to gain persistence, futher access into your AWS
   environment and to facilitate planting backdoors. In this instance, an attacker
   may upload malicious code/binary to a lambda function which will be executed automatically
   when the funnction is triggered.
+data_source: []
 search: '`cloudtrail` eventSource=lambda.amazonaws.com eventName=UpdateFunctionCode*  errorCode
   = success  user_type=IAMUser | stats  count min(_time) as firstTime max(_time) as
   lastTime  values(requestParameters.functionName) as function_updated by src_ip user_arn
@@ -25,27 +26,14 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Account
-  automated_detection_testing: passed
-  cis20:
-  - CIS 13
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Outcome:Allowed
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/aws_updatelambdafunctioncode/aws_cloudtrail_events.json
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user_arn$ is attempting to update the lambda function code of $function_updated$
     from this IP $src_ip$
   mitre_attack_id:
   - T1204
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: src_ip
     type: IP Address
@@ -59,10 +47,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - eventName
-  - userAgent
-  - errorCode
   risk_score: 63
   security_domain: cloud
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/aws_updatelambdafunctioncode/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

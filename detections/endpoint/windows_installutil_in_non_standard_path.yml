@@ -3,12 +3,13 @@ id: dcf74b22-7933-11ec-857c-acde48001122
 version: 1
 date: '2022-01-19'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies the Windows binary InstallUtil.exe
   running from a non-standard location. The analytic utilizes a macro for InstallUtil
   and identifies both the process_name and original_file_name.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where `process_installutil` NOT (Processes.process_path
   IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",
@@ -38,16 +39,11 @@ tags:
   - Signed Binary Proxy Execution InstallUtil
   - WhisperGate
   - Living Off The Land
-  automated_detection_testing: passed
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ from a non-standard
     path was identified on endpoint $dest$ by user $user$.
   mitre_attack_id:
@@ -76,21 +72,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

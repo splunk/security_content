@@ -3,14 +3,15 @@ id: eff7919a-8330-11eb-83f8-acde48001122
 version: 1
 date: '2021-03-12'
 author: Teoderick Contreras
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: The following analytics identifies a big number of instance of ransomware
   notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This
   behavior is a good sensor if the ransomware note filename is quite new for security
   industry or the ransomware note filename is not in your ransomware lookup table
   list for monitoring.
+data_source:
+- Sysmon Event ID 1
 search: '`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") |bin _time
   span=10s | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename)
   as unique_readme_path_count values(TargetFilename) as list_of_readme_path by Computer
@@ -29,14 +30,11 @@ tags:
   - Clop Ransomware
   - DarkSide Ransomware
   - BlackMatter Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: A high frequency file creation of $file_name$ in different file path in
     host $Computer$
   mitre_attack_id:
@@ -54,14 +52,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - EventCode
-  - file_name
-  - _time
-  - TargetFilename
-  - Computer
-  - Image
-  - user
   risk_score: 81
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

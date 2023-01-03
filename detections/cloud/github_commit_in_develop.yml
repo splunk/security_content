@@ -3,12 +3,13 @@ id: f3030cb6-0b02-11ec-8f22-acde48001122
 version: 1
 date: '2021-09-01'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search is to detect a pushed or commit to develop branch. This is
   to avoid unwanted modification to develop without a review to the changes. Ideally
   in terms of devsecops the changes made in a branch and do a PR for review. of course
   in some cases admin of the project may did a changes directly to master branch
+data_source: []
 search: '`github` branches{}.name = main OR branches{}.name = develop |  stats count
   min(_time) as firstTime max(_time) as lastTime  by commit.author.html_url commit.commit.author.email
   commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date
@@ -24,14 +25,10 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GitHub
+  atomic_guid: []
   confidence: 30
-  context:
-  - Source:Application Log
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_develop.json
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Exploitation
   message: suspicious commit by $commit.commit.author.email$ to develop branch
   mitre_attack_id:
   - T1199
@@ -44,7 +41,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
   risk_score: 9
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_develop.json
+    source: github
+    sourcetype: aws:firehose:json

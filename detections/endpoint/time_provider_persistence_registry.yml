@@ -3,14 +3,15 @@ id: 5ba382c4-2105-11ec-8d8f-acde48001122
 version: 2
 date: '2022-01-26'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to detect a suspicious modification of time provider
   registry for persistence and autostart. This technique can allow the attacker to
   persist on the compromised host and autostart as soon as the machine boot up. This
   TTP can be a good indicator of suspicious behavior since this registry is not commonly
   modified by normal user or even an admin.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   ="*\\CurrentControlSet\\Services\\W32Time\\TimeProviders*" by _time span=1h Registry.dest
@@ -40,15 +41,11 @@ tags:
   - Windows Privilege Escalation
   - Windows Registry Abuse
   - Hermetic Wiper
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.003/timeprovider_reg/sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1547.003
@@ -66,13 +63,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.003/timeprovider_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

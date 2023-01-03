@@ -1,0 +1,91 @@
+name: DNS Exfiltration Using Nslookup App
+id: 2452e632-9e0d-11eb-34ba-acde48001122
+version: 1
+date: '2021-12-07'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: This search is to detect potential DNS exfiltration using nslookup application.
+  This technique are seen in couple of malware and APT group to exfiltrated collected
+  data in a infected machine or infected network. This detection is looking for unique
+  use of nslookup where it tries to use specific record type, TXT, A, AAAA, that are
+  commonly used by attacker and also the retry parameter which is designed to query
+  C2 DNS multiple tries.
+data_source: []
+search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
+  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
+  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
+  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
+  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="nslookup.exe"
+  AND (like (cmd_line, "%-querytype=%") OR like (cmd_line, "%-qt=%") OR like (cmd_line,
+  "%-q=%") OR like (cmd_line, "%-type=%") OR like (cmd_line, "%-retry=%")) | eval
+  start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
+  "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
+  process_path]) | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint_Processess` datamodel.
+known_false_positives: It is possible for some legitimate administrative utilities
+  to use similar cmd_line parameters. Filter as needed.
+references:
+- https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings
+- https://www.varonis.com/blog/dns-tunneling
+- https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+tags:
+  analytic_story:
+  - Suspicious DNS Traffic
+  - Dynamic DNS
+  - Data Exfiltration
+  - Command and Control
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 80
+  drilldown_search: []
+  impact: 90
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ performing activity related
+    to DNS exfiltration.
+  mitre_attack_id:
+  - T1048
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 72
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

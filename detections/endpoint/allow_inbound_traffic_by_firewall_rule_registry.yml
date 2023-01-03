@@ -3,13 +3,14 @@ id: 0a46537c-be02-11eb-92ca-acde48001122
 version: 3
 date: '2022-07-19'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic detects a potential suspicious modification of firewall
   rule registry allowing inbound traffic in specific port with public profile. This
   technique was identified when an adversary wants to grant remote access to a machine
   by allowing the traffic in a firewall rule.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
   Registry.registry_value_data = "*|Action=Allow|*" Registry.registry_value_data =
@@ -38,16 +39,11 @@ tags:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Windows Registry Abuse
   - Azorult
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Lateral Movement
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious firewall allow rule modifications were detected via the registry
     on endpoint $dest$ by user $user$.
   mitre_attack_id:
@@ -66,15 +62,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.registry_key_name
-  - Registry.registry_value_data
-  - Registry.action
-  - Registry.dest
-  - Registry.user
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

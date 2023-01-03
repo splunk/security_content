@@ -266,12 +266,13 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addKillChainPhase(self) -> None:
         if self.security_content_obj:
-            kill_chain_phases = list()
-            if self.security_content_obj.tags.mitre_attack_enrichments:
-                for mitre_attack_enrichment in self.security_content_obj.tags.mitre_attack_enrichments:
-                    for mitre_attack_tactic in mitre_attack_enrichment.mitre_attack_tactics:
-                        kill_chain_phases.append(ATTACK_TACTICS_KILLCHAIN_MAPPING[mitre_attack_tactic])
-            self.security_content_obj.tags.kill_chain_phases = list(dict.fromkeys(kill_chain_phases))
+            if not self.security_content_obj.tags.kill_chain_phases:
+                kill_chain_phases = list()
+                if self.security_content_obj.tags.mitre_attack_enrichments:
+                    for mitre_attack_enrichment in self.security_content_obj.tags.mitre_attack_enrichments:
+                        for mitre_attack_tactic in mitre_attack_enrichment.mitre_attack_tactics:
+                            kill_chain_phases.append(ATTACK_TACTICS_KILLCHAIN_MAPPING[mitre_attack_tactic])
+                self.security_content_obj.tags.kill_chain_phases = list(dict.fromkeys(kill_chain_phases))
 
     def addNist(self) -> None:
         if self.security_content_obj:

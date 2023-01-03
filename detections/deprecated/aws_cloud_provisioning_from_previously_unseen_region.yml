@@ -3,12 +3,13 @@ id: 7971d3df-da82-4648-a6e5-b5637bea5253
 version: 1
 date: '2018-03-16'
 author: David Dorsey, Splunk
+status: deprecated
 type: Anomaly
-datamodel: []
 description: This search looks for AWS provisioning activities from previously unseen
   regions. Region in this context is similar to a state in the United States. Provisioning
   activities are defined broadly as any event that begins with "Run" or "Create."
   This search is deprecated and have been translated to use the latest Change Datamodel.
+data_source: []
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
   | search Region=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
   sourceIPAddress | search Region=* | stats earliest(_time) as firstTime, latest(_time)
@@ -40,31 +41,21 @@ tags:
   analytic_story:
   - AWS Suspicious Provisioning Activities
   asset_type: AWS Instance
-  cis20:
-  - CIS 1
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1535
-  nist:
-  - ID.AM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - eventName
-  - sourceIPAddress
-  security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint

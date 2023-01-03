@@ -3,8 +3,8 @@ id: f63c34fe-a435-11eb-935a-acde48001122
 version: 2
 date: '2021-11-18'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic identifies executable files (.exe or .dll) being
   written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents
   suspicious behavior as its commonly used by tools like like PsExec/PaExec and others
@@ -12,6 +12,8 @@ description: The following analytic identifies executable files (.exe or .dll) b
   endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral
   movement and remote code execution. The Trickbot malware family also implements
   this behavior to try to infect other machines in the infected network.
+data_source:
+- Sysmon Event ID 5
 search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll")
   Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
   "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode
@@ -36,16 +38,11 @@ tags:
   - Hermetic Wiper
   - Industroyer2
   - Prestige Ransomware
-  automated_detection_testing: passed
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Lateral Movement
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: $user$ dropped or created an executable file in known sensitive SMB share.  Share
     name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$
   mitre_attack_id:
@@ -60,16 +57,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - Share_Name
-  - Relative_Target_Name
-  - Object_Type
-  - Access_Mask
-  - user
-  - src_port
-  - Source_Address
   risk_score: 70
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

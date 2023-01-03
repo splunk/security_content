@@ -3,14 +3,15 @@ id: 07eed200-03f5-11ec-98fb-acde48001122
 version: 1
 date: '2021-08-23'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search is to detect a shared file in google drive with suspicious
   file name that are commonly used by spear phishing campaign. This technique is very
   popular to lure the user by running a malicious document or click a malicious link
   within the shared file that will redirected to malicious website. This detection
   can also catch some normal email communication between organization and its external
   customer.
+data_source: []
 search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title"
   IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*",
   "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*",
@@ -36,15 +37,10 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GSuite
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Exploitation
   message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
   mitre_attack_id:
   - T1566.001
@@ -62,14 +58,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - parameters.doc_title
-  - src_domain
-  - dest_domain
-  - email
-  - parameters.visibility
-  - parameters.owner
-  - parameters.doc_type
   risk_score: 21
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
+    source: http:gsuite
+    sourcetype: gsuite:drive:json

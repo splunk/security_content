@@ -3,40 +3,38 @@ id: 82092925-9ca1-4e06-98b8-85a2d3889552
 version: 1
 date: '2022-07-13'
 author: Bhavin Patel, Splunk
+status: production
 type: TTP
-datamodel: []
-description: This analytic identifies AWS `DeleteTrail` events within CloudTrail logs. Adversaries often try to impair their target's defenses by stopping their malicious activity from being logged, so that they may operate with stealth and avoid detection. When the adversary has the right type of permissions in the compromised AWS environment, they may delete the the entire cloudtrail that is logging activities in the environment. 
-search: '`cloudtrail` eventName = DeleteTrail eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success| stats
-  count min(_time) as firstTime max(_time) as lastTime values(requestParameters.name) as deleted_cloudtrail_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
+description: This analytic identifies AWS `DeleteTrail` events within CloudTrail logs.
+  Adversaries often try to impair their target's defenses by stopping their malicious
+  activity from being logged, so that they may operate with stealth and avoid detection.
+  When the adversary has the right type of permissions in the compromised AWS environment,
+  they may delete the the entire cloudtrail that is logging activities in the environment.
+data_source: []
+search: '`cloudtrail` eventName = DeleteTrail eventSource = cloudtrail.amazonaws.com
+  userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
+  firstTime max(_time) as lastTime values(requestParameters.name) as deleted_cloudtrail_name
+  by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `aws_defense_evasion_delete_cloudtrail_filter`'
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in
   your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has stopped cloudTrail logging. Please investigate this activity. 
+  that an AWS admin has stopped cloudTrail logging. Please investigate this activity.
 references:
 - https://attack.mitre.org/techniques/T1562/008/
 tags:
   analytic_story:
   - AWS Defense Evasion
   asset_type: AWS Account
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Cloud Data
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/aws_cloudtrail_events.json
+  drilldown_search: []
   impact: 100
-  kill_chain_phases:
-  - Actions on Objectives
-  message: User $user_arn$ has delete a CloudTrail logging for account id $aws_account_id$ from IP $src$
+  message: User $user_arn$ has delete a CloudTrail logging for account id $aws_account_id$
+    from IP $src$
   mitre_attack_id:
   - T1562.008
   - T1562
-  nist:
-  - DE.CM
   observable:
   - name: src
     type: IP Address
@@ -50,15 +48,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time 
-  - eventName
-  - eventSource
-  - requestParameters.name
-  - userAgent
-  - aws_account_id
-  - src
-  - region
   risk_score: 90
   security_domain: threat
-
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail

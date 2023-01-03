@@ -3,15 +3,16 @@ id: 13395a44-4dd9-11ec-9df7-acde48001122
 version: 1
 date: '2021-11-25'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic will detect a suspicious process that modify a registry
   related to windows defender exclusion feature. This registry is abused by adversaries,
   malware author and red teams to bypassed Windows Defender Anti-Virus product by
   excluding folder path, file path, process, extensions and etc. from its real time
   or schedule scan to execute their malicious code. This is a good indicator for a
   defense evasion and to look further for events after this behavior.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows
   Defender\\Exclusions\\*" by _time span=1h Registry.dest Registry.user Registry.registry_path
@@ -40,15 +41,11 @@ tags:
   - Windows Defense Evasion Tactics
   - Azorult
   - Qakbot
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: exclusion registry $registry_path$  modified or added on $dest$
   mitre_attack_id:
   - T1562.001
@@ -66,14 +63,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.user
-  - Registry.dest
-  - Registry.registry_value_name
-  - Registry.registry_value_data
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

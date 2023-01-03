@@ -3,15 +3,16 @@ id: 57551656-ebdb-11eb-afdf-acde48001122
 version: 1
 date: '2021-07-23'
 author: Michael Haag, Mauricio Velazco, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: The following analytic identifies access to SAM, SYSTEM or SECURITY databases'
   within the file path of `windows\system32\config` using Windows Security EventCode
   4663. This particular behavior is related to credential access, an attempt to either
   use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security
   Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7,
   8.1 and 10 that stores users' passwords.
+data_source:
+- Windows Security 4663
 search: '`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name
   IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*")
   | stats values(Accesses) count by process_name Object_Name  dest user | `sam_database_file_access_attempt_filter`'
@@ -31,15 +32,13 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
   cve:
   - CVE-2021-36934
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: The following process $process_name$ accessed the object $Object_Name$
     attempting to gain access to credentials on $dest$ by user $user$.
   mitre_attack_id:
@@ -66,12 +65,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - process_name
-  - Object_Name
-  - dest
-  - user
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

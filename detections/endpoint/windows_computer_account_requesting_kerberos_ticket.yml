@@ -3,17 +3,23 @@ id: fb3b2bb3-75a4-4279-848a-165b42624770
 version: 1
 date: '2022-04-27'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic identifies a ComputerAccount requesting a Kerberos Ticket. typically, a user account requests a Kerberos ticket. This behavior was identified with KrbUpRelay, but additional Kerberos attacks have exhibited similar behavior.
-search: '`wineventlog_security`  EventCode=4768 Account_Name="*$"  src_ip!="::1"
-  | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject,
-  action, Supplied_Realm_Name, user, Account_Name, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_computer_account_requesting_kerberos_ticket_filter`'
+description: The following analytic identifies a ComputerAccount requesting a Kerberos
+  Ticket. typically, a user account requests a Kerberos ticket. This behavior was
+  identified with KrbUpRelay, but additional Kerberos attacks have exhibited similar
+  behavior.
+data_source:
+- Windows Security 4768
+search: '`wineventlog_security`  EventCode=4768 Account_Name="*$"  src_ip!="::1" |
+  stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action,
+  Supplied_Realm_Name, user, Account_Name, src_ip | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_computer_account_requesting_kerberos_ticket_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4768 EventCode enabled. The Windows TA is also
   required.
-known_false_positives: It is possible false positives will be present based on third party applications. Filtering may be needed.
+known_false_positives: It is possible false positives will be present based on third
+  party applications. Filtering may be needed.
 references:
 - https://github.com/Dec0ne/KrbRelayUp
 tags:
@@ -21,23 +27,14 @@ tags:
   - Active Directory Kerberos Attacks
   - Local Privilege Escalation With KrbRelayUp
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/krbrelayup/krbrelayup.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Actions on Objectives
-  message: A Computer Account requested a Kerberos ticket on $dest$, possibly indicative of Kerberos relay attack.
+  message: A Computer Account requested a Kerberos ticket on $dest$, possibly indicative
+    of Kerberos relay attack.
   mitre_attack_id:
   - T1558
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -47,14 +44,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - subject
-  - action
-  - Supplied_Realm_Name
-  - user
-  - Account_Name
-  - src_ip
   risk_score: 35
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/krbrelayup/krbrelayup.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

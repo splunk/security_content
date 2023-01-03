@@ -3,8 +3,8 @@ id: 5d9c6eee-988c-11eb-8253-acde48001122
 version: 1
 date: '2021-04-08'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
 description: 'The following query utilizes Windows Security EventCode 4698, `A scheduled
   task was created`, to identify suspicious tasks registered on Windows either via
   schtasks.exe OR TaskService with a command to be executed from a user writeable
@@ -24,10 +24,12 @@ description: 'The following query utilizes Windows Security EventCode 4698, `A s
   TaskService. Review the job created and the Command to be executed. Capture any
   artifacts on disk and review. Identify any parallel processes within the same timeframe
   to identify source.'
+data_source:
+- Windows Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
   ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*",
-  "*\\appdata\\*", "*\\perflogs\\*") | stats count min(_time) as firstTime max(_time) as lastTime by
-  dest, Task_Name, Command, Author, Enabled, Hidden | `security_content_ctime(firstTime)`
+  "*\\appdata\\*", "*\\perflogs\\*") | stats count min(_time) as firstTime max(_time)
+  as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `winevent_scheduled_task_created_within_public_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
@@ -51,17 +53,11 @@ tags:
   - Industroyer2
   - CISA AA22-257A
   - Prestige Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  - Stage:Persistence
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: 'A windows scheduled task was created (task name=$Task_Name$) on $dest$
     by the following command: $Command$'
   mitre_attack_id:
@@ -80,12 +76,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - Task_Name
-  - Description
-  - Command
   risk_score: 70
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

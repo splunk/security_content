@@ -3,13 +3,14 @@ id: 39ebdc68-25b9-11ec-aec7-acde48001122
 version: 2
 date: '2022-01-27'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to detect a suspicious registry modification to disable
   security audit logs. This technique was shared by a researcher to disable Security
   logs of windows by adding this registry. The Windows will think it is WinPE and
   will not log any event to the Security Log
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where Registry.registry_path="*\\Control\\MiniNt\\*" by _time span=1h Registry.dest
   Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
@@ -35,15 +36,11 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/minint_reg/sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1112
@@ -60,14 +57,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_value_name
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.registry_value_data
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/minint_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

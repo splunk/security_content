@@ -3,8 +3,8 @@ id: 9015385a-9c84-11eb-bef2-acde48001122
 version: 1
 date: '2021-04-13'
 author: Mauricio Velazco, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: 'The following analytic identifies a source process name failing to authenticate
   with multiple users. This behavior could represent an adversary performing a Password
   Spraying attack against an Active Directory environment to obtain initial access
@@ -25,6 +25,8 @@ description: 'The following analytic identifies a source process name failing to
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source process name, source account and attempted user accounts.'
+data_source:
+- Windows Security 4625
 search: ' `wineventlog_security` EventCode=4625 Logon_Type=2 Caller_Process_Name!="-"
   | bucket span=2m _time | eval Source_Account = mvindex(Account_Name, 0) | eval Destination_Account
   = mvindex(Account_Name, 1) | stats dc(Destination_Account) AS unique_accounts values(Account_Name)
@@ -49,16 +51,11 @@ tags:
   analytic_story:
   - Active Directory Password Spraying
   - Insider Threat
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Initial Access
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process/windows-security.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Potential password spraying attack from $ComputerName$
   mitre_attack_id:
   - T1110.003
@@ -72,14 +69,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - Logon_Type
-  - Caller_Process_Name
-  - Security_ID
-  - Account_Name
-  - ComputerName
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

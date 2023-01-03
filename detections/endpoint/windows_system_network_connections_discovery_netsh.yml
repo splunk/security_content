@@ -3,22 +3,25 @@ id: abfb7cc5-c275-4a97-9029-62cd8d4ffeca
 version: 1
 date: '2022-11-30'
 author: Teoderick Contreras, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
-description: The following analytic identifies a process execution of Windows OS built-in tool netsh.exe to show state, configuration and profile of host firewall. 
-  This tool is being used or abused by several adversaries or even post exploitation tool to bypass firewall rules or to discover firewall settings. 
-  This hunting detection can help to detect a possible suspicious usage of netsh.exe to retrieve firewall settings or even firewall wlan profile. 
-  We recommend checking which parent process and process name execute this command. Also check the process file path for verification that may lead to further 
-  TTP's threat behavior.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_netsh`AND Processes.process = "* show *" Processes.process IN ("*state*", "*config*", "*wlan*", "*profile*")
-  by Process.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid 
-  Processes.parent_process_name Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_system_network_connections_discovery_netsh_filter`'
+description: The following analytic identifies a process execution of Windows OS built-in
+  tool netsh.exe to show state, configuration and profile of host firewall. This tool
+  is being used or abused by several adversaries or even post exploitation tool to
+  bypass firewall rules or to discover firewall settings. This hunting detection can
+  help to detect a possible suspicious usage of netsh.exe to retrieve firewall settings
+  or even firewall wlan profile. We recommend checking which parent process and process
+  name execute this command. Also check the process file path for verification that
+  may lead to further TTP's threat behavior.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_netsh`AND Processes.process
+  = "* show *" Processes.process IN ("*state*", "*config*", "*wlan*", "*profile*")
+  by Process.process_name Processes.original_file_name Processes.process Processes.process_id
+  Processes.process_guid Processes.parent_process_name Processes.parent_process Processes.parent_process_guid
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_system_network_connections_discovery_netsh_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -33,25 +36,13 @@ tags:
   - Windows Post-Exploitation
   - Prestige Ransomware
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 30
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Recon
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Exploitation
   message: netsh process with command line $process$ in $dest$
   mitre_attack_id:
   - T1049
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -61,20 +52,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  - Processes.parent_process_guid 
-  - Processes.process_guid 
   risk_score: 9
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

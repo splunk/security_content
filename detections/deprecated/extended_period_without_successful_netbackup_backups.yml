@@ -3,10 +3,11 @@ id: a34aae96-ccf8-4aef-952c-3ea214444440
 version: 1
 date: '2017-09-12'
 author: David Dorsey, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search returns a list of hosts that have not successfully completed
   a backup in over a week. Deprecated because it's a infrastructure monitoring.
+data_source: []
 search: '`netbackup` MESSAGE="Disk/Partition backup completed successfully." | stats
   latest(_time) as latestTime by COMPUTERNAME | `security_content_ctime(latestTime)`
   | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(),
@@ -23,29 +24,19 @@ tags:
   analytic_story:
   - Monitor Backup Solution
   asset_type: Endpoint
-  cis20:
-  - CIS 10
-  nist:
-  - PR.IP
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - MESSAGE
-  - COMPUTERNAME
-  security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
+  atomic_guid: []
   confidence: 50
+  drilldown_search: []
   impact: 50
-  risk_score: 25
-  context:
-  - Unknown
   message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint

@@ -3,10 +3,11 @@ id: bf1d7b5c-df2f-4249-a401-c09fdc221ddf
 version: 1
 date: '2018-10-08'
 author: Jim Apger, Splunk
+status: deprecated
 type: TTP
-datamodel: []
 description: This search is used to identify the creation of multiple user accounts
   using the same email domain name.
+data_source: []
 search: '`stream_http` http_content_type=text* uri="/magento2/customer/account/loginPost/"
   | rex field=cookie "form_key=(?<SessionID>\w+)" | rex field=form_data "login\[username\]=(?<Username>[^&|^$]+)"
   | search Username=* | rex field=Username "@(?<email_domain>.*)" | stats dc(Username)
@@ -38,33 +39,21 @@ tags:
   analytic_story:
   - Web Fraud Detection
   asset_type: Account
-  cis20:
-  - CIS 16
-  kill_chain_phases:
-  - Actions on Objectives
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1136
-  nist:
-  - DE.CM
-  - DE.DP
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - http_content_type
-  - uri
-  - cookie
-  security_domain: threat
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: threat

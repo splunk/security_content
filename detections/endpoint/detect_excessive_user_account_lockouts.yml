@@ -3,14 +3,14 @@ id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 version: 4
 date: '2022-08-25'
 author: David Dorsey, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Change
 description: This search detects user accounts that have been locked out a relatively
   high number of times in a short period.
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*locked out*" 
-  by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
+  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*locked
+  out*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
 how_to_implement: ou must ingest your Windows security event logs in the `Change`
@@ -24,23 +24,15 @@ tags:
   analytic_story:
   - Account Monitoring and Controls
   asset_type: Windows
-  cis20:
-  - CIS 16
+  atomic_guid: []
   confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
+  drilldown_search: []
   impact: 60
   message: Multiple accounts have been locked out. Review $nodename$ and $result$
     related to $user$.
   mitre_attack_id:
   - T1078
   - T1078.003
-  nist:
-  - PR.IP
   observable:
   - name: user
     type: User
@@ -54,12 +46,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - All_Changes.result
-  - nodename
-  - All_Changes.user
   risk_score: 36
   security_domain: access
-  kill_chain_phases:
-  - Exploitation
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+    update_timestamp: true

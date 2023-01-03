@@ -3,14 +3,15 @@ id: ec102cb2-a0f5-11eb-9b38-acde48001122
 version: 2
 date: '2022-08-25'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: this search is designed to detect suspicious powershell process that
   tries to inject code and to known/critical windows process and execute it using
   CreateRemoteThread. This technique is seen in several malware like trickbot and
   offensive tooling like cobaltstrike where it load a shellcode to svchost.exe to
   execute reverse shell to c2 and download another payload
+data_source:
+- Sysmon Event ID 8
 search: '`sysmon` EventCode=8 parent_process_name IN ("powershell_ise.exe", "powershell.exe")
   TargetImage IN ("*\\svchost.exe","*\\csrss.exe" "*\\gpupdate.exe", "*\\explorer.exe","*\\services.exe","*\\winlogon.exe","*\\smss.exe","*\\wininit.exe","*\\userinit.exe","*\\spoolsv.exe","*\\taskhost.exe")
   | stats  min(_time) as firstTime max(_time) as lastTime count by SourceImage process_name
@@ -27,15 +28,11 @@ references:
 tags:
   analytic_story:
   - Trickbot
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A suspicious powershell process $process_name$ that tries to create a remote
     thread on target process $TargetImage$ with eventcode $EventCode$ in host $Computer$
   mitre_attack_id:
@@ -53,18 +50,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - SourceImage
-  - process_name
-  - SourceProcessId
-  - SourceProcessGuid
-  - TargetImage
-  - TargetProcessId
-  - NewThreadId
-  - StartAddress
-  - Computer
-  - EventCode
   risk_score: 63
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

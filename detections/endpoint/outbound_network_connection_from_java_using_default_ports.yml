@@ -3,10 +3,8 @@ id: d2c14d28-5c47-11ec-9892-acde48001122
 version: 2
 date: '2022-06-28'
 author: Mauricio Velazco, Lou Stella, Splunk
+status: production
 type: TTP
-datamodel: 
-- Endpoint
-- Network_Traffic
 description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
   is that the victim server will perform outbound connections to attacker-controlled
   infrastructure. This is required as part of the JNDI lookup as well as for retrieving
@@ -14,7 +12,19 @@ description: A required step while exploiting the CVE-2021-44228-Log4j vulnerabi
   reaching out to default ports used by the LDAP and RMI protocols. This behavior
   could represent successfull exploitation. Note that adversaries can easily decide
   to use arbitrary ports for these protocols and potentially bypass this detection.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR Processes.process_name=javaw.exe) by _time Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where (All_Traffic.dest_port= 389 OR All_Traffic.dest_port= 636 OR All_Traffic.dest_port = 1389 OR All_Traffic.dest_port = 1099 ) by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as connection_to_CNC] | table _time dest parent_process_name process_name process_path process connection_to_CNC dest_port| `outbound_network_connection_from_java_using_default_ports_filter`'
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR
+  Processes.process_name=javaw.exe) by _time Processes.process_id Processes.process_name
+  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | join process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
+  where (All_Traffic.dest_port= 389 OR All_Traffic.dest_port= 636 OR All_Traffic.dest_port
+  = 1389 OR All_Traffic.dest_port = 1099 ) by All_Traffic.process_id All_Traffic.dest
+  All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as connection_to_CNC]
+  | table _time dest parent_process_name process_name process_path process connection_to_CNC
+  dest_port| `outbound_network_connection_from_java_using_default_ports_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -26,17 +36,13 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Execution
   cve:
   - CVE-2021-44228
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: Java performed outbound connections to default ports of LDAP or RMI on
     $dest$
   mitre_attack_id:
@@ -50,17 +56,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.dest
-  - Processes.process_path
-  - Processes.process
-  - Processes.parent_process_name
-  - All_Traffic.process_id
-  - All_Traffic.dest
-  - All_Traffic.dest_port
   risk_score: 54
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

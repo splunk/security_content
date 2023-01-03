@@ -3,11 +3,12 @@ id: 0b80e2c8-c746-4ddb-89eb-9efd892220cf
 version: 1
 date: '2021-08-17'
 author: Patrick Bareiss, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search looks for AWS CloudTrail events from AWS Elastic Container
   Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings
   with the results.
+data_source: []
 search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
   | spath path=responseElements.imageScanFindings.findings{} output=findings | mvexpand
   findings | spath input=findings| search severity=MEDIUM | rename name as finding_name,
@@ -15,7 +16,7 @@ search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanF
   requestParameters.repositoryName as image | eval finding = finding_name.", ".finding_description
   | eval phase="release" | eval severity="medium" | stats min(_time) as firstTime
   max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, image,
-   userName, src_ip, finding, phase, severity | `security_content_ctime(firstTime)`
+  userName, src_ip, finding, phase, severity | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_ecr_container_scanning_findings_medium_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
@@ -26,23 +27,14 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: AWS Account
-  cis20:
-  - CIS 13
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Cloud Data
-  - Stage:Discovery
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Actions on Objectives
   message: Vulnerabilities with severity high found in image $image$
   mitre_attack_id:
   - T1204.003
   - T1204
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -52,15 +44,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - eventSource
-  - eventName
-  - responseElements.imageScanFindings.findings{}
-  - awsRegion
-  - requestParameters.imageId.imageDigest
-  - requestParameters.repositoryName
-  - user
-  - userName
-  - src_ip
   risk_score: 21
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_image_scanning/aws_ecr_scanning_findings_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail

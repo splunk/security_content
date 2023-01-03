@@ -3,10 +3,11 @@ id: a5bed417-070a-41f2-a1e4-82b6aa281557
 version: 1
 date: '2020-07-11'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides information on anonymous Kubectl calls with IP,
   verb namespace and object access context
+data_source: []
 search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerSuppliedUserAgent=kubectl*
   src_user=system:unsecured OR src_user=system:anonymous | table src_ip src_user data.protoPayload.requestMetadata.callerSuppliedUserAgent
   data.protoPayload.authorizationInfo{}.granted object_path |dedup src_ip src_user
@@ -22,23 +23,19 @@ tags:
   analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: GCP GKE Kubernetes cluster
-  kill_chain_phases:
-  - Exploitation
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: threat
+  atomic_guid: []
   confidence: 50
+  drilldown_search: []
   impact: 50
-  risk_score: 25
-  context:
-  - Unknown
   message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: threat

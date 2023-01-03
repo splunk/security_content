@@ -3,8 +3,8 @@ id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
 version: 2
 date: '2022-02-18'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic identifies Regsvcs.exe with a network connection
   to a public IP address, exluding private IP space. This particular technique has
   been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe
@@ -15,6 +15,8 @@ description: The following analytic identifies Regsvcs.exe with a network connec
   and review accordingly. Review the reputation of the remote IP or domain and block
   as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+data_source:
+- Sysmon Event ID 3
 search: '`sysmon` EventID=3 dest_ip!=10.0.0.0/12 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16
   process_name=regsvcs.exe | rename Computer as dest | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, user, process_name, src_ip, dest_ip | `security_content_ctime(firstTime)`
@@ -35,25 +37,15 @@ tags:
   - Suspicious Regsvcs Regasm Activity
   - Living Off The Land
   asset_type: Endpoint
-  cis20:
-  - CIS 8
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: An instance of $process_name$ contacting a remote destination was identified
     on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$.
   mitre_attack_id:
   - T1218
   - T1218.009
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -71,14 +63,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventID
-  - dest_ip
-  - process_name
-  - Computer
-  - user
-  - src_ip
-  - dest_host
   risk_score: 80
   security_domain: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

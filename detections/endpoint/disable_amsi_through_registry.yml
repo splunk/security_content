@@ -3,13 +3,14 @@ id: 9c27ec42-d338-11eb-9044-acde48001122
 version: 2
 date: '2022-01-26'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: this search is to identify modification in registry to disable AMSI windows
   feature to evade detections. This technique was seen in several ransomware, RAT
   and even APT to impaire defenses of the compromise machine and to be able to execute
   payload with minimal alert as much as possible.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows
   Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000" by _time
@@ -36,13 +37,11 @@ tags:
   analytic_story:
   - Ransomware
   - Windows Registry Abuse
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
   message: Disable AMSI Through Registry
   mitre_attack_id:
   - T1562.001
@@ -56,15 +55,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.user
-  - Registry.dest
-  - Registry.registry_value_name
-  security_domain: endpoint
-  asset_type: Endpoint
-  confidence: 50
-  impact: 50
   risk_score: 25.0
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

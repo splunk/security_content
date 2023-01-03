@@ -3,9 +3,8 @@ id: b7548c2e-9a10-11ec-99e3-acde48001122
 version: 1
 date: '2022-03-02'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to look for suspicious registry modification related
   to file compression color and information tips. This IOC was seen in hermetic wiper
   where it has a thread that will create this registry entry to change the color of
@@ -13,6 +12,8 @@ description: This analytic is to look for suspicious registry modification relat
   tips. This is a good indicator that a process tries to modified one of the registry
   GlobalFolderOptions related to file compression attribution in terms of color in
   NTFS file system.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced*"
   AND Registry.registry_value_name  IN("ShowCompColor", "ShowInfoTip") by _time span=1h
@@ -38,24 +39,14 @@ tags:
   - Windows Defense Evasion Tactics
   - Hermetic Wiper
   - Windows Registry Abuse
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/globalfolderoptions_reg/sysmon.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: Registry modification in "ShowCompColor" and "ShowInfoTips" on $dest$
   mitre_attack_id:
   - T1112
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -65,14 +56,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.dest Registry.user
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/globalfolderoptions_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

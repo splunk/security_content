@@ -3,9 +3,8 @@ id: b0a078e4-2601-11ec-9aec-acde48001122
 version: 1
 date: '2021-10-05'
 author: Michael Haag, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: DynamicWrapperX is an ActiveX component that can be used in a script
   to call Windows API functions, but it requires the dynwrapx.dll to be installed
   and registered. With that, a binary writing dynwrapx.dll to disk and registering
@@ -14,6 +13,8 @@ description: DynamicWrapperX is an ActiveX component that can be used in a scrip
   processes and pivot on the process_guid. Review the registry for any suspicious
   modifications meant to load dynwrapx.dll. Identify any suspicious module loads of
   dynwrapx.dll. This will identify the process that will invoke vbs/wscript/cscript.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
   Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats
@@ -43,15 +44,11 @@ references:
 tags:
   analytic_story:
   - Remcos
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: An instance of $process_name$ was identified on endpoint $dest$ downloading
     the DynamicWrapperX dll.
   mitre_attack_id:
@@ -74,14 +71,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - process_name
-  - process_guid
-  - file_name
-  - file_path
-  - file_create_time user
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

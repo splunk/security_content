@@ -3,16 +3,19 @@ id: adf47620-79fa-11ec-b248-acde48001122
 version: 3
 date: '2022-05-02'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic will identify a suspicious PowerShell command used to delete
   the Windows Defender folder. This technique was seen used by the WhisperGate malware
   campaign where it used Nirsofts advancedrun.exe to gain administrative privileges
   to then execute a PowerShell command to delete the Windows Defender folder. This
   is a good indicator the offending process is trying corrupt a Windows Defender installation.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*rmdir *" AND ScriptBlockText = "*\\Microsoft\\Windows Defender*" | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `powershell_remove_windows_defender_directory_filter` '
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = "*rmdir *" AND ScriptBlockText
+  = "*\\Microsoft\\Windows Defender*" | stats count min(_time) as firstTime max(_time)
+  as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_remove_windows_defender_directory_filter` '
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -22,26 +25,15 @@ references:
 tags:
   analytic_story:
   - WhisperGate
-  automated_detection_testing: passed
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  drilldown_search: []
   impact: 100
-  kill_chain_phases:
-  - Exploitation
   message: suspicious powershell script $ScriptBlockText$ was executed on the $Computer$
   mitre_attack_id:
   - T1562.001
   - T1562
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -55,13 +47,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - ScriptBlockText
-  - Opcode
-  - Computer
-  - UserID
-  - EventCode
   risk_score: 90
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

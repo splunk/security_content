@@ -3,15 +3,18 @@ id: a360d2b2-065a-11ec-b0bf-acde48001122
 version: 2
 date: '2022-05-02'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get DomainPolicy` commandlet used to obtain the
   password policy in a Windows domain. Red Teams and adversaries alike may use PowerShell
   to enumerate domain policies for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 ScriptBlockText ="*Get-DomainPolicy*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `get_domainpolicy_with_powershell_script_block_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText ="*Get-DomainPolicy*" | stats
+  count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
+  ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `get_domainpolicy_with_powershell_script_block_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
@@ -23,16 +26,13 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/domainpolicy.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Reconnaissance
-  message: powershell process having commandline $ScriptBlockText$ to query domain policy.
+  message: powershell process having commandline $ScriptBlockText$ to query domain
+    policy.
   mitre_attack_id:
   - T1201
   observable:
@@ -48,13 +48,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - ScriptBlockText
-  - Opcode
-  - Computer
-  - UserID
-  - EventCode
   risk_score: 30
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/domainpolicy.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

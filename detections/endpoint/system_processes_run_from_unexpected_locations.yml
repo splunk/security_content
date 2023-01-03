@@ -3,9 +3,8 @@ id: a34aae96-ccf8-4aef-952c-3ea21444444d
 version: 6
 date: '2020-12-08'
 author: David Dorsey, Michael Haag, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: 'This search looks for system processes that typically execute from `C:\Windows\System32\`
   or `C:\Windows\SysWOW64`.  This may indicate a malicious process that is trying
   to hide as a legitimate process.\
@@ -16,6 +15,8 @@ description: 'This search looks for system processes that typically execute from
   During triage, review the parallel processes - what process moved the native Windows
   binary? identify any artifacts on disk and review. If a remote destination is contacted,
   what is the reputation?'
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*"
   Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user
@@ -39,25 +40,15 @@ tags:
   - Masquerading - Rename System Utilities
   - Qakbot
   asset_type: Endpoint
-  cis20:
-  - CIS 8
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Initial Access
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Actions on Objectives
-  message: A System process $process_name$ is running from $process_path$ on $dest$, potentially non-standard.
+  message: A System process $process_name$ is running from $process_path$ on $dest$,
+    potentially non-standard.
   mitre_attack_id:
   - T1036
   - T1036.003
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -75,16 +66,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process_path
-  - Processes.user
-  - Processes.dest
-  - Processes.process_name
-  - Processes.process_id
-  - Processes.parent_process_name
-  - Processes.process_hash
   risk_score: 30
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

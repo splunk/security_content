@@ -3,11 +3,12 @@ id: ada0f478-84a8-4641-a3f1-d82362d6bd71
 version: 4
 date: '2020-11-09'
 author: David Dorsey, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: The search looks for files created with names matching those typically
   used in ransomware notes that tell the victim how to get their data back.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
   as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)`
@@ -22,31 +23,20 @@ known_false_positives: It's possible that a legitimate file could be created wit
   the same name used by ransomware note files.
 references: []
 tags:
-  Consequence: Data Destruction
   analytic_story:
   - SamSam Ransomware
   - Ransomware
   - Ryuk Ransomware
   - Clop Ransomware
   asset_type: Endpoint
-  cis20:
-  - CIS 8
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Actions on Objectives
   message: A file - $file_name$ was written to disk on endpoint $dest$ by user $user$,
     this is indicative of a known ransomware note file and should be reviewed immediately.
   mitre_attack_id:
   - T1485
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -64,11 +54,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.user
-  - Filesystem.dest
-  - Filesystem.file_path
-  - Filesystem.file_name
   risk_score: 90
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

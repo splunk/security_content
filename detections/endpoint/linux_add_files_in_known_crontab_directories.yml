@@ -3,9 +3,8 @@ id: 023f3452-5f27-11ec-bf00-acde48001122
 version: 1
 date: '2021-12-17'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: The following analytic identifies a suspicious file creation in known
   cron table directories. This event is commonly abuse by malware, adversaries and
   red teamers to persist on the target or compromised host. crontab or cronjob is
@@ -13,6 +12,8 @@ description: The following analytic identifies a suspicious file creation in kno
   script on the known crontab directories to run it base on its schedule. This Anomaly
   query is a good indicator to look further what file is added and who added the file
   if to consider it legitimate file.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/cron*",
   "*/var/spool/cron/*") by Filesystem.dest Filesystem.file_create_time Filesystem.file_name
@@ -32,27 +33,15 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Living Off The Land
-  automated_detection_testing: passed
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: a file $file_name$ is created in $file_path$ on $dest$
   mitre_attack_id:
   - T1053.003
   - T1053
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -62,13 +51,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.process_guid
-  - Filesystem.file_path
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

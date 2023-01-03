@@ -3,10 +3,11 @@ id: b25f6f62-0712-43c1-b203-083231ffd97d
 version: 2
 date: '2020-07-08'
 author: David Dorsey, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search looks for newly created accounts that have been elevated
   to local administrators.
+data_source: []
 search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
   | transaction member_id connected=false maxspan=180m | rename member_id as user
   | stats count min(_time) as firstTime max(_time) as lastTime by user dest | `security_content_ctime(firstTime)`|
@@ -24,28 +25,15 @@ tags:
   - HAFNIUM Group
   - CISA AA22-257A
   asset_type: Windows
-  cis20:
-  - CIS 16
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Actions on Objectives
-  - Command & Control
   message: A $user$ on $dest$ was added recently. Identify if this was legitimate
     behavior or not.
   mitre_attack_id:
   - T1136.001
   - T1136
-  nist:
-  - PR.AC
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -59,12 +47,19 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - Group_Name
-  - member_id
-  - dest
-  - user
   risk_score: 42
   security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

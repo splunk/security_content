@@ -3,13 +3,14 @@ id: dcc89bde-5f24-11ec-87ca-acde48001122
 version: 1
 date: '2021-12-17'
 author: Teoderick Contreras, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: This analytic looks for possible modification of cronjobs file using
   editor. This event is can be seen in normal user but can also be a good hunting
   indicator for unwanted user modifying cronjobs for possible persistence or privilege
   escalation.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name IN("nano","vim.basic")
   OR Processes.process IN ("*nano *", "*vi *", "*vim *")) AND Processes.process IN("*/etc/cron*",
@@ -30,27 +31,15 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Living Off The Land
-  automated_detection_testing: passed
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 30
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+  drilldown_search: []
   impact: 20
-  kill_chain_phases:
-  - Exploitation
   message: A commandline $process$ that may modify cronjob file using editor in $dest$
   mitre_attack_id:
   - T1053.003
   - T1053
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -60,15 +49,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 6
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

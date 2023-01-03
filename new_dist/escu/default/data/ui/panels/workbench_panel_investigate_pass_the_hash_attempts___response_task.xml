@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate | stats count earliest(_time) as first_login latest(_time) as last_login by src_user dest | `security_content_ctime(first_login)` | `security_content_ctime(last_login)` | search dest=$dest$</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

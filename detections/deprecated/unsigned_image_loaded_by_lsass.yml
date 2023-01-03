@@ -3,10 +3,12 @@ id: 56ef054c-76ef-45f9-af4a-a634695dcd65
 version: 1
 date: '2019-12-06'
 author: Patrick Bareiss, Splunk
+status: deprecated
 type: TTP
-datamodel: []
 description: This search detects loading of unsigned images by LSASS. Deprecated because
   too noisy.
+data_source:
+- Sysmon Event ID 7
 search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)
   as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
   | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
@@ -25,30 +27,21 @@ tags:
   analytic_story:
   - Credential Dumping
   asset_type: Windows
-  cis20:
-  - CIS 8
-  - CIS 16
-  kill_chain_phases:
-  - Actions on Objectives
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1003.001
-  nist:
-  - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: endpoint
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint

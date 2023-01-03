@@ -3,11 +3,12 @@ id: d4c4d4eb-3994-41ca-a25e-a82d64e125bb
 version: 1
 date: '2021-08-19'
 author: Patrick Bareiss, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search looks for AWS CloudTrail events from AWS Elastic Container
   Service (ECR). A upload of a new container is normally done during business hours.
   When done outside business hours, we want to take a look into it.
+data_source: []
 search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20
   OR date_hour<8 OR date_wday=saturday OR date_wday=sunday | rename requestParameters.*
   as * | rename repositoryName AS image | eval phase="release" | eval severity="medium"
@@ -24,23 +25,14 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: AWS Account
-  cis20:
-  - CIS 13
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Cloud Data
-  - Stage:Discovery
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: Container uploaded outside business hours from $user$
   mitre_attack_id:
   - T1204.003
   - T1204
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: src_ip
     type: IP Address
@@ -54,15 +46,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - eventSource
-  - eventName
-  - awsRegion
-  - requestParameters.imageTag
-  - requestParameters.registryId
-  - requestParameters.repositoryName
-  - user
-  - userName
-  - src_ip
   risk_score: 49
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_container_upload/aws_ecr_container_upload.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail

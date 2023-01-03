@@ -3,11 +3,12 @@ id: 2e70ef35-2187-431f-aedc-4503dc9b06ba
 version: 1
 date: '2020-10-09'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides detection of high risk permissions by resource and
   accounts. These are permissions that can allow attackers with compromised accounts
   to move laterally and escalate privileges.
+data_source: []
 search: '`google_gcp_pubsub_message` data.protoPayload.authorizationInfo{}.permission=iam.serviceAccounts.getaccesstoken
   OR iam.serviceAccounts.setIamPolicy OR iam.serviceAccounts.actas OR dataflow.jobs.create
   OR composer.environments.create OR dataproc.clusters.create |table data.protoPayload.requestMetadata.callerIp
@@ -27,31 +28,21 @@ tags:
   analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
-  kill_chain_phases:
-  - Exploitation
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1078
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - data.protoPayload.authorizationInfo{}.permission
-  - data.protoPayload.requestMetadata.callerIp
-  - data.protoPayload.authenticationInfo.principalEmail
-  - data.protoPayload.authorizationInfo{}.permission
-  - data.protoPayload.response.bindings{}.members{}
-  - data.resource.labels.project_id
-  security_domain: threat
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: threat

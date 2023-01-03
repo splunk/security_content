@@ -3,14 +3,15 @@ id: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 version: 3
 date: '2020-12-08'
 author: David Dorsey, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search looks for shim database files being written to default directories.
   The sdbinst.exe application is used to install shim database files (.sdb). According
   to Microsoft, a shim is a small library that transparently intercepts an API, changes
   the parameters passed, handles the operation itself, or redirects the operation
   elsewhere.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count values(Filesystem.action)
   values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path  min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*Windows\\AppPatch\\Custom*
@@ -28,23 +29,14 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
-  cis20:
-  - CIS 8
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: A process that possibly write shim database in $file_path$ in host $dest$
   mitre_attack_id:
   - T1546.011
   - T1546
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -58,13 +50,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.file_hash
-  - Filesystem.file_path
-  - Filesystem.file_name
-  - Filesystem.dest
   risk_score: 56
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

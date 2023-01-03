@@ -3,12 +3,13 @@ id: dc4dc3a8-ff54-11eb-8bf7-acde48001122
 version: 1
 date: '2021-08-17'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search is to detect a suspicious outbound e-mail from internal email
   to external email domain. This can be a good hunting query to monitor insider or
   outbound email traffic for not common domain e-mail. The idea is to parse the domain
   of destination email check if there is a minimum outbound traffic < 20 with attachment.
+data_source: []
 search: '`gsuite_gmail` num_message_attachments > 0 | rex field=source.from_header_address
   "[^@]+@(?<source_domain>[^@]+)" | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"
   | where source_domain="internal_test_email.com" and not dest_domain="internal_test_email.com"
@@ -30,15 +31,10 @@ tags:
   - Dev Sec Ops
   - Insider Threat
   asset_type: GSuite
+  atomic_guid: []
   confidence: 30
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Exploitation
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:
   - T1048.003
@@ -56,7 +52,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
   risk_score: 9
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
+    source: http:gsuite
+    sourcetype: gsuite:gmail:bigquery

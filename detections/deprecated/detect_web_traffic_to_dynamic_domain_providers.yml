@@ -3,10 +3,10 @@ id: 134da869-e264-4a8f-8d7e-fcd01c18f301
 version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
+status: deprecated
 type: TTP
-datamodel:
-- Web
 description: This search looks for web connections to dynamic DNS providers.
+data_source: []
 search: '| tstats `security_content_summariesonly` count values(Web.url) as url min(_time)
   as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status
   | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `dynamic_dns_web_traffic`
@@ -36,36 +36,21 @@ tags:
   analytic_story:
   - Dynamic DNS
   asset_type: Endpoint
-  cis20:
-  - CIS 7
-  - CIS 8
-  kill_chain_phases:
-  - Command & Control
-  - Actions on Objectives
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1071.001
-  nist:
-  - PR.IP
-  - DE.DP
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Web.url
-  - Web.status
-  - Web.src
-  - Web.dest
-  security_domain: network
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: network

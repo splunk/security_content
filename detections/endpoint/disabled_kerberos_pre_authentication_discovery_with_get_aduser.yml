@@ -3,8 +3,8 @@ id: 114c6bfe-9406-11ec-bcce-acde48001122
 version: 2
 date: '2022-05-03'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-ADUser` commandlet with specific parameters.
   `Get-ADUser` is part of the Active Directory PowerShell module used to manage Windows
@@ -13,8 +13,11 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   domain accounts with Kerberos Pre Authentication disabled.\ Red Teams and adversaries
   alike use may abuse Get-ADUSer to enumerate these accounts and attempt to crack
   their passwords offline.
+data_source:
+- Powershell 4104
 search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
-  | stats count min(_time)  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
+  | stats count min(_time)  as firstTime max(_time) as lastTime by Opcode Computer
+  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -28,16 +31,10 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Recon
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/windows-powershell.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Exploitation
   message: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $dest$
   mitre_attack_id:
   - T1558
@@ -51,12 +48,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - ScriptBlockText
-  - Opcode
-  - Computer
-  - UserID
-  - EventCode
   risk_score: 54
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

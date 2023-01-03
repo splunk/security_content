@@ -3,14 +3,15 @@ id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
 version: 4
 date: '2020-11-23'
 author: David Dorsey, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search detects the process execution and arguments required to silently
   create a shim database.  The sdbinst.exe application is used to install shim database
   files (.sdb). A shim is a small library which transparently intercepts an API, changes
   the parameters passed, handles the operation itself, or redirects the operation
   elsewhere.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = sdbinst.exe by Processes.process_name Processes.parent_process_name
@@ -27,24 +28,15 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
-  cis20:
-  - CIS 8
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: A process $process_name$ that possible create a shim db silently in host
     $dest$
   mitre_attack_id:
   - T1546.011
   - T1546
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -58,13 +50,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process_name
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
   risk_score: 63
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

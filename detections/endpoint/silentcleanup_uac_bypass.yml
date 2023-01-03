@@ -3,13 +3,14 @@ id: 56d7cfcc-da63-11eb-92d4-acde48001122
 version: 2
 date: '2020-01-28'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect a suspicious modification of registry that may
   related to UAC bypassed. This registry will be trigger once the attacker abuse the
   silentcleanup task schedule to gain high privilege execution that will bypass User
   control account.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path= "*\\Environment\\windir" Registry.registry_value_data
   = "*.exe*" by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
@@ -36,17 +37,11 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  - Stage:Privilege Escalation
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious modification of registry $registry_path$ with possible payload
     path $registry_value_name$ in $dest$
   mitre_attack_id:
@@ -61,14 +56,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
-  - Registry.dest
   risk_score: 63
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

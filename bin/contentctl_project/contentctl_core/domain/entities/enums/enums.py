@@ -43,3 +43,9 @@ class SecurityContentProduct(enum.Enum):
     SSA = 2
     API = 3
     CUSTOM = 4
+
+class SigmaConverterTarget(enum.Enum):
+    CIM = 1
+    RAW = 2
+    OCSF = 3
+    ALL = 4

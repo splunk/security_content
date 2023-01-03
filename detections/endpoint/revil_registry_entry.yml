@@ -3,14 +3,15 @@ id: e3d3f57a-c381-11eb-9e35-acde48001122
 version: 2
 date: '2021-01-26'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic identifies suspicious modification in registry entry to
   keep some malware data during its infection. This technique seen in several apt
   implant, malware and ransomware like REVIL where it keep some information like the
   random generated file extension it uses for all the encrypted files and ransomware
   notes file name in the compromised host.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count  FROM datamodel=Endpoint.Registry
   where (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*"
   OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*") by _time
@@ -36,15 +37,11 @@ tags:
   - Ransomware
   - Revil Ransomware
   - Windows Registry Abuse
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Exploitation
   message: A registry entry $registry_path$ with registry value $registry_value_name$
     and $registry_value_name$ related to revil ransomware in host $dest$
   mitre_attack_id:
@@ -62,13 +59,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_value_name
-  - Registry.registry_path
-  - Registry.registry_key_name
   risk_score: 60
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

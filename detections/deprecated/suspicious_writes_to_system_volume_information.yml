@@ -3,10 +3,12 @@ id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
 version: 2
 date: '2020-07-22'
 author: Rico Valdez, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search detects writes to the 'System Volume Information' folder
   by something other than the System process.
+data_source:
+- Sysmon Event ID 1
 search: (`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume\
   Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Image, file_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
@@ -22,29 +24,21 @@ tags:
   analytic_story:
   - Collection and Staging
   asset_type: Windows
-  cis20:
-  - CIS 8
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1036
-  nist:
-  - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint

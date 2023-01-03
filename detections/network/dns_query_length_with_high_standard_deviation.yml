@@ -3,12 +3,12 @@ id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
 version: 4
 date: '2021-10-06'
 author: Bhavin Patel, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Network_Resolution
 description: This search allows you to identify DNS requests and compute the standard
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.
+data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where NOT DNS.message_type IN("Pointer","PTR") by DNS.query | `drop_dm_object_name("DNS")`
   | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
@@ -26,27 +26,15 @@ tags:
   - Suspicious DNS Traffic
   - Command and Control
   asset_type: Endpoint
-  cis20:
-  - CIS 8
-  - CIS 12
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Command & Control
   message: A dns query $query$ with 2 time standard deviation of name len of the dns
     query in host  $host$
   mitre_attack_id:
   - T1048.003
   - T1048
-  nist:
-  - PR.PT
-  - DE.AE
-  - DE.CM
   observable:
   - name: host
     type: Hostname
@@ -56,10 +44,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - DNS.query
   risk_score: 56
   security_domain: network
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

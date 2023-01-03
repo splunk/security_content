@@ -3,14 +3,15 @@ id: 462d17d8-1f71-11ec-ad07-acde48001122
 version: 1
 date: '2021-09-27'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is developed to detect suspicious registry modification
   to change the default file association of windows to malicious payload. This technique
   was seen in some APT where it modify the default process to run file association,
   like .txt to notepad.exe. Instead notepad.exe it will point to a Script or other
   payload that will load malicious commands to the compromised host.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   ="*\\shell\\open\\command\\*" Registry.registry_path = "*HKCR\\*" by Registry.dest  Registry.user
@@ -33,15 +34,11 @@ tags:
   - Windows Registry Abuse
   - Hermetic Wiper
   - Prestige Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1546.001
@@ -59,13 +56,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

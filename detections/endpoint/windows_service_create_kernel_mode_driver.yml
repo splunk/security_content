@@ -3,12 +3,13 @@ id: 0b4e3b06-1b2b-4885-b752-cf06d12a90cb
 version: 1
 date: '2022-05-05'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifes a new kernel driver being added to Windows
   using sc.exe. Adding a Kernel driver is not common day to day and should be investigated
   to further understand the source.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sc.exe
   Processes.process="*kernel*" by Processes.dest Processes.user Processes.parent_process_name
@@ -29,27 +30,16 @@ tags:
   - Windows Drivers
   - CISA AA22-320A
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sc_kernel.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Installation
   message: Service control, $process_name$, loaded a new kernel mode driver on $dest$
     by $user$.
   mitre_attack_id:
   - T1543.003
   - T1543
   - T1068
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -63,18 +53,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 48
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sc_kernel.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

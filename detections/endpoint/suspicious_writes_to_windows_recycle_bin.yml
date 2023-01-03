@@ -3,11 +3,12 @@ id: b5541828-8ffd-4070-9d95-b3da4de924cb
 version: 4
 date: '2020-07-22'
 author: Rico Valdez, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name)
   as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*"
@@ -28,20 +29,13 @@ tags:
   analytic_story:
   - Collection and Staging
   asset_type: Windows
-  cis20:
-  - CIS 8
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
+  drilldown_search: []
   impact: 40
   message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
   mitre_attack_id:
   - T1036
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -55,20 +49,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.file_path
-  - Filesystem.file_name
-  - Filesystem.process_id
-  - Filesystem.dest
-  - Processes.user
-  - Processes.process_name
-  - Processes.parent_process_name
-  - Processes.process_id
-  - Processes.dest
   risk_score: 28
   security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -3,11 +3,12 @@ id: c5e5bd5c-1013-4841-8b23-e7b3253c840a
 version: 1
 date: '2020-05-19'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides information of unauthenticated requests via source
   IP user agent, request URI and response status data against Kubernetes cluster in
   Azure
+data_source: []
 search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | search
   responseStatus.code=401 | table  sourceIPs{} userAgent verb requestURI responseStatus.reason
   |`kubernetes_azure_scan_fingerprint_filter`'
@@ -20,25 +21,21 @@ tags:
   analytic_story:
   - Kubernetes Scanning Activity
   asset_type: Azure AKS Kubernetes cluster
-  kill_chain_phases:
-  - Reconnaissance
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1526
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: threat
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: threat

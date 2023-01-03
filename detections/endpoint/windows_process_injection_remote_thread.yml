@@ -3,21 +3,27 @@ id: 8a618ade-ca8f-4d04-b972-2d526ba59924
 version: 1
 date: '2022-11-10'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic identifies a suspicious remote thread execution in some process being abused by threat actor and malware like 
-  qakbot. Qakbot is one of the malware using this technique to load its malicious dll module or malicious code in the targeted host. 
-  This TTP can be a good pivot to verify what is the behavior of the targeted Image process after this detection trigger. 
-  look for network connection, child process execution, file access and many more that helps to verify the indication of malware infection.
-search: '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode StartAddress SourceImage Computer 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic identifies a suspicious remote thread execution
+  in some process being abused by threat actor and malware like qakbot. Qakbot is
+  one of the malware using this technique to load its malicious dll module or malicious
+  code in the targeted host. This TTP can be a good pivot to verify what is the behavior
+  of the targeted Image process after this detection trigger. look for network connection,
+  child process execution, file access and many more that helps to verify the indication
+  of malware infection.
+data_source:
+- Sysmon Event ID 8
+search: '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe",
+  "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe",
+  "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe") | stats count
+  min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode
+  StartAddress SourceImage Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_process_injection_remote_thread_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts like remote thread EventCode=8 of sysmon.
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  that records process activity from your hosts like remote thread EventCode=8 of
+  sysmon. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon
+  TA.
 known_false_positives: unknown
 references:
 - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
@@ -25,25 +31,15 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: 80
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
-  message: process $SourceImage$ create a remote thread to process $TargetImage$ on host $Computer$
+  message: process $SourceImage$ create a remote thread to process $TargetImage$ on
+    host $Computer$
   mitre_attack_id:
   - T1055
   - T1055.002
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -61,18 +57,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - SourceImage
-  - TargetImage
-  - TargetProcessId
-  - SourceProcessId
-  - StartAddress
-  - EventCode
-  - Computer
-  - signature 
-  - TargetProcessGuid 
-  - SourceProcessGuid 
-  - StartAddress
   risk_score: 64
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

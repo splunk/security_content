@@ -3,10 +3,11 @@ id: b25d2973-303e-47c8-bacd-52b61604c6a7
 version: 1
 date: '2020-12-15'
 author: Patrick Bareiss, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search detects the assignment of rights to accesss content from
   another mailbox. This is usually only assigned to a service account.
+data_source: []
 search: '`o365_management_activity` Operation=Add-MailboxPermission | spath input=Parameters
   | rename User AS src_user, Identity AS dest_user | search AccessRights=FullAccess
   OR AccessRights=SendAs OR AccessRights=SendOnBehalf | stats count earliest(_time)
@@ -20,27 +21,15 @@ tags:
   analytic_story:
   - Office 365 Detections
   asset_type: Office 365
-  cis20:
-  - CIS 16
+  atomic_guid: []
   confidence: 60
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Stage:Exfiltration
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$
     that allow access to sensitive
   mitre_attack_id:
   - T1114.002
   - T1114
-  nist:
-  - DE.DP
-  - DE.AE
   observable:
   - name: user
     type: User
@@ -50,9 +39,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Operation
-  - Parameters
   risk_score: 48
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json
+    sourcetype: o365:management:activity
+    source: o365

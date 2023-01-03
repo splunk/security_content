@@ -26,7 +26,7 @@ class Validate:
             factory.execute(input_dto.factory_input_dto)
 
         elif input_dto.product == SecurityContentProduct.SSA:
-            factory_output_dto = BAFactoryOutputDto([],[])
+            factory_output_dto = BAFactoryOutputDto([])
             factory = BAFactory(factory_output_dto)
             factory.execute(input_dto.ba_factory_input_dto)        
 

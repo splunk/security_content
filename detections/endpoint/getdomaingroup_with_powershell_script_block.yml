@@ -3,16 +3,19 @@ id: 09725404-a44f-4ed3-9efa-8ed5d69e4c53
 version: 2
 date: '2022-05-02'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainGroup` commandlet. `Get-DomainGroup`
   is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
   As the name suggests, `Get-DomainGroup` is used to query domain groups. Red Teams
   and adversaries may leverage this function to enumerate domain groups for situational
   awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroup*") | stats count
-  min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `getdomaingroup_with_powershell_script_block_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroup*") | stats
+  count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
+  ScriptBlockText | `security_content_ctime(firstTime)` | `getdomaingroup_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -24,15 +27,11 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/domaingroup.log
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Reconnaissance
   message: Domain group discovery enumeration using PowerView on $Computer$ by $UserID$
   mitre_attack_id:
   - T1069
@@ -46,13 +45,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - ScriptBlockText
-  - Opcode
-  - Computer
-  - UserID
-  - EventCode
   risk_score: 15
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/domaingroup.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

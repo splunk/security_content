@@ -36,13 +36,9 @@ class NewContentFactory():
             self.output_dto.obj['version'] = 1
             self.output_dto.obj['date'] = datetime.today().strftime('%Y-%m-%d')
             self.output_dto.obj['author'] = answers['detection_author']
+            self.output_dto.obj['status'] = 'production'
             self.output_dto.obj['type'] = answers['detection_type']
-            self.output_dto.obj['datamodel'] = answers['datamodels']
-            if answers['detection_product'] == 'SSA':
-                answers['datamodels'] = [d.replace(' (SSA)', '') for d in answers['datamodels']]
-                self.output_dto.obj['datamodel'] = answers['datamodels']
-            if answers['detection_product'] == 'ESCU':
-                self.output_dto.obj['datamodel'] = answers['datamodels']
+            self.output_dto.obj['data_source'] = ['UPDATE_DATA_SOURCE']
             self.output_dto.obj['description'] = 'UPDATE_DESCRIPTION'   
             if answers['detection_product'] == 'ESCU':
                 file_name = self.output_dto.obj['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
@@ -53,15 +49,12 @@ class NewContentFactory():
             self.output_dto.obj['tags'] = dict()
             self.output_dto.obj['tags']['analytic_story'] = ['UPDATE_STORY_NAME']
             self.output_dto.obj['tags']['asset_type'] = 'UPDATE asset_type'
-            self.output_dto.obj['tags']['cis20'] = ['CIS 3', 'CIS 5', 'CIS 16']
+            self.output_dto.obj['tags']['atomic_guid'] = 'UPDATE atomic_guid'
             self.output_dto.obj['tags']['confidence'] = 'UPDATE value between 1-100'
-            self.output_dto.obj['tags']['context'] = ['Update context']
-            self.output_dto.obj['tags']['dataset'] = ['UPDATE_DATASET_URL']
+            self.output_dto.obj['tags']['drilldown_search'] = ['Add drilldown search']
             self.output_dto.obj['tags']['impact'] = 'UPDATE value between 1-100'
-            self.output_dto.obj['tags']['kill_chain_phases'] = answers['kill_chain_phases']
             self.output_dto.obj['tags']['message'] = 'UPDATE message'
             self.output_dto.obj['tags']['mitre_attack_id'] = [x.strip() for x in answers['mitre_attack_ids'].split(',')]
-            self.output_dto.obj['tags']['nist'] = ['DE.CM']
             self.output_dto.obj['tags']['observable'] = [{'name': 'UPDATE', 'type': 'UPDATE', 'role': ['UPDATE']}]
             if answers['detection_product'] == 'SSA':
                 self.output_dto.obj['tags']['risk_severity'] = 'UPDATE: <low>, <medium>, <high>'
@@ -69,11 +62,19 @@ class NewContentFactory():
                 self.output_dto.obj['tags']['product'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
             if answers['detection_product'] == 'SSA':
                 self.output_dto.obj['tags']['product'] = ['Splunk Behavioral Analytics']
-            self.output_dto.obj['tags']['required_fields'] = ['UPDATE']
             self.output_dto.obj['tags']['risk_score'] = 'UPDATE (impact * confidence)/100'
             self.output_dto.obj['tags']['security_domain'] = answers['security_domain']
             self.output_dto.obj['source'] = answers['detection_kind']
-        
+            self.output_dto.obj['tests'] = list()
+            true_positive_test = dict()
+            true_positive_test["name"] = 'True Positive Test'
+            true_positive_test["attack_data"] = [{
+                "data": "UPDATE url to dataset",
+                "source": "UPDATE source",
+                "sourcetype": "UPDATE sourcetype"
+            }]
+            self.output_dto.obj['tests'].append(true_positive_test)
+
 
         elif input_dto.type == SecurityContentType.stories:
             questions = NewContentQuestions.get_questions_story()

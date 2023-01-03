@@ -3,9 +3,8 @@ id: ee18ed37-0802-4268-9435-b3b91aaa18db
 version: 8
 date: '2022-01-12'
 author: David Dorsey, Michael Haag Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: The following hunting analytic identifies PowerShell commands utilizing
   the WindowStyle parameter to hide the window on the compromised endpoint. This combination
   of command-line options is suspicious because it is overriding the default PowerShell
@@ -15,6 +14,8 @@ description: The following hunting analytic identifies PowerShell commands utili
   For example w, win, windowsty and so forth. In addition, through our research it
   was identified that PowerShell will interpret different command switch types beyond
   the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
+data_source:
+- Sysmon Event ID 1
 search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)\
   \ as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user\
   \ Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name\
@@ -36,40 +37,25 @@ references:
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - HAFNIUM Group
   - Log4Shell CVE-2021-44228
   - AgentTesla
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 7
-  - CIS 8
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  - Stage:Command And Control
   cve:
   - CVE-2021-44228
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Command & Control
-  - Actions on Objectives
   message: PowerShell processes $process$ started with parameters to modify the execution
     policy of the run, run in a hidden window, and connect to the Internet on host
     $dest$ executed by user $user$.
   mitre_attack_id:
   - T1059.001
   - T1059
-  nist:
-  - PR.PT
-  - DE.CM
-  - PR.IP
   observable:
   - name: dest
     type: Endpoint
@@ -87,12 +73,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process
-  - Processes.process_name
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.dest
   risk_score: 81
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

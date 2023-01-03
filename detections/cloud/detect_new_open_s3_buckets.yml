@@ -3,10 +3,11 @@ id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
 version: 3
 date: '2021-07-19'
 author: Bhavin Patel, Patrick Bareiss, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search looks for AWS CloudTrail events where a user has created
   an open/public S3 bucket.
+data_source: []
 search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw
   "(?<json_field>{.+})" | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
   | search grantees=* | mvexpand grantees | spath input=grantees output=uri path=Grantee.URI
@@ -26,27 +27,14 @@ tags:
   analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
-  cis20:
-  - CIS 13
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user_arn$ has created an open/public bucket $bucketName$ with the
     following permissions $permission$
   mitre_attack_id:
   - T1530
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: user_arn
     type: User
@@ -60,15 +48,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - eventSource
-  - eventName
-  - requestParameters.bucketName
-  - user_arn
-  - userIdentity.principalId
-  - userAgent
-  - uri
-  - permission
   risk_score: 48
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

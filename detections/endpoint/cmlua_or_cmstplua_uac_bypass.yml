@@ -3,12 +3,13 @@ id: f87b5062-b405-11eb-a889-acde48001122
 version: 1
 date: '2021-05-13'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic detects a potential process using COM Object like CMLUA
   or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries
   to gain administrative privileges to its running process.
+data_source:
+- Sysmon Event ID 7
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll",
   "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe")) NOT(Image IN("*\\windows\\*",
   "*\\program files*")) | stats count min(_time) as firstTime max(_time) as lastTime
@@ -25,15 +26,11 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/darkside_cmstp_com/windows-sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: The following module $ImageLoaded$ was loaded by a non-standard application
     on endpoint $Computer$ by user $user$.
   mitre_attack_id:
@@ -56,15 +53,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Image
-  - ImageLoaded
-  - process_name
-  - Computer
-  - EventCode
-  - Signed
-  - ProcessId
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/darkside_cmstp_com/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

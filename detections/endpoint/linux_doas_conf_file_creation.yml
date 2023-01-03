@@ -3,9 +3,8 @@ id: f6343e86-6e09-11ec-9376-acde48001122
 version: 1
 date: '2022-01-05'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic is to detect the creation of doas.conf file in linux host
   platform. This configuration file can be use by doas utility tool to allow or permit
   standard users to perform tasks as root, the same way sudo does. This tool is developed
@@ -13,6 +12,8 @@ description: This analytic is to detect the creation of doas.conf file in linux 
   attacker or malware to gain elevated privileges to the targeted or compromised host.
   On the other hand this can also be executed by administrator for a certain task
   that needs admin rights. In this case filter is needed.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/doas.conf")
   by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid
@@ -31,27 +32,15 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  automated_detection_testing: passed
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A file $file_name$ is created in $file_path$ on $dest$
   mitre_attack_id:
   - T1548.003
   - T1548
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -61,13 +50,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.process_guid
-  - Filesystem.file_path
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

@@ -3,11 +3,11 @@ id: bc24922d-987c-4645-b288-f8c73ec194c4
 version: 1
 date: '2018-10-12'
 author: David Dorsey, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Change
 description: This search looks for cloud compute instances being created with previously
   unseen image IDs.
+data_source: []
 search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
@@ -31,23 +31,12 @@ tags:
   analytic_story:
   - Cloud Cryptomining
   asset_type: Cloud Compute Instance
-  cis20:
-  - CIS 1
+  atomic_guid: []
   confidence: 60
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user$ is creating an instance $dest$ with an image that has not been
     previously seen.
-  nist:
-  - ID.AM
   observable:
   - name: user
     type: User
@@ -61,11 +50,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - All_Changes.object_id
-  - All_Changes.action
-  - All_Changes.Instance_Changes.image_id
-  - All_Changes.user
   risk_score: 36
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

@@ -3,13 +3,28 @@ id: da20828e-d6fb-4ee5-afb7-d0ac200923d5
 version: 1
 date: '2022-10-12'
 author: Bhavin Patel, Splunk
+status: production
 type: Anomaly
-datamodel: []
-description: The following analytic identifies one source Ip failing to authenticate into the Google Workspace user accounts with more than 20 unique valid users within 5 minutes. These user accounts may have other privileges with respect to access to other sensitive resources in the Google Cloud Platform. This behavior could represent an adversary performing a Password Spraying attack against an Google Workspace environment to obtain initial access or elevate privileges. 
-search: "`gws_reports_login` event.type = login event.name = login_failure | bucket span=5m _time | stats count dc(user) AS unique_accounts values(user) as tried_accounts values(authentication_method) AS authentication_method earliest(_time) as firstTime latest(_time) as lastTime by _time event.name src app id.applicationName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |  where unique_accounts > 20 | `gcp_multiple_users_failing_to_authenticate_from_ip_filter`"
-how_to_implement:  You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows Splunk administrators to collect Google Workspace event data in Splunk using Google Workspace APIs. We would also recommend tuning the detection by adjusting the window `span` and `unique_accounts` threshold values according to your environment.
-  Specifically, this analytic leverages the User log events.
-known_false_positives: No known false postives for this detection. Please review this alert.
+description: The following analytic identifies one source Ip failing to authenticate
+  into the Google Workspace user accounts with more than 20 unique valid users within
+  5 minutes. These user accounts may have other privileges with respect to access
+  to other sensitive resources in the Google Cloud Platform. This behavior could represent
+  an adversary performing a Password Spraying attack against an Google Workspace environment
+  to obtain initial access or elevate privileges.
+data_source: []
+search: '`gws_reports_login` event.type = login event.name = login_failure | bucket
+  span=5m _time | stats count dc(user) AS unique_accounts values(user) as tried_accounts
+  values(authentication_method) AS authentication_method earliest(_time) as firstTime
+  latest(_time) as lastTime by _time event.name src app id.applicationName | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` |  where unique_accounts > 20 | `gcp_multiple_users_failing_to_authenticate_from_ip_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Google
+  Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows
+  Splunk administrators to collect Google Workspace event data in Splunk using Google
+  Workspace APIs. We would also recommend tuning the detection by adjusting the window
+  `span` and `unique_accounts` threshold values according to your environment. Specifically,
+  this analytic leverages the User log events.
+known_false_positives: No known false postives for this detection. Please review this
+  alert.
 references:
 - https://cloud.google.com/blog/products/identity-security/how-google-cloud-can-help-stop-credential-stuffing-attacks
 - https://www.slideshare.net/dafthack/ok-google-how-do-i-red-team-gsuite
@@ -19,29 +34,18 @@ tags:
   analytic_story:
   - GCP Account Takeover
   asset_type: Google Cloud Platform tenant
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Recon
-  - Other:Brute Force
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Exploitation
-  message: Multiple failed login attempts against users $tried_accounts$ seen from $src_ip$
+  message: Multiple failed login attempts against users $tried_accounts$ seen from
+    $src_ip$
   mitre_attack_id:
   - T1586
   - T1586.003
   - T1110
   - T1110.003
   - T1110.004
-  nist:
-  - DE.CM
   observable:
   - name: src
     type: IP Address
@@ -55,13 +59,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - event.name
-  - event.type
-  - authentication_method
-  - app
-  - id.applicationName
-  - src
   risk_score: 54
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
+    source: gws_login
+    sourcetype: gws:reports:login
+    update_timestamp: true

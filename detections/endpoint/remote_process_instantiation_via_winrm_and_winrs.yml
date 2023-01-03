@@ -3,13 +3,14 @@ id: 0dd296a2-4338-11ec-ba02-3e22fbd008af
 version: 1
 date: '2021-11-11'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic looks for the execution of `winrs.exe` with command-line
   arguments utilized to start a process on a remote endpoint. Red Teams and adversaries
   alike may abuse the WinRM protocol and this binary for lateral movement and remote
   code execution.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=winrs.exe
   OR Processes.original_file_name=winrs.exe) (Processes.process="*-r:*" OR Processes.process="*-remote:*")
@@ -28,15 +29,11 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Lateral Movement
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement/windows-sysmon.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: A process was started on a remote endpoint from $dest
   mitre_attack_id:
   - T1021
@@ -50,21 +47,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 54
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

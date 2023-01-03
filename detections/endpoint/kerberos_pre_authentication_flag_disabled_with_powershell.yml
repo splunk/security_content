@@ -3,8 +3,8 @@ id: 59b51620-94c9-11ec-b3d5-acde48001122
 version: 2
 date: '2022-03-22'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Set-ADAccountControl` commandlet with specific
   parameters. `Set-ADAccountControl` is part of the Active Directory PowerShell module
@@ -15,11 +15,12 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   against the user's password offline leveraging the ASP REP Roasting technique. Red
   Teams and adversaries alike who have obtained privileges in an Active Directory
   network may use this technique as a backdoor or a way to escalate privileges.
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Set-ADAccountControl*" AND ScriptBlockText="*DoesNotRequirePreAuth:$true*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `kerberos_pre_authentication_flag_disabled_with_powershell_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Set-ADAccountControl*" AND
+  ScriptBlockText="*DoesNotRequirePreAuth:$true*") | stats count min(_time) as firstTime
+  max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `kerberos_pre_authentication_flag_disabled_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -33,16 +34,10 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-powershell-xml.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: Kerberos Pre Authentication was Disabled using PowerShell on $dest$
   mitre_attack_id:
   - T1558
@@ -56,7 +51,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
   risk_score: 45
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

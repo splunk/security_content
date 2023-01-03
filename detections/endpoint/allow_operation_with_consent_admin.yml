@@ -3,14 +3,15 @@ id: 7de17d7a-c9d8-11eb-a812-acde48001122
 version: 2
 date: '2022-01-26'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic identifies a potential privilege escalation attempt to
   perform malicious task. This registry modification is designed to allow the `Consent
   Admin` to perform an operation that requires elevation without consent or credentials.
   We also found this in some attacker to gain privilege escalation to the compromise
   machine.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where Registry.registry_path= "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*"
   Registry.registry_value_name = ConsentPromptBehaviorAdmin Registry.registry_value_data
@@ -41,15 +42,11 @@ tags:
   - Ransomware
   - Windows Registry Abuse
   - Azorult
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious registry modification was performed on endpoint $dest$ by user
     $user$. This behavior is indicative of privilege escalation.
   mitre_attack_id:
@@ -67,14 +64,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
-  - Registry.dest
   risk_score: 25
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

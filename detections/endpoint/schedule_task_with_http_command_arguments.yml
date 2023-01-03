@@ -3,9 +3,8 @@ id: 523c2684-a101-11eb-916b-acde48001122
 version: 1
 date: '2021-04-19'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following query utilizes Windows Security EventCode 4698, `A scheduled
   task was created`, to identify suspicious tasks registered on Windows either via
   schtasks.exe OR TaskService with an arguments "HTTP" string that are unique entry
@@ -20,6 +19,8 @@ description: The following query utilizes Windows Security EventCode 4698, `A sc
   Review the job created and the Command to be executed. Capture any artifacts on
   disk and review. Identify any parallel processes within the same timeframe to identify
   source.'
+data_source:
+- Windows Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message| search Arguments IN
   ("*http*") | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Task_Name, Command, Author, Enabled, Hidden, Arguments | `security_content_ctime(firstTime)`
@@ -34,15 +35,11 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Living Off The Land
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A schedule task process commandline arguments $Arguments$ with http string
     on it in host $dest$
   mitre_attack_id:
@@ -56,15 +53,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - Task_Name
-  - Command
-  - Author
-  - Enabled
-  - Hidden
-  - Arguments
   risk_score: 63
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

@@ -3,14 +3,15 @@ id: 1490f224-ad8b-11eb-8c4f-acde48001122
 version: 2
 date: '2022-01-27'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic detects a suspicious registry modification to disable Windows
   hotkey (shortcut keys) for native Windows applications. This technique is commonly
   used to disable certain or several Windows applications like `taskmgr.exe` and `cmd.exe`.
   This technique is used to impair the analyst in analyzing and removing the attacker
   implant in compromised systems.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where Registry.registry_path="*\\Windows NT\\CurrentVersion\\Image File Execution
   Options\\*" AND Registry.registry_value_data= "HotKey Disabled" AND Registry.registry_value_name
@@ -39,15 +40,11 @@ tags:
   analytic_story:
   - XMRig
   - Windows Registry Abuse
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  drilldown_search: []
   impact: 40
-  kill_chain_phases:
-  - Exploitation
   message: Disabled 'Windows App Hotkeys' on $dest$
   mitre_attack_id:
   - T1562.001
@@ -61,14 +58,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.dest Registry.user
   risk_score: 40
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

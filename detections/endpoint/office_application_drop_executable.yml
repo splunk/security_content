@@ -3,15 +3,16 @@ id: 73ce70c4-146d-11ec-9184-acde48001122
 version: 1
 date: '2021-09-13'
 author: Teoderick Contreras, Michael Haag Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect a suspicious MS office application that drops
-  or creates executables or scripts in a Windows Operating System. This behavior is commonly seen in spear
-  phishing office attachment where it drop malicious files or script to compromised
-  the host. It might be some normal macro may drop script or tools as part of automation
-  but still this behavior is reallly suspicious and not commonly seen in normal office
-  application
+  or creates executables or scripts in a Windows Operating System. This behavior is
+  commonly seen in spear phishing office attachment where it drop malicious files
+  or script to compromised the host. It might be some normal macro may drop script
+  or tools as part of automation but still this behavior is reallly suspicious and
+  not commonly seen in normal office application
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe")
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
@@ -38,15 +39,11 @@ tags:
   analytic_story:
   - FIN7
   - AgentTesla
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Recon
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: process $process_name$ drops a file $TargetFilename$ in host $dest$
   mitre_attack_id:
   - T1566
@@ -64,13 +61,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Image
-  - TargetFilename
-  - ProcessGuid
-  - dest
-  - user_id
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

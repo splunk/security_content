@@ -3,9 +3,8 @@ id: f64579c0-203f-11ec-abcc-acde48001122
 version: 2
 date: '2022-01-26'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to detect a suspicious modification of the active setup
   registry for persistence and privilege escalation. This technique was seen in several
   malware (poisonIvy), adware and APT to gain persistence to the compromised machine
@@ -13,6 +12,8 @@ description: This analytic is to detect a suspicious modification of the active 
   do the modification since modification of this registry is not commonly done. check
   the legitimacy of the file and process involve in this rules to check if it is a
   valid setup installer that creating or modifying this registry.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active
   Setup\\Installed Components*" by _time span=1h Registry.dest Registry.user Registry.registry_path
@@ -41,15 +42,11 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Hermetic Wiper
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1547.014
@@ -67,13 +64,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

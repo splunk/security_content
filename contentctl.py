@@ -12,6 +12,7 @@ from bin.contentctl_project.contentctl_core.application.use_cases.validate impor
 from bin.contentctl_project.contentctl_core.application.use_cases.doc_gen import DocGenInputDto, DocGen
 from bin.contentctl_project.contentctl_core.application.use_cases.new_content import NewContentInputDto, NewContent, NewAttackDataContent
 from bin.contentctl_project.contentctl_core.application.use_cases.reporting import ReportingInputDto, Reporting
+from bin.contentctl_project.contentctl_core.application.use_cases.convert import ConvertInputDto, Convert
 from bin.contentctl_project.contentctl_core.application.use_cases.initialize import Initialize
 from bin.contentctl_project.contentctl_core.application.use_cases.deploy import Deploy
 from bin.contentctl_project.contentctl_core.application.use_cases.build import Build
@@ -22,6 +23,7 @@ from bin.contentctl_project.contentctl_core.application.factory.new_content_fact
 from bin.contentctl_project.contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
+from bin.contentctl_project.contentctl_infrastructure.builder.sigma_converter import SigmaConverterInputDto
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_yml_adapter import ObjToYmlAdapter
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_json_adapter import ObjToJsonAdapter
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_story_builder import SecurityContentStoryBuilder
@@ -30,7 +32,7 @@ from bin.contentctl_project.contentctl_infrastructure.builder.security_content_b
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 from bin.contentctl_project.contentctl_infrastructure.builder.security_content_playbook_builder import SecurityContentPlaybookBuilder
-from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct
+from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentProduct, SigmaConverterTarget
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_conf_adapter import ObjToConfAdapter
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_md_adapter import ObjToMdAdapter
 from bin.contentctl_project.contentctl_infrastructure.adapter.obj_to_svg_adapter import ObjToSvgAdapter
@@ -94,10 +96,6 @@ def generate(args) -> None:
         print("ERROR: missing parameter -p/--product .")
         sys.exit(1)
 
-    #For now, the custom product is treated just like ESCU
-    if args.product == 'CUSTOM':
-        args.product = 'ESCU'
-
     if args.product not in ['ESCU', 'SSA', 'API']:
         print("ERROR: invalid product. valid products are ESCU, SSA or API.  If you are building a custom app, use CUSTOM.")
         sys.exit(1)
@@ -148,7 +146,6 @@ def generate(args) -> None:
             SecurityContentProduct.API
         )
     else:
-        print("making dto")
         generate_input_dto = GenerateInputDto(
             os.path.abspath(args.output),
             factory_input_dto,
@@ -305,6 +302,35 @@ def inspect(args) -> None:
 def cloud_deploy(args) -> None:
     Deploy(args)
 
+
+def convert(args) -> None:
+    if args.data_model == 'cim':
+        data_model = SigmaConverterTarget.CIM
+    elif args.data_model == 'raw':
+        data_model = SigmaConverterTarget.RAW
+    elif args.data_model == 'ocsf':
+        data_model = SigmaConverterTarget.OCSF
+    elif args.data_model == 'all':
+        data_model = SigmaConverterTarget.ALL
+    else:
+        print("ERROR: data model " + args.data_model + " not supported")
+        sys.exit(1)
+
+    sigma_converter_input_dto = SigmaConverterInputDto(
+        data_model = data_model,
+        detection_path = args.detection_path,
+        input_path = args.path,
+        log_source = args.log_source
+    )
+
+    convert_input_dto = ConvertInputDto(
+        sigma_converter_input_dto = sigma_converter_input_dto,
+        output_path = os.path.abspath(args.output)
+    )
+    convert = Convert()
+    convert.execute(convert_input_dto)
+
+
 def main(args):
 
     init()
@@ -323,21 +349,22 @@ def main(args):
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
     #new_parser = actions_parser.add_parser("new", help="Create new content (detection, story, baseline)")
-    init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
-                                                        "This allows a user to easily add their own content and, eventually, "
-                                                        "build a custom application consisting of their custom content.")
+    #init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
+    #                                                    "This allows a user to easily add their own content and, eventually, "
+    #                                                    "build a custom application consisting of their custom content.")
     new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
-    content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
+    #content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     validate_parser = actions_parser.add_parser("validate", help="Validates written content")
     generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
-    docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
+    #docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
     
     reporting_parser = actions_parser.add_parser("reporting", help="Create security content reporting")
 
 
     build_parser = actions_parser.add_parser("build", help="Build an application suitable for deployment to a search head")
-    inspect_parser = actions_parser.add_parser("inspect", help="Run appinspect to ensure that an app meets minimum requirements for deployment.")
-    cloud_deploy_parser = actions_parser.add_parser("cloud_deploy", help="Install an application on a target Splunk Cloud Instance.")
+    #inspect_parser = actions_parser.add_parser("inspect", help="Run appinspect to ensure that an app meets minimum requirements for deployment.")
+    #cloud_deploy_parser = actions_parser.add_parser("cloud_deploy", help="Install an application on a target Splunk Cloud Instance.")
+    convert_parser = actions_parser.add_parser("convert", help="Convert a sigma detection to a Splunk ESCU detection.")
 
 
     # # new arguments
@@ -363,15 +390,15 @@ def main(args):
         help="Type of package to create, choose between `ESCU`, `SSA` or `API`.")
     generate_parser.set_defaults(func=generate)
 
-    content_changer_choices = ContentChanger.enumerate_content_changer_functions()
-    content_changer_parser.add_argument("-cf", "--change_function", required=True, metavar='{ ' + ', '.join(content_changer_choices) +' }' , type=str, choices=content_changer_choices,
-                                        help= "Choose from the functions above defined in \nbin/contentctl_core/contentctl/application/use_cases/content_changer.py")
+    # content_changer_choices = ContentChanger.enumerate_content_changer_functions()
+    # content_changer_parser.add_argument("-cf", "--change_function", required=True, metavar='{ ' + ', '.join(content_changer_choices) +' }' , type=str, choices=content_changer_choices,
+    #                                     help= "Choose from the functions above defined in \nbin/contentctl_core/contentctl/application/use_cases/content_changer.py")
 
-    content_changer_parser.set_defaults(func=content_changer)
+    # content_changer_parser.set_defaults(func=content_changer)
 
-    docgen_parser.add_argument("-o", "--output", required=True, type=str,
-        help="Path where to store the documentation")
-    docgen_parser.set_defaults(func=doc_gen)
+    # docgen_parser.add_argument("-o", "--output", required=True, type=str,
+    #     help="Path where to store the documentation")
+    # docgen_parser.set_defaults(func=doc_gen)
 
     new_content_parser.add_argument("-t", "--type", required=True, type=str,
         help="Type of security content object, choose between `detection`, `story`")
@@ -379,31 +406,37 @@ def main(args):
 
     reporting_parser.set_defaults(func=reporting)
 
+    convert_parser.add_argument("-dm", "--data_model", required=False, type=str, default="cim", help="converter target, choose between cim, raw, ba")
+    convert_parser.add_argument("-lo", "--log_source", required=False, type=str, help="converter log source")
+    convert_parser.add_argument("-dp", "--detection_path", required=True, type=str, help="path to the detection")
+    convert_parser.add_argument("-o", "--output", required=True, type=str, help="output path to store the detections")
+    convert_parser.set_defaults(func=convert)
 
-    init_parser.add_argument("-t", "--title", type=str, required=True, help="The title of the application to be built.")
-    init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
-    init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
-    init_parser.add_argument("-a", "--author_name", type=str, required=True, help="The name of the application author.")
-    init_parser.add_argument("-e", "--author_email", type=str, required=True, help="The email of the application author.")
-    init_parser.add_argument("-c", "--author_company", type=str, required=True, help="The company of the application author.")
-    init_parser.add_argument("-d", "--description", type=str, required=True, help="A brief description of the app.")
-    init_parser.set_defaults(func=initialize)
+
+    # init_parser.add_argument("-t", "--title", type=str, required=True, help="The title of the application to be built.")
+    # init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
+    # init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
+    # init_parser.add_argument("-a", "--author_name", type=str, required=True, help="The name of the application author.")
+    # init_parser.add_argument("-e", "--author_email", type=str, required=True, help="The email of the application author.")
+    # init_parser.add_argument("-c", "--author_company", type=str, required=True, help="The company of the application author.")
+    # init_parser.add_argument("-d", "--description", type=str, required=True, help="A brief description of the app.")
+    # init_parser.set_defaults(func=initialize)
 
     build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to (default is 'build')")
     build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build. This is the name you created during init.  To find the name of your app, look for the name of the folder created in the ./dist folder.")
     build_parser.set_defaults(func=build)
 
 
-    inspect_parser.add_argument("-p", "--package_path", required=True, type=str, help="Path to the package to be inspected")
-    inspect_parser.set_defaults(func=inspect)
+    # inspect_parser.add_argument("-p", "--package_path", required=True, type=str, help="Path to the package to be inspected")
+    # inspect_parser.set_defaults(func=inspect)
 
 
-    cloud_deploy_parser.add_argument("--app-package", required=True, type=str, help="Path to the package you wish to deploy")
-    cloud_deploy_parser.add_argument("--acs-legal-ack", required=True, type=str, help="specify '--acs-legal-ack=Y' to acknowledge your acceptance of any risks (required)")
-    cloud_deploy_parser.add_argument("--username", required=True, type=str, help="splunk.com username")
-    cloud_deploy_parser.add_argument("--password", required=True, type=str, help="splunk.com password")
-    cloud_deploy_parser.add_argument("--server", required=False, default="https://admin.splunk.com", type=str, help="Override server URL (default 'https://admin.splunk.com')")
-    cloud_deploy_parser.set_defaults(func=cloud_deploy)
+    # cloud_deploy_parser.add_argument("--app-package", required=True, type=str, help="Path to the package you wish to deploy")
+    # cloud_deploy_parser.add_argument("--acs-legal-ack", required=True, type=str, help="specify '--acs-legal-ack=Y' to acknowledge your acceptance of any risks (required)")
+    # cloud_deploy_parser.add_argument("--username", required=True, type=str, help="splunk.com username")
+    # cloud_deploy_parser.add_argument("--password", required=True, type=str, help="splunk.com password")
+    # cloud_deploy_parser.add_argument("--server", required=False, default="https://admin.splunk.com", type=str, help="Override server URL (default 'https://admin.splunk.com')")
+    # cloud_deploy_parser.set_defaults(func=cloud_deploy)
 
     # # parse them
     args = parser.parse_args()

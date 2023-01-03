@@ -3,16 +3,16 @@ id: c783dd98-c703-4252-9e8a-f19d9f5c949e
 version: 1
 date: '2022-02-03'
 author: Rod Soto, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search detects when multi factor authentication has been disabled,
   what entitiy performed the action and against what user
-search: '`o365_management_activity` Operation="Disable Strong Authentication." 
-| stats count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation UserId ResultStatus object
-| rename UserType AS user_type, Operation AS action, UserId AS src_user, object AS user, ResultStatus AS result
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| `o365_disable_mfa_filter`'
+data_source: []
+search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats
+  count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation
+  UserId ResultStatus object | rename UserType AS user_type, Operation AS action,
+  UserId AS src_user, object AS user, ResultStatus AS result | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `o365_disable_mfa_filter`'
 how_to_implement: You must install the Splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
 known_false_positives: Unless it is a special case, it is uncommon to disable MFA
@@ -23,18 +23,10 @@ tags:
   analytic_story:
   - Office 365 Detections
   asset_type: Office 365
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: User $user$ has executed an operation $Operation$ for this destination
     $dest$
   mitre_attack_id:
@@ -52,14 +44,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Operation
-  - UserType
-  - user
-  - status
-  - signature
-  - dest
-  - ResultStatus
   risk_score: 64
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
+    sourcetype: o365:management:activity
+    source: o365

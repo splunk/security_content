@@ -3,13 +3,14 @@ id: 25ae862a-1ac3-11ec-94a1-acde48001122
 version: 1
 date: '2021-09-21'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect file creation in remcos folder in appdata which
   is the keylog and clipboard logs that will be send to its c2 server. This is really
   a good TTP indicator that there is a remcos rat in the system that do keylogging,
   clipboard grabbing and audio recording.
+data_source:
+- Sysmon Event ID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.dat")
   Filesystem.file_path = "*\\remcos\\*" by _time Filesystem.file_name Filesystem.file_path
@@ -26,15 +27,11 @@ references:
 tags:
   analytic_story:
   - Remcos
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Collection
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log
+  drilldown_search: []
   impact: 100
-  kill_chain_phases:
-  - Exploitation
   message: file $file_name$ created in $file_path$ of $dest$
   mitre_attack_id:
   - T1113
@@ -47,12 +44,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - file_create_time
-  - file_name
-  - file_path
   risk_score: 100
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

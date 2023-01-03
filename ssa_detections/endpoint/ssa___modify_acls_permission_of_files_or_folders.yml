@@ -1,0 +1,77 @@
+name: Modify ACLs Permission Of Files Or Folders
+id: 9ae9a48a-cdbe-11eb-875a-acde48001122
+version: 3
+date: '2022-03-17'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic identifies suspicious modification of ACL permission to
+  a files or folder to make it available to everyone or to a specific user. This technique
+  may be used by the adversary to evade ACLs or protected files access. This changes
+  is commonly configured by the file or directory owner with appropriate permission.
+  This behavior raises suspicion if this command is seen on an endpoint utilized by
+  an account with no permission to do so.
+data_source: []
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), process=ucast(map_get(input_event, "process"), "string",
+  null), process_name=ucast(map_get(input_event, "process_name"), "string", null),
+  process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event,
+  "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"),
+  "string", null) | where process IS NOT NULL AND NOT like(process, "%:\\Windows\\QG\\ServiceNow%")
+  AND like(process, "%/g%") | where (match_regex(process, /(?i)everyone:/)=true OR
+  match_regex(process, /(?i)SYSTEM:/)=true OR match_regex(process, /(?i)S-1-1-0:/)=true)
+  | where (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe")
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "process", process, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
+known_false_positives: System administrators may use this windows utility. filter
+  is needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 70
+  drilldown_search: []
+  impact: 50
+  message: A cacls process $process_name$ with commandline $cmd_line$ try to modify
+    a permission of a file or directory in host $dest_device_id$
+  mitre_attack_id:
+  - T1222
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+    source: WinEventLog:Security

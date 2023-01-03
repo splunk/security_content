@@ -3,9 +3,8 @@ id: eac5e8ba-4857-11ec-9371-acde48001122
 version: 1
 date: '2021-11-18'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: DynamicWrapperX is an ActiveX component that can be used in a script
   to call Windows API functions, but it requires the dynwrapx.dll to be installed
   and registered. With that, registering or loading dynwrapx.dll to a host is highly
@@ -14,6 +13,8 @@ description: DynamicWrapperX is an ActiveX component that can be used in a scrip
   for any suspicious modifications meant to load dynwrapx.dll. Identify any suspicious
   module loads of dynwrapx.dll. This detection will return and identify the processes
   that invoke vbs/wscript/cscript.
+data_source:
+- Sysmon Event ID 7
 search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName
   = "dynwrapx.dll" OR  Product = "DynamicWrapperX") | stats count min(_time) as firstTime
   max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name
@@ -37,15 +38,11 @@ references:
 tags:
   analytic_story:
   - Remcos
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: dynwrapx.dll loaded by process $process_name$ on $Computer$
   mitre_attack_id:
   - T1055
@@ -59,17 +56,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Image
-  - ImageLoaded
-  - OriginalFileName
-  - Product
-  - process_name
-  - Computer
-  - EventCode
-  - Signed
-  - ProcessId
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

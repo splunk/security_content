@@ -3,18 +3,19 @@ id: c9d2bfe2-019f-11ec-a8eb-acde48001122
 version: 1
 date: '2021-08-20'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search is to detect a pushed or commit to master or main branch.
   This is to avoid unwanted modification to master without a review to the changes.
   Ideally in terms of devsecops the changes made in a branch and do a PR for review.
   of course in some cases admin of the project may did a changes directly to master
   branch
-search: '`github` branches{}.name = main OR branches{}.name = master 
- |  stats count min(_time) as firstTime max(_time) as lastTime by commit.commit.author.email commit.author.login commit.commit.message
-  repository.pushed_at commit.commit.committer.date repository.full_name
- | rename commit.author.login as user, repository.full_name as repository
- | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_commit_changes_in_master_filter`'
+data_source: []
+search: '`github` branches{}.name = main OR branches{}.name = master |  stats count
+  min(_time) as firstTime max(_time) as lastTime by commit.commit.author.email commit.author.login
+  commit.commit.message repository.pushed_at commit.commit.committer.date repository.full_name
+  | rename commit.author.login as user, repository.full_name as repository | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `github_commit_changes_in_master_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to github logs having the fork, commit, push metadata that can be use
   to monitor the changes in a github project.
@@ -25,14 +26,10 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GitHub
+  atomic_guid: []
   confidence: 30
-  context:
-  - Source:Application Log
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Exploitation
   message: suspicious commit by $commit.commit.author.email$ to main branch
   mitre_attack_id:
   - T1199
@@ -45,7 +42,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
   risk_score: 9
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log
+    source: github
+    sourcetype: aws:firehose:json

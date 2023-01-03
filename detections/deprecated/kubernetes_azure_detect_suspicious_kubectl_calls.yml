@@ -3,10 +3,11 @@ id: 4b6d1ba8-0000-4cec-87e6-6cbbd71651b5
 version: 1
 date: '2020-05-26'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides information on rare Kubectl calls with IP, verb
   namespace and object access context
+data_source: []
 search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | spath
   input=responseObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
   | search userAgent=kubectl* sourceIPs{}!=127.0.0.1 sourceIPs{}!=::1 | table sourceIPs{}
@@ -23,23 +24,19 @@ tags:
   analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: Azure AKS Kubernetes cluster
-  kill_chain_phases:
-  - Exploitation
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: threat
+  atomic_guid: []
   confidence: 50
+  drilldown_search: []
   impact: 50
-  risk_score: 25
-  context:
-  - Unknown
   message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: threat

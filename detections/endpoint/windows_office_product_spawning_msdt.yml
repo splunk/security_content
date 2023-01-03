@@ -3,15 +3,16 @@ id: 127eba64-c981-40bf-8589-1830638864a7
 version: 1
 date: '2022-05-30'
 author: Michael Haag, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies a Microsoft Office product spawning
   the Windows msdt.exe process. MSDT is a Diagnostics Troubleshooting Wizard native
   to Windows. This behavior is related to a recently identified sample utilizing protocol
   handlers to evade preventative controls, including if macros are disabled in the
   document. During triage, review file modifications for html. In addition, parallel
   processes including PowerShell and CertUtil.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","outlook.exe","mspub.exe","visio.exe")
@@ -37,28 +38,17 @@ tags:
   - Spearphishing Attachments
   - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
   asset_type: Endpoint
+  atomic_guid: []
+  confidence: 100
   cve:
   - CVE-2022-30190
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt.log
+  drilldown_search: []
   impact: 100
-  kill_chain_phases:
-  - Exploitation
   message: Office parent process $parent_process_name$ has spawned a child process
     $process_name$ on host $dest$.
   mitre_attack_id:
   - T1566
   - T1566.001
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -80,20 +70,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 100
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

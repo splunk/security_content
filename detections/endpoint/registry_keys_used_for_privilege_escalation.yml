@@ -3,13 +3,14 @@ id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
 version: 5
 date: '2022-01-26'
 author: David Dorsey, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel: 
-- Endpoint
 description: This search looks for modifications to registry keys that can be used
   to elevate privileges. The registry keys under "Image File Execution Options" are
   used to intercept calls to an executable and can be used to attach malicious binaries
   to benign system binaries.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
   Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger)
@@ -41,26 +42,17 @@ tags:
   - Suspicious Windows Registry Activities
   - Cloud Federated Credential Abuse
   - Windows Registry Abuse
-  - Hermetic Wiper 
-  cis20:
-  - CIS 8
+  - Hermetic Wiper
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 95
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: A registry activity in $registry_path$ related to privilege escalation
     in host $dest$
   mitre_attack_id:
   - T1546.012
   - T1546
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -74,12 +66,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.dest
-  - Registry.user
   risk_score: 76
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

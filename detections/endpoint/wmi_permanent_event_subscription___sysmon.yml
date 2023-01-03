@@ -3,8 +3,8 @@ id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
 version: 3
 date: '2020-12-08'
 author: Rico Valdez, Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
 description: 'This analytic looks for the creation of WMI permanent event subscriptions.
   The following analytic identifies the use of WMI Event Subscription to establish
   persistence or perform privilege escalation.  WMI can be used to install event filters,
@@ -26,6 +26,8 @@ description: 'This analytic looks for the creation of WMI permanent event subscr
   It may be pertinent to review all 3 to identify the flow of execution. In addition,
   EventCode 4104 may assist with any other PowerShell script usage that registered
   the subscription.'
+data_source:
+- Sysmon Event ID 21
 search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
   EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
 how_to_implement: To successfully implement this search, you must be collecting Sysmon
@@ -43,29 +45,15 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
+  drilldown_search: []
   impact: 30
-  kill_chain_phases:
-  - Actions on Objectives
   message: 'User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter:
     $filter$. Consumer: $Consumer$.  EventCode: $EventCode$'
   mitre_attack_id:
   - T1546.003
   - T1546
-  nist:
-  - PR.PT
-  - PR.AT
-  - PR.AC
-  - PR.IP
   observable:
   - name: host
     type: Endpoint
@@ -79,15 +67,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - host
-  - user
-  - Operation
-  - EventType
-  - Query
-  - Consumer
-  - Filter
   risk_score: 30
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

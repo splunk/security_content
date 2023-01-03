@@ -3,77 +3,78 @@ id: a83122f2-fa09-4868-a230-544dbc54bc1c
 version: 1
 date: '2022-10-14'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Web
-description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is actively being exploited and a POC is released publicy. The POC adds a SSH key to the appliance. Note that the exploit can be used with any HTTP method (GET, POST, PUT, DELETE, etc). The REST API request failing is not an indication that an attacker was unsuccessful. Horizon3 was able to modify the admin SSH keys though a REST API request that reportedly failed.
-  The collection /api/v2/ endpoints can be used to configure the system and modify the administrator user. Any logs found that meet the above conditions and also have a URL containing /api/v2/ should be cause for concern. Further investigation of any matching log entries can reveal any damage an attack has done. Additionally, an attacker may perform the following actions to further compromise a system
-  Modify the admin SSH key to enable the attacker to login to the compromised system. \
+description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is actively
+  being exploited and a POC is released publicy. The POC adds a SSH key to the appliance.
+  Note that the exploit can be used with any HTTP method (GET, POST, PUT, DELETE,
+  etc). The REST API request failing is not an indication that an attacker was unsuccessful.
+  Horizon3 was able to modify the admin SSH keys though a REST API request that reportedly
+  failed. The collection /api/v2/ endpoints can be used to configure the system and
+  modify the administrator user. Any logs found that meet the above conditions and
+  also have a URL containing /api/v2/ should be cause for concern. Further investigation
+  of any matching log entries can reveal any damage an attack has done. Additionally,
+  an attacker may perform the following actions to further compromise a system Modify
+  the admin SSH key to enable the attacker to login to the compromised system. \
 
   Add new local users. \
 
   Update networking configurations to reroute traffic. \
 
-  Download the system configuration. \ 
+  Download the system configuration. \
 
-  Initiate packet captures to capture other sensitive system information. Reference Horizon3.ai'
-search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("*/api/v2/cmdb/system/admin*")  Web.http_method IN ("GET", "PUT")
-  by Web.http_user_agent, Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
-  | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `fortinet_appliance_auth_bypass_filter`'
+  Initiate packet captures to capture other sensitive system information. Reference
+  Horizon3.ai'
+data_source: []
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url IN ("*/api/v2/cmdb/system/admin*")  Web.http_method IN ("GET", "PUT")
+  by Web.http_user_agent, Web.http_method, Web.url, Web.url_length, Web.src, Web.dest,
+  sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `fortinet_appliance_auth_bypass_filter`'
 how_to_implement: This detection requires the Web datamodel to be populated from a
-  supported Technology Add-On like Splunk for Apache. Splunk for Nginx, or Splunk for Palo Alto.
-known_false_positives: GET requests will be noisy and need to be filtered out or removed from the query based on volume. Restrict analytic to known publically facing Fortigates, or run analytic as a Hunt until properly tuned. It is also possible the user agent may be filtered on Report Runner or Node.js only for the exploit, however, it is unknown at this if other user agents may be used.
+  supported Technology Add-On like Splunk for Apache. Splunk for Nginx, or Splunk
+  for Palo Alto.
+known_false_positives: GET requests will be noisy and need to be filtered out or removed
+  from the query based on volume. Restrict analytic to known publically facing Fortigates,
+  or run analytic as a Hunt until properly tuned. It is also possible the user agent
+  may be filtered on Report Runner or Node.js only for the exploit, however, it is
+  unknown at this if other user agents may be used.
 references:
-  - https://www.wordfence.com/blog/2022/10/threat-advisory-cve-2022-40684-fortinet-appliance-auth-bypass/
-  - https://www.horizon3.ai/fortios-fortiproxy-and-fortiswitchmanager-authentication-bypass-technical-deep-dive-cve-2022-40684/
-  - https://github.com/horizon3ai/CVE-2022-40684
-  - https://www.horizon3.ai/fortinet-iocs-cve-2022-40684/
-  - https://attackerkb.com/topics/QWOxGIKkGx/cve-2022-40684/rapid7-analysis
-  - https://github.com/rapid7/metasploit-framework/pull/17143
+- https://www.wordfence.com/blog/2022/10/threat-advisory-cve-2022-40684-fortinet-appliance-auth-bypass/
+- https://www.horizon3.ai/fortios-fortiproxy-and-fortiswitchmanager-authentication-bypass-technical-deep-dive-cve-2022-40684/
+- https://github.com/horizon3ai/CVE-2022-40684
+- https://www.horizon3.ai/fortinet-iocs-cve-2022-40684/
+- https://attackerkb.com/topics/QWOxGIKkGx/cve-2022-40684/rapid7-analysis
+- https://github.com/rapid7/metasploit-framework/pull/17143
 tags:
   analytic_story:
   - CVE-2022-40684 Fortinet Appliance Auth bypass
   asset_type: Network
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Application Log
-  - Stage:Execution
-  dataset: 
-    - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
+  cve:
+  - CVE-2022-40684
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Exploitation
-  message: Potential CVE-2022-40684 against a Fortinet appliance may be occurring against $dest$.
+  message: Potential CVE-2022-40684 against a Fortinet appliance may be occurring
+    against $dest$.
   mitre_attack_id:
   - T1190
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
     role:
     - Victim
-  cve:
-  - CVE-2022-40684
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - Web.http_user_agent
-  - Web.http_method
-  - Web.url
-  - Web.url_length 
-  - Web.src
-  - Web.dest 
-  - sourcetype
   risk_score: 81
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
+    source: pan:threat
+    sourcetype: pan:threat
+    update_timestamp: true

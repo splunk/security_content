@@ -3,9 +3,8 @@ id: b3632472-310b-11ec-9aab-acde48001122
 version: 1
 date: '2021-10-19'
 author: Michael Haag, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: The following hunting analytic assists with identifying suspicious tasks
   that have been registered and ran in Windows using EventID 200 (action run) and
   201 (action completed). It is recommended to filter based on ActionName by specifying
@@ -14,6 +13,7 @@ description: The following hunting analytic assists with identifying suspicious 
   events related to tasks being scheduled. EventID 106 will generate when a new task
   is generated, however, that does not mean it ran. Capture any files on disk and
   analyze.
+data_source: []
 search: '`wineventlog_task_scheduler` EventCode IN ("200","201") | rename ComputerName
   as dest | stats count min(_time) as firstTime max(_time) as lastTime by Message
   dest EventCode category | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -36,15 +36,11 @@ tags:
   - CISA AA22-257A
   - Qakbot
   - Prestige Ransomware
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/windows_taskschedule/windows-taskschedule.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: A Scheduled Task was scheduled and ran on $dest$.
   mitre_attack_id:
   - T1053.005
@@ -57,13 +53,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - TaskName
-  - ActionName
-  - EventID
-  - dest
-  - ProcessID
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/windows_taskschedule/windows-taskschedule.log
+    source: WinEventLog:Microsoft-Windows-TaskScheduler/Operational
+    sourcetype: wineventlog

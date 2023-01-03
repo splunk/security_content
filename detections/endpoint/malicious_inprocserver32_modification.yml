@@ -3,9 +3,8 @@ id: 127c8d08-25ff-11ec-9223-acde48001122
 version: 1
 date: '2021-10-05'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies a process modifying the registry with
   a known malicious CLSID under InProcServer32. Most COM classes are registered with
   the operating system and are identified by a GUID that represents the Class Identifier
@@ -18,6 +17,8 @@ description: The following analytic identifies a process modifying the registry 
   of events. Analyze the value and look for file modifications. Being this is looking
   for inprocserver32, a DLL found in the value will most likely be loaded by a parallel
   process.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
   Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats
@@ -46,15 +47,11 @@ tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
   - Remcos
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: The $process_name$ was identified on endpoint $dest$ modifying the registry
     with a known malicious clsid under InProcServer32.
   mitre_attack_id:
@@ -73,14 +70,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - process_name
-  - registry_path
-  - registry_key_name
-  - registry_value_name
-  - user
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

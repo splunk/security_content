@@ -1,10 +1,14 @@
 import os
 import re
 
+from urllib.parse import urlparse
+
 from bin.contentctl_project.contentctl_infrastructure.adapter.yml_writer import YmlWriter
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from bin.contentctl_project.contentctl_infrastructure.adapter.finding_report_writer import FindingReportObject
+from bin.contentctl_project.contentctl_core.domain.entities.unit_test_old import UnitTestOld
+
 
 class ObjToYmlAdapter(Adapter):
     input_path: str
@@ -38,7 +42,20 @@ class ObjToYmlAdapter(Adapter):
             # add ocsf schema tag
             obj.tags.event_schema = 'cim'
 
-            body = FindingReportObject.writeFindingReport(obj)
+            #body = FindingReportObject.writeFindingReport(obj)
+            
+            if obj.test:
+                test_dict = {
+                    "name": obj.name + " Unit Test",
+                    "tests": [obj.test.dict()]
+                }
+                test_dict["tests"][0]["name"] = obj.name
+                for count in range(len(test_dict["tests"][0]["attack_data"])):
+                    a = urlparse(test_dict["tests"][0]["attack_data"][count]["data"])
+                    test_dict["tests"][0]["attack_data"][count]["file_name"] = os.path.basename(a.path)
+                test = UnitTestOld.parse_obj(test_dict)
+
+                obj.test = test
 
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
@@ -90,12 +107,12 @@ class ObjToYmlAdapter(Adapter):
                 ))
 
             # Add Finding Report Object
-            with open(file_path, 'r') as file:
-                data = file.read().replace('--body--', body)
+            #with open(file_path, 'r') as file:
+            #    data = file.read().replace('--body--', body)
 
-            f = open(file_path, "w")
-            f.write(data)
-            f.close()       
+            #f = open(file_path, "w")
+            #f.write(data)
+            #f.close()       
 
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
         if type == SecurityContentType.detections:

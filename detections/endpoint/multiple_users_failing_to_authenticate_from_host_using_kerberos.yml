@@ -3,8 +3,8 @@ id: 3a91a212-98a9-11eb-b86a-acde48001122
 version: 1
 date: '2021-04-08'
 author: Mauricio Velazco, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with multiple valid users using the Kerberos protocol. This behavior could represent
   an adversary performing a Password Spraying attack against an Active Directory environment
@@ -24,6 +24,8 @@ description: 'The following analytic identifies one source endpoint failing to a
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
+data_source:
+- Windows Security 4771
 search: '`wineventlog_security` EventCode=4771 Failure_Code=0x18 Account_Name!="*$"
   | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
   as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
@@ -45,17 +47,11 @@ tags:
   analytic_story:
   - Active Directory Password Spraying
   - Active Directory Kerberos Attacks
-  automated_detection_testing: passed
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Initial Access
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log
+  drilldown_search: []
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Potential Kerberos based password spraying attack from $Client_Address$
   mitre_attack_id:
   - T1110.003
@@ -69,12 +65,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - Result_Code
-  - Account_Name
-  - Client_Address
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

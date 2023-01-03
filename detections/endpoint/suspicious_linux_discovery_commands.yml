@@ -3,9 +3,8 @@ id: 0edd5112-56c9-11ec-b990-acde48001122
 version: 1
 date: '2021-12-06'
 author: Bhavin Patel, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: 'This search, detects execution of suspicious bash commands from various
   commonly leveraged bash scripts like (AutoSUID, LinEnum, LinPeas) to perform discovery
   of possible paths of privilege execution, password files, vulnerable directories,
@@ -13,6 +12,8 @@ description: 'This search, detects execution of suspicious bash commands from va
 
   The search logic specifically looks for high number of distinct commands run in
   a short period of time.'
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   values(Processes.process_name) values(Processes.parent_process_name) dc(Processes.process)
   as distinct_commands dc(Processes.process_name) as distinct_process_names min(_time)
@@ -35,16 +36,11 @@ references:
 tags:
   analytic_story:
   - Linux Post-Exploitation
-  automated_detection_testing: passed
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious Linux Discovery Commands detected on $dest$
   mitre_attack_id:
   - T1059.004
@@ -57,12 +53,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process
-  - Processes.parent_process_name
-  - Processes.user
-  - Processes.process_name
   risk_score: 81
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

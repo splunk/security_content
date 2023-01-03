@@ -3,13 +3,14 @@ id: ec3a9362-92fe-11eb-99d0-acde48001122
 version: 1
 date: '2021-04-01'
 author: Michael Haag, Splunk
+status: production
 type: Hunting
-datamodel: []
 description: The following detection identifes when a policy is deleted on AWS. This
   does not identify whether successful or failed, but the error messages tell a story
   of suspicious attempts. There is a specific process to follow when deleting a policy.
   First, detach the policy from all users, groups, and roles that the policy is attached
   to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
+data_source: []
 search: '`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com) | stats
   count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
   as policyArn by src eventName eventSource aws_account_id errorCode errorMessage
@@ -29,17 +30,10 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Stage:Execution
-  - Other:Policy Violation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
+  drilldown_search: []
   impact: 20
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user_arn$ has deleted AWS Policies from IP address $src$ by executing
     the following command $eventName$
   mitre_attack_id:
@@ -57,11 +51,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - eventName
-  - userAgent
-  - errorCode
-  - requestParameters.policyArn
   risk_score: 10
   security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

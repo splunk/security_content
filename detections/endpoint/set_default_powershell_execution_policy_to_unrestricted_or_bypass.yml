@@ -3,11 +3,12 @@ id: c2590137-0b08-4985-9ec5-6ae23d92f63d
 version: 7
 date: '2022-02-18'
 author: Patrick Bareiss, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: Monitor for changes of the ExecutionPolicy in the registry to the values
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell*
   Registry.registry_value_name=ExecutionPolicy (Registry.registry_value_data=Unrestricted
@@ -25,31 +26,20 @@ known_false_positives: Administrators may attempt to change the default executio
 references: []
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   - Credential Dumping
   - HAFNIUM Group
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 8
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
+  drilldown_search: []
   impact: 60
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
   message: A registry modification in $registry_path$ with reg key $registry_key_name$
     and reg value $registry_value_name$ in host $dest$
   mitre_attack_id:
   - T1059
   - T1059.001
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -63,13 +53,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
-  - Registry.dest
   risk_score: 48
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

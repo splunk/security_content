@@ -3,13 +3,13 @@ id: 8281ce42-5c50-11ec-82d2-acde48001122
 version: 1
 date: '2021-12-13'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Web
 description: The following analytic identifies a Java user agent performing a GET
   request for a .class file from the remote site. This is potentially indicative of
   exploitation of the Java application and may be related to current event CVE-2021-44228
   (Log4Shell).
+data_source: []
 search: '| tstats count from datamodel=Web where Web.http_user_agent="*Java*" Web.http_method="GET"
   Web.url="*.class*" by Web.http_user_agent Web.http_method, Web.url,Web.url_length
   Web.src, Web.dest | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
@@ -25,16 +25,12 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Web Server
+  atomic_guid: []
   confidence: 50
-  context:
-  - Scope:Network
   cve:
   - CVE-2021-44228
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java.log
+  drilldown_search: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: A Java user agent $http_user_agent$ was performing a $http_method$ to retrieve
     a remote class file.
   mitre_attack_id:
@@ -56,13 +52,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Web.http_method
-  - Web.url
-  - Web.url_length
-  - Web.src
-  - Web.dest
-  - Web.http_user_agent
   risk_score: 40
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java.log
+    source: stream:http
+    sourcetype: stream:http

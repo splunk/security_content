@@ -3,23 +3,27 @@ id: c1fb4edb-cab1-4359-9b40-925ffd797fb5
 version: 1
 date: '2022-08-18'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
-description: 'The following analytic identifies the invitation of an external guest user within Azure AD.
-  With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users.
-  External guest account invitations should be monitored by security teams as they could potentially lead to unauthorized access.
-  An example of this attack vector was described at BlackHat 2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking Azure AD Accounts by Abusing External 
-  Identities`'
-search: '`azuread` "body.operationName"="Invite external user" 
-  | rename body.properties.* as * 
-  | rename targetResources{}.userPrincipalName as userPrincipalName 
-  | rename initiatedBy.user.userPrincipalName as initiatedBy 
-  | rename targetResources{}.type as type 
-  | stats values(userPrincipalName) by _time, type, initiatedBy, result, body.operationName
+description: The following analytic identifies the invitation of an external guest
+  user within Azure AD. With Azure AD B2B collaboration, users and administrators
+  can invite external users to collaborate with internal users. External guest account
+  invitations should be monitored by security teams as they could potentially lead
+  to unauthorized access. An example of this attack vector was described at BlackHat
+  2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking
+  Azure AD Accounts by Abusing External Identities`
+data_source: []
+search: '`azuread` "body.operationName"="Invite external user" | rename body.properties.*
+  as * | rename targetResources{}.userPrincipalName as userPrincipalName | rename
+  initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.type
+  as type | stats values(userPrincipalName) by _time, type, initiatedBy, result, body.operationName
   | `azure_ad_external_guest_user_invited_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
   Specifically, this analytic leverages the AuditLogs log category.
-known_false_positives: Administrator may legitimately invite external guest users. Filter as needed.
+known_false_positives: Administrator may legitimately invite external guest users.
+  Filter as needed.
 references:
 - https://dirkjanm.io/assets/raw/US-22-Mollema-Backdooring-and-hijacking-Azure-AD-accounts_final.pdf
 - https://www.blackhat.com/us-22/briefings/schedule/#backdooring-and-hijacking-azure-ad-accounts-by-abusing-external-identities-26999
@@ -29,24 +33,13 @@ tags:
   analytic_story:
   - Azure Active Directory Persistence
   asset_type: Azure Active Directory
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  atomic_guid: []
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_external_guest_user_invited/azure-audit.log
+  drilldown_search: []
   impact: 50
-  kill_chain_phases:
-  - Exploitation
-  message: External Guest User $userPrincipalName$ initiated by $initiatedBy$ 
+  message: External Guest User $userPrincipalName$ initiated by $initiatedBy$
   mitre_attack_id:
   - T1136.003
-  nist:
-  - DE.CM
   observable:
   - name: userPrincipalName
     type: User
@@ -60,11 +53,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - body.properties.targetResources{}.userPrincipalName
-  - body.properties.targetResources{}.type
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.result
   risk_score: 45
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_external_guest_user_invited/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

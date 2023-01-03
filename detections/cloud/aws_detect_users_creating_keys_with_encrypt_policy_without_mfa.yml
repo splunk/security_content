@@ -3,12 +3,13 @@ id: c79c164f-4b21-4847-98f9-cf6a9f49179e
 version: 1
 date: '2021-01-11'
 author: Rod Soto, Patrick Bareiss Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search provides detection of KMS keys where action kms:Encrypt is
   accessible for everyone (also outside of your organization). This is an indicator
   that your account is compromised and the attacker uses the encryption key to compromise
   another company.
+data_source: []
 search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath input=requestParameters.policy
   output=key_policy_statements path=Statement{} | mvexpand key_policy_statements |
   spath input=key_policy_statements output=key_policy_action_1 path=Action | spath
@@ -29,14 +30,9 @@ tags:
   analytic_story:
   - Ransomware Cloud
   asset_type: AWS Account
+  atomic_guid: []
   confidence: 50
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json
+  drilldown_search: []
   impact: 50
   message: AWS account is potentially compromised and user $userIdentity.principalId$
     is trying to compromise other accounts.
@@ -51,15 +47,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - eventName
-  - eventSource
-  - eventID
-  - awsRegion
-  - requestParameters.policy
-  - userIdentity.principalId
   risk_score: 25
   security_domain: threat
-  kill_chain_phases:
-  - Exploitation
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

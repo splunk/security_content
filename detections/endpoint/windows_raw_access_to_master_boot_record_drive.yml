@@ -3,14 +3,15 @@ id: 7b83f666-900c-11ec-a2d9-acde48001122
 version: 1
 date: '2022-02-17'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to look for suspicious raw access read to drive where
   the master boot record is placed. This technique was seen in several attacks by
   adversaries or threat actor to wipe, encrypt or overwrite the master boot record
   code as part of their impact payload. This detection is a good indicator that there
   is a process try to read or write on MBR sector.
+data_source:
+- Sysmon Event ID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
   lastTime by Computer Image Device ProcessGuid ProcessId EventDescription EventCode
@@ -28,29 +29,20 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Data Destruction 
+  - Data Destruction
   - Caddy Wiper
   - WhisperGate
   - Hermetic Wiper
   - CISA AA22-264A
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 100
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
+  drilldown_search: []
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: process accessing MBR $device$ in $dest$
   mitre_attack_id:
   - T1561.002
   - T1561
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -60,15 +52,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Computer
-  - Image
-  - Device
-  - ProcessGuid
-  - ProcessId
-  - EventDescription
-  - EventCode
   risk_score: 90
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1561.002/mbr_raw_access/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

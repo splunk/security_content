@@ -3,12 +3,13 @@ id: bbe23980-6019-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-26'
 author: Rod Soto, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search provides specific SAML access from specific Service Provider,
   user and targeted principal at AWS. This search provides specific information to
   detect abnormal access or potential credential hijack or forgery, specially in federated
   environments using SAML protocol inside the perimeter or cloud provider.
+data_source: []
 search: '`cloudtrail` eventName=Assumerolewithsaml | stats count min(_time) as firstTime
   max(_time) as lastTime by requestParameters.principalArn requestParameters.roleArn
   requestParameters.roleSessionName recipientAccountId responseElements.issuer sourceIPAddress
@@ -31,14 +32,9 @@ tags:
   analytic_story:
   - Cloud Federated Credential Abuse
   asset_type: AWS Federated Account
+  atomic_guid: []
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Stage:Credential Access
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
+  drilldown_search: []
   impact: 80
   message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an
     event $eventName$ for account ID $recipientAccountId$
@@ -58,17 +54,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - eventName
-  - requestParameters.principalArn
-  - requestParameters.roleArn
-  - requestParameters.roleSessionName
-  - recipientAccountId
-  - responseElements.issuer
-  - sourceIPAddress
-  - userAgent
   risk_score: 64
   security_domain: threat
-  kill_chain_phases:
-  - Exploitation
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

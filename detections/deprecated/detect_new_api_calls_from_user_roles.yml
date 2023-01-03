@@ -3,10 +3,11 @@ id: 22773e84-bac0-4595-b086-20d3f335b4f1
 version: 1
 date: '2018-04-16'
 author: Bhavin Patel, Splunk
+status: deprecated
 type: Anomaly
-datamodel: []
 description: This search detects new API calls that have either never been seen before
   or that have not been seen in the previous hour, where the identity type is `AssumedRole`.
+data_source: []
 search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole
   [search `cloudtrail` eventType=AwsApiCall errorCode=success  userIdentity.type=AssumedRole
   | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
@@ -30,36 +31,21 @@ tags:
   analytic_story:
   - AWS User Monitoring
   asset_type: AWS Instance
-  cis20:
-  - CIS 1
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1078.004
-  nist:
-  - ID.AM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - eventType
-  - errorCode
-  - userIdentity.type
-  - userName
-  - eventName
-  risk_object: user
-  risk_object_type: user
-  risk_score: 25.0
-  security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
-  impact: 50
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25.0
+  security_domain: endpoint

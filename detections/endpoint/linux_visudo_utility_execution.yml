@@ -3,9 +3,8 @@ id: 08c41040-624c-11ec-a71f-acde48001122
 version: 1
 date: '2021-12-21'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic is to looks for suspicious commandline that add entry to
   /etc/sudoers by using visudo utility tool in linux platform. This technique may
   abuse by adversaries, malware author and red teamers to gain elevated privilege
@@ -13,6 +12,8 @@ description: This analytic is to looks for suspicious commandline that add entry
   as what users on what machines and can also control special things such as whether
   you need a password for particular commands. The file is composed of aliases (basically
   variables) and user specifications (which control who can run what).
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = visudo
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
@@ -31,27 +32,15 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  automated_detection_testing: passed
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
+  atomic_guid: []
   confidence: 40
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/visudo/sysmon_linux.log
+  drilldown_search: []
   impact: 40
-  kill_chain_phases:
-  - Exploitation
   message: A commandline $process$ executed on $dest$
   mitre_attack_id:
   - T1548.003
   - T1548
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -61,15 +50,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
   risk_score: 16
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/visudo/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

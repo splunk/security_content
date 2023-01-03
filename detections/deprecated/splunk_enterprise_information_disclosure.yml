@@ -3,10 +3,11 @@ id: f6a26b7b-7e80-4963-a9a8-d836e7534ebd
 version: 1
 date: '2018-06-14'
 author: David Dorsey, Splunk
+status: deprecated
 type: TTP
-datamodel: []
 description: This search allows you to look for evidence of exploitation for CVE-2018-11409,
   a Splunk Enterprise Information Disclosure Bug.
+data_source: []
 search: index=_internal sourcetype=splunkd_ui_access server-info | search clientip!=127.0.0.1
   uri_path="*raw/services/server/info/server-info" | rename clientip as src_ip, splunk_server
   as dest | stats earliest(_time) as firstTime, latest(_time) as lastTime, values(uri)
@@ -22,36 +23,21 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Splunk Server
-  cis20:
-  - CIS 3
-  - CIS 4
-  - CIS 18
+  atomic_guid: []
+  confidence: 50
   cve:
   - CVE-2018-11409
-  kill_chain_phases:
-  - Delivery
-  nist:
-  - ID.RA
-  - RS.MI
-  - PR.PT
-  - PR.AC
-  - PR.IP
-  - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: network
-  confidence: 50
+  drilldown_search: []
   impact: 50
-  risk_score: 25
-  context:
-  - Unknown
   message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: network

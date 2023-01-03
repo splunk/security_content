@@ -3,12 +3,12 @@ id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f6
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
+status: deprecated
 type: TTP
-datamodel:
-- Network_Resolution
 description: This search will detect DNS requests resolved by unauthorized DNS servers.
   Legitimate DNS servers should be identified in the Enterprise Security Assets and
   Identity Framework.
+data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
   DNS.dest | `drop_dm_object_name("DNS")` | `dns_query_requests_resolved_by_unauthorized_dns_servers_filter` '
@@ -26,40 +26,21 @@ tags:
   - Host Redirection
   - Command and Control
   asset_type: Endpoint
-  cis20:
-  - CIS 1
-  - CIS 3
-  - CIS 8
-  - CIS 12
-  kill_chain_phases:
-  - Command & Control
+  atomic_guid: []
+  confidence: 50
+  drilldown_search: []
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1071.004
-  nist:
-  - ID.AM
-  - PR.DS
-  - PR.IP
-  - DE.AE
-  - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - DNS.dest_category
-  - DNS.src_category
-  - DNS.src
-  - DNS.dest
-  security_domain: network
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: network

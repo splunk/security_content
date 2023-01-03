@@ -1,0 +1,71 @@
+name: Detect Kerberoasting
+id: dabdd6d7-3e10-42be-8711-4e124f7a3850
+version: 2
+date: '2020-10-21'
+author: Xiao Lin, Splunk
+status: experimental
+type: TTP
+description: This search detects a potential kerberoasting attack via service principal
+  name requests
+data_source: []
+search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_time"),
+  EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event,
+  "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"),
+  ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event,
+  "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
+  null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null),
+  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where EventCode="4769"
+  AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" | first_time_event
+  input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"]
+  | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID
+  | eval start_time=_time, end_time=_time | eval body=create_map(["event_id", event_id,
+  "EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions,
+  "TicketEncryptionType", TicketEncryptionType]), entities = mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)) | select start_time, end_time, entities, body | into write_ssa_detected_events();'
+how_to_implement: The test data is converted from Windows Security Event logs generated
+  from Attach Range simulation and used in SPL search and extended to SPL2
+known_false_positives: Older systems that support kerberos RC4 by default NetApp may
+  generate false positives
+references:
+- Initial ESCU implementation by Jose Hernandez and Patrick Bareiss
+tags:
+  analytic_story:
+  - Credential Dumping
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 20
+  drilldown_search: []
+  impact: 70
+  message: Kerberoasting malware is potentially applying stolen credentials. Operation
+    is performed at the device $dest_device_id$, by the account $dest_user_id$ via
+    command $cmd_line$
+  mitre_attack_id:
+  - T1558.003
+  - T1558
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: Process
+    role:
+    - Other
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - service_name
+  - _time
+  - event_code
+  - ticket_encryption_type
+  - service_id
+  - ticket_options
+  kill_chain_phases:
+  - Actions on Objectives
+  risk_score: 14
+  security_domain: endpoint
