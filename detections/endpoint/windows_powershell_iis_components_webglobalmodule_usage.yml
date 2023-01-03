@@ -22,6 +22,7 @@ references:
   - https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
   - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
   - https://www.secureworks.com/research/bronze-union
+  - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
 tags:
   analytic_story:
   - IIS Components
