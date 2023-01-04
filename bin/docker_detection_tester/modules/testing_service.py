@@ -14,7 +14,7 @@ from modules import splunk_sdk
 import timeit
 from typing import Union, Tuple
 from os.path import relpath
-from tempfile import mkdtemp
+from tempfile import mkdtemp, mkstemp
 import datetime
 import http.client
 
@@ -22,11 +22,11 @@ import http.client
 
 
 def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
-                           test_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
+                           detection_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
     
     one_test_start = timeit.default_timer()
     uuid_var = str(uuid.uuid4())
-    result_test, indices_to_delete = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, uuid_var, attack_data_root_folder)
+    result_test, indices_to_delete = test_detection(splunk_ip, splunk_port, container_name, splunk_password, detection_file, uuid_var, attack_data_root_folder)
     one_test_stop = timeit.default_timer()
     
     if result_test is None:
@@ -50,7 +50,7 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
         wait_on_delete = None
 
 
-    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file, indices = indices_to_delete)
+    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, detection_file, indices = indices_to_delete)
    
 
     return result_test    
@@ -70,14 +70,14 @@ def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
     return service
 
-def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Tuple[Union[dict,None], set[str]]:
+def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, detection_file:str, uuid_var, attack_data_root_folder)->Tuple[Union[dict,None], set[str]]:
     
-    test_file_obj = load_file(os.path.join("security_content/", test_file))
+    detection_file_obj = load_file(os.path.join("security_content/", detection_file))
     
     
-    if not test_file_obj:
-        print("Not test_file_obj!")
-        raise(Exception("No test file object found for [%s]"%(test_file)))
+    if not detection_file_obj:
+        print("Not detection_file_obj!")
+        raise(Exception("No test file object found for [%s]"%detection_file))
     #print(test_file_obj)
 
     # write entry dynamodb
@@ -88,25 +88,30 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
     #We want the relative path, so we convert it as required
-    folder_name = relpath(abs_folder_path, os.getcwd())
+    
 
 
     
-
+    tests:dict = detection_file_obj.get("tests", {}) 
+    if len(tests) > 1:
+        raise(Exception(f"Error testing detection {detection_file_obj.name} - file contains [{len(tests)}] but we currently only support 1 test per detection"))
+    test = tests[0]
     indices_to_delete = set()
-    for attack_data in test_file_obj['tests'][0]['attack_data']:
+
+    for attack_data in test['attack_data']:
         url = attack_data['data']
         
         if 'custom_index' in attack_data:
-            print(f"Found a custom index for {test_file}: {attack_data['custom_index']}")
+            print(f"Found a custom index for {detection_file}: {attack_data['custom_index']}")
             data_upload_index = attack_data['custom_index']
         else:
             data_upload_index = splunk_sdk.DEFAULT_DATA_INDEX
 
         indices_to_delete.add(data_upload_index)
         
-        target_file = os.path.join(folder_name, attack_data['file_name'])
-        utils.download_file_from_http(url, target_file)
+        _, target_file = mkstemp(prefix="attack_data_", dir=abs_folder_path)
+        
+        utils.download_file_from_http(url, target_file, overwrite_file=True)
         
 
 
@@ -144,7 +149,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     #print("end sleep 30")
     
     result_test = {}
-    test = test_file_obj['tests'][0]
+    
     
 
     if 'baselines' in test:
@@ -154,19 +159,18 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             baseline = load_file(os.path.join(os.path.dirname(__file__), '../security_content', baseline_file_name))
             result_obj = dict()
             result_obj['baseline'] = baseline_obj['name']
-            result_obj['baseline_file'] = baseline_obj['file']
+            result_obj['baseline_file'] = baseline_file_name
             print("Making test_baseline_search request to: [%s:%d]"%(splunk_ip, splunk_port))
-            result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_obj['file'], baseline_obj['earliest_time'], baseline_obj['latest_time'])
+            result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_file_name, baseline_obj['earliest_time'], baseline_obj['latest_time'])
             #we don't seem to be doing anything with this loop... are we supposed to have the following line belwo?
             results_baselines.append(result)
 
         result_test['baselines_result'] = results_baselines  
 
-    detection_file_name = test['file']
-    detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
-    #print("Making test_detection_search request to: [%s:%d]"%(splunk_ip, splunk_port))
     
-    result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+    
+    
+    result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection_file_obj['search'], test.get('pass_condition', '| stats count | where count > 0'), detection_file_obj['name'], detection_file, test.get('earliest_time', '-24h'), test.get('latest_time', 'now'))
     if result_detection['error']:
         print("There was an error running the search: %s"%(result_detection['search_string']))
         
@@ -175,7 +179,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
 
     result_detection['detection_name'] = test['name']
-    result_detection['detection_file'] = test['file']
+    result_detection['detection_file'] = detection_file
     result_test['detection_result'] = result_detection
     result_test['attack_data_directory'] = abs_folder_path
 
