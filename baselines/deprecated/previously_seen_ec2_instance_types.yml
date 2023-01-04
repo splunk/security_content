@@ -18,8 +18,6 @@ references: []
 tags:
   analytic_story:
   - AWS Cryptomining
-  deployments:
-  - Daily Cache Updates
   detections:
   - EC2 Instance Started With Previously Unseen Instance Type
   product:

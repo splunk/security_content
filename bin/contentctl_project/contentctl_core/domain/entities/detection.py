@@ -20,6 +20,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.lookup import Lookup
 from bin.contentctl_project.contentctl_core.domain.entities.baseline import Baseline
 from bin.contentctl_project.contentctl_core.domain.entities.playbook import Playbook
 from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
+from bin.contentctl_project.contentctl_core.domain.entities.deployment import Deployment
 import sys
 
 
@@ -42,7 +43,6 @@ class Detection(BaseModel, SecurityContentObject):
     references: list
     tags: DetectionTags
     tests: list[UnitTest] = None
-
 
     # enrichments
     datamodel: list = None

@@ -38,27 +38,30 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addDeployment(self, deployments: list) -> None:
         if self.security_content_obj:
-            matched_deployments = []
 
-            for d in deployments:
-                d_tags = dict(d.tags)
-                for d_tag in d_tags.keys():
-                    for attr in dir(self.security_content_obj):
-                        if not (attr.startswith('__') or attr.startswith('_')):
-                            if attr == d_tag:
-                                if type(self.security_content_obj.__getattribute__(attr)) is str:
-                                    attr_values = [self.security_content_obj.__getattribute__(attr)]
-                                else:
-                                    attr_values = self.security_content_obj.__getattribute__(attr)
-                                
-                                for attr_value in attr_values:
-                                    if attr_value == d_tags[d_tag]:
-                                        matched_deployments.append(d)
+            if not self.security_content_obj.deployment:
 
-            if len(matched_deployments) == 0:
-                self.security_content_obj.deployment = None
-            else:
-                self.security_content_obj.deployment = matched_deployments[-1]
+                matched_deployments = []
+
+                for d in deployments:
+                    d_tags = dict(d.tags)
+                    for d_tag in d_tags.keys():
+                        for attr in dir(self.security_content_obj):
+                            if not (attr.startswith('__') or attr.startswith('_')):
+                                if attr == d_tag:
+                                    if type(self.security_content_obj.__getattribute__(attr)) is str:
+                                        attr_values = [self.security_content_obj.__getattribute__(attr)]
+                                    else:
+                                        attr_values = self.security_content_obj.__getattribute__(attr)
+                                    
+                                    for attr_value in attr_values:
+                                        if attr_value == d_tags[d_tag]:
+                                            matched_deployments.append(d)
+
+                if len(matched_deployments) == 0:
+                    self.security_content_obj.deployment = None
+                else:
+                    self.security_content_obj.deployment = matched_deployments[-1]
 
 
     def addRBA(self) -> None:
