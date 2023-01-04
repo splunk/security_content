@@ -38,7 +38,7 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytic_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
-{% if detection.tags.risk_score is defined and detection.type | lower != "correlation" %}
+{% if detection.deployment.rba.enabled is defined %}
 action.risk = 1
 action.risk.param._risk_message = {{ detection.tags.message }}
 action.risk.param._risk = {{ detection.risk | tojson }}
