@@ -18,14 +18,14 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_net` AND (Processes.process="* user *" OR  Processes.process="*config*"
   OR Processes.process="*view /all*") by  Processes.process_name Processes.dest Processes.user
-  Processes.parent_process_name | where count >=5 | `drop_dm_object_name(Processes)`
+  Processes.parent_process_name | where count >=4 | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `account_discovery_with_net_app_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product..
-known_false_positives: admin or power user may used this series of command.
+known_false_positives: Admin or power user may used this series of command.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
