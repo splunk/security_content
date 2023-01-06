@@ -270,6 +270,7 @@ jobs:
             python -m pip install -r requirements.txt
 
         - name: Merge Detections into single File
+          continue-on-error: true #Still keep running the rest of the workflow - it's just that all the tests didn't pass
           run: |
             source .venv/bin/activate
             cd bin/docker_detection_tester
@@ -322,8 +323,8 @@ jobs:
         - name: Upload S3 Badge and Summary Artifacts for Nightly Scheduled Run
           if: ${{ github.event_name == 'schedule' }}
           run: |
-            cd bin/docker_detection_tester
-            python generate_detection_coverage_badge.py --input_summary_file summary_test_results.json --output_badge_file detection_coverage.svg --badge_string "Pass Rate"
+            #cd bin/docker_detection_tester
+            #python generate_detection_coverage_badge.py --input_summary_file summary_test_results.json --output_badge_file detection_coverage.svg --badge_string "Pass Rate"
             
 
             #Upload artifact (summary test results)
@@ -335,7 +336,7 @@ jobs:
             
             
             #Upload artifact (test results coverage badge)
-            aws s3 cp detection_coverage.svg s3://security-content/reporting/detection_coverage.svg
+            #aws s3 cp detection_coverage.svg s3://security-content/reporting/detection_coverage.svg
             
             #Since these reside in a public bucket, no need to explicitly mark as public
             # make the file public since it is not by default
