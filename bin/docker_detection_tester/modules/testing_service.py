@@ -94,7 +94,8 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     
     tests:dict = detection_file_obj.get("tests", {}) 
     if len(tests) > 1:
-        raise(Exception(f"Error testing detection {detection_file_obj.name} - file contains [{len(tests)}] but we currently only support 1 test per detection"))
+        print(f"****WARNING - THIS DETECTION CONTAINS {len(tests)} TESTS BUT WE WILL ONLY RUN 1")
+        raise(Exception(f"Error testing detection {detection_file_obj['name']} - file contains [{len(tests)}] but we currently only support 1 test per detection"))
     test = tests[0]
     indices_to_delete = set()
 
