@@ -2,7 +2,7 @@ name: Disable Defender AntiVirus Registry
 id: aa4f695a-3024-11ec-9987-acde48001122
 version: 3
 date: '2022-12-21'
-author: Steven Dick, Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk, Steven Dick
 type: TTP
 datamodel:
 - Endpoint
