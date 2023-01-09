@@ -237,9 +237,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Masquerading - Rename System Utilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: A system process $process_name$ with commandline $cmd_line$ spawn in non-default
     folder path in host $dest_device_id$

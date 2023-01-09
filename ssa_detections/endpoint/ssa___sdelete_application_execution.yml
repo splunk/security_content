@@ -47,9 +47,7 @@ tags:
   - Information Sabotage
   - Insider Threat
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 60
   message: Sdelete process $process_name$ executed on $dest_device_id$ attempting
     to permanently delete files by $dest_user_id$.
@@ -94,6 +92,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
+    source: WinEventLog:Security

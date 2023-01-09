@@ -40,9 +40,7 @@ tags:
   - Living Off The Land
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: tbd
   mitre_attack_id:

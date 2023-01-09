@@ -37,9 +37,7 @@ tags:
   analytic_story:
   - Unusual Processes
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 40
-  drilldown_search: []
   impact: 30
   message: A  process $process_name$ with a long commandline $cmd_line$ executed in
     host $dest_device_id$

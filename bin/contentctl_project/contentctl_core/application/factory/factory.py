@@ -103,80 +103,80 @@ class Factory():
                #Index + 1 because we are zero indexed, not 1 indexed.  This ensures
                # that printouts end at 100%, not some other number 
                progress_percent = ((index+1)/len(files_without_ssa)) * 100
-#               try:
-               type_string = "UNKNOWN TYPE"
-               if type == SecurityContentType.lookups:
-                    type_string = "Lookups"
-                    self.input_dto.director.constructLookup(self.input_dto.basic_builder, str(file))
-                    lookup = self.input_dto.basic_builder.getObject()
-                    Utils.add_id(self.ids, lookup, file)
-                    self.output_dto.lookups.append(lookup)
-               
-               elif type == SecurityContentType.macros:
-                    type_string = "Macros"
-                    self.input_dto.director.constructMacro(self.input_dto.basic_builder, str(file))
-                    macro = self.input_dto.basic_builder.getObject()
-                    Utils.add_id(self.ids, macro, file)
-                    self.output_dto.macros.append(macro)
-               
-               elif type == SecurityContentType.deployments:
-                    type_string = "Deployments"
-                    self.input_dto.director.constructDeployment(self.input_dto.basic_builder, str(file))
-                    deployment = self.input_dto.basic_builder.getObject()
-                    Utils.add_id(self.ids, deployment, file)
-                    self.output_dto.deployments.append(deployment)
-               
-               elif type == SecurityContentType.playbooks:
-                    type_string = "Playbooks"
-                    self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, str(file))
-                    playbook = self.input_dto.playbook_builder.getObject()
-                    Utils.add_id(self.ids, playbook, file)
-                    self.output_dto.playbooks.append(playbook)                    
-               
-               elif type == SecurityContentType.baselines:
-                    type_string = "Baselines"
-                    self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, str(file), self.output_dto.deployments)
-                    baseline = self.input_dto.baseline_builder.getObject()
-                    Utils.add_id(self.ids, baseline, file)
-                    self.output_dto.baselines.append(baseline)
-               
-               elif type == SecurityContentType.investigations:
-                    type_string = "Investigations"
-                    self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
-                    investigation = self.input_dto.investigation_builder.getObject()
-                    Utils.add_id(self.ids, investigation, file)
-                    self.output_dto.investigations.append(investigation)
+               try:
+                    type_string = "UNKNOWN TYPE"
+                    if type == SecurityContentType.lookups:
+                         type_string = "Lookups"
+                         self.input_dto.director.constructLookup(self.input_dto.basic_builder, str(file))
+                         lookup = self.input_dto.basic_builder.getObject()
+                         Utils.add_id(self.ids, lookup, file)
+                         self.output_dto.lookups.append(lookup)
+                    
+                    elif type == SecurityContentType.macros:
+                         type_string = "Macros"
+                         self.input_dto.director.constructMacro(self.input_dto.basic_builder, str(file))
+                         macro = self.input_dto.basic_builder.getObject()
+                         Utils.add_id(self.ids, macro, file)
+                         self.output_dto.macros.append(macro)
+                    
+                    elif type == SecurityContentType.deployments:
+                         type_string = "Deployments"
+                         self.input_dto.director.constructDeployment(self.input_dto.basic_builder, str(file))
+                         deployment = self.input_dto.basic_builder.getObject()
+                         Utils.add_id(self.ids, deployment, file)
+                         self.output_dto.deployments.append(deployment)
+                    
+                    elif type == SecurityContentType.playbooks:
+                         type_string = "Playbooks"
+                         self.input_dto.director.constructPlaybook(self.input_dto.playbook_builder, str(file))
+                         playbook = self.input_dto.playbook_builder.getObject()
+                         Utils.add_id(self.ids, playbook, file)
+                         self.output_dto.playbooks.append(playbook)                    
+                    
+                    elif type == SecurityContentType.baselines:
+                         type_string = "Baselines"
+                         self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, str(file), self.output_dto.deployments)
+                         baseline = self.input_dto.baseline_builder.getObject()
+                         Utils.add_id(self.ids, baseline, file)
+                         self.output_dto.baselines.append(baseline)
+                    
+                    elif type == SecurityContentType.investigations:
+                         type_string = "Investigations"
+                         self.input_dto.director.constructInvestigation(self.input_dto.investigation_builder, file)
+                         investigation = self.input_dto.investigation_builder.getObject()
+                         Utils.add_id(self.ids, investigation, file)
+                         self.output_dto.investigations.append(investigation)
 
-               elif type == SecurityContentType.stories:
-                    type_string = "Stories"
-                    self.input_dto.director.constructStory(self.input_dto.story_builder, str(file), 
-                         self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
-                    story = self.input_dto.story_builder.getObject()
-                    Utils.add_id(self.ids, story, file)
-                    self.output_dto.stories.append(story)
-          
-               elif type == SecurityContentType.detections:
-                    type_string = "Detections"
-                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
-                         self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
-                         self.input_dto.attack_enrichment, self.output_dto.macros,
-                         self.output_dto.lookups, self.input_dto.force_cached_or_offline)
-                    detection = self.input_dto.detection_builder.getObject()
-                    Utils.add_id(self.ids, detection, file)
-                    self.output_dto.detections.append(detection)
+                    elif type == SecurityContentType.stories:
+                         type_string = "Stories"
+                         self.input_dto.director.constructStory(self.input_dto.story_builder, str(file), 
+                              self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
+                         story = self.input_dto.story_builder.getObject()
+                         Utils.add_id(self.ids, story, file)
+                         self.output_dto.stories.append(story)
+               
+                    elif type == SecurityContentType.detections:
+                         type_string = "Detections"
+                         self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
+                              self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
+                              self.input_dto.attack_enrichment, self.output_dto.macros,
+                              self.output_dto.lookups, self.input_dto.force_cached_or_offline)
+                         detection = self.input_dto.detection_builder.getObject()
+                         Utils.add_id(self.ids, detection, file)
+                         self.output_dto.detections.append(detection)
 
-               else:
-                    raise Exception(f"Unsupported type: [{type}]")
+                    else:
+                         raise Exception(f"Unsupported type: [{type}]")
+                    
+                    if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()) or not already_ran:
+                         already_ran = True
+                         print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
                
-               if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()) or not already_ran:
-                    already_ran = True
-                    print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
-               
-               # except ValidationError as e:
-               #      validation_errors.append((pathlib.Path(file), e))
-               # except Exception as e:
-               #      print(f"Unknown exception caught while Creating Security Content: {str(e)}")
-               #      sys.exit(1)
+               except ValidationError as e:
+                    validation_errors.append((pathlib.Path(file), e))
+               except Exception as e:
+                    print(f"Unknown exception caught while Creating Security Content: {str(e)}")
+                    sys.exit(1)
                     
                
                    

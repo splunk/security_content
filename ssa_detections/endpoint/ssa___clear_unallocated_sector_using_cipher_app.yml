@@ -33,9 +33,7 @@ tags:
   - Ransomware
   - Information Sabotage
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 90
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors
@@ -82,6 +80,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.004/cipher/security.log
+    source: WinEventLog:Security

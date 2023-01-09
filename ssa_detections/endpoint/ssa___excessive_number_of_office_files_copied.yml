@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Insider Threat
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 90
   message: High number of files copied
   mitre_attack_id:

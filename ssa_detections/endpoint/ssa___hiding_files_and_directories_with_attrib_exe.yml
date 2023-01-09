@@ -38,9 +38,7 @@ tags:
   - Information Sabotage
   - Insider Threat
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 80
   message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected.
   mitre_attack_id:
@@ -71,6 +69,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
+    source: WinEventLog:Security

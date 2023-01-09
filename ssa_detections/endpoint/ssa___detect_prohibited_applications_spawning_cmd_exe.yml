@@ -40,9 +40,7 @@ tags:
   - Suspicious Command-Line Executions
   - Insider Threat
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest_device_id$ by user $dest_user_id$, producing a suspicious event
@@ -82,6 +80,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/powershell_spawn_cmd/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/powershell_spawn_cmd/windows-security.log
+    source: WinEventLog:Security

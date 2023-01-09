@@ -61,9 +61,7 @@ tags:
   - ProxyShell
   - CISA AA22-264A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 40
   message: Exchange enumeration using PowerShell on $dest_device_id$.
   mitre_attack_id:

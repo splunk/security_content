@@ -51,9 +51,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Windows
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 80
   message: Potential lateral movement and credential stealing via Pass the Token or
     Pass the Hash techniques. Operation is performed via credentials of the account

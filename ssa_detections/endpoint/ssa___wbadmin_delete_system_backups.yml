@@ -36,9 +36,7 @@ tags:
   - Ryuk Ransomware
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 30
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest_device_id$ by user $dest_user_id$ attempting to delete system

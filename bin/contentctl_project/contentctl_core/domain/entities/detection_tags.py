@@ -28,6 +28,8 @@ class DetectionTags(BaseModel):
     risk_severity: str = None
     cve: list = None
     supported_tas: list = None
+    atomic_guid: list = None
+    drilldown_search: str = None
 
 
     # enrichment

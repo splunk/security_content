@@ -39,11 +39,9 @@ tags:
   - ProxyShell
   - ProxyNotShell
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
   cve:
   - CVE-2021-26857
-  drilldown_search: []
   impact: 70
   message: Possible CVE-2021-26857 exploitation on $dest$
   mitre_attack_id:
