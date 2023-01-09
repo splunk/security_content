@@ -41,9 +41,7 @@ tags:
   - Hermetic Wiper
   - Windows Registry Abuse
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 90
   message: A process $process_name$ was identified attempting to disable memory crash
     dumps on $dest$.
@@ -72,9 +70,3 @@ tags:
   - Splunk Cloud
   risk_score: 90
   security_domain: endpoint
-tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog

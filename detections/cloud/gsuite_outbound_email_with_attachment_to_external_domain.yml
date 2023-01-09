@@ -31,9 +31,7 @@ tags:
   - Dev Sec Ops
   - Insider Threat
   asset_type: GSuite
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:

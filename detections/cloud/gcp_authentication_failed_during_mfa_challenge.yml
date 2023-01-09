@@ -25,9 +25,7 @@ tags:
   analytic_story:
   - GCP Account Takeover
   asset_type: Google Cloud Platform tenant
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: User $user$ failed to pass MFA challenge
   mitre_attack_id:

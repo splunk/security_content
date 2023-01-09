@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: A remote instance execution of wmic.exe that will spawn $parent_process_name$
     in host $dest$

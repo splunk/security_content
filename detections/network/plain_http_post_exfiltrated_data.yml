@@ -26,9 +26,7 @@ tags:
   - Data Exfiltration
   - Command and Control
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A http post $http_method$ sending packet with plain text of information
     $form_data$ in uri path $uri_path$

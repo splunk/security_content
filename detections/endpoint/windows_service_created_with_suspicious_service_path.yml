@@ -33,9 +33,7 @@ tags:
   - Brute Ratel C4
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: A service $Service_File_Name$ was created from a non-standard path using
     $Service_Name$

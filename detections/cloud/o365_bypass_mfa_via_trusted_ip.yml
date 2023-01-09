@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Office 365 Detections
   asset_type: Office 365
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a
     list of trusted IPs to bypass MFA

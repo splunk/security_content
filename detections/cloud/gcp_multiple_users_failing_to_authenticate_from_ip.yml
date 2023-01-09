@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - GCP Account Takeover
   asset_type: Google Cloud Platform tenant
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: Multiple failed login attempts against users $tried_accounts$ seen from
     $src_ip$

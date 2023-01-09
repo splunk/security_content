@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Credential Dumping
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: A process, $SourceImage$, has requested access to LSASS on $dest$. Review
     for further details.

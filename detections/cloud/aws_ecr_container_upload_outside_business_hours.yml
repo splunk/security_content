@@ -25,9 +25,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Container uploaded outside business hours from $user$
   mitre_attack_id:

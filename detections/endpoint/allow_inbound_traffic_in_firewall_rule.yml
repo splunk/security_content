@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 10
   message: Suspicious firewall modification detected on endpoint $ComputerName$ by
     user $user$.

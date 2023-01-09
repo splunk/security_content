@@ -22,9 +22,7 @@ tags:
   analytic_story:
   - Suspicious Okta Activity
   asset_type: Infrastructure
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 40
   message: $user$ has added a new device to their account.
   mitre_attack_id:

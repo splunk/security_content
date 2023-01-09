@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 100
   message: File writes $file_name$ with extensions consistent with a SamSam ransomware
     attack seen on $dest$

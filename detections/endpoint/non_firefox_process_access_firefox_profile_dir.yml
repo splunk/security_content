@@ -33,9 +33,7 @@ tags:
   - Azorult
   - AgentTesla
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 50
   message: a non firefox browser process $process_name$ accessing $Object_Name$
   mitre_attack_id:

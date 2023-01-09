@@ -34,9 +34,7 @@ tags:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 100
   message: $process_name$ has been identified using decompile against a CHM on $dest$
     under user $user$.
@@ -69,4 +67,3 @@ tests:
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true
-    

@@ -39,9 +39,7 @@ tags:
   - Windows Registry Abuse
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 40
   message: Disabled 'Show Hidden Files' on $dest$
   mitre_attack_id:

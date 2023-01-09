@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: A suspicious of execution of $process_name$ with process id $process_id$
     and commandline $process$ to modify permission of directory or files in host $dest$

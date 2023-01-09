@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Suspicious Cloud Authentication Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 30
   message: AWS account $requestingAccountId$ is trying to access resource from some
     other account $requestedAccountId$, for the first time.

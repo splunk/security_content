@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - Disabling Security Tools
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 50
   message: Possible Sysmon filter driver unloading on $dest$
   mitre_attack_id:

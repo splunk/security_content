@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: User $user$ of type AssumedRole attempting to execute new API calls $command$
     that have not been seen before

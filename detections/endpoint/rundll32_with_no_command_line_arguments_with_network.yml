@@ -43,11 +43,9 @@ tags:
   - Cobalt Strike
   - PrintNightmare CVE-2021-34527
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
   cve:
   - CVE-2021-34527
-  drilldown_search: []
   impact: 70
   message: A rundll32 process $process_name$ with no commandline argument like this
     process commandline $process$ in host $dest$

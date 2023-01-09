@@ -26,11 +26,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
   cve:
   - CVE-2022-43567
-  drilldown_search: []
   impact: 90
   message: Possible exploitation attempt from $clientip$
   mitre_attack_id:

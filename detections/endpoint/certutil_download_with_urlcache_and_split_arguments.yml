@@ -39,9 +39,7 @@ tags:
   - ProxyNotShell
   - CISA AA22-277A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 90
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to download a file.

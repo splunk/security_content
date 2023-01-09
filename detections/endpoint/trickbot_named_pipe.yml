@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - Trickbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: Possible Trickbot namedpipe created on $Computer$ by $Image$
   mitre_attack_id:

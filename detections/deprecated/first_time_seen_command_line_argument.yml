@@ -43,9 +43,7 @@ tags:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Hidden Cobra Malware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

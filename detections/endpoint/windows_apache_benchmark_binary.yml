@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - MetaSploit
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 100
   message: A known MetaSploit default payload has been identified on $dest$ ran by
     $user$, $parent_process_name$ spawning $process_name$.

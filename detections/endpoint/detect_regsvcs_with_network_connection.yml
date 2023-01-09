@@ -37,9 +37,7 @@ tags:
   - Suspicious Regsvcs Regasm Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: An instance of $process_name$ contacting a remote destination was identified
     on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$.

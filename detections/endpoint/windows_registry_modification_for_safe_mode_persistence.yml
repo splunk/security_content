@@ -41,9 +41,7 @@ tags:
   - Windows Registry Abuse
   - Windows Drivers
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 60
   message: Safeboot registry $registry_path$ was added or modified with a new value
     $registry_value_name$ on $dest$

@@ -12,9 +12,8 @@ description: This search is to detect a suspicious MS scripting process such as 
   step to hunt further a suspicious ldap query or ldap related events to the host
   that may give you good information regarding ldap or AD information processing or
   might be a attacker.
-data_source:
-- Sysmon Event ID 7
-search: '`sysmon` EventCode=7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
+data_source: []
+search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
   IN ("*\\Wldap32.dll", "*\\adsldp.dll", "*\\adsldpc.dll") | stats min(_time) as firstTime
   max(_time) as lastTime count by Image EventCode process_name ProcessId ProcessGuid
   Computer ImageLoaded | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -32,9 +31,7 @@ tags:
   analytic_story:
   - FIN7
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: $process_name$ loading ldap modules $ImageLoaded$ in $dest$
   mitre_attack_id:

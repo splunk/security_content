@@ -32,9 +32,7 @@ tags:
   - CISA AA22-320A
   - AgentTesla
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: A kernel mode driver was loaded from a non-standard path on $ComputerName$.
   mitre_attack_id:

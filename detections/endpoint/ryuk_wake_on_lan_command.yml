@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A process $process_name$ with wake on LAN commandline $process$ in host
     $dest$

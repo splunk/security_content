@@ -25,11 +25,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2022-43561
-  drilldown_search: []
   impact: 50
   message: Possible XSS exploitation attempt from $clientip$
   mitre_attack_id:

@@ -35,9 +35,7 @@ tags:
   - DarkSide Ransomware
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A slui process $process_name$ with elevated commandline $process$ in host
     $dest$

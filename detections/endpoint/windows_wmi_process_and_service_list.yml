@@ -34,9 +34,7 @@ tags:
   - Windows Post-Exploitation
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 20
-  drilldown_search: []
   impact: 20
   message: wmi command $process$ to list processes and services in $dest$
   mitre_attack_id:

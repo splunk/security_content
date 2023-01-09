@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: wermgr.exe process $SourceImage$ create a remote thread to a browser process
     $TargetImage$ in host $Computer$

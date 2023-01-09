@@ -33,9 +33,7 @@ tags:
   - Reverse Network Proxy
   - CISA AA22-320A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 50
   message: A reverse proxy was identified spawning from $parent_process_name$ -  $process_name$
     on endpoint $dest$ by user $user$.

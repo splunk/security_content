@@ -40,9 +40,7 @@ tags:
   - Windows Defense Evasion Tactics
   - IcedID
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: Suspcious registy keys added by process fodhelper.exe (process_id- $process_id),
     with a parent_process of $parent_process_name$ that has been executed on $dest$

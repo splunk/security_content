@@ -40,9 +40,7 @@ tags:
   - Active Directory Lateral Movement
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: ''
   mitre_attack_id:

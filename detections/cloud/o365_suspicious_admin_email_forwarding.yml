@@ -22,9 +22,7 @@ tags:
   - Office 365 Detections
   - Data Exfiltration
   asset_type: Office 365
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 80
   message: User $user$ has configured a forwarding rule for multiple mailboxes to
     the same destination $ForwardingAddress$

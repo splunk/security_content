@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Suspicious Cloud Instance Activities
   asset_type: Cloud Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

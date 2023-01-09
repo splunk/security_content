@@ -51,9 +51,7 @@ tags:
   analytic_story:
   - Active Directory Password Spraying
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Potential NTLM based password spraying attack from $Source_Workstation$
   mitre_attack_id:

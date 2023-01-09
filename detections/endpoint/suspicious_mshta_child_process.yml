@@ -35,9 +35,7 @@ tags:
   - Suspicious MSHTA Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 50
   message: suspicious mshta child process detected on host $dest$ by user $user$.
   mitre_attack_id:

@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Suspicious Okta Activity
   asset_type: Infrastructure
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: The following user $src_user$ has locked out their account within Okta.
   mitre_attack_id:

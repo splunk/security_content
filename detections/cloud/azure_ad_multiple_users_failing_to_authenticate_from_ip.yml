@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: Source Ip $body.properties.ipAddress$ failed to authenticate with 30 users
     within 5 minutes.

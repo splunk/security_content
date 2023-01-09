@@ -30,9 +30,7 @@ tags:
   - Malicious PowerShell
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 10
   message: A suspicious powershell script contains COM CLSID command in $ScriptBlockText$
     with EventCode $EventCode$ in host $Computer$

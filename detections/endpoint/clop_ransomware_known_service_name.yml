@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Clop Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 100
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ executing known Clop Ransomware service names.

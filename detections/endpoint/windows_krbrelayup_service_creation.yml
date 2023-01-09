@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - Local Privilege Escalation With KrbRelayUp
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: A service was created on $dest$, related to KrbRelayUp.
   mitre_attack_id:

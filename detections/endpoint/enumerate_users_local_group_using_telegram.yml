@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - XMRig
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: The Telegram application has been identified enumerating local groups on
     $ComputerName$ by $user$.

@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 30
   message: PowerView commandlets used for SPN discovery executed on $Computer$
   mitre_attack_id:

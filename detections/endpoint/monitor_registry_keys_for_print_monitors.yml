@@ -41,9 +41,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Registry Abuse
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: New print monitor added on $dest$
   mitre_attack_id:

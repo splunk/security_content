@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - DarkCrystal RAT
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: Process name w32tm.exe is using suspcicious command line arguments $process$
     on host $dest$.

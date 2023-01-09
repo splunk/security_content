@@ -37,9 +37,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: The Windows command prompt was disabled on $dest$ by $user$.
   mitre_attack_id:

@@ -29,9 +29,7 @@ tags:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: User $Actor.ID$ created a new federation setting on $Target.ID$ and added
     service principal credentials from IP Address $ActorIpAddress$

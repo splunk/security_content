@@ -33,9 +33,7 @@ tags:
   - Suspicious WMI Use
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: A wmic.exe process $process$ contain process spawn commandline $process$
     in host $dest$

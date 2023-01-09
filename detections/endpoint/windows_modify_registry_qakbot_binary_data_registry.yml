@@ -45,9 +45,7 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: registry with binary data $registry_path$ created by $process_name$ in
     $dest$

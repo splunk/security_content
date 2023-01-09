@@ -34,9 +34,7 @@ tags:
   - Linux Persistence Techniques
   - Linux Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: At application was executed in $dest$
   mitre_attack_id:

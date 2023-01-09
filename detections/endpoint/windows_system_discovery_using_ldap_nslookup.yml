@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: System nslookup domain discovery on $dest$
   mitre_attack_id:

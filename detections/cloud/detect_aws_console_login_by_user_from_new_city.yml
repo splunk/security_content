@@ -40,9 +40,7 @@ tags:
   - Suspicious Cloud Authentication Activities
   - AWS Identity and Access Management Account Takeover
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 30
   message: User $user$ is logging into the AWS console from City $City$ for the first
     time

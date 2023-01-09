@@ -40,9 +40,7 @@ tags:
   - Hermetic Wiper
   - Malicious PowerShell
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Possible AMSI Unloading via Reflection using PowerShell on $Computer$
   mitre_attack_id:

@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 50
   message: Kerberos Pre Authentication was Disabled using PowerShell on $dest$
   mitre_attack_id:

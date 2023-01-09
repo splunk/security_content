@@ -31,9 +31,7 @@ tags:
   - Trusted Developer Utilities Proxy Execution
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: Suspicious microsoft.workflow.compiler.exe process ran on $dest$ by $user$
   mitre_attack_id:

@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 10
   message: Vulnerabilities with severity high found in repository $repositoryName$
   mitre_attack_id:

@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Credential Dumping
   asset_type: Windows
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: A process has created a remote thread into $TargetImage$ on $dest$. This
     behavior is indicative of credential dumping and should be investigated.

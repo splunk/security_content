@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - WhisperGate
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: High frequency file deletion activity detected on host $Computer$
   mitre_attack_id:

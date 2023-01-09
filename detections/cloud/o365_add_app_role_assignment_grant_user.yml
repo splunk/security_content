@@ -26,9 +26,7 @@ tags:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 30
   message: User $Actor.ID$ has created a new federation setting on $dest$ from IP
     Address $ActorIpAddress$

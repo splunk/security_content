@@ -35,9 +35,7 @@ tags:
   analytic_story:
   - Double Zero Destructor
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: a process $SourceImage$ terminates Lsass process in $dest$
   mitre_attack_id:

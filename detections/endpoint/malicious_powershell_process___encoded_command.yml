@@ -49,9 +49,7 @@ tags:
   - Qakbot
   - CISA AA22-320A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: Powershell.exe running potentially malicious encodede commands on $dest$
   mitre_attack_id:

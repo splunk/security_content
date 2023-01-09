@@ -41,9 +41,7 @@ tags:
   - Cobalt Strike
   - Trickbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: rundll32.exe running with suspicious parameters on $dest$
   mitre_attack_id:

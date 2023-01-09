@@ -34,9 +34,7 @@ tags:
   - Data Exfiltration
   - Command and Control
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 40
   message: Excessive usage of nslookup.exe has been detected on $Computer$. This detection
     is triggered as as it violates the dynamic threshold

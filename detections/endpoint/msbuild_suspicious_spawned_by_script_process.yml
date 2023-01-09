@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed
     by $user$

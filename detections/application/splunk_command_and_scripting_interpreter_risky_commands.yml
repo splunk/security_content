@@ -52,11 +52,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Web Server
-  atomic_guid: []
   confidence: 40
   cve:
   - CVE-2022-32154
-  drilldown_search: []
   impact: 50
   message: A risky Splunk command has ran by $user$ and should be reviewed.
   mitre_attack_id:

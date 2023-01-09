@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - DarkCrystal RAT
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 60
   message: powershell script $ScriptBlockText$ to enumerate camera in $Computer$
   mitre_attack_id:

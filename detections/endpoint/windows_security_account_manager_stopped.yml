@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: 'The Windows Security Account Manager (SAM) was stopped via cli by $user$
     on $dest$ by this command: $processs$'

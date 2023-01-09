@@ -30,11 +30,9 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
   cve:
   - CVE-2021-44228
-  drilldown_search: []
   impact: 70
   message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting
     to dest ip $dest_ip$

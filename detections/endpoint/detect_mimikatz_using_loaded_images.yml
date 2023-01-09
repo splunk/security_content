@@ -36,9 +36,7 @@ tags:
   - CISA AA22-264A
   - CISA AA22-320A
   asset_type: Windows
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: A process, $Image$, has loaded $ImageLoaded$ that are typically related
     to credential dumping on $Computer$. Review for further details.

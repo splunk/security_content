@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 30
   message: Domain controller discovery on $dest$ by $user$
   mitre_attack_id:

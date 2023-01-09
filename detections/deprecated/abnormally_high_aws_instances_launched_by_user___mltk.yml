@@ -26,9 +26,7 @@ tags:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

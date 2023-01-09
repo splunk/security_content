@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - BlackMatter Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: bcdedit process with commandline $process$ to force safemode boot the $dest$
   mitre_attack_id:

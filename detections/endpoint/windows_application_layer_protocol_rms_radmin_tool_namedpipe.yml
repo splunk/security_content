@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: possible RMS admin tool named pipe was created in $dest$
   mitre_attack_id:

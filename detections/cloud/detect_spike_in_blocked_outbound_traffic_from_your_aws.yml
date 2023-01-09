@@ -47,9 +47,7 @@ tags:
   - Suspicious AWS Traffic
   - Command and Control
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

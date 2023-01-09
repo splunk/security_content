@@ -28,9 +28,7 @@ tags:
   - Active Directory Kerberos Attacks
   - Local Privilege Escalation With KrbRelayUp
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 50
   message: A Computer Account created a Computer Account on $dest$, possibly indicative
     of Kerberos relay attack.

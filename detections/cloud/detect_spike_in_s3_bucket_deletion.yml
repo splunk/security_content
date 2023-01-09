@@ -39,9 +39,7 @@ tags:
   analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: User $user_name$ is seen to have high number of MFA prompt failures within
     a short period of time.

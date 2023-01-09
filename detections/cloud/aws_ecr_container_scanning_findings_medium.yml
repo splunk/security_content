@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 30
   message: Vulnerabilities with severity high found in image $image$
   mitre_attack_id:

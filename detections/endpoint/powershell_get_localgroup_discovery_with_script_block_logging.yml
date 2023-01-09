@@ -39,9 +39,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 30
   message: Local group discovery on $dest$ by $user$.
   mitre_attack_id:

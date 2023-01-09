@@ -41,9 +41,7 @@ tags:
   analytic_story:
   - AWS Suspicious Provisioning Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

@@ -26,11 +26,9 @@ tags:
   analytic_story:
   - Spring4Shell CVE-2022-22965
   asset_type: Web Server
-  atomic_guid: []
   confidence: 80
   cve:
   - CVE-2022-22965
-  drilldown_search: []
   impact: 90
   message: A http body request related to Spring4Shell has been sent to $dest$ by
     $src$.

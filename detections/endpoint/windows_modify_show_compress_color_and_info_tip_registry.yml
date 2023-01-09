@@ -40,9 +40,7 @@ tags:
   - Hermetic Wiper
   - Windows Registry Abuse
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: Registry modification in "ShowCompColor" and "ShowInfoTips" on $dest$
   mitre_attack_id:

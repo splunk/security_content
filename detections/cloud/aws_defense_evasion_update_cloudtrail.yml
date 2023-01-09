@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - AWS Defense Evasion
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 100
   message: User $user_arn$ has updated a cloudtrail logging for account id $aws_account_id$
     from IP $src$

@@ -23,11 +23,9 @@ tags:
   analytic_story:
   - Windows DNS SIGRed CVE-2020-1350
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2020-1350
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

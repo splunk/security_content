@@ -33,9 +33,7 @@ tags:
   - NOBELIUM Group
   - Domain Trust Discovery
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: Windows AdFind Exe
   mitre_attack_id:

@@ -32,9 +32,7 @@ tags:
   - Windows Persistence Techniques
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 75
   message: A reg.exe process $process_name$ with commandline $process$ in host $dest$
   mitre_attack_id:

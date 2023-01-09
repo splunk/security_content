@@ -38,9 +38,7 @@ tags:
   - Suspicious Rundll32 Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ loading setupapi.dll
     and iesetupapi.dll by calling the LaunchINFSection function on the command line

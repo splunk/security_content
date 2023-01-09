@@ -4,6 +4,7 @@ from pydantic import BaseModel, validator, ValidationError
 from bin.contentctl_project.contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 from bin.contentctl_project.contentctl_core.domain.constants.constants import *
 
+
 class DetectionTags(BaseModel):
     # detection spec
     name: str
@@ -27,6 +28,9 @@ class DetectionTags(BaseModel):
     risk_severity: str = None
     cve: list = None
     supported_tas: list = None
+    atomic_guid: list = None
+    drilldown_search: str = None
+
 
     # enrichment
     mitre_attack_enrichments: list[MitreAttackEnrichment] = []

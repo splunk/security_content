@@ -24,9 +24,7 @@ tags:
   - Suspicious Cloud Instance Activities
   - Data Exfiltration
   asset_type: EC2 Snapshot
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 60
   message: AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$
     by user $user_arn$ from $src_ip$

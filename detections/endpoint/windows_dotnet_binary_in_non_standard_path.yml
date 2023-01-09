@@ -44,9 +44,7 @@ tags:
   - Signed Binary Proxy Execution InstallUtil
   - WhisperGate
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: An instance of $parent_process_name$ spawning $process_name$ from a non-standard
     path was identified on endpoint $dest$ by user $user$.
@@ -81,6 +79,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

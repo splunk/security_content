@@ -42,9 +42,7 @@ tags:
   - Living Off The Land
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 100
   message: Active Directory NTDS export on $dest$
   mitre_attack_id:

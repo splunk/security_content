@@ -40,9 +40,7 @@ tags:
   - Suspicious Windows Registry Activities
   - Windows Registry Abuse
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:

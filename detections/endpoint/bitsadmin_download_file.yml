@@ -44,9 +44,7 @@ tags:
   - DarkSide Ransomware
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to download a file.
@@ -76,14 +74,3 @@ tags:
   - Splunk Cloud
   risk_score: 49
   security_domain: endpoint
-tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
-    source: crowdstrike
-    sourcetype: crowdstrike:events:sensor

@@ -37,11 +37,9 @@ tags:
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
   cve:
   - CVE-2021-40444
-  drilldown_search: []
   impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to load a suspicious file from disk.

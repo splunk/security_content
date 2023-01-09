@@ -75,9 +75,7 @@ tags:
   - Log4Shell CVE-2021-44228
   - CISA AA22-320A
   asset_type: Web Server
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 80
   message: Hunting for Log4Shell exploitation has occurred.
   mitre_attack_id:

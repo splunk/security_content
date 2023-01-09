@@ -40,9 +40,7 @@ tags:
   analytic_story:
   - AcidRain
   asset_type: endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: a $process_name$ deleting multiple files in /etc/ folder in $dest$
   mitre_attack_id:

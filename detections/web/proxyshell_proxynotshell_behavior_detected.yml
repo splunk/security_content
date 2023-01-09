@@ -43,9 +43,7 @@ tags:
   - ProxyShell
   - ProxyNotShell
   asset_type: Web Server
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: ProxyShell or ProxyNotShell activity has been identified on $risk_object$.
   mitre_attack_id:

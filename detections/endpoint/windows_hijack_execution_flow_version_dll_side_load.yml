@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Brute Ratel C4
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 50
   message: a process $Image$ loading $ImageLoaded$ as a side load dll in $Computer$
   mitre_attack_id:

@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: the registry for suppresing windows fdefender notification settings was
     modified to disabled in $dest$

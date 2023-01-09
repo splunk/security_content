@@ -43,9 +43,7 @@ tags:
   analytic_story:
   - Suspicious Cloud Provisioning Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: User $user$ is starting or creating an instance $object_id$ for the first
     time from IP address $src$

@@ -28,9 +28,7 @@ tags:
   - IcedID
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: rundl32 process $SourceImage$ create a remote thread to browser process
     $TargetImage$ in host $Computer$

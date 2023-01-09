@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Ransomware Cloud
   asset_type: S3 Bucket
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 30
   message: User $user$ with KMS keys is performing encryption, against S3 buckets
     on these files $dest_file$

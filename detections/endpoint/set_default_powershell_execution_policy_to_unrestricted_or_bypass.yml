@@ -31,9 +31,7 @@ tags:
   - Credential Dumping
   - HAFNIUM Group
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 60
   message: A registry modification in $registry_path$ with reg key $registry_key_name$
     and reg value $registry_value_name$ in host $dest$

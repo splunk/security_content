@@ -24,9 +24,7 @@ tags:
   - Suspicious Okta Activity
   - Okta MFA Exhaustion
   asset_type: Infrastructure
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: $src_user$ account has been locked out.
   mitre_attack_id:

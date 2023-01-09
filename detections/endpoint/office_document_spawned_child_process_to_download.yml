@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: Office document spawning suspicious child process on $dest$
   mitre_attack_id:

@@ -39,9 +39,7 @@ tags:
   analytic_story:
   - Azure Active Directory Persistence
   asset_type: Azure
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A new Azure Automation account $object$ was created by $caller$
   mitre_attack_id:

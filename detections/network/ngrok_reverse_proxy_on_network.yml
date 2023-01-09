@@ -26,9 +26,7 @@ tags:
   - Reverse Network Proxy
   - CISA AA22-320A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 50
   message: An endpoint, $src$, is beaconing out to the reverse proxy service of Ngrok.
   mitre_attack_id:

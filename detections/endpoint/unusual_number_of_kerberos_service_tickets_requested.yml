@@ -37,9 +37,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: tbd
   mitre_attack_id:

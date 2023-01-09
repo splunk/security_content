@@ -36,9 +36,7 @@ tags:
   analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A file - $file_name$ was written to system32 has occurred on endpoint $dest$
     by user $user$.

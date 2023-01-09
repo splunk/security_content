@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 20
   message: User $userIdentity.arn$ is seen to perform excessive number of discovery
     related api calls- $failures$, within an hour where the access was denied.

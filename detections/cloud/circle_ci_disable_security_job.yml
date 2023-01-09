@@ -21,9 +21,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: CircleCI
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 80
   message: disable security job $mandatory_job$ in workflow $workflow_name$ from user
     $user$

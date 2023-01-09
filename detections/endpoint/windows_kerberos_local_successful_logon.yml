@@ -29,9 +29,7 @@ tags:
   - Active Directory Kerberos Attacks
   - Local Privilege Escalation With KrbRelayUp
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: A successful localhost Kerberos authentication event occurred on $dest$,
     possibly indicative of Kerberos relay attack.

@@ -32,9 +32,7 @@ tags:
   - Credential Dumping
   - CISA AA22-257A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 80
   message: Suspicious use of `reg.exe` exporting Windows Registry hives containing
     credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$

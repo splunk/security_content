@@ -36,9 +36,7 @@ tags:
   analytic_story:
   - OpenSSL CVE-2022-3602
   asset_type: Network
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 50
   message: A x509 certificate has been identified to have punycode in the subject
     alternative name on $dest$.

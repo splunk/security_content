@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: regsvr32 was renamed as $process_name$ in $dest$
   mitre_attack_id:

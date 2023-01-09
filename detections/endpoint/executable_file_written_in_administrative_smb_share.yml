@@ -39,9 +39,7 @@ tags:
   - Industroyer2
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: $user$ dropped or created an executable file in known sensitive SMB share.  Share
     name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$

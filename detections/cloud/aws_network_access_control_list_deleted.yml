@@ -25,9 +25,7 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 10
   message: User $user_arn$ from $src$ has sucessfully deleted network ACLs entry (eventName=
     $eventName$), such that the instance is accessible from anywhere

@@ -28,9 +28,7 @@ tags:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: User $UserId$ has added a new federated domaain $Parameters.Value$ for
     $OrganizationName$

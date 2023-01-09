@@ -42,11 +42,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
   cve:
   - CVE-2022-32151
-  drilldown_search: []
   impact: 50
   message: $splunk_server$ may not be properly validating TLS Certificates
   mitre_attack_id:

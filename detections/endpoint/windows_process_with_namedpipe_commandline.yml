@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Process with named pipe in $process$ on $dest$
   mitre_attack_id:

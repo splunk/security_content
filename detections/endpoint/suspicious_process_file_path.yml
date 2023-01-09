@@ -50,9 +50,7 @@ tags:
   - Azorult
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: Suspicioues process $Processes.process_path.file_path$ running from suspicious
     location

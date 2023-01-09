@@ -29,11 +29,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2022-43566
-  drilldown_search: []
   impact: 50
   message: Potential data exfiltration attack using SID query by $user$
   mitre_attack_id:

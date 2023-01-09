@@ -29,9 +29,7 @@ tags:
   - Ryuk Ransomware
   - Clop Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 90
   message: A file - $file_name$ was written to disk on endpoint $dest$ by user $user$,
     this is indicative of a known ransomware note file and should be reviewed immediately.

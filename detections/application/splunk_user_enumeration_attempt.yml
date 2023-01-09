@@ -25,11 +25,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: endpoint
-  atomic_guid: []
   confidence: 80
   cve:
   - CVE-2021-33845
-  drilldown_search: []
   impact: 50
   message: $TotalFailedAuths$ failed authentication events to Splunk from $src$ detected.
   mitre_attack_id:

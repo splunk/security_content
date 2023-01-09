@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: The Program Compatability Assistant (pcalua.exe) launched the process $process_name$
   mitre_attack_id:
@@ -48,9 +46,3 @@ tags:
   - Splunk Cloud
   risk_score: 25
   security_domain: endpoint
-tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog

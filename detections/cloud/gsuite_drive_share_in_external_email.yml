@@ -32,9 +32,7 @@ tags:
   - Dev Sec Ops
   - Insider Threat
   asset_type: GSuite
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 80
   message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
   mitre_attack_id:

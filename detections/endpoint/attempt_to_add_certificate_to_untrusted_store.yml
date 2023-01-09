@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Disabling Security Tools
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     attempting to add a certificate to the store on endpoint $dest$ by user $user$.

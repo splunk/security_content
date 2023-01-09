@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - WhisperGate
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 100
   message: suspicious powershell script $ScriptBlockText$ was executed on the $Computer$
   mitre_attack_id:

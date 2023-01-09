@@ -31,11 +31,9 @@ tags:
   analytic_story:
   - VMware Server Side Injection and Privilege Escalation
   asset_type: Web Server
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2022-22954
-  drilldown_search: []
   impact: 70
   message: An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on
     $dest$ has occurred.

@@ -37,9 +37,7 @@ tags:
   analytic_story:
   - Cobalt Strike
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 95
-  drilldown_search: []
   impact: 80
   message: A service process $parent_process_name$ with process path $process_path$
     in host $dest$

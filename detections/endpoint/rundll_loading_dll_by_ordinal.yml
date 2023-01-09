@@ -39,9 +39,7 @@ tags:
   - Living Off The Land
   - IcedID
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: A rundll32 process $process_name$ with ordinal parameter like this process
     commandline $process$ on host $dest$.

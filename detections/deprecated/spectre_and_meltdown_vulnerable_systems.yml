@@ -22,11 +22,9 @@ tags:
   analytic_story:
   - Spectre And Meltdown Vulnerabilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2017-5753
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

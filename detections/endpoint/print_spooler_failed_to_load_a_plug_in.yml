@@ -34,12 +34,10 @@ tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
   cve:
   - CVE-2021-34527
   - CVE-2021-1675
-  drilldown_search: []
   impact: 80
   message: Suspicious printer spooler errors have occured on endpoint $ComputerName$
     with EventCode $EventCode$.

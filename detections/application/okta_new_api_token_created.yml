@@ -21,9 +21,7 @@ tags:
   analytic_story:
   - Suspicious Okta Activity
   asset_type: Infrastructure
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: $src_user$ has created a new API token within Okta.
   mitre_attack_id:

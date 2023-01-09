@@ -49,9 +49,7 @@ tags:
   - Domain Trust Discovery
   - Active Directory Discovery
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     performing domain discovery on endpoint $dest$ by user $user$.

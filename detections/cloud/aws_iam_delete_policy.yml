@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 20
   message: User $user_arn$ has deleted AWS Policies from IP address $src$ by executing
     the following command $eventName$

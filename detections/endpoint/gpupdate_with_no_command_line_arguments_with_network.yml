@@ -35,9 +35,7 @@ tags:
   analytic_story:
   - Cobalt Strike
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: Process gpupdate.exe  with parent_process $parent_process_name$ is executed
     on $dest$ by user $user$, followed by an outbound network connection to $connection_to_CNC$

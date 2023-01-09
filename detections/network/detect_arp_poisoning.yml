@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - Router and Infrastructure Security
   asset_type: Infrastructure
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 10
   message: User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$
     from $src$

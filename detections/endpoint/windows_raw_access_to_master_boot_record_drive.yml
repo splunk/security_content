@@ -35,9 +35,7 @@ tags:
   - Hermetic Wiper
   - CISA AA22-264A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 90
   message: process accessing MBR $device$ in $dest$
   mitre_attack_id:

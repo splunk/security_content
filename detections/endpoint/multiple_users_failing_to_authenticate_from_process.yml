@@ -52,9 +52,7 @@ tags:
   - Active Directory Password Spraying
   - Insider Threat
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Potential password spraying attack from $ComputerName$
   mitre_attack_id:

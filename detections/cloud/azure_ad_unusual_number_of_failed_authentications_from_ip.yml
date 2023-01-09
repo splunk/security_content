@@ -43,9 +43,7 @@ tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: Possible Password Spraying attack against Azure AD from source ip $body.properties.ipAddress$
   mitre_attack_id:
@@ -69,10 +67,3 @@ tags:
   - Splunk Cloud
   risk_score: 54
   security_domain: access
-tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azuread/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
-    update_timestamp: true

@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: 80
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: process $SourceImage$ create a remote thread to process $TargetImage$ on
     host $Computer$

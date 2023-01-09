@@ -40,9 +40,7 @@ tags:
   analytic_story:
   - Acidrain
   asset_type: endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: a $process_name$ deleting a SSL certificate in $dest$
   mitre_attack_id:

@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 40
   message: User $user_arn$ has caused multiple failures with errorCode $errorCode$,
     which potentially means adversary is attempting to identify a role name.

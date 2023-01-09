@@ -32,9 +32,7 @@ tags:
   - Clop Ransomware
   - CISA AA22-264A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: Windows event logs cleared on $dest$ via EventCode $EventCode$
   mitre_attack_id:

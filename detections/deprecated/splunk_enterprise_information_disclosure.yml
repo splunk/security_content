@@ -23,11 +23,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Splunk Server
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2018-11409
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

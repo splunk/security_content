@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 60
   message: User $user_arn$ has created network ACLs with all the ports open to a specified
     CIDR $requestParameters.cidrBlock$

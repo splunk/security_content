@@ -37,9 +37,7 @@ tags:
   - Suspicious Okta Activity
   - Okta MFA Exhaustion
   asset_type: Infrastructure
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 30
   message: $src_user$ account has rejected multiple Okta pushes.
   mitre_attack_id:

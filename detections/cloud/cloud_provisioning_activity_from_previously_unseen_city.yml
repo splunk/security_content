@@ -44,9 +44,7 @@ tags:
   analytic_story:
   - Suspicious Cloud Provisioning Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 30
   message: User $user$ is starting or creating an instance $dest$ for the first time
     in City $City$ from IP address $src$

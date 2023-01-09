@@ -25,11 +25,9 @@ tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
   cve:
   - CVE-2021-34527
-  drilldown_search: []
   impact: 80
   message: $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$
     on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare.

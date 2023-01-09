@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - Account Monitoring and Controls
   asset_type: Windows
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: Multiple accounts have been locked out. Review $nodename$ and $result$
     related to $user$.

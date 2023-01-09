@@ -10,9 +10,8 @@ description: The following analytic will identify a suspicious download by the T
   the adversary gained access, installed Telegram and followed through with downloading
   different network scanners (port, bruteforcer, masscan) to the system and later
   used to mapped the whole network and further move laterally.
-data_source:
-- Sysmon Event ID 1
-search: '`sysmon` EventCode=15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
+data_source: []
+search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
   |stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode
   Image process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `download_files_using_telegram_filter`'
@@ -29,9 +28,7 @@ tags:
   analytic_story:
   - XMRig
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Suspicious files were downloaded with the Telegram application on $dest$
     by $user$.

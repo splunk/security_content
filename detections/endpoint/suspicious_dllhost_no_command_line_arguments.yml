@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Cobalt Strike
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Suspicious dllhost.exe process with no command line arguments executed
     on $dest$ by $user$
