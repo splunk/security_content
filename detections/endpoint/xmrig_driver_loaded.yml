@@ -25,9 +25,7 @@ tags:
   - XMRig
   - CISA AA22-320A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: A driver $ImageLoaded$ related to xmrig crytominer loaded in host $Computer$
   mitre_attack_id:

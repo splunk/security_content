@@ -37,9 +37,7 @@ tags:
   - Windows Registry Abuse
   - Windows Persistence Techniques
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: A scheduled task security descriptor was deleted from the registry on $dest$.
   mitre_attack_id:

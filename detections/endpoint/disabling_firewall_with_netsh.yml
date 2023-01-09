@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: The Windows Firewall was disabled on $dest$ by $user$.
   mitre_attack_id:

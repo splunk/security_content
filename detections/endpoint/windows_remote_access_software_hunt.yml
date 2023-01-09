@@ -37,9 +37,7 @@ tags:
   - Command and Control
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 10
-  drilldown_search: []
   impact: 10
   message: The following Remote Access Software $process_name$ was identified on $dest$.
   mitre_attack_id:

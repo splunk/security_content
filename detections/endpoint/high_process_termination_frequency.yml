@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - Clop Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 90
   message: High frequency process termination (more than 15 processes within 3s) detected
     on host $Computer$

@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Cloud Network ACL Activity
   asset_type: Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

@@ -31,9 +31,7 @@ tags:
   - IcedID
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: schtask process with commandline $process$ to disable schedule task in
     $dest$

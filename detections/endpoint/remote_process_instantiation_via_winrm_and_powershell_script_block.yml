@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 90
   message: A process was started on a remote endpoint from $Computer$ by abusing WinRM
     using PowerShell.exe

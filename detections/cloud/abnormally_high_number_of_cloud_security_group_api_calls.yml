@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 30
   message: user $user$ has made $api_calls$ api calls related to security groups,
     violating the dynamic threshold of $expected_upper_threshold$ with the following

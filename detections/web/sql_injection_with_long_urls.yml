@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - SQL Injection
   asset_type: Database Server
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: SQL injection attempt with url $url$ detected on $dest$
   mitre_attack_id:

@@ -50,9 +50,7 @@ tags:
   - Ryuk Ransomware
   - CISA AA22-257A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: 'A windows scheduled task was created (task name=$Task_Name$) on $dest$
     by the following command: $Command$'

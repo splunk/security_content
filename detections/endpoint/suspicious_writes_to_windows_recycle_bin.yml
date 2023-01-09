@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Collection and Staging
   asset_type: Windows
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 40
   message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
   mitre_attack_id:

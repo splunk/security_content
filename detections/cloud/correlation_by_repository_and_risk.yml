@@ -17,9 +17,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: Correlation triggered for user $user$
   mitre_attack_id:

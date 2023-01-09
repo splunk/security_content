@@ -39,11 +39,9 @@ tags:
   - CISA AA22-257A
   - CISA AA22-320A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
   cve:
   - CVE-2021-44228
-  drilldown_search: []
   impact: 50
   message: CVE-2021-44228 Log4Shell triggered for host $dest$
   mitre_attack_id:

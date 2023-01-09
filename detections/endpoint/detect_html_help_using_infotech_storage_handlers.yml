@@ -45,9 +45,7 @@ tags:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 80
   message: $process_name$ has been identified using Infotech Storage Handlers to load
     a specific file within a CHM on $dest$ under user $user$.

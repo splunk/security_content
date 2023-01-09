@@ -37,11 +37,9 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
   cve:
   - CVE-2021-44228
-  drilldown_search: []
   impact: 90
   message: Java performed outbound connections to default ports of LDAP or RMI on
     $dest$

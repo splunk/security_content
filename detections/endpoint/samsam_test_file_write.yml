@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 20
-  drilldown_search: []
   impact: 60
   message: A samsam ransomware test file creation in $file_path$ in host $dest$
   mitre_attack_id:

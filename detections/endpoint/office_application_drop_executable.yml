@@ -40,9 +40,7 @@ tags:
   - FIN7
   - AgentTesla
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: process $process_name$ drops a file $TargetFilename$ in host $dest$
   mitre_attack_id:

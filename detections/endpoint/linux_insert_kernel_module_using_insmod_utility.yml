@@ -34,9 +34,7 @@ tags:
   - Linux Persistence Techniques
   - Linux Rootkit
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: A commandline $process$ that may install kernel module on $dest$
   mitre_attack_id:

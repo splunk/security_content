@@ -36,12 +36,10 @@ tags:
   - sAMAccountName Spoofing and Domain Controller Impersonation
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
   cve:
   - CVE-2021-42287
   - CVE-2021-42278
-  drilldown_search: []
   impact: 100
   message: A suspicious Kerberos Service Ticket was requested by $Account_Name$
   mitre_attack_id:

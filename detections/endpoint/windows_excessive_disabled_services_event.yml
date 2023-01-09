@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: Service was disabled in $Computer$
   mitre_attack_id:

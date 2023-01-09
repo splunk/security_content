@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 30
   message: WevtUtil.exe used to disable Event Logging on $dest
   mitre_attack_id:

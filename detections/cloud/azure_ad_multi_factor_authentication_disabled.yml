@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 50
   message: MFA disabled for User $userPrincipalName$ initiated by $initiatedBy$
   mitre_attack_id:

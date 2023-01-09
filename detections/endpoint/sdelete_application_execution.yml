@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Masquerading - Rename System Utilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: sdelete process $process_name$ executed in $dest$
   mitre_attack_id:

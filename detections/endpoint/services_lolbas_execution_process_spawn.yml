@@ -45,9 +45,7 @@ tags:
   - Living Off The Land
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 90
   message: Services.exe spawned a LOLBAS process on $dest
   mitre_attack_id:

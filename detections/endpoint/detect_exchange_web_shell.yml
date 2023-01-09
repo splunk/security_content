@@ -57,9 +57,7 @@ tags:
   - CISA AA22-257A
   - ProxyNotShell
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: A file - $file_name$ was written to disk that is related to IIS exploitation
     previously performed by HAFNIUM. Review further file modifications on endpoint

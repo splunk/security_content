@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: archive process $process_name$ with suspicious cmdline $process$ in host
     $dest$

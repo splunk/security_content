@@ -25,9 +25,7 @@ tags:
   - HAFNIUM Group
   - CISA AA22-257A
   asset_type: Windows
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 60
   message: A $user$ on $dest$ was added recently. Identify if this was legitimate
     behavior or not.

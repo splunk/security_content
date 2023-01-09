@@ -42,11 +42,9 @@ tags:
   - ProxyNotShell
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2021-44228
-  drilldown_search: []
   impact: 60
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting spawn a new process.

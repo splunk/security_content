@@ -36,9 +36,7 @@ tags:
   - DarkSide Ransomware
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 30
   message: The following $process_name$ has been identified as renamed, spawning from
     $parent_process_name$ on $dest$ by $user$.

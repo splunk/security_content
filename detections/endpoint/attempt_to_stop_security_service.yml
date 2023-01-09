@@ -34,9 +34,7 @@ tags:
   - WhisperGate
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 40
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     attempting to disable security services on endpoint $dest$ by user $user$.

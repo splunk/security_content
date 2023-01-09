@@ -33,9 +33,7 @@ tags:
   - Windows Persistence Techniques
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 80
   message: An $process_name$ was created on endpoint $dest$ attempting to spawn as
     SYSTEM.

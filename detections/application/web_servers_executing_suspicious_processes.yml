@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Apache Struts Vulnerability
   asset_type: Web Server
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

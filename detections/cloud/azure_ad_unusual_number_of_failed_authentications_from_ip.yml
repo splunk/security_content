@@ -43,9 +43,7 @@ tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: Possible Password Spraying attack against Azure AD from source ip $body.properties.ipAddress$
   mitre_attack_id:

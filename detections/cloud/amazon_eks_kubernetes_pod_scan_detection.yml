@@ -25,9 +25,7 @@ tags:
   analytic_story:
   - Kubernetes Scanning Activity
   asset_type: Amazon EKS Kubernetes cluster Pod
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

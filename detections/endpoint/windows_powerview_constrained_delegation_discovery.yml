@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 50
   message: Suspicious PowerShell Get-DomainComputer was identified on endpoint $ComputerName$
   mitre_attack_id:

@@ -38,11 +38,9 @@ tags:
   - Log4Shell CVE-2021-44228
   - DarkCrystal RAT
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
   cve:
   - CVE-2021-44228
-  drilldown_search: []
   impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$. This behavior identifies the use of DownloadFile

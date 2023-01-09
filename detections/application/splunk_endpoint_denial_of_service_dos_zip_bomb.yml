@@ -25,11 +25,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 75
   cve:
   - CVE-2022-37439
-  drilldown_search: []
   impact: 100
   message: Potential exposure of environment variables from url embedded in dashboard
   mitre_attack_id:

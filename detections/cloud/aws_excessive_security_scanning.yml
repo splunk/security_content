@@ -23,9 +23,7 @@ tags:
   analytic_story:
   - AWS User Monitoring
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 30
   message: user $user$ has excessive number of api calls $dc_events$ from these IP
     addresses $src$, violating the threshold of 50,  using the following commands

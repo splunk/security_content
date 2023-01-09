@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - GCP Account Takeover
   asset_type: GCP
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 50
   message: MFA disabled for User $user$ initiated by $actor.email$
   mitre_attack_id:

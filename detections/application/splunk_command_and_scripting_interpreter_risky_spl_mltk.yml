@@ -36,11 +36,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Web Server
-  atomic_guid: []
   confidence: 40
   cve:
   - CVE-2022-32154
-  drilldown_search: []
   impact: 50
   message: Abnormally long run time for risk SPL command seen by user $(Search_Activity.user).
   mitre_attack_id:

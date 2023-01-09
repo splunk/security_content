@@ -37,9 +37,7 @@ tags:
   - Linux Persistence Techniques
   - Linux Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: a commandline $process$ that may set suid or sgid on $dest$
   mitre_attack_id:

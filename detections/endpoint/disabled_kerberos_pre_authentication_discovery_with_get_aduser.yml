@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $dest$
   mitre_attack_id:

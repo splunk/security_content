@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: A high risk event was identified by Identify Protection for user $body.properties.userPrincipalName$
   mitre_attack_id:

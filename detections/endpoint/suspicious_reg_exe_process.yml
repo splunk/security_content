@@ -36,9 +36,7 @@ tags:
   - Disabling Security Tools
   - DHS Report TA18-074A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: Suspicious $Processes.process_path.file_path$ process running with an uncommon
     parent process $Processes.parent_process_name$

@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - FIN7
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: $process_name$ loading ldap modules $ImageLoaded$ in $dest$
   mitre_attack_id:

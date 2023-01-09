@@ -29,9 +29,7 @@ tags:
   - Windows Log Manipulation
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 50
   message: Possible USN journal deletion on $dest$
   mitre_attack_id:

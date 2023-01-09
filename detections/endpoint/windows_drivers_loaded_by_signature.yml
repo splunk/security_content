@@ -34,9 +34,7 @@ tags:
   - CISA AA22-320A
   - AgentTesla
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 60
   message: A driver has loaded on $Computer$.
   mitre_attack_id:

@@ -29,9 +29,7 @@ tags:
   - Windows Post-Exploitation
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: powershell script $ScriptBlockText$ execute Get-Clipboard commandlet in
     $dest$

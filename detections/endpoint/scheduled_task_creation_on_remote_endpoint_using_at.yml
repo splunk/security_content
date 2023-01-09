@@ -33,9 +33,7 @@ tags:
   - Active Directory Lateral Movement
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 90
   message: A Windows Scheduled Task was created on a remote endpoint from $dest
   mitre_attack_id:

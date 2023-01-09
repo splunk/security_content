@@ -42,9 +42,7 @@ tags:
   - Malicious PowerShell
   - AgentTesla
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: A suspicious powershell script contains reflective class assembly command
     in $ScriptBlockText$ to load .net code in memory with EventCode $EventCode$ in

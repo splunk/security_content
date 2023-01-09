@@ -43,9 +43,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 90
   message: Wsmprovhost.exe spawned a LOLBAS process on $dest$.
   mitre_attack_id:

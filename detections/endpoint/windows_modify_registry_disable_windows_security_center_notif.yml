@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: the registry for security center notification settings was modified to
     disable mode in $dest$

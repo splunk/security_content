@@ -32,11 +32,9 @@ tags:
   - PetitPotam NTLM Relay on Active Directory Certificate Services
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
   cve:
   - CVE-2021-36942
-  drilldown_search: []
   impact: 80
   message: A Kerberos TGT was requested in a non-standard manner against $dest$, potentially
     related to CVE-2021-36942, PetitPotam.

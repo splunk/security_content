@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   asset_type: Azure Active Directory
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: Successful authentication for user $body.properties.userPrincipalName$
     using PowerShell.

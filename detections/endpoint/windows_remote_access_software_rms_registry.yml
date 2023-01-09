@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 100
   message: the registry related to RMS tool is created in $dest$
   mitre_attack_id:

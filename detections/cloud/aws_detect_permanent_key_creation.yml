@@ -22,9 +22,7 @@ tags:
   analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

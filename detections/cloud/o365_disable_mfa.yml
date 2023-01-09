@@ -23,9 +23,7 @@ tags:
   analytic_story:
   - Office 365 Detections
   asset_type: Office 365
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: User $user$ has executed an operation $Operation$ for this destination
     $dest$

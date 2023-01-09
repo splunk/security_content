@@ -36,11 +36,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: endpoint
-  atomic_guid: []
   confidence: 80
   cve:
   - CVE-2022-32151
-  drilldown_search: []
   impact: 25
   message: $hostname$ is not using TLS when forwarding data
   mitre_attack_id:

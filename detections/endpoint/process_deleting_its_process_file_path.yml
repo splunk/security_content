@@ -34,9 +34,7 @@ tags:
   - Remcos
   - WhisperGate
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 60
   message: A process $Image$ tries to delete its process path in commandline $cmdline$
     as part of defense evasion in host $Computer$

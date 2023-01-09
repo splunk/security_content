@@ -34,11 +34,9 @@ tags:
   - Ingress Tool Transfer
   - Log4Shell CVE-2021-44228
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
   cve:
   - CVE-2021-44228
-  drilldown_search: []
   impact: 80
   message: An instance of $process_name$ was identified on endpoint $dest$ attempting
     to download a remote file and run it with bash.

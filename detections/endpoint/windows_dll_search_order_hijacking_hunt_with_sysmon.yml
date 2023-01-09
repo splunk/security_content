@@ -35,9 +35,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 10
-  drilldown_search: []
   impact: 10
   message: An instance of $parent_process_name$ loading $process_name$ was identified
     on endpoint $dest$.

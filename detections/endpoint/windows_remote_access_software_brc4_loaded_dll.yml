@@ -47,9 +47,7 @@ tags:
   analytic_story:
   - Brute Ratel C4
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: a process $Image$ loaded several modules $ImageLoaded$ that might related
     to credential access on $Computer$.

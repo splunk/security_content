@@ -40,9 +40,7 @@ tags:
   - Active Directory Lateral Movement
   - CISA AA22-320A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 50
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ running the utility for possibly the first time.

@@ -46,9 +46,7 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: Possible malicious WMI Subscription created on $dest$
   mitre_attack_id:

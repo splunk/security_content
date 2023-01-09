@@ -35,9 +35,7 @@ tags:
   - Suspicious Regsvcs Regasm Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: The process $process_name$ was spawned by $parent_process_name$ without
     any command-line arguments on $dest$ by $user$.

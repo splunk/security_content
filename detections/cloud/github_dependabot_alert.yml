@@ -22,9 +22,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GitHub
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 30
   message: Vulnerabilities found in packages used by GitHub repository $repository$
   mitre_attack_id:

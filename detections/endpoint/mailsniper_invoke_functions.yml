@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - Data Exfiltration
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 90
   message: mailsniper.ps1 functions $ScriptBlockText$ executed on a $Computer$ by
     user $user$.

@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - XMRig
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 40
   message: Suspicious ACL permission modification on $dest$
   mitre_attack_id:

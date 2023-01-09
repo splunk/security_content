@@ -39,9 +39,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: office parent process $parent_process_name$ will execute a suspicious child
     process $process_name$ with process id $process_id$ and no dll commandline $process$

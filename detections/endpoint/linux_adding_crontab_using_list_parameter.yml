@@ -34,9 +34,7 @@ tags:
   - Linux Persistence Techniques
   - Linux Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: A possible crontab list command $process$ executed on $dest$
   mitre_attack_id:

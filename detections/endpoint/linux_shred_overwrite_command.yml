@@ -35,9 +35,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: A possible shred overwrite command $process$ executed on $dest$
   mitre_attack_id:

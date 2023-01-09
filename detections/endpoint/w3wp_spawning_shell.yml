@@ -43,13 +43,11 @@ tags:
   - ProxyNotShell
   - CISA AA22-264A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
   cve:
   - CVE-2021-34473
   - CVE-2021-34523
   - CVE-2021-31207
-  drilldown_search: []
   impact: 70
   message: Possible Web Shell execution on $dest$
   mitre_attack_id:

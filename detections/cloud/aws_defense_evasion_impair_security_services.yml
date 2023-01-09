@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - AWS Defense Evasion
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: User $user_arn$ has made potentially risky api calls $eventName$ that could
     impair AWS security services for account id $aws_account_id$

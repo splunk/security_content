@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - DHS Report TA18-074A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A suspicious process $process_name$ with single letter in host $dest$
   mitre_attack_id:

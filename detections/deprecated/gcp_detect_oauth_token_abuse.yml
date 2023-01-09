@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

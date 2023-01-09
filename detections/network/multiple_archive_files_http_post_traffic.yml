@@ -36,9 +36,7 @@ tags:
   - Data Exfiltration
   - Command and Control
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: A http post $http_method$ sending packet with possible archive bytes header
     4form_data$ in uri path $uri_path$

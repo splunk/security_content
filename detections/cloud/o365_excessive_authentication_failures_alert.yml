@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - Office 365 Detections
   asset_type: Office 365
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: User $user$ has caused excessive number of authentication failures from
     $src_ip$ using UserAgent $UserAgent$.

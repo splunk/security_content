@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 50
   message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an
     event $eventName$ for updating the existing login profile, potentially giving

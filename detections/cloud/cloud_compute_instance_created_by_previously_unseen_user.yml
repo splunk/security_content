@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Cloud Cryptomining
   asset_type: Cloud Compute Instance
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 30
   message: User $user$ is creating a new instance $dest$ for the first time
   mitre_attack_id:

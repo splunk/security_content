@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Asset Tracking
   asset_type: Infrastructure
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: User $user_arn$ is attempting to create access keys for $requestParameters.userName$
     from this IP $src$

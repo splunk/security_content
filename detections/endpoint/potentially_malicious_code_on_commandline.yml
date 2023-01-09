@@ -40,9 +40,7 @@ tags:
   analytic_story:
   - Suspicious Command-Line Executions
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 20
-  drilldown_search: []
   impact: 60
   message: Unusual command-line execution with hallmarks of malicious activity run
     by $user$ found on $dest$ with commandline $process$

@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 90
   message: A Windows Service $Service_File_Name$ with a public path was created on
     $ComputerName

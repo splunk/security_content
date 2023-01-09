@@ -39,9 +39,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: ''
   mitre_attack_id:

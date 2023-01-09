@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Possible Signed Binary Proxy Execution on $dest$
   mitre_attack_id:

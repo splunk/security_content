@@ -27,9 +27,7 @@ tags:
   - IcedID
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: rundll32 process $process_name$ having a dns query to $QueryName$ in host
     $Computer$

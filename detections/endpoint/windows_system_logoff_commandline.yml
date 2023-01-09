@@ -35,9 +35,7 @@ tags:
   analytic_story:
   - DarkCrystal RAT
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: Process name $process_name$ is seen to execute logoff commandline on $dest$
   mitre_attack_id:

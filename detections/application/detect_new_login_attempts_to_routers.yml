@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - Router and Infrastructure Security
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

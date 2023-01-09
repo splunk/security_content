@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - AWS Defense Evasion
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 40
-  drilldown_search: []
   impact: 50
   message: User $user_arn$ has created a new rule to on an S3 bucket $bucket_name$
     with short expiration days

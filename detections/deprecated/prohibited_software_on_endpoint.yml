@@ -31,9 +31,7 @@ tags:
   - 'Emotet Malware  DHS Report TA18-201A '
   - SamSam Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

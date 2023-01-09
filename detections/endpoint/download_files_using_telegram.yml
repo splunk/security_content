@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - XMRig
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Suspicious files were downloaded with the Telegram application on $dest$
     by $user$.

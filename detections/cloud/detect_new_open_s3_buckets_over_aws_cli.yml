@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 60
   message: User $userIdentity.userName$ has created an open/public bucket $bucketName$
     using AWS CLI with the following permissions - $requestParameters.accessControlList.x-amz-grant-read$

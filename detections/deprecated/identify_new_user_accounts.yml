@@ -24,9 +24,7 @@ tags:
   analytic_story:
   - Account Monitoring and Controls
   asset_type: Domain Server
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

@@ -43,9 +43,7 @@ tags:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
   asset_type: ''
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   observable:

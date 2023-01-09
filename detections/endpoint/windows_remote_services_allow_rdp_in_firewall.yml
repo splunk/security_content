@@ -35,9 +35,7 @@ tags:
   analytic_story:
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: new firewall rules was added to allow rdp connection to $dest$
   mitre_attack_id:

@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: $process$ was executed on $dest$ attempting to stop service.
   mitre_attack_id:

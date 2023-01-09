@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Suspicious AWS Login Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

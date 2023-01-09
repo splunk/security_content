@@ -43,11 +43,9 @@ tags:
   - Windows Privilege Escalation
   - Hermetic Wiper
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
   cve:
   - CVE-2021-41379
-  drilldown_search: []
   impact: 80
   message: The following module $ImageLoaded$ was loaded by $Image$ outside of the
     normal system paths on endpoint $Computer$, potentally related to DLL side-loading.

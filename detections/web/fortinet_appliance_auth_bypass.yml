@@ -50,11 +50,9 @@ tags:
   analytic_story:
   - CVE-2022-40684 Fortinet Appliance Auth bypass
   asset_type: Network
-  atomic_guid: []
   confidence: 90
   cve:
   - CVE-2022-40684
-  drilldown_search: []
   impact: 90
   message: Potential CVE-2022-40684 against a Fortinet appliance may be occurring
     against $dest$.

@@ -35,9 +35,7 @@ tags:
   - HAFNIUM Group
   - CISA AA22-257A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: The following $process_name$ has been identified as renamed, spawning from
     $parent_process_name$ on $dest$, attempting to dump lsass.exe.

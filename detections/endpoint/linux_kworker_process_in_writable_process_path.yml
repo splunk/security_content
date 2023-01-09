@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - CyclopsBLink
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: a $process_name$ with kworker commandline in $dest$
   mitre_attack_id:

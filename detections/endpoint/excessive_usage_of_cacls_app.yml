@@ -32,9 +32,7 @@ tags:
   - Windows Post-Exploitation
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: An excessive amount of $process_name$ was executed on $dest$ attempting
     to modify permissions.

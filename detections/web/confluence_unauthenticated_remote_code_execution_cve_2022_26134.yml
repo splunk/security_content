@@ -35,11 +35,9 @@ tags:
   analytic_story:
   - Atlassian Confluence Server and Data Center CVE-2022-26134
   asset_type: Web Server
-  atomic_guid: []
   confidence: 100
   cve:
   - CVE-2022-26134
-  drilldown_search: []
   impact: 100
   message: A URL was requested related to CVE-2022-26134, a unauthenticated remote
     code execution vulnerability,  on $dest$ by $src$.

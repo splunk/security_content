@@ -32,9 +32,7 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: wmiprvse.exe process having a duplicate or full Granted Access $GrantedAccess$
     to $TargetImage$ process in $dest$

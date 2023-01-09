@@ -44,9 +44,7 @@ tags:
   - Windows Registry Abuse
   - Hermetic Wiper
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 95
-  drilldown_search: []
   impact: 80
   message: A registry activity in $registry_path$ related to privilege escalation
     in host $dest$

@@ -29,9 +29,7 @@ tags:
   - Ransomware
   - BlackMatter Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 90
   message: Known services $Message$ terminated by a potential ransomware on $dest$
   mitre_attack_id:

@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: User $user$ created a policy version that allows them to access any resource
     in their account.

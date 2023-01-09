@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GSuite
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:

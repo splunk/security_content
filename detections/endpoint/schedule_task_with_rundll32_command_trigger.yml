@@ -39,9 +39,7 @@ tags:
   - IcedID
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: A schedule task process commandline rundll32 arguments $Arguments$ in host
     $dest$

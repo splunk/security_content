@@ -41,9 +41,7 @@ tags:
   - Suspicious Rundll32 Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: $Processes.process_path.file_path$ process potentially loading malicious
     code

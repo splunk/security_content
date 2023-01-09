@@ -28,9 +28,7 @@ tags:
   - Ransomware
   - Revil Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 70
   message: Suspicious COM Object Execution on $Computer$
   mitre_attack_id:

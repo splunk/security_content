@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: wermgr.exe process is creating or connecting to a named pipe $PipeName$
     in $Computer$

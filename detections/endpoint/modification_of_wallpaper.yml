@@ -31,9 +31,7 @@ tags:
   - Windows Registry Abuse
   - Brute Ratel C4
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: Wallpaper modification on $dest$
   mitre_attack_id:

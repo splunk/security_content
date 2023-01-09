@@ -28,11 +28,9 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
   cve:
   - CVE-2022-32152
-  drilldown_search: []
   impact: 50
   message: Splunk default issued certificate at $host$
   mitre_attack_id:

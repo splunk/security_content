@@ -33,9 +33,7 @@ tags:
   - Windows Post-Exploitation
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: execution of process $process_name$ in $dest$
   mitre_attack_id:

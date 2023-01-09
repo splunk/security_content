@@ -26,9 +26,7 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Account
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: User $user_arn$ is attempting to update the lambda function code of $function_updated$
     from this IP $src_ip$

@@ -30,9 +30,7 @@ tags:
   - Hermetic Wiper
   - Malicious PowerShell
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: Powershell.exe running with potential obfuscated arguments on $dest$
   mitre_attack_id:

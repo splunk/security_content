@@ -34,9 +34,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: firewall allowed program commandline $process$ of $process_name$ on $dest$
     by $user$

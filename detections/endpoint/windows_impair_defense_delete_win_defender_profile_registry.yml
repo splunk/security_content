@@ -34,9 +34,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: Windows Defender Logger registry key set to 'disabled' on $dest$.
   mitre_attack_id:

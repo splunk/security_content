@@ -38,9 +38,7 @@ tags:
   analytic_story:
   - DarkCrystal RAT
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 90
   message: Multiple cmd.exe processes with child process of notepad.exe executed on
     $dest$

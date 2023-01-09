@@ -37,9 +37,7 @@ tags:
   analytic_story:
   - Azorult
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 100
   message: Applocker registry modification to deny the action of several AV products
     on $dest$.

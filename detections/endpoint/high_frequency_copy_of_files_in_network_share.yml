@@ -35,9 +35,7 @@ tags:
   - Information Sabotage
   - Insider Threat
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: high frequency copy of document in network share $Share_Name$ from $Source_Address$
     by $user$

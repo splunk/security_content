@@ -32,9 +32,7 @@ tags:
   - Hermetic Wiper
   - Malicious PowerShell
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 50
   message: A PowerShell script contains memorystream command in $ScriptBlockText$
     as new object backstore with EventCode $EventCode$ on host $Computer$.

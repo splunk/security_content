@@ -39,9 +39,7 @@ tags:
   - ProxyShell
   - ProxyNotShell
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: Activity related to ProxyShell has been identified on $dest$. Review events
     and take action accordingly.

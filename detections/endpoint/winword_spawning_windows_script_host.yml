@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: User $user$ on $dest$ spawned Windows Script Host from Winword.exe
   mitre_attack_id:

@@ -35,9 +35,7 @@ tags:
   analytic_story:
   - MetaSploit
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 100
   message: PowerShell was identified running a script utilized by Meterpreter from
     MetaSploit on endpoint $Computer$ by user $user_id$.

@@ -26,9 +26,7 @@ tags:
   - Suspicious DNS Traffic
   - Command and Control
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: A dns query $query$ with 2 time standard deviation of name len of the dns
     query in host  $host$

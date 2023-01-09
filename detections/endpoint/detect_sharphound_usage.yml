@@ -39,9 +39,7 @@ tags:
   - Discovery Techniques
   - Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 30
   message: Potential SharpHound binary identified on $dest$
   mitre_attack_id:

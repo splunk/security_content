@@ -29,9 +29,7 @@ tags:
   analytic_story:
   - Suspicious Cloud Instance Activities
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: User $user$ is modifying an instance $dest$ for the first time.
   mitre_attack_id:

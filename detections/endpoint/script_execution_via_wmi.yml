@@ -25,9 +25,7 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: A wmic.exe process $process_name$ taht execute script in host $dest$
   mitre_attack_id:

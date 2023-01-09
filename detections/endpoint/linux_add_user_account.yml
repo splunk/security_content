@@ -31,9 +31,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: A commandline $process$ that may create user account on $dest$
   mitre_attack_id:

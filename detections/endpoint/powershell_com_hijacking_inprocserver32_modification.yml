@@ -28,9 +28,7 @@ tags:
   analytic_story:
   - Malicious PowerShell
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 80
   message: A PowerShell script has been identified with InProcServer32 within the
     script code on $Computer$.

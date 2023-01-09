@@ -53,9 +53,7 @@ tags:
   - Dynamic DNS
   - Command and Control
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: A dns query $query$ from your infra connecting to suspicious domain in
     host  $host$

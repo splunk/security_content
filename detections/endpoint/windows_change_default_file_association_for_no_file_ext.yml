@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Prestige Ransomware
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: process with commandline $process$ set or change the file association of
     a file with no file extension in $dest$

@@ -31,9 +31,7 @@ tags:
   analytic_story:
   - Cloud Cryptomining
   asset_type: Cloud Compute Instance
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 60
   message: User $user$ is creating an instance $dest$ with an image that has not been
     previously seen.

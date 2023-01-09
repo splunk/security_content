@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 90
   message: A Windows Service with a suspicious service name was installed on $ComputerName$
   mitre_attack_id:

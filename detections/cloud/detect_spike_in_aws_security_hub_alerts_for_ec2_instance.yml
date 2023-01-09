@@ -25,9 +25,7 @@ tags:
   analytic_story:
   - AWS Security Hub Alerts
   asset_type: AWS Instance
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 30
   message: Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$
   observable:

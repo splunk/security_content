@@ -24,11 +24,9 @@ tags:
   analytic_story:
   - F5 TMUI RCE CVE-2020-5902
   asset_type: Network
-  atomic_guid: []
   confidence: 50
   cve:
   - CVE-2020-5902
-  drilldown_search: []
   impact: 50
   message: tbd
   mitre_attack_id:

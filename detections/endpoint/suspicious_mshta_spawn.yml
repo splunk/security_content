@@ -33,9 +33,7 @@ tags:
   - Suspicious MSHTA Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: mshta.exe spawned by wmiprvse.exe on $dest$
   mitre_attack_id:

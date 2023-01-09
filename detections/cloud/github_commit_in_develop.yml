@@ -25,9 +25,7 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GitHub
-  atomic_guid: []
   confidence: 30
-  drilldown_search: []
   impact: 30
   message: suspicious commit by $commit.commit.author.email$ to develop branch
   mitre_attack_id:

@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - Cobalt Strike
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 70
   message: A searchprotocolhost.exe process $process_name$ with no commandline in
     host $dest$
