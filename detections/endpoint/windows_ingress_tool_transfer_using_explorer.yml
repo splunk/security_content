@@ -70,7 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105_explorer-windows-security.log
-    source: XmlWinEventLog
-    sourcetype: XmlWinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_explorer_url/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
     update_timestamp: true

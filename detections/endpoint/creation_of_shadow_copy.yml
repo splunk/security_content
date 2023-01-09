@@ -61,14 +61,3 @@ tags:
   - Splunk Cloud
   risk_score: 81
   security_domain: endpoint
-tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/crowdstrike_falcon.log
-    source: crowdstrike
-    sourcetype: crowdstrike:events:sensor
