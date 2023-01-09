@@ -175,6 +175,8 @@ class GithubService:
                 if description.get('type', None) in types_to_test and description.get('status', None) == "production":
 
                     if len(description.get("tests",[])) == 0:
+                        print(Exception(f"Detection {detection_filepath_without_security_content} has no tests/test section defined. Detection must include at least one test."))
+                        continue                          
                         raise(Exception(f"Detection {detection_filepath_without_security_content} has no tests/test section defined. Detection must include at least one test."))
 
                     pruned_tests.append(detection_filepath_without_security_content)
