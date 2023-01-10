@@ -50,3 +50,5 @@ winwvc.exe, VNC, TRUE
 Zaservice.exe, Zoho Assist, TRUE
 Zohours.exe, Zoho Assist, TRUE
 ZohoMeeting.exe, Zoho Assist, TRUE
+meshagent.exe, MeshAgent, TRUE
+tacticalrmm.exe, Tactical RMM, TRUE
