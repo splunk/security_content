@@ -63,7 +63,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - Processes.process
-  - Process.parent_process_name
+  - Processes.parent_process_name
   - _time
   - Processes.process_name
   - Processes.parent_process
