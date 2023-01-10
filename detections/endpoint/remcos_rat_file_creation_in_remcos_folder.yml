@@ -12,7 +12,7 @@ description: This search is to detect file creation in remcos folder in appdata 
   clipboard grabbing and audio recording.
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.dat")
-  Filesystem.file_path = "*\\remcos\\*" by _time Filesystem.file_name c.file_path
+  Filesystem.file_path = "*\\remcos\\*" by _time Filesystem.file_name Filesystem.file_path
   Filesystem.dest Filesystem.file_create_time | `drop_dm_object_name(Filesystem)` |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remcos_rat_file_creation_in_remcos_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
