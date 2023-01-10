@@ -20,6 +20,7 @@ known_false_positives: False positives will be found. Filter as needed and creat
 references:
   - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
   - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1219/T1219.md
+  - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
 tags:
   analytic_story:
   - Insider Threat
