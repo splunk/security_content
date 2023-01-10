@@ -45,6 +45,9 @@ tags:
   - AgentTesla
   - Qakbot
   - IcedID
+  - Trickbot
+  - Azorult
+  - Prestige Ransomware
   automated_detection_testing: passed
   confidence: 50
   context:

@@ -22,6 +22,7 @@ tags:
   analytic_story:
   - Living Off The Land
   - Windows Defense Evasion Tactics
+  - Qakbot
   asset_type: Endpoint
   cis20:
   - CIS 3

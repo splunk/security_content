@@ -22,6 +22,8 @@ references:
 tags:
   analytic_story:
   - Windows Drivers
+  - CISA AA22-320A
+  - AgentTesla
   asset_type: Endpoint
   cis20:
   - CIS 3

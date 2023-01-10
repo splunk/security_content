@@ -35,6 +35,7 @@ tags:
   - DarkCrystal RAT
   - CISA AA22-257A
   - Qakbot
+  - Prestige Ransomware
   confidence: 100
   context:
   - Source:Endpoint
