@@ -9,7 +9,7 @@ description: The following analytic uses the Windows Event log - Microsoft-IIS-C
   Per Microsoft, IIS modules are not commonly added to a production IIS server, so alerting on this event ID should be enabled.IIS modules can be installed at a global level or at a site level. In detecting malicious IIS modules, it is important to check both the global and site level for unauthorized modules. Regular monitoring of these locations for such modules and comparing against a known good list can help detect and identify malicious IIS modules.
 search: '`iis_operational_logs` EventCode=29
   | stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message | rename ComputerName AS dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iis_components_new_module_added_filter`'
-how_to_implement: You must enabled the IIS Configuration Operational log before Splunking. Once Splunked, the data may be queried against following the provided query.
+how_to_implement: You must enabled the IIS Configuration Operational log before ingesting in Splunk. Setup and inputs may be found here https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040.
 known_false_positives: False positives may be present when updates or an administrator adds a new module to IIS. Monitor and filter as needed.
 references:
   - https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
