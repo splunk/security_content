@@ -1,8 +1,8 @@
 name: Batch File Write to System32
 id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
-version: 2
-date: '2021-09-16'
-author: Michael Haag, Rico Valdez, Splunk
+version: 3
+date: '2022-12-21'
+author: Steven Dick, Michael Haag, Rico Valdez, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   "*\\syswow64\\*") Filesystem.file_name="*.bat" by _time span=1h Filesystem.dest
   Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)`
   | fields _time dest file_create_time file_name file_path process_name process_path
-  process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
+  process] | dedup file_create_time | table dest, file_create_time, file_name, file_path,
   process_name  | `batch_file_write_to_system32_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -77,8 +77,10 @@ tags:
   - Filesystem.file_name
   - Filesystem.user
   - Filesystem.file_path
-  - Processes.process_id
   - Processes.process_name
+  - Processes.dest
+  - Filesystem.process_guid
+  - Processes.process_guid
   - Processes.dest
   risk_score: 63
   security_domain: endpoint
