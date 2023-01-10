@@ -14,7 +14,7 @@ description: The following analytic identifies suspicious process command line,
   related artifacts.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_wmic` Processes.process IN ("*process list*", "*service list*")
-  by Process.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid 
+  by Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid 
   Processes.parent_process_name Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user 
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` 
