@@ -1,0 +1,13 @@
+name: Windows PowerShell IIS Components WebGlobalModule Usage Unit Test
+tests:
+- name: Windows PowerShell IIS Components WebGlobalModule Usage
+  file: endpoint/windows_powershell_iis_components_webglobalmodule_usage.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: 4104_windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/4104_windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
