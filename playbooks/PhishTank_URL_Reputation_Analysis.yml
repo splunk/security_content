@@ -8,7 +8,7 @@ description: "Accepts a URL and does reputation analysis on the objects. Generat
 playbook: PhishTank_URL_Reputation_Analysis
 how_to_implement: This input playbook requires the PhishTank connector to be configured. It is designed to work in conjunction with the Dynamic Identifier Reputation Analysis playbook or other playbooks in the same style. 
 references:
-  - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/"
+  - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
 app_list: 
   - PhishTank
 tags:
