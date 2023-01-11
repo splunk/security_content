@@ -1,0 +1,31 @@
+name: VirusTotal v3 Identifier Reputation Analysis
+id: fc0edc96-ff2b-48b0-9b4d-63da67d3fe74
+version: 1
+date: '2023-01-11'
+author: Kelby Shelton, Lou Stella, Splunk
+type: Investigation
+description: "Accepts a URL, IP, Domain, or File_Hash and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors."
+playbook: VirusTotal_v3_Identifier_Reputation_Analysis
+how_to_implement: This input playbook requires the VirusTotal v3 connector to be configured. It is designed to work in conjunction with the Dynamic Identifier Reputation Analysis playbook or other playbooks in the same style. 
+references:
+  - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
+app_list: 
+  - VirusTotal v3
+tags:
+  platform_tags:
+    - reputation 
+    - url
+    - ip 
+    - domain 
+    - file_hash 
+    - D3-IRA
+    - D3-URA
+    - D3-DNRA
+    - D3-IPRA
+    - D3-FHRA
+    - VirusTotal_v3
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
