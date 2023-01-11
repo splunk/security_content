@@ -1,0 +1,25 @@
+name: PhishTank URL Reputation Analysis
+id: fc0eab96-ff1b-45b0-9b4d-63ca4783fd64
+version: 1
+date: '2023-01-11'
+author: Kelby Shelton, Splunk
+type: Investigation
+description: "Accepts a URL and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized as desired."
+playbook: PhishTank_URL_Reputation_Analysis
+how_to_implement: This input playbook requires the PhishTank connector to be configured. It is designed to work in conjunction with the Dynamic Identifier Reputation Analysis playbook or other playbooks in the same style. 
+references:
+  - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/"
+app_list: 
+  - PhishTank
+tags:
+  platform_tags:
+    - D3-IRA
+    - D3-URA
+    - reputation 
+    - url
+    - PhishTank
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
