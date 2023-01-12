@@ -1,16 +1,16 @@
 name: Windows Ngrok Reverse Proxy Usage
 id: e2549f2c-0aef-408a-b0c1-e0f270623436
-version: 1
-date: '2022-11-16'
+version: 2
+date: '2023-01-12'
 author: Michael Haag, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies the use of ngrok.exe being utilized on the Windows operating system. Unfortunately, there is no original file name for Ngrok, so it may be worth an additional hunt to identify any command-line arguments.
-  The sign of someone using Ngrok is not malicious, however, more recenctly it has become an adversary tool.
+  The sign of someone using Ngrok is not malicious, however, more recently it has become an adversary tool.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=ngrok.exe 
-  Processes.process IN ("*start*", "*--config*","*http*","*authtoken*", "*http*", "(*tcp*") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
+  Processes.process IN ("*start*", "*--config*","*http*","*authtoken*", "*http*", "*tcp*") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
