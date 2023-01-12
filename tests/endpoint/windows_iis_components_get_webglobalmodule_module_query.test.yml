@@ -1,0 +1,13 @@
+name: Windows IIS Components Get-WebGlobalModule Module Query Unit Test
+tests:
+- name: Windows IIS Components Get-WebGlobalModule Module Query
+  file: endpoint/windows_iis_components_get_webglobalmodule_module_query.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: pwsh_installediismodules.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
+    source: powershell://AppCmdModules
+    sourcetype: Pwsh:InstalledIISModules
+    update_timestamp: true

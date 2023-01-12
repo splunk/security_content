@@ -1,0 +1,364 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Identifier Reputation Analysis",
+    "coa": {
+        "data": {
+            "description": "Accepts a URL and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized as desired.\n\nRef: https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_4_to_port_3",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_3_to_port_5",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_7",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_6",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_1",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "c6a3356c448c9ecaad5287502c3867284b3a6cac",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -1.9184653865522705e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 1180
+                },
+                "2": {
+                    "data": {
+                        "action": "url reputation",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "url reputation",
+                            "customNameId": 0,
+                            "description": "Queries PhishTank for information about the provided URL(s)",
+                            "join": [],
+                            "note": "Queries PhishTank for information about the provided URL(s)"
+                        },
+                        "connector": "PhishTank",
+                        "connectorConfigs": [
+                            "phishtank"
+                        ],
+                        "connectorId": "c193026d-46cf-4f17-b4b9-f22525d2d87e",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "url_reputation",
+                        "id": "2",
+                        "parameters": {
+                            "url": "playbook_input:url"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "url"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "normalize score url",
+                            "customNameId": 0,
+                            "description": "Contains custom code for normalizing score. Adjust the logic as desired in the documented sections.",
+                            "join": [],
+                            "note": "Contains custom code for normalizing score. Adjust the logic as desired in the documented sections."
+                        },
+                        "functionId": 1,
+                        "functionName": "normalize_score_url",
+                        "id": "3",
+                        "inputParameters": [
+                            "filtered-data:url_result_filter:condition_1:url_reputation:action_result.summary.In_Database",
+                            "filtered-data:url_result_filter:condition_1:url_reputation:action_result.summary.Valid",
+                            "filtered-data:url_result_filter:condition_1:url_reputation:action_result.summary.Verified"
+                        ],
+                        "outputVariables": [
+                            "url_score_object",
+                            "scores"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "code",
+                    "userCode": "    \n    # Assign variables\n    normalize_score_url__url_score_object = []\n    normalize_score_url__scores = []\n    in_database_list = filtered_result_0_summary_in_database\n    valid_list = filtered_result_0_summary_valid\n    verified_list = filtered_result_0_summary_verified\n    \n    \n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"-1\": \"Other\",\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    # PhishTank URL Data\n    # Adjust logic as desired\n    for in_database, valid, verified in zip(in_database_list, valid_list, verified_list):\n        \n        # Condition 1 - In database but verified not valid phish\n        if in_database and verified and not valid:\n            score_id = \"2\"\n\n        # Condition 2 - In database and valid phish\n        elif in_database and valid:\n            score_id = \"10\"\n            \n        # Condition 3 - In database but not verified\n        elif in_database and not verified:\n            score_id = \"5\"\n            \n        # Condition 4 - Not in database\n        elif not in_database:\n            score_id = \"0\"\n            \n        # Condition 5 - Catch all\n        else:\n            score_id = \"-1\"\n        \n        score = score_table[score_id]\n        normalize_score_url__url_score_object.append(\n            {\n                'score': score, \n                'score_id': score_id\n            }\n        )\n        normalize_score_url__scores.append(score)\n    \n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 506
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "url result filter",
+                            "customNameId": 0,
+                            "description": "Filters successful url reputation results.",
+                            "join": [],
+                            "note": "Filters successful url reputation results."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "url_reputation:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "success",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "url_result_filter",
+                        "id": "4",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 326
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report url",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_report_url",
+                        "id": "5",
+                        "parameters": [
+                            "filtered-data:url_result_filter:condition_1:url_reputation:action_result.parameter.url",
+                            "normalize_score_url:custom_function:scores",
+                            "filtered-data:url_result_filter:condition_1:url_reputation:action_result.data.*.phish_detail_page"
+                        ],
+                        "template": "SOAR analyzed URL(s) using PhishTank.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Report Link | Source |\n| --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | PhishTank |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 684
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build url output",
+                            "customNameId": 0,
+                            "description": "Generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "Generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 2,
+                        "functionName": "build_url_output",
+                        "id": "6",
+                        "inputParameters": [
+                            "filtered-data:url_result_filter:condition_1:url_reputation:action_result.parameter.url",
+                            "filtered-data:url_result_filter:condition_1:url_reputation:action_result.data.*.phish_detail_page",
+                            "normalize_score_url:custom_function:url_score_object",
+                            "parse_url:custom_function_result.data"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "code",
+                    "userCode": "\n    # Assign variables\n    build_url_output__observable_array = []\n    url_list = filtered_result_0_parameter_url\n    parsed_url_list = parse_url_data\n    detail_page_list = filtered_result_0_data___phish_detail_page\n    url_reputation_list = normalize_score_url__url_score_object\n    \n    for url, detail_page, parsed_url, url_rep in zip(url_list, detail_page_list, parsed_url_list, url_reputation_list):\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"reputation\": {\n                \"score_id\": url_rep['score_id'],\n                \"score\": url_rep['score'],\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url['hostname'],\n                \"scheme\": parsed_url['scheme']\n            },\n            \"source\": \"PhishTank\",\n            \"source_link\": detail_page\n        }\n        if parsed_url['path']:\n            observable_object['attributes']['path'] = parsed_url['path']\n        if parsed_url['query']:\n            observable_object['attributes']['query'] = parsed_url['query']\n        if parsed_url['port']:\n            observable_object['attributes']['query'] = parsed_url['query']\n            \n        build_url_output__observable_array.append(observable_object)\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1020
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "parse url",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "url_parse",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "parse_url",
+                        "id": "7",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "url_parse": {
+                                "description": "Separate a URL into its components using urlparse() from the urllib module of Python 3.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "url"
+                                        ],
+                                        "description": "The URL to parse",
+                                        "inputType": "item",
+                                        "label": "input_url",
+                                        "name": "input_url",
+                                        "placeholder": "artifact:*.cef.requestUrl",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "url_parse",
+                                "name": "url_parse"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "url_parse": {
+                                "input_url": "filtered-data:url_result_filter:condition_1:url_reputation:action_result.parameter.url"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 860
+                }
+            },
+            "notes": "Inputs: url\nInteractions: PhishTank\nActions: url reputation\nOutputs: report, observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "url"
+                ],
+                "description": "A URL provided for reputation analysis",
+                "name": "url"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_url_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type, and reputation.",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_report_url:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "A formatted report.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.8",
+        "version": "5.5.0.108488"
+    },
+    "create_time": "2023-01-09T21:06:56.266161+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "D3-URA",
+        "D3-IRA",
+        "reputation",
+        "url",
+        "PhishTank"
+    ]
+}
