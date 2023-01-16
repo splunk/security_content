@@ -32,6 +32,7 @@ tags:
   - Clop Ransomware
   - CISA AA22-264A
   - Prestige Ransomware
+  - Chaos Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8

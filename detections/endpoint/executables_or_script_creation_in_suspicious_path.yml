@@ -50,6 +50,7 @@ tags:
   - Qakbot
   - IcedID
   - Trickbot
+  - Chaos Ransomware
   automated_detection_testing: passed
   confidence: 50
   context:

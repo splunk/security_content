@@ -48,6 +48,7 @@ tags:
   - Trickbot
   - Azorult
   - Prestige Ransomware
+  - Chaos Ransomware
   automated_detection_testing: passed
   confidence: 50
   context:
