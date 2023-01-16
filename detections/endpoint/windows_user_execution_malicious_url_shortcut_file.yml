@@ -1,0 +1,73 @@
+name: Windows User Execution Malicious URL Shortcut File
+id: 5c7ee6ad-baf4-44fb-b2f0-0cfeddf82dbc
+version: 1
+date: '2023-01-12'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This analytic will identify suspicious creation of URL shortcut link files.
+  This technique was seen in CHAOS ransomware where it will drop this .url link file in %startup% folder 
+  that contains the path of its malicious dropped file to execute upon the reboot of the targeted host. 
+  The creation of this file can be created by a normal application or software but it is a good practice to verify this type 
+  of file specially the resource it tries to execute which is commonly a website.
+search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
+  where NOT(Filesystem.file_path IN ("*\\Program Files*")) Filesystem.file_name = *.url
+  by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user Filesystem.file_path Filesystem.process_guid Filesystem.dest
+  | `drop_dm_object_name(Filesystem)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_user_execution_malicious_url_shortcut_file_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: Administrators may allow creation of script or exe in this path.
+references:
+- https://attack.mitre.org/techniques/T1204/002/
+- https://www.fortinet.com/blog/threat-research/chaos-ransomware-variant-sides-with-russia
+tags:
+  analytic_story:
+  - Chaos Ransomware
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 80
+  context:
+  - Update context
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: a process created URL shortcut file in $file_path$ of $dest$
+  mitre_attack_id:
+  - T1204.002
+  - T1204
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_create_time 
+  - Filesystem.process_id 
+  - Filesystem.file_name 
+  - Filesystem.user 
+  - Filesystem.file_path 
+  - Filesystem.process_guid 
+  - Filesystem.dest
+  risk_score: 64
+  security_domain: endpoint
