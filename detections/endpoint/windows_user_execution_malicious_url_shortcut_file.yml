@@ -35,7 +35,8 @@ tags:
   - CIS 16
   confidence: 80
   context:
-  - Update context
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/sysmon.log
   impact: 80
