@@ -30,6 +30,7 @@ tags:
   - DarkSide Ransomware
   - BlackMatter Ransomware
   - Chaos Ransomware
+  - LockBit Ransomware
   confidence: 90
   context:
   - Source:Endpoint

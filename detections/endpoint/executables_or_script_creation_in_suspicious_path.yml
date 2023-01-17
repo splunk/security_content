@@ -51,6 +51,7 @@ tags:
   - IcedID
   - Trickbot
   - Chaos Ransomware
+  - LockBit Ransomware
   automated_detection_testing: passed
   confidence: 50
   context:

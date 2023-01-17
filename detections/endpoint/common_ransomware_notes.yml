@@ -29,6 +29,7 @@ tags:
   - Ryuk Ransomware
   - Clop Ransomware
   - Chaos Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8

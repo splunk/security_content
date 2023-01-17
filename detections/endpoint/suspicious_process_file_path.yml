@@ -49,6 +49,7 @@ tags:
   - Azorult
   - Prestige Ransomware
   - Chaos Ransomware
+  - LockBit Ransomware
   automated_detection_testing: passed
   confidence: 50
   context:
