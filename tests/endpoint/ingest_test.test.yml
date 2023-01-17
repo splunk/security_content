@@ -6,7 +6,7 @@ tests:
   earliest_time: -24h
   latest_time: now
   attack_data:
-  - file_name: windows-sysmon_7z.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
+  - file_name: 4688_msiexec-windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/4688_msiexec-windows-security.log
     source: XmlWinEventLog
     sourcetype: XmlWinEventLog
