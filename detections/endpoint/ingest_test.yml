@@ -1,0 +1,57 @@
+name: Ingest Test
+id: 01d29b48-ff6f-11eb-b81e-acde48001129
+version: 1
+date: '2021-08-17'
+author: Teoderick Contreras, Splunk
+type: Hunting
+datamodel:
+- Endpoint
+description: Test Search - do not add to repo
+search: '| index='main'| `ingest_test_filter`'
+how_to_implement: Run the search
+known_false_positives: unknown
+references:
+- https://threadreaderapp.com/thread/1423361119926816776.html
+tags:
+  analytic_story:
+  - Ransomware
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: archive process $process_name$ with suspicious cmdline $process$ in host
+    $dest$
+  mitre_attack_id:
+  - T1560.001
+  - T1560
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 25
+  security_domain: endpoint
+  asset_type: Endpoint
