@@ -45,22 +45,17 @@ how_to_implement:
     Download the
     detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.ipynb
     Jupyter notebook from https://github.com/splunk/security_content/notebooks
-  - Login to the Jupyter Lab for
+  - Login to the Jupyter Lab assigned for
     detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl container.
     This container should be listed on Containers page for DSDL app.
-  - Below steps need to be followed inside Jupyter lab - Upload the
-    detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz file
-    into app/model/data path using the upload option in the jupyter notebook. -
-    Untar the artifact
-    detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz
-    using tar -xf
-    app/model/data/detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz
-    -C app/model/data - Upload
-    detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.pynb into
-    Jupyter lab notebooks folder using the upload option in Jupyter lab - Save
-    the notebook using the save option in jupyter notebook. - Upload
-    detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.json into
-    notebooks/data folder.
+  - Below steps need to be followed inside Jupyter lab 
+      - Upload the detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz file
+        into app/model/data path using the upload option in the jupyter notebook. -
+      - Untar the artifact detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz using 
+        tar -xf app/model/data/detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz -C app/model/data 
+      - Upload detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.pynb into Jupyter lab notebooks folder using the upload option in Jupyter lab 
+      - Save the notebook using the save option in jupyter notebook. 
+      - Upload detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.json into notebooks/data folder.
 known_false_positives: False positives may be present if DNS TXT record contents
   are similar to benign DNS TXT record contents.
 references:
