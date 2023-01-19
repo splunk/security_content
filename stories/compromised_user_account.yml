@@ -1,0 +1,16 @@
+name: Compromised User Account
+id: 19669154-e9d1-4a01-b144-e6592a078092
+version: 1
+date: '2023-01-19'
+author: Mauricio Velazco, Bhavin Patel, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: Compromised User Account
+  category: []
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
