@@ -36,14 +36,13 @@ tags:
   - BITS Jobs
   - Living Off The Land
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1197
   - T1105
   nist:
-  - PR.PT
   - DE.CM
   required_fields:
   - _time
@@ -63,8 +62,6 @@ test:
   name: Windows PowerShell Start-BitsTransfer Unit Test
   tests:
   - name: Windows PowerShell Start-BitsTransfer
-    file: endpoint/ssa___windows_powershell_start_bitstransfer.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: T1197_windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/T1197_windows-security.log

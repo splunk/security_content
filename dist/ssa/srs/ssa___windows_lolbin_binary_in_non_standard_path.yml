@@ -65,7 +65,7 @@ tags:
   - Ransomware
   - WhisperGate
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
@@ -74,8 +74,7 @@ tags:
   - T1218
   - T1218.004
   nist:
-  - PR.PT
-  - DE.CM
+  - DE.AE
   required_fields:
   - dest_device_id
   - process_name
@@ -92,8 +91,6 @@ test:
   name: Windows LOLBin Binary in Non Standard Path Unit Test
   tests:
   - name: Windows LOLBin Binary in Non Standard Path
-    file: endpoint/ssa___windows_lolbin_binary_in_non_standard_path.yml
-    pass_condition: '@count_eq(1)'
     attack_data:
     - file_name: dotnet_lolbin-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log

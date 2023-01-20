@@ -29,12 +29,14 @@ references:
 tags:
   analytic_story:
   - Windows System Binary Proxy Execution MSIExec
-  cis20: []
+  cis20:
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1218.007
-  nist: []
+  nist:
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -53,8 +55,6 @@ test:
   name: Windows System Binary Proxy Execution MSIExec Unregister DLL Unit Test
   tests:
   - name: Windows System Binary Proxy Execution MSIExec Unregister DLL
-    file: endpoint/ssa___windows_system_binary_proxy_execution_msiexec_unregister_dll.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: 4688_msiexec-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/4688_msiexec-windows-security.log

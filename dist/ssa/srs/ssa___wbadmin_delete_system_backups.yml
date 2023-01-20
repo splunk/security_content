@@ -31,14 +31,13 @@ tags:
   - Ryuk Ransomware
   - Ransomware
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1490
   nist:
-  - PR.AC
-  - PR.IP
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -57,8 +56,6 @@ test:
   name: WBAdmin Delete System Backups Unit Test
   tests:
   - name: WBAdmin Delete System Backups
-    file: endpoint/ssa___wbadmin_delete_system_backups.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: windows-security_bcdedit_wbadmin.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log

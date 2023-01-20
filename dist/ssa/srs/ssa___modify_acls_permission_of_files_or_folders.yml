@@ -33,15 +33,13 @@ tags:
   analytic_story:
   - XMRig
   cis20:
-  - CIS 8
-  - CIS 13
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1222
   nist:
-  - PR.DS
-  - PR.IP
+  - DE.AE
   required_fields:
   - _time
   - dest_device_id
@@ -60,8 +58,6 @@ test:
   name: Modify ACLs Permission Of Files Or Folders Unit Test
   tests:
   - name: Modify ACLs Permission Of Files Or Folders
-    file: endpoint/ssa___modify_acls_permission_of_files_or_folders.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: all_icalc.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log

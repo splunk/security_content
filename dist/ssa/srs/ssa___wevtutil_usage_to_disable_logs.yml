@@ -32,16 +32,14 @@ tags:
   - Insider Threat
   - Information Sabotage
   cis20:
-  - CIS 8
-  - CIS 13
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1070
   - T1070.001
   nist:
-  - PR.DS
-  - PR.IP
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -59,8 +57,6 @@ test:
   name: Wevtutil Usage To Disable Logs Unit Test
   tests:
   - name: Wevtutil Usage To Disable Logs
-    file: endpoint/ssa___wevtutil_usage_to_disable_logs.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: disable_evt.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log

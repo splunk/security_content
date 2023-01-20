@@ -25,16 +25,14 @@ tags:
   analytic_story:
   - Living Off The Land
   cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  - CIS 10
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1036
   - T1036.003
   nist:
-  - DE.CM
+  - DE.AE
   required_fields:
   - dest_device_id
   - process_name
@@ -51,8 +49,6 @@ test:
   name: Windows Defender Tools in Non Standard Path Unit Test
   tests:
   - name: Windows Defender Tools in Non Standard Path
-    file: endpoint/ssa___windows_defender_tools_in_non_standard_path.yml
-    pass_condition: '| stats count | where count > 0'
     attack_data:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/mpcmdrun/windows-security.log

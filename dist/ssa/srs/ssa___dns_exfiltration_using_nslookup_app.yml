@@ -36,12 +36,14 @@ tags:
   - Dynamic DNS
   - Data Exfiltration
   - Command and Control
-  cis20: []
+  cis20:
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1048
-  nist: []
+  nist:
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -60,8 +62,6 @@ test:
   name: DNS Exfiltration Using Nslookup App Unit Test
   tests:
   - name: DNS Exfiltration Using Nslookup App
-    file: endpoint/ssa_dns_exfiltration_using_nslookup_app.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-security.log

@@ -16,7 +16,7 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name="klist.exe"
   OR Processes.original_file_name = "klist.exe" Processes.parent_process_name IN ("cmd.exe",
-  "powershell*") by Process.process_name Processes.original_file_name Processes.process
+  "powershell*") by Processes.process_name Processes.original_file_name Processes.process
   Processes.process_id Processes.process_guid Processes.parent_process_name Processes.parent_process
   Processes.parent_process_guid Processes.dest Processes.user | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_steal_or_forge_kerberos_tickets_klist_filter`'

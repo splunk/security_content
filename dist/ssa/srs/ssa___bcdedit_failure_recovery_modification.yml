@@ -29,13 +29,13 @@ tags:
   - Ransomware
   - Information Sabotage
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1490
   nist:
-  - PR.IP
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -54,8 +54,6 @@ test:
   name: BCDEdit Failure Recovery Modification Unit Test
   tests:
   - name: BCDEdit Failure Recovery Modification
-    file: endpoint/ssa___bcdedit_failure_recovery_modification.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: windows-security_bcdedit_wbadmin.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log

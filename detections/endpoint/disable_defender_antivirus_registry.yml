@@ -1,8 +1,8 @@
 name: Disable Defender AntiVirus Registry
 id: aa4f695a-3024-11ec-9987-acde48001122
-version: 2
-date: '2022-01-26'
-author: Teoderick Contreras, Splunk
+version: 3
+date: '2022-12-21'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: This particular behavior is typically executed when an adversary or malware
@@ -11,20 +11,20 @@ description: This particular behavior is typically executed when an adversary or
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
 data_source:
-- Sysmon Event ID 13
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  where Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" Registry.registry_value_name
-  = DisableAntiVirus Registry.registry_value_data = 0x00000001 by _time span=1h Registry.dest
-  Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)` |rename process_guid as
-  proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
-  FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
-  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
-  proc_guid | fields _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data]
-  | table _time dest user parent_process_name parent_process process_name process_path
-  process proc_guid registry_path registry_value_name registry_value_data | `disable_defender_antivirus_registry_filter`'
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
+  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
+  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
+  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" Registry.registry_value_name
+  IN ("DisableAntiSpyware","DisableAntiVirus") Registry.registry_value_data = 0x00000001)
+  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`]
+  | fields firstTime lastTime dest user parent_process_name parent_process process_name
+  process_path process registry_key_name registry_path registry_value_name registry_value_data
+  process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `disable_defender_antivirus_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

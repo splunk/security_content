@@ -31,14 +31,13 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1566
   - T1566.001
   nist:
-  - PR.PT
   - DE.CM
   required_fields:
   - _time
@@ -57,8 +56,6 @@ test:
   name: Office Product Spawning Windows Script Host Unit Test
   tests:
   - name: Office Product Spawning Windows Script Host
-    file: endpoint/ssa___office_product_spawning_windows_script_host.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-security.log

@@ -21,7 +21,8 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
   there may be legitimate instances of this behavior. It is important to validate
   and investigate as appropriate.
-references: []
+references:
+- https://www.secureworks.com/blog/drokbk-malware-uses-github-as-dead-drop-resolver
 tags:
   analytic_story:
   - Windows Service Abuse
@@ -31,6 +32,7 @@ tags:
   - Disabling Security Tools
   - NOBELIUM Group
   - Azorult
+  - Windows Drivers
   asset_type: Endpoint
   confidence: 80
   impact: 70

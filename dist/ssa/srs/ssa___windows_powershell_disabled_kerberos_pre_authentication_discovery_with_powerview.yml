@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -62,8 +60,6 @@ test:
     Unit Test
   tests:
   - name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView
-    file: endpoint/ssa___windows_powershell_disabled_kerberos_pre_authentication_discovery_with_powerview.yml
-    pass_condition: '| stats count | where count > 0'
     attack_data:
     - file_name: getdomainuser.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getdomainuser.log

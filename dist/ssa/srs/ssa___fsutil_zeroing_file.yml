@@ -30,12 +30,14 @@ tags:
   - Ransomware
   - Insider Threat
   - Information Sabotage
-  cis20: []
+  cis20:
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1070
-  nist: []
+  nist:
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -54,8 +56,6 @@ test:
   name: Fsutil Zeroing File Unit Test
   tests:
   - name: Fsutil Zeroing File
-    file: endpoint/ssa___fsutil_zeroing_file.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log

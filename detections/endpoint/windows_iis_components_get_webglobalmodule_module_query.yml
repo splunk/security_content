@@ -1,0 +1,50 @@
+name: Windows IIS Components Get-WebGlobalModule Module Query
+id: 20db5f70-34b4-4e83-8926-fa26119de173
+version: 1
+date: '2022-12-20'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following analytic requires the use of PowerShell inputs to run Get-WebGlobalModule
+  to list out all the IIS Modules installed. The output is a list of Module names
+  and the Image path of the DLL.
+data_source: []
+search: '`iis_get_webglobalmodule` | stats count min(_time) as firstTime max(_time)
+  as lastTime by host name image | rename host as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_iis_components_get_webglobalmodule_module_query_filter`'
+how_to_implement: You must ingest the PwSh cmdlet Get-WebGlobalModule in order to
+  utilize this analytic. Follow https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
+known_false_positives: This analytic is meant to assist with hunting modules across
+  a fleet of IIS servers. Filter and modify as needed.
+references:
+- https://docs.splunk.com/Documentation/Splunk/9.0.2/Data/MonitorWindowsdatawithPowerShellscripts
+- https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
+- https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
+tags:
+  analytic_story:
+  - IIS Components
+  asset_type: Endpoint
+  confidence: 10
+  impact: 10
+  message: IIS Modules have been listed on $dest$.
+  mitre_attack_id:
+  - T1505.004
+  - T1505
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 1
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
+    source: powershell://AppCmdModules
+    sourcetype: Pwsh:InstalledIISModules
+    update_timestamp: true

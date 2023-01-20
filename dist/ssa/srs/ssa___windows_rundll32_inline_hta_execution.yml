@@ -38,14 +38,13 @@ tags:
   - NOBELIUM Group
   - Living Off The Land
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1218
   - T1218.005
   nist:
-  - PR.PT
   - DE.CM
   required_fields:
   - _time
@@ -65,8 +64,6 @@ test:
   name: Windows Rundll32 Inline HTA Execution Unit Test
   tests:
   - name: Windows Rundll32 Inline HTA Execution
-    file: endpoint/ssa___windows_rundll32_inline_hta_execution.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log

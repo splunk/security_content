@@ -39,13 +39,12 @@ tags:
   - Deobfuscate-Decode Files or Information
   - Living Off The Land
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1140
   nist:
-  - PR.PT
   - DE.CM
   required_fields:
   - _time
@@ -65,9 +64,7 @@ test:
   name: Windows CertUtil Decode File Unit Test
   tests:
   - name: Windows CertUtil Decode File
-    file: endpoint/ssa___windows_certutil_decode_file.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
-    - file_name: windows-security.log
+    - file_name: encode-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1140/atomic_red_team/encode-windows-security.log
       source: WinEventLog:Security

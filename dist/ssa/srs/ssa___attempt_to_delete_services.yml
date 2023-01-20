@@ -32,8 +32,7 @@ tags:
   - XMRig
   - Ransomware
   cis20:
-  - CIS 8
-  - CIS 13
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -41,8 +40,7 @@ tags:
   - T1543
   - T1543.003
   nist:
-  - PR.DS
-  - PR.IP
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -61,8 +59,6 @@ test:
   name: Attempt To Delete Services Unit Test
   tests:
   - name: Attempt To Delete Services
-    file: endpoint/ssa___attempt_to_delete_services.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: sc_del.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log

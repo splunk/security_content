@@ -1,0 +1,53 @@
+name: Disable Defender AntiVirus Registry
+id: aa4f115a-3024-11ec-9987-acde48001122
+version: 1
+description: This particular behavior is typically executed when an adversaries or
+  malware gains access to an endpoint and beings to perform execution and to evade
+  detections. Usually, a batch (.bat) will be executed and multiple registry and scheduled
+  task modifications will occur. During triage, review parallel processes and identify
+  any further file modifications. Endpoint should be isolated.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,"_time"),
+  "string", null)), registry_path=lower(ucast(map_get(input_event, "registry_path"),
+  "string", null)), registry_key_name=lower(ucast(map_get(input_event, "registry_key_name"),
+  "string", null)), registry_value_data=ucast(map_get(input_event, "registry_value_data"),
+  "string", null), process_guid=ucast(map_get(input_event, "process_guid"), "string",
+  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
+  like(registry_path, "%\\Policies\\Microsoft\\Windows Defender%") AND registry_key_name="DisableAntiVirus"
+  AND registry_value_data="(0x00000001)" | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
+  "dest_device_id"), "string", null)), body=create_map( [ "event_id", event_id, "registry_path",
+  registry_path, "registry_key_name", registry_key_name, "process_guid", process_guid,"registry_value_data",registry_value_data])
+  | into write_ssa_detected_events();'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Admin or user may choose to disable windows defender product
+references:
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+tags:
+  analytic_story:
+  - IcedID
+  cis20:
+  - CIS 10
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  nist:
+  - DE.CM
+  required_fields:
+  - _time
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  risk_score: 49
+  security_domain: endpoint
+  risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/aa4f115a-3024-11ec-9987-acde48001122/
+  event_schema: cim
+test: null

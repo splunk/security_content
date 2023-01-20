@@ -34,16 +34,13 @@ tags:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
   cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1218.001
   - T1218
   nist:
-  - PR.PT
   - DE.CM
   required_fields:
   - _time
@@ -63,8 +60,6 @@ test:
   name: Windows System Binary Proxy Execution Compiled HTML File Decompile Unit Test
   tests:
   - name: Windows System Binary Proxy Execution Compiled HTML File Decompile
-    file: endpoint/ssa___windows_system_binary_proxy_execution_compiled_html_file_decompile.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: 4688_windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/4688_windows-security.log

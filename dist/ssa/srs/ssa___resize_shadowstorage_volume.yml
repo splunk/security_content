@@ -33,14 +33,12 @@ tags:
   - Ransomware
   cis20:
   - CIS 10
-  - CIS 13
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1489
   nist:
-  - PR.DS
-  - PR.IP
+  - DE.CM
   required_fields:
   - _time
   - dest_device_id
@@ -59,8 +57,6 @@ test:
   name: Resize Shadowstorage Volume Unit Test
   tests:
   - name: Resize Shadowstorage Volume
-    file: endpoint/ssa___resize_shadowstorage_volume.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log

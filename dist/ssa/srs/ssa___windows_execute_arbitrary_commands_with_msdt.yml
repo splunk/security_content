@@ -39,15 +39,12 @@ tags:
   analytic_story:
   - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
   cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1218
   nist:
-  - PR.PT
   - DE.CM
   required_fields:
   - _time
@@ -67,8 +64,6 @@ test:
   name: Windows Execute Arbitrary Commands with MSDT Unit Test
   tests:
   - name: Windows Execute Arbitrary Commands with MSDT
-    file: endpoint/ssa___windows_execute_arbitrary_commands_with_msdt.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: msdt-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt-windows-security.log

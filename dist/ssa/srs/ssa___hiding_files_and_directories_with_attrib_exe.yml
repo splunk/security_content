@@ -33,16 +33,14 @@ tags:
   - Information Sabotage
   - Insider Threat
   cis20:
-  - CIS 14
-  - CIS 16
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1222.001
   - T1222
   nist:
-  - PR.AC
-  - PR.IP
+  - DE.CM
   required_fields:
   - _time
   risk_score: 72
@@ -51,11 +49,9 @@ tags:
   research_site_url: https://research.splunk.com/endpoint/028e4406-6176-11ec-aec2-acde48001122/
   event_schema: cim
 test:
-  name: Hiding Files And Directories With Attrib exe - SSA Unit test
+  name: Hiding Files And Directories With Attrib exe Unit Test
   tests:
   - name: Hiding Files And Directories With Attrib exe
-    file: endpoint/ssa___hiding_files_and_directories_with_attrib_exe.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log

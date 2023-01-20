@@ -44,14 +44,13 @@ tags:
   - HAFNIUM Group
   - Log4Shell CVE-2021-44228
   cis20:
-  - CIS 8
+  - CIS 10
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1020
   nist:
-  - PR.PT
-  - DE.CM
+  - DE.AE
   required_fields:
   - _time
   - dest_device_id
@@ -70,8 +69,6 @@ test:
   name: Windows Powershell Connect to Internet With Hidden Window Unit Test
   tests:
   - name: Windows Powershell Connect to Internet With Hidden Window
-    file: endpoint/ssa___windows_powershell_connect_to_internet_with_hidden_window.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: hidden_windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/hidden_windows-security.log
