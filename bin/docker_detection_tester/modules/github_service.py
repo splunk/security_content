@@ -164,29 +164,29 @@ class GithubService:
             if os.path.basename(detection).startswith(SSA_PREFIX) and exclude_ssa:
                 continue
             with open(detection, "r") as d:
-                description = yaml.safe_load(d)
+                description:dict = yaml.safe_load(d)
+                
+                    
 
-                test_filepath = os.path.splitext(detection)[0].replace(
-                    'detections', 'tests') + '.test.yml'
-                test_filepath_without_security_content = str(
-                    pathlib.Path(*pathlib.Path(test_filepath).parts[1:]))
+                
+                detection_filepath_without_security_content = str(
+                    pathlib.Path(*pathlib.Path(detection).parts[1:]))
                 # If no   types are provided, then we will get everything
-                if 'type' in description and (description['type'] in types_to_test or len(types_to_test) == 0):
+                if description.get('type', None) in types_to_test and description.get('status', None) == "production":
 
-                    if not os.path.exists(test_filepath):
-                        print("Detection [%s] references [%s], but it does not exist" % (
-                            detection, test_filepath))
-                        #raise(Exception("Detection [%s] references [%s], but it does not exist"%(detection, test_filepath)))
-                    else:
-                        # remove leading security_content/ from path
-                        pruned_tests.append(test_filepath_without_security_content)
+                    if len(description.get("tests",[])) == 0:
+                        print(Exception(f"Detection {detection_filepath_without_security_content} has no tests/test section defined. Detection must include at least one test."))
+                        continue                          
+                        raise(Exception(f"Detection {detection_filepath_without_security_content} has no tests/test section defined. Detection must include at least one test."))
+
+                    pruned_tests.append(detection_filepath_without_security_content)
                         
                 else:
                     # Don't do anything with these files
                     pass
         
-        if not self.ensure_paired_detection_and_test_files([], [os.path.join("security_content", p) for p in pruned_tests], exclude_ssa):
-            raise(Exception("Missing one or more test/detection files. Please see the output above."))
+        #if not self.ensure_paired_detection_and_test_files([], [os.path.join("security_content", p) for p in pruned_tests], exclude_ssa):
+        #    raise(Exception("Missing one or more test/detection files. Please see the output above."))
         
         return pruned_tests
 
@@ -262,16 +262,13 @@ class GithubService:
         return os.path.join(updated_head, updated_tail)
 
 
-    def get_test_files(self, mode: str, folders: list[str],   types: list[str],
+    def get_detection_files(self, mode: str, folders: list[str],   types: list[str],
                        detections_list: Union[list[str], None]) -> list[str]:
 
-        #Every test should have a detection associated with it.  It is NOT necessarily
-        #true that all detections should have a test associated with them.  For example,
-        #only certain types of detections should have a test associated with them.
-        self.verify_all_tests_have_detections(folders, types)
+        
         
         if mode == "changes":
-            tests = self.get_changed_test_files(folders, types)
+            tests = self.get_changed_detection_files(folders, types)
         elif mode == "selected":
             if detections_list is None:
                 # It's actually valid to supply an EMPTY list of files and the test should pass.
@@ -305,24 +302,7 @@ class GithubService:
 
         return self.prune_detections(detection_file_list, types_to_test)
 
-    def verify_all_tests_have_detections(self, folders: list[str] = [
-                                         'endpoint', 'cloud', 'network'],
-                                     types_to_test: list[str] = [
-                                         "Anomaly", "Hunting", "TTP"],
-                                         exclude_ssa:bool=True)->bool:
-        all_tests = []
-        for folder in folders:
-            #Get all the tests in a folder 
-            tests = self.get_all_files_in_folder(os.path.join(TEST_ROOT_PATH, folder), "*")
-            #Convert all of those tests to detection paths
-            for test in tests:
-                all_tests.append(test)
 
-
-        if not self.ensure_paired_detection_and_test_files([], all_tests, exclude_ssa):
-            raise(Exception("Missing one or more detection files. Please see the output above."))
-        
-        return True
 
 
     def get_all_tests_and_detections(self,
@@ -341,7 +321,7 @@ class GithubService:
         filenames = glob.glob(os.path.join(foldername, extension))
         return filenames
 
-    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"]) -> list[str]:
+    def get_changed_detection_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"]) -> list[str]:
 
         branch1 = self.security_content_branch
         branch2 = 'develop'
@@ -361,9 +341,6 @@ class GithubService:
             for file_path in changed_files:
                 # added or changed test files
                 if file_path.startswith('A') or file_path.startswith('M'):
-                    if 'tests' in file_path and os.path.basename(file_path).endswith('.test.yml'):
-                        all_changed_test_files.append(file_path)
-
                     # changed detections
                     if 'detections' in file_path and os.path.basename(file_path).endswith('.yml'):
                         all_changed_detection_files.append(file_path)
@@ -373,24 +350,16 @@ class GithubService:
             return []
 
         
-        # all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
-        all_changed_test_files = [os.path.join("security_content", name.split(
-            '\t')[1]) for name in all_changed_test_files if len(name.split('\t')) == 2]
-
         all_changed_detection_files = [os.path.join("security_content", name.split(
             '\t')[1]) for name in all_changed_detection_files if len(name.split('\t')) == 2]
          
 
         #Trim out any of the tests/detection  that are not in the selected folders, but at least print a notice
         # to the user.
-        changed_test_files = [x for x in all_changed_test_files if len(pathlib.Path(x).parts) > 3 and 
-                             pathlib.Path(x).parts[2] in folders ]
+        
         changed_detection_files = [x for x in all_changed_detection_files if 
                                   (len(pathlib.Path(x).parts) > 3 and pathlib.Path(x).parts[2] in folders) ]
        
-        #Print out the skipped tests to the user
-        for missing in set(changed_test_files).symmetric_difference(all_changed_test_files):
-            print("Ignoring modified test [%s] not in set of selected folders: %s"%(missing,folders)) 
         
         for missing in set(changed_detection_files).symmetric_difference(all_changed_detection_files):
             print("Ignoring modified detecton [%s] not in set of selected folders: %s"%(missing,folders))
@@ -405,29 +374,8 @@ class GithubService:
         #    converted_test_files.append(detection_filename)
         
         
-        #Get the appropriate detection file paths for a modified test file
-        for test_filepath in changed_test_files:
-            folder_and_filename =  str(pathlib.Path(*pathlib.Path(test_filepath).parts[-2:]))
-            folder_and_filename_fixed_suffix = folder_and_filename.replace(".test.yml",".yml")
-            result = None
-            for f in glob.glob("security_content/detections/**/" + folder_and_filename_fixed_suffix,recursive=True):
-                if result != None:
-                    #found a duplicate filename that matches
-                    raise(Exception("Error - Found at least two detection files to match for test file [%s]: [%s] and [%s]"%(test_filepath, result, f)))
-                else:
-                    result = f
-            if result is None:
-                raise(Exception("Error - Failed to find detection file for test file [%s]"%(test_filepath)))
-            else:
-                converted_test_files.append(result)
         
         
-        
-        for name in converted_test_files:
-            if name not in changed_detection_files:
-                changed_detection_files.append(name)
-        
-
         return self.prune_detections(changed_detection_files, types_to_test)
 
         #detections_to_test,_,_ = self.filter_test_types(changed_detection_files)

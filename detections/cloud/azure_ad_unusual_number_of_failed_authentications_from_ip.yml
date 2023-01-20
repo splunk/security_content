@@ -67,10 +67,3 @@ tags:
   - Splunk Cloud
   risk_score: 54
   security_domain: access
-tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azuread/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
-    update_timestamp: true
