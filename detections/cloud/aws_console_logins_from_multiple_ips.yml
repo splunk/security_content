@@ -37,7 +37,6 @@ tags:
   message: User $user$ has successfully logged into the AWS Console from different IP addresses $src$ with 5 mins
   mitre_attack_id:
   - T1586
-  - T1586.003
   - T1535
   nist:
   - PR.DS
