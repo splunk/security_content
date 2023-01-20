@@ -35,9 +35,7 @@ tags:
   - NOBELIUM Group
   - Insider Threat
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 60
-  drilldown_search: []
   impact: 70
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading

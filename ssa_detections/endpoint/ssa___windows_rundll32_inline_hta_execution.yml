@@ -43,9 +43,7 @@ tags:
   - NOBELIUM Group
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: Suspicious $process_name$ inline HTA execution on $dest_device_id$.
   mitre_attack_id:

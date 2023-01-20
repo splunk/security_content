@@ -33,9 +33,7 @@ tags:
   analytic_story:
   - Credential Dumping
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 20
-  drilldown_search: []
   impact: 70
   message: Kerberoasting malware is potentially applying stolen credentials. Operation
     is performed at the device $dest_device_id$, by the account $dest_user_id$ via

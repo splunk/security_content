@@ -36,9 +36,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A Microsoft office parent process $parent_process_name$ has spawned a suspicious
     child process $process_name$ on host $dest$.
@@ -79,7 +77,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-security.log
+    source: XmlWinEventLog
     update_timestamp: true

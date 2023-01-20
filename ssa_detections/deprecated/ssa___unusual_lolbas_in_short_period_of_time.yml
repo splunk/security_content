@@ -55,9 +55,7 @@ tags:
   analytic_story:
   - Unusual Processes
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: A system process $process_name$ with commandline $cmd_line$ spawn iin short
     period of time in host $dest_device_id$

@@ -41,9 +41,7 @@ tags:
   - Insider Threat
   - CISA AA22-264A
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A wevtutil process $process_name$ with commandline $cmd_line$ to clear
     event logs in host $dest_device_id$

@@ -35,9 +35,7 @@ tags:
   - Unusual Processes
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 20
   message: A system process $process_name$ with path $process_path$ spawn in non-default
     folder path on host $dest_device_id$

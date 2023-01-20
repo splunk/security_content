@@ -43,9 +43,7 @@ tags:
   - IcedID
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 80
   message: Registry values were modified to bypass UAC using Event Viewer on $dest_device_id$
   mitre_attack_id:

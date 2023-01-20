@@ -49,9 +49,7 @@ tags:
   - HAFNIUM Group
   - Log4Shell CVE-2021-44228
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 50
   message: PowerShell processes $process$ started with parameters to modify the execution
     policy of the run, run in a hidden window, and connect to the Internet on host

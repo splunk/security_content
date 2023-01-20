@@ -36,9 +36,7 @@ tags:
   - Insider Threat
   - Information Sabotage
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 60
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
@@ -80,6 +78,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
+    source: WinEventLog:Security

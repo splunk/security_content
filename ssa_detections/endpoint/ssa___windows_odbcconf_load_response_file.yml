@@ -37,9 +37,7 @@ tags:
   analytic_story:
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 60
   message: $process_name$ has been identified on $dest_device_id$ under user $dest_user_id$
     attempting to circumvent controls.

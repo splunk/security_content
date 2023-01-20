@@ -27,8 +27,6 @@ references: []
 tags:
   analytic_story:
   - DNS Hijacking
-  deployments:
-  - Daily Cache Updates
   detections:
   - DNS record changed
   product:

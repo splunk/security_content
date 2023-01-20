@@ -38,9 +38,7 @@ tags:
   analytic_story:
   - XMRig
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 50
   message: A cacls process $process_name$ with commandline $cmd_line$ try to modify
     a permission of a file or directory in host $dest_device_id$

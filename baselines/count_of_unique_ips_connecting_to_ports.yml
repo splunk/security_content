@@ -20,8 +20,6 @@ tags:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
   - Command and Control
-  deployments:
-  - Daily Cache Updates
   detections:
   - Prohibited Network Traffic Allowed
   product:

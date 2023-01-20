@@ -40,9 +40,7 @@ tags:
   analytic_story:
   - Insider Threat
   asset_type: endpoint
-  atomic_guid: []
   confidence: 50
-  drilldown_search: []
   impact: 50
   message: $src_device_ip downloaded unusually amount of data from internal server
     within one day

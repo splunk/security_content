@@ -30,9 +30,7 @@ tags:
   analytic_story:
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 80
-  drilldown_search: []
   impact: 70
   message: Process $process_name$ with commandline $cmd_line$ spawn in non-default
     folder path on host $dest_device_id$

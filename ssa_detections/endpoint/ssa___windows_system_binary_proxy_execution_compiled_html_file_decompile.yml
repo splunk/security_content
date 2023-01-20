@@ -39,9 +39,7 @@ tags:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 100
   message: $process_name$ has been identified using decompile against a CHM on $dest_device_id$
     under user $dest_user_id$.

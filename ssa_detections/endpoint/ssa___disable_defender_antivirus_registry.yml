@@ -34,9 +34,7 @@ tags:
   analytic_story:
   - IcedID
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 70
-  drilldown_search: []
   impact: 70
   message: Modified/added/deleted registry entry $registry_path$ in $dest$
   mitre_attack_id:
@@ -65,9 +63,3 @@ tags:
   - Exploitation
   risk_score: 49
   security_domain: endpoint
-tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog

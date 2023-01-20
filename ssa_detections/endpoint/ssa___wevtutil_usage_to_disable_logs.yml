@@ -37,9 +37,7 @@ tags:
   - Insider Threat
   - Information Sabotage
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 90
-  drilldown_search: []
   impact: 70
   message: A wevtutil process $process_name$ with commandline $cmd_line$ to disable
     event logs in host $dest_device_id$

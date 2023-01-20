@@ -32,9 +32,7 @@ tags:
   - Credential Dumping
   - Suspicious Rundll32 Activity
   asset_type: Endpoint
-  atomic_guid: []
   confidence: 100
-  drilldown_search: []
   impact: 40
   message: A dump of a process was attempted using comsvcs.dll with the minidump function
     on endpoint $dest_device_id$ by user $dest_device_user$.
