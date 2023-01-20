@@ -51,13 +51,13 @@ field_mappings:
 convert_to_log_source:
   - data_source: Windows Security 4688
     mapping:
-      ProcessId: New_Process_ID #New_Process_ID in Hex
-      Image: New_Process_Name
+      ProcessId: NewProcessId #New_Process_ID in Hex
+      Image: NewProcessName
       CommandLine: Process_Command_Line
-      User: Subject_Security_ID
-      ParentProcessId: Creator_Process_ID
-      ParentImage: Creator_Process_Name
-      Computer: ComputerName
+      User: SubjectUserSid
+      ParentProcessId: ProcessId
+      ParentImage: ParentProcessName
+      Computer: Computer
   - data_source: Crowdstrike Process
     mapping:
       ProcessId: RawProcessId

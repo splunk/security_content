@@ -1,0 +1,59 @@
+name: Registry Keys for Creating SHIM Databases
+id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
+version: 4
+date: '2020-01-28'
+author: Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search looks for registry activity associated with application compatibility
+  shims, which can be leveraged by attackers for various nefarious purposes.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    TargetObject:
+    - '*CurrentVersion\\AppCompatFlags\\InstalledSDB*'
+    - '*CurrentVersion\\AppCompatFlags\\Custom*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you must populate the Change_Analysis
+  data model. This is typically populated via endpoint detection and response product,
+  such as Carbon Black or other endpoint data sources such as Sysmon. The data used
+  for this search is typically generated via logs that report reads and writes to
+  the registry.
+known_false_positives: There are many legitimate applications that leverage shim databases
+  for compatibility purposes for legacy applications
+references: []
+tags:
+  analytic_story:
+  - Suspicious Windows Registry Activities
+  - Windows Persistence Techniques
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: A registry activity in $registry_path$ related to shim modication in host
+    $dest$
+  mitre_attack_id:
+  - T1546.011
+  - T1546
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

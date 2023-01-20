@@ -1,0 +1,58 @@
+name: Suspicious WAV file in Appdata Folder
+id: 5be109e6-1ac5-11ec-b421-acde48001122
+version: 2
+date: '2022-07-07'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to detect a suspicious creation of .wav file in appdata
+  folder. This behavior was seen in Remcos RAT malware where it put the audio recording
+  in the appdata\audio folde as part of data collection. this recording can be send
+  to its C2 server as part of its exfiltration to the compromised machine. creation
+  of wav files in this folder path is not a ussual disk place used by user to save
+  audio format file.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Processes.process_path: '*\\appdata\\Roaming\\*'
+    Image|endswith: '*.exe'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, file_name, file_path and command-line
+  executions from your endpoints. If you are using Sysmon, you must have at least
+  version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://success.trendmicro.com/dcx/s/solution/1123281-remcos-malware-information?language=en_US
+- https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/
+tags:
+  analytic_story:
+  - Remcos
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: process $process_name$ creating image file $file_path$ in $dest$
+  mitre_attack_id:
+  - T1113
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon_wav.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,90 @@
+name: PowerShell - Connect To Internet With Hidden Window
+id: ee18ed37-0802-4268-9435-b3b91aaa18db
+version: 8
+date: '2022-01-12'
+author: David Dorsey, Michael Haag Splunk
+status: production
+type: Hunting
+description: The following hunting analytic identifies PowerShell commands utilizing
+  the WindowStyle parameter to hide the window on the compromised endpoint. This combination
+  of command-line options is suspicious because it is overriding the default PowerShell
+  execution policy, attempts to hide its activity from the user, and connects to the
+  Internet. Removed in this version of the query is New-Object. The analytic identifies
+  all variations of WindowStyle, as PowerShell allows the ability to shorten the parameter.
+  For example w, win, windowsty and so forth. In addition, through our research it
+  was identified that PowerShell will interpret different command switch types beyond
+  the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: pwsh.dll
+  selection2:
+    Image|endswith:
+    - powershell_ise.exe
+    - powershell.exe
+    - sqltoolsps.exe
+    - sqlps.exe
+    - pwsh.exe
+  selection3:
+    OriginalFileName: PowerShell.EXE
+  selection4:
+    OriginalFileName: powershell_ise.EXE
+  condition: (selection1 or selection2 or selection3 or selection4)
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: Legitimate process can have this combination of command-line
+  options, but it's not common.
+references:
+- https://regexr.com/663rr
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+- https://ss64.com/ps/powershell.html
+- https://twitter.com/M_haggis/status/1440758396534214658?s=20
+- https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
+tags:
+  analytic_story:
+  - Hermetic Wiper
+  - Malicious PowerShell
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - HAFNIUM Group
+  - Log4Shell CVE-2021-44228
+  - AgentTesla
+  asset_type: Endpoint
+  confidence: 90
+  cve:
+  - CVE-2021-44228
+  impact: 90
+  message: PowerShell processes $process$ started with parameters to modify the execution
+    policy of the run, run in a hidden window, and connect to the Internet on host
+    $dest$ executed by user $user$.
+  mitre_attack_id:
+  - T1059.001
+  - T1059
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

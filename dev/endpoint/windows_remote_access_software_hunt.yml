@@ -1,0 +1,65 @@
+name: Windows Remote Access Software Hunt
+id: 8bd22c9f-05a2-4db1-b131-29271f28cb0a
+version: 1
+date: '2022-08-22'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following hunting analytic is meant to help organizations understand
+  what remote access software is being used in the environment. When reviewing this
+  hunt, confirm the software identified is authorized to be utilized. Based on fidelity,
+  create a new analytic for specific utilities banned within the organization. Adversaries
+  use these utilities to retain remote access capabilities to the environment. Utilities
+  in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review
+  the lookup for the entire list and add any others.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    User: unknown
+    Computer: unknown
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives will be found. Filter as needed and create
+  higher fidelity analytics based off banned remote access software.
+references:
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1219/T1219.md
+- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+tags:
+  analytic_story:
+  - Insider Threat
+  - Command and Control
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 10
+  impact: 10
+  message: The following Remote Access Software $process_name$ was identified on $dest$.
+  mitre_attack_id:
+  - T1219
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 1
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

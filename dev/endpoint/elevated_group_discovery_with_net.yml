@@ -1,0 +1,68 @@
+name: Elevated Group Discovery With Net
+id: a23a0e20-0b1b-4a07-82e5-ec5f70811e7a
+version: 1
+date: '2021-08-25'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: This analytic looks for the execution of `net.exe` or `net1.exe`  with
+  command-line arguments utilized to query for specific elevated domain groups. Red
+  Teams and adversaries alike use net.exe to enumerate elevated domain groups for
+  situational awareness and Active Directory Discovery to identify high privileged
+  users.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith:
+    - net1.exe
+    - net.exe
+  selection2:
+    CommandLine: '*/do*'
+  selection3:
+    CommandLine: '*group*'
+  selection4:
+    CommandLine:
+    - '*Dns Admins*'
+    - '*Protected Users*'
+    - '*Server Operators*'
+    - '*Account Operators*'
+    - '*Schema Admins*'
+    - '*Enterprise Admins*'
+    - '*Domain Admins*'
+  condition: (selection1) and selection2 and selection3 and selection4
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1069/002/
+- https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory
+- https://adsecurity.org/?p=3658
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 70
+  impact: 30
+  message: Elevated domain group discovery enumeration on $dest$ by $user$
+  mitre_attack_id:
+  - T1069
+  - T1069.002
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 21
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,69 @@
+name: Disable Show Hidden Files
+id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
+version: 2
+date: '2022-01-27'
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic is to identify a modification in the Windows registry
+  to prevent users from seeing all the files with hidden attributes. This event or
+  techniques are known on some worm and trojan spy malware that will drop hidden files
+  on the infected machine.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Details: '0x00000001'
+    TargetObject:
+    - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt'
+    - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden'
+  selection2:
+    Details: '0x00000000'
+    TargetObject: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden'
+  condition: selection1 or selection2
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: unknown
+references:
+- https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
+  - Azorult
+  asset_type: Endpoint
+  confidence: 100
+  impact: 40
+  message: Disabled 'Show Hidden Files' on $dest$
+  mitre_attack_id:
+  - T1564.001
+  - T1562.001
+  - T1564
+  - T1562
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 40
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

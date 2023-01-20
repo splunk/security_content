@@ -1,0 +1,72 @@
+name: Disabling Firewall with Netsh
+id: 6860a62c-9203-11eb-9e05-acde48001122
+version: 2
+date: '2021-03-31'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This search is to identifies suspicious firewall disabling using netsh
+  application. this technique is commonly seen in malware that tries to communicate
+  or download its component or other payload to its C2 server.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: netsh.exe
+  selection2:
+    Image|endswith: netsh.exe
+  selection3:
+    CommandLine: '*firewall*'
+  selection4:
+    CommandLine:
+    - '*disable*'
+    - '*off*'
+  condition: (selection1 or selection2) and selection3 and selection4
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: admin may disable firewall during testing or fixing network
+  problem.
+references:
+- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: The Windows Firewall was disabled on $dest$ by $user$.
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

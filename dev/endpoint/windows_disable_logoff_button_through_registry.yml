@@ -1,0 +1,63 @@
+name: Windows Disable LogOff Button Through Registry
+id: b2fb6830-9ed1-11ec-9fcb-acde48001122
+version: 1
+date: '2022-03-08'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to detect a suspicious registry modification to disable
+  logoff feature in windows host. This registry when enable will prevent users to
+  log off of the system by using any method, including programs run from the command
+  line, such as scripts. It also disables or removes all menu items and buttons that
+  log the user off of the system. This technique was seen abused by ransomware malware
+  to make the compromised host un-useful and hard to remove other registry modification
+  made on the machine that needs restart to take effect. This windows feature may
+  implement by administrator in some server where shutdown is critical. In that scenario
+  filter of machine and users that can modify this registry is needed.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Registry.registry_value_name:
+    - NoLogOff
+    - StartMenuLogOff
+    TargetObject: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*'
+    Details: '0x00000001'
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
+known_false_positives: This windows feature may implement by administrator in some
+  server where shutdown is critical. In that scenario filter of machine and users
+  that can modify this registry is needed.
+references:
+- https://www.hybrid-analysis.com/sample/e2d4018fd3bd541c153af98ef7c25b2bf4a66bc3bfb89e437cde89fd08a9dd7b/5b1f4d947ca3e10f22714774
+- https://malwiki.org/index.php?title=DigiPop.xp
+- https://www.trendmicro.com/vinfo/be/threat-encyclopedia/search/js_noclose.e/2
+tags:
+  analytic_story:
+  - Ransomware
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Registry modification in "NoLogOff" on $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

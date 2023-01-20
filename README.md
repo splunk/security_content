@@ -53,6 +53,7 @@ The Content Control tool allows you to manipulate Splunk Security Content via th
 4. **build** - Builds an application suitable for deployment on a search head using Slim, the Splunk Packaging Toolkit
 5. **inspect** - Uses a local version of appinspect to ensure that the app you built meets basic quality standards.
 6. **cloud_deploy** - Using ACS, deploy your custom app to a running Splunk Cloud Instance.
+7. **convert** - Convert a detection rule with sigma syntax to a Splunk SPL detection
 
 ### pre-requisites
 Make sure you use python version 3.9.
@@ -78,6 +79,16 @@ for a more indepth write up on how to write content see our [guide](https://gith
 
 ### generate a splunk app from current content
 `python contentctl.py -p . generate -o dist/escu -pr ESCU`
+
+### convert a Sigma search into a Splunk detection
+Detection rule using tstats and cim datamodel:
+`python contentctl.py -p . convert -dm cim -o detections/endpoint/ -dp dev/endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml`
+
+Detection rule using raw:
+`python contentctl.py -p . convert -dm raw -o detections/endpoint/ -dp dev/endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml`
+
+Detection rule converted to Windows Security Event Code 4688:
+`python contentctl.py -p . convert -dm raw -lo "Windows Security 4688" -o detections/endpoint/ -dp dev/endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml`
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage

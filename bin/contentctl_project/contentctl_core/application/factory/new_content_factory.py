@@ -49,7 +49,7 @@ class NewContentFactory():
             self.output_dto.obj['tags'] = dict()
             self.output_dto.obj['tags']['analytic_story'] = ['UPDATE_STORY_NAME']
             self.output_dto.obj['tags']['asset_type'] = 'UPDATE asset_type'
-            self.output_dto.obj['tags']['atomic_guid'] = 'UPDATE atomic_guid'
+            self.output_dto.obj['tags']['atomic_guid'] = ['UPDATE atomic_guid']
             self.output_dto.obj['tags']['confidence'] = 'UPDATE value between 1-100'
             self.output_dto.obj['tags']['drilldown_search'] = ['Add drilldown search']
             self.output_dto.obj['tags']['impact'] = 'UPDATE value between 1-100'

@@ -18,40 +18,40 @@ supported_targets:
   - ocsf
   - Sysmon Event ID 1
 raw_fields: 
-  - New_Process_ID
-  - New_Process_Name
+  - NewProcessId
+  - NewProcessName
   - Process_Command_Line
-  - Subject_Security_ID
-  - Creator_Process_ID
-  - Creator_Process_Name
-  - ComputerName
+  - SubjectUserSid
+  - ProcessId
+  - ParentProcessName
+  - Computer
 field_mappings:
   - data_model: cim
     data_set: Endpoint.Processes
     mapping:
-      New_Process_ID: Processes.process_id
-      New_Process_Name: Processes.process_path
+      NewProcessId: Processes.process_id
+      NewProcessName: Processes.process_path
       Process_Command_Line: Processes.process
-      Subject_Security_ID: Processes.user
-      Creator_Process_ID: Processes.parent_process_id
-      Creator_Process_Name: Processes.parent_process_path
-      ComputerName: Processes.dest
+      SubjectUserSid: Processes.user
+      ProcessId: Processes.parent_process_id
+      ParentProcessName: Processes.parent_process_path
+      Computer: Processes.dest
   - data_model: ocsf
     mapping:
-      New_Process_ID: process.pid
-      New_Process_Name: process.file
+      NewProcessId: process.pid
+      NewProcessName: process.file
       Process_Command_Line: process.cmd_line
-      Subject_Security_ID: user.name
-      Creator_Process_ID: actor_process.pid
-      Creator_Process_Name: actor_process.file
-      ComputerName: origin.device.name
+      SubjectUserSid: user.name
+      ProcessId: actor_process.pid
+      ParentProcessName: actor_process.file
+      Computer: origin.device.name
 convert_to_log_source:
   - data_source: Sysmon Event ID 1
     mapping:
-      New_Process_ID: ProcessId #New_Process_ID in Hex
-      New_Process_Name: Image
+      NewProcessId: ProcessId #New_Process_ID in Hex
+      NewProcessName: Image
       Process_Command_Line: CommandLine
-      Subject_Security_ID: User
-      Creator_Process_ID: ParentProcessId
-      Creator_Process_Name: ParentImage
-      ComputerName: Computer
+      SubjectUserSid: User
+      ProcessId: ParentProcessId
+      ParentProcessName: ParentImage
+      Computer: Computer

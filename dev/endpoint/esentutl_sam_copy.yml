@@ -1,0 +1,74 @@
+name: Esentutl SAM Copy
+id: d372f928-ce4f-11eb-a762-acde48001122
+version: 1
+date: '2021-08-18'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies the process - `esentutl.exe` - being
+  used to capture credentials stored in ntds.dit or the SAM file on disk. During triage,
+  review parallel processes and determine if legitimate activity. Upon determination
+  of illegitimate activity, take further action to isolate and contain the threat.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: esentutl.exe
+  selection2:
+    Image|endswith: esentutl.exe
+  selection3:
+    CommandLine:
+    - '*ntds*'
+    - '*SAM*'
+  condition: (selection1 or selection2) and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited. Filter as needed.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/6a570c2a4630cf0c2bd41a2e8375b5d5ab92f700/atomics/T1003.002/T1003.002.md
+- https://attack.mitre.org/software/S0404/
+tags:
+  analytic_story:
+  - Credential Dumping
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 100
+  impact: 80
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user user$ attempting to capture credentials for offline
+    cracking or observability.
+  mitre_attack_id:
+  - T1003.002
+  - T1003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

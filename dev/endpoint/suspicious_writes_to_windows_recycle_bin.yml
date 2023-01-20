@@ -1,0 +1,52 @@
+name: Suspicious writes to windows Recycle Bin
+id: b5541828-8ffd-4070-9d95-b3da4de924cb
+version: 4
+date: '2020-07-22'
+author: Rico Valdez, Splunk
+status: production
+type: TTP
+description: This search detects writes to the recycle bin by a process other than
+  explorer.exe.
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    TargetFilename: '*$Recycle.Bin*'
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on filesystem and process logs responsible for the changes from your endpoints into
+  the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
+known_false_positives: Because the Recycle Bin is a hidden folder in modern versions
+  of Windows, it would be unusual for a process other than explorer.exe to write to
+  it. Incidents should be investigated as appropriate.
+references: []
+tags:
+  analytic_story:
+  - Collection and Staging
+  asset_type: Windows
+  confidence: 70
+  impact: 40
+  message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
+  mitre_attack_id:
+  - T1036
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_name
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 28
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

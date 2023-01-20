@@ -1,0 +1,71 @@
+name: Schtasks scheduling job on remote system
+id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
+version: 6
+date: '2022-05-23'
+author: David Dorsey, Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: This analytic looks for the execution of `schtasks.exe` with command-line
+  arguments utilized to create a Scheduled Task on a remote endpoint. Red Teams and
+  adversaries alike may abuse the Task Scheduler for lateral movement and remote code
+  execution.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: schtasks.exe
+  selection2:
+    Image|endswith: schtasks.exe
+  selection3:
+    CommandLine: '*/s*'
+  selection4:
+    CommandLine: '*/create*'
+  condition: (selection1 or selection2) and selection3 and selection4
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: Administrators may create scheduled tasks on remote systems,
+  but this activity is usually limited to a small set of hosts or users. It is important
+  to validate and investigate as appropriate.
+references: []
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  - NOBELIUM Group
+  - Living Off The Land
+  - Prestige Ransomware
+  asset_type: Endpoint
+  confidence: 90
+  impact: 70
+  message: A schedule task process $process_name$ with remote job command-line $process$
+    in host $dest$ by $user$.
+  mitre_attack_id:
+  - T1053.005
+  - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

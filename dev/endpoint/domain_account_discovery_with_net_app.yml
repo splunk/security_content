@@ -1,0 +1,71 @@
+name: Domain Account Discovery With Net App
+id: 98f6a534-04c2-11ec-96b2-acde48001122
+version: 1
+date: '2021-08-24'
+author: Teoderick Contreras, Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: This analytic looks for the execution of `net.exe` or `net1.exe` with
+  command-line arguments utilized to query for domain users. Red Teams and adversaries
+  alike may use net.exe to enumerate domain users for situational awareness and Active
+  Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: net.exe
+  selection2:
+    Image|endswith: net.exe
+  selection3:
+    Image|endswith: net1.exe
+  selection4:
+    OriginalFileName: net1.exe
+  selection5:
+    CommandLine: '* user*'
+  selection6:
+    CommandLine: '*/do*'
+  condition: (selection1 or selection2 or selection3 or selection4) and selection5
+    and selection6
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://docs.microsoft.com/en-us/defender-for-identity/playbook-domain-dominance
+- https://attack.mitre.org/techniques/T1087/002/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: an instance of process $process_name$ with commandline $process$ in $dest$
+  mitre_attack_id:
+  - T1087.002
+  - T1087
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -117,28 +117,6 @@ class ObjToYmlAdapter(Adapter):
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
         if type == SecurityContentType.detections:
             file_path = os.path.join(self.input_path, 'detections', object['source'], self.convertNameToFileName(object['name'],object['tags']['product']))
-            test_obj = {}
-            test_obj['name'] = object['name'] + ' Unit Test'
-            test_obj['tests'] = [
-                {
-                    'name': object['name'],
-                    'file': object['source'] + '/' + self.convertNameToFileName(object['name'],object['tags']['product']),
-                    'pass_condition': '| stats count | where count > 0',
-                    'earliest_time': '-24h',
-                    'latest_time': 'now',
-                    'attack_data': [
-                        {
-                            'file_name': 'UPDATE',
-                            'data': 'UPDATE',
-                            'source': 'UPDATE',
-                            'sourcetype': 'UPDATE',
-                            'update_timestamp': True
-                        }
-                    ]
-                }
-            ]
-            file_path_test = os.path.join(self.input_path, 'tests', object['source'], self.convertNameToTestFileName(object['name'],object['tags']['product']))
-            YmlWriter.writeYmlFile(file_path_test, test_obj)
             object.pop('source')
         elif type == SecurityContentType.stories:
             file_path = os.path.join(self.input_path, 'stories', self.convertNameToFileName(object['name'],object['tags']['product']))

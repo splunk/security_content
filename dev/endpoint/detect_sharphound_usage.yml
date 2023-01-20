@@ -1,0 +1,69 @@
+name: Detect SharpHound Usage
+id: dd04b29a-beed-11eb-87bc-acde48001122
+version: 2
+date: '2021-05-27'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies SharpHound binary usage by using the
+  original filena,e. In addition to renaming the PE, other coverage is available to
+  detect command-line arguments. This particular analytic looks for the original_file_name
+  of `SharpHound.exe` and the process name. It is possible older instances of SharpHound.exe
+  have different original filenames. Dependent upon the operator, the code may be
+  re-compiled and the attributes removed or changed to anything else. During triage,
+  review the metadata of the binary in question. Review parallel processes for suspicious
+  behavior. Identify the source of this binary.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: SharpHound.exe
+  selection2:
+    Image|endswith: sharphound.exe
+  condition: (selection1 or selection2)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited as this is specific to a
+  file attribute not used by anything else. Filter as needed.
+references:
+- https://attack.mitre.org/software/S0521/
+- https://thedfirreport.com/?s=bloodhound
+- https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+- https://github.com/BloodHoundAD/SharpHound3
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+tags:
+  analytic_story:
+  - Discovery Techniques
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 80
+  impact: 30
+  message: Potential SharpHound binary identified on $dest$
+  mitre_attack_id:
+  - T1087.002
+  - T1069.001
+  - T1482
+  - T1087.001
+  - T1087
+  - T1069.002
+  - T1069
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 24
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
