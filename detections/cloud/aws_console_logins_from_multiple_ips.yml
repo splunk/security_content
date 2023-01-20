@@ -19,6 +19,7 @@ references:
 tags:
   analytic_story:
   - Suspicious AWS Login Activities
+  - Compromised User Account
   asset_type: AWS Account
   cis20:
   - CIS 13
