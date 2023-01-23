@@ -22,12 +22,12 @@ search:
     OriginalFileName: procdump
   selection2:
     Image|endswith:
-    - procdump64.exe
     - procdump.exe
+    - procdump64.exe
   selection3:
     CommandLine:
-    - '*-mm*'
     - '*-ma*'
+    - '*-mm*'
   selection4:
     CommandLine: '*lsass*'
   condition: (selection1 or selection2) and selection3 and selection4

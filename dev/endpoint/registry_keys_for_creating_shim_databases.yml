@@ -12,8 +12,8 @@ data_source:
 search:
   selection1:
     TargetObject:
-    - '*CurrentVersion\\AppCompatFlags\\InstalledSDB*'
     - '*CurrentVersion\\AppCompatFlags\\Custom*'
+    - '*CurrentVersion\\AppCompatFlags\\InstalledSDB*'
   condition: selection1
 how_to_implement: To successfully implement this search, you must populate the Change_Analysis
   data model. This is typically populated via endpoint detection and response product,

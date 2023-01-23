@@ -12,8 +12,8 @@ data_source:
 search:
   selection1:
     Image|endswith:
-    - explorer.exe
     - outlook.exe
+    - explorer.exe
   condition: selection1
 how_to_implement: You must be ingesting data that records filesystem and process activity
   from your hosts to populate the Endpoint data model. This is typically populated

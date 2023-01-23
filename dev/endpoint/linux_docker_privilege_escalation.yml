@@ -17,10 +17,10 @@ data_source:
 search:
   selection1:
     CommandLine:
-    - '*docker*exec*sh*'
-    - '*docker*exec*bash*'
     - '*docker*-v*/*:*'
     - '*docker*--volume*/*:*'
+    - '*docker*exec*sh*'
+    - '*docker*exec*bash*'
   condition: selection1
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

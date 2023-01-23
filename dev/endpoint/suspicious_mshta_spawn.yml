@@ -14,8 +14,8 @@ data_source:
 search:
   selection1:
     ParentImage:
-    - wmiprvse.exe
     - svchost.exe
+    - wmiprvse.exe
   selection2:
     OriginalFileName: MSHTA.EXE
   selection3:

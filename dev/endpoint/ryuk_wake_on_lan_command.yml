@@ -19,8 +19,8 @@ data_source:
 search:
   selection1:
     CommandLine:
-    - '*9 REP*'
     - '*8 LAN*'
+    - '*9 REP*'
   condition: (selection1)
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from

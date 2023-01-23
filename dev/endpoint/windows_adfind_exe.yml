@@ -16,13 +16,13 @@ data_source:
 search:
   selection1:
     CommandLine:
-    - '* -sc *'
-    - '* -gcb *'
     - '*objectcategory*'
+    - '* -gcb *'
+    - '* -sc *'
   selection2:
     CommandLine:
-    - '* -b *'
     - '* -f *'
+    - '* -b *'
   condition: selection1 and selection2
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, and command-line executions from your endpoints. If

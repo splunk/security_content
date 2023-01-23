@@ -17,15 +17,15 @@ search:
     OriginalFileName: 7z.exe
   selection2:
     Image|endswith:
-    - 7za.exe
     - 7z.exe
+    - 7za.exe
   selection3:
     OriginalFileName: 7za.exe
   selection4:
     CommandLine:
-    - '*\\IPC$\\*'
-    - '*\\Admin$\\*'
     - '*\\C$\\*'
+    - '*\\Admin$\\*'
+    - '*\\IPC$\\*'
   condition: (selection1 or selection2 or selection3) and selection4
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

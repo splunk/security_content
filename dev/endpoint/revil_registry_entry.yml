@@ -15,8 +15,8 @@ data_source:
 search:
   selection1:
     TargetObject:
-    - '*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*'
     - '*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*'
+    - '*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*'
   condition: (selection1)
 how_to_implement: to successfully implement this search, you need to be ingesting
   logs with the Image, TargetObject registry key, registry Details from your endpoints.

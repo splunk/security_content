@@ -15,8 +15,8 @@ data_source:
 search:
   selection1:
     Image|endswith:
-    - net1.exe
     - net.exe
+    - net1.exe
   selection2:
     CommandLine: '*/do*'
   selection3:

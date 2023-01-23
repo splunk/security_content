@@ -16,8 +16,8 @@ data_source:
 search:
   selection1:
     CommandLine:
-    - '*kerberos::ptt*'
     - '*sekurlsa::tickets /export*'
+    - '*kerberos::ptt*'
   condition: (selection1)
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

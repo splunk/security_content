@@ -12,8 +12,8 @@ data_source:
 search:
   selection1:
     ParentImage:
-    - zoom.us
     - zoom.exe
+    - zoom.us
   condition: (selection1)
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You should run

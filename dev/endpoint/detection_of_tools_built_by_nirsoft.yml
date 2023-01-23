@@ -13,8 +13,8 @@ data_source:
 search:
   selection1:
     CommandLine:
-    - '* /scomma *'
     - '* /stext *'
+    - '* /scomma *'
   condition: (selection1)
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints to populate the Endpoint

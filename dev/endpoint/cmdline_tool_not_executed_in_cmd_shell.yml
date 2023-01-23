@@ -18,15 +18,15 @@ data_source:
 search:
   selection1:
     Image|endswith:
-    - whoami.exe
-    - netstat.exe
-    - route.exe
-    - nslookup.exe
-    - arp.exe
-    - net1.exe
-    - net.exe
-    - systeminfo.exe
     - ipconfig.exe
+    - systeminfo.exe
+    - net.exe
+    - net1.exe
+    - arp.exe
+    - nslookup.exe
+    - route.exe
+    - netstat.exe
+    - whoami.exe
   condition: (selection1)
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from

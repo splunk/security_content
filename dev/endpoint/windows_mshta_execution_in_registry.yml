@@ -17,10 +17,10 @@ data_source:
 search:
   selection1:
     Details:
+    - '*mshta*'
     - '*javascript:*'
     - '*vbscript:*'
     - '*WScript.Shell*'
-    - '*mshta*'
   condition: selection1
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model

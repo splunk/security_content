@@ -17,19 +17,19 @@ search:
     OriginalFileName: pwsh.dll
   selection2:
     Image|endswith:
-    - powershell_ise.exe
-    - powershell.exe
-    - sqltoolsps.exe
-    - sqlps.exe
     - pwsh.exe
+    - sqlps.exe
+    - sqltoolsps.exe
+    - powershell.exe
+    - powershell_ise.exe
   selection3:
     OriginalFileName: PowerShell.EXE
   selection4:
     OriginalFileName: powershell_ise.EXE
   selection5:
     CommandLine:
-    - '*Document.Application.ShellExecute*'
     - '*Document.ActiveView.ExecuteShellCommand*'
+    - '*Document.Application.ShellExecute*'
   condition: (selection1 or selection2 or selection3 or selection4) and selection5
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

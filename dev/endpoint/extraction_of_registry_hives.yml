@@ -18,13 +18,13 @@ search:
     Image|endswith: reg.exe
   selection3:
     CommandLine:
-    - '*export*'
     - '*save*'
+    - '*export*'
   selection4:
     CommandLine:
-    - '*\security *'
-    - '*\system *'
     - '*\sam *'
+    - '*\system *'
+    - '*\security *'
   condition: (selection1 or selection2) and selection3 and selection4
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from

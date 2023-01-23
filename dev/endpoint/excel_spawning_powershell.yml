@@ -21,11 +21,11 @@ search:
     OriginalFileName: pwsh.dll
   selection3:
     Image|endswith:
-    - powershell_ise.exe
-    - powershell.exe
-    - sqltoolsps.exe
-    - sqlps.exe
     - pwsh.exe
+    - sqlps.exe
+    - sqltoolsps.exe
+    - powershell.exe
+    - powershell_ise.exe
   selection4:
     OriginalFileName: PowerShell.EXE
   selection5:

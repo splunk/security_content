@@ -19,9 +19,9 @@ search:
     Image|endswith: mshta.exe
   selection3:
     CommandLine:
-    - '*about*'
-    - '*javascript*'
     - '*vbscript*'
+    - '*javascript*'
+    - '*about*'
   condition: (selection1 or selection2) and selection3
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from

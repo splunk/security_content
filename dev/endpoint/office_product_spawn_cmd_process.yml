@@ -15,9 +15,9 @@ data_source:
 search:
   selection1:
     ParentImage:
-    - powerpnt.exe
-    - excel.exe
     - winword.exe
+    - excel.exe
+    - powerpnt.exe
   selection2:
     OriginalFileName: Cmd.Exe
   selection3:

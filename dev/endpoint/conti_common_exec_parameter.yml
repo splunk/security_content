@@ -13,10 +13,10 @@ data_source:
 search:
   selection1:
     CommandLine:
-    - '*-nomutex*'
-    - '*-m all*'
-    - '*-m net*'
     - '*-m local*'
+    - '*-m net*'
+    - '*-m all*'
+    - '*-nomutex*'
   condition: selection1
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

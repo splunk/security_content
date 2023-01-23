@@ -19,18 +19,18 @@ data_source:
 search:
   selection1:
     CommandLine:
-    - '* harvest*'
-    - '* brute* /passwords:*'
-    - '* brute* /password:*'
-    - '* renew* /ticket:*'
-    - '* asreproast*'
-    - '* kerberoast*'
-    - '* silver* /service:*'
-    - '* golden* /user:*'
-    - '* asktgs* /service:*'
-    - '* asktgt* /user:*'
-    - '* monitor /interval*'
     - '*ptt /ticket*'
+    - '* monitor /interval*'
+    - '* asktgt* /user:*'
+    - '* asktgs* /service:*'
+    - '* golden* /user:*'
+    - '* silver* /service:*'
+    - '* kerberoast*'
+    - '* asreproast*'
+    - '* renew* /ticket:*'
+    - '* brute* /password:*'
+    - '* brute* /passwords:*'
+    - '* harvest*'
   condition: (selection1)
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

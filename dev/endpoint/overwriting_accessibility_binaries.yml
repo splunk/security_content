@@ -14,13 +14,13 @@ data_source:
 search:
   selection1:
     TargetFilename:
-    - '*\\Windows\\System32\\AtBroker.exe*'
-    - '*\\Windows\\System32\\DisplaySwitch.exe*'
-    - '*\\Windows\\System32\\Narrator.exe*'
-    - '*\\Windows\\System32\\Magnify.exe*'
-    - '*\\Windows\\System32\\osk.exe*'
-    - '*\\Windows\\System32\\utilman.exe*'
     - '*\\Windows\\System32\\sethc.exe*'
+    - '*\\Windows\\System32\\utilman.exe*'
+    - '*\\Windows\\System32\\osk.exe*'
+    - '*\\Windows\\System32\\Magnify.exe*'
+    - '*\\Windows\\System32\\Narrator.exe*'
+    - '*\\Windows\\System32\\DisplaySwitch.exe*'
+    - '*\\Windows\\System32\\AtBroker.exe*'
   condition: (selection1)
 how_to_implement: You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint file-system data model node. If you are

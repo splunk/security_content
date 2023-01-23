@@ -18,8 +18,8 @@ search:
     Image|endswith: winrs.exe
   selection3:
     CommandLine:
-    - '*-remote:*'
     - '*-r:*'
+    - '*-remote:*'
   condition: (selection1 or selection2) and selection3
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

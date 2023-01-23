@@ -22,8 +22,8 @@ search:
     OriginalFileName: net1.exe
   selection5:
     CommandLine:
-    - '*users'
     - '*user'
+    - '*users'
   condition: (selection1 or selection2 or selection3 or selection4) and selection5
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from

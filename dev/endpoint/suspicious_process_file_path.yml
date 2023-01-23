@@ -16,10 +16,10 @@ search:
     Processes.process_path.file_path: '*\\Users\\Administrator\\Music\\*'
   selection2:
     Processes.process_path:
-    - '*\\windows\\debug\\*'
-    - '*\\users\\public\\*'
-    - '*\\windows\\temp\\*'
     - '*\\windows\\fonts\\*'
+    - '*\\windows\\temp\\*'
+    - '*\\users\\public\\*'
+    - '*\\windows\\debug\\*'
   selection3:
     Processes.process_path.file_path: '*\\Windows\\servicing\\*'
   selection4:
