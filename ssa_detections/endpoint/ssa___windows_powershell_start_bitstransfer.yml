@@ -12,7 +12,8 @@ description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Si
   is used, it is highly possible files will be archived. During triage, review parallel
   processes and process lineage. Capture any files on disk and review. For the remote
   domain or IP, what is the reputation?
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),

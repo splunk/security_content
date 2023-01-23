@@ -9,7 +9,8 @@ description: This analytic is built to detect a suspicious modification of the W
   registry related to UAC bypass. This technique is to modify the registry in this
   detection, create a registry value with the path of the payload and run WSreset.exe
   to bypass User Account Control.
-data_source: []
+data_source: 
+- Sysmon Event ID 13
 search: '| from read_ssa_enriched_events() | where "Endpoint_Registry" IN (_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   registry_path=lower(ucast(map_get(input_event, "registry_path"), "string", null)),

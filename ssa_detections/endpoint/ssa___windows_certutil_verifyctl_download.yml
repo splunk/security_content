@@ -12,7 +12,8 @@ description: 'Certutil.exe may download a file from a remote destination using `
   \ During triage, capture any files on disk and review. Review the reputation of
   the remote IP or domain in question. Using `-VerifyCtl`, the file will either be
   written to the current working directory or `%APPDATA%\..\LocalLow\Microsoft\CryptnetUrlCache\Content\<hash>`. '
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,

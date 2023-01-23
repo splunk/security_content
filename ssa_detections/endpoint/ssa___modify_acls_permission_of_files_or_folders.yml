@@ -11,7 +11,8 @@ description: This analytic identifies suspicious modification of ACL permission 
   is commonly configured by the file or directory owner with appropriate permission.
   This behavior raises suspicion if this command is seen on an endpoint utilized by
   an account with no permission to do so.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), process=ucast(map_get(input_event, "process"), "string",
   null), process_name=ucast(map_get(input_event, "process_name"), "string", null),

@@ -11,7 +11,8 @@ description: The following analytic identifies the decompile parameter with the 
   script inside used a technique for running an arbitrary command in a CHM file via
   an ActiveX object. This unpacks an HTML help file to a specified path for launching
   the next stage.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),

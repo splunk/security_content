@@ -11,7 +11,8 @@ description: This analytic will detect a suspicious net.exe/net1.exe command-lin
   user or deleting adversaries tracks created during its lateral movement additional
   systems. During triage, review parallel processes for additional behavior. Identify
   any other user accounts created before or after.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),

@@ -12,7 +12,8 @@ description: The following query identifies Microsoft Background Intelligent Tra
   the BITS job created and capture any files written to disk. It is possible for BITS
   to be used to upload files and this may require further network data analysis to
   identify. You can use `bitsadmin /list /verbose` to list out the jobs during investigation.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,

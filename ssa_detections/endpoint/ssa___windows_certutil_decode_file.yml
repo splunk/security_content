@@ -13,7 +13,8 @@ description: CertUtil.exe may be used to `encode` and `decode` a file, including
   and `decodehex`. Similarly, the file will be encoded in HEX and later decoded for
   further execution. During triage, identify the source of the file being decoded.
   Review its contents or execution behavior for further analysis.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,

@@ -10,7 +10,8 @@ description: The following analytic identifies native living off the land binari
   it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io
   site, and excluded common process names (cmd.exe, explorer.exe, csc.exe, hh.exe,
   regedit.exe) and DotNet binaries. It also does not include the category of OtherMSBinaries.
-data_source: []
+data_source:
+- Windows Security 4688
 search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",

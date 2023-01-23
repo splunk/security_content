@@ -12,7 +12,8 @@ description: This analytic identifies commonly used command-line arguments used 
   is not indicative of malicious behavior. During triage, at this stage of a ransomware
   event, exfiltration is about to occur or has already. Isolate the endpoint and continue
   investigating by review file modifications and parallel processes.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,

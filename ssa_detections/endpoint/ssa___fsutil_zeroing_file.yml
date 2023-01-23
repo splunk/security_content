@@ -8,7 +8,8 @@ type: TTP
 description: This search is to detect a suspicious fsutil process to zeroing a target
   file. This technique was seen in lockbit ransomware where it tries to zero out its
   malware path as part of its defense evasion after encrypting the compromised host.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),

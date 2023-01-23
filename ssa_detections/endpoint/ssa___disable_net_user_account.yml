@@ -9,7 +9,8 @@ description: This analytic will identify a suspicious command-line that disables
   user account using the native `net.exe` or `net1.exe` utility to Windows. This technique
   may used by the adversaries to interrupt availability of accounts and continue the
   impact against the organization.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),

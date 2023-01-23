@@ -10,7 +10,8 @@ description: This analytic will detect the execution of sdelete.exe attempting t
   to destroy evidence or information sabotage. Sdelete is a SysInternals utility meant
   to securely delete files on disk. This tool is commonly used to clear tracks and
   artifact on the targeted host.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,"_time"),
   "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",

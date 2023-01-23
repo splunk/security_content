@@ -14,7 +14,8 @@ description: The following hunting analytic identifies PowerShell commands utili
   For example w, win, windowsty and so forth. In addition, through our research it
   was identified that PowerShell will interpret different command switch types beyond
   the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),

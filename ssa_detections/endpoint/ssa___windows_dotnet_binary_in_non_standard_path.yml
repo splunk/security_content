@@ -11,7 +11,8 @@ description: The following analytic identifies native .net binaries within the W
   an alert will be generated. Adversaries abuse these binaries as they are native
   to Windows and native DotNet. Note that not all SDK (post install of Windows) are
   captured in the list. Lookup - https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.csv.
-data_source: []
+data_source:
+- Windows Security 4688
 search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",

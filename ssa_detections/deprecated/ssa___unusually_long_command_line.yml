@@ -9,7 +9,8 @@ description: Command lines that are extremely long may be indicative of maliciou
   activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin
   to help identify command lines with lengths that are unusual for a given user. This
   detection is inspired on Unusually Long Command Line authored by Rico Valdez.
-data_source: []
+data_source:
+- Windows Security 4688
 search: ' | from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)) | eval cmd_line=ucast(map_get(input_event, "process"),
   "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",

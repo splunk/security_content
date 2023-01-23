@@ -11,7 +11,8 @@ description: An attacker tries might try to use different version of a system co
   run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes
   has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv
   and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
-data_source: []
+data_source:
+- Windows Security 4688
 search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",

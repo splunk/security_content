@@ -8,7 +8,8 @@ type: Anomaly
 description: Attacker activity may compromise executing several LOLBAS applications
   in conjunction to accomplish their objectives. We are looking for more than usual
   LOLBAS applications over a window of time, by building profiles per machine.
-data_source: []
+data_source:
+- Windows Security 4688
 search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event,
   "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event,

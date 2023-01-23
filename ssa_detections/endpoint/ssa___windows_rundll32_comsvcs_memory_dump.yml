@@ -8,7 +8,8 @@ type: TTP
 description: The following analytic identifies memory dumping using comsvcs.dll with
   the minidump function with `rundll32.exe`. This technique is common with adversaries
   who would like to dump the memory of lsass.exe.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_event,
   "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"),
   "string", null), process_name=lower(ucast(map_get(input_event, "process_name"),

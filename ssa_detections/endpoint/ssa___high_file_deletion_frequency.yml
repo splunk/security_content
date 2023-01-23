@@ -7,7 +7,8 @@ status: experimental
 type: Anomaly
 description: This detection detects a high amount of file deletions in a short time
   for specific file types. This can be an indicator for a malicious insider.
-data_source: []
+data_source: 
+- Sysmon Event ID 23
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)) | eval action=ucast(map_get(input_event, "action"), "string",
   null), process=ucast(map_get(input_event, "process"), "string", null), file_name=ucast(map_get(input_event,

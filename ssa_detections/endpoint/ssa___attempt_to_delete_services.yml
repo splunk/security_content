@@ -10,7 +10,8 @@ description: The following analytic identifies Windows Service Control, `sc.exe`
   instances of service enumeration of attempts to stop a service and then delete it.
   Adversaries utilize this technique to terminate security services or other related
   services to continue there objective and evade detections.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),

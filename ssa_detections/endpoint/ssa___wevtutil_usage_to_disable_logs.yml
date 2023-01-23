@@ -8,7 +8,8 @@ type: TTP
 description: This search is to detect execution of wevtutil.exe to disable logs. This
   technique was seen in several ransomware to disable the event logs to evade alerts
   and detections in compromised host.
-data_source: []
+data_source:
+- Windows Security 4688
 search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
