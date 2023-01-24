@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | rename answer as text 
   | fields firstTime, lastTime, message_type,record_type,src,dest, text 
   | apply detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl 
-  | rename pred_is_unknown_proba as is_suspicious_score 
+  | rename predicted_is_unknown as is_suspicious_score 
   | where is_suspicious_score > 0.5 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
