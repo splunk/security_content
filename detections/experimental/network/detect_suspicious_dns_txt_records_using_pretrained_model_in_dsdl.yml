@@ -14,7 +14,7 @@ description: The following analytic uses a pretrained deep learning model to
   do not match regular expressions for well known types are labeled as 1 for
   "unknown/suspicious" and otherwise 0 for "not suspicious". The deep learning
   model we have developed uses DNS TXT responses to analyze patterns of character
-  sequences to predict of a DNS TXT is suspicious or not. Higher the
+  sequences to predict if a DNS TXT is suspicious or not. The higher the
   pred_is_unknown_proba, the more likely is the DNS TXT record is suspicious.
   The threshold for flagging a domain as suspicious is set at 0.5.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
