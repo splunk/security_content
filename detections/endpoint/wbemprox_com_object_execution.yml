@@ -26,6 +26,7 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
+  - LockBit Ransomware
   confidence: 50
   context:
   - Source:Endpoint
