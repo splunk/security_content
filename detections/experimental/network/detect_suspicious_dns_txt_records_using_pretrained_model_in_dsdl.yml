@@ -41,7 +41,7 @@ how_to_implement: 'Steps to deploy detect suspicious DNS TXT records model into 
     deep learning model that needs to be deployed in DSDL app. Follow the steps
     for deployment here - `https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU`.\
 
-  * Download the `artifacts .tar.gz` file from the link - TODO update link here=
+  * Download the `artifacts .tar.gz` file from the link - https://seal.splunkresearch.com/detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz
     Download the `detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.ipynb`
     Jupyter notebook from https://github.com/splunk/security_content/notebooks\
 
