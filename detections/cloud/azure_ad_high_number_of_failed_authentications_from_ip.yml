@@ -1,26 +1,26 @@
-name: Azure AD High Number Of Failed Authentications For User
-id: 630b1694-210a-48ee-a450-6f79e7679f2c
+name: Azure AD High Number Of Failed Authentications From Ip
+id: e5ab41bf-745d-4f72-a393-2611151afd8e
 version: 1
 date: '2023-01-23'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic identifies an Azure AD account with more than 20 failed authentication events in the span of 5 minutes. This behavior 
-  could represent a brute force attack against the account. As environments differ across organizations, security teams should customize the threshold of this detection.
+datamodel: []
+description: The following analytic identifies an Ip address which failing to authenticate 20 or more times to an Azure AD tenant in the span of 5 minutes. This behavior 
+  could represent a brute force attack againstan Azure AD. As environments differ across organizations, security teams should customize the threshold of this detection.
 search: ' `azuread` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
-| rename properties.* as *
-| bucket span=5m _time
-| stats  dc(_raw) AS failed_attempts  values(ipAddress) by userPrincipalName, _time
-| where failed_attempts > 20
-| `azure_ad_high_number_of_failed_authentications_for_user_filter`'
+  | rename properties.* as *
+  | bucket span=5m _time
+  | stats  dc(_raw) AS failed_attempts values(userPrincipalName) by ipAddress, _time
+  | where failed_attempts > 20
+  | `azure_ad_high_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). 
   You must be ingesting Azure Active Directory events into your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
-known_false_positives: A user with more than 20 failed authentication attempts in the span of 5 minutes may also be triggered by a broken application.
+known_false_positives: An Ip address with more than 20 failed authentication attempts in the span of 5 minutes may also be triggered by a broken application.
 references:
 - https://attack.mitre.org/techniques/T1110/
 - https://attack.mitre.org/techniques/T1110/001/
+- https://attack.mitre.org/techniques/T1110/003/
 tags:
   analytic_story:
   - Compromised User Account
@@ -38,10 +38,11 @@ tags:
   impact: 50
   kill_chain_phases:
   - Exploitation
-  message: User $userPrincipalName$ failed to authenticate more than 20 times in the span of 5 minutes.
+  message: $ipAddress$ failed to authenticate more than 20 times in the span of 5 minutes.
   mitre_attack_id:
   - T1110
   - T1110.001
+  - T1110.003
   nist:
   - DE.CM
   observable:
@@ -49,6 +50,10 @@ tags:
     type: User
     role:
     - Victim
+  - name: ipAddress
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

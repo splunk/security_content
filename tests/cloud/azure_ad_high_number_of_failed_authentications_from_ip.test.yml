@@ -1,7 +1,7 @@
-name: Azure AD High Number Of Failed Authentications For User Unit Test
+name: Azure AD High Number Of Failed Authentications From Ip Unit Test
 tests:
-- name: Azure AD High Number Of Failed Authentications For User
-  file: cloud/azure_ad_high_number_of_failed_authentications_for_user.yml
+- name: Azure AD High Number Of Failed Authentications From Ip
+  file: cloud/azure_ad_high_number_of_failed_authentications_from_ip.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
