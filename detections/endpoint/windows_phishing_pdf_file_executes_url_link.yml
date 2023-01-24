@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `windows_phishing_pdf_file_executes_url_link_filter`'
-how_to_implement: how To successfully implement this search you need to be ingesting
+how_to_implement: To successfully implement this search you need to be ingesting
   information on process that include the name of the process responsible for the
   changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
   In addition, confirm the latest CIM App 4.20 or higher is installed and the latest
