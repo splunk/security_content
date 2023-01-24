@@ -1,0 +1,28 @@
+name: Chaos Ransomware
+id: 153d7b8f-27f2-4e4d-bae8-dfafd93a22a8
+version: 1
+date: '2023-01-11'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Chaos ransomware, including looking for file writes (file encryption and ransomware notes), 
+  deleting shadow volume storage, registry key modification, dropping of files in startup folder, and more.
+narrative: CHAOS ransomware has been seen and monitored since 2021. This ransomware is purportedly a .NET version of Ryuk ransomware 
+  but upon closer look to its code and behavior, this malware sample reveals that it doesn't share much relation to the notorious RYUK 
+  ransomware. This ransomware is one of the known ransomware that was used in the ongoing geo-political war. 
+  This ransomware is capable to check that only one copy of itself is running on the targeted host, delay of execution as part of its 
+  defense evasion technique, persistence through registry and startup folder, drop a copy of itself in each root drive of the targeted host and also in 
+  %appdata% folder and many more. As of writing this ransomware is still active and keeps on infecting Windows Operating machines and Windows networks.
+references:
+- https://blog.qualys.com/vulnerabilities-threat-research/2022/01/17/the-chaos-ransomware-can-be-ravaging
+- https://www.fortinet.com/blog/threat-research/chaos-ransomware-variant-in-fake-minecraft-alt-list-brings-destruction
+- https://marcoramilli.com/2021/06/14/the-allegedly-ryuk-ransomware-builder-ryukjoke/
+- https://www.trendmicro.com/en_us/research/21/h/chaos-ransomware-a-dangerous-proof-of-concept.html
+tags:
+  analytic_story: Chaos Ransomware
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
