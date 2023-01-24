@@ -4,8 +4,7 @@ version: 1
 date: '2023-01-23'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: The following analytic identifies an Azure AD account with more than 20 failed authentication events in the span of 5 minutes. This behavior 
   could represent a brute force attack against the account. As environments differ across organizations, security teams should customize the threshold of this detection.
 search: ' `azuread` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
