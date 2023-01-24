@@ -55,6 +55,7 @@ tags:
   - Windows Registry Abuse
   - Azorult
   - Qakbot
+  - Chaos Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8
