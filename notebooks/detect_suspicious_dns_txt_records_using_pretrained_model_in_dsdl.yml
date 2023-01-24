@@ -1,0 +1,3 @@
+description: A Jupyter notebook for detecting suspicious DNS TXT records using a pre-trained model in DSDL
+filename: detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.ipynb
+name: detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl

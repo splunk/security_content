@@ -1,0 +1,28 @@
+name: LockBit Ransomware
+id: 67e5b98d-16d6-46a6-8d00-070a3d1a5cfc
+version: 1
+date: '2023-01-16'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the LockBit ransomware, including looking for file writes (file encryption and ransomware notes), 
+  deleting services, terminating processes, registry key modification and more.
+narrative: LockBit ransomware was first seen in 2019. This ransomware was used by cybercriminal in targeting multiple sectors 
+  and organizations. Lockbit is one of the ransomware being offered as a Ransomware-as-a-Service(RaaS) and also known to affiliates 
+  to implement the 'double extortion' techniques by uploading the stolen and sensitive victim information to their dark website and then 
+  threatening to sell/release it in public if their demands are not met.
+  LockBit Ransomware advertised opportunities for threat actors that could provide credential access via RDP and VPN. Aside from this it is also 
+  uses threat emulation like Cobalt Strike and Metasploit to gain foot hold to the targeted host and persist if needed.
+references:
+- https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
+- https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+- https://www.cybereason.com/blog/threat-analysis-report-lockbit-2.0-all-paths-lead-to-ransom
+- https://www.trendmicro.com/en_us/research/22/g/lockbit-ransomware-group-augments-its-latest-variant--lockbit-3-.html
+tags:
+  analytic_story: LockBit Ransomware
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

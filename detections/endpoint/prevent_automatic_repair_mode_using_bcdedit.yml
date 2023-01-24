@@ -27,6 +27,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - Chaos Ransomware
   confidence: 80
   context:
   - Source:Endpoint

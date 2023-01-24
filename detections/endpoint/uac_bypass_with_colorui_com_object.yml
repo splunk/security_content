@@ -24,6 +24,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - LockBit Ransomware
   confidence: 80
   context:
   - Source:Endpoint

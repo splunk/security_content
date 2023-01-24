@@ -1,7 +1,7 @@
 name: Windows DLL Search Order Hijacking Hunt
 id: 79c7d0fc-60c7-41be-a616-ccda752efe89
-version: 1
-date: '2022-08-18'
+version: 2
+date: '2022-12-31'
 author: Michael Haag, Splunk
 type: Hunting
 datamodel:
@@ -12,7 +12,7 @@ description: The following hunting analytic is an experimental query built again
   The lookup is comprised of Microsoft native libraries identified within the Hijacklibs.net project. 
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name from datamodel=Endpoint.Processes where Processes.dest!=unknown
-  Processes.user!=unknown NOT (Processes.process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*"))  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process_path   
+  Processes.user!=unknown NOT (Processes.process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*"))  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process_path   
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` 
   | lookup hijacklibs library AS process_name OUTPUT islibrary | search islibrary = True
