@@ -5,9 +5,9 @@ date: '2023-01-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: The following analytic identifies an Azure AD account with concurrent sessions coming from more than one unique Ip addresses within the span of 5 minutes. 
+description: The following analytic identifies an Azure AD account with concurrent sessions coming from more than one unique Ip address within the span of 5 minutes. 
   This behavior could represent a session hijacking attack whereby an adversary has extracted cookies from a victims browser and is using them from a different location to 
-  access corporate online resources. As users may behave different across organizations, security teams should test and customize this detection to fit their environments.
+  access corporate online resources. As users may behave differently across organizations, security teams should test and customize this detection to fit their environments.
 search: ' `azuread` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs
   | rename properties.* as *
   | bucket span=5m _time
