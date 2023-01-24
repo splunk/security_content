@@ -1,0 +1,86 @@
+name: Windows System Binary Proxy Execution Compiled HTML File URL In Command Line
+id: 0fec631a-7c9b-4e4c-b28b-93260953e25f
+version: 1
+date: '2022-09-02'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled
+  HTML Help (CHM) file from a remote url. This particular technique will load Windows
+  script code from a compiled help file. CHM files may  contain nearly any file type
+  embedded, but only execute html/htm. Upon a successful execution, the following
+  script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode,
+  JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe
+  upon execution. The "htm" and "html" file extensions were the only extensions observed
+  to be supported for the execution of Shortcut commands or WSH script code. During
+  investigation, identify script content origination. Review reputation of remote
+  IP and domain. Some instances, it is worth decompiling the .chm file to review its
+  original contents. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    cmd_line|contains:
+    - https://
+    - http://
+    process_name: hh.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Although unlikely, some legitimate applications may retrieve
+  a CHM remotely, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1218/001/
+- https://www.kb.cert.org/vuls/id/851869
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
+- https://lolbas-project.github.io/lolbas/Binaries/Hh/
+- https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
+- https://web.archive.org/web/20220119133748/https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+tags:
+  analytic_story:
+  - Suspicious Compiled HTML Activity
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 100
+  impact: 90
+  message: An instance of $process_name$ was identified on endpoint $dest_device_id$
+    by user $dest_user_id$ contacting a remote destination.
+  mitre_attack_id:
+  - T1218.001
+  - T1218
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/chm-wineventlog-security.log
+    source: WinEventLog:Security
+    update_timestamp: true

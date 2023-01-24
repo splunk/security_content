@@ -13,14 +13,13 @@ description: An attacker tries might try to use different version of a system co
   and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 data_source:
 - Windows Security 4688
-search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
+search: '| from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
   null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
-
-  $cond_1 = | from $ssa_input | where process_name="arp.exe" OR process_name="adaptertroubleshooter.exe"
+  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)
+  | where process_name="arp.exe" OR process_name="adaptertroubleshooter.exe"
   OR process_name="applicationframehost.exe" OR process_name="atbroker.exe" OR process_name="authhost.exe"
   OR process_name="autoworkplace.exe" OR process_name="axinstui.exe" OR process_name="backgroundtransferhost.exe"
   OR process_name="bdehdcfg.exe" OR process_name="bdeuisrv.exe" OR process_name="bdeunlockwizard.exe"
@@ -56,9 +55,8 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="muiunattend.exe" OR process_name="multidigimon.exe" OR process_name="musnotification.exe"
   OR process_name="musnotificationux.exe" OR process_name="napstat.exe" OR process_name="netstat.exe"
   OR process_name="narrator.exe" OR process_name="netcfgnotifyobjecthost.exe" OR process_name="netevtfwdr.exe"
-  OR process_name="netproj.exe" OR process_name="netplwiz.exe" OR process_name="networkuxbroker.exe";
-
-  $cond_2 = | from $ssa_input | where process_name="openwith.exe" OR process_name="optionalfeatures.exe"
+  OR process_name="netproj.exe" OR process_name="netplwiz.exe" OR process_name="networkuxbroker.exe" OR 
+  process_name="openwith.exe" OR process_name="optionalfeatures.exe"
   OR process_name="pathping.exe" OR process_name="ping.exe" OR process_name="passwordonwakesettingflyout.exe"
   OR process_name="pickerhost.exe" OR process_name="pkgmgr.exe" OR process_name="pnpunattend.exe"
   OR process_name="pnputil.exe" OR process_name="presentationhost.exe" OR process_name="presentationsettings.exe"
@@ -96,9 +94,8 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="wallpaperhost.exe" OR process_name="webcache.exe" OR process_name="werfault.exe"
   OR process_name="werfaultsecure.exe" OR process_name="winsat.exe" OR process_name="windows.media.backgroundplayback.exe"
   OR process_name="windowsactiondialog.exe" OR process_name="windowsanytimeupgrade.exe"
-  OR process_name="windowsanytimeupgraderesults.exe";
-
-  $cond_3 = | from $ssa_input | where process_name="windowsanytimeupgradeui.exe" OR
+  OR process_name="windowsanytimeupgraderesults.exe" OR 
+  process_name="windowsanytimeupgradeui.exe" OR
   process_name="windowsupdateelevatedinstaller.exe" OR process_name="workfolders.exe"
   OR process_name="wpcmon.exe" OR process_name="acu.exe" OR process_name="aitagent.exe"
   OR process_name="aitstatic.exe" OR process_name="alg.exe" OR process_name="appidcertstorecheck.exe"
@@ -132,9 +129,8 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="driverquery.exe" OR process_name="drvcfg.exe" OR process_name="drvinst.exe"
   OR process_name="dsregcmd.exe" OR process_name="dstokenclean.exe" OR process_name="dvdplay.exe"
   OR process_name="dvdupgrd.exe" OR process_name="dwm.exe" OR process_name="dxdiag.exe"
-  OR process_name="easinvoker.exe" OR process_name="efsui.exe";
-
-  $cond_4 = | from $ssa_input | where process_name="embeddedapplauncher.exe" OR process_name="esentutl.exe"
+  OR process_name="easinvoker.exe" OR process_name="efsui.exe" OR 
+  process_name="embeddedapplauncher.exe" OR process_name="esentutl.exe"
   OR process_name="eudcedit.exe" OR process_name="eventcreate.exe" OR process_name="eventvwr.exe"
   OR process_name="expand.exe" OR process_name="extrac32.exe" OR process_name="fc.exe"
   OR process_name="fhmanagew.exe" OR process_name="find.exe" OR process_name="findstr.exe"
@@ -167,9 +163,8 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="netsh.exe" OR process_name="newdev.exe" OR process_name="nltest.exe"
   OR process_name="notepad.exe" OR process_name="nslookup.exe" OR process_name="ntoskrnl.exe"
   OR process_name="ntprint.exe" OR process_name="ocsetup.exe" OR process_name="odbcad32.exe"
-  OR process_name="odbcconf.exe" OR process_name="omadmclient.exe" OR process_name="omadmprc.exe";
-
-  $cond_5 = | from $ssa_input | where process_name="openfiles.exe" OR process_name="osk.exe"
+  OR process_name="odbcconf.exe" OR process_name="omadmclient.exe" OR process_name="omadmprc.exe" OR 
+  process_name="openfiles.exe" OR process_name="osk.exe"
   OR process_name="p2phost.exe" OR process_name="pcalua.exe" OR process_name="pcaui.exe"
   OR process_name="pcawrk.exe" OR process_name="pcwrun.exe" OR process_name="perfmon.exe"
   OR process_name="phoneactivate.exe" OR process_name="plasrv.exe" OR process_name="poqexec.exe"
@@ -202,9 +197,8 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="takeown.exe" OR process_name="taskeng.exe" OR process_name="taskhost.exe"
   OR process_name="taskhostw.exe" OR process_name="taskkill.exe" OR process_name="tasklist.exe"
   OR process_name="taskmgr.exe" OR process_name="tcmsetup.exe" OR process_name="timeout.exe"
-  OR process_name="tpmvscmgr.exe" OR process_name="tpmvscmgrsvr.exe";
-
-  $cond_6 = | from $ssa_input | where process_name="tracerpt.exe" OR process_name="tscon.exe"
+  OR process_name="tpmvscmgr.exe" OR process_name="tpmvscmgrsvr.exe" OR
+  process_name="tracerpt.exe" OR process_name="tscon.exe"
   OR process_name="tsdiscon.exe" OR process_name="tskill.exe" OR process_name="typeperf.exe"
   OR process_name="tzsync.exe" OR process_name="tzutil.exe" OR process_name="ucsvc.exe"
   OR process_name="unlodctr.exe" OR process_name="unregmp2.exe" OR process_name="upnpcont.exe"
@@ -223,10 +217,8 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="wpr.exe" OR process_name="write.exe" OR process_name="wscript.exe"
   OR process_name="wsmprovhost.exe" OR process_name="wsqmcons.exe" OR process_name="wuapihost.exe"
   OR process_name="wuapp.exe" OR process_name="wuauclt.exe" OR process_name="wusa.exe"
-  OR process_name="xcopy.exe" OR process_name="xpsrchvw.exe" OR process_name="xwizard.exe";
-
-  | from $cond_1 | union $cond_2 | union $cond_3 | union $cond_4 | union $cond_5 |
-  union $cond_6 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
+  OR process_name="xcopy.exe" OR process_name="xpsrchvw.exe" OR process_name="xwizard.exe"
+  | where match_regex(process_path, /(?i)\\windows\\system32/)=false 
   AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false | eval start_time=timestamp,
   end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id",
   event_id, "process_path", process_path, "process_name", process_name]) | into write_ssa_detected_events();'

@@ -1,0 +1,124 @@
+name: Windows DotNet Binary in Non Standard Path
+id: 21179107-099a-324a-94d3-08301e6c065f
+version: 1
+date: '2022-03-17'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies native .net binaries within the Windows
+  operating system that may be abused by adversaries by moving it to a new directory.
+  The analytic identifies the .net binary by using a list. If one or the other matches
+  an alert will be generated. Adversaries abuse these binaries as they are native
+  to Windows and native DotNet. Note that not all SDK (post install of Windows) are
+  captured in the list. Lookup - https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.csv.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process_name:
+    - msbuild.exe
+    - comsvcconfig.exe
+    - dfsradmin.exe
+    - dfsvc.exe
+    - microsoft.workflow.compiler.exe
+    - smsvchost.exe
+    - wsatconfig.exe
+    - addinprocess.exe
+    - addinprocess32.exe
+    - addinutil.exe
+    - aspnet_compiler.exe
+    - aspnet_regbrowsers.exe
+    - aspnet_regsql.exe
+    - caspol.exe
+    - datasvcutil.exe
+    - edmgen.exe
+    - installutil.exe
+    - jsc.exe
+    - ngentask.exe
+    - regasm.exe
+    - regsvcs.exe
+    - sdnbr.exe
+    - acu.exe
+    - appvstreamingux.exe
+    - dsac.exe
+    - lbfoadmin.exe
+    - microsoft.uev.synccontroller.exe
+    - mtedit.exe
+    - scriptrunner.exe
+    - servermanager.exe
+    - stordiag.exe
+    - tzsync.exe
+    - uevagentpolicygenerator.exe
+    - uevappmonitor.exe
+    - uevtemplatebaselinegenerator.exe
+    - uevtemplateconfigitemgenerator.exe
+    - powershell_ise.exe
+    - iediagcmd.exe
+    - xbox.tcui.exe
+    - microsoft.activedirectory.webservices.exe
+    - iisual.exe
+    - filehistory.exe
+    - secureassessmentbrowser.exe
+  selection2:
+    process_path|re:
+    - (?i)\\windows\\system32
+    - (?i)\\windows\\syswow64
+    - (?i)\\windows\\adws
+    - (?i)\\windows\\networkcontroller
+    - (?i)\\windows\\systemapps
+    - (?i)\\winsxs
+    - (?i)\\microsoft.net
+  condition: selection1 and not selection2
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+- https://attack.mitre.org/techniques/T1036/003/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+tags:
+  analytic_story:
+  - Masquerading - Rename System Utilities
+  - Unusual Processes
+  - Ransomware
+  - Signed Binary Proxy Execution InstallUtil
+  - WhisperGate
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: A system process $process_name$ with commandline $cmd_line$ spawn in non-default
+    folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  - T1218
+  - T1218.004
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  - cmd_line
+  kill_chain_phases:
+  - Actions on Objectives
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
+    source: WinEventLog:Security

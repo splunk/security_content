@@ -1,0 +1,86 @@
+name: Windows PowerShell Start-BitsTransfer
+id: 0bafd086-8f61-11ec-996e-acde48001122
+version: 1
+date: '2022-02-16'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar
+  functionality is present. This technique variation is not as commonly used by adversaries,
+  but has been abused in the past. Lesser known uses include the ability to set the
+  `-TransferType` to `Upload` for exfiltration of files. In an instance where `Upload`
+  is used, it is highly possible files will be archived. During triage, review parallel
+  processes and process lineage. Capture any files on disk and review. For the remote
+  domain or IP, what is the reputation?
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process_name:
+    - powershell_ise.exe
+    - powershell.exe
+    - sqltoolsps.exe
+    - sqlps.exe
+    - pwsh.exe
+    - pwsh.exe
+  selection2:
+    cmd_line|contains: start-bitstransfer
+  condition: selection1 and (selection2)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint_Processess` datamodel.
+known_false_positives: Limited false positives. It is possible administrators will
+  utilize Start-BitsTransfer for administrative tasks, otherwise filter based parent
+  process or command-line arguments.
+references:
+- https://isc.sans.edu/diary/Investigating+Microsoft+BITS+Activity/23281
+- https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
+tags:
+  analytic_story:
+  - BITS Jobs
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $dest_user_id$ attempting to download a file.
+  mitre_attack_id:
+  - T1197
+  - T1105
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/T1197_windows-security.log
+    source: WinEventLog:Security

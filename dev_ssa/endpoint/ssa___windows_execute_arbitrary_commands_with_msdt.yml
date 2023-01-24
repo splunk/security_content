@@ -1,0 +1,91 @@
+name: Windows Execute Arbitrary Commands with MSDT
+id: f253f9c2-10f0-4cc8-b469-f505ba8c2038
+version: 1
+date: '2022-09-15'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies a recently disclosed arbitraty command
+  execution using Windows msdt.exe - a Diagnostics Troubleshooting Wizard. The sample
+  identified will use the ms-msdt:/ protocol handler to load msdt.exe to retrieve
+  a remote payload. During triage, review file modifications for html. Identify parallel
+  process execution that may be related, including an Office Product.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    cmd_line|contains:
+    - ms-msdt:/id
+    - ms-msdt:-id
+    - ms-msdt:/id
+    - 'ms-msdt:'
+    - msdt
+    process_name: msdt.exe
+  selection2:
+    cmd_line|contains:
+    - .xml
+    - it_rebrowseforfile=
+    - it_browseforfile=
+  selection3:
+    cmd_line|contains: pcwdiagnostic
+  condition: (selection1) and (selection12 and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives may be present, filter as needed. Added .xml
+  to potentially capture any answer file usage. Remove as needed.
+references:
+- https://isc.sans.edu/diary/rss/28694
+- https://doublepulsar.com/follina-a-microsoft-office-code-execution-vulnerability-1a47fce5629e
+- https://twitter.com/nao_sec/status/1530196847679401984?s=20&t=ZiXYI4dQuA-0_dzQzSUb3A
+- https://app.any.run/tasks/713f05d2-fe78-4b9d-a744-f7c133e3fafb/
+- https://www.virustotal.com/gui/file/4a24048f81afbe9fb62e7a6a49adbd1faf41f266b5f9feecdceb567aec096784/detection
+- https://strontic.github.io/xcyclopedia/library/msdt.exe-152D4C9F63EFB332CCB134C6953C0104.html
+tags:
+  analytic_story:
+  - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
+  asset_type: Endpoint
+  confidence: 100
+  cve:
+  - CVE-2022-30190
+  impact: 100
+  message: $process_name$ on $dest_device_id$ under user $dest_user_id$ possibly indicative
+    of indirect command execution.
+  mitre_attack_id:
+  - T1218
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 100
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt-windows-security.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
