@@ -25,6 +25,7 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
+  - LockBit Ransomware
   confidence: 100
   context:
   - Source:Endpoint
