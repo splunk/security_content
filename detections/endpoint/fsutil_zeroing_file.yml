@@ -22,9 +22,11 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: unknown
 references:
 - https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
+- https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
 tags:
   analytic_story:
   - Ransomware
+  - LockBit Ransomware
   confidence: 90
   context:
   - Source:Endpoint

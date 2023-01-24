@@ -23,7 +23,8 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
 known_false_positives: vssadmin.exe and wmic.exe are standard applications shipped
   with modern versions of windows. They may be used by administrators to legitimately
   delete old backup copies, although this is typically rare.
-references: []
+references: 
+- https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
 tags:
   analytic_story:
   - Windows Log Manipulation
@@ -32,6 +33,8 @@ tags:
   - Clop Ransomware
   - CISA AA22-264A
   - Prestige Ransomware
+  - Chaos Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8
