@@ -11,7 +11,7 @@ description: The following detection identifies the module load of mshtml.dll in
   malicious document will load ActiveX, which activates the MSHTML component. The
   vulnerability resides in the MSHTML component. During triage, identify parallel
   processes and capture any file modifications for analysis.
-search: '`sysmon` EventID=7  parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe")
+search: '`sysmon` EventID=7  parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe")
   ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name,
   ImageLoaded, OriginalFileName, ProcessGuid | rename Computer as dest | `security_content_ctime(firstTime)`

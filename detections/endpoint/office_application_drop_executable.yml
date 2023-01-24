@@ -13,7 +13,7 @@ description: This search is to detect a suspicious MS office application that dr
   but still this behavior is reallly suspicious and not commonly seen in normal office
   application
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe")
+  where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe")
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
   Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
   proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
