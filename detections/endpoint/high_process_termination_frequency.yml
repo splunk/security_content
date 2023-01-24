@@ -20,6 +20,7 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  - LockBit Ransomware
   confidence: 80
   context:
   - Source:Endpoint
