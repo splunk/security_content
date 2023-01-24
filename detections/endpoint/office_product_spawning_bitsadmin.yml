@@ -1,7 +1,7 @@
 name: Office Product Spawning BITSAdmin
 id: e8c591f4-a6d7-11eb-8cf7-acde48001122
-version: 2
-date: '2021-04-26'
+version: 3
+date: '2023-01-24'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -19,7 +19,7 @@ description: The following detection identifies the latest behavior utilized by 
   for further activity.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") `process_bitsadmin`
+  IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe") `process_bitsadmin`
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
@@ -32,6 +32,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: No false positives known. Filter as needed.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
 tags:
   analytic_story:
   - Spearphishing Attachments

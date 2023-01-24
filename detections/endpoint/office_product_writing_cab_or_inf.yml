@@ -1,7 +1,7 @@
 name: Office Product Writing cab or inf
 id: f48cd1d4-125a-11ec-a447-acde48001122
-version: 2
-date: '2022-07-07'
+version: 3
+date: '2023-01-23'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -11,7 +11,7 @@ description: The following analytic identifies behavior related to CVE-2021-4044
   (.inf, .cab). During triage, review parallel processes and further activity on endpoint
   to identify additional patterns. Retrieve the file modifications and analyze further.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes 
-  where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe") 
+  where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe") 
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid
   | `drop_dm_object_name(Processes)`
   |rename process_guid as proc_guid
@@ -37,6 +37,7 @@ references:
 - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
 - https://twitter.com/RonnyTNL/status/1436334640617373699?s=20
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
 tags:
   analytic_story:
   - Spearphishing Attachments
