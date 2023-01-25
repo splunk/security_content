@@ -1,8 +1,8 @@
 name: Windows Modify Show Compress Color And Info Tip Registry
 id: b7548c2e-9a10-11ec-99e3-acde48001122
-version: 1
-date: '2022-03-02'
-author: Teoderick Contreras, Splunk
+version: 2
+date: '2022-11-14'
+author: Steven Dick, Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -13,22 +13,20 @@ description: This analytic is to look for suspicious registry modification relat
   tips. This is a good indicator that a process tries to modified one of the registry
   GlobalFolderOptions related to file compression attribution in terms of color in
   NTFS file system.
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  where Registry.registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced*"
-  AND Registry.registry_value_name  IN("ShowCompColor", "ShowInfoTip") by _time span=1h
-  Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
-  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
-  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
-  proc_guid | fields _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data]
-  | table _time dest user parent_process_name parent_process process_name process_path
-  process proc_guid registry_path registry_value_name registry_value_data | `windows_modify_show_compress_color_and_info_tip_registry_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
+  | `drop_dm_object_name(Processes)` 
+  | join process_guid [
+  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced*" AND Registry.registry_value_name  IN("ShowCompColor", "ShowInfoTip")) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)`] 
+  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
+  | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)
+  | `windows_modify_show_compress_color_and_info_tip_registry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: unknown
 references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
@@ -67,10 +65,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_path  
+  - Processes.parent_process_name 
+  - Processes.parent_process 
+  - Processes.process_guid
+  - Registry.dest
+  - Registry.registry_value_name
   - Registry.registry_key_name
   - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.dest Registry.user
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 25
   security_domain: endpoint
   asset_type: Endpoint

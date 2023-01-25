@@ -1,8 +1,8 @@
 name: Active Setup Registry Autostart
 id: f64579c0-203f-11ec-abcc-acde48001122
-version: 2
-date: '2022-01-26'
-author: Teoderick Contreras, Splunk
+version: 3
+date: '2022-11-14'
+author: Steven Dick, Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -13,25 +13,19 @@ description: This analytic is to detect a suspicious modification of the active 
   do the modification since modification of this registry is not commonly done. check
   the legitimacy of the file and process involve in this rules to check if it is a
   valid setup installer that creating or modifying this registry.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  where Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active
-  Setup\\Installed Components*" by _time span=1h Registry.dest Registry.user Registry.registry_path
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)` |rename process_guid as proc_guid |join proc_guid,
-  _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  Processes.parent_process_name Processes.parent_process Processes.process_guid |
-  `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
-  dest user parent_process_name parent_process process_name process_path process proc_guid
-  registry_path registry_value_name registry_value_data] | table _time dest user parent_process_name
-  parent_process process_name process_path process proc_guid registry_path registry_value_name
-  registry_value_data | `active_setup_registry_autostart_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
+  | `drop_dm_object_name(Processes)` 
+  | join process_guid [
+  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)`] 
+  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
+  | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`| `active_setup_registry_autostart_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: Active setup installer may add or modify this registry.
 references:
 - https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3AWin32%2FPoisonivy.E
@@ -69,11 +63,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_path  
+  - Processes.parent_process_name 
+  - Processes.parent_process 
+  - Processes.process_guid
   - Registry.dest
-  - Registry.user
-  - Registry.registry_path
-  - Registry.registry_key_name
   - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 64
   security_domain: endpoint
   asset_type: Endpoint
