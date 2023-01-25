@@ -1,7 +1,7 @@
 name: Suspicious Process File Path
 id: 9be25988-ad82-11eb-a14f-acde48001122
 version: 1
-date: '2021-05-05'
+date: '2023-01-25'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -31,6 +31,7 @@ references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 - https://twitter.com/pr0xylife/status/1590394227758104576
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
 tags:
   analytic_story:
   - Data Destruction 
@@ -50,6 +51,7 @@ tags:
   - Prestige Ransomware
   - Chaos Ransomware
   - LockBit Ransomware
+  - AsyncRAT
   automated_detection_testing: passed
   confidence: 50
   context:
