@@ -1,7 +1,7 @@
 name: Registry Keys for Creating SHIM Databases
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 version: 5
-date: '2022-11-148'
+date: '2022-11-14'
 author: Steven Dick, Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
 type: TTP
 datamodel: 
