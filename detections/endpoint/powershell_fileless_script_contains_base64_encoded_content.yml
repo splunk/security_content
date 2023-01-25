@@ -20,7 +20,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText = "*'gnirtS46esaBmorF'[-1..-16]*" 
+search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText = "*gnirtS46esaBmorF*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
