@@ -52,6 +52,7 @@ tags:
   - Trickbot
   - Chaos Ransomware
   - LockBit Ransomware
+  - AsyncRAT
   automated_detection_testing: passed
   confidence: 50
   context:
