@@ -50,8 +50,8 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: UserID
-    type: UserID
+  - name: User
+    type: User
     role:
     - Victim
   product:
