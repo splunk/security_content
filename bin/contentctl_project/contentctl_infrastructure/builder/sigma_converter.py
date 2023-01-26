@@ -77,6 +77,8 @@ class SigmaConverter():
             search = self.add_timeformat_conversion(search)
             search = self.add_filter_macro(search, file_name)
 
+            detection.file_path = file_name + '.yml'
+
         elif input_dto.data_model == SigmaConverterTarget.CIM:
             logsource_condition = self.get_logsource_condition(data_source)
             try:
@@ -106,7 +108,14 @@ class SigmaConverter():
             search = splunk_backend.convert(sigma_rule, "data_model")[0]
             search = self.add_filter_macro(search, file_name)
 
+            detection.file_path = file_name + '.yml'
+
         elif input_dto.data_model == SigmaConverterTarget.OCSF:
+
+            if not data_source.name == "Windows Security 4688":
+                print("ERROR: Convert command for OCSF only supports data source Windows Security 4688 for now.")
+                sys.exit(1)
+
             processing_items = list()
             logsource_condition = self.get_logsource_condition(data_source)
             if input_dto.log_source and input_dto.log_source != detection.data_source[0]:
@@ -142,11 +151,15 @@ class SigmaConverter():
 
             sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
 
-            splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline)
+            splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection)
             search = splunk_backend.convert(sigma_rule, "data_model")[0]
 
+            search = self.prefix_ocsf_detection() + search + self.postfix_ocsf_detection(detection) + '--finding_report--'
+
+            detection.file_path = 'ssa___' + file_name + '.yml'
+
         detection.search = search
-        detection.file_path = file_name + '.yml'
+        
         self.output_dto.detections.append(detection)
 
 
@@ -256,3 +269,34 @@ class SigmaConverter():
                 return mapping
         
         raise AttributeError("ERROR: Couldn't find mapping.")
+
+
+    def prefix_ocsf_detection(self) -> str:
+        return f"""
+| from read_ba_enriched_events()
+| eval timestamp = ucast(map_get(input_event,"time"), "long", null)
+| eval process_map = ucast(map_get(input_event, "process"), "map<string, any>", null)
+| eval file_map = ucast(map_get(process_map, "file"), "map<string, any>", null)
+| eval process_name = lower(ucast(map_get(file_map, "name"), "string", null))
+| eval cmd_line = ucast(map_get(process_map, "cmd_line"), "string", null)
+| eval actor_map = ucast(map_get(input_event, "actor"), "map<string, any>", null)
+| eval actor_process_map = ucast(map_get(actor_map, "actor_process"), "map<string, any>", null)
+| eval actor_process_file_map = ucast(map_get(actor_process_map, "file"), "map<string, any>", null)
+| eval parent_process_name = ucast(map_get(actor_process_file_map, "name"), "string", null)
+| eval metadata_map = ucast(map_get(input_event, "metadata"), "map<string, any>", null)
+| eval metadata_uid = ucast(map_get(metadata_map, "uid"), "string", null)
+| eval disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
+| eval process_cmd_line_len = len(cmd_line)
+| where disposition_id = 1
+""".replace("\n"," ")
+
+    def postfix_ocsf_detection(self, detection: Detection) -> str:
+
+        return f"""
+| eval origin_map=ucast(map_get(input_event, "origin"), "map<string, any>", null),
+dest_device=ucast(map_get(origin_map, "device"), "map<string, any>", null),
+dest_user=ucast(map_get(input_event, "user"), "map<string, any>", null),
+dest_device_name=ucast(map_get(dest_device, "name"), "string", null),
+dest_user_name=ucast(map_get(dest_user, "name"), "string", null),
+message=concat("{detection.tags.message}", dest_device_name, " by ", dest_user_name, " via process ", process_name, ".") 
+""".replace("\n"," ")

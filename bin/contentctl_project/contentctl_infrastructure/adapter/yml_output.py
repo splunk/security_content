@@ -30,12 +30,14 @@ class YmlOutput():
                             {
                                 "analytic_story": True,
                                 "asset_type": True,
+                                "atomic_guid": True,
                                 "confidence": True,
                                 "impact": True,
                                 "drilldown_search": True,
                                 "message": True,
                                 "mitre_attack_id": True,
-                                "atomic_guid": True,
+                                "kill_chain_phases:": True,
+                                "observable": True,
                                 "product": True,
                                 "risk_score": True,
                                 "security_domain": True

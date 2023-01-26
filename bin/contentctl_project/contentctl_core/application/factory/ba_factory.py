@@ -25,6 +25,7 @@ class BAFactoryInputDto:
     basic_builder: BasicBuilder
     detection_builder: DetectionBuilder
     director: Director
+    attack_enrichment: dict
 
 @dataclass(frozen=True)
 class BAFactoryOutputDto:
@@ -79,7 +80,7 @@ class BAFactory():
                 type_string = "UNKNOWN TYPE"
                 if type == SecurityContentType.detections:
                     type_string = "Detections"    
-                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], {}, [], [])
+                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.input_dto.attack_enrichment, [], [])
                     detection = self.input_dto.detection_builder.getObject()
                     Utils.add_id(self.ids, detection, file)
                     

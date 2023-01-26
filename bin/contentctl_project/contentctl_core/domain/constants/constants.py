@@ -113,3 +113,20 @@ SES_OBSERVABLE_TYPE_MAPPING = {
     "Process Name": 16,
     "Location": 17
 }
+
+SES_ATTACK_TACTICS_ID_MAPPING = {
+    "Reconnaissance": "TA0043",
+    "Resource_Development": "TA0042",
+    "Initial_Access": "TA0001",
+    "Execution": "TA0002",
+    "Persistence": "TA0003",
+    "Privilege_Escalation": "TA0004",
+    "Defense_Evasion": "TA0005",
+    "Credential_Access": "TA0006",
+    "Discovery": "TA0007",
+    "Lateral_Movement": "TA0008",
+    "Collection": "TA0009",
+    "Command_and_Control": "TA0011",
+    "Exfiltration": "TA0010",
+    "Impact": "TA0040"
+}

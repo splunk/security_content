@@ -42,7 +42,7 @@ class ObjToYmlAdapter(Adapter):
             # add ocsf schema tag
             obj.tags.event_schema = 'cim'
 
-            #body = FindingReportObject.writeFindingReport(obj)
+            body = FindingReportObject.writeFindingReport(obj)
             
             if obj.test:
                 test_dict = {
@@ -107,12 +107,13 @@ class ObjToYmlAdapter(Adapter):
                 ))
 
             # Add Finding Report Object
-            #with open(file_path, 'r') as file:
-            #    data = file.read().replace('--body--', body)
+            with open(file_path, 'r') as file:
+               data = file.read().replace('--finding_report--', body)
 
-            #f = open(file_path, "w")
-            #f.write(data)
-            #f.close()       
+            f = open(file_path, "w")
+            f.write(data)
+            f.close()       
+
 
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
         if type == SecurityContentType.detections:

@@ -125,7 +125,8 @@ def generate(args) -> None:
             os.path.abspath(args.path),
             SecurityContentBasicBuilder(),
             SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline, skip_enrichment=args.skip_enrichment),
-            SecurityContentDirector()
+            SecurityContentDirector(),
+            AttackEnrichment.get_attack_lookup(args.path, force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
         )
 
 
@@ -196,7 +197,8 @@ def validate(args) -> None:
             os.path.abspath(args.path),
             SecurityContentBasicBuilder(),
             SecurityContentDetectionBuilder(force_cached_or_offline = args.cached_and_offline, check_references=args.check_references, skip_enrichment=args.skip_enrichment),
-            SecurityContentDirector()
+            SecurityContentDirector(),
+            AttackEnrichment.get_attack_lookup(args.path, force_cached_or_offline=args.cached_and_offline, skip_enrichment=args.skip_enrichment)
         )
 
     if args.product == "ESCU" or args.product == "all":
