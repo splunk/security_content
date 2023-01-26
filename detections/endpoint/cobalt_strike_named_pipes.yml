@@ -42,6 +42,7 @@ tags:
   - Cobalt Strike
   - Trickbot
   - DarkSide Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8

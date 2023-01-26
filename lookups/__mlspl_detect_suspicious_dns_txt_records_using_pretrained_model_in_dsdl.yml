@@ -1,0 +1,4 @@
+description: Detect suspicious DNS txt records using Pretrained Model in DSDL
+filename: __mlspl_detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.mlmodel
+name: __mlspl_detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl
+case_sensitive_match: 'false'

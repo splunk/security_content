@@ -15,7 +15,11 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet*
   OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices*
-  OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\* OR (Registry.registry_path="*Microsoft\\Windows
+  OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\* 
+  OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Common Startup"
+  OR Registry.registry_path= *\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SharedTaskScheduler
+  OR Registry.registry_path= *\\Classes\\htmlfile\\shell\\open\\command
+  OR (Registry.registry_path="*Microsoft\\Windows
   NT\\CurrentVersion\\Image File Execution Options*" AND Registry.registry_key_name=Debugger)
   OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa" AND Registry.registry_key_name="Security
   Packages") OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa\\OSConfig"
@@ -51,6 +55,7 @@ tags:
   - Windows Registry Abuse
   - Azorult
   - Qakbot
+  - Chaos Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8

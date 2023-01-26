@@ -28,6 +28,8 @@ tags:
   analytic_story:
   - Ryuk Ransomware
   - Ransomware
+  - Prestige Ransomware
+  - Chaos Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8
