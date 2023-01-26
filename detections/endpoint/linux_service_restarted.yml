@@ -6,15 +6,13 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic looks for restarted or re-enable services in linux platform.
-  This technique can be executed or performed using systemctl or service tool application.
-  Adversaries may create or modify Windows services to repeatedly execute malicious
-  payloads as part of persistence. When Windows boots up, it starts programs or applications
-  called services that perform background system functions. Administrator may also
-  create a legitimated service for a specific tool or normal application as part of
-  task or automation, in this scenario it is suggested to look for the service path
-  of the actual script or executable that register as service and who created the
-  service for further verification.
+description: This analytic looks for restarted or re-enable services in the linux platform. 
+  This technique can be executed or performed using “systemctl” or service tool application. 
+  Adversaries may create or modify Linux services to repeatedly execute malicious payloads as part of persistence. 
+  When the linux host boots up, it starts programs or applications called services that perform background system functions. 
+  Administrator may also create a legitimated service for a specific tool or normal application as part of task or automation, 
+  in this scenario it is suggested to look for the service path of the actual script or executable that registered as service 
+  and who created the service for further verification.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name IN ("systemctl",
   "service") OR Processes.process IN ("*systemctl *", "*service *")) Processes.process
