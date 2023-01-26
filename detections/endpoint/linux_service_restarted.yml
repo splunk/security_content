@@ -7,7 +7,7 @@ type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic looks for restarted or re-enable services in the linux platform. 
-  This technique can be executed or performed using “systemctl” or service tool application. 
+  This technique can be executed or performed using systemctl or service tool application. 
   Adversaries may create or modify Linux services to repeatedly execute malicious payloads as part of persistence. 
   When the linux host boots up, it starts programs or applications called services that perform background system functions. 
   Administrator may also create a legitimated service for a specific tool or normal application as part of task or automation, 
