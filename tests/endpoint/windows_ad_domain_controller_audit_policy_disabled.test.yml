@@ -1,7 +1,7 @@
-name: Windows AD Domain Controller GPO Disabled Unit Test
+name: Windows AD Domain Controller Audit Policy Disabled Unit Test
 tests:
-- name: Windows AD Domain Controller GPO Disabled
-  file: endpoint/windows_ad_domain_controller_gpo_disabled.yml
+- name: Windows AD Domain Controller Audit Policy Disabled
+  file: endpoint/windows_ad_domain_controller_audit_policy_disabled.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now

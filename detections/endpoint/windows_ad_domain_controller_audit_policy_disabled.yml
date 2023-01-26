@@ -1,11 +1,11 @@
-name: Windows AD Domain Controller GPO Disabled
+name: Windows AD Domain Controller Audit Policy Disabled
 id: fc3ccef1-60a4-4239-bd66-b279511b4d14
 version: 1
 date: '2023-01-26'
 author: Dean Luxton
 type: TTP
 datamodel: []
-description: This analytic looks for audit group policies being disabled on a domain controller.
+description: This analytic looks for audit policies being disabled on a domain controller.
 search: '`wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448","%%8450","%%8448,
   %%8450") OR Changes IN ("Failure removed","Success removed","Success removed, Failure
   removed")) dest_category="domain_controller"
