@@ -23,6 +23,7 @@ references:
 tags:
   analytic_story:
   - Compromised User Account
+  - Azure Active Directory Account Takeover
   asset_type: Azure AD
   cis20:
   - CIS 3

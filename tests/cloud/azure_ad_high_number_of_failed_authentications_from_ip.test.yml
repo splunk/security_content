@@ -7,7 +7,7 @@ tests:
   latest_time: now
   attack_data:
   - file_name: azuread.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azure_ad_high_number_of_failed_authentications_for_user/azuread.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_high_number_of_failed_authentications_for_user/azuread.log
     source: mscs:azure:eventhub
     sourcetype: mscs:azure:eventhub
     update_timestamp: true
