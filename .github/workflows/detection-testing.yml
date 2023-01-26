@@ -270,7 +270,6 @@ jobs:
             python -m pip install -r requirements.txt
 
         - name: Merge Detections into single File
-          continue-on-error: true #Still keep running the rest of the workflow - it's just that all the tests didn't pass
           run: |
             source .venv/bin/activate
             cd bin/docker_detection_tester
@@ -312,7 +311,7 @@ jobs:
                 config_tests_9.json.results
         
         - name: Log in to S3 for Artifact Uploads
-          if: ${{ github.event_name == 'schedule' }}
+          if: ${{ github.event_name == 'schedule' }} && (failure() || success()) && !cancelled()
           uses: aws-actions/configure-aws-credentials@v1
           with:
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -321,7 +320,7 @@ jobs:
             aws-region: us-west-2
 
         - name: Upload S3 Badge and Summary Artifacts for Nightly Scheduled Run
-          if: ${{ github.event_name == 'schedule' }}
+          if: ${{ github.event_name == 'schedule' }} && (failure() || success()) && !cancelled()
           run: |
             cd bin/docker_detection_tester
             #python generate_detection_coverage_badge.py --input_summary_file summary_test_results.json --output_badge_file detection_coverage.svg --badge_string "Pass Rate"
