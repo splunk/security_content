@@ -33,7 +33,7 @@ tags:
   asset_type: Endpoint
   cis20:
   - CIS 4
-  - CIS 7
+  - CIS 6
   confidence: 100 
   context:
   - Source:Endpoint

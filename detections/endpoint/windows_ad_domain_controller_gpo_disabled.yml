@@ -1,0 +1,64 @@
+name: Windows AD Domain Controller GPO Disabled
+id: fc3ccef1-60a4-4239-bd66-b279511b4d14
+version: 1
+date: '2023-01-26'
+author: Dean Luxton
+type: TTP
+datamodel: []
+description: This analytic looks for audit group policies being disabled on a domain controller.
+search: '`wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448","%%8450","%%8448,
+  %%8450") OR Changes IN ("Failure removed","Success removed","Success removed, Failure
+  removed")) dest_category="domain_controller"
+
+  | replace "%%8448" with "Success removed", "%%8450" with "Failure removed", "%%8448,
+  %%8450" with "Success removed, Failure removed" in AuditPolicyChanges
+
+  | eval AuditPolicyChanges=coalesce(AuditPolicyChanges,Changes), SubcategoryGuid=coalesce(SubcategoryGuid,Subcategory_GUID)
+
+  | stats min(_time) as _time values(host) as dest by AuditPolicyChanges SubcategoryGuid
+
+  | lookup auditpolicyguids_lookup GUID as SubcategoryGuid OUTPUT Category SubCategory
+  | `windows_ad_domain_controller_gpo_disabled_filter`'
+how_to_implement: Ensure you are ingesting EventCode `4719` from your domain controllers, the category domain_controller exists
+  in assets and identities, and that assets and identities is enabled. If A&I is not configured, you will need to manually filter the results 
+  within the base search. 
+known_false_positives: Unknown
+references:
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4719
+tags:
+  analytic_story:
+  - Windows Domain Controller Attacks
+  asset_type: Endpoint
+  cis20:
+  - CIS 4
+  - CIS 6
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_gpo/windows-security-xml.log
+  impact: 100
+  kill_chain_phases:
+  - Actions on Objectives
+  message: GPO $SubCategory$ of $Category$ was disabled on $dest$
+  mitre_attack_id:
+  - T1562.001
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - AuditPolicyChanges
+  - SubcategoryGuid
+  risk_score: 60
+  security_domain: endpoint
