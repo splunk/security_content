@@ -5,6 +5,7 @@ tests:
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
+  attack_data:
   - file_name: cloudtrail.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_multiple_login_fail_per_user/cloudtrail.json
     sourcetype: aws:cloudtrail
