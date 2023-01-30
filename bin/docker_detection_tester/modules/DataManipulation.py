@@ -1,156 +1,217 @@
 import json
 from datetime import datetime
 from datetime import timedelta
-#import fileinput
+
+# import fileinput
 import os
 import re
 import io
 
-class DataManipulation:
 
+class DataManipulation:
     def manipulate_timestamp(self, file_path, sourcetype, source):
 
+        # print('Updating timestamps in attack_data before replaying')
 
-        #print('Updating timestamps in attack_data before replaying')
-
-        if sourcetype == 'aws:cloudtrail':
+        if sourcetype == "aws:cloudtrail":
             self.manipulate_timestamp_cloudtrail(file_path)
 
-        if source == 'WinEventLog:System' or source == 'WinEventLog:Security':
+        if source == "WinEventLog:System" or source == "WinEventLog:Security":
             self.manipulate_timestamp_windows_event_log_raw(file_path)
 
-        if source == 'exchange':
+        if source == "exchange":
             self.manipulate_timestamp_exchange_logs(file_path)
 
+        if sourcetype == "audittrail":
+            self.manipulate_generic_log(file_path, "timestamp=([^,]+)")
 
     def manipulate_timestamp_exchange_logs(self, file_path):
-        path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
-        path =  path.replace('modules/../','')
+        path = os.path.join(os.path.dirname(__file__), "../" + file_path)
+        path = path.replace("modules/../", "")
 
         f = io.open(path, "r", encoding="utf-8")
 
         first_line = f.readline()
         d = json.loads(first_line)
-        latest_event  = datetime.strptime(d["CreationTime"],"%Y-%m-%dT%H:%M:%S")
+        latest_event = datetime.strptime(d["CreationTime"], "%Y-%m-%dT%H:%M:%S")
 
         now = datetime.now()
         now = now.strftime("%Y-%m-%dT%H:%M:%S")
-        now = datetime.strptime(now,"%Y-%m-%dT%H:%M:%S")
+        now = datetime.strptime(now, "%Y-%m-%dT%H:%M:%S")
 
         difference = now - latest_event
         f.close()
 
-        #Mimic the behavior of fileinput but in a threadsafe way
-        #Rename the file, which fileinput does for inplace.
-        #Note that path will now be the new file
-        original_backup_file = f"{path}.bak"    
+        # Mimic the behavior of fileinput but in a threadsafe way
+        # Rename the file, which fileinput does for inplace.
+        # Note that path will now be the new file
+        original_backup_file = f"{path}.bak"
         os.rename(path, original_backup_file)
-        
+
         with open(original_backup_file, "r") as original_file:
             with open(path, "w") as new_file:
                 for line in original_file:
                     d = json.loads(line)
-                    original_time = datetime.strptime(d["CreationTime"],"%Y-%m-%dT%H:%M:%S")
-                    new_time = (difference + original_time)
+                    original_time = datetime.strptime(
+                        d["CreationTime"], "%Y-%m-%dT%H:%M:%S"
+                    )
+                    new_time = difference + original_time
 
                     original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S")
                     new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S")
-                    #There is no end character appended, no need for end=''
+                    # There is no end character appended, no need for end=''
                     new_file.write(line.replace(original_time, new_time))
-
 
         os.remove(original_backup_file)
 
-    def manipulate_timestamp_windows_event_log_raw(self, file_path):
-        path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
-        path =  path.replace('modules/../','')
+    def manipulate_generic_log(
+        self, file_path, time_regex, strf_format="%m-%d-%Y %H:%M:%S.%L"
+    ):
+        def replacer(match):
+            try:
+
+                event_time = datetime.strptime(match.group(1), replacer.strf_format)
+                startIndex = match.group(0).find(match.group(1))
+                new_time = replacer.difference + event_time
+                updated = (
+                    match.group(0)[:startIndex]
+                    + new_time.strftime(replacer.strf_format)[: len(match.group(1))]
+                )
+                return updated
+
+            except Exception as e:
+                print(f"Exception in replacment: {str(e)}")
+                return match.group()
+
+        path = os.path.join(os.path.dirname(__file__), "../" + file_path)
+        path = path.replace("modules/../", "")
 
         f = io.open(path, "r", encoding="utf-8")
-        self.now = datetime.now()
-        self.now = self.now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-        self.now = datetime.strptime(self.now,"%Y-%m-%dT%H:%M:%S.%fZ")
+
+        # Mimic the behavior of fileinput but in a threadsafe way
+        # Rename the file, which fileinput does for inplace.
+        # Note that path will now be the new file
+        original_backup_file = f"{path}.bak"
+        os.rename(path, original_backup_file)
+
+        now = datetime.now()
+        now = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        now = datetime.strptime(now, "%Y-%m-%dT%H:%M:%S.%fZ")
 
         # read raw logs
-        regex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
+
         data = f.read()
-        lst_matches = re.findall(regex, data)
+        lst_matches = re.findall(time_regex, data)
         if len(lst_matches) > 0:
-            latest_event  = datetime.strptime(lst_matches[-1],"%m/%d/%Y %I:%M:%S %p")
-            self.difference = self.now - latest_event
+            # Get the newest event - which may be at the beginning, end, or even elsewhere in the file
+            latest_event = sorted(
+                [
+                    datetime.strptime(time_string, strf_format)
+                    for time_string in lst_matches
+                ],
+                reverse=True,
+            )[0]
+            replacer.difference = now - latest_event
+            replacer.strf_format = strf_format
             f.close()
 
-            result = re.sub(regex, self.replacement_function, data)
+            result = re.sub(time_regex, replacer, data)
 
-            with io.open(path, "w+", encoding='utf8') as f:
+            with io.open(path, "w+", encoding="utf8") as f:
                 f.write(result)
         else:
             f.close()
             return
 
+    def manipulate_timestamp_windows_event_log_raw(self, file_path):
+        path = os.path.join(os.path.dirname(__file__), "../" + file_path)
+        path = path.replace("modules/../", "")
+
+        f = io.open(path, "r", encoding="utf-8")
+        self.now = datetime.now()
+        self.now = self.now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        self.now = datetime.strptime(self.now, "%Y-%m-%dT%H:%M:%S.%fZ")
+
+        # read raw logs
+        regex = r"\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M"
+        data = f.read()
+        lst_matches = re.findall(regex, data)
+        if len(lst_matches) > 0:
+            latest_event = datetime.strptime(lst_matches[-1], "%m/%d/%Y %I:%M:%S %p")
+            self.difference = self.now - latest_event
+            f.close()
+
+            result = re.sub(regex, self.replacement_function, data)
+
+            with io.open(path, "w+", encoding="utf8") as f:
+                f.write(result)
+        else:
+            f.close()
+            return
 
     def replacement_function(self, match):
         try:
-            event_time = datetime.strptime(match.group(),"%m/%d/%Y %I:%M:%S %p")
+            event_time = datetime.strptime(match.group(), "%m/%d/%Y %I:%M:%S %p")
             new_time = self.difference + event_time
             return new_time.strftime("%m/%d/%Y %I:%M:%S %p")
         except Exception as e:
             self.logger.error("Error in timestamp replacement occured: " + str(e))
             return match.group()
 
-
     def manipulate_timestamp_cloudtrail(self, file_path):
-        path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
-        path =  path.replace('modules/../','')
+        path = os.path.join(os.path.dirname(__file__), "../" + file_path)
+        path = path.replace("modules/../", "")
 
         f = io.open(path, "r", encoding="utf-8")
 
         try:
             first_line = f.readline()
             d = json.loads(first_line)
-            latest_event  = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%S.%fZ")
+            latest_event = datetime.strptime(d["eventTime"], "%Y-%m-%dT%H:%M:%S.%fZ")
 
             now = datetime.now()
             now = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-            now = datetime.strptime(now,"%Y-%m-%dT%H:%M:%S.%fZ")
+            now = datetime.strptime(now, "%Y-%m-%dT%H:%M:%S.%fZ")
         except ValueError:
             first_line = f.readline()
             d = json.loads(first_line)
-            latest_event  = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%SZ")
+            latest_event = datetime.strptime(d["eventTime"], "%Y-%m-%dT%H:%M:%SZ")
 
             now = datetime.now()
             now = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-            now = datetime.strptime(now,"%Y-%m-%dT%H:%M:%SZ")
+            now = datetime.strptime(now, "%Y-%m-%dT%H:%M:%SZ")
 
         difference = now - latest_event
         f.close()
 
-
-
-        #Mimic the behavior of fileinput but in a threadsafe way
-        #Rename the file, which fileinput does for inplace.
-        #Note that path will now be the new file
-        original_backup_file = f"{path}.bak"    
+        # Mimic the behavior of fileinput but in a threadsafe way
+        # Rename the file, which fileinput does for inplace.
+        # Note that path will now be the new file
+        original_backup_file = f"{path}.bak"
         os.rename(path, original_backup_file)
-        
+
         with open(original_backup_file, "r") as original_file:
             with open(path, "w") as new_file:
                 for line in original_file:
                     try:
                         d = json.loads(line)
-                        original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%S.%fZ")
-                        new_time = (difference + original_time)
+                        original_time = datetime.strptime(
+                            d["eventTime"], "%Y-%m-%dT%H:%M:%S.%fZ"
+                        )
+                        new_time = difference + original_time
 
                         original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
                         new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
                         new_file.write(line.replace(original_time, new_time))
                     except ValueError:
                         d = json.loads(line)
-                        original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%SZ")
-                        new_time = (difference + original_time)
+                        original_time = datetime.strptime(
+                            d["eventTime"], "%Y-%m-%dT%H:%M:%SZ"
+                        )
+                        new_time = difference + original_time
 
                         original_time = original_time.strftime("%Y-%m-%dT%H:%M:%SZ")
                         new_time = new_time.strftime("%Y-%m-%dT%H:%M:%SZ")
                         new_file.write(line.replace(original_time, new_time))
-
 
         os.remove(original_backup_file)
