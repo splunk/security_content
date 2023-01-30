@@ -6,9 +6,9 @@ author: Bhavin Patel, Splunk
 type: Anomaly
 datamodel: 
 - Authentication
-description: This search looks for AWS CloudTrail authentication events where there are successfull AWS Console Login events from 2 or more different source IP addresses within a span of 5 mins. Often times, attackers with start with a phishing campaigns to commpromise cloud user accounts and would proceeed with trying to those use credentials before they would potentially expire or if the user rotates their credential then its no longer valid. Detecting successfull login attempts in from a short time window is a strong indicator of malicious behavior. 
+description: This search looks for AWS CloudTrail authentication events where there are successfull AWS Console Login events from 2 or more different source IP addresses within a span of 10 mins. Often times, attackers with start with a phishing campaigns to commpromise cloud user accounts and would proceeed with trying to those use credentials before they would potentially expire or if the user rotates their credential then its no longer valid. Detecting successfull login attempts in from a short time window is a strong indicator of malicious behavior. 
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime  dc(Authentication.src) as distinct_ip_count values(Authentication.src) as src_ip values(Authentication.user_agent) as user_agent values(Authentication.action) as action from datamodel=Authentication
-  where Authentication.signature=ConsoleLogin by _time span=5m Authentication.user Authentication.user_type 
+  where Authentication.signature=ConsoleLogin by _time span=10m Authentication.user Authentication.user_type 
 | `drop_dm_object_name(Authentication)`  
 |  where distinct_ip_count >= 2 |  `aws_console_logins_from_multiple_ips_filter`'
 how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
