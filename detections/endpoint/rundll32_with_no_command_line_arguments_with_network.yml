@@ -13,7 +13,7 @@ description: The following analytic identifies rundll32.exe with no command line
   and parallel processes. Identify any suspicious module loads related to credential
   dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and
   C:\Windows\syswow64.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where `process_rundll32` AND action!="blocked" by host _time span=1h Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name Processes.parent_process
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where `process_rundll32` AND Processes.action!="blocked" by host _time span=1h Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name Processes.parent_process
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
