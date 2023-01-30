@@ -16,12 +16,13 @@ from bin.contentctl_project.contentctl_infrastructure.builder.yml_reader import 
 from bin.contentctl_project.contentctl_core.domain.entities.detection import Detection
 from bin.contentctl_project.contentctl_core.domain.entities.data_source import DataSource
 from bin.contentctl_project.contentctl_infrastructure.builder.backend_splunk_ba import SplunkBABackend
-
+from bin.contentctl_project.contentctl_core.application.factory.utils.utils import Utils
 
 @dataclass(frozen=True)
 class SigmaConverterInputDto:
     data_model: SigmaConverterTarget
     detection_path: str
+    detection_folder : str
     input_path: str
     log_source: str
 
@@ -40,128 +41,151 @@ class SigmaConverter():
 
     def execute(self, input_dto: SigmaConverterInputDto) -> None:
         
-        detection = self.read_detection(input_dto.detection_path)
-        data_source = self.load_data_source(input_dto.input_path, detection.data_source[0])
-        if not data_source:
-            print("ERROR: Didn't find data source with name: " + detection.data_source[0] + " for detection " + detection.name)
+        detection_files = []
+        errors = []
+
+        if input_dto.detection_path:
+            detection_files.append(input_dto.detection_path)
+        elif input_dto.detection_folder:
+            detection_files = Utils.get_all_yml_files_from_directory(input_dto.detection_folder)
+        else:
+            print("ERROR: --detection_path or --detection_folder needed.") 
             sys.exit(1)
 
-        file_name = detection.name.replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
-
-        sigma_rule = self.get_sigma_rule(detection, data_source)
-
-
-        if input_dto.data_model == SigmaConverterTarget.RAW:
-            if input_dto.log_source and input_dto.log_source != detection.data_source[0][0]:
-                try:
-                    field_mapping = self.find_mapping(data_source.convert_to_log_source, 'data_source', input_dto.log_source)
-                except Exception as e:
-                    print(e)
-                    print("ERROR: Couldn't find data source mapping for log source " + input_dto.log_source + " for detection: " + detection.name)
-                    sys.exit(1)
-                
-                logsource_condition = self.get_logsource_condition(data_source)
-                processing_item = self.get_field_transformation_processing_item(
-                    field_mapping['mapping'],
-                    logsource_condition
-                )
-                sigma_processing_pipeline = self.get_pipeline_from_processing_items([processing_item])
-                splunk_backend = SplunkBackend(processing_pipeline=sigma_processing_pipeline)
-                data_source = self.load_data_source(input_dto.input_path, input_dto.log_source) 
-            else:
-                splunk_backend = SplunkBackend()
-            
-            search = splunk_backend.convert(sigma_rule)[0]
-            search = self.add_source_macro(search, data_source.type)
-            search = self.add_stats_count(search, data_source.raw_fields)
-            search = self.add_timeformat_conversion(search)
-            search = self.add_filter_macro(search, file_name)
-
-            detection.file_path = file_name + '.yml'
-
-        elif input_dto.data_model == SigmaConverterTarget.CIM:
-            logsource_condition = self.get_logsource_condition(data_source)
+        for detection_file in detection_files:
             try:
-                field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'cim')
-            except Exception as e:
-                print(e)
-                print("ERROR: Couldn't find data source mapping to cim for log source " + detection.data_source[0] + " and detection " + detection.name)
-                sys.exit(1)
-            sigma_transformation_processing_item = self.get_field_transformation_processing_item(
-                field_mapping['mapping'],
-                logsource_condition
-            )
-            sigma_state_fields_processing_item = self.get_state_fields_processing_item(
-                field_mapping['mapping'].values(),
-                logsource_condition
-            )
-            sigma_state_data_model_processing_item = self.get_state_data_model_processing_item(
-                field_mapping['data_set'],
-                logsource_condition
-            )
-            sigma_processing_pipeline = self.get_pipeline_from_processing_items([
-                sigma_transformation_processing_item,
-                sigma_state_fields_processing_item,
-                sigma_state_data_model_processing_item
-            ])
-            splunk_backend = SplunkBackend(processing_pipeline=sigma_processing_pipeline)
-            search = splunk_backend.convert(sigma_rule, "data_model")[0]
-            search = self.add_filter_macro(search, file_name)
-
-            detection.file_path = file_name + '.yml'
-
-        elif input_dto.data_model == SigmaConverterTarget.OCSF:
-
-            if not data_source.name == "Windows Security 4688":
-                print("ERROR: Convert command for OCSF only supports data source Windows Security 4688 for now.")
-                sys.exit(1)
-
-            processing_items = list()
-            logsource_condition = self.get_logsource_condition(data_source)
-            if input_dto.log_source and input_dto.log_source != detection.data_source[0]:
-                try:
-                    field_mapping = self.find_mapping(data_source.convert_to_log_source, 'data_source', input_dto.log_source)
-                except Exception as e:
-                    print(e)
-                    print("ERROR: Couldn't find data source mapping for log source " + input_dto.log_source + " and detection " + detection.name)
+                detection = self.read_detection(str(detection_file))
+                print("Converting detection: " + detection.name)
+                data_source = self.load_data_source(input_dto.input_path, detection.data_source[0])
+                if not data_source:
+                    print("ERROR: Didn't find data source with name: " + detection.data_source[0] + " for detection " + detection.name)
                     sys.exit(1)
 
-                processing_items.append(
-                    self.get_field_transformation_processing_item(
+                file_name = detection.name.replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+
+                sigma_rule = self.get_sigma_rule(detection, data_source)
+
+
+                if input_dto.data_model == SigmaConverterTarget.RAW:
+                    if input_dto.log_source and input_dto.log_source != detection.data_source[0][0]:
+                        try:
+                            field_mapping = self.find_mapping(data_source.convert_to_log_source, 'data_source', input_dto.log_source)
+                        except Exception as e:
+                            print(e)
+                            print("ERROR: Couldn't find data source mapping for log source " + input_dto.log_source + " for detection: " + detection.name)
+                            sys.exit(1)
+                        
+                        logsource_condition = self.get_logsource_condition(data_source)
+                        processing_item = self.get_field_transformation_processing_item(
+                            field_mapping['mapping'],
+                            logsource_condition
+                        )
+                        sigma_processing_pipeline = self.get_pipeline_from_processing_items([processing_item])
+                        splunk_backend = SplunkBackend(processing_pipeline=sigma_processing_pipeline)
+                        data_source = self.load_data_source(input_dto.input_path, input_dto.log_source) 
+                    else:
+                        splunk_backend = SplunkBackend()
+                    
+                    search = splunk_backend.convert(sigma_rule)[0]
+                    search = self.add_source_macro(search, data_source.type)
+                    search = self.add_stats_count(search, data_source.raw_fields)
+                    search = self.add_timeformat_conversion(search)
+                    search = self.add_filter_macro(search, file_name)
+
+                    detection.file_path = file_name + '.yml'
+
+                elif input_dto.data_model == SigmaConverterTarget.CIM:
+                    logsource_condition = self.get_logsource_condition(data_source)
+                    try:
+                        field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'cim')
+                    except Exception as e:
+                        print(e)
+                        print("ERROR: Couldn't find data source mapping to cim for log source " + detection.data_source[0] + " and detection " + detection.name)
+                        sys.exit(1)
+                    sigma_transformation_processing_item = self.get_field_transformation_processing_item(
                         field_mapping['mapping'],
                         logsource_condition
                     )
-                )
-                data_source = self.load_data_source(input_dto.input_path, input_dto.log_source) 
+                    sigma_state_fields_processing_item = self.get_state_fields_processing_item(
+                        field_mapping['mapping'].values(),
+                        logsource_condition
+                    )
+                    sigma_state_data_model_processing_item = self.get_state_data_model_processing_item(
+                        field_mapping['data_set'],
+                        logsource_condition
+                    )
+                    sigma_processing_pipeline = self.get_pipeline_from_processing_items([
+                        sigma_transformation_processing_item,
+                        sigma_state_fields_processing_item,
+                        sigma_state_data_model_processing_item
+                    ])
+                    splunk_backend = SplunkBackend(processing_pipeline=sigma_processing_pipeline)
+                    search = splunk_backend.convert(sigma_rule, "data_model")[0]
+                    search = self.add_filter_macro(search, file_name)
 
-            field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
+                    detection.file_path = file_name + '.yml'
 
-            processing_items.append(
-                self.get_field_transformation_processing_item(
-                    field_mapping['mapping'],
-                    logsource_condition
-                )
-            )
-            processing_items.append(
-                self.get_state_fields_processing_item(
-                    field_mapping['mapping'].values(),
-                    logsource_condition
-                )
-            )
+                elif input_dto.data_model == SigmaConverterTarget.OCSF:
 
-            sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
+                    if not data_source.name == "Windows Security 4688":
+                        print("ERROR: Convert command for OCSF only supports data source Windows Security 4688 for now.")
+                        sys.exit(1)
 
-            splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection)
-            search = splunk_backend.convert(sigma_rule, "data_model")[0]
+                    processing_items = list()
+                    logsource_condition = self.get_logsource_condition(data_source)
+                    if input_dto.log_source and input_dto.log_source != detection.data_source[0]:
+                        try:
+                            field_mapping = self.find_mapping(data_source.convert_to_log_source, 'data_source', input_dto.log_source)
+                        except Exception as e:
+                            print(e)
+                            print("ERROR: Couldn't find data source mapping for log source " + input_dto.log_source + " and detection " + detection.name)
+                            sys.exit(1)
 
-            search = self.prefix_ocsf_detection() + search + self.postfix_ocsf_detection(detection) + '--finding_report--'
+                        processing_items.append(
+                            self.get_field_transformation_processing_item(
+                                field_mapping['mapping'],
+                                logsource_condition
+                            )
+                        )
+                        data_source = self.load_data_source(input_dto.input_path, input_dto.log_source) 
 
-            detection.file_path = 'ssa___' + file_name + '.yml'
+                    field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
 
-        detection.search = search
+                    processing_items.append(
+                        self.get_field_transformation_processing_item(
+                            field_mapping['mapping'],
+                            logsource_condition
+                        )
+                    )
+                    processing_items.append(
+                        self.get_state_fields_processing_item(
+                            field_mapping['mapping'].values(),
+                            logsource_condition
+                        )
+                    )
+
+                    sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
+
+                    splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection)
+                    search = splunk_backend.convert(sigma_rule, "data_model")[0]
+
+                    search = self.prefix_ocsf_detection() + search + self.postfix_ocsf_detection(detection) + '--finding_report--'
+
+                    detection.file_path = 'ssa___' + file_name + '.yml'                    
+
+                detection.search = search
+                
+                self.output_dto.detections.append(detection)
+
+            except Exception as e:
+                print(e)
+                errors.append("ERROR: Converting detection " + detection.name)
+
+        print()
+        for error in errors:
+            print(error)
         
-        self.output_dto.detections.append(detection)
-
+        print()
 
     def read_detection(self, detection_path : str) -> Detection:
         yml_dict = YmlReader.load_file(detection_path)
@@ -175,7 +199,7 @@ class SigmaConverter():
         data_sources = list()
         files = Utils.get_all_yml_files_from_directory(os.path.join(input_path, 'data_sources'))
         for file in files:
-           data_sources.append(DataSource.parse_obj(YmlReader.load_file(file)))
+           data_sources.append(DataSource.parse_obj(YmlReader.load_file(str(file))))
 
         data_source = None
 

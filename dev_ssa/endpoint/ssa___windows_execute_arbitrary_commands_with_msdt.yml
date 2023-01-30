@@ -28,7 +28,7 @@ search:
     - it_browseforfile=
   selection3:
     cmd_line|contains: pcwdiagnostic
-  condition: (selection1) and (selection12 and selection3
+  condition: selection1 and selection2 and selection3
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

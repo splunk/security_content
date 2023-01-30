@@ -1,7 +1,7 @@
 
   | eval body=create_map(
     "activity_id", 1,
-    "analytic_stories", [{%- for story in detection.tags.analytic_story %}{{story}}{% if not loop.last %}, {% endif %}{%- endfor -%}],
+    "analytic_stories", [{%- for story in detection.tags.analytic_story %}"{{story}}"{% if not loop.last %}, {% endif %}{%- endfor -%}],
     "cis_csc", [{%- for cis in detection.tags.cis20 %}create_map("control", "{{cis}}", "version", 7){% if not loop.last %}, {% endif %}{%- endfor -%}],
     "category_uid", 2,
     "class", "Detection Report",
@@ -23,7 +23,7 @@
     "impact", {{ detection.tags.impact }},
     "impact_id", {{ detection.tags.impact_id }},
     "kill_chain", [{%- for kill_chain_phase in detection.tags.kill_chain_phases %}create_map("phase", "{{kill_chain_phase}}", "phase_id", {{detection.tags.kill_chain_phases_id[kill_chain_phase]}}){% if not loop.last %}, {% endif %}{%- endfor -%}],
-    "attacks", [{%- for enrichment in detection.tags.mitre_attack_enrichments %}create_map("tactics", [{%- for tactic in enrichment.mitre_attack_tactics %}create_map("name", "{{tactic}}", "uid", {{attack_tactics_id_mapping[tactic|replace(" ", "_")]}}){% if not loop.last %}, {% endif %}{%- endfor -%}], "technique", create_map("name", "{{ enrichment.mitre_attack_technique }}", "uid", "{{ enrichment.mitre_attack_id }}"), "version", "12.1"){% if not loop.last %}, {% endif %}{%- endfor -%}],  
+    "attacks", [{%- for enrichment in detection.tags.mitre_attack_enrichments %}create_map("tactics", [{%- for tactic in enrichment.mitre_attack_tactics %}create_map("name", "{{tactic}}", "uid", "{{attack_tactics_id_mapping[tactic|replace(" ", "_")]}}"){% if not loop.last %}, {% endif %}{%- endfor -%}], "technique", create_map("name", "{{ enrichment.mitre_attack_technique }}", "uid", "{{ enrichment.mitre_attack_id }}"), "version", "12.1"){% if not loop.last %}, {% endif %}{%- endfor -%}],  
     "message", message,
     "metadata", create_map(
         "product", create_map(
@@ -32,7 +32,7 @@
         ),
         "version", "1.0.0"
     ),
-    "nist", [{%- for nist in detection.tags.nist %}{{nist}}{% if not loop.last %}, {% endif %}{%- endfor -%}],
+    "nist", [{%- for nist in detection.tags.nist %}"{{nist}}"{% if not loop.last %}, {% endif %}{%- endfor -%}],
     "observables", {{ detection.tags.observable_str }},
     "risk_level", "{{ detection.tags.risk_level }}",
     "risk_level_id", {{ detection.tags.risk_level_id }},

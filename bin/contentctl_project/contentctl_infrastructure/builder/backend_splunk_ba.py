@@ -19,7 +19,7 @@ class SplunkBABackend(TextQueryBackend):
     group_expression : ClassVar[str] = "({expr})"
 
     or_token : ClassVar[str] = "OR"
-    and_token : ClassVar[str] = "AND"
+    and_token : ClassVar[str] = "| where"
     not_token : ClassVar[str] = "NOT"
     eq_token : ClassVar[str] = "="
 

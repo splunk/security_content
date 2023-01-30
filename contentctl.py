@@ -321,6 +321,7 @@ def convert(args) -> None:
     sigma_converter_input_dto = SigmaConverterInputDto(
         data_model = data_model,
         detection_path = args.detection_path,
+        detection_folder = args.detection_folder, 
         input_path = args.path,
         log_source = args.log_source
     )
@@ -410,7 +411,8 @@ def main(args):
 
     convert_parser.add_argument("-dm", "--data_model", required=False, type=str, default="cim", help="converter target, choose between cim, raw, ba")
     convert_parser.add_argument("-lo", "--log_source", required=False, type=str, help="converter log source")
-    convert_parser.add_argument("-dp", "--detection_path", required=True, type=str, help="path to the detection")
+    convert_parser.add_argument("-dp", "--detection_path", required=False, type=str, help="path to a single detection")
+    convert_parser.add_argument("-df", "--detection_folder", required=False, type=str, help="path to a detection folder")
     convert_parser.add_argument("-o", "--output", required=True, type=str, help="output path to store the detections")
     convert_parser.set_defaults(func=convert)
 
