@@ -1,7 +1,7 @@
-name: Detect suspicious filenames using a pretrained model in DSDL
+name: Detect suspicious processes using a pretrained model in DSDL
 id: a15f8977-ad7d-4669-92ef-b59b97219bf5
 version: 1
-date: 2023-01-23
+date: "2023-01-23"
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 datamodel:
