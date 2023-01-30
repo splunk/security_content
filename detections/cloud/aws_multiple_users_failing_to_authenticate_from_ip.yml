@@ -16,6 +16,7 @@ references:
 tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
+  - Compromised User Account
   asset_type: AWS Account
   cis20:
   - CIS 3

@@ -1,0 +1,49 @@
+name: AWS High Number Of Failed Authentications From Ip
+id: f75b7f1a-b8eb-4975-a214-ff3e0a944757
+version: 1
+date: '2023-01-30'
+author: ''
+type: Anomaly
+datamodel:
+- Endpoint
+description: UPDATE_DESCRIPTION
+search: '| UPDATE_SPL | `aws_high_number_of_failed_authentications_from_ip_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- REFERENCE
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: UPDATE value between 1-100
+  context:
+  - Update context
+  dataset:
+  - UPDATE_DATASET_URL
+  impact: UPDATE value between 1-100
+  kill_chain_phases:
+  - Reconnaissance
+  - Exploitation
+  message: UPDATE message
+  mitre_attack_id:
+  - T1003.002
+  nist:
+  - DE.CM
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - UPDATE
+  risk_score: UPDATE (impact * confidence)/100
+  security_domain: threat
