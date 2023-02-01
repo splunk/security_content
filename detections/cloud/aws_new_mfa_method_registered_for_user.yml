@@ -8,7 +8,7 @@ datamodel: []
 description: The following analytic identifies the registration of a new Multi Factor authentication method for an AAWS account. Adversaries who have obtained unauthorized access to an AWS account may register a new MFA method to maintain persistence. 
 search: ' `cloudtrail` eventName=CreateVirtualMFADevice | stats count values(requestParameters.virtualMFADeviceName) as virtualMFADeviceName min(_time) as firstTime max(_time) as lastTime by eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `aws_new_mfa_method_registered_for_user_filter`'
-how_to_implement: how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
+how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
   search works when AWS CloudTrail logs.
 known_false_positives: Newly onboarded users who are registering an MFA method for the first time will also trigger this detection.
 references:
