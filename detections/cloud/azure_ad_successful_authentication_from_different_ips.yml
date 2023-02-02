@@ -1,4 +1,4 @@
-name: Azure AD Succesful Authentication From Different Ips
+name: Azure AD Successful Authentication From Different Ips
 id: be6d868d-33b6-4aaa-912e-724fb555b11a
 version: 1
 date: '2023-01-24'
@@ -13,7 +13,7 @@ search: ' `azuread` properties.authenticationDetails{}.succeeded=true category=S
   | bucket span=5m _time
   | stats  dc(ipAddress) AS unique_ips values(ipAddress) values(appDisplayName) by _time, userPrincipalName
   | where unique_ips > 1
-  | `azure_ad_succesful_authentication_from_different_ips_filter`'
+  | `azure_ad_successful_authentication_from_different_ips_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). 
   You must be ingesting Azure Active Directory events into your Splunk environment. Specifically, this analytic leverages the SignInLogs
   log category.
@@ -36,7 +36,7 @@ tags:
   - Source:Cloud Data
   - Stage:Initial Access
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_succesful_authentication_from_different_ips/azuread.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_successful_authentication_from_different_ips/azuread.log
   impact: 70
   kill_chain_phases:
   - Exploitation

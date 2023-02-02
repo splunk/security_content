@@ -1,15 +1,21 @@
-name: AWS Console Logins From Multiple IPs
+name: AWS Successful Console Authentication From Multiple IPs
 id: 395e50e1-2b87-4fa3-8632-0dfbdcbcd2cb
 version: 1
 date: '2023-01-19'
 author: Bhavin Patel, Splunk
 type: Anomaly
 datamodel: []
-description: This search looks for AWS CloudTrail authentication events where there are successfull AWS Console Login events from 2 or more different source IP addresses within a span of 10 mins. Often times, attackers with start with a phishing campaigns to commpromise cloud user accounts and would proceeed with trying to those use credentials before they would potentially expire or if the user rotates their credential then its no longer valid. Detecting successfull login attempts in from a short time window is a strong indicator of malicious behavior. 
-search: ' `cloudtrail` eventName = ConsoleLogin |  bin span=10m _time |  stats values(userAgent) values(eventName) values(src_ip) dc(src_ip) as distinct_ip_count by _time user_arn |  where distinct_ip_count>1 |  `aws_console_logins_from_multiple_ips_filter`'
+description: The following analytic identifies an AWS account successfully authenticating from more than one unique Ip address in the span of 5 minutes. This behavior could represent
+  an adversary who has stolen credentials via a phishing attack or some other method and using them to access corporate online resources around the same time as a legitimate user.
+  As users may behave differently across organizations, security teams should test and customize this detection to fit their environments.
+search: ' `cloudtrail` eventName = ConsoleLogin 
+  | bin span=5m _time 
+  | stats values(userAgent) values(eventName) values(src_ip) dc(src_ip) as distinct_ip_count by _time user_arn 
+  | where distinct_ip_count>1 
+  | `aws_successful_console_authentication_from_multiple_ips_filter`'
 how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
   search works when AWS CloudTrail events are normalized use the Authentication datamodel.
-known_false_positives: It is highly unlikely to have two login attempts from entirely differnt IP addresses.  
+known_false_positives: A user with successful authentication events from different Ips may also represent the legitimate use of more than one device. Filter as needed and/or customize the threshold to fit your environment.
 references:
 - https://rhinosecuritylabs.com/aws/mfa-phishing-on-aws/
 tags:
@@ -30,7 +36,7 @@ tags:
   impact: 90
   kill_chain_phases:
   - Actions on Objectives
-  message: User $user_arn$ has successfully logged into the AWS Console from different IP addresses $src$ within 10 mins
+  message: User $user_arn$ has successfully logged into the AWS Console from different IP addresses $src$ within 5 mins
   mitre_attack_id:
   - T1586
   - T1535

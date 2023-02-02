@@ -1,7 +1,7 @@
-name: AWS Console Logins From Multiple IPs Unit Test
+name: AWS Successful Console Authentication From Multiple IPs Unit Test
 tests:
-- name: AWS Console Logins From Multiple IPs
-  file: cloud/aws_console_logins_from_multiple_ips.yml
+- name: AWS Successful Console Authentication From Multiple IPs
+  file: cloud/aws_successful_console_authentication_from_multiple_ips.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -7d
   latest_time: now

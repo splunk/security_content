@@ -5,11 +5,15 @@ date: '2023-01-30'
 author: Bhavin Patel, Splunk
 type: Anomaly
 datamodel: []
-description: The following analytic identifies an IP address which failing to authenticate 20 or more times to an AWS Web Console in the span of 10 minutes. This behavior 
-  could represent a brute force attack againstan Azure AD. As environments differ across organizations, security teams should customize the threshold of this detection. This behavior could represent an adversary performing a Password Spraying attack against an AWS environment tenant to obtain initial access or elevate privileges. 
-search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time | stats dc(_raw) AS failed_attempts values(user_name) as tried_accounts values(user_agent) by _time, src_ip, eventName, eventSource aws_account_id | where failed_attempts > 20 |`aws_high_number_of_failed_authentications_from_ip_filter`'
+description: The following analytic identifies an IP address failing to authenticate 20 or more times to the AWS Web Console in the span of 5 minutes. This behavior 
+  could represent a brute force attack against an AWS tenant to obtain initial access or elevate privileges. As environments differ across organizations, security teams should customize the threshold of this detection. 
+search: '`cloudtrail` eventName=ConsoleLogin action=failure
+  | bucket span=5m _time 
+  | stats dc(_raw) AS failed_attempts values(user_name) as tried_accounts values(user_agent) by _time, src_ip, eventName, eventSource aws_account_id 
+  | where failed_attempts > 20 
+  | `aws_high_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the tried account threshold to tune this search according to their environment.
-known_false_positives: No known false postives for this detection. Please review this alert
+known_false_positives: An Ip address with more than 20 failed authentication attempts in the span of 5 minutes may also be triggered by a broken application.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/

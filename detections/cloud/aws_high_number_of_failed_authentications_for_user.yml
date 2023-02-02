@@ -5,12 +5,16 @@ date: '2023-01-27'
 author: Bhavin Patel, Splunk
 type: Anomaly
 datamodel: []
-description: The following analytic identifies an AWS IAM User account with more than 20 failed authentication events in the span of 10 minutes. This behavior could represent a brute force attack against the account. As environments differ across organizations, security teams should customize the threshold of this detection.
-search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time | stats dc(_raw) AS failed_attempts values(src_ip) as src_ip values(user_agent)  by _time, user_name, eventName, eventSource aws_account_id | where failed_attempts > 20 | `aws_high_number_of_failed_authentications_for_user_filter`'
+description: The following analytic identifies an AWS account with more than 20 failed authentication events in the span of 5 minutes. This behavior 
+  could represent a brute force attack against the account. As environments differ across organizations, security teams should customize the threshold of this detection.
+search: '`cloudtrail` eventName=ConsoleLogin action=failure 
+  | bucket span=10m _time
+  | stats dc(_raw) AS failed_attempts values(src_ip) as src_ip values(user_agent) by _time, user_name, eventName, eventSource aws_account_id 
+  | where failed_attempts > 20
+  | `aws_high_number_of_failed_authentications_for_user_filter`'
 how_to_implement: You must install Splunk AWS Add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
-known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately triggered an AWS audit tool activity which may trigger this event. 
+known_false_positives: A user with more than 20 failed authentication attempts in the span of 5 minutes may also be triggered by a broken application.
 references:
 - https://www.trendmicro.com/cloudoneconformity/knowledge-base/aws/IAM/password-policy.html
 tags:
