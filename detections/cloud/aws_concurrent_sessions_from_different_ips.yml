@@ -5,7 +5,7 @@ date: '2023-02-01'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel: []
-description: The following analytic identifies an AWS  account with concurrent sessions coming from more than one unique IP address within the span of 5 minutes. In AWS, when a user is navigating the AWS Console, we observed an API call - `DescribeEventAggregates` being registered in the cloudtrail log. This behavior could represent a session hijacking attack whereby an adversary has extracted cookies from a victims browser and is using them from a different location to access corporate online resources. As users may behave differently across organizations, security teams should test and customize this detection to fit their environments. The presence of this event occuring fromm two different IP addresses is highly unlikely
+description: The following analytic identifies an AWS  account with concurrent sessions coming from more than one unique IP address within the span of 5 minutes. In AWS, when a user is navigating the AWS Console, we observed an API call - `DescribeEventAggregates` being registered in the cloudtrail log. This behavior could represent a session hijacking attack whereby an adversary has extracted cookies from a victims browser and is using them from a different location to access corporate online resources. As users may behave differently across organizations, security teams should test and customize this detection to fit their environments. The presence of this event occuring fromm two different IP addresses is highly unlikely.
 search: ' `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal" 
 | bin span=5m _time 
 | stats values(userAgent) values(eventName) values(src_ip) as src_ip  dc(src_ip) as distinct_ip_count by _time user_arn 
@@ -22,7 +22,7 @@ tags:
   analytic_story:
   - Compromised User Account
   - AWS Identity and Access Management Account
-  asset_type: AWS Accoun
+  asset_type: AWS Account
   cis20:
   - CIS 3
   - CIS 5
@@ -55,7 +55,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-   - _time
+  - _time
   - eventName
   - userAgent
   - errorCode
