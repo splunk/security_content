@@ -52,12 +52,8 @@ tags:
   - T1027
   - T1059.001
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
-    role:
-    - Victim
-  - name: User
-    type: User
     role:
     - Victim
   product:
@@ -70,7 +66,7 @@ tags:
   - Opcode
   - Computer
   - UserID
-  - EventCodes
+  - EventCode
   risk_score: 56
   security_domain: endpoint
   asset_type: Endpoint
