@@ -1,7 +1,7 @@
 name: Office Document Creating Schedule Task
 id: cc8b7b74-9d0f-11eb-8342-acde48001122
-version: 2
-date: '2022-08-25'
+version: 3
+date: '2023-01-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -20,11 +20,11 @@ description: this search detects a potential malicious office document that crea
   processes within the same timeframe to identify source.'
 data_source:
 - Sysmon Event ID 7
-search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE",
-  "POWERPNT.EXE") ImageLoaded = "*\\taskschd.dll" | stats min(_time) as firstTime
-  max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode
-  Image parent_process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `office_document_creating_schedule_task_filter`'
+search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe")
+  ImageLoaded = "*\\taskschd.dll" | stats min(_time) as firstTime max(_time) as lastTime
+  values(ImageLoaded) as AllImageLoaded count by Computer EventCode Image parent_process_name
+  ProcessId ProcessGuid | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `office_document_creating_schedule_task_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -33,6 +33,7 @@ known_false_positives: unknown
 references:
 - https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
 - https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
 tags:
   analytic_story:
   - Spearphishing Attachments

@@ -1,4 +1,4 @@
-definition: index=signals
+definition: sourcetype="Pwsh:InstalledIISModules"
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environmnent.
-name: signals
+name: iis_get_webglobalmodule

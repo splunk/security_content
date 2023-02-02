@@ -33,12 +33,14 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+- https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
 tags:
   analytic_story:
   - Hermetic Wiper
   - Malicious PowerShell
   - Industroyer2
   - Qakbot
+  - LockBit Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 75

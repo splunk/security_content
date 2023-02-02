@@ -44,6 +44,7 @@ tags:
   - Cobalt Strike
   - Trickbot
   - DarkSide Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 80

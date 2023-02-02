@@ -30,6 +30,8 @@ tags:
   - Clop Ransomware
   - DarkSide Ransomware
   - BlackMatter Ransomware
+  - Chaos Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 90

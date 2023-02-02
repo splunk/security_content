@@ -1,7 +1,7 @@
 name: Windows DLL Search Order Hijacking Hunt
 id: 79c7d0fc-60c7-41be-a616-ccda752efe89
-version: 1
-date: '2022-08-18'
+version: 2
+date: '2022-12-31'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -18,22 +18,15 @@ description: The following hunting analytic is an experimental query built again
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Processes.process_name) as process_name from datamodel=Endpoint.Processes
-  where Processes.dest!=unknown Processes.user!=unknown NOT (Processes.process_path
-  IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*"))  by Processes.dest Processes.user
-  Processes.parent_process_name Processes.process_name Processes.process_path | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup
-  hijacklibs library AS process_name OUTPUT islibrary | search islibrary = True |
-  rename parent_process_name as "Process Name" process_name AS ImageLoaded process_path
-  AS Module_Path | `windows_dll_search_order_hijacking_hunt_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product. This may only with with Sysmon data and the Sysmon TA. Your mileage
-  may vary.
-known_false_positives: False positives will be present based on paths. Filter or add
-  other paths to the exclusion as needed.
+  as lastTime values(Processes.process_name) as process_name from datamodel=Endpoint.Processes where Processes.dest!=unknown
+  Processes.user!=unknown NOT (Processes.process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*"))  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process_path   
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name(Processes)` 
+  | lookup hijacklibs library AS process_name OUTPUT islibrary | search islibrary = True
+  | rename parent_process_name as "Process Name" process_name AS ImageLoaded process_path AS Module_Path
+  | `windows_dll_search_order_hijacking_hunt_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product. This may only with with Sysmon data and the Sysmon TA. Your mileage may vary.
+known_false_positives: False positives will be present based on paths. Filter or add other paths to the exclusion as needed.
 references:
 - https://hijacklibs.net
 tags:

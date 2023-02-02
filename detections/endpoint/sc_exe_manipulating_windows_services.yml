@@ -22,7 +22,7 @@ known_false_positives: Using sc.exe to manipulate Windows services is uncommon. 
   there may be legitimate instances of this behavior. It is important to validate
   and investigate as appropriate.
 references:
-- https://www.secureworks.com/blog/drokbk-malware-uses-github-as-dead-drop-resolver
+  - https://www.secureworks.com/blog/drokbk-malware-uses-github-as-dead-drop-resolver
 tags:
   analytic_story:
   - Windows Service Abuse

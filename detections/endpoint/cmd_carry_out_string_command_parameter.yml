@@ -41,6 +41,7 @@ tags:
   - DarkCrystal RAT
   - ProxyNotShell
   - Qakbot
+  - Chaos Ransomware
   asset_type: Endpoint
   confidence: 50
   cve:

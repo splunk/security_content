@@ -5,20 +5,21 @@ date: '2022-11-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies suspicious process command line, where
-  WMI is performing an event query looking for running processes or running services.
-  This technique is commonly found where the adversary will identify services and
-  system information on the compromised machine. During triage, review parallel processes
-  within the same timeframe. Review the full script block to identify other related
-  artifacts.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process
-  IN ("*process list*", "*service list*") by Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.process_guid Processes.parent_process_name
-  Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+description: The following analytic identifies suspicious process command line, 
+  where WMI is performing an event query looking for running processes or running
+  services. This technique is commonly found where the adversary will identify services
+  and system information on the compromised machine. During triage, review parallel
+  processes within the same timeframe. Review the full script block to identify other
+  related artifacts.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where `process_wmic` Processes.process IN ("*process list*", "*service list*")
+  by Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid 
+  Processes.parent_process_name Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user 
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
   | `windows_wmi_process_and_service_list_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

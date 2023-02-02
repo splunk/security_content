@@ -137,4 +137,8 @@ class Detection(BaseModel, SecurityContentObject):
         # write search validator
         return v
 
- 
+    @validator('tests')
+    def tests_validate(cls, v, values):
+        if values["status"] != "experimental" and not v:
+            raise ValueError('tests value is needed for: ' + values["name"])
+        return v

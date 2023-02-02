@@ -3,38 +3,30 @@ id: 38fe731c-1f13-43d4-b878-a5bbe44807e3
 version: 1
 date: '2022-12-19'
 author: Michael Haag, Splunk
-status: production
 type: Anomaly
-description: The following analytic identifies the process AppCmd.exe installing a
-  new module into IIS. AppCmd is a utility to manage IIS web sites and App Pools.
-  An adversary may run this command to install a webshell or backdoor. This has been
-  found to be used for credit card scraping, persistence, and further post-exploitation.
-  An administrator may run this to install new modules for a web site or during IIS
-  updates.
+status: production
 data_source:
 - Sysmon Event ID 1
+description: The following analytic identifies the process AppCmd.exe installing a new module into IIS.
+  AppCmd is a utility to manage IIS web sites and App Pools.
+  An adversary may run this command to install a webshell or backdoor. This has been found to be used for credit card scraping, persistence, and further post-exploitation.
+  An administrator may run this to install new modules for a web site or during IIS updates.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where NOT (Processes.parent_process_name  IN
-  ("msiexec.exe", "iissetup.exe")) Processes.process_name=appcmd.exe Processes.process
-  IN ("*install *", "*module *") AND Processes.process="*image*" by Processes.dest
-  Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iis_components_add_new_module_filter`'
-how_to_implement: Tune the analytic for your environment by filtering by known good
-  modules or processes. Enable as TTP once the volume is low enough. To successfully
-  implement this search you need to be ingesting information on process that include
-  the name of the process responsible for the changes from your endpoints into the
-  `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM
-  App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives may be present until properly tuned. Filter
-  as needed.
+  as lastTime from datamodel=Endpoint.Processes where NOT (Processes.parent_process_name  IN ("msiexec.exe", "iissetup.exe")) Processes.process_name=appcmd.exe 
+  Processes.process IN ("*install *", "*module *") AND Processes.process="*image*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
+  Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_iis_components_add_new_module_filter`'
+how_to_implement: Tune the analytic for your environment by filtering by known good modules or processes. Enable as TTP once the volume is low enough. To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: False positives may be present until properly tuned. Filter as needed.
 references:
-- https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
-- https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
-- https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
-- https://www.secureworks.com/research/bronze-union
-- https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
-- https://strontic.github.io/xcyclopedia/library/appcmd.exe-055B2B09409F980BF9B5A3969D01E5B2.html
+  - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
+  - https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
+  - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
+  - https://www.secureworks.com/research/bronze-union
+  - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
+  - https://strontic.github.io/xcyclopedia/library/appcmd.exe-055B2B09409F980BF9B5A3969D01E5B2.html
 tags:
   analytic_story:
   - IIS Components

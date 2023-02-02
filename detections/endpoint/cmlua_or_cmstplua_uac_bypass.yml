@@ -26,6 +26,7 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   confidence: 100
   impact: 80

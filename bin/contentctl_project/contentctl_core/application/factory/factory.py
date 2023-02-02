@@ -99,7 +99,7 @@ class Factory():
           #Non threaded, production version of the construction code
           files_without_ssa = [f for f in files if not f.name.startswith('ssa___')]
           for index,file in enumerate(files_without_ssa):
-          
+               print(file)
                #Index + 1 because we are zero indexed, not 1 indexed.  This ensures
                # that printouts end at 100%, not some other number 
                progress_percent = ((index+1)/len(files_without_ssa)) * 100
@@ -175,8 +175,7 @@ class Factory():
                except ValidationError as e:
                     validation_errors.append((pathlib.Path(file), e))
                except Exception as e:
-                    print(f"Unknown exception caught while Creating Security Content: {str(e)}")
-                    sys.exit(1)
+                    validation_errors.append((pathlib.Path(file), e))
                     
                
                    

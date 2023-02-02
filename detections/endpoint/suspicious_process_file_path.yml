@@ -49,6 +49,8 @@ tags:
   - Trickbot
   - Azorult
   - Prestige Ransomware
+  - Chaos Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 70
