@@ -3,7 +3,7 @@ tests:
 - name: AWS Console Logins From Multiple IPs
   file: cloud/aws_console_logins_from_multiple_ips.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: -7dh
+  earliest_time: -7d
   latest_time: now
   attack_data:
   - file_name: cloudtrail.json
