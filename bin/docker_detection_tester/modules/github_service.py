@@ -208,7 +208,7 @@ class GithubService:
                 # If no   types are provided, then we will get everything
                 if (
                     description.get("type", None) in types_to_test
-                    and description.get("status", None) == "production"
+                    and "production" in description.get("status", "")
                     and not (
                         description.get("tags", False)
                         and description["tags"].get("manual_test", False)
@@ -232,7 +232,7 @@ class GithubService:
 
                 else:
                     print(
-                        f"Ignore {detection} with status: {description.get('status', None)}"
+                        f"Ignore {detection} with status: {description.get('status', None)} and type:{description.get('type', None)}"
                     )
                     # Don't do anything with these files
                     pass
