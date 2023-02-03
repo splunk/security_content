@@ -1,0 +1,23 @@
+name: Swift Slicer
+id: 234c9dd7-52fb-4d6f-aec9-075ef88a2cea
+version: 1
+date: '2023-02-01'
+author: Teoderick Contreras, Rod Soto, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the swift slicer malware including overwriting of files and etc.
+narrative: Swift Slicer is one of Windows destructive malware found by ESET that was used in a targeted organizarion to wipe critical files like windows drivers and other files 
+  to destroy and left the machine inoperable. This malware like Caddy Wiper was deliver through GPO which suggests that the attacker had taken control of the victims active directory environment.
+references:
+- https://twitter.com/ESETresearch/status/1618960022150729728
+- https://www.welivesecurity.com/2023/01/27/swiftslicer-new-destructive-wiper-malware-ukraine/
+tags:
+  analytic_story: Swift Slicer
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

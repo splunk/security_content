@@ -1,0 +1,75 @@
+name: Windows Data Destruction Recursive Exec Files Deletion
+id: 3596a799-6320-4a2f-8772-a9e98ddb2960
+version: 1
+date: '2023-02-02'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: The following analytic identifies a suspicious process recursively deleting files in compromised host. 
+  This behavior was seen in several destructive malware, wiper like caddy wiper, doublezero, and now swiftslicer that delete or 
+  overwrite files with random generated strings to make it unrecoverable. This analytic can also catch a possible recursive file write on multiple files 
+  using Sysmon Event 23. Sysmon treat the modified file as deleted one as soon as it was overwriten. This analytic can be a good indicator that a possible 
+  destructive malware is running in a host machine or a big software application is being uninstalled.
+search: '`sysmon` EventCode=23  TargetFilename IN ("*.exe", "*.sys", "*.dll") 
+  | bin _time span=2m  
+  | stats values(TargetFilename) as deleted_files min(_time) as firstTime max(_time) as lastTime count by Computer user EventCode Image ProcessID 
+  | where count >=500 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_data_destruction_recursive_exec_files_deletion_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the deleted target file name, process name and process id  from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: uninstall a big software application may trigger this detection. Filter is needed.
+references:
+- https://www.welivesecurity.com/2023/01/27/swiftslicer-new-destructive-wiper-malware-ukraine/
+tags:
+  analytic_story:
+  - Swift Slicer
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/swift_slicer/sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: a big number of executable files being deleted in $Computer$
+  mitre_attack_id:
+  - T1485
+  nist:
+  - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: deleted_files
+    type: File Name
+    role:
+    - Target
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - EventCode
+  - TargetFilename
+  - Computer
+  - user
+  - Image
+  - ProcessID
+  - _time
+  risk_score: 64
+  security_domain: endpoint
