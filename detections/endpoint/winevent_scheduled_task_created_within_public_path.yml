@@ -1,8 +1,8 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
-version: 1
-date: '2021-04-08'
-author: Michael Haag, Splunk
+version: 2
+date: '2023-01-26'
+author: Steven Dick, Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: 'The following query utilizes Windows Security EventCode 4698, `A scheduled
@@ -24,11 +24,14 @@ description: 'The following query utilizes Windows Security EventCode 4698, `A s
   TaskService. Review the job created and the Command to be executed. Capture any
   artifacts on disk and review. Identify any parallel processes within the same timeframe
   to identify source.'
-search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
-  ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*",
-  "*\\appdata\\*", "*\\perflogs\\*") | stats count min(_time) as firstTime max(_time) as lastTime by
-  dest, Task_Name, Command, Author, Enabled, Hidden | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `winevent_scheduled_task_created_within_public_path_filter`'
+search: '`wineventlog_security` EventCode=4698 
+  | xmlkv TaskContent 
+  | search Command IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*") 
+  | stats count min(_time) as firstTime max(_time) as lastTime latest(Arguments) as Arguments latest(Author) as Author by dest, TaskName, Command, Enabled, Hidden,Caller_User_Name
+  | eval command=TaskContent, process=Command+if(isnotnull(Arguments)," ".Arguments,""), src_user=Author, user = Caller_User_Name
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `winevent_scheduled_task_created_within_public_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
   required.
@@ -58,7 +61,7 @@ tags:
   - Stage:Persistence
   - Stage:Privilege Escalation
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/4698_windows-security.log
   impact: 70
   kill_chain_phases:
   - Exploitation
@@ -83,9 +86,13 @@ tags:
   required_fields:
   - _time
   - dest
-  - Task_Name
-  - Description
+  - TaskName
   - Command
+  - Enabled
+  - Hidden
+  - Caller_User_Name
+  - Arguments
+  - TaskContent
   risk_score: 70
   security_domain: endpoint
   asset_type: Endpoint
