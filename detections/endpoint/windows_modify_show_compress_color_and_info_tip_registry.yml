@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime
   | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
   | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)
+  | `security_content_ctime(lastTime)`
   | `windows_modify_show_compress_color_and_info_tip_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
