@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies a suspicious process recursively deleting files in compromised host. 
+description: The following analytic identifies a suspicious process recursively deleting files in a compromised host. 
   This behavior was seen in several destructive malware, wiper like caddy wiper, doublezero, and now swiftslicer that delete or 
   overwrite files with random generated strings to make it unrecoverable. This analytic can also catch a possible recursive file write on multiple files 
-  using Sysmon Event 23. Sysmon treat the modified file as deleted one as soon as it was overwriten. This analytic can be a good indicator that a possible 
+  using Sysmon Event 23. Sysmon treats the modified file as a deleted one as soon as it was overwritten. This analytic can be a good indicator that a possible 
   destructive malware is running in a host machine or a big software application is being uninstalled.
 search: '`sysmon` EventCode=23  TargetFilename IN ("*.exe", "*.sys", "*.dll") 
   | bin _time span=2m  
