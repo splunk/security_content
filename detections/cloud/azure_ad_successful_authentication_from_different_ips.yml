@@ -67,5 +67,6 @@ tags:
   - properties.authenticationDetails
   - properties.userPrincipalName
   - properties.ipAddress
+  - properties.appDisplayName
   risk_score: 56
   security_domain: identity
