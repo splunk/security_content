@@ -30,6 +30,7 @@ class DetectionTags(BaseModel):
     supported_tas: list = None
     atomic_guid: list = None
     drilldown_search: str = None
+    manual_test: str = None
 
 
     # enrichment

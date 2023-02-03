@@ -292,8 +292,30 @@ class GithubService:
                 "Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr)
             sys.exit(1)
 
-
-        return tests
+        # filter out and detections that have the 
+        # experimental: true 
+        # or
+        # manual_test: Description here
+        tests_without_experimental_or_manual_test = []
+        removed_experimental = 0
+        removed_manual_test = 0
+        REMOVE_EXPERIMENTAL = True
+        for test in tests:
+            test_obj = testing_service.load_file(test)
+            
+            if test_obj.get("experimental", False) or (not REMOVE_EXPERIMENTAL):
+                    removed_experimental += 1
+            
+            elif test_obj.get("tags", None) and test_obj["tags"].get("manual_test", False):
+                removed_manual_test += 1
+            
+            else:
+                tests_without_experimental_or_manual_test.append(test)
+                    
+                
+        print(f"Experimental tests removed from test set: {removed_experimental}")
+        print(f"      Manual tests removed from test set: {removed_manual_test}")
+        return tests_without_experimental_or_manual_test
 
     def get_selected_test_files(self,
                                 detection_file_list: list[str],
