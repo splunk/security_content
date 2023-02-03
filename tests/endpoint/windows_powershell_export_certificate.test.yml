@@ -1,7 +1,7 @@
 name: Windows PowerShell Export PfxCertificate Unit Test
 tests:
 - name: Windows PowerShell Export PfxCertificate
-  file: endpoint/windows_powershell_export_pfxcertificate.yml
+  file: endpoint/windows_powershell_export_certificate.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
