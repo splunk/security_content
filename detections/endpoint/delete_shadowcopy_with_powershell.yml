@@ -1,8 +1,8 @@
 name: Delete ShadowCopy With PowerShell
 id: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
-version: 2
+version: 3
 date: '2022-05-02'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk, TheLawsOfChaos, Github
 type: TTP
 datamodel:
 - Endpoint
@@ -42,7 +42,7 @@ tags:
   mitre_attack_id:
   - T1490
   observable:
-  - name: User
+  - name: UserID
     type: User
     role:
     - Victim
