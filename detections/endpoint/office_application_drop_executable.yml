@@ -21,8 +21,8 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
   Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)`
   | fields _time dest file_create_time file_name
-  file_path process_name process_path process proc_guid] | dedup file_create_time
-  | table dest, process_name, process, file_create_time, file_name, file_path, proc_guid
+  file_path process_name process_path process process_guid] | dedup file_create_time
+  | table dest, process_name, process, file_create_time, file_name, file_path, process_guid
   | `office_application_drop_executable_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
