@@ -7,7 +7,7 @@ tests:
   latest_time: now
   attack_data:
   - file_name: driver_inventory.log
-    data: - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/driver_inventory.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/driver_inventory.log
     source: PwSh:DriverInventory
     sourcetype: PwSh:DriverInventory
     update_timestamp: true
