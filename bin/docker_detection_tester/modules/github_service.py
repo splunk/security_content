@@ -231,8 +231,13 @@ class GithubService:
                     pruned_tests.append(detection_filepath_without_security_content)
 
                 else:
+                    if description.get("tags", False):
+                        manual_test = description["tags"].get("manual_test", False)
+                    else:
+                        manual_test = False
+
                     print(
-                        f"Ignore {detection} with status: {description.get('status', None)} and type:{description.get('type', None)}"
+                        f"Ignore {detection}:\n - [status:'{description.get('status', None)}'] [type:'{description.get('type', None)}'] [manual_test:'{manual_test}']"
                     )
                     # Don't do anything with these files
                     pass
