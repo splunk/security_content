@@ -28,7 +28,7 @@ search: '`wineventlog_security` EventCode=4698
   | xmlkv TaskContent 
   | search Command IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*") 
   | stats count min(_time) as firstTime max(_time) as lastTime latest(Arguments) as Arguments latest(Author) as Author by dest, TaskName, Command, Enabled, Hidden,Caller_User_Name
-  | eval command=TaskContent, process=Command+if(isnotnull(Arguments)," ".Arguments,""), src_user=Author, user = Caller_User_Name
+  | eval command=TaskName, process=Command+if(isnotnull(Arguments)," ".Arguments,""), src_user=Author, user = Caller_User_Name
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `winevent_scheduled_task_created_within_public_path_filter`'
