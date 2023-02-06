@@ -50,3 +50,4 @@ tags:
   - DriverType
   risk_score: 5
   security_domain: endpoint
+  developer_comments: Needs custom Props/Transforms. Details are in How to Implement.

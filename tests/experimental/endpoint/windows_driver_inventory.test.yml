@@ -1,7 +1,7 @@
 name: Windows Driver Inventory Unit Test
 tests:
 - name: Windows Driver Inventory
-  file: endpoint/windows_driver_inventory.yml
+  file: experimental/endpoint/windows_driver_inventory.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
