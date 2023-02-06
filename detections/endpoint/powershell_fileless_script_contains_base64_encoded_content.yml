@@ -60,7 +60,6 @@ tags:
   required_fields:
   - _time
   - ScriptBlockText
-  - Opcodepdetections/endpoint/powershell_fileless_script_contains_base64_encoded_content.yml
   - Computer
   - UserID
   - EventCode
