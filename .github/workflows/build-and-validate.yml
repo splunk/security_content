@@ -463,9 +463,8 @@ jobs:
 
       - name: Generate content version and timestamp JSON
         run : |
-            curl -o version-api.json https://api.github.com/repositories/162346001/releases/latest
-            VERSION_VAL=$(cat version-api.json | jq '.name')
-            VERSION_TS=$(cat version-api.json | jq '.published_at')
+            VERSION_VAL=$GITHUB_REF_NAME
+            VERSION_TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
             echo "{\"version\":{\"name\":$VERSION_VAL,\"published_at\":$VERSION_TS}}" > dist/api/version.json
             echo "contents of version.json:"
             cat dist/api/version.json
