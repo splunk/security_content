@@ -9,7 +9,8 @@ references:
 - https://www.proofpoint.com/us/threat-reference/compromised-account
 tags:
   analytic_story: Compromised User Account
-  category: []
+  category:
+  - Adversary Tactics
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
