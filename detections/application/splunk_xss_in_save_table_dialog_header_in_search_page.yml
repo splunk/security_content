@@ -6,7 +6,7 @@ author: Rod Soto
 type: Hunting
 datamodel: []
 description: This is a hunting search to find persistent cross-site scripting XSS code that was included while inputing data in 'Save Table' dialog in Splunk Enterprise (8.1.12,8.2.9,9.0.2). A remote user with "power" Splunk role can store this code that can lead to persistent cross site scripting.
-search: '`splunkda` method=POST  uri=/en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model | table _time host status clientip user uri | `splunk_xss_in_save_table_dialog_header_in_search_page_filter`'
+search: '`splunkd_webx` method=POST  uri=/en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model | table _time host status clientip user uri | `splunk_xss_in_save_table_dialog_header_in_search_page_filter`'
 how_to_implement: Watch for POST requests combined with XSS script strings or obfuscation against the injection point /en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model.
 known_false_positives: If host is vulnerable and XSS script strings are inputted they will show up in search. Not all Post requests are malicious as they will show when users create and save dashboards. This search may produce several results with non malicious POST requests. Only affects Splunk Web enabled instances. 
 references:

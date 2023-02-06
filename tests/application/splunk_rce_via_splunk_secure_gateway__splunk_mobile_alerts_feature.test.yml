@@ -8,7 +8,7 @@ tests:
   attack_data:
   - file_name: splunk_rce_via_secure_gateway_splunk_mobile_alerts_feature.txt
     data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_rce_via_secure_gateway_splunk_mobile_alerts_feature.txt
-    source: /opt/splunk/var/log/splunk/web_access.log
-    sourcetype: access_combined_wcookie
+    source: /opt/splunk/var/log/splunk/splunkd_access.log
+    sourcetype: splunkd_access
     custom_index: _internal 
     update_timestamp: true

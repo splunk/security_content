@@ -1,4 +1,4 @@
-definition: index=_internal sourcetype=access_combined_wcookie 
+definition: index=_internal sourcetype=splunk_web_access
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environmnent.
 name: splunkd_webx
