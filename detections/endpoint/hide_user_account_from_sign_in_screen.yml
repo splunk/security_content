@@ -1,8 +1,8 @@
 name: Hide User Account From Sign-In Screen
 id: 834ba832-ad89-11eb-937d-acde48001122
-version: 2
-date: '2022-01-28'
-author: Teoderick Contreras, Splunk
+version: 3
+date: '2022-11-14'
+author: Steven Dick, Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -11,27 +11,20 @@ description: This analytic identifies a suspicious registry modification to hide
   where the adversary will create a hidden user account with Admin privileges in login
   screen to avoid noticing by the user that they already compromise and to persist
   on that said machine.
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows
-  NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" AND Registry.registry_value_data
-  = "0x00000000" by _time span=1h Registry.dest Registry.user Registry.registry_path
-  Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data
-  | `drop_dm_object_name(Registry)` |rename process_guid as proc_guid |join proc_guid,
-  _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  Processes.parent_process_name Processes.parent_process Processes.process_guid |
-  `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
-  dest user parent_process_name parent_process process_name process_path process proc_guid
-  registry_path registry_value_name registry_value_data registry_key_name] | table
-  _time dest user parent_process_name parent_process process_name process_path process
-  proc_guid registry_path registry_value_name registry_value_data registry_key_name
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
+  | `drop_dm_object_name(Processes)` 
+  | join process_guid [
+  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" AND Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)`] 
+  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
+  | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `hide_user_account_from_sign_in_screen_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as CarbonBlack or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: Unknown. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
@@ -74,10 +67,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_path  
+  - Processes.parent_process_name 
+  - Processes.parent_process 
+  - Processes.process_guid
+  - Registry.dest
+  - Registry.registry_value_name
   - Registry.registry_key_name
   - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.dest Registry.user
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 72
   security_domain: endpoint
   supported_tas:
