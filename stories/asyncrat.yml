@@ -1,0 +1,24 @@
+name: AsyncRAT
+id: d7053072-7dd2-4874-8314-bfcbc99978a4
+version: 1
+date: '2023-01-24'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the AsyncRAT malware including mshta application child process, bat loader execution, persistence and many more.
+  AsyncRAT is an open source remote administration tool released last 2019. It's designed to remotely control computers via an encrypted 
+  connection, with view screen, keylogger, chat communication, persistence, defense evasion (e.g. Windows defender), DOS attack and many more.
+narrative: although this project contains legal disclaimer, Adversaries or threat actors are popularly used in some attacks. This malware recently 
+  came across a Fully undetected batch script loader that downloads and loads the AsyncRAT from its C2 server. 
+  The batch script is obfuscated and will load a powershell loader that will decode and decrypt (AES256) the actual AsyncRAT malware.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+- https://www.netskope.com/blog/asyncrat-using-fully-undetected-downloader
+tags:
+  analytic_story: AsyncRAT
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
