@@ -41,7 +41,7 @@ tags:
   kill_chain_phases:
   - Exploitation
   message: A service $Service_File_Name$ was created from a non-standard path using
-    $Service_Name $
+    $Service_Name$
   mitre_attack_id:
   - T1569
   - T1569.002
@@ -67,7 +67,7 @@ tags:
   - Service_File_Name
   - Service_Type
   - _time
-  - Service_Name 
+  - Service_Name
   - Service_Start_Type
   - dest
   risk_score: 56
