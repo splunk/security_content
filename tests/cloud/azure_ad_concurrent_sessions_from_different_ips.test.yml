@@ -1,0 +1,13 @@
+name: Azure AD Concurrent Sessions From Different Ips Unit Test
+tests:
+- name: Azure AD Concurrent Sessions From Different Ips
+  file: cloud/azure_ad_concurrent_sessions_from_different_ips.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: azuread.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/azure_ad_concurrent_sessions_from_different_ips/azuread.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true
