@@ -1,6 +1,6 @@
 name: WinEvent Scheduled Task Created to Spawn Shell
 id: 203ef0ea-9bd8-11eb-8201-acde48001122
-version: 1
+version: 2
 date: '2021-04-12'
 author: Michael Haag, Splunk
 type: TTP
