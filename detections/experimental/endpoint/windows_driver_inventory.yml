@@ -1,0 +1,53 @@
+name: Windows Driver Inventory
+id: f87aa96b-369b-4a3e-9021-1bbacbfcb8fb
+version: 1
+date: '2023-02-03'
+author: Michael Haag, Splunk
+type: Hunting
+datamodel: []
+description: The following hunting / inventory query assists defenders in identifying Drivers being loaded across the fleet. This query relies upon a PowerShell script input to be deployed to critical systems and beyond. If capturing all via the input, this will provide retrospection into drivers persisting. 
+  Note, that this is not perfect across a large fleet. Modify the query as you need to view the data differently. 
+search: '`driverinventory` | stats values(Path) min(_time) as firstTime max(_time) as lastTime count by host DriverType | rename host as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_driver_inventory_filter`'
+how_to_implement: To capture the drivers by host, utilize the referenced Gist to create the inputs, props and transforms. Otherwise, this hunt query will not work. 
+known_false_positives: Filter and modify the analytic as you'd like. Filter based on path. Remove the system32\drivers and look for non-standard paths.
+references:
+  - https://gist.github.com/MHaggis/3e4dc85c69b3f7a4595a06c8a692f244
+tags:
+  analytic_story:
+  - Windows Drivers
+  asset_type: endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 10
+  context:
+  - Source:Endpoint
+  - Stage:Persistence
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/driver_inventory.log
+  impact: 50
+  kill_chain_phases:
+  - Installation
+  message: Drivers have been identified on $dest$.
+  mitre_attack_id:
+  - T1068
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Path
+  - host 
+  - DriverType
+  risk_score: 5
+  security_domain: endpoint
+  developer_comments: Needs custom Props/Transforms. Details are in How to Implement.

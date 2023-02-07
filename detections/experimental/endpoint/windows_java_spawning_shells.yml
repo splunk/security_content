@@ -1,7 +1,7 @@
 name: Windows Java Spawning Shells
 id: 28c81306-5c47-11ec-bfea-acde48001122
-version: 1
-date: '2021-12-13'
+version: 2
+date: '2023-01-23'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -28,6 +28,10 @@ known_false_positives: Filtering may be required on internal developer build sys
 references:
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
+- https://www.horizon3.ai/manageengine-cve-2022-47966-technical-deep-dive/
+- https://github.com/horizon3ai/CVE-2022-47966/blob/3a51c6b72ebbd87392babd955a8fbeaee2090b35/CVE-2022-47966.py
+- https://blog.viettelcybersecurity.com/saml-show-stopper/
+- https://www.horizon3.ai/manageengine-cve-2022-47966-iocs/
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -38,6 +42,7 @@ tags:
   - Stage:Defense Evasion
   cve:
   - CVE-2021-44228
+  - CVE-2022-47966
   dataset: []
   impact: 80
   kill_chain_phases:
