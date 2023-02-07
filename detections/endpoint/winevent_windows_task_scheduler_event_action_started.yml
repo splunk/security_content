@@ -36,6 +36,7 @@ tags:
   - CISA AA22-257A
   - Qakbot
   - Prestige Ransomware
+  - AsyncRAT
   confidence: 100
   context:
   - Source:Endpoint

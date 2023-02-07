@@ -17,9 +17,11 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 ScriptBlockText=*frombase64string* | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_fileless_script_contains_base64_encoded_content_filter`'
+search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText = "*gnirtS46esaBmorF*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `powershell_fileless_script_contains_base64_encoded_content_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -33,6 +35,7 @@ tags:
   analytic_story:
   - Hermetic Wiper 
   - Malicious PowerShell
+  - AsyncRAT
   confidence: 80
   context:
   - Source:Endpoint

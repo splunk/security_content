@@ -32,6 +32,7 @@ tags:
   - Unusual Processes
   - Qakbot
   - IcedID
+  - AsyncRAT
   confidence: 90
   context:
   - Stage:Execution
