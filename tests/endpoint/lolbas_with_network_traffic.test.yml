@@ -1,0 +1,13 @@
+name: LOLBAS With Network Traffic Unit Test
+tests:
+- name: LOLBAS With Network Traffic
+  file: endpoint/lolbas_with_network_traffic.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: lolbas_with_network_traffic.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

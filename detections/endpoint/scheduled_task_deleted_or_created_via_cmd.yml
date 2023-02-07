@@ -39,6 +39,7 @@ tags:
   - Qakbot
   - Trickbot
   - Prestige Ransomware
+  - AsyncRAT
   asset_type: Endpoint
   cis20:
   - CIS 3

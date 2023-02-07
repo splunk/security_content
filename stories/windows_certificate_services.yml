@@ -1,0 +1,18 @@
+name: Windows Certificate Services
+id: b92b4ac7-0026-4408-a6b5-c1d20658e124
+version: 1
+date: '2023-02-01'
+author: Michael Haag, Splunk
+description: Adversaries may steal or forge certificates used for authentication to access remote systems or resources. Digital certificates are often used to sign and encrypt messages and/or files. Certificates are also used as authentication material.
+narrative: The following analytic story focuses on remote and local endpoint certificate theft and abuse. Authentication certificates can be both stolen and forged. For example, AD CS certificates can be stolen from encrypted storage (in the Registry or files), misplaced certificate files (i.e. Unsecured Credentials), or directly from the Windows certificate store via various crypto APIs.With appropriate enrollment rights, users and/or machines within a domain can also request and/or manually renew certificates from enterprise certificate authorities (CA). This enrollment process defines various settings and permissions associated with the certificate. Abusing certificates for authentication credentials may enable other behaviors such as Lateral Movement. Certificate-related misconfigurations may also enable opportunities for Privilege Escalation, by way of allowing users to impersonate or assume privileged accounts or permissions via the identities (SANs) associated with a certificate. These abuses may also enable Persistence via stealing or forging certificates that can be used as Valid Accounts for the duration of the certificate's validity, despite user password resets. Authentication certificates can also be stolen and forged for machine accounts. (MITRE ATT&CK)
+references:
+  - https://attack.mitre.org/techniques/T1649/
+tags:
+  analytic_story: Windows Certificate Services
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
