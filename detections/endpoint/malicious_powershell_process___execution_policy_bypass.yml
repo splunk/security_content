@@ -30,6 +30,7 @@ tags:
   - DHS Report TA18-074A
   - HAFNIUM Group
   - DarkCrystal RAT
+  - AsyncRAT
   asset_type: Endpoint
   cis20:
   - CIS 3

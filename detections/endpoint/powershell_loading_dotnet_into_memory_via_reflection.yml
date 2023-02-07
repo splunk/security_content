@@ -38,6 +38,7 @@ tags:
   - Hermetic Wiper 
   - Malicious PowerShell
   - AgentTesla
+  - AsyncRAT
   confidence: 80
   context:
   - Source:Endpoint
