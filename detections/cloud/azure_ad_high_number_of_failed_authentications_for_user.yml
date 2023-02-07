@@ -1,0 +1,64 @@
+name: Azure AD High Number Of Failed Authentications For User
+id: 630b1694-210a-48ee-a450-6f79e7679f2c
+version: 1
+date: '2023-01-23'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: The following analytic identifies an Azure AD account with more than 20 failed authentication events in the span of 5 minutes. This behavior 
+  could represent a brute force attack against the account. As environments differ across organizations, security teams should customize the threshold of this detection.
+search: ' `azuread` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
+| rename properties.* as *
+| bucket span=5m _time
+| stats  dc(_raw) AS failed_attempts  values(ipAddress) by userPrincipalName, _time
+| where failed_attempts > 20
+| `azure_ad_high_number_of_failed_authentications_for_user_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). 
+  You must be ingesting Azure Active Directory events into your Splunk environment. Specifically, this analytic leverages the SignInLogs
+  log category.
+known_false_positives: A user with more than 20 failed authentication attempts in the span of 5 minutes may also be triggered by a broken application.
+references:
+- https://attack.mitre.org/techniques/T1110/
+- https://attack.mitre.org/techniques/T1110/001/
+tags:
+  analytic_story:
+  - Compromised User Account
+  - Azure Active Directory Account Takeover
+  asset_type: Azure AD
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Cloud Data
+  - Stage:Initial Access
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_high_number_of_failed_authentications_for_user/azuread.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: User $userPrincipalName$ failed to authenticate more than 20 times in the span of 5 minutes.
+  mitre_attack_id:
+  - T1110
+  - T1110.001
+  nist:
+  - DE.CM
+  observable:
+  - name: userPrincipalName
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - properties.status.errorCode
+  - category
+  - properties.authenticationDetails
+  - properties.userPrincipalName
+  - properties.ipAddress
+  risk_score: 35
+  security_domain: identity
