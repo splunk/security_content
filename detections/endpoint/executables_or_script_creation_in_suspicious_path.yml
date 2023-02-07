@@ -52,6 +52,8 @@ tags:
   - Trickbot
   - Chaos Ransomware
   - LockBit Ransomware
+  - AsyncRAT
+  - Swift Slicer
   automated_detection_testing: passed
   confidence: 50
   context:

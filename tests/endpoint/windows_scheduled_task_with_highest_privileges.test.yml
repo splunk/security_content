@@ -1,0 +1,13 @@
+name: Windows Scheduled Task with Highest Privileges Unit Test
+tests:
+- name: Windows Scheduled Task with Highest Privileges
+  file: endpoint/windows_scheduled_task_with_highest_privileges.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/asyncrat_highest_priv_schtasks/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
