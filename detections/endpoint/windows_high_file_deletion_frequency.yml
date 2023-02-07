@@ -30,6 +30,7 @@ tags:
   - Clop Ransomware
   - WhisperGate
   - DarkCrystal RAT
+  - Swift Slicer
   confidence: 80
   context:
   - Source:Endpoint
