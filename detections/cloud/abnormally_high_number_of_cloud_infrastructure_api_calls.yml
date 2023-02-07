@@ -27,6 +27,7 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
+  - Compromised User Account
   asset_type: AWS Instance
   cis20:
   - CIS 16
