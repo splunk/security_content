@@ -11,7 +11,7 @@ description: This analytic is developed to detect suspicious executable or scrip
   even red teamers to replicate or spread in possible removable drives. Back then, WORM malware was popular 
   for this technique where it would drop a copy of itself in the root drive to be able to spread or to have 
   a lateral movement in other network machines. Nowadays, Ransomware like CHAOS ransomware also use this 
-  technique to spread its malicious code in possible removable drives. Thi TTP detection can be a good 
+  technique to spread its malicious code in possible removable drives. This TTP detection can be a good 
   indicator that a process might create a persistence technique or lateral movement of a targeted machine. 
   We suggest checking the process name that creates this event, the file created, user type, and the reason 
   why that executable or scripts are dropped in the root drive.
