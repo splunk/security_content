@@ -37,6 +37,7 @@ tags:
   - Remcos
   - Living Off The Land
   - Qakbot
+  - AsyncRAT
   confidence: 80
   context:
   - Source:Endpoint
