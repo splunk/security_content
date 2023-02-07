@@ -45,6 +45,7 @@ tags:
   - Suspicious AWS Login Activities
   - Suspicious Cloud Authentication Activities
   - AWS Identity and Access Management Account Takeover
+  - Compromised User Account
   asset_type: AWS Instance
   cis20:
   - CIS 16
