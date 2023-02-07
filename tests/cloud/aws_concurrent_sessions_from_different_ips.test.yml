@@ -1,0 +1,13 @@
+name: AWS Concurrent Sessions From Different Ips Unit Test
+tests:
+- name: AWS Concurrent Sessions From Different Ips
+  file: cloud/aws_concurrent_sessions_from_different_ips.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: cloudtrail.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/cloudtrail.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true
