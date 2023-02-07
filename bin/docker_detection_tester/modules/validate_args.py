@@ -166,8 +166,8 @@ setup_schema = {
                   },
                   "SPLUNK_TA_MICROSOFT_CLOUD_SERVICES": {
                     "app_number": 3110,
-                    "app_version": "4.5.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_450.tgz"
+                    "app_version": "4.5.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_451.tgz"
                   },
                   "SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM": {
                     "app_number": 3088,
