@@ -28,6 +28,7 @@ tags:
   - Windows Persistence Techniques
   - Cloud Federated Credential Abuse
   - Living Off The Land
+  - Windows Certificate Services
   asset_type: Endpoint
   confidence: 70
   context:
