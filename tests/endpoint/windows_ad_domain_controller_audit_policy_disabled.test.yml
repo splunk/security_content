@@ -5,9 +5,9 @@ tests:
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
-  attack_data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_gpo/windows-security-xml.log
+  attack_data: 
   - file_name: windows-security-xml.log
-    data: 
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_gpo/windows-security-xml.log
     source: XmlWinEventLog:Security
     sourcetype: xmlwineventlog
-    update_timestamp: trueE
+    update_timestamp: true
