@@ -1,8 +1,8 @@
-name: Windows Domain Controller Attacks
+name: Sneaky Active Directory Persistence Tricks
 id: f676c4c1-c769-4ecb-9611-5fd85b497c56
 version: 1
 date: '2022-08-29'
-author: Dean Luxton, Mauricio Velazco
+author: Dean Luxton, Mauricio Velazco, Splunk
 description: Monitor for activities and techniques associated with replication based attacks which target domain controllers and post-exploitation active directory persistence techniques. 
 narrative: This analytic story provides detections for some of the highest impact attacks which can be performed against an Active Directory network. 
   Featuring attacks which leverage flaws within replication (MS probably wont fix these any time soon), enabling backdoor accounts and other stealthy persistence techniques. 

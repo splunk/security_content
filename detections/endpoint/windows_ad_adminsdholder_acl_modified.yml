@@ -29,7 +29,7 @@ references:
 - https://medium.com/@cryps1s/detecting-windows-endpoint-compromise-with-sacls-cd748e10950
 tags:
   analytic_story:
-  - Windows Domain Controller Attacks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   cis20:
   - CIS 3

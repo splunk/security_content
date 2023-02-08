@@ -30,7 +30,7 @@ references:
 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5141
 tags:
   analytic_story:
-  - Windows Domain Controller Attacks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   cis20:
   - CIS 3

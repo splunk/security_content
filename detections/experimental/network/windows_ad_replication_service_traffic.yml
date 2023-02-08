@@ -28,7 +28,7 @@ references:
 - https://attack.mitre.org/techniques/T1207/
 tags:
   analytic_story:
-  - Windows Domain Controller Attacks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: endpoint
   cis20:
   - CIS 3

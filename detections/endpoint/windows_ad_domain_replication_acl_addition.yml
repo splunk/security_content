@@ -43,7 +43,7 @@ references:
 - https://github.com/SigmaHQ/sigma/blob/29a5c62784faf986dc03952ae3e90e3df3294284/rules/windows/builtin/security/win_security_account_backdoor_dcsync_rights.yml
 tags:
   analytic_story:
-  - Windows Domain Controller Attacks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   cis20:
   - CIS 6

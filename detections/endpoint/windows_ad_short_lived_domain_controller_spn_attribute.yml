@@ -31,7 +31,7 @@ references:
 - https://blog.alsid.eu/dcshadow-explained-4510f52fc19d 
 tags:
   analytic_story:
-  - Windows Domain Controller Attacks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   cis20:
   - CIS 4

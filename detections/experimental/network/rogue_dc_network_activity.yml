@@ -17,7 +17,7 @@ references:
 - https://adsecurity.org/?p=1729
 tags:
   analytic_story:
-  - Windows Domain Controller Attacks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   cis20:
   - CIS 4

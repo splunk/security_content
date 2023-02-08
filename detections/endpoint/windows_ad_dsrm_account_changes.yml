@@ -32,7 +32,7 @@ references:
 - https://adsecurity.org/?p=1714
 tags:
   analytic_story:
-  - Windows Domain Controller Attacks
+  - Sneaky Active Directory Persistence Tricks
   - Windows Registry Abuse
   - Windows Persistence Techniques
   asset_type: Endpoint
