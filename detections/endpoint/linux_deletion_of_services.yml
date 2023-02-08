@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - AcidRain
+  - AwfulShred
   asset_type: endpoint
   cis20:
   - CIS 3
