@@ -3,8 +3,10 @@ id: f676c4c1-c769-4ecb-9611-5fd85b497c56
 version: 1
 date: '2022-08-29'
 author: Dean Luxton, Mauricio Velazco, Splunk
-description: Monitor for activities and techniques associated with replication based attacks which target domain controllers and post-exploitation active directory persistence techniques. 
-narrative: This analytic story provides detections for some of the highest impact attacks which can be performed against an Active Directory network. 
+description: Monitor for activities and techniques associated with Windows Active Directory persistence techniques. 
+narrative: In 2015 AD security researcher Sean Metcalf published a blog post named Sneaky Active Directory Persistence Tricks. In this blog post, Sean described several methods through which an attacker could persist
+  administrative access to an Active Directory networki after having Domain Admin level rights for a short period of time. 8 years later, most of these techniques are still possible since they abuse legitimate administrative functionality.
+  This analytic story groups detection opportunities for most of the techniques described by Sean as well as other high impact attacks against Active Directory and Domain Controllers.
   Featuring attacks which leverage flaws within replication (MS probably wont fix these any time soon), enabling backdoor accounts and other stealthy persistence techniques. 
   It is imperative to enable the necessary GPOs and SACLs required, otherwise the eventcodes will not trigger. Each detection includes a list of requirements for enabling logging.  
 references: 
