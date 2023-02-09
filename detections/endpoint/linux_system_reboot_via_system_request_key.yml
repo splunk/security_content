@@ -36,7 +36,8 @@ tags:
   - CIS 16
   confidence: 70
   context:
-  - Update context
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test2/sysmon_linux.log
   impact: 70
