@@ -1,7 +1,7 @@
-name: Rogue DC Network Activity Unit Test
+name: Windows AD Rogue Domain Controller Network Activity Unit Test
 tests:
-- name: Rogue DC Network Activity
-  file: network/rogue_dc_network_activity.yml
+- name: Windows AD Rogue Domain Controller Network Activity
+  file: network/windows_ad_rogue_domain_controller_network_activity.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
