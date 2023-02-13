@@ -17,7 +17,7 @@ search: '`wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448",
 
   | stats min(_time) as _time values(host) as dest by AuditPolicyChanges SubcategoryGuid
 
-  | lookup auditpolicyguids_lookup GUID as SubcategoryGuid OUTPUT Category SubCategory
+  | lookup advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory
   | `windows_ad_domain_controller_audit_policy_disabled_filter`'
 how_to_implement: Ensure you are ingesting EventCode `4719` from your domain controllers, the category domain_controller exists
   in assets and identities, and that assets and identities is enabled. If A&I is not configured, you will need to manually filter the results 
