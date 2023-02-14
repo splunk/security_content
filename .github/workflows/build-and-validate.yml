@@ -465,7 +465,7 @@ jobs:
         run : |
             VERSION_VAL=$GITHUB_REF_NAME
             VERSION_TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            echo "{\"version\":{\"name\":$VERSION_VAL,\"published_at\":$VERSION_TS}}" > dist/api/version.json
+            echo "{\"version\":{\"name\":\"$VERSION_VAL\",\"published_at\":\"$VERSION_TS\"}}" > dist/api/version.json
             echo "contents of version.json:"
             cat dist/api/version.json
 
