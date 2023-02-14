@@ -1,14 +1,13 @@
 name: Splunk unnecesary file extensions allowed by lookup table uploads Unit Test
 tests:
-- name: Splunk unnecesary file extensions allowed by lookup table uploads
-  file: application/splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads.yml
-  pass_condition: '| stats count | where count > 0'
-  earliest_time: -24h
-  latest_time: now
-  attack_data:
-  - file_name: splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads_data.txt
-    data: http://localhost:9999/splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads.log
-    custom_index: _internal
-    source: /opt/splunk/var/log/splunk/splunkd_access.log
-    sourcetype: splunkd_access
-
+  - name: Splunk unnecesary file extensions allowed by lookup table uploads
+    file: application/splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads.yml
+    pass_condition: "| stats count | where count > 0"
+    earliest_time: -24h
+    latest_time: now
+    attack_data:
+      - file_name: splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads_data.txt
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads.log
+        custom_index: _internal
+        source: /opt/splunk/var/log/splunk/splunkd_access.log
+        sourcetype: splunkd_access

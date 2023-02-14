@@ -7,7 +7,7 @@ tests:
     latest_time: now
     attack_data:
       - file_name: splunk_improperly_formatted_ingest_eval_parameter_crashes_splunkd_data.log
-        data: http://localhost:9999/splunk_improperly_formatted_ingest_eval_parameter_crashes_splunkd_data.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk_improperly_formatted_ingest_eval_parameter_crashes_splunkd_data.log
         source: splunkd_ui_access.log
         sourcetype: splunkd_ui_access
         custom_index: _internal
