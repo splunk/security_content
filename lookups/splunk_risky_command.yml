@@ -1,0 +1,7 @@
+description: A list of Risky Splunk Command that are candidates for abuse
+filename: splunk_risky_command.csv
+name: splunk_risky_command
+default_match: 'false'
+match_type: WILDCARD(splunk_risky_command)
+min_matches: 1
+case_sensitive_match: 'false'

@@ -1,0 +1,13 @@
+name: Splunk improperly formatted ingest eval parameter crashes splunkd Unit Test
+tests:
+  - name: Splunk improperly formatted ingest eval parameter crashes splunkd
+    file: application/splunk_improperly_formatted_parameter_crashes_splunkd.yml
+    pass_condition: "| stats count | where count > 0"
+    earliest_time: -24h
+    latest_time: now
+    attack_data:
+      - file_name: splunk_improperly_formatted_ingest_eval_parameter_crashes_splunkd_data.log
+        data: http://localhost:9999/splunk_improperly_formatted_ingest_eval_parameter_crashes_splunkd_data.log
+        source: splunkd_ui_access.log
+        sourcetype: splunkd_ui_access
+        custom_index: _internal
