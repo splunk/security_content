@@ -12,7 +12,7 @@ search:
   | rex field=uri_path "(?<user_and_app>.*?)\/ui\/views/(?<dashboard_encoded>.*)"
   | eval dashboard = urldecode( dashboard_encoded )
   | table _time, uri_path, user, dashboard, activity, uri_path
-  | `splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads_filter`'
+  | `splunk_unnecessary_file_extensions_allowed_by_lookup_table_uploads_filter`'
 how_to_implement: Requires access to internal splunkd_access.
 known_false_positives: This is a hunting search, the search provides information on upload, edit, and delete activity on Lookup Tables. Manual investigation is necessary after executing search. This search will produce false positives as payload cannot be directly discerned.
 references:
