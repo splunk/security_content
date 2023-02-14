@@ -33,7 +33,7 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
-  confidence: U70
+  confidence: 70
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
