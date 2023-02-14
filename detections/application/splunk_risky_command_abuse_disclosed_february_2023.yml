@@ -1,0 +1,62 @@
+name: Splunk risky Command Abuse disclosed february 2023
+id: ee69374a-d27e-4136-adac-956a96ff60fd
+version: 1
+date: "2023-02-14"
+author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
+type: Hunting
+datamodel: []
+description: In February 2023, Splunk disclosed several vulnerabilities affecting Splunk Enterprise commands deemed risky. The following hunting search includes the following commands and versions. Command 'createrss' (versions 8.1.13, 8.2.10), pivot (8.1.13,8.2.10,9.0.4), display.page.search.patterns.sensitivity(versions below 8.1.13,8.2.10,9.0.4), search_listener, map, collect (8.1.13,8.2.10,9.0.4). For more information please review Splunk Vulnerabilities Disclosure, February 2023. Link can be found in reference.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user Search_Activity.search_type | `drop_dm_object_name(Search_Activity)` | lookup splunk_risky_command splunk_risky_command as search output splunk_risky_command description vulnerable_versions CVE other_metadata | where splunk_risky_command != "false" | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
+how_to_implement: Requires implementation of Splunk_Audit.Search_Activity datamodel.
+known_false_positives: This search encompasses many commands.
+references:
+  - https://www.splunk.com/en_us/product-security.html
+tags:
+  analytic_story:
+    - Splunk Vulnerabilities
+  asset_type: Endpoint
+  cve:
+    - CVE-2023-22931
+    - CVE-2023-22934
+    - CVE-2023-22935
+    - CVE-2023-22936
+    - CVE-2023-22939
+    - CVE-2023-22940
+  cis20:
+    - CIS 3
+    - CIS 5
+    - CIS 16
+  confidence: 50
+  context:
+    - Source:Endpoint
+  dataset:
+    - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_createrss_command_abuse.log
+  impact: 50
+  kill_chain_phases:
+    - Exploitation
+  message: Use of risky splunk command $splunk_risky_command$ detected by $user$
+  mitre_attack_id:
+    - T1548
+  nist:
+    - DE.CM
+  observable:
+    - name: user
+      type: User
+      role:
+        - Attacker
+    - name: splunk_risky_command
+      type: Other
+      role:
+        - Other
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  required_fields:
+    - search
+    - info
+    - user
+    - search_type
+    - count
+  risk_score: 25
+  security_domain: threat
