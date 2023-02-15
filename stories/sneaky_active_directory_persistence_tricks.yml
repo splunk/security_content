@@ -13,7 +13,7 @@ narrative: Persistence consists of techniques that adversaries use to keep acces
   a short period of time. At the time of writing, 8 years after the initial blog post, most of these techniques are still possible since they abuse legitimate administrative functionality and not software vulnerabilities.
   Security engineers defending Active Directory networks should be aware of these technique available to adversaries post exploitation and deploy both preventive and detective security controls for them.\
 
-  This analytic story groups detection opportunities for most of the techniques described on Seans blog post as well as other high impact attacks against Active Directory networks and Domain Controllers.
+  This analytic story groups detection opportunities for most of the techniques described on Seans blog post as well as other high impact attacks against Active Directory networks and Domain Controllers like DCSync and DCShadow.
   For some of these detection opportunities, it is necessary to enable the necessary GPOs and SACLs required, otherwise the event codes will not trigger. Each detection includes a list of requirements for enabling logging.  
 references: 
   - https://adsecurity.org/?p=1929
