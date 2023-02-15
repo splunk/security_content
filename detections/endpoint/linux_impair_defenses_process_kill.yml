@@ -6,8 +6,8 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic looks for pkill process execution for possible termination of process. 
-  This technique is being used by several Threat actors, adversaries and red team to terminate process in a targeted linux machine. 
+description: This analytic looks for PKILL process execution for possible termination of process. 
+  This technique is being used by several Threat actors, adversaries and red teamers to terminate processes in a targeted linux machine. 
   This anomaly detection can be a good pivot to check a possible defense evasion technique or termination of security application in a linux host or 
   wiper like Awfulshred that corrupt all files.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
