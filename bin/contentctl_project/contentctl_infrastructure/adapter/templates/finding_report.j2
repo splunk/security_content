@@ -33,6 +33,7 @@
         "version", "1.0.0"
     ),
     "nist", [{%- for nist in detection.tags.nist %}"{{nist}}"{% if not loop.last %}, {% endif %}{%- endfor -%}],
+    "observables", {{ detection.tags.observable_str }},
     "risk_level", "{{ detection.tags.risk_level }}",
     "risk_level_id", {{ detection.tags.risk_level_id }},
     "risk_score", {{ detection.tags.risk_score }},
