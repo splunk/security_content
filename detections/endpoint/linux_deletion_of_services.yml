@@ -12,7 +12,7 @@ description: This analytic is to detect a deletion of services in a linux machin
   acidrain malware does in linux or router machines. This detection can be a good pivot to check what process and user 
   tries to delete this type of files which is not so common and need further investigation.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem  
-  where Filesystem.action=deleted Filesystem.file_path IN ( "/etc/systemd/*", "/usr/lib/systemd/*") Filesystem.file_path = "*.service" 
+  where Filesystem.action=deleted Filesystem.file_path IN ( "/etc/systemd/*", "*/lib/systemd/*") Filesystem.file_path = "*.service" 
   by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid Filesystem.action
   | `drop_dm_object_name(Filesystem)` 
   |rename process_guid as proc_guid 
