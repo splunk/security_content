@@ -1,18 +1,14 @@
 name: Windows Disable Windows Group Policy Features Through Registry
 id: 63a449ae-9f04-11ec-945e-acde48001122
-version: 2
+version: 3
 date: '2022-11-14'
 author: Steven Dick, Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious registry modification to disable
-  windows features. These techniques are seen in several ransomware malware to impair
-  the compromised host to make it hard for analyst to mitigate or response from the
-  attack. Disabling these known features make the analysis and forensic response more
-  hard. Disabling these feature is not so common but can still be implemented by the
-  administrator for security purposes. In this scenario filters for users that are
-  allowed doing this is needed.
+description: The following analytic detects a suspicious registry modification used to disable
+  windows features. This technique has been identified in several ransomware malware families to impair
+  the compromised host and make it harder for analysts to mitigate or respond to an attack.
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
   | `drop_dm_object_name(Processes)` 
   | join process_guid [
@@ -27,7 +23,8 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
   Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: unknown
+known_false_positives: Disabling these features for legitimate purposes is not a common use case but can still be implemented by the
+  administrators. Filter as needed.
 references:
 - https://hybrid-analysis.com/sample/ef1c427394c205580576d18ba68d5911089c7da0386f19d1ca126929d3e671ab?environmentId=120&lang=en
 - https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis
@@ -37,6 +34,7 @@ tags:
   - Ransomware
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
+  - Sneaky Active Directory Persistence Tricks
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
   kill_chain_phases:
