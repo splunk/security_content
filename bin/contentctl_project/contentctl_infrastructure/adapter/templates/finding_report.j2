@@ -23,7 +23,7 @@
     "impact_id", {{ detection.tags.impact_id }},
     "kill_chain", [{%- for kill_chain_phase in detection.tags.kill_chain_phases %}create_map("phase", "{{kill_chain_phase}}", "phase_id", {{detection.tags.kill_chain_phases_id[kill_chain_phase]}}){% if not loop.last %}, {% endif %}{%- endfor -%}],
     "attacks", [{%- for enrichment in detection.tags.mitre_attack_enrichments %}create_map("tactics", [{%- for tactic in enrichment.mitre_attack_tactics %}create_map("name", "{{tactic}}", "uid", "{{attack_tactics_id_mapping[tactic|replace(" ", "_")]}}"){% if not loop.last %}, {% endif %}{%- endfor -%}], "technique", create_map("name", "{{ enrichment.mitre_attack_technique }}", "uid", "{{ enrichment.mitre_attack_id }}"), "version", "12.1"){% if not loop.last %}, {% endif %}{%- endfor -%}],  
-    "message", message,
+    "message", "tbd",
     "metadata", create_map(
         "product", create_map(
             "name", "Behavioral Analytic Service",

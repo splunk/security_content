@@ -1,5 +1,6 @@
 import os
 import sys
+import copy
 
 from dataclasses import dataclass
 
@@ -25,6 +26,7 @@ class SigmaConverterInputDto:
     detection_folder : str
     input_path: str
     log_source: str
+    cim_to_ocsf: bool
 
 
 @dataclass(frozen=True)
@@ -149,7 +151,24 @@ class SigmaConverter():
                         )
                         data_source = self.load_data_source(input_dto.input_path, input_dto.log_source) 
 
-                    field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
+                    if input_dto.cim_to_ocsf:
+                        field_mapping_dot = {
+                            "data_model": "ocsf",
+                            "mapping": {
+                                "process_name": "process.file.name",
+                                "parent_process_name": "actor.process.file.name",
+                                "cmd_line": "process.cmd_line",
+                                "process": "process.cmd_line",
+                                "process_path": "process.file.path"
+                            }
+                        }
+
+                        field_mapping = copy.deepcopy(field_mapping_dot)
+                        for field in field_mapping["mapping"].keys():
+                            field_mapping["mapping"][field] = field_mapping["mapping"][field].replace(".", "_")
+                        
+                    else:
+                        field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
 
                     processing_items.append(
                         self.get_field_transformation_processing_item(
@@ -166,10 +185,14 @@ class SigmaConverter():
 
                     sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
 
-                    splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection)
+                    if input_dto.cim_to_ocsf:
+                        splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection, field_mapping=field_mapping_dot)
+                    else:
+                        splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection)
                     search = splunk_backend.convert(sigma_rule, "data_model")[0]
 
-                    search = self.prefix_ocsf_detection() + search + self.postfix_ocsf_detection(detection) + '--finding_report--'
+                    #search = self.prefix_ocsf_detection() + search + self.postfix_ocsf_detection(detection) + '--finding_report--'
+                    search = search + ' --finding_report--'
 
                     detection.file_path = 'ssa___' + file_name + '.yml'                    
 

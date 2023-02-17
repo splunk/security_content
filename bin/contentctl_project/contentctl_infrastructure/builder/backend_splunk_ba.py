@@ -66,11 +66,12 @@ class SplunkBABackend(TextQueryBackend):
     wildcard_match_expression : ClassVar[Optional[str]] = "like({field}, {value})"
 
 
-    def __init__(self, processing_pipeline: Optional["sigma.processing.pipeline.ProcessingPipeline"] = None, collect_errors: bool = False, min_time : str = "-30d", max_time : str = "now", detection : Detection = None, **kwargs):
+    def __init__(self, processing_pipeline: Optional["sigma.processing.pipeline.ProcessingPipeline"] = None, collect_errors: bool = False, min_time : str = "-30d", max_time : str = "now", detection : Detection = None, field_mapping: dict = None, **kwargs):
         super().__init__(processing_pipeline, collect_errors, **kwargs)
         self.min_time = min_time or "-30d"
         self.max_time = max_time or "now"
         self.detection = detection
+        self.field_mapping = field_mapping
 
     def finalize_query_data_model(self, rule: SigmaRule, query: str, index: int, state: ConversionState) -> str:
 
@@ -85,7 +86,38 @@ class SplunkBABackend(TextQueryBackend):
         #     if not count == len(fields) - 1:
         #         fields_input_parsing = fields_input_parsing + ', '
 
-        return f"""| where {query} """
+        detection_str = """
+| from read_ba_enriched_events()
+| eval timestamp = ucast(map_get(input_event,"time"),"long", null)
+| eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>", null)
+| eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null)
+| eval disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
+| eval origin_map=ucast(map_get(input_event, "origin"), "map<string,any>", null)
+| eval device=ucast(map_get(origin_map, "device"), "map<string, any>",null)
+| eval user=ucast(map_get(input_event, "user"), "map<string, any>", null)
+| eval device_name=ucast(map_get(device, "name"), "string", null)
+| eval user_name=ucast(map_get(user,"name"), "string", null)
+""".replace("\n", " ")
+
+        parsed_fields = [] 
+
+        for field in self.field_mapping["mapping"].keys():
+            mapped_field = self.field_mapping["mapping"][field]
+            parent = 'input_event'
+            for val in mapped_field.split('.'):
+                if parent == "input_event":
+                    new_val = val
+                else:
+                    new_val = parent + '_' + val
+                if new_val in parsed_fields:
+                    parent = new_val
+                    continue
+                parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "string", null) ' 
+                detection_str = detection_str + parser_str
+                parsed_fields.append(new_val)
+                parent = new_val
+
+        return detection_str + "| where " + query
 
     def finalize_output_data_model(self, queries: List[str]) -> List[str]:
         return queries
