@@ -104,7 +104,9 @@ class SplunkBABackend(TextQueryBackend):
         for field in self.field_mapping["mapping"].keys():
             mapped_field = self.field_mapping["mapping"][field]
             parent = 'input_event'
-            for val in mapped_field.split('.'):
+            i = 1
+            values = mapped_field.split('.')
+            for val in values:
                 if parent == "input_event":
                     new_val = val
                 else:
@@ -112,10 +114,14 @@ class SplunkBABackend(TextQueryBackend):
                 if new_val in parsed_fields:
                     parent = new_val
                     continue
-                parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "string", null) ' 
+                if i == len(values):
+                    parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "string", null) ' 
+                else:
+                    parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "map<string, any>", null) ' 
                 detection_str = detection_str + parser_str
                 parsed_fields.append(new_val)
                 parent = new_val
+                i = i + 1
 
         return detection_str + "| where " + query
 

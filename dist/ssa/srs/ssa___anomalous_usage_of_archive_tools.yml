@@ -11,16 +11,17 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   | eval device=ucast(map_get(origin_map, "device"), "map<string, any>",null) | eval
   user=ucast(map_get(input_event, "user"), "map<string, any>", null) | eval device_name=ucast(map_get(device,
   "name"), "string", null) | eval user_name=ucast(map_get(user,"name"), "string",
-  null) | eval process=ucast(map_get(input_event,"process"), "string", null) | eval
-  process_file=ucast(map_get(process,"file"), "string", null) | eval process_file_name=ucast(map_get(process_file,"name"),
-  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "string", null)
-  | eval actor_process=ucast(map_get(actor,"process"), "string", null) | eval actor_process_file=ucast(map_get(actor_process,"file"),
-  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string",
-  null) | eval process_file_path=ucast(map_get(process_file,"path"), "string", null)
-  | where process_file_name="WinRAR.exe" OR like(process_file_name, "7z%") OR like(process_file_name,
-  "winzip%") | where like(actor_process_file_name, "%powershell.exe") OR like(actor_process_file_name,
-  "%cmd.exe") 
+  null) | eval process=ucast(map_get(input_event,"process"), "map<string, any>", null)
+  | eval process_file=ucast(map_get(process,"file"), "map<string, any>", null) | eval
+  process_file_name=ucast(map_get(process_file,"name"), "string", null) | eval actor=ucast(map_get(input_event,"actor"),
+  "map<string, any>", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
+  any>", null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
+  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
+  "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "map<string,
+  any>", null) | where process_file_name="WinRAR.exe" OR like(process_file_name, "7z%")
+  OR like(process_file_name, "winzip%") | where like(actor_process_file_name, "%powershell.exe")
+  OR like(actor_process_file_name, "%cmd.exe") 
   | eval body=create_map(
     "activity_id", 1,
     "analytic_stories", ["Cobalt Strike", "NOBELIUM Group", "Insider Threat"],
