@@ -16,8 +16,8 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "map<string, any>", null) | eval metadata_uid = ucast(map_get(metadata_map, "uid"),
   "string", null) | eval disposition_id = ucast(map_get(input_event, "disposition_id"),
   "integer", null) | where disposition_id = 1 | where process_name="WinRAR.exe" OR
-  like(process_name, "7z%") OR (like(process_name, "winzip%") | where like(parent_process_name,
-  "%powershell.exe") OR like(parent_process_name, "%cmd.exe"))  | eval origin_map=ucast(map_get(input_event,
+  like(process_name, "7z%") OR like(process_name, "winzip%") | where like(parent_process_name,
+  "%powershell.exe") OR like(parent_process_name, "%cmd.exe")  | eval origin_map=ucast(map_get(input_event,
   "origin"), "map<string, any>", null), dest_device=ucast(map_get(origin_map, "device"),
   "map<string, any>", null), dest_user=ucast(map_get(input_event, "user"), "map<string,
   any>", null), dest_device_name=ucast(map_get(dest_device, "name"), "string", null),
