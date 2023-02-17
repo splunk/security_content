@@ -10,7 +10,7 @@
     "confidence_id", {{ detection.tags.confidence_id }},
     "devices", [
         create_map(
-            "uid", ucast(map_get( dest_device , "ref_uid"), "string", null), "type_id", 0)
+            "uid", device_uuid, "type_id", 0)
     ],
     "duration", 0,
     "time", timestamp,
@@ -40,7 +40,7 @@
     "type_id", 10200101,
     "users", [
         create_map(
-            "uid", ucast(map_get(dest_user, "ref_uid"),"string", null)
+            "uid", inferred_caller_user_uid
         )
     ]
   )

@@ -92,11 +92,13 @@ class SplunkBABackend(TextQueryBackend):
 | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>", null)
 | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null)
 | eval disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
-| eval origin_map=ucast(map_get(input_event, "origin"), "map<string,any>", null)
-| eval device=ucast(map_get(origin_map, "device"), "map<string, any>",null)
-| eval user=ucast(map_get(input_event, "user"), "map<string, any>", null)
-| eval device_name=ucast(map_get(device, "name"), "string", null)
-| eval user_name=ucast(map_get(user,"name"), "string", null)
+| eval device = ucast(map_get(input_event, "device"), "map<string,any>", null)
+| eval device_hostname = ucast(map_get(device, "hostname"), "string", null)
+| eval device_uuid = ucast(map_get(device, "uuid"), "string", null)
+| eval inferred = ucast(map_get(input_event, "device"), "map<string,any>", null)
+| eval inferred_caller = ucast(map_get(inferred, "caller"), "map<string,any>", null)
+| eval inferred_caller_user = ucast(map_get(inferred_caller, "user"), "map<string,any>", null)
+| eval inferred_caller_user_uid = ucast(map_get(inferred_caller_user, "uid"), "string", null)
 """.replace("\n", " ")
 
         parsed_fields = [] 

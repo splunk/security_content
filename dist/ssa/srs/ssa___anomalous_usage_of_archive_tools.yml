@@ -7,16 +7,18 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
   disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
-  | eval origin_map=ucast(map_get(input_event, "origin"), "map<string,any>", null)
-  | eval device=ucast(map_get(origin_map, "device"), "map<string, any>",null) | eval
-  user=ucast(map_get(input_event, "user"), "map<string, any>", null) | eval device_name=ucast(map_get(device,
-  "name"), "string", null) | eval user_name=ucast(map_get(user,"name"), "string",
-  null) | eval process=ucast(map_get(input_event,"process"), "map<string, any>", null)
-  | eval process_file=ucast(map_get(process,"file"), "map<string, any>", null) | eval
-  process_file_name=ucast(map_get(process_file,"name"), "string", null) | eval actor=ucast(map_get(input_event,"actor"),
-  "map<string, any>", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
+  | eval device = ucast(map_get(input_event, "device"), "map<string,any>", null) |
+  eval device_hostname = ucast(map_get(device, "hostname"), "string", null) | eval
+  device_uuid = ucast(map_get(device, "uuid"), "string", null) | eval inferred = ucast(map_get(input_event,
+  "device"), "map<string,any>", null) | eval inferred_caller = ucast(map_get(inferred,
+  "caller"), "map<string,any>", null) | eval inferred_caller_user = ucast(map_get(inferred_caller,
+  "user"), "map<string,any>", null) | eval inferred_caller_user_uid = ucast(map_get(inferred_caller_user,
+  "uid"), "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
+  any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval
+  actor_process=ucast(map_get(actor,"process"), "map<string, any>", null) | eval actor_process_file=ucast(map_get(actor_process,"file"),
+  "map<string, any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "map<string,
   any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "map<string,
   any>", null) | where process_file_name="WinRAR.exe" OR like(process_file_name, "7z%")
@@ -33,7 +35,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "confidence_id", 2,
     "devices", [
         create_map(
-            "uid", ucast(map_get( dest_device , "ref_uid"), "string", null), "type_id", 0)
+            "uid", device_uuid, "type_id", 0)
     ],
     "duration", 0,
     "time", timestamp,
@@ -63,7 +65,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "type_id", 10200101,
     "users", [
         create_map(
-            "uid", ucast(map_get(dest_user, "ref_uid"),"string", null)
+            "uid", inferred_caller_user_uid
         )
     ]
   )
