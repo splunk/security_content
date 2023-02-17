@@ -17,8 +17,7 @@
     "evidence", create_map(
         "actor.process.file.name", parent_process_name,
         "process.file.name", process_name,
-        "process.cmd_line", cmd_line,
-        "process_cmd_length", process_cmd_line_len
+        "process.cmd_line", cmd_line
     ),
     "impact", {{ detection.tags.impact }},
     "impact_id", {{ detection.tags.impact_id }},

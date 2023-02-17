@@ -304,13 +304,12 @@ class SigmaConverter():
 | eval process_name = lower(ucast(map_get(file_map, "name"), "string", null))
 | eval cmd_line = ucast(map_get(process_map, "cmd_line"), "string", null)
 | eval actor_map = ucast(map_get(input_event, "actor"), "map<string, any>", null)
-| eval actor_process_map = ucast(map_get(actor_map, "actor_process"), "map<string, any>", null)
+| eval actor_process_map = ucast(map_get(actor_map, "process"), "map<string, any>", null)
 | eval actor_process_file_map = ucast(map_get(actor_process_map, "file"), "map<string, any>", null)
 | eval parent_process_name = ucast(map_get(actor_process_file_map, "name"), "string", null)
 | eval metadata_map = ucast(map_get(input_event, "metadata"), "map<string, any>", null)
 | eval metadata_uid = ucast(map_get(metadata_map, "uid"), "string", null)
 | eval disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
-| eval process_cmd_line_len = len(cmd_line)
 | where disposition_id = 1
 """.replace("\n"," ")
 

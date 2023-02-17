@@ -15,23 +15,22 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   any>", null) | eval process_name = lower(ucast(map_get(file_map, "name"), "string",
   null)) | eval cmd_line = ucast(map_get(process_map, "cmd_line"), "string", null)
   | eval actor_map = ucast(map_get(input_event, "actor"), "map<string, any>", null)
-  | eval actor_process_map = ucast(map_get(actor_map, "actor_process"), "map<string,
-  any>", null) | eval actor_process_file_map = ucast(map_get(actor_process_map, "file"),
+  | eval actor_process_map = ucast(map_get(actor_map, "process"), "map<string, any>",
+  null) | eval actor_process_file_map = ucast(map_get(actor_process_map, "file"),
   "map<string, any>", null) | eval parent_process_name = ucast(map_get(actor_process_file_map,
   "name"), "string", null) | eval metadata_map = ucast(map_get(input_event, "metadata"),
   "map<string, any>", null) | eval metadata_uid = ucast(map_get(metadata_map, "uid"),
   "string", null) | eval disposition_id = ucast(map_get(input_event, "disposition_id"),
-  "integer", null) | eval process_cmd_line_len = len(cmd_line) | where disposition_id
-  = 1 | where process_name="WinRAR.exe" OR like(process_name, "7z%") OR (like(process_name,
-  "winzip%") | where like(parent_process_name, "%powershell.exe") OR like(parent_process_name,
-  "%cmd.exe"))  | eval origin_map=ucast(map_get(input_event, "origin"), "map<string,
-  any>", null), dest_device=ucast(map_get(origin_map, "device"), "map<string, any>",
-  null), dest_user=ucast(map_get(input_event, "user"), "map<string, any>", null),
-  dest_device_name=ucast(map_get(dest_device, "name"), "string", null), dest_user_name=ucast(map_get(dest_user,
-  "name"), "string", null), message=concat("An instance of $parent_process_name$ spawning
-  $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is
-  indicative of suspicious loading of 7zip.", dest_device_name, " by ", dest_user_name,
-  " via process ", process_name, ".")  --finding_report--'
+  "integer", null) | where disposition_id = 1 | where process_name="WinRAR.exe" OR
+  like(process_name, "7z%") OR (like(process_name, "winzip%") | where like(parent_process_name,
+  "%powershell.exe") OR like(parent_process_name, "%cmd.exe"))  | eval origin_map=ucast(map_get(input_event,
+  "origin"), "map<string, any>", null), dest_device=ucast(map_get(origin_map, "device"),
+  "map<string, any>", null), dest_user=ucast(map_get(input_event, "user"), "map<string,
+  any>", null), dest_device_name=ucast(map_get(dest_device, "name"), "string", null),
+  dest_user_name=ucast(map_get(dest_user, "name"), "string", null), message=concat("An
+  instance of $parent_process_name$ spawning $process_name$ was identified on endpoint
+  $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip.",
+  dest_device_name, " by ", dest_user_name, " via process ", process_name, ".")  --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -72,6 +71,14 @@ tags:
     - Child Process
   product:
   - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
   risk_score: 42
   security_domain: endpoint
   atomic_guid: null
