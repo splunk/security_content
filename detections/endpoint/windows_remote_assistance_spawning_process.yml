@@ -27,6 +27,7 @@ known_false_positives: False positives should be limited, filter as needed. Add 
   shells as needed.
 references:
 - https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
+- https://app.any.run/tasks/ca1616de-89a1-4afc-a3e4-09d428df2420/
 tags:
   analytic_story:
   - Unusual Processes
