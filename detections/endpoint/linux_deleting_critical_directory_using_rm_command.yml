@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Industroyer2
   - Data Destruction
+  - AwfulShred
   asset_type: Endpoint
   cis20:
   - CIS 3
