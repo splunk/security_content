@@ -59,12 +59,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.process_guid
-  - Filesystem.file_path
-  - Filesystem.action
   - Processes.dest
   - Processes.user
   - Processes.parent_process_name
