@@ -9,7 +9,7 @@ datamodel:
 description: this detection was designed to identifies suspicious office documents
   that connect to a website aside from Microsoft Office Domain. This technique was seen in 
   several malicious documents that abuses .rels xml properties of MS office to connect or download malicious files. 
-  This hunting query can a good pivot or guide to check what URL link it tries to connect, what domain, where the documents came from and 
+  This hunting query can be a good pivot or guide to check what URL link it tries to connect, what domain, where the documents came from and 
   how the connection happens.
 search: '`sysmon` EventCode=22 Image IN ("*\\winword.exe","*\\excel.exe","*\\powerpnt.exe","*\\mspub.exe","*\\visio.exe","*\\wordpad.exe","*\\wordview.exe","*\\onenote.exe",
   "*\\onenotem.exe","*\\onenoteviewer.exe","*\\onenoteim.exe", "*\\msaccess.exe") 
