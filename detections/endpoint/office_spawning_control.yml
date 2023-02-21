@@ -1,7 +1,7 @@
 name: Office Spawning Control
 id: 053e027c-10c7-11ec-8437-acde48001122
-version: 2
-date: '2023-01-23'
+version: 3
+date: '2023-02-15'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -15,7 +15,7 @@ description: The following detection identifies control.exe spawning from an off
   identify further suspicious behavior
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe")
+  IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
   Processes.process_name=control.exe by Processes.dest Processes.user Processes.parent_process
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
