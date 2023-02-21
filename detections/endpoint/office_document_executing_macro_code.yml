@@ -1,6 +1,6 @@
 name: Office Document Executing Macro Code
 id: b12c89bc-9d06-11eb-a592-acde48001122
-version: 2
+version: 3
 date: '2023-01-24'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -13,7 +13,7 @@ description: this detection was designed to identifies suspicious office documen
   or other malware component. It is really good practice to disable macro by default
   to avoid automatically execute macro code while opening or closing a office document
   files.
-search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe")
+search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
   ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") | stats min(_time)
   as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count
   by Computer EventCode Image process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)`
