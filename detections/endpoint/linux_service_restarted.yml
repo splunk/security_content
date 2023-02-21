@@ -33,6 +33,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Living Off The Land
+  - AwfulShred
   automated_detection_testing: passed
   cis20:
   - CIS 3
