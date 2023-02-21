@@ -1,7 +1,7 @@
 name: Linux Deletion Of Services
 id: b509bbd3-0331-4aaa-8e4a-d2affe100af6
 version: 1
-date: '2022-04-12'
+date: '2023-02-15'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -12,7 +12,7 @@ description: This analytic is to detect a deletion of services in a linux machin
   acidrain malware does in linux or router machines. This detection can be a good pivot to check what process and user 
   tries to delete this type of files which is not so common and need further investigation.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem  
-  where Filesystem.action=deleted Filesystem.file_path IN ( "/etc/systemd/*", "/usr/lib/systemd/*") Filesystem.file_path = "*.service" 
+  where Filesystem.action=deleted Filesystem.file_path IN ( "/etc/systemd/*", "*/lib/systemd/*", "*/run/systemd/*") Filesystem.file_path = "*.service" 
   by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid Filesystem.action
   | `drop_dm_object_name(Filesystem)` 
   |rename process_guid as proc_guid 
@@ -32,9 +32,12 @@ known_false_positives: Administrator or network operator can execute this comman
   Please update the filter macros to remove false positives.
 references:
 - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/ 
+- https://unix.stackexchange.com/questions/224992/where-do-i-put-my-systemd-unit-file
+- https://cert.gov.ua/article/3718487
 tags:
   analytic_story:
   - AcidRain
+  - AwfulShred
   asset_type: endpoint
   cis20:
   - CIS 3

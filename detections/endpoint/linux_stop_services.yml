@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Industroyer2
+  - AwfulShred
   asset_type: Endpoint
   cis20:
   - CIS 3
