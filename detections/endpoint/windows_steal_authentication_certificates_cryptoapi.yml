@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 datamodel: []
 description: The following analytic utilizes a Windows Event Log - CAPI2 - or CryptoAPI 2, to identify suspicious certificate extraction. Typically, this event log is meant for diagnosing PKI issues, however is a great source to identify certificate exports. 
-  Note that this event log is noisy as it captures common PKI requests from many different processes. EventID 70 is generated anytime a certificate is exported. The description for EventID 70 is "Acquire Certifcate Private Key".
+  Note that this event log is noisy as it captures common PKI requests from many different processes. EventID 70 is generated anytime a certificate is exported. The description for EventID 70 is "Acquire Certificate Private Key".
   STRT tested this analytic using Mimikatz binary and the implementation of Mimikatz in Cobalt Strike.
 search: '`capi2_operational` EventCode=70
   | xmlkv UserData_Xml
