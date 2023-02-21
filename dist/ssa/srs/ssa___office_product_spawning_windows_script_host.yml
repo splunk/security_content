@@ -1,6 +1,6 @@
 name: Office Product Spawning Windows Script Host
 id: 3ea3851a-8736-41a0-bc09-7e4485b48fa6
-version: 1
+version: 2
 description: The following analytic will identify a Windows Office Product spawning
   WScript.exe or CScript.exe. Tuning may be required based on legitimate application
   usage that may spawn scripts from an Office product.
@@ -13,12 +13,13 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND parent_process_name
   IS NOT NULL | where (like(parent_process_name, "%\\\\winword.exe") OR like(parent_process_name,
   "%\\\\excel.exe") OR like(parent_process_name, "%\\\\powerpnt.exe") OR like(parent_process_name,
-  "%\\\\mspub.exe") OR like(parent_process_name, "%\\\\visio.exe")) AND (process_name="wscript.exe"
-  OR process_name="cscript.exe") | eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
-  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+  "%\\\\mspub.exe") OR like(parent_process_name, "%\\\\visio.exe") OR like(parent_process_name,
+  "%\\\\msaccess.exe")) AND (process_name="wscript.exe" OR process_name="cscript.exe")
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
+  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
+  | into write_ssa_detected_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
