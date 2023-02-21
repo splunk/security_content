@@ -1,13 +1,13 @@
 name: Windows Export Certificate
 id: d8ddfa9b-b724-4df9-9dbe-f34cc0936714
-version: 1
-date: '2023-01-27'
+version: 2
+date: '2023-02-11'
 author: Michael Haag, Splunk
 type: Anomaly
 datamodel: []
 description: The following analytic identifies when a certificate is exported from the Windows Certificate Store. This analytic utilizes the Certificates Lifecycle log channel event ID 1007. EventID 1007 is focused on the Export of a certificate from the local certificate store. In addition, review the ProcessName field as it will help to determine automation/Admin or adversary extracting the certificate.
   Depending on the organization, the certificate may be used for authentication to the VPN or private resources. 
-search: '`certificateservices_lifecycle`
+search: '`certificateservices_lifecycle` EventCode=1007
   | xmlkv UserData_Xml
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectName, UserData_Xml
   | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_export_certificate_filter`'
