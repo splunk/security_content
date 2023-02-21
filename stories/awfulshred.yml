@@ -1,0 +1,22 @@
+name: AwfulShred
+id: e36935ce-f48c-4fb2-8109-7e80c1cdc9e2
+version: 1
+date: '2023-01-24'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the AwfulShred malware including wiping files, process kill, system reboot via system request, shred,  and service stops. 
+narrative: AwfulShred is a malicious linux shell script designed to corrupt or wipe the linux targeted system. 
+  It uses shred command to overwrite files and to increase data damage. This obfuscated malicious script can also disable and corrupts apache, HTTP and SSH services, 
+  deactivate swap files, clear bash history and finally reboot the system.
+references:
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+- https://cert.gov.ua/article/3718487
+tags:
+  analytic_story: AwfulShred
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
