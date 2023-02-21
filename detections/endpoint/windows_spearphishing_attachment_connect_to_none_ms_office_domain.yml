@@ -1,7 +1,7 @@
 name: 'Windows Spearphishing Attachment Connect To None MS Office Domain'
 id: 1cb40e15-cffa-45cc-abbd-e35884a49766
-version: 1
-date: '2023-01-27'
+version: 2
+date: '2023-02-15'
 author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
@@ -9,10 +9,10 @@ datamodel:
 description: this detection was designed to identifies suspicious office documents
   that connect to a website aside from Microsoft Office Domain. This technique was seen in 
   several malicious documents that abuses .rels xml properties of MS office to connect or download malicious files. 
-  This hunting query can a good pivot or guide to check what URL link it tries to connect, what domain, where the documents came from and 
+  This hunting query can be a good pivot or guide to check what URL link it tries to connect, what domain, where the documents came from and 
   how the connection happens.
 search: '`sysmon` EventCode=22 Image IN ("*\\winword.exe","*\\excel.exe","*\\powerpnt.exe","*\\mspub.exe","*\\visio.exe","*\\wordpad.exe","*\\wordview.exe","*\\onenote.exe",
-  "*\\onenotem.exe","*\\onenoteviewer.exe","*\\onenoteim.exe") 
+  "*\\onenotem.exe","*\\onenoteviewer.exe","*\\onenoteim.exe", "*\\msaccess.exe") 
   AND NOT(QueryName IN ("*.office.com", "*.office.net"))
   | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryResults QueryStatus Computer
   | `security_content_ctime(firstTime)` 
