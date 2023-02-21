@@ -32,6 +32,7 @@ tags:
   - Industroyer2
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - AwfulShred
   asset_type: Endpoint
   cis20:
   - CIS 3
