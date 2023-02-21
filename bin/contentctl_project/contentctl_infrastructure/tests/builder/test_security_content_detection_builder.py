@@ -72,11 +72,7 @@ def test_detection_annotation_enrichment():
         'kill_chain_phases': ['Actions on Objectives'], 
         'cis20': ['CIS 3', 'CIS 5', 'CIS 16'], 
         'nist': ['DE.CM'], 
-        'analytic_story': ['Credential Dumping', 'DarkSide Ransomware'], 
-        'observable': [{'name': 'user', 'type': 'User', 'role': ['Victim']}, 
-            {'name': 'dest', 'type': 'Hostname', 'role': ['Victim']}, 
-            {'name': 'parent_process_name', 'type': 'Process', 'role': ['Parent Process']}, 
-            {'name': 'process_name', 'type': 'Process', 'role': ['Child Process']}], 
+        'analytic_story': ['Credential Dumping', 'DarkSide Ransomware'],
         'context': ['Source:Endpoint', 'Stage:Credential Access'], 
         'impact': 90, 'confidence': 100}
     
