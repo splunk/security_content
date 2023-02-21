@@ -7,7 +7,7 @@ description: On Thursday, 16 February 2022, Fortinet released a PSIRT that detai
 narrative: This vulnerability, discovered by Gwendal Guégniaud of Fortinet, allows an unauthenticated attacker to write arbitrary files on the system and as a result obtain remote code execution in the context of the root user (Horizon3.ai). 
   Impacting FortiNAC, is tracked as CVE-2022-39952 and has a CVSS v3 score of 9.8 (critical).
   FortiNAC is a network access control solution that helps organizations gain real-time network visibility, enforce security policies, and detect and mitigate threats.
-  "An external control of file name or path vulnerability [CWE-73] in FortiNAC webserver may allow an unauthenticated attacker to perform arbitrary write on the system," reads the security advisory.
+  An external control of file name or path vulnerability [CWE-73] in FortiNAC webserver may allow an unauthenticated attacker to perform arbitrary write on the system, reads the security advisory.
 references: 
    - https://www.horizon3.ai/fortinet-fortinac-cve-2022-39952-deep-dive-and-iocs/
    - https://viz.greynoise.io/tag/fortinac-rce-attempt?days=30
