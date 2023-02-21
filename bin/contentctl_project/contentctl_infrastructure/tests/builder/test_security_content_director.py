@@ -151,10 +151,6 @@ def test_construct_detections():
         'cis20': ['CIS 3', 'CIS 5', 'CIS 16'], 
         'nist': ['DE.CM'], 
         'analytic_story': ['Credential Dumping', 'DarkSide Ransomware'], 
-        'observable': [{'name': 'user', 'type': 'User', 'role': ['Victim']}, 
-            {'name': 'dest', 'type': 'Hostname', 'role': ['Victim']}, 
-            {'name': 'parent_process_name', 'type': 'Process', 'role': ['Parent Process']}, 
-            {'name': 'process_name', 'type': 'Process', 'role': ['Child Process']}], 
         'context': ['Source:Endpoint', 'Stage:Credential Access'], 
         'impact': 90, 'confidence': 100}
 
