@@ -74,7 +74,11 @@ setup_schema = {
             "default": {
                
                 # The default apps below were taken from the attack_range loadout: https://github.com/splunk/attack_range/blob/develop/attack_range.conf.template
-
+                "Splunk Add-on for CrowdStrike FDR": {
+                    "app_number": 5579,
+                    "app_version": "1.2.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-crowdstrike-fdr_120.tgz"
+                  },
                 "ADD_ON_FOR_LINUX_SYSMON": {
                     "app_number": 6176,
                     "app_version": "1.0.4",
@@ -140,6 +144,11 @@ setup_schema = {
                     "app_version": "8.1.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz"
                   },
+                  "SPLUNK_TA_FIX_WINDOWS":{
+                    "app_number": None,
+                    "app_version": None,
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/Splunk_TA_fix_windows.tgz"
+                  },
                   "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
                     "app_version": "5.0.1",
@@ -162,8 +171,8 @@ setup_schema = {
                   },
                   "SPLUNK_TA_MICROSOFT_CLOUD_SERVICES": {
                     "app_number": 3110,
-                    "app_version": "4.5.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_450.tgz"
+                    "app_version": "4.5.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_451.tgz"
                   },
                   "SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM": {
                     "app_number": 3088,
