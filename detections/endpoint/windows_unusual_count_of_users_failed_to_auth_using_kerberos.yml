@@ -25,7 +25,7 @@ description: 'The following analytic identifies one source endpoint failing to a
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4771 TargetUserName!="*$" Status=0x18
-  | bucket span=2m _time 
+  | bucket span=5m _time 
   | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, IpAddress
   | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by IpAddress 
   | eval upperBound=(comp_avg+comp_std*3)
