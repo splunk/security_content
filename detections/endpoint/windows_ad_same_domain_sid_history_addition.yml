@@ -20,7 +20,7 @@ search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistor
 how_to_implement: To successfully implement this search, you need to be ingesting eventcodes
  `4738` and `4742`. The Advanced Security Audit policy settings 
  `Audit User Account Management` and  `Audit Computer Account Management`
- within `Account Management` all need to be enabled. SID resolution is not required.
+ within `Account Management` all need to be enabled. SID resolution is not required..
 known_false_positives: Unknown
 references:
 - https://adsecurity.org/?p=1772
