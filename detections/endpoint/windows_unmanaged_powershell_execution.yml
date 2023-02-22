@@ -1,0 +1,76 @@
+name: Windows Unmanaged PowerShell Execution
+id: 98596727-e53f-4b44-a7ac-a16656cda773
+version: 1
+date: '2023-02-21'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: The following analytic will trigger 
+search: ' `sysmon` EventCode=7 
+  (ImageLoaded="*\\system.management.automation.dll" OR ImageLoaded="*\\system.management.automation.ni.dll") AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Computer EventCode Signed ProcessId
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_unmanaged_powershell_execution_filter`'
+how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
+  includes EventCode 7. This search uses an input macro named
+  `sysmon`. We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
+  with configurations for your Splunk environment. The search also uses a post-filter
+  macro designed to filter out known false positives.
+known_false_positives: Legitimate non Windows applications may also leverage unamanged powershell, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1059/001/
+- https://github.com/leechristensen/UnmanagedPowerShell
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/unmanaged_powershell_execution/windows-sysmon.log
+  impact: 60
+  kill_chain_phases:
+  - Delivery
+  - Installation
+  - Command & Control
+  message: Process name $Image$ 
+  mitre_attack_id:
+  - T1059
+  - T1059.001
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: Image
+    type: Process Name
+    role:
+    - Attacker
+  - name: ImageLoaded
+    type: File
+    role:
+    - Other
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - ImageLoaded
+  - Computer
+  - EventCode
+  - Signed
+  - ProcessId
+  risk_score: 36
+  security_domain: endpoint
