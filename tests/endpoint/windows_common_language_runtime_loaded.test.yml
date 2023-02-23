@@ -1,0 +1,13 @@
+name: Windows Common Language Runtime Loaded Unit Test
+tests:
+- name: Windows Common Language Runtime Loaded
+  file: endpoint/windows_common_language_runtime_loaded.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: UPDATE
+    data: UPDATE
+    source: UPDATE
+    sourcetype: UPDATE
+    update_timestamp: true
