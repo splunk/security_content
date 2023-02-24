@@ -44,6 +44,7 @@ class DetectionTags(BaseModel):
     kill_chain_phases_id: list = None
     research_site_url: str = None
     event_schema: str = None
+    mappings: list = None
 
 
     @validator('cis20')

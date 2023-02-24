@@ -66,16 +66,26 @@ tags:
   product:
   - Splunk Behavioral Analytics
   required_fields:
+  - inferred_caller_user_name
+  - device_hostname
   - process_file_name
   - actor_process_file_name
   - process_cmd_line
   risk_score: 42
   security_domain: endpoint
-  atomic_guid: null
-  drilldown_search: null
+  mappings:
+  - ocsf: inferred_caller_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: actor_process_file_name
+    cim: parent_process_name
+  - ocsf: process_cmd_line
+    cim: process
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
     source: WinEventLog:Security
-    sourcetype: null

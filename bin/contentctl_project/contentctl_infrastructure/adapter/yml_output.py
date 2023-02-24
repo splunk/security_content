@@ -11,6 +11,7 @@ class YmlOutput():
         for obj in objects:
             file_path = obj.file_path
             YmlWriter.writeYmlFile(os.path.join(output_path, file_path), obj.dict(
+                exclude_none=True,
                 include =
                     {
                         "name": True,
@@ -34,6 +35,7 @@ class YmlOutput():
                                 "confidence": True,
                                 "impact": True,
                                 "drilldown_search": True,
+                                "mappings": True,
                                 "message": True,
                                 "mitre_attack_id": True,
                                 "kill_chain_phases:": True,

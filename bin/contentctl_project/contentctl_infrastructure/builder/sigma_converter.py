@@ -172,7 +172,7 @@ class SigmaConverter():
                     else:
                         field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
 
-                    self.add_required_fields(field_mapping, detection)
+                    self.add_required_fields_and_mappings(field_mapping, detection)
                     self.update_observables(detection)
 
                     processing_items.append(
@@ -321,8 +321,20 @@ class SigmaConverter():
         raise AttributeError("ERROR: Couldn't find mapping.")
 
 
-    def add_required_fields(self, field_mapping: dict, detection: Detection) -> None:
+    def add_required_fields_and_mappings(self, field_mapping: dict, detection: Detection) -> None:
         required_fields = list()
+        required_fields = ["inferred_caller_user_name", "device_hostname"]
+        mappings = list()
+        mappings = [
+            {
+                "ocsf": "inferred_caller_user_name",
+                "cim": "user"
+            },
+            {
+                "ocsf": "device_hostname",
+                "cim": "dest"
+            }            
+        ]
         for mapping in field_mapping["mapping"].keys():
             for selection in detection.search.keys():
                 if selection != "condition":
@@ -330,22 +342,23 @@ class SigmaConverter():
                         if detection_field.startswith(mapping):
                             if not field_mapping["mapping"][mapping] in required_fields:
                                 required_fields.append(field_mapping["mapping"][mapping])
+                                mappings.append({"ocsf": field_mapping["mapping"][mapping], "cim": mapping})
 
+        detection.tags.mappings = mappings
         detection.tags.required_fields = required_fields
 
 
     def update_observables(self, detection : Detection) -> None:
         mapping_field_to_type = {
+            "inferred_caller_user_name": "User Name",
+            "device_hostname": "Hostname",
             "process_file_name": "File Name",
             "actor_process_file_name": "File Name",
-            "process_cmd_line": "Other",
             "process_cmd_line": "Other",
             "process_file_path": "File"
         }
 
         observables = list()
-        observables.append({"name": "inferred_caller_user_name", "type": "User Name"})
-        observables.append({"name": "device_hostname", "type": "Hostname"})
         
         for field in detection.tags.required_fields:
             observables.append({

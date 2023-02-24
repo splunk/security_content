@@ -89,6 +89,8 @@ tags:
   nist:
   - DE.AE
   required_fields:
+  - inferred_caller_user_name
+  - device_hostname
   - process_file_name
   - actor_process_file_name
   - process_cmd_line
