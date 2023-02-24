@@ -62,6 +62,15 @@ class FindingReportObject():
 
         detection.tags.observable_str = observable_str
 
+        evidence_str = "create_map("
+        for i in range(len(detection.tags.observable)):            
+            evidence_str = evidence_str + '"' + detection.tags.observable[i]["name"] + '", ' + detection.tags.observable[i]["name"]
+            if not i == (len(detection.tags.observable) - 1):
+                evidence_str = evidence_str + ', '
+        evidence_str = evidence_str + ')'        
+
+        detection.tags.evidence_str = evidence_str
+
         j2_env = Environment(
             loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')), 
             trim_blocks=True)

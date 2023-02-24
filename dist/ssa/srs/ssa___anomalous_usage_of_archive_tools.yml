@@ -40,11 +40,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     ],
     "duration", 0,
     "time", timestamp,
-    "evidence", create_map(
-        "actor.process.file.name", parent_process_name,
-        "process.file.name", process_name,
-        "process.cmd_line", cmd_line
-    ),
+    "evidence", create_map("inferred_caller_user_name", inferred_caller_user_name, "device_hostname", device_hostname, "process_file_name", process_file_name, "actor_process_file_name", actor_process_file_name, "process_cmd_line", process_cmd_line),
     "impact", 70,
     "impact_id", 4,
     "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],

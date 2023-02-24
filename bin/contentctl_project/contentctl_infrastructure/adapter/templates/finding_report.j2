@@ -14,11 +14,7 @@
     ],
     "duration", 0,
     "time", timestamp,
-    "evidence", create_map(
-        "actor.process.file.name", parent_process_name,
-        "process.file.name", process_name,
-        "process.cmd_line", cmd_line
-    ),
+    "evidence", {{ detection.tags.evidence_str }},
     "impact", {{ detection.tags.impact }},
     "impact_id", {{ detection.tags.impact_id }},
     "kill_chain", [{%- for kill_chain_phase in detection.tags.kill_chain_phases %}create_map("phase", "{{kill_chain_phase}}", "phase_id", {{detection.tags.kill_chain_phases_id[kill_chain_phase]}}){% if not loop.last %}, {% endif %}{%- endfor -%}],
