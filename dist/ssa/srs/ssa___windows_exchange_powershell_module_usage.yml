@@ -77,7 +77,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/1118bc65-b0c7-4589-bc2f-ad6802fd0909/
-  event_schema: cim
 test:
   name: Windows Exchange PowerShell Module Usage Unit Test
   tests:
@@ -86,3 +85,4 @@ test:
     - file_name: windows-powershell.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
       source: XmlWinEventLog
+eventSchema: ocsf

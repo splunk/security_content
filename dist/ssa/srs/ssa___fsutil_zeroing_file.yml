@@ -51,7 +51,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/f792cdc9-43ee-4429-a3c0-ffce4fed1a85/
-  event_schema: cim
 test:
   name: Fsutil Zeroing File Unit Test
   tests:
@@ -60,3 +59,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

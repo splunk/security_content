@@ -55,7 +55,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/0ae05a0f-bc84-456b-822a-a5b9c081c7ca/
-  event_schema: cim
 test:
   name: Windows COM Hijacking InprocServer32 Modification Unit Test
   tests:
@@ -64,3 +63,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/atomic_red_team/windows-security.log
       source: XmlWinEventLog
+eventSchema: ocsf

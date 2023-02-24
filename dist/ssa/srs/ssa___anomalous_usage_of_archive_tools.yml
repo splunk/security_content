@@ -13,7 +13,8 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "device"), "map<string,any>", null) | eval inferred_caller = ucast(map_get(inferred,
   "caller"), "map<string,any>", null) | eval inferred_caller_user = ucast(map_get(inferred_caller,
   "user"), "map<string,any>", null) | eval inferred_caller_user_uid = ucast(map_get(inferred_caller_user,
-  "uid"), "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
+  "uid"), "string", null) | eval inferred_caller_user_name = ucast(map_get(inferred_caller_user,
+  "name"), "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
   any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
   null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
   | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval
@@ -29,7 +30,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "analytic_stories", ["Cobalt Strike", "NOBELIUM Group", "Insider Threat"],
     "cis_csc", [create_map("control", "CIS 10", "version", 7)],
     "category_uid", 2,
-    "class", "Detection Report",
+    "class_name", "Detection Report",
     "class_uid", 102001,
     "confidence", 60,
     "confidence_id", 2,
@@ -57,12 +58,12 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         "version", "1.0.0"
     ),
     "nist", ["DE.AE"],
-    "observables", [create_map("name", "user", "type_id", 6, "value", user), create_map("name", "dest", "type_id", 4, "value", dest), create_map("name", "parent_process_name", "type_id", 15, "value", parent_process_name), create_map("name", "process_name", "type_id", 15, "value", process_name)],
+    "observables", [create_map("name", "inferred_caller_user_name", "type_id", 4, "value", inferred_caller_user_name), create_map("name", "device_hostname", "type_id", 1, "value", device_hostname), create_map("name", "process_file_name", "type_id", 7, "value", process_file_name), create_map("name", "actor_process_file_name", "type_id", 7, "value", actor_process_file_name), create_map("name", "process_cmd_line", "type_id", 99, "value", process_cmd_line)],
     "risk_level", "Medium",
     "risk_level_id", 2,
     "risk_score", 42,
     "severity_id", 4,
-    "type_id", 10200101,
+    "type_uid", 10200101,
     "users", [
         create_map(
             "uid", inferred_caller_user_uid
@@ -92,18 +93,13 @@ tags:
   nist:
   - DE.AE
   required_fields:
-  - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
+  - process_file_name
+  - actor_process_file_name
+  - process_cmd_line
   risk_score: 42
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/63614a58-10e2-4c6c-ae81-ea1113681439/
-  event_schema: cim
 test:
   name: Anomalous usage of Archive Tools Unit Test
   tests:
@@ -112,3 +108,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

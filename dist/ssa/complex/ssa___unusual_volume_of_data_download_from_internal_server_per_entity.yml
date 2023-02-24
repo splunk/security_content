@@ -52,7 +52,6 @@ tags:
   security_domain: network
   risk_severity: low
   research_site_url: https://research.splunk.com/network/cca028f4-77dd-11ec-bc09-acde48001122/
-  event_schema: cim
 test:
   name: Unusual Volume of Data Download from Internal Server Per Entity Unit Test
   tests:
@@ -61,3 +60,4 @@ test:
     - file_name: unusual_volume_data_download.txt
       data: https://github.com/splunk/attack_data/blob/master/datasets/suspicious_behaviour/unusual_data_download/unusual_volume_data_download.txt
       source: PAN Traffic Log
+eventSchema: ocsf

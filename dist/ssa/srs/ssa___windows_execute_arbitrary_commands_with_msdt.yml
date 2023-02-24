@@ -59,7 +59,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/f253f9c2-10f0-4cc8-b469-f505ba8c2038/
-  event_schema: cim
 test:
   name: Windows Execute Arbitrary Commands with MSDT Unit Test
   tests:
@@ -68,3 +67,4 @@ test:
     - file_name: msdt-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt-windows-security.log
       source: XmlWinEventLog
+eventSchema: ocsf

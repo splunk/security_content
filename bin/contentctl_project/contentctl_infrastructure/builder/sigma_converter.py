@@ -3,6 +3,7 @@ import sys
 import copy
 
 from dataclasses import dataclass
+from jinja2 import Environment, FileSystemLoader
 
 from sigma.processing.conditions import LogsourceCondition
 from sigma.processing.transformations import AddConditionTransformation, FieldMappingTransformation, DetectionItemFailureTransformation, RuleFailureTransformation, SetStateTransformation
@@ -18,6 +19,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.detection import Det
 from bin.contentctl_project.contentctl_core.domain.entities.data_source import DataSource
 from bin.contentctl_project.contentctl_infrastructure.builder.backend_splunk_ba import SplunkBABackend
 from bin.contentctl_project.contentctl_core.application.factory.utils.utils import Utils
+from bin.contentctl_project.contentctl_core.domain.constants.constants import *
 
 @dataclass(frozen=True)
 class SigmaConverterInputDto:
@@ -55,7 +57,7 @@ class SigmaConverter():
             sys.exit(1)
 
         for detection_file in detection_files:
-            try:
+            #try:
                 detection = self.read_detection(str(detection_file))
                 print("Converting detection: " + detection.name)
                 data_source = self.load_data_source(input_dto.input_path, detection.data_source[0])
@@ -170,6 +172,9 @@ class SigmaConverter():
                     else:
                         field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
 
+                    self.add_required_fields(field_mapping, detection)
+                    self.update_observables(detection)
+
                     processing_items.append(
                         self.get_field_transformation_processing_item(
                             field_mapping['mapping'],
@@ -191,18 +196,16 @@ class SigmaConverter():
                         splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection)
                     search = splunk_backend.convert(sigma_rule, "data_model")[0]
 
-                    #search = self.prefix_ocsf_detection() + search + self.postfix_ocsf_detection(detection) + '--finding_report--'
                     search = search + ' --finding_report--'
-
                     detection.file_path = 'ssa___' + file_name + '.yml'                    
 
                 detection.search = search
                 
                 self.output_dto.detections.append(detection)
 
-            except Exception as e:
-                print(e)
-                errors.append("ERROR: Converting detection " + detection.name)
+            # except Exception as e:
+            #     print(e)
+            #     errors.append("ERROR: Converting detection " + detection.name)
 
         print()
         for error in errors:
@@ -318,31 +321,36 @@ class SigmaConverter():
         raise AttributeError("ERROR: Couldn't find mapping.")
 
 
-    def prefix_ocsf_detection(self) -> str:
-        return f"""
-| from read_ba_enriched_events()
-| eval timestamp = ucast(map_get(input_event,"time"), "long", null)
-| eval process_map = ucast(map_get(input_event, "process"), "map<string, any>", null)
-| eval file_map = ucast(map_get(process_map, "file"), "map<string, any>", null)
-| eval process_name = lower(ucast(map_get(file_map, "name"), "string", null))
-| eval cmd_line = ucast(map_get(process_map, "cmd_line"), "string", null)
-| eval actor_map = ucast(map_get(input_event, "actor"), "map<string, any>", null)
-| eval actor_process_map = ucast(map_get(actor_map, "process"), "map<string, any>", null)
-| eval actor_process_file_map = ucast(map_get(actor_process_map, "file"), "map<string, any>", null)
-| eval parent_process_name = ucast(map_get(actor_process_file_map, "name"), "string", null)
-| eval metadata_map = ucast(map_get(input_event, "metadata"), "map<string, any>", null)
-| eval metadata_uid = ucast(map_get(metadata_map, "uid"), "string", null)
-| eval disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
-| where disposition_id = 1
-""".replace("\n"," ")
+    def add_required_fields(self, field_mapping: dict, detection: Detection) -> None:
+        required_fields = list()
+        for mapping in field_mapping["mapping"].keys():
+            for selection in detection.search.keys():
+                if selection != "condition":
+                    for detection_field in detection.search[selection]:
+                        if detection_field.startswith(mapping):
+                            if not field_mapping["mapping"][mapping] in required_fields:
+                                required_fields.append(field_mapping["mapping"][mapping])
 
-    def postfix_ocsf_detection(self, detection: Detection) -> str:
+        detection.tags.required_fields = required_fields
 
-        return f"""
-| eval origin_map=ucast(map_get(input_event, "origin"), "map<string, any>", null),
-dest_device=ucast(map_get(origin_map, "device"), "map<string, any>", null),
-dest_user=ucast(map_get(input_event, "user"), "map<string, any>", null),
-dest_device_name=ucast(map_get(dest_device, "name"), "string", null),
-dest_user_name=ucast(map_get(dest_user, "name"), "string", null),
-message=concat("{detection.tags.message}", dest_device_name, " by ", dest_user_name, " via process ", process_name, ".") 
-""".replace("\n"," ")
+
+    def update_observables(self, detection : Detection) -> None:
+        mapping_field_to_type = {
+            "process_file_name": "File Name",
+            "actor_process_file_name": "File Name",
+            "process_cmd_line": "Other",
+            "process_cmd_line": "Other",
+            "process_file_path": "File"
+        }
+
+        observables = list()
+        observables.append({"name": "inferred_caller_user_name", "type": "User Name"})
+        observables.append({"name": "device_hostname", "type": "Hostname"})
+        
+        for field in detection.tags.required_fields:
+            observables.append({
+                "name": field,
+                "type": mapping_field_to_type[field]
+            })
+
+        detection.tags.observable = observables

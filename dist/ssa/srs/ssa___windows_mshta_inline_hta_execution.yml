@@ -56,7 +56,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/24962154-9524-11ec-9333-acde48001122/
-  event_schema: cim
 test:
   name: Windows MSHTA Inline HTA Execution Unit Test
   tests:
@@ -65,3 +64,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

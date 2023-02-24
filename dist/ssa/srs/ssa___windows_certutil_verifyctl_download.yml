@@ -57,7 +57,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/9ac29c40-8f6b-11ec-b19a-acde48001122/
-  event_schema: cim
 test:
   name: Windows CertUtil VerifyCtl Download Unit Test
   tests:
@@ -66,3 +65,4 @@ test:
     - file_name: T1105-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105-windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

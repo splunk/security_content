@@ -58,5 +58,5 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/fc0edc95-ff2b-48b0-9f6f-63da3789fd23/
-  event_schema: cim
 test: null
+eventSchema: ocsf

@@ -50,7 +50,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/92cbbf0f-9a6b-4e9d-8c35-cc9244a4e3d5/
-  event_schema: cim
 test:
   name: Windows System Binary Proxy Execution MSIExec Remote Download Unit Test
   tests:
@@ -59,3 +58,4 @@ test:
     - file_name: 4688_msiexec-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/4688_msiexec-windows-security.log
       source: XmlWinEventLog
+eventSchema: ocsf

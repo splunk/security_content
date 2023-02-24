@@ -49,7 +49,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/76d79d6e-25bb-40f6-b3b2-e0a6b7e5ea13/
-  event_schema: cim
 test:
   name: BCDEdit Failure Recovery Modification Unit Test
   tests:
@@ -58,3 +57,4 @@ test:
     - file_name: windows-security_bcdedit_wbadmin.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-security_bcdedit_wbadmin.log
       source: WinEventLog:Security
+eventSchema: ocsf

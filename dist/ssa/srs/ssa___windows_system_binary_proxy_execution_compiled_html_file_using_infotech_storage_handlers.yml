@@ -67,7 +67,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/ba0c2450-caea-4086-ac3a-a71e2659754b/
-  event_schema: cim
 test:
   name: Windows System Binary Proxy Execution Compiled HTML File Using InfoTech Storage
     Handlers Unit Test
@@ -78,3 +77,4 @@ test:
     - file_name: chm-wineventlog-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/chm-wineventlog-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

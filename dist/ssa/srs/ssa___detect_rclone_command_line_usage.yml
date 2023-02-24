@@ -61,7 +61,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/e8b74268-5454-11ec-a799-acde48001122/
-  event_schema: cim
 test:
   name: Detect RClone Command-Line Usage Unit Test
   tests:
@@ -70,3 +69,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

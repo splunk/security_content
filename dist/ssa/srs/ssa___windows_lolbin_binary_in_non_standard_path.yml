@@ -86,7 +86,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/25689101-012a-324a-94d3-08301e6c065a/
-  event_schema: cim
 test:
   name: Windows LOLBin Binary in Non Standard Path Unit Test
   tests:
@@ -95,3 +94,4 @@ test:
     - file_name: dotnet_lolbin-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/dotnet_lolbin-windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

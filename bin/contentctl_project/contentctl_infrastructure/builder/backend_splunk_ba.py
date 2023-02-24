@@ -99,6 +99,7 @@ class SplunkBABackend(TextQueryBackend):
 | eval inferred_caller = ucast(map_get(inferred, "caller"), "map<string,any>", null)
 | eval inferred_caller_user = ucast(map_get(inferred_caller, "user"), "map<string,any>", null)
 | eval inferred_caller_user_uid = ucast(map_get(inferred_caller_user, "uid"), "string", null)
+| eval inferred_caller_user_name = ucast(map_get(inferred_caller_user, "name"), "string", null)
 """.replace("\n", " ")
 
         parsed_fields = [] 

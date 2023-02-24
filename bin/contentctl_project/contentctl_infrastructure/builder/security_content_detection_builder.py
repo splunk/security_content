@@ -66,6 +66,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addRBA(self) -> None:
         if self.security_content_obj:
+
             risk_objects = []
             risk_object_user_types = {'user', 'username', 'email address'}
             risk_object_system_types = {'device', 'endpoint', 'hostname', 'ip address'}
@@ -74,20 +75,16 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                 for entity in self.security_content_obj.tags.observable:
                     risk_object = dict()
                     if entity['type'].lower() in risk_object_user_types:
-                        for r in entity['role']:
-                            if 'attacker' == r.lower() or 'victim' ==r.lower():
-                                risk_object['risk_object_type'] = 'user'
-                                risk_object['risk_object_field'] = entity['name']
-                                risk_object['risk_score'] = self.security_content_obj.tags.risk_score
-                                risk_objects.append(risk_object)
+                        risk_object['risk_object_type'] = 'user'
+                        risk_object['risk_object_field'] = entity['name']
+                        risk_object['risk_score'] = self.security_content_obj.tags.risk_score
+                        risk_objects.append(risk_object)
 
                     elif entity['type'].lower() in risk_object_system_types:
-                        for r in entity['role']:
-                            if 'attacker' == r.lower() or 'victim' ==r.lower():
-                                risk_object['risk_object_type'] = 'system'
-                                risk_object['risk_object_field'] = entity['name']
-                                risk_object['risk_score'] = self.security_content_obj.tags.risk_score
-                                risk_objects.append(risk_object)
+                        risk_object['risk_object_type'] = 'system'
+                        risk_object['risk_object_field'] = entity['name']
+                        risk_object['risk_score'] = self.security_content_obj.tags.risk_score
+                        risk_objects.append(risk_object)
                     else:
                         risk_object['threat_object_field'] = entity['name']
                         risk_object['threat_object_type'] = entity['type'].lower()

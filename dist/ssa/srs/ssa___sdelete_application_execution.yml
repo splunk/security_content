@@ -66,7 +66,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/fcc52b9a-4616-11ec-8454-acde48001122/
-  event_schema: cim
 test:
   name: Sdelete Application Execution Unit Test
   tests:
@@ -75,3 +74,4 @@ test:
     - file_name: security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
       source: WinEventLog:Security
+eventSchema: ocsf

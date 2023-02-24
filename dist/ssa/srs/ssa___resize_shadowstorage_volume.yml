@@ -52,7 +52,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/dbc30554-d27e-11eb-9e5e-acde48001122/
-  event_schema: cim
 test:
   name: Resize Shadowstorage Volume Unit Test
   tests:
@@ -61,3 +60,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

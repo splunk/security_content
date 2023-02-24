@@ -48,7 +48,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/3284e4f4-67f7-49b6-ad5e-a8fcead2eef8/
-  event_schema: cim
 test:
   name: Windows Rename System Utilities Advpack dll LOLBAS in Non Standard Path Unit
     Test
@@ -58,3 +57,4 @@ test:
     - file_name: lolbas_dataset.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
       source: WinEventLog:Security
+eventSchema: ocsf

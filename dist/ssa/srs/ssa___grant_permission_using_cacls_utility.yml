@@ -50,7 +50,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/c6da561a-cd29-11eb-ae65-acde48001122/
-  event_schema: cim
 test:
   name: Grant Permission Using Cacls Utility Unit Test
   tests:
@@ -59,3 +58,4 @@ test:
     - file_name: all_icalc.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
       source: WinEventLog:Security
+eventSchema: ocsf

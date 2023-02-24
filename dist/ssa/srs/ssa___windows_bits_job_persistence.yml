@@ -61,7 +61,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/1e25e97a-8ea4-11ec-9767-acde48001122/
-  event_schema: cim
 test:
   name: Windows Bits Job Persistence Unit Test
   tests:
@@ -70,3 +69,4 @@ test:
     - file_name: bits-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/bits-windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

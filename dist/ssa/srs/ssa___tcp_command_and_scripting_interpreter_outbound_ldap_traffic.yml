@@ -51,7 +51,6 @@ tags:
   security_domain: network
   risk_severity: low
   research_site_url: https://research.splunk.com/network/4d16a90c-d1a9-4d17-8156-d0db0c73c449/
-  event_schema: cim
 test:
   name: TCP Command and Scripting Interpreter Outbound LDAP Traffic Unit Test
   tests:
@@ -60,3 +59,4 @@ test:
     - file_name: pantraffic.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
       source: pan:traffic
+eventSchema: ocsf

@@ -54,11 +54,7 @@ class FindingReportObject():
             detection.tags.risk_level = "Critical"  
 
         observable_str = "["
-        for i in range(len(detection.tags.observable)):
-            role_list = []
-            for role in detection.tags.observable[i]["role"]:
-                role_list.append(str(SES_OBSERVABLE_ROLE_MAPPING[role]))
-            
+        for i in range(len(detection.tags.observable)):            
             observable_str = observable_str + 'create_map("name", "' + detection.tags.observable[i]["name"] + '", "type_id", ' + str(SES_OBSERVABLE_TYPE_MAPPING[detection.tags.observable[i]["type"]]) + ', "value", ' + detection.tags.observable[i]["name"] + ')'
             if not i == (len(detection.tags.observable) - 1):
                 observable_str = observable_str + ', '

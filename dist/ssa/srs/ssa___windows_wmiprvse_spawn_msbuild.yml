@@ -57,7 +57,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/76b3b290-9b31-11ec-a934-acde48001122/
-  event_schema: cim
 test:
   name: Windows WMIPrvse Spawn MSBuild Unit Test
   tests:
@@ -66,3 +65,4 @@ test:
     - file_name: msbuild-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/msbuild-windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

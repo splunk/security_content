@@ -54,7 +54,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/695bfad6-9662-4f9e-a576-bf02a951aa60/
-  event_schema: cim
 test:
   name: Windows Ingress Tool Transfer Using Explorer Unit Test
   tests:
@@ -63,3 +62,4 @@ test:
     - file_name: T1105_explorer-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105_explorer-windows-security.log
       source: XmlWinEventLog
+eventSchema: ocsf

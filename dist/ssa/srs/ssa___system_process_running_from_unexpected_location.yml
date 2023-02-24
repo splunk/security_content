@@ -237,7 +237,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/28179107-099a-464a-94d3-08301e6c055f/
-  event_schema: cim
 test:
   name: System Process Running from Unexpected Location Unit Test
   tests:
@@ -246,3 +245,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

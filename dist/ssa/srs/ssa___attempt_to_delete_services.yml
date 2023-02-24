@@ -54,7 +54,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/a0c8c292-d01a-11eb-aa18-acde48001122/
-  event_schema: cim
 test:
   name: Attempt To Delete Services Unit Test
   tests:
@@ -63,3 +62,4 @@ test:
     - file_name: sc_del.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log
       source: WinEventLog:Security
+eventSchema: ocsf

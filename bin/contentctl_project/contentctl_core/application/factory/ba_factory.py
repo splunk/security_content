@@ -76,43 +76,43 @@ class BAFactory():
         
             
             progress_percent = ((index+1)/len(files_with_ssa)) * 100
-            try:
-                type_string = "UNKNOWN TYPE"
-                if type == SecurityContentType.detections:
-                    type_string = "Detections"    
-                    self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.input_dto.attack_enrichment, [], [])
-                    detection = self.input_dto.detection_builder.getObject()
-                    Utils.add_id(self.ids, detection, file)
+            #try:
+            type_string = "UNKNOWN TYPE"
+            if type == SecurityContentType.detections:
+                type_string = "Detections"    
+                self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, [], [], [], self.input_dto.attack_enrichment, [], [])
+                detection = self.input_dto.detection_builder.getObject()
+                Utils.add_id(self.ids, detection, file)
+                
+                tag_and_nist_errors = []
+                
+                if detection.tags.cis20 == None:
+                    error = TypeError(f"Detection Tags missing cis20 field")
+                    tag_and_nist_errors.append(ErrorWrapper(error, loc="cis20"))
                     
-                    tag_and_nist_errors = []
+                if detection.tags.nist == None:
+                    error = TypeError(f"Detection Tags missing nist field")
+                    tag_and_nist_errors.append(ErrorWrapper(error, loc="nist"))
                     
-                    if detection.tags.cis20 == None:
-                        error = TypeError(f"Detection Tags missing cis20 field")
-                        tag_and_nist_errors.append(ErrorWrapper(error, loc="cis20"))
-                        
-                    if detection.tags.nist == None:
-                        error = TypeError(f"Detection Tags missing nist field")
-                        tag_and_nist_errors.append(ErrorWrapper(error, loc="nist"))
-                        
-                    if len(tag_and_nist_errors) > 0:
-                        raise ValidationError( tag_and_nist_errors , DetectionTags)
+                if len(tag_and_nist_errors) > 0:
+                    raise ValidationError( tag_and_nist_errors , DetectionTags)
 
 
 
-                    if not detection.deprecated and not detection.experimental:
-                        self.output_dto.detections.append(detection)
-                else:
-                    raise(Exception(f"Unsupported content type: [{type}]"))
+                if not detection.deprecated and not detection.experimental:
+                    self.output_dto.detections.append(detection)
+            else:
+                raise(Exception(f"Unsupported content type: [{type}]"))
 
-                if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()) or not already_ran:
-                    already_ran = True
-                    print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
+            if (sys.stdout.isatty() and sys.stdin.isatty() and sys.stderr.isatty()) or not already_ran:
+                already_ran = True
+                print(f"\r{f'{type_string} Progress'.rjust(23)}: [{progress_percent:3.0f}%]...", end="", flush=True)
 
-            except ValidationError as e:
-                validation_errors.append((pathlib.Path(file), e))
-            except Exception as e:
-                print(f"Unknown exception caught while Creating BA Security Content: {str(e)}")
-                sys.exit(1)
+            # except ValidationError as e:
+            #     validation_errors.append((pathlib.Path(file), e))
+            # except Exception as e:
+            #     print(f"Unknown exception caught while Creating BA Security Content: {str(e)}")
+            #     sys.exit(1)
 
         
         

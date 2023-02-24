@@ -47,7 +47,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/028e4406-6176-11ec-aec2-acde48001122/
-  event_schema: cim
 test:
   name: Hiding Files And Directories With Attrib exe Unit Test
   tests:
@@ -56,3 +55,4 @@ test:
     - file_name: security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
       source: WinEventLog:Security
+eventSchema: ocsf

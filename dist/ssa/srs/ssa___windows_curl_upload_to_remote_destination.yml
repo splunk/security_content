@@ -69,7 +69,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/cc8d046a-543b-11ec-b864-acde48001122/
-  event_schema: cim
 test:
   name: Windows Curl Upload to Remote Destination Unit Test
   tests:
@@ -78,3 +77,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

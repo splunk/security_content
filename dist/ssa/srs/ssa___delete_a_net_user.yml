@@ -52,7 +52,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/8776d79c-d26e-11eb-9a56-acde48001122/
-  event_schema: cim
 test:
   name: Delete A Net User Unit Test
   tests:
@@ -64,3 +63,4 @@ test:
     - file_name: security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1531/atomic_red_team/security.log
       source: WinEventLog:Security
+eventSchema: ocsf

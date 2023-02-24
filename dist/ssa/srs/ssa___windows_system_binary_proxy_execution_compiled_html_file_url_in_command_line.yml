@@ -64,7 +64,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/0fec631a-7c9b-4e4c-b28b-93260953e25f/
-  event_schema: cim
 test:
   name: Windows System Binary Proxy Execution Compiled HTML File URL In Command Line
     Unit Test
@@ -75,3 +74,4 @@ test:
     - file_name: chm-wineventlog-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/chm-wineventlog-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

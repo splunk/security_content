@@ -49,7 +49,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/d75cc561-3828-4d0a-92c4-0eb93bfe0929/
-  event_schema: cim
 test:
   name: Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard
     Path Unit Test
@@ -60,3 +59,4 @@ test:
     - file_name: lolbas_dataset.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
       source: WinEventLog:Security
+eventSchema: ocsf

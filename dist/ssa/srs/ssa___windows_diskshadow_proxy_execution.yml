@@ -51,7 +51,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/aa502688-9037-11ec-842d-acde48001122/
-  event_schema: cim
 test:
   name: Windows Diskshadow Proxy Execution Unit Test
   tests:
@@ -60,3 +59,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/diskshadow/windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

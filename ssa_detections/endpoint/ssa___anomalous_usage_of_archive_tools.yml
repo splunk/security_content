@@ -19,7 +19,8 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "device"), "map<string,any>", null) | eval inferred_caller = ucast(map_get(inferred,
   "caller"), "map<string,any>", null) | eval inferred_caller_user = ucast(map_get(inferred_caller,
   "user"), "map<string,any>", null) | eval inferred_caller_user_uid = ucast(map_get(inferred_caller_user,
-  "uid"), "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
+  "uid"), "string", null) | eval inferred_caller_user_name = ucast(map_get(inferred_caller_user,
+  "name"), "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
   any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
   null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
   | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval
@@ -52,32 +53,22 @@ tags:
   - T1560.001
   - T1560
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
+  - name: inferred_caller_user_name
+    type: User Name
+  - name: device_hostname
     type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  - name: process_file_name
+    type: File Name
+  - name: actor_process_file_name
+    type: File Name
+  - name: process_cmd_line
+    type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
+  - process_file_name
+  - actor_process_file_name
+  - process_cmd_line
   risk_score: 42
   security_domain: endpoint
   atomic_guid: null

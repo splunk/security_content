@@ -51,7 +51,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/3ea3851a-8736-41a0-bc09-7e4485b48fa6/
-  event_schema: cim
 test:
   name: Office Product Spawning Windows Script Host Unit Test
   tests:
@@ -60,3 +59,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-security.log
       source: XmlWinEventLog
+eventSchema: ocsf

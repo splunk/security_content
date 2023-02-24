@@ -53,7 +53,6 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/9ae9a48a-cdbe-11eb-875a-acde48001122/
-  event_schema: cim
 test:
   name: Modify ACLs Permission Of Files Or Folders Unit Test
   tests:
@@ -62,3 +61,4 @@ test:
     - file_name: all_icalc.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
       source: WinEventLog:Security
+eventSchema: ocsf

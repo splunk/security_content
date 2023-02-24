@@ -44,7 +44,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/c205bd2e-cd5b-4224-8510-578a2a1f83d7/
-  event_schema: cim
 test:
   name: Windows Defender Tools in Non Standard Path Unit Test
   tests:
@@ -53,3 +52,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/mpcmdrun/windows-security.log
       source: XmlWinEventLog
+eventSchema: ocsf

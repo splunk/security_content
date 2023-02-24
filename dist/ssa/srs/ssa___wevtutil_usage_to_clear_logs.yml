@@ -56,7 +56,6 @@ tags:
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/5438113c-cdd9-11eb-93b8-acde48001122/
-  event_schema: cim
 test:
   name: WevtUtil Usage To Clear Logs Unit Test
   tests:
@@ -65,3 +64,4 @@ test:
     - file_name: clear_evt.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
       source: WinEventLog:Security
+eventSchema: ocsf

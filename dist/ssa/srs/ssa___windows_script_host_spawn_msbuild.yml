@@ -56,7 +56,6 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/92886f1c-9b11-11ec-848a-acde48001122/
-  event_schema: cim
 test:
   name: Windows Script Host Spawn MSBuild Unit Test
   tests:
@@ -65,3 +64,4 @@ test:
     - file_name: msbuild-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/msbuild-windows-security.log
       source: WinEventLog:Security
+eventSchema: ocsf

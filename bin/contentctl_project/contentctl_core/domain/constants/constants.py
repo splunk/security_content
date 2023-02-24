@@ -93,25 +93,28 @@ SES_OBSERVABLE_ROLE_MAPPING = {
 }
 
 SES_OBSERVABLE_TYPE_MAPPING = {
-    "Other": -1,
     "Unknown": 0,
-    "Device": 1,
-    "Container": 2,
-    "Endpoint": 3,
-    "Hostname": 4,
-    "IP Address": 5,
-    "User": 6,
-    "Username": 7,
-    "Email": 8,
-    "Email Address": 9,
-    "URL": 10,
-    "URL Domain": 11,
-    "File": 12,
-    "File Name": 13,
-    "File Hash": 14,
-    "Process": 15,
-    "Process Name": 16,
-    "Location": 17
+    "Hostname": 1,
+    "IP Address": 2,
+    "MAC Address": 3,
+    "User Name": 4,
+    "Email Address": 5,
+    "URL String": 6,
+    "File Name": 7,
+    "File Hash": 8,
+    "Process Name": 9,
+    "Ressource UID": 10,
+    "Endpoint": 20,
+    "User": 21,
+    "Email": 22,
+    "Uniform Resource Locator": 23,
+    "File": 24,
+    "Process": 25,
+    "Geo Location": 26,
+    "Container": 27,
+    "Registry Key": 28,
+    "Registry Value": 29,
+    "Other": 99
 }
 
 SES_ATTACK_TACTICS_ID_MAPPING = {
