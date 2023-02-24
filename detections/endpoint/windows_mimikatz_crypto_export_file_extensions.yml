@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic identifies hardcoded extensions related to the Crypo module within Mimikatz. Moving certificates or downloading them is not malicious, however with Mimikatz having hardcoded names it helps to identify potential usage of certificates being exported.
+description: The following analytic identifies hardcoded extensions related to the Crypto module within Mimikatz. Moving certificates or downloading them is not malicious, however with Mimikatz having hardcoded names it helps to identify potential usage of certificates being exported.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.keyx.rsa.pvk","*sign.rsa.pvk","*sign.dsa.pvk","*dsa.ec.p8k","*dh.ec.p8k", "*.pfx", "*.der") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)` | `windows_mimikatz_crypto_export_file_extensions_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
