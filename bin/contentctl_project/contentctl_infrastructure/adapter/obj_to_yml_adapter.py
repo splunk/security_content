@@ -59,6 +59,7 @@ class ObjToYmlAdapter(Adapter):
 
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
+                exclude_none=True,
                 include =
                     {
                         "name": True,
@@ -76,6 +77,7 @@ class ObjToYmlAdapter(Adapter):
                                 "cis20" : True,
                                 "nist": True,
                                 "kill_chain_phases": True,
+                                "mappings": True,
                                 "mitre_attack_id": True,
                                 "risk_severity": True,
                                 "risk_score": True,

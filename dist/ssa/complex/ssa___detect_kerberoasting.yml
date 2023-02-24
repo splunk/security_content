@@ -47,5 +47,4 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/dabdd6d7-3e10-42be-8711-4e124f7a3850/
-test: null
 eventSchema: ocsf

@@ -98,6 +98,17 @@ tags:
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/63614a58-10e2-4c6c-ae81-ea1113681439/
+  mappings:
+  - ocsf: inferred_caller_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: actor_process_file_name
+    cim: parent_process_name
+  - ocsf: process_cmd_line
+    cim: process
 test:
   name: Anomalous usage of Archive Tools Unit Test
   tests:
