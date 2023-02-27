@@ -1,0 +1,380 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Dynamic Related Ticket Search",
+    "coa": {
+        "data": {
+            "description": "Accepts a user or device and identifies if related notables exists in a timeframe of last 24 hours.. Generates a global report and list of observables.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_10_to_port_3",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_10",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_7_to_port_12",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_12_to_port_1",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_3_to_port_15",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_15_to_port_7",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                }
+            ],
+            "hash": "12e3e80ae573dc30d6867885c31f876732ca93a3",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 1218
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "comma separated user",
+                            "customNameId": 0,
+                            "description": "Convert playbook user input list into comma separated string for Splunk query.",
+                            "drop_none": true,
+                            "join": [],
+                            "note": "Convert playbook user input list into comma separated string for Splunk query.",
+                            "separator": "*,*"
+                        },
+                        "functionId": 2,
+                        "functionName": "comma_separated_user",
+                        "id": "10",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:search_term"
+                        ],
+                        "template": "*{0}*",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 328
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 4,
+                        "functionName": "format_report",
+                        "id": "12",
+                        "parameters": [
+                            "build_output:custom_function:name",
+                            "build_output:custom_function:number",
+                            "build_output:custom_function:message",
+                            "build_output:custom_function:start_time",
+                            "build_output:custom_function:end_time",
+                            "build_output:custom_function:assignee",
+                            "build_output:custom_function:creator_name",
+                            "build_output:custom_function:state"
+                        ],
+                        "template": "SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\n\n| Name | Number | Message | Start Time | End Time | Assignee | Creator Name | State | Source |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | Splunk Enterprise Security |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1040
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process results",
+                            "customNameId": 0,
+                            "description": "Iterates through the results of the search notable query to link playbook input search term to their associated notables.",
+                            "join": [],
+                            "note": "Iterates through the results of the search notable query to link playbook input search term to their associated notables."
+                        },
+                        "functionId": 1,
+                        "functionName": "process_results",
+                        "id": "15",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:search_term",
+                            "search_notables:action_result.data"
+                        ],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "code",
+                    "userCode": "\n    process_results__output = {}\n    for search_term in filtered_input_0_search_term_values:\n        process_results__output[search_term] = []\n        for result in search_notables_result_item_0:\n            if not isinstance(result, list):\n                list_result = [result]\n            else:\n                list_result = result\n            for result_item in list_result:\n                result_item_values = [item.lower() for item in result_item.values() if isinstance(item, str)]\n                match = False\n                for string_value in result_item_values:\n                    if search_term.lower() in string_value:\n                        match = True\n                        break\n                if match:\n                    process_results__output[search_term].append({**result_item})\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 684
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input_filter",
+                            "customNameId": 0,
+                            "description": "Creates a dataset without None values.",
+                            "join": [],
+                            "note": "Creates a dataset without None values."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:search_term",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "output_exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 60,
+                    "y": 148
+                },
+                "3": {
+                    "customCode": null,
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "search notables",
+                            "customNameId": 0,
+                            "description": "Retrieve a list of notables which matched the given search input.",
+                            "join": [],
+                            "note": "Retrieve a list of notables which matched the given search input."
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "search_notables",
+                        "id": "3",
+                        "parameters": {
+                            "attach_result": true,
+                            "command": "search",
+                            "display": "",
+                            "end_time": "now",
+                            "query": {
+                                "functionId": 1,
+                                "parameters": [
+                                    "comma_separated_user:formatted_data"
+                                ],
+                                "template": "`notable` | search _raw IN ({0})\n"
+                            },
+                            "search_mode": "smart",
+                            "start_time": "-24h"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "search",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "smart",
+                                "field": "search_mode"
+                            }
+                        ],
+                        "tab": "byConnector",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "userCode": null,
+                    "warnings": {},
+                    "x": 0,
+                    "y": 506
+                },
+                "7": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "build output",
+                            "customNameId": 0,
+                            "description": "Extract relevant data and add them to an observable array.",
+                            "join": [],
+                            "note": "Extract relevant data and add them to an observable array."
+                        },
+                        "functionId": 2,
+                        "functionName": "build_output",
+                        "id": "7",
+                        "inputParameters": [
+                            "process_results:custom_function:output"
+                        ],
+                        "outputVariables": [
+                            "observable_array",
+                            "name",
+                            "id",
+                            "number",
+                            "message",
+                            "start_time",
+                            "end_time",
+                            "assignee",
+                            "creator_name",
+                            "state",
+                            "notes",
+                            "comments"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "code",
+                    "userCode": "    build_output__observable_array = []\n    build_output__name = []\n    build_output__id = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__notes = []\n    build_output__comments = []\n    \n            \n    for key in process_results__output.keys():\n        \n        for result in process_results__output[key]:\n            if \"comment\" in result:\n                if isinstance(result[\"comment\"], str):\n                    comments = [result[\"comment\"]]\n                else:\n                    comments = result[\"comment\"]\n            else:\n                comments = []\n        \n            matched_fields = []\n            for k, v in result.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": result[\"search_name\"],\n                    \"id\": result[\"event_id\"],\n                    \"number\": result.get(\"notable_xref_id\"),\n                    \"message\": result[\"savedsearch_description\"],\n                    \"start_time\": result[\"_time\"],\n                    \"end_time\": \"\",\n                    \"assigned_to\": result[\"owner\"],\n                    \"creator_name\": \"\",\n                    \"state\": result[\"status_label\"],\n                    \"notes\": [],\n                    \"comments\": comments\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"Splunk Enterprise Security\"\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(result[\"search_name\"])\n            build_output__id.append(result[\"event_id\"])\n            build_output__number.append(result.get(\"notable_xref_id\"))\n            build_output__message.append(result[\"savedsearch_description\"])\n            build_output__start_time.append(result[\"_time\"])\n            build_output__end_time.append(\"\")\n            build_output__assignee.append(result[\"owner\"])\n            build_output__creator_name.append(\"\")\n            build_output__state.append(result[\"status_label\"])\n            build_output__notes.append([])\n            build_output__comments.append(comments)\n        \n        \n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 862
+                }
+            },
+            "notes": "Inputs: user, device\nInteractions: Splunk\nActions: run query\nOutputs: report, observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name",
+                    "host name"
+                ],
+                "description": "Find notables in Splunk that contains the given search_term.",
+                "name": "search_term"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type and information about the retrieved notables.",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of reports.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-02-27T21:42:30.554557+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "user",
+        "device",
+        "splunk",
+        "ticket"
+    ]
+}
