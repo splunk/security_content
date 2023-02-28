@@ -19,8 +19,8 @@ search:
   selection1:
     cmd_line|contains: '4194304'
   selection2:
-    cmd_line|contains: get-aduser
-  condition: (selection1 and selection2)
+    cmd_line|re: get-aduser
+  condition: selection1 and selection2
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.

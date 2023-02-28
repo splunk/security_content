@@ -11,7 +11,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name: mpcmdrun.exe
+    process_name|re: mpcmdrun.exe
   selection2:
     process_path|re: \\windows defender
   selection3:

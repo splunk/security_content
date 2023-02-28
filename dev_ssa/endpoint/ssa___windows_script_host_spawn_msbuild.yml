@@ -15,10 +15,10 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name: msbuild.exe
-    parent_process_name:
-    - '*cscript.exe*'
-    - '*wscript.exe'
+    process_name: MSBuild.exe
+    parent_process_name|re:
+    - 'cscript.exe'
+    - 'wscript.exe'
   condition: selection1
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from

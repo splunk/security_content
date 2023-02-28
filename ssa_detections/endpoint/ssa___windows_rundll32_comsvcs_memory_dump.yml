@@ -3,23 +3,30 @@ id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 version: 5
 date: '2022-04-14'
 author: Jose Hernandez, Michael Haag, Splunk
-status: production
 type: TTP
+status: production
 description: The following analytic identifies memory dumping using comsvcs.dll with
   the minidump function with `rundll32.exe`. This technique is common with adversaries
   who would like to dump the memory of lsass.exe.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_event,
-  "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"),
-  "string", null), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
-  null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event,
-  "event_id"), "string", null) | where process IS NOT NULL AND process_name IS NOT
-  NULL AND process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)minidump\s+/)=true
-  AND match_regex(process, /(?i)comsvcs.dll\s+/)=true | eval start_time = timestamp,
-  end_time = timestamp, entities = mvappend(machine), body=create_map(["event_id",
-  event_id, "process_name", process_name, "process", process]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (match_regex(process_cmd_line, /(?i)minidump/)=true AND process_file_name="rundll32.exe")
+  AND match_regex(process_cmd_line, /(?i)comsvcs.dll/)=true --finding_report--'
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including Windows command line logging. You can see how we test this with [Event
   Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a)
@@ -41,26 +48,32 @@ tags:
   - T1003.003
   - T1003
   observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Actor
-  - name: dest_device_id
+  - name: process_user_name
+    type: User Name
+  - name: device_hostname
     type: Hostname
-    role:
-    - Victim
+  - name: process_file_name
+    type: File Name
+  - name: process_cmd_line
+    type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - process_name
-  - _tenant
-  - _time
-  - dest_device_id
-  - process
-  kill_chain_phases:
-  - Actions on Objectives
+  - process_user_name
+  - device_hostname
+  - process_file_name
+  - process_cmd_line
   risk_score: 40
   security_domain: endpoint
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: process_cmd_line
+    cim: process
 tests:
 - name: True Positive Test
   attack_data:

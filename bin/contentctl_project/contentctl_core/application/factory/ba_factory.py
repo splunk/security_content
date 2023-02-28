@@ -99,7 +99,7 @@ class BAFactory():
 
 
 
-                if not detection.deprecated and not detection.experimental:
+                if detection.status == "production":
                     self.output_dto.detections.append(detection)
             else:
                 raise(Exception(f"Unsupported content type: [{type}]"))

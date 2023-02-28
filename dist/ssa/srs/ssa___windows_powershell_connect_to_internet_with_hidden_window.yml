@@ -10,20 +10,68 @@ description: The following hunting analytic identifies PowerShell commands utili
   For example w, win, windowsty and so forth. In addition, through our research it
   was identified that PowerShell will interpret different command switch types beyond
   the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  process IS NOT NULL AND process_name IS NOT NULL | where process_name="pwsh.exe"
-  OR process_name="pwsh.exe" OR process_name="sqlps.exe" OR process_name="sqltoolsps.exe"
-  OR process_name="powershell.exe" OR process_name="powershell_ise.exe" | where match_regex(process,
-  /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]/)=true | eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "process",
-  process, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (process_file_name="powershell_ise.exe" OR process_file_name="powershell.exe"
+  OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe"
+  OR process_file_name="pwsh.exe") AND (NOT match_regex(process_cmd_line, /(?i)(?i)[\\-|\\/]w(in*d*o*w*s*t*y*l*e*)*\\s+[^-]/)=true)
+  
+  | eval body=create_map(
+    "activity_id", 1,
+    "analytic_stories", ["Malicious PowerShell", "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns", "HAFNIUM Group", "Log4Shell CVE-2021-44228"],
+    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
+    "category_uid", 2,
+    "class_name", "Detection Report",
+    "class_uid", 102001,
+    "confidence", 70,
+    "confidence_id", 3,
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0
+        )
+    ],
+    "duration", 0,
+    "time", timestamp,
+    "evidence", create_map("process_user_name", process_user_name, "device_hostname", device_hostname, "process_file_name", process_file_name, "process_cmd_line", process_cmd_line),
+    "impact", 50,
+    "impact_id", 3,
+    "kill_chain", [create_map("phase", "Actions on Objectives", "phase_id", 7)],
+    "attacks", [create_map("tactics", [create_map("name", "Exfiltration", "uid", "TA0010")], "technique", create_map("name", "Automated Exfiltration", "uid", "T1020"), "version", "12.1")],  
+    "message", concat("Windows Powershell Connect to Internet With Hidden Window has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "metadata", create_map(
+        "product", create_map(
+            "name", "Behavioral Analytic Service",
+            "vendor_name", "Splunk"
+        ),
+        "version", "1.0.0"
+    ),
+    "nist", ["DE.AE"],
+    "observables", [create_map("name", "process_user_name", "type_id", 4, "value", process_user_name), create_map("name", "device_hostname", "type_id", 1, "value", device_hostname), create_map("name", "process_file_name", "type_id", 7, "value", process_file_name), create_map("name", "process_cmd_line", "type_id", 99, "value", process_cmd_line)],
+    "risk_level", "Low",
+    "risk_level_id", 1,
+    "risk_score", 35,
+    "severity_id", 3,
+    "type_uid", 10200101,
+    "users", [
+        create_map(
+            "name", process_user_name
+        )
+    ]
+  )
+  | into write_ba_finding_events();'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
@@ -46,24 +94,29 @@ tags:
   cis20:
   - CIS 10
   kill_chain_phases:
-  - Exploitation
+  - Actions on Objectives
   mitre_attack_id:
   - T1020
   nist:
   - DE.AE
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  - process_user_name
+  - device_hostname
+  - process_file_name
+  - process_cmd_line
   risk_score: 35
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/477e068e-8b6d-11ec-b6c1-81af21670352/
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: process_cmd_line
+    cim: process
 test:
   name: Windows Powershell Connect to Internet With Hidden Window Unit Test
   tests:

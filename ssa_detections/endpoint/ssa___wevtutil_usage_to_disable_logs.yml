@@ -3,25 +3,30 @@ id: a4bdc944-cdd9-11eb-ac97-acde48001122
 version: 2
 date: '2021-06-15'
 author: Teoderick Contreras, Splunk
-status: production
 type: TTP
+status: production
 description: This search is to detect execution of wevtutil.exe to disable logs. This
   technique was seen in several ransomware to disable the event logs to evade alerts
   and detections in compromised host.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
-  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
-  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND like(cmd_line, "% sl %") AND like(cmd_line, "%/e:false%")
-  AND process_name="wevtutil.exe" | eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)) | eval body=create_map(["event_id", event_id,
-  "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where like(process_cmd_line, "%/e:false%") AND like(process_cmd_line, "%
+  sl %") AND process_file_name="wevtutil.exe" --finding_report--'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
@@ -46,28 +51,32 @@ tags:
   - T1070
   - T1070.001
   observable:
-  - name: dest_device_id
+  - name: process_user_name
+    type: User Name
+  - name: device_hostname
     type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  - name: process_file_name
+    type: File Name
+  - name: process_cmd_line
+    type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  kill_chain_phases:
-  - Exploitation
+  - process_user_name
+  - device_hostname
+  - process_file_name
+  - process_cmd_line
   risk_score: 63
   security_domain: endpoint
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: process_cmd_line
+    cim: cmd_line
 tests:
 - name: True Positive Test
   attack_data:

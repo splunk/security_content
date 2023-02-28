@@ -29,7 +29,7 @@ tags:
   analytic_story:
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
-  - Command and Control
+  - Command And Control
   detections:
   - DNS Query Length Outliers - MLTK
   product:

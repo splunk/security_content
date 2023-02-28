@@ -17,10 +17,10 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains: preauthnotrequired
+    cmd_line|re: preauthnotrequired
   selection2:
-    cmd_line|contains: get-domainuser
-  condition: (selection1 and selection2)
+    cmd_line|re: get-domainuser
+  condition: selection1 and selection2
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.

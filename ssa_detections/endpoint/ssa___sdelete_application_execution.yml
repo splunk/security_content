@@ -3,8 +3,8 @@ id: fcc52b9a-4616-11ec-8454-acde48001122
 version: 1
 date: '2021-11-15'
 author: Teoderick Contreras, Splunk
-status: production
 type: Anomaly
+status: production
 description: This analytic will detect the execution of sdelete.exe attempting to
   delete potentially important files that may related to adversary or insider threats
   to destroy evidence or information sabotage. Sdelete is a SysInternals utility meant
@@ -12,28 +12,33 @@ description: This analytic will detect the execution of sdelete.exe attempting t
   artifact on the targeted host.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,"_time"),
-  "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string",
-  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
-  null)), process_path=ucast(map_get(input_event, "process_path"), "string", null),
-  parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), parent_cmd_line=ucast(map_get(input_event, "parent_process"), "string", null),
-  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where cmd_line
-  IS NOT NULL AND process_name IS NOT NULL AND like(process_name, "%sdelete%") AND
-  (like (cmd_line, "%-c %") OR like (cmd_line, "%-f %")OR like (cmd_line, "%-p %")
-  OR like (cmd_line, "%-r %") OR like (cmd_line, "%-q %") OR like (cmd_line, "%-s
-  %") OR like (cmd_line, "%-z %") OR like (cmd_line, "%/accepteula%") OR like (cmd_line,
-  "%-nobanner%")OR like (cmd_line, "%.doc%")OR like (cmd_line, "%.xls%") OR like (cmd_line,
-  "%.ppt%")OR like (cmd_line, "%.rtf%") OR like (cmd_line, "%.pdf%") OR like (cmd_line,
-  "%.key%")OR like (cmd_line, "%.log%") OR like (cmd_line, "%.txt%") OR like (cmd_line,
-  "%.jpg%") OR like (cmd_line, "%.png%") OR like (cmd_line, "%.gif%") OR like (cmd_line,
-  "%.bmp%") OR like (cmd_line, "%.7z%")  OR like (cmd_line, "%.zip%") OR like (cmd_line,
-  "%.rar%") OR like (cmd_line, "%.tar%") OR like (cmd_line, "%.gz%") OR like (cmd_line,
-  "%.xls%")) | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "process_path", process_path, "parent_process_name", parent_process_name,
-  "parent_cmd_line", parent_cmd_line]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (like(process_cmd_line, "%.xls%") OR like(process_cmd_line, "%.gz%")
+  OR like(process_cmd_line, "%.tar%") OR like(process_cmd_line, "%.rar%") OR like(process_cmd_line,
+  "%.zip%") OR like(process_cmd_line, "%.7z%") OR like(process_cmd_line, "%.bmp%")
+  OR like(process_cmd_line, "%.gif%") OR like(process_cmd_line, "%.png%") OR like(process_cmd_line,
+  "%.jpg%") OR like(process_cmd_line, "%.txt%") OR like(process_cmd_line, "%.log%")
+  OR like(process_cmd_line, "%.key%") OR like(process_cmd_line, "%.pdf%") OR like(process_cmd_line,
+  "%.rtf%") OR like(process_cmd_line, "%.ppt%") OR like(process_cmd_line, "%.xls%")
+  OR like(process_cmd_line, "%.doc%") OR like(process_cmd_line, "%-nobanner%") OR
+  like(process_cmd_line, "%/accepteula%") OR like(process_cmd_line, "%-z %") OR like(process_cmd_line,
+  "%-s %") OR like(process_cmd_line, "%-q %") OR like(process_cmd_line, "%-r %") OR
+  like(process_cmd_line, "%-p %") OR like(process_cmd_line, "%-f %") OR like(process_cmd_line,
+  "%-c %")) AND like(process_file_name, "%sdelete%") --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -57,39 +62,32 @@ tags:
   - T1070.004
   - T1070
   observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
+  - name: process_user_name
+    type: User Name
+  - name: device_hostname
     type: Hostname
-    role:
-    - Victim
-  - name: parent_process
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  - name: process_file_name
+    type: File Name
+  - name: process_cmd_line
+    type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - _time
-  - dest
-  - user
-  - parent_process_name
-  - parent_process
-  - process_name
-  - process
-  - process_id
-  - process_path
-  - cmd_line
-  kill_chain_phases:
-  - Exploitation
+  - process_user_name
+  - device_hostname
+  - process_file_name
+  - process_cmd_line
   risk_score: 42
   security_domain: endpoint
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: process_cmd_line
+    cim: cmd_line
 tests:
 - name: True Positive Test
   attack_data:

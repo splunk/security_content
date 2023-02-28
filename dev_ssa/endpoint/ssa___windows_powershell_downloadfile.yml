@@ -22,8 +22,8 @@ search:
     - pwsh.exe
     - pwsh.exe
   selection2:
-    cmd_line|contains: downloadfile
-  condition: selection1 and (selection2)
+    cmd_line|re: downloadfile
+  condition: selection1 and selection2
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,

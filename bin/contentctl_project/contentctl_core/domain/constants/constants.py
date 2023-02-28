@@ -11,10 +11,10 @@ ATTACK_TACTICS_KILLCHAIN_MAPPING = {
     "Discovery": "Exploitation", 
     "Lateral Movement": "Exploitation",
     "Collection": "Exploitation",
-    "Command and Control": "Command and Control",
-    "Command And Control": "Command and Control",
-    "Exfiltration": "Actions On Objectives",
-    "Impact": "Actions On Objectives"
+    "Command And Control": "Command And Control",
+    "Command And Control": "Command And Control",
+    "Exfiltration": "Actions on Objectives",
+    "Impact": "Actions on Objectives"
 }
 
 SES_CONTEXT_MAPPING = {
@@ -74,7 +74,7 @@ SES_KILL_CHAIN_MAPPINGS = {
     "Delivery": 3,
     "Exploitation": 4,
     "Installation": 5,
-    "Command & Control": 6,
+    "Command And Control": 6,
     "Actions on Objectives": 7
 }
 

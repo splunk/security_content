@@ -24,7 +24,7 @@ references:
 tags:
   analytic_story:
   - Data Exfiltration
-  - Command and Control
+  - Command And Control
   asset_type: Endpoint
   confidence: 90
   impact: 70

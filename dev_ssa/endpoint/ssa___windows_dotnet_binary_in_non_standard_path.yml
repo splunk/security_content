@@ -15,8 +15,8 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name:
-    - msbuild.exe
+    process_name|re:
+    - MSBuild.exe
     - comsvcconfig.exe
     - dfsradmin.exe
     - dfsvc.exe
@@ -61,13 +61,13 @@ search:
     - secureassessmentbrowser.exe
   selection2:
     process_path|re:
-    - (?i)\\windows\\system32
-    - (?i)\\windows\\syswow64
-    - (?i)\\windows\\adws
-    - (?i)\\windows\\networkcontroller
-    - (?i)\\windows\\systemapps
-    - (?i)\\winsxs
-    - (?i)\\microsoft.net
+    - \\windows\\system32
+    - \\windows\\syswow64
+    - \\windows\\adws
+    - \\windows\\networkcontroller
+    - \\windows\\systemapps
+    - \\winsxs
+    - \\microsoft.net
   condition: selection1 and not selection2
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: False positives may be present and filtering may be required.

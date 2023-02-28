@@ -37,7 +37,7 @@ tags:
   - Suspicious DNS Traffic
   - Dynamic DNS
   - Data Exfiltration
-  - Command and Control
+  - Command And Control
   asset_type: Endpoint
   confidence: 80
   impact: 90

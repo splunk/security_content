@@ -31,7 +31,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains:
+    cmd_line|re:
     - get-recipient
     - new-mailboxsearch
     - new-managementroleassignment

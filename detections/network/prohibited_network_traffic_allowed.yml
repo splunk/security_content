@@ -27,7 +27,7 @@ tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
-  - Command and Control
+  - Command And Control
   asset_type: Endpoint
   confidence: 50
   impact: 50

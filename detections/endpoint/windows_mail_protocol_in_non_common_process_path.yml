@@ -8,7 +8,7 @@ type: Anomaly
 description: The following analytic identifies a possible windows application having
   a SMTP connection in a non common installation path in windows operating system.This
   network protocol is being used by adversaries, threat actors and malware like AgentTesla
-  as a command and control communication to transfer its collected stolen information
+  as a Command And Control communication to transfer its collected stolen information
   like the desktop screenshots, browser information and system information of a targeted
   or compromised host.
 data_source:

@@ -3,7 +3,7 @@ id: 66adff66-90d9-11ec-aba7-acde48001122
 version: 1
 date: '2022-02-18'
 author: Lou Stella, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: The following search identifies Eventvwr bypass by identifying the registry
   modification into a specific path that eventvwr.msc looks to (but is not valid)
@@ -12,11 +12,11 @@ description: The following search identifies Eventvwr bypass by identifying the 
   executed. Identify any additional registry modifications on the endpoint that may
   look suspicious. Remediate as necessary.
 data_source:
-- Windows Security 4688
+- Sysmon Event ID 13
 search:
   selection1:
-    registry_path|contains: mscfile\\\\shell\\\\open\\\\command
-  condition: (selection1)
+    process_name|contains: mscfile\\\\shell\\\\open\\\\command
+  condition: selection1
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Registry` datamodel.

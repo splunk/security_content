@@ -133,7 +133,7 @@ class SigmaConverter():
 
                     if not data_source.name == "Windows Security 4688":
                         print("ERROR: Convert command for OCSF only supports data source Windows Security 4688 for now.")
-                        sys.exit(1)
+                        continue
 
                     processing_items = list()
                     logsource_condition = self.get_logsource_condition(data_source)
@@ -159,9 +159,13 @@ class SigmaConverter():
                             "mapping": {
                                 "process_name": "process.file.name",
                                 "parent_process_name": "actor.process.file.name",
+                                "parent_process": "actor.process.cmd_line",
                                 "cmd_line": "process.cmd_line",
                                 "process": "process.cmd_line",
-                                "process_path": "process.file.path"
+                                "process_path": "process.file.path",
+                                "process_file_path": "process.file.path",
+                                "user": "process.user.name",
+                                "dest": "device.hostname"
                             }
                         }
 
@@ -323,11 +327,11 @@ class SigmaConverter():
 
     def add_required_fields_and_mappings(self, field_mapping: dict, detection: Detection) -> None:
         required_fields = list()
-        required_fields = ["inferred_caller_user_name", "device_hostname"]
+        required_fields = ["process_user_name", "device_hostname"]
         mappings = list()
         mappings = [
             {
-                "ocsf": "inferred_caller_user_name",
+                "ocsf": "process_user_name",
                 "cim": "user"
             },
             {
@@ -350,10 +354,11 @@ class SigmaConverter():
 
     def update_observables(self, detection : Detection) -> None:
         mapping_field_to_type = {
-            "inferred_caller_user_name": "User Name",
+            "process_user_name": "User Name",
             "device_hostname": "Hostname",
             "process_file_name": "File Name",
             "actor_process_file_name": "File Name",
+            "actor_process_cmd_line": "Process",
             "process_cmd_line": "Other",
             "process_file_path": "File"
         }

@@ -12,10 +12,10 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process|re: minidump\s+
-    process_name: '*rundll32.exe*'
+    process|re: minidump
+    process_name: 'rundll32.exe'
   selection2:
-    process|re: comsvcs.dll\s+
+    process|re: comsvcs.dll
   condition: selection1 and selection2
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including Windows command line logging. You can see how we test this with [Event

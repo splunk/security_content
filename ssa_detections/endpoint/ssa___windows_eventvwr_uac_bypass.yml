@@ -3,8 +3,8 @@ id: 66adff66-90d9-11ec-aba7-acde48001122
 version: 1
 date: '2022-02-18'
 author: Lou Stella, Splunk
-status: production
 type: Anomaly
+status: experimental
 description: The following search identifies Eventvwr bypass by identifying the registry
   modification into a specific path that eventvwr.msc looks to (but is not valid)
   upon execution. A successful attack will include a suspicious command to be executed
@@ -13,22 +13,27 @@ description: The following search identifies Eventvwr bypass by identifying the 
   look suspicious. Remediate as necessary.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | where "Endpoint_Registry" IN (_datamodels)
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  registry_path=lower(ucast(map_get(input_event, "registry_path"), "string", null)),
-  registry_hive=lower(ucast(map_get(input_event, "registry_hive"), "string", null)),
-  registry_value_name=lower(ucast(map_get(input_event, "registry_value_name"), "string",
-  null)), registry_key_name=lower(ucast(map_get(input_event, "parent_process_name"),
-  "string", null)), registry_value_type=lower(ucast(map_get(input_event, "registry_value_type"),
-  "string", null)), registry_value_data=lower(ucast(map_get(input_event, "registry_value_data"),
-  "string", null)), process_guid=lower(ucast(map_get(input_event, "process_guid"),
-  "string", null)) | where registry_path IS NOT NULL AND (like (registry_path, "%mscfile\\\\shell\\\\open\\\\command%"))
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)) | eval body=create_map(["registry_path", registry_path, "registry_hive",
-  registry_hive, "registry_value_name", registry_value_name, "registry_key_name",
-  registry_key_name, "registry_value_type", registry_value_type, "registry_value_data",
-  registry_value_data, "process_guid", process_guid]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
+  | eval device = ucast(map_get(input_event, "device"), "map<string,any>", null) |
+  eval device_hostname = ucast(map_get(device, "hostname"), "string", null) | eval
+  device_uuid = ucast(map_get(device, "uuid"), "string", null) | eval inferred = ucast(map_get(input_event,
+  "device"), "map<string,any>", null) | eval inferred_caller = ucast(map_get(inferred,
+  "caller"), "map<string,any>", null) | eval inferred_caller_user = ucast(map_get(inferred_caller,
+  "user"), "map<string,any>", null) | eval inferred_caller_user_uid = ucast(map_get(inferred_caller_user,
+  "uid"), "string", null) | eval inferred_caller_user_name = ucast(map_get(inferred_caller_user,
+  "name"), "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
+  any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval
+  actor_process=ucast(map_get(actor,"process"), "map<string, any>", null) | eval actor_process_file=ucast(map_get(actor_process,"file"),
+  "map<string, any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
+  "string", null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"),
+  "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string",
+  null) | eval process_file_path=ucast(map_get(process_file,"path"), "string", null)
+  | where like(process_file_name, "%mscfile\\shell\\open\\command%") --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Registry` datamodel.
@@ -51,30 +56,32 @@ tags:
   - T1548.002
   - T1548
   observable:
-  - name: dest_device_id
+  - name: inferred_caller_user_name
+    type: User Name
+  - name: device_hostname
     type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  - name: process_file_name
+    type: File Name
+  - name: process_cmd_line
+    type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - _time
-  - event_id
-  - registry_path
-  - registry_hive
-  - registry_value_name
-  - registry_key_name
-  - registry_value_type
-  - registry_value_data
-  - process_guid
-  kill_chain_phases:
-  - Exploitation
+  - inferred_caller_user_name
+  - device_hostname
+  - process_file_name
+  - process_cmd_line
   risk_score: 80
   security_domain: endpoint
+  mappings:
+  - ocsf: inferred_caller_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: process_cmd_line
+    cim: process
 tests:
 - name: True Positive Test
   attack_data:

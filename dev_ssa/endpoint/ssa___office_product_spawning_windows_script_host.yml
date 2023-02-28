@@ -15,13 +15,13 @@ search:
     process_name:
     - cscript.exe
     - wscript.exe
-    parent_process_name|endswith:
-    - \\\\visio.exe
-    - \\\\mspub.exe
-    - \\\\powerpnt.exe
-    - \\\\excel.exe
-    - \\\\winword.exe
-  condition: (selection1)
+    parent_process_name|re:
+    - visio.exe
+    - mspub.exe
+    - powerpnt.exe
+    - excel.exe
+    - winword.exe
+  condition: selection1
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

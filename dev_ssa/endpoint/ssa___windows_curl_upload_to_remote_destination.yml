@@ -33,8 +33,8 @@ search:
     - '-d '
     - '--upload-file '
     - '-T '
-    process_name: curl.exe
-  condition: (selection1)
+    process_name|re: curl.exe
+  condition: selection1
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint_Processess` datamodel.

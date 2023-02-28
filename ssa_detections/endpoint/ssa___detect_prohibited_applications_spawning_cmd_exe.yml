@@ -3,32 +3,37 @@ id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 version: 3
 date: '2022-03-01'
 author: Ignacio Bermudez Corrales, Splunk
-status: production
 type: Anomaly
+status: production
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
   need to be tuned to further enhance the risk.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)) | eval process_name = ucast(map_get(input_event, "process_name"),
-  "string", null), parent_process_name = lower(ucast(input_event.parent_process_name,
-  "string", null)), cmd_line = lower(ucast(map_get(input_event, "process"),"string",
-  null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
-  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event,"event_id"),
-  "string", null) | where process_name="cmd.exe" | rex field=parent_process_name "(?<ParentBaseFileName>[^\\\\]+)$"
-  | where ParentBaseFileName="winword.exe" OR ParentBaseFileName="excel.exe" OR ParentBaseFileName="outlook.exe"
-  OR ParentBaseFileName="powerpnt.exe" OR ParentBaseFileName="visio.exe" OR ParentBaseFileName="mspub.exe"
-  OR ParentBaseFileName="acrobat.exe" OR ParentBaseFileName="acrord32.exe" OR ParentBaseFileName="iexplore.exe"
-  OR ParentBaseFileName="opera.exe" OR ParentBaseFileName="firefox.exe" OR (ParentBaseFileName="java.exe"
-  AND (parent_process_name IS NOT NULL AND match_regex(parent_process_name, /(?i)patch1-Hotfix1a/)=false))
-  OR ParentBaseFileName="powershell.exe" OR (ParentBaseFileName="chrome.exe" AND (cmd_line
-  IS NULL OR (cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)chrome-extension/)=false)))
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
-  dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name,
-  "parent_process_name", parent_process_name, "cmd_line", cmd_line, "ParentBaseFileName",
-  ParentBaseFileName]) | into write_ssa_detected_events()'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (actor_process_file_name="winword.exe" OR actor_process_file_name="excel.exe"
+  OR actor_process_file_name="outlook.exe" OR actor_process_file_name="acrobat.exe"
+  OR actor_process_file_name="acrord32.exe" OR actor_process_file_name="iexplore.exe"
+  OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe"
+  OR actor_process_file_name="powershell.exe" OR actor_process_file_name IS NOT NULL)
+  OR (actor_process_file_name="java.exe" AND (NOT match_regex(actor_process_cmd_line,
+  /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe" AND (NOT
+  actor_process_cmd_line="chrome-extension")) --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
@@ -49,35 +54,32 @@ tags:
   mitre_attack_id:
   - T1059
   observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Actor
-  - name: dest_device_id
+  - name: process_user_name
+    type: User Name
+  - name: device_hostname
     type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
+  - name: actor_process_file_name
+    type: File Name
+  - name: actor_process_cmd_line
     type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - process_name
-  - parent_process_name
-  - _time
-  - dest_device_id
-  - dest_user_id
-  - cmd_line
-  kill_chain_phases:
-  - Exploitation
+  - process_user_name
+  - device_hostname
+  - actor_process_file_name
+  - actor_process_cmd_line
   risk_score: 35
   security_domain: endpoint
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: actor_process_file_name
+    cim: parent_process_name
+  - ocsf: actor_process_cmd_line
+    cim: parent_process
 tests:
 - name: True Positive Test
   attack_data:

@@ -17,9 +17,10 @@ class SplunkBABackend(TextQueryBackend):
     """Splunk SPL backend."""
     precedence: ClassVar[Tuple[ConditionItem, ConditionItem, ConditionItem]] = (ConditionNOT, ConditionOR, ConditionAND)
     group_expression : ClassVar[str] = "({expr})"
+    parenthesize : bool = True
 
     or_token : ClassVar[str] = "OR"
-    and_token : ClassVar[str] = "| where"
+    and_token : ClassVar[str] = "AND"
     not_token : ClassVar[str] = "NOT"
     eq_token : ClassVar[str] = "="
 
@@ -91,15 +92,6 @@ class SplunkBABackend(TextQueryBackend):
 | eval timestamp = ucast(map_get(input_event,"time"),"long", null)
 | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>", null)
 | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null)
-| eval disposition_id = ucast(map_get(input_event, "disposition_id"), "integer", null)
-| eval device = ucast(map_get(input_event, "device"), "map<string,any>", null)
-| eval device_hostname = ucast(map_get(device, "hostname"), "string", null)
-| eval device_uuid = ucast(map_get(device, "uuid"), "string", null)
-| eval inferred = ucast(map_get(input_event, "device"), "map<string,any>", null)
-| eval inferred_caller = ucast(map_get(inferred, "caller"), "map<string,any>", null)
-| eval inferred_caller_user = ucast(map_get(inferred_caller, "user"), "map<string,any>", null)
-| eval inferred_caller_user_uid = ucast(map_get(inferred_caller_user, "uid"), "string", null)
-| eval inferred_caller_user_name = ucast(map_get(inferred_caller_user, "name"), "string", null)
 """.replace("\n", " ")
 
         parsed_fields = [] 
@@ -116,6 +108,7 @@ class SplunkBABackend(TextQueryBackend):
                     new_val = parent + '_' + val
                 if new_val in parsed_fields:
                     parent = new_val
+                    i = i + 1
                     continue
                 if i == len(values):
                     parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "string", null) ' 
@@ -126,7 +119,11 @@ class SplunkBABackend(TextQueryBackend):
                 parent = new_val
                 i = i + 1
 
-        return detection_str + "| where " + query
+        detection_str = detection_str + "| where " + query
+        detection_str = detection_str.replace("\\\\\\\\", "\\\\")
+        
+
+        return detection_str
 
     def finalize_output_data_model(self, queries: List[str]) -> List[str]:
         return queries

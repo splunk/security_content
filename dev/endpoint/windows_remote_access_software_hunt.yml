@@ -33,7 +33,7 @@ references:
 tags:
   analytic_story:
   - Insider Threat
-  - Command and Control
+  - Command And Control
   - Ransomware
   asset_type: Endpoint
   confidence: 10

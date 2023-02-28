@@ -22,12 +22,12 @@ search:
     - msdt
     process_name: msdt.exe
   selection2:
-    cmd_line|contains:
+    cmd_line|re:
     - .xml
     - it_rebrowseforfile=
     - it_browseforfile=
   selection3:
-    cmd_line|contains: pcwdiagnostic
+    cmd_line|re: pcwdiagnostic
   condition: selection1 and selection2 and selection3
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

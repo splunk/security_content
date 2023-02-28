@@ -8,19 +8,66 @@ description: This analytic identifies when Microsoft HTML Application Host (msht
   malicious software to bypass preventative controls. The search will return the first
   time and last time these command-line arguments were used for these executions,
   as well as the target system, the user, process "rundll32.exe" and its parent process.
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND process_name IS NOT NULL | where process_name="mshta.exe"
-  AND (like (cmd_line, "%http://%") OR like (cmd_line, "%https://%")) | eval start_time=timestamp,
-  end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"),
-  "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)),
-  body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name,
-  "parent_process_name", parent_process_name, "process_path", process_path]) | into
-  write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (like(process_cmd_line, "%https://%") OR like(process_cmd_line, "%http://%"))
+  AND process_file_name="mshta.exe" 
+  | eval body=create_map(
+    "activity_id", 1,
+    "analytic_stories", ["Suspicious MSHTA Activity", "Living Off The Land"],
+    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
+    "category_uid", 2,
+    "class_name", "Detection Report",
+    "class_uid", 102001,
+    "confidence", 100,
+    "confidence_id", 3,
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0
+        )
+    ],
+    "duration", 0,
+    "time", timestamp,
+    "evidence", create_map("process_user_name", process_user_name, "device_hostname", device_hostname, "process_file_name", process_file_name, "process_cmd_line", process_cmd_line),
+    "impact", 80,
+    "impact_id", 5,
+    "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
+    "attacks", [create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "Mshta", "uid", "T1218.005"), "version", "12.1"), create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "System Binary Proxy Execution", "uid", "T1218"), "version", "12.1")],  
+    "message", concat("Windows MSHTA Command-Line URL has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "metadata", create_map(
+        "product", create_map(
+            "name", "Behavioral Analytic Service",
+            "vendor_name", "Splunk"
+        ),
+        "version", "1.0.0"
+    ),
+    "nist", ["DE.CM"],
+    "observables", [create_map("name", "process_user_name", "type_id", 4, "value", process_user_name), create_map("name", "device_hostname", "type_id", 1, "value", device_hostname), create_map("name", "process_file_name", "type_id", 7, "value", process_file_name), create_map("name", "process_cmd_line", "type_id", 99, "value", process_cmd_line)],
+    "risk_level", "Critical",
+    "risk_level_id", 4,
+    "risk_score", 80,
+    "severity_id", 5,
+    "type_uid", 10200101,
+    "users", [
+        create_map(
+            "name", process_user_name
+        )
+    ]
+  )
+  | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -46,18 +93,23 @@ tags:
   nist:
   - DE.CM
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
+  - process_user_name
+  - device_hostname
+  - process_file_name
+  - process_cmd_line
   risk_score: 80
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/9b35c538-94ef-11ec-9439-acde48001122/
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: process_cmd_line
+    cim: cmd_line
 test:
   name: Windows MSHTA Command-Line URL Unit Test
   tests:

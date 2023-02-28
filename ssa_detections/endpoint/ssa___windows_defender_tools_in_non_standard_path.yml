@@ -3,25 +3,30 @@ id: c205bd2e-cd5b-4224-8510-578a2a1f83d7
 version: 1
 date: '2022-07-18'
 author: Lou Stella, Splunk
-status: production
 type: Anomaly
+status: production
 description: The following analytic identifies usage of the MPCmdRun utility that
   can be abused by adversaries by moving it to a new directory.
 data_source:
 - Windows Security 4688
-search: ' from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
-  "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
-  "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
-  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
-  null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)),
-  process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)),
-  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where process_name
-  IS NOT NULL AND process_name="mpcmdrun.exe" | where process_path IS NOT NULL AND
-  match_regex(process_path, /(?i)\\microsoft\\windows defender\\platform/)=false AND
-  match_regex(process_path, /(?i)\\windows defender/)=false | eval start_time=timestamp,
-  end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id",
-  event_id, "process_path", process_path, "process_name", process_name, "cmd_line",
-  cmd_line]) | into write_ssa_detected_events(); '
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where match_regex(process_file_name, /(?i)mpcmdrun.exe/)=true AND (NOT match_regex(process_file_path,
+  /(?i)\\windows defender/)=true) AND (NOT match_regex(process_file_path, /(?i)\\microsoft\\windows
+  defender\\platform/)=true) --finding_report--'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: False positives may be present and filtering may be required.
 references:
@@ -39,31 +44,40 @@ tags:
   - T1036
   - T1036.003
   observable:
-  - name: dest_device_id
+  - name: process_user_name
+    type: User Name
+  - name: device_hostname
     type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  - name: process_file_name
+    type: File Name
+  - name: process_cmd_line
+    type: Other
+  - name: process_file_path
+    type: File
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
-  - cmd_line
-  kill_chain_phases:
-  - Actions on Objectives
+  - process_user_name
+  - device_hostname
+  - process_file_name
+  - process_cmd_line
+  - process_file_path
   risk_score: 56
   security_domain: endpoint
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: process_cmd_line
+    cim: process
+  - ocsf: process_file_path
+    cim: process_path
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/mpcmdrun/windows-security.log
     source: XmlWinEventLog
     sourcetype: XmlWinEventLog
-    update_timestamp: true

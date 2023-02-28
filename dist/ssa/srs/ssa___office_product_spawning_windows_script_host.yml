@@ -4,21 +4,69 @@ version: 1
 description: The following analytic will identify a Windows Office Product spawning
   WScript.exe or CScript.exe. Tuning may be required based on legitimate application
   usage that may spawn scripts from an Office product.
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=lower(ucast(map_get(input_event, "parent_process_name"),
-  "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND parent_process_name
-  IS NOT NULL | where (like(parent_process_name, "%\\\\winword.exe") OR like(parent_process_name,
-  "%\\\\excel.exe") OR like(parent_process_name, "%\\\\powerpnt.exe") OR like(parent_process_name,
-  "%\\\\mspub.exe") OR like(parent_process_name, "%\\\\visio.exe")) AND (process_name="wscript.exe"
-  OR process_name="cscript.exe") | eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
-  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (process_file_name="cscript.exe" OR process_file_name="wscript.exe")
+  AND (match_regex(actor_process_file_name, /(?i)visio.exe/)=true OR match_regex(actor_process_file_name,
+  /(?i)mspub.exe/)=true OR match_regex(actor_process_file_name, /(?i)powerpnt.exe/)=true
+  OR match_regex(actor_process_file_name, /(?i)excel.exe/)=true OR match_regex(actor_process_file_name,
+  /(?i)winword.exe/)=true) 
+  | eval body=create_map(
+    "activity_id", 1,
+    "analytic_stories", ["Spearphishing Attachments"],
+    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
+    "category_uid", 2,
+    "class_name", "Detection Report",
+    "class_uid", 102001,
+    "confidence", 90,
+    "confidence_id", 3,
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0
+        )
+    ],
+    "duration", 0,
+    "time", timestamp,
+    "evidence", create_map("process_user_name", process_user_name, "device_hostname", device_hostname, "process_file_name", process_file_name, "actor_process_file_name", actor_process_file_name, "actor_process_cmd_line", actor_process_cmd_line, "process_cmd_line", process_cmd_line),
+    "impact", 70,
+    "impact_id", 4,
+    "kill_chain", [create_map("phase", "Delivery", "phase_id", 3)],
+    "attacks", [create_map("tactics", [create_map("name", "Initial Access", "uid", "TA0001")], "technique", create_map("name", "Phishing", "uid", "T1566"), "version", "12.1"), create_map("tactics", [create_map("name", "Initial Access", "uid", "TA0001")], "technique", create_map("name", "Spearphishing Attachment", "uid", "T1566.001"), "version", "12.1")],  
+    "message", concat("Office Product Spawning Windows Script Host has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "metadata", create_map(
+        "product", create_map(
+            "name", "Behavioral Analytic Service",
+            "vendor_name", "Splunk"
+        ),
+        "version", "1.0.0"
+    ),
+    "nist", ["DE.CM"],
+    "observables", [create_map("name", "process_user_name", "type_id", 4, "value", process_user_name), create_map("name", "device_hostname", "type_id", 1, "value", device_hostname), create_map("name", "process_file_name", "type_id", 7, "value", process_file_name), create_map("name", "actor_process_file_name", "type_id", 7, "value", actor_process_file_name), create_map("name", "actor_process_cmd_line", "type_id", 25, "value", actor_process_cmd_line), create_map("name", "process_cmd_line", "type_id", 99, "value", process_cmd_line)],
+    "risk_level", "High",
+    "risk_level_id", 3,
+    "risk_score", 63,
+    "severity_id", 4,
+    "type_uid", 10200101,
+    "users", [
+        create_map(
+            "name", process_user_name
+        )
+    ]
+  )
+  | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -33,24 +81,36 @@ tags:
   cis20:
   - CIS 10
   kill_chain_phases:
-  - Exploitation
+  - Delivery
   mitre_attack_id:
   - T1566
   - T1566.001
   nist:
   - DE.CM
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
+  - process_user_name
+  - device_hostname
+  - process_file_name
+  - actor_process_file_name
+  - actor_process_cmd_line
+  - process_cmd_line
   risk_score: 63
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/3ea3851a-8736-41a0-bc09-7e4485b48fa6/
+  mappings:
+  - ocsf: process_user_name
+    cim: user
+  - ocsf: device_hostname
+    cim: dest
+  - ocsf: process_file_name
+    cim: process_name
+  - ocsf: actor_process_file_name
+    cim: parent_process_name
+  - ocsf: actor_process_cmd_line
+    cim: parent_process
+  - ocsf: process_cmd_line
+    cim: process
 test:
   name: Office Product Spawning Windows Script Host Unit Test
   tests:

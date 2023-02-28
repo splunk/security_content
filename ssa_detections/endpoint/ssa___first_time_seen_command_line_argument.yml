@@ -70,7 +70,7 @@ tags:
   - process
   - cmd_line
   kill_chain_phases:
-  - Command & Control
+  - Command And Control
   - Actions on Objectives
   risk_score: 30
   security_domain: endpoint

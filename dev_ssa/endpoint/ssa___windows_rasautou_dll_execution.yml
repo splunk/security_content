@@ -15,10 +15,10 @@ search:
   selection1:
     process_name: rasautou.exe
   selection2:
-    cmd_line|contains: '-p '
+    cmd_line|re: '-p '
   selection3:
-    cmd_line|contains: '-d '
-  condition: selection1 and (selection2 and selection3)
+    cmd_line|re: '-d '
+  condition: selection1 and selection2 and selection3
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
