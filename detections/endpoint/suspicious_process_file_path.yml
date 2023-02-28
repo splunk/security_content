@@ -73,7 +73,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Processes.process_path.file_path
+  - name: Processes.process_path
     type: File Name
     role:
     - Attacker
