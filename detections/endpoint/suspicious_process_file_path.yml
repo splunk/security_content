@@ -73,7 +73,7 @@ tags:
     role:
     - Victim
   - name: Processes.process_path
-    type: File Name
+    type: Location
     role:
     - Attacker
   product:
