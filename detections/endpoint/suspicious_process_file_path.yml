@@ -64,7 +64,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: Suspicioues process $Processes.process_path.file_path$ running from suspicious
+  message: Suspicioues process $Processes.process_path$ running from suspicious
     location
   mitre_attack_id:
   - T1543
