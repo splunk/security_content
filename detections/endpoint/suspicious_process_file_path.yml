@@ -14,9 +14,9 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*"
   OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*"
-  OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path.file_path
-  = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*"
-  OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path
+  OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path
+  = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path = "*\\Windows\\servicing\\*"
+  OR Processes.process_path = "*\\Users\\Default\\*" OR Processes.process_path
   = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path
   = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" OR Processes.process_path
   = "*\\PerfLogs\\*" by Processes.parent_process_name Processes.parent_process Processes.process_path
