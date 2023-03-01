@@ -72,7 +72,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Processes.process_path
+  - name: process_path
     type: Location
     role:
     - Attacker
