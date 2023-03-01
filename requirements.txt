@@ -3,7 +3,7 @@ docker==6.0.0
 GitPython==3.1.30
 Jinja2==3.1.2
 jsonschema==4.17.3
-mock==4.0.3
+mock==5.0.1
 psutil==5.9.4
 pycvesearch==1.2
 pydantic==1.10.4
