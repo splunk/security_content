@@ -1,7 +1,7 @@
 name: Linux SSH Remote Services Script Execute
 id: aa1748dd-4a5c-457a-9cf6-ca7b4eb711b3
 version: 1
-date: '2022-07-27'
+date: '2023-03-01'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
