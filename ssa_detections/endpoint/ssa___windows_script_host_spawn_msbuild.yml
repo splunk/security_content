@@ -54,41 +54,41 @@ tags:
   - T1127.001
   - T1127
   observable:
-  - name: process_user_name
+  - name: process.user.name
     type: User Name
-  - name: device_hostname
+  - name: device.hostname
     type: Hostname
-  - name: process_file_name
+  - name: process.file.name
     type: File Name
-  - name: actor_process_file_name
+  - name: actor.process.file.name
     type: File Name
-  - name: actor_process_cmd_line
+  - name: actor.process.cmd_line
     type: Process
-  - name: process_cmd_line
+  - name: process.cmd_line
     type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - process_user_name
-  - device_hostname
-  - process_file_name
-  - actor_process_file_name
-  - actor_process_cmd_line
-  - process_cmd_line
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - actor.process.file.name
+  - actor.process.cmd_line
+  - process.cmd_line
   risk_score: 80
   security_domain: endpoint
   mappings:
-  - ocsf: process_user_name
+  - ocsf: process.user.name
     cim: user
-  - ocsf: device_hostname
+  - ocsf: device.hostname
     cim: dest
-  - ocsf: process_file_name
+  - ocsf: process.file.name
     cim: process_name
-  - ocsf: actor_process_file_name
+  - ocsf: actor.process.file.name
     cim: parent_process_name
-  - ocsf: actor_process_cmd_line
+  - ocsf: actor.process.cmd_line
     cim: parent_process
-  - ocsf: process_cmd_line
+  - ocsf: process.cmd_line
     cim: process
 tests:
 - name: True Positive Test

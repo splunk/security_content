@@ -53,31 +53,31 @@ tags:
   - T1218.001
   - T1218
   observable:
-  - name: process_user_name
+  - name: process.user.name
     type: User Name
-  - name: device_hostname
+  - name: device.hostname
     type: Hostname
-  - name: process_file_name
+  - name: process.file.name
     type: File Name
-  - name: process_cmd_line
+  - name: process.cmd_line
     type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - process_user_name
-  - device_hostname
-  - process_file_name
-  - process_cmd_line
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 90
   security_domain: endpoint
   mappings:
-  - ocsf: process_user_name
+  - ocsf: process.user.name
     cim: user
-  - ocsf: device_hostname
+  - ocsf: device.hostname
     cim: dest
-  - ocsf: process_file_name
+  - ocsf: process.file.name
     cim: process_name
-  - ocsf: process_cmd_line
+  - ocsf: process.cmd_line
     cim: cmd_line
 tests:
 - name: True Positive Test

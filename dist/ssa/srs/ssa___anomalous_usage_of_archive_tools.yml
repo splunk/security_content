@@ -32,12 +32,12 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "confidence_id", 2,
     "devices", [
         create_map(
-            "hostname", device_hostname, "type_id", 0
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
     "duration", 0,
     "time", timestamp,
-    "evidence", create_map("process_user_name", process_user_name, "device_hostname", device_hostname, "process_file_name", process_file_name, "actor_process_file_name", actor_process_file_name, "actor_process_cmd_line", actor_process_cmd_line, "process_cmd_line", process_cmd_line),
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "actor.process.file.name", actor_process_file_name, "actor.process.cmd_line", actor_process_cmd_line, "process.cmd_line", process_cmd_line),
     "impact", 70,
     "impact_id", 4,
     "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
@@ -51,7 +51,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         "version", "1.0.0"
     ),
     "nist", ["DE.AE"],
-    "observables", [create_map("name", "process_user_name", "type_id", 4, "value", process_user_name), create_map("name", "device_hostname", "type_id", 1, "value", device_hostname), create_map("name", "process_file_name", "type_id", 7, "value", process_file_name), create_map("name", "actor_process_file_name", "type_id", 7, "value", actor_process_file_name), create_map("name", "actor_process_cmd_line", "type_id", 25, "value", actor_process_cmd_line), create_map("name", "process_cmd_line", "type_id", 99, "value", process_cmd_line)],
+    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "actor.process.file.name", "type_id", 7, "value", actor_process_file_name), create_map("name", "actor.process.cmd_line", "type_id", 25, "value", actor_process_cmd_line), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
     "risk_level", "Medium",
     "risk_level_id", 2,
     "risk_score", 42,
@@ -59,7 +59,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "type_uid", 10200101,
     "users", [
         create_map(
-            "name", process_user_name
+            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ]
   )
@@ -86,28 +86,28 @@ tags:
   nist:
   - DE.AE
   required_fields:
-  - process_user_name
-  - device_hostname
-  - process_file_name
-  - actor_process_file_name
-  - actor_process_cmd_line
-  - process_cmd_line
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - actor.process.file.name
+  - actor.process.cmd_line
+  - process.cmd_line
   risk_score: 42
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/63614a58-10e2-4c6c-ae81-ea1113681439/
   mappings:
-  - ocsf: process_user_name
+  - ocsf: process.user.name
     cim: user
-  - ocsf: device_hostname
+  - ocsf: device.hostname
     cim: dest
-  - ocsf: process_file_name
+  - ocsf: process.file.name
     cim: process_name
-  - ocsf: actor_process_file_name
+  - ocsf: actor.process.file.name
     cim: parent_process_name
-  - ocsf: actor_process_cmd_line
+  - ocsf: actor.process.cmd_line
     cim: parent_process
-  - ocsf: process_cmd_line
+  - ocsf: process.cmd_line
     cim: process
 test:
   name: Anomalous usage of Archive Tools Unit Test
@@ -117,4 +117,3 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
       source: WinEventLog:Security
-eventSchema: ocsf

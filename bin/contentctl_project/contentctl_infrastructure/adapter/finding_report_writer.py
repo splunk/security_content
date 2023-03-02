@@ -55,7 +55,7 @@ class FindingReportObject():
 
         observable_str = "["
         for i in range(len(detection.tags.observable)):            
-            observable_str = observable_str + 'create_map("name", "' + detection.tags.observable[i]["name"] + '", "type_id", ' + str(SES_OBSERVABLE_TYPE_MAPPING[detection.tags.observable[i]["type"]]) + ', "value", ' + detection.tags.observable[i]["name"] + ')'
+            observable_str = observable_str + 'create_map("name", "' + detection.tags.observable[i]["name"] + '", "type_id", ' + str(SES_OBSERVABLE_TYPE_MAPPING[detection.tags.observable[i]["type"]]) + ', "value", ' + detection.tags.observable[i]["name"].replace(".", "_") + ')'
             if not i == (len(detection.tags.observable) - 1):
                 observable_str = observable_str + ', '
         observable_str = observable_str + ']'
@@ -64,7 +64,7 @@ class FindingReportObject():
 
         evidence_str = "create_map("
         for i in range(len(detection.tags.observable)):            
-            evidence_str = evidence_str + '"' + detection.tags.observable[i]["name"] + '", ' + detection.tags.observable[i]["name"]
+            evidence_str = evidence_str + '"' + detection.tags.observable[i]["name"] + '", ' + detection.tags.observable[i]["name"].replace(".", "_")
             if not i == (len(detection.tags.observable) - 1):
                 evidence_str = evidence_str + ', '
         evidence_str = evidence_str + ')'        

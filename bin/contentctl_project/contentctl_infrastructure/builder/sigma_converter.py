@@ -176,7 +176,7 @@ class SigmaConverter():
                     else:
                         field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
 
-                    self.add_required_fields_and_mappings(field_mapping, detection)
+                    self.add_required_fields_and_mappings(field_mapping_dot, detection)
                     self.update_observables(detection)
 
                     processing_items.append(
@@ -327,15 +327,15 @@ class SigmaConverter():
 
     def add_required_fields_and_mappings(self, field_mapping: dict, detection: Detection) -> None:
         required_fields = list()
-        required_fields = ["process_user_name", "device_hostname"]
+        required_fields = ["process.user.name", "device.hostname"]
         mappings = list()
         mappings = [
             {
-                "ocsf": "process_user_name",
+                "ocsf": "process.user.name",
                 "cim": "user"
             },
             {
-                "ocsf": "device_hostname",
+                "ocsf": "device.hostname",
                 "cim": "dest"
             }            
         ]
@@ -354,13 +354,13 @@ class SigmaConverter():
 
     def update_observables(self, detection : Detection) -> None:
         mapping_field_to_type = {
-            "process_user_name": "User Name",
-            "device_hostname": "Hostname",
-            "process_file_name": "File Name",
-            "actor_process_file_name": "File Name",
-            "actor_process_cmd_line": "Process",
-            "process_cmd_line": "Other",
-            "process_file_path": "File"
+            "process.user.name": "User Name",
+            "device.hostname": "Hostname",
+            "process.file.name": "File Name",
+            "actor.process.file.name": "File Name",
+            "actor.process.cmd_line": "Process",
+            "process.cmd_line": "Other",
+            "process.file.path": "File"
         }
 
         observables = list()

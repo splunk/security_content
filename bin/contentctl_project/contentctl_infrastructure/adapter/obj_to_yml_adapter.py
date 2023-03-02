@@ -40,7 +40,7 @@ class ObjToYmlAdapter(Adapter):
             obj.tags.research_site_url = research_site_url
 
             # add ocsf schema tag
-            obj.eventSchema = 'ocsf'
+            obj.tags.event_schema = 'ocsf'
 
             body = FindingReportObject.writeFindingReport(obj)
             

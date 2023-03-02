@@ -10,7 +10,7 @@
     "confidence_id", {{ detection.tags.confidence_id }},
     "devices", [
         create_map(
-            "hostname", device_hostname, "type_id", 0
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
     "duration", 0,
@@ -37,7 +37,7 @@
     "type_uid", 10200101,
     "users", [
         create_map(
-            "name", process_user_name
+            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ]
   )

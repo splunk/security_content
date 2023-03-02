@@ -32,12 +32,12 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "confidence_id", 2,
     "devices", [
         create_map(
-            "hostname", device_hostname, "type_id", 0
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
     "duration", 0,
     "time", timestamp,
-    "evidence", create_map("process_user_name", process_user_name, "device_hostname", device_hostname, "process_file_name", process_file_name, "process_cmd_line", process_cmd_line),
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
     "impact", 70,
     "impact_id", 4,
     "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
@@ -51,7 +51,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         "version", "1.0.0"
     ),
     "nist", ["DE.CM"],
-    "observables", [create_map("name", "process_user_name", "type_id", 4, "value", process_user_name), create_map("name", "device_hostname", "type_id", 1, "value", device_hostname), create_map("name", "process_file_name", "type_id", 7, "value", process_file_name), create_map("name", "process_cmd_line", "type_id", 99, "value", process_cmd_line)],
+    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
     "risk_level", "Low",
     "risk_level_id", 1,
     "risk_score", 35,
@@ -59,7 +59,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "type_uid", 10200101,
     "users", [
         create_map(
-            "name", process_user_name
+            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ]
   )
@@ -85,22 +85,22 @@ tags:
   nist:
   - DE.CM
   required_fields:
-  - process_user_name
-  - device_hostname
-  - process_file_name
-  - process_cmd_line
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 35
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/92cbbf0f-9a6b-4e9d-8c35-cc9244a4e3d5/
   mappings:
-  - ocsf: process_user_name
+  - ocsf: process.user.name
     cim: user
-  - ocsf: device_hostname
+  - ocsf: device.hostname
     cim: dest
-  - ocsf: process_file_name
+  - ocsf: process.file.name
     cim: process_name
-  - ocsf: process_cmd_line
+  - ocsf: process.cmd_line
     cim: cmd_line
 test:
   name: Windows System Binary Proxy Execution MSIExec Remote Download Unit Test
@@ -110,4 +110,3 @@ test:
     - file_name: 4688_msiexec-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/4688_msiexec-windows-security.log
       source: XmlWinEventLog
-eventSchema: ocsf
