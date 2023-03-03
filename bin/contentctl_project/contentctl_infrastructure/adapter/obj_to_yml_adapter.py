@@ -83,7 +83,8 @@ class ObjToYmlAdapter(Adapter):
                                 "risk_score": True,
                                 "security_domain": True,
                                 "required_fields": True,
-                                "research_site_url": True
+                                "research_site_url": True,
+                                "event_schema": True
                             },
                         "test": 
                             {

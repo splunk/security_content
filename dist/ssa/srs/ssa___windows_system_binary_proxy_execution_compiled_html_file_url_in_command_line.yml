@@ -107,6 +107,7 @@ tags:
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/0fec631a-7c9b-4e4c-b28b-93260953e25f/
+  event_schema: ocsf
   mappings:
   - ocsf: process.user.name
     cim: user
