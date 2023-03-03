@@ -47,21 +47,33 @@
                     "targetPort": "1_in"
                 },
                 {
-                    "id": "port_3_to_port_15",
-                    "sourceNode": "3",
-                    "sourcePort": "3_out",
-                    "targetNode": "15",
-                    "targetPort": "15_in"
-                },
-                {
                     "id": "port_15_to_port_7",
                     "sourceNode": "15",
                     "sourcePort": "15_out",
                     "targetNode": "7",
                     "targetPort": "7_in"
+                },
+                {
+                    "id": "port_3_to_port_17",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_17_to_port_15",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
                 }
             ],
-            "hash": "12e3e80ae573dc30d6867885c31f876732ca93a3",
+            "hash": "97d4448db53d4f9f36897f9da6cc35bd6c97e460",
             "nodes": {
                 "0": {
                     "data": {
@@ -76,8 +88,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 20,
-                    "y": 0
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -92,8 +104,8 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 20,
-                    "y": 1218
+                    "x": 19.999999999999986,
+                    "y": 1398
                 },
                 "10": {
                     "data": {
@@ -152,7 +164,7 @@
                     "type": "format",
                     "warnings": {},
                     "x": 0,
-                    "y": 1040
+                    "y": 1220
                 },
                 "15": {
                     "data": {
@@ -168,7 +180,7 @@
                         "id": "15",
                         "inputParameters": [
                             "filtered-data:input_filter:condition_1:playbook_input:search_term",
-                            "search_notables:action_result.data"
+                            "filtered-data:search_results_filter:condition_1:search_notables:action_result.data"
                         ],
                         "outputVariables": [
                             "output"
@@ -178,9 +190,45 @@
                     "errors": {},
                     "id": "15",
                     "type": "code",
-                    "userCode": "\n    process_results__output = {}\n    for search_term in filtered_input_0_search_term_values:\n        process_results__output[search_term] = []\n        for result in search_notables_result_item_0:\n            if not isinstance(result, list):\n                list_result = [result]\n            else:\n                list_result = result\n            for result_item in list_result:\n                result_item_values = [item.lower() for item in result_item.values() if isinstance(item, str)]\n                match = False\n                for string_value in result_item_values:\n                    if search_term.lower() in string_value:\n                        match = True\n                        break\n                if match:\n                    process_results__output[search_term].append({**result_item})\n\n",
+                    "userCode": "\n    process_results__output = {}\n    for search_term in filtered_input_0_search_term_values:\n        process_results__output[search_term] = []\n        for result in filtered_result_0_data:\n            if not isinstance(result, list):\n                list_result = [result]\n            else:\n                list_result = result\n            for result_item in list_result:\n                result_item_values = [item.lower() for item in result_item.values() if isinstance(item, str)]\n                match = False\n                for string_value in result_item_values:\n                    if search_term.lower() in string_value:\n                        match = True\n                        break\n                if match:\n                    process_results__output[search_term].append({**result_item})\n\n",
                     "warnings": {},
                     "x": 0,
+                    "y": 864
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "search results filter",
+                            "customNameId": 0,
+                            "description": "Determine if search results exist from the previous query.",
+                            "join": [],
+                            "note": "Determine if search results exist from the previous query."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "search_notables:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "results_exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "search_results_filter",
+                        "id": "17",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
                     "y": 684
                 },
                 "2": {
@@ -321,10 +369,10 @@
                     "errors": {},
                     "id": "7",
                     "type": "code",
-                    "userCode": "    build_output__observable_array = []\n    build_output__name = []\n    build_output__id = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__notes = []\n    build_output__comments = []\n    \n            \n    for key in process_results__output.keys():\n        \n        for result in process_results__output[key]:\n            if \"comment\" in result:\n                if isinstance(result[\"comment\"], str):\n                    comments = [result[\"comment\"]]\n                else:\n                    comments = result[\"comment\"]\n            else:\n                comments = []\n        \n            matched_fields = []\n            for k, v in result.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": result[\"search_name\"],\n                    \"id\": result[\"event_id\"],\n                    \"number\": result.get(\"notable_xref_id\"),\n                    \"message\": result[\"savedsearch_description\"],\n                    \"start_time\": result[\"_time\"],\n                    \"end_time\": \"\",\n                    \"assigned_to\": result[\"owner\"],\n                    \"creator_name\": \"\",\n                    \"state\": result[\"status_label\"],\n                    \"notes\": [],\n                    \"comments\": comments\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"Splunk Enterprise Security\"\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(result[\"search_name\"])\n            build_output__id.append(result[\"event_id\"])\n            build_output__number.append(result.get(\"notable_xref_id\"))\n            build_output__message.append(result[\"savedsearch_description\"])\n            build_output__start_time.append(result[\"_time\"])\n            build_output__end_time.append(\"\")\n            build_output__assignee.append(result[\"owner\"])\n            build_output__creator_name.append(\"\")\n            build_output__state.append(result[\"status_label\"])\n            build_output__notes.append([])\n            build_output__comments.append(comments)\n        \n        \n",
+                    "userCode": "    build_output__observable_array = []\n    build_output__name = []\n    build_output__id = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__notes = []\n    build_output__comments = []\n    \n            \n    for key in process_results__output.keys():\n        \n        for result in process_results__output[key]:\n            if \"comment\" in result:\n                if isinstance(result[\"comment\"], str):\n                    comments = [result[\"comment\"]]\n                else:\n                    comments = result[\"comment\"]\n            else:\n                comments = []\n        \n            matched_fields = []\n            for k, v in result.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": result['rule_title'] if result.get('rule_title') else result.get(\"search_name\"),\n                    \"id\": result.get(\"event_id\"),\n                    \"number\": result.get(\"notable_xref_id\"),\n                    \"message\": result['rule_description'] if result.get(\"rule_description\") else result.get(\"savedsearch_description\"),\n                    \"start_time\": result.get(\"_time\"),\n                    \"end_time\": \"\",\n                    \"assigned_to\": result.get(\"owner\"),\n                    \"creator_name\": \"\",\n                    \"state\": result.get(\"status_label\"),\n                    \"notes\": [],\n                    \"comments\": comments\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"Splunk Enterprise Security\"\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(result.get(\"search_name\"))\n            build_output__id.append(result.get(\"event_id\"))\n            build_output__number.append(result.get(\"notable_xref_id\"))\n            build_output__message.append(result.get(\"savedsearch_description\"))\n            build_output__start_time.append(result.get(\"_time\"))\n            build_output__end_time.append(\"\")\n            build_output__assignee.append(result.get(\"owner\"))\n            build_output__creator_name.append(\"\")\n            build_output__state.append(result.get(\"status_label\"))\n            build_output__notes.append([])\n            build_output__comments.append(comments)\n        \n        \n",
                     "warnings": {},
                     "x": 0,
-                    "y": 862
+                    "y": 1042
                 }
             },
             "notes": "Inputs: user, device\nInteractions: Splunk\nActions: run query\nOutputs: report, observables"
@@ -366,7 +414,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-02-27T21:42:30.554557+00:00",
+    "create_time": "2023-03-03T21:14:02.937956+00:00",
     "draft_mode": false,
     "labels": [
         "*"

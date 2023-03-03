@@ -256,7 +256,7 @@ def build_output(action=None, success=None, container=None, results=None, handle
                     "name": value["short_description"],
                     "id": value["sys_id"],
                     "number": value["number"],
-                    "message": value["description"],
+                    "message": json.dumps(value["description"]),
                     "start_time": value["sys_created_on"],
                     "end_time": value["closed_at"],
                     "assigned_to": assigned_to,

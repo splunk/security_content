@@ -82,7 +82,7 @@ def search_notables(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.act("run query", parameters=parameters, name="search_notables", assets=["splunk"], callback=process_results)
+    phantom.act("run query", parameters=parameters, name="search_notables", assets=["splunk"], callback=search_results_filter)
 
     return
 
@@ -147,15 +147,15 @@ def build_output(action=None, success=None, container=None, results=None, handle
             observable_object = {
                 "value": key,
                 "ticket": {
-                    "name": result["search_name"],
-                    "id": result["event_id"],
+                    "name": result['rule_title'] if result.get('rule_title') else result.get("search_name"),
+                    "id": result.get("event_id"),
                     "number": result.get("notable_xref_id"),
-                    "message": result["savedsearch_description"],
-                    "start_time": result["_time"],
+                    "message": result['rule_description'] if result.get("rule_description") else result.get("savedsearch_description"),
+                    "start_time": result.get("_time"),
                     "end_time": "",
-                    "assigned_to": result["owner"],
+                    "assigned_to": result.get("owner"),
                     "creator_name": "",
-                    "state": result["status_label"],
+                    "state": result.get("status_label"),
                     "notes": [],
                     "comments": comments
                 },
@@ -163,15 +163,15 @@ def build_output(action=None, success=None, container=None, results=None, handle
                 "source": "Splunk Enterprise Security"
             }
             build_output__observable_array.append(observable_object)
-            build_output__name.append(result["search_name"])
-            build_output__id.append(result["event_id"])
+            build_output__name.append(result.get("search_name"))
+            build_output__id.append(result.get("event_id"))
             build_output__number.append(result.get("notable_xref_id"))
-            build_output__message.append(result["savedsearch_description"])
-            build_output__start_time.append(result["_time"])
+            build_output__message.append(result.get("savedsearch_description"))
+            build_output__start_time.append(result.get("_time"))
             build_output__end_time.append("")
-            build_output__assignee.append(result["owner"])
+            build_output__assignee.append(result.get("owner"))
             build_output__creator_name.append("")
-            build_output__state.append(result["status_label"])
+            build_output__state.append(result.get("status_label"))
             build_output__notes.append([])
             build_output__comments.append(comments)
         
@@ -277,10 +277,10 @@ def process_results(action=None, success=None, container=None, results=None, han
     ################################################################################
 
     filtered_input_0_search_term = phantom.collect2(container=container, datapath=["filtered-data:input_filter:condition_1:playbook_input:search_term"])
-    search_notables_result_data = phantom.collect2(container=container, datapath=["search_notables:action_result.data"], action_results=results)
+    filtered_result_0_data_search_results_filter = phantom.collect2(container=container, datapath=["filtered-data:search_results_filter:condition_1:search_notables:action_result.data"])
 
     filtered_input_0_search_term_values = [item[0] for item in filtered_input_0_search_term]
-    search_notables_result_item_0 = [item[0] for item in search_notables_result_data]
+    filtered_result_0_data = [item[0] for item in filtered_result_0_data_search_results_filter]
 
     process_results__output = None
 
@@ -291,7 +291,7 @@ def process_results(action=None, success=None, container=None, results=None, han
     process_results__output = {}
     for search_term in filtered_input_0_search_term_values:
         process_results__output[search_term] = []
-        for result in search_notables_result_item_0:
+        for result in filtered_result_0_data:
             if not isinstance(result, list):
                 list_result = [result]
             else:
@@ -313,6 +313,29 @@ def process_results(action=None, success=None, container=None, results=None, han
     phantom.save_run_data(key="process_results:output", value=json.dumps(process_results__output))
 
     build_output(container=container)
+
+    return
+
+
+@phantom.playbook_block()
+def search_results_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("search_results_filter() called")
+
+    ################################################################################
+    # Determine if search results exist from the previous query.
+    ################################################################################
+
+    # collect filtered artifact ids and results for 'if' condition 1
+    matched_artifacts_1, matched_results_1 = phantom.condition(
+        container=container,
+        conditions=[
+            ["search_notables:action_result.summary.total_events", ">", 0]
+        ],
+        name="search_results_filter:condition_1")
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_1 or matched_results_1:
+        process_results(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 

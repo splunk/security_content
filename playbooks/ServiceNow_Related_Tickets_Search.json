@@ -82,7 +82,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "fe6211a724ba368888388b13703be77329f2b9b2",
+            "hash": "e7ead2bdc6a802950dd37c47b3f4af40d61c676c",
             "nodes": {
                 "0": {
                     "data": {
@@ -97,8 +97,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 20,
-                    "y": 0
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -113,7 +113,7 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 20,
+                    "x": 19.999999999999986,
                     "y": 1708
                 },
                 "10": {
@@ -221,7 +221,7 @@
                     "errors": {},
                     "id": "16",
                     "type": "code",
-                    "userCode": "    import re \n    \n    build_output__observable_array = []\n    build_output__name = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__matched_fields = []\n    build_output__source_link = []\n    build_output__source = []\n    \n    def generate_ticket_link(sample_url, ticket_type, sys_id):\n        extract_host = re.search(r\"https*:\\/\\/[^\\/]+\", sample_url).group(0)\n        extract_host += f\"/nav_to.do?uri={ticket_type}.do?sys_id={sys_id}\"\n        return extract_host\n        \n    for key in process_results__output.keys():\n        \n        for value in process_results__output[key]:\n            assigned_to = None\n            caller_id = None\n            matched_fields = []\n            if value.get(\"assigned_to\"):\n                assigned_to = value[\"assigned_to\"][\"display_value\"]\n            if value.get(\"caller_id\"):\n                caller_id = value[\"caller_id\"][\"display_value\"]\n            \n            for k, v in value.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n                # search for any link sample:\n                if isinstance(v, dict):\n                    sample_link = v.get('link')\n            \n            source_link = generate_ticket_link(sample_link, value['ticket_type'], value['sys_id'])\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": value[\"short_description\"],\n                    \"id\": value[\"sys_id\"],\n                    \"number\": value[\"number\"],\n                    \"message\": value[\"description\"],\n                    \"start_time\": value[\"sys_created_on\"],\n                    \"end_time\": value[\"closed_at\"],\n                    \"assigned_to\": assigned_to,\n                    \"creator_name\": caller_id,\n                    \"state\": value[\"state\"],\n                    \"notes\": [value[\"work_notes\"]],\n                    \"comments\": [value[\"comments\"]]\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"ServiceNow\",\n                \"source_link\": source_link\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(value[\"short_description\"])\n            build_output__number.append(value[\"number\"])\n            build_output__message.append(json.dumps(value[\"description\"]))  # eliminate new line issues\n            build_output__start_time.append(value[\"sys_created_on\"])\n            build_output__end_time.append(value[\"closed_at\"])\n            build_output__assignee.append(assigned_to)\n            build_output__creator_name.append(caller_id)\n            build_output__state.append(value[\"state\"])\n            build_output__matched_fields.append(matched_fields)\n            build_output__source.append(\"ServiceNow\")\n            build_output__source_link.append(source_link)\n            #phantom.debug(observable_object)\n\n",
+                    "userCode": "    import re \n    \n    build_output__observable_array = []\n    build_output__name = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__matched_fields = []\n    build_output__source_link = []\n    build_output__source = []\n    \n    def generate_ticket_link(sample_url, ticket_type, sys_id):\n        extract_host = re.search(r\"https*:\\/\\/[^\\/]+\", sample_url).group(0)\n        extract_host += f\"/nav_to.do?uri={ticket_type}.do?sys_id={sys_id}\"\n        return extract_host\n        \n    for key in process_results__output.keys():\n        \n        for value in process_results__output[key]:\n            assigned_to = None\n            caller_id = None\n            matched_fields = []\n            if value.get(\"assigned_to\"):\n                assigned_to = value[\"assigned_to\"][\"display_value\"]\n            if value.get(\"caller_id\"):\n                caller_id = value[\"caller_id\"][\"display_value\"]\n            \n            for k, v in value.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n                # search for any link sample:\n                if isinstance(v, dict):\n                    sample_link = v.get('link')\n            \n            source_link = generate_ticket_link(sample_link, value['ticket_type'], value['sys_id'])\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": value[\"short_description\"],\n                    \"id\": value[\"sys_id\"],\n                    \"number\": value[\"number\"],\n                    \"message\": json.dumps(value[\"description\"]),\n                    \"start_time\": value[\"sys_created_on\"],\n                    \"end_time\": value[\"closed_at\"],\n                    \"assigned_to\": assigned_to,\n                    \"creator_name\": caller_id,\n                    \"state\": value[\"state\"],\n                    \"notes\": [value[\"work_notes\"]],\n                    \"comments\": [value[\"comments\"]]\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"ServiceNow\",\n                \"source_link\": source_link\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(value[\"short_description\"])\n            build_output__number.append(value[\"number\"])\n            build_output__message.append(json.dumps(value[\"description\"]))  # eliminate new line issues\n            build_output__start_time.append(value[\"sys_created_on\"])\n            build_output__end_time.append(value[\"closed_at\"])\n            build_output__assignee.append(assigned_to)\n            build_output__creator_name.append(caller_id)\n            build_output__state.append(value[\"state\"])\n            build_output__matched_fields.append(matched_fields)\n            build_output__source.append(\"ServiceNow\")\n            build_output__source_link.append(source_link)\n            #phantom.debug(observable_object)\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1352
@@ -562,7 +562,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-02-27T21:35:55.428347+00:00",
+    "create_time": "2023-03-03T21:21:48.729159+00:00",
     "draft_mode": false,
     "labels": [
         "*"
