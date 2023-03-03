@@ -1,6 +1,6 @@
-name: Windows Multi-hop Proxy TOR Website Query Unit Test
+name: Windows Multi hop Proxy TOR Website Query Unit Test
 tests:
-- name: Windows Multi-hop Proxy TOR Website Query
+- name: Windows Multi hop Proxy TOR Website Query
   file: endpoint/windows_multi_hop_proxy_tor_website_query.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

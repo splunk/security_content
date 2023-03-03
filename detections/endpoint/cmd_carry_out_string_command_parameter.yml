@@ -40,6 +40,8 @@ tags:
   - DarkCrystal RAT
   - ProxyNotShell
   - Qakbot
+  - Chaos Ransomware
+  - AsyncRAT
   automated_detection_testing: passed
   confidence: 50
   context:

@@ -1,0 +1,19 @@
+name: CISA AA22-320A
+id: c1fca73d-3a8d-49a6-b9c0-1d5d155f7dd4
+version: 1
+date: '2022-11-16'
+author: Michael Haag, Splunk
+description: CISA and the FBI have identified an APT activity where the adversary gained initial access via Log4Shell via a unpatched VMware Horizon server. From there the adversary moved laterally and continued to its objective.
+narrative: From mid-June through mid-July 2022, CISA conducted an incident response engagement at a Federal Civilian Executive Branch (FCEB) organization where CISA observed suspected advanced persistent threat (APT) activity. In the course of incident response activities, CISA determined that cyber threat actors exploited the Log4Shell vulnerability in an unpatched VMware Horizon server, installed XMRig crypto mining software, moved laterally to the domain controller (DC), compromised credentials, and then implanted Ngrok reverse proxies on several hosts to maintain persistence. CISA and the Federal Bureau of Investigation (FBI) assess that the FCEB network was compromised by Iranian government-sponsored APT actors.
+references:
+  - https://www.cisa.gov/uscert/ncas/alerts/aa22-320a
+  - https://www.cisa.gov/uscert/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf
+tags:
+  analytic_story: CISA AA22-320A
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

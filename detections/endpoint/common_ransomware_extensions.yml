@@ -1,40 +1,32 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
-version: 4
-date: '2020-11-09'
-author: David Dorsey, Splunk
+version: 5
+date: '2022-11-10'
+author: David Dorsey, Michael Haag, Splunk, Steven Dick
 type: Hunting
 datamodel:
 - Endpoint
 description: The search looks for file modifications with extensions commonly used
   by Ransomware
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
-  as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`| rex
-  field=file_name "(?<file_extension>\.[^\.]+)$" | `ransomware_extensions` | `common_ransomware_extensions_filter`'
+search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime count latest(Filesystem.user) as user values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest _time span=1h
+  | `drop_dm_object_name(Filesystem)` 
+  | rex field=file_name "(?<file_extension>\.[^\.]+)$" 
+  | rex field=file_path "(?<true_file_path>([^\\\]*\\\)*).*" 
+  | stats min(firstTime) as firstTime max(lastTime) as lastTime latest(user) as user dc(true_file_path) as path_count dc(file_name) as file_count latest(file_name) as file_name latest(true_file_path) as file_path by dest file_extension
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)`
+  | `ransomware_extensions`
+  | where path_count > 1 OR file_count > 20
+  | `common_ransomware_extensions_filter`'
 how_to_implement: 'You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint file-system data model node. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.\
-
-  This search produces fields (`query`,`query_length`,`count`) that are not yet supported
-  by ES Incident Review and therefore cannot be viewed when a notable event is raised.
-  These fields contribute additional context to the notable. To see the additional
-  metadata, add the following fields, if not already present, to Incident Review -
-  Event Attributes (Configure > Incident Management > Incident Review Settings > Add
-  New Entry):\\n1. **Label:** Name, **Field:** Name\
-
-  1. \
-
-  1. **Label:** File Extension, **Field:** file_extension\
-
-  Detailed documentation on how to create a new field within Incident Review may be
+  from your hosts to populate the Endpoint Filesystem data model node. To see the additional
+  metadata, add the following fields, if not already present, please review the detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
 known_false_positives: It is possible for a legitimate file with these extensions
   to be created. If this is a true ransomware attack, there will be a large number
   of files created with these extensions.
-references: []
+references: 
+  - https://github.com/splunk/security_content/issues/2448 
 tags:
   Consequence: Data Destruction
   analytic_story:
@@ -42,6 +34,8 @@ tags:
   - Ryuk Ransomware
   - Ransomware
   - Clop Ransomware
+  - Prestige Ransomware
+  - LockBit Ransomware
   asset_type: Endpoint
   cis20:
   - CIS 8
@@ -50,13 +44,11 @@ tags:
   - Source:Endpoint
   - Stage:Execution
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_extensions/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
   impact: 90
   kill_chain_phases:
   - Actions on Objectives
-  message: A file - $file_name$ was written to disk on endpoint $dest$ by user $user$,
-    this is indicative of a known ransomware file extension and should be reviewed
-    immediately.
+  message: The device $dest$ wrote $file_count$ files to $path_count$ path(s) with the $file_extension$ extension. This extension and behavior may indicate a $Name$ ransomware attack.
   mitre_attack_id:
   - T1485
   nist:
@@ -75,6 +67,22 @@ tags:
     type: File Name
     role:
     - Victim
+  - name: file_count
+    type: Other
+    role:
+    - Other
+  - name: path_count
+    type: Other
+    role:
+    - Other
+  - name: file_extension
+    type: Other
+    role:
+    - Other
+  - name: Name
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
