@@ -144,6 +144,11 @@ setup_schema = {
                     "app_version": "8.1.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz"
                   },
+                  "SPLUNK_TA_FIX_WINDOWS":{
+                    "app_number": 9999,
+                    "app_version": "1.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/Splunk_TA_fix_windows.tgz"
+                  },
                   "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
                     "app_version": "5.0.1",

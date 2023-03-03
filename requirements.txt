@@ -1,12 +1,12 @@
 attackcti==0.3.8
 docker==6.0.0
-GitPython==3.1.30
+GitPython==3.1.31
 Jinja2==3.1.2
 jsonschema==4.17.3
 mock==5.0.1
 psutil==5.9.4
 pycvesearch==1.2
-pydantic==1.10.4
+pydantic==1.10.5
 pytest==7.2.1
 PyYAML==5.4.1
 questionary==1.10.0
