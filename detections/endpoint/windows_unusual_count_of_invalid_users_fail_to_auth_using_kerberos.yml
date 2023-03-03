@@ -1,7 +1,7 @@
-name: Windows Invalid Users Failed Authentication via Kerberos
-id: 001266a6-9d5b-11eb-829b-acde48001122
+name: Windows Unusual Count Of Invalid Users Fail To Auth Using Kerberos
+id: f122cb2e-d773-4f11-8399-62a3572d8dd7
 version: 1
-date: '2021-04-14'
+date: '2022-09-22'
 author: Mauricio Velazco, Splunk
 type: Anomaly
 datamodel: []
@@ -26,12 +26,14 @@ description: 'The following analytic identifies one source endpoint failing to a
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
-search: '`wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$"
-  | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
-  as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
-  comp_avg , stdev(unique_accounts) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
+search: '`wineventlog_security` EventCode=4768 TargetUserName!=*$ Status=0x6
+  | bucket span=5m _time
+  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, IpAddress
+  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by IpAddress 
+  | eval upperBound=(comp_avg+comp_std*3)
   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `windows_invalid_users_failed_authentication_via_kerberos_filter` '
+  | search isOutlier=1 
+  | `windows_unusual_count_of_invalid_users_fail_to_auth_using_kerberos_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
@@ -52,19 +54,19 @@ tags:
   - Stage:Initial Access
   - Stage:Privilege Escalation
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos_xml/windows-security.log
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: Potential Kerberos based password spraying attack from $Client_Address$
+  message: Potential Kerberos based password spraying attack from $IpAddress$
   mitre_attack_id:
   - T1110.003
   - T1110
   observable:
-  - name: Client_Address
+  - name: IpAddress
     type: Endpoint
     role:
-    - Victim
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -72,9 +74,9 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Result_Code
-  - Account_Name
-  - Client_Address
+  - Status
+  - TargetUserName
+  - IpAddress
   risk_score: 49
   security_domain: endpoint
   asset_type: Endpoint
