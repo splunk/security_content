@@ -24,7 +24,7 @@ tags:
   analytic_story:
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
-  - Command and Control
+  - Command And Control
   asset_type: Endpoint
   confidence: 80
   impact: 70

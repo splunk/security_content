@@ -39,11 +39,11 @@ field_mappings:
   - data_model: ocsf
     mapping:
       NewProcessId: process.pid
-      NewProcessName: process.file
+      NewProcessName: process.file.name
       Process_Command_Line: process.cmd_line
       SubjectUserSid: user.name
       ProcessId: actor_process.pid
-      ParentProcessName: actor_process.file
+      ParentProcessName: actor.process.file.name
       Computer: origin.device.name
 convert_to_log_source:
   - data_source: Sysmon Event ID 1

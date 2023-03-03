@@ -64,7 +64,7 @@ tags:
   - DNS Hijacking
   - Suspicious DNS Traffic
   - Dynamic DNS
-  - Command and Control
+  - Command And Control
   asset_type: Endpoint
   confidence: 90
   impact: 70

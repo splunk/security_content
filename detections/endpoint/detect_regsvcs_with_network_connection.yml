@@ -8,7 +8,7 @@ type: TTP
 description: The following analytic identifies Regsvcs.exe with a network connection
   to a public IP address, exluding private IP space. This particular technique has
   been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe
-  are signed by Microsoft. By contacting a remote command and control server, the
+  are signed by Microsoft. By contacting a remote Command And Control server, the
   adversary will have the ability to escalate privileges and complete the objectives.
   During investigation, identify and retrieve the content being loaded. Review parallel
   processes for additional suspicious behavior. Gather any other file modifications

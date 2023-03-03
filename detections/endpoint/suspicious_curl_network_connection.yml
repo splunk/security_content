@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: experimental
 type: TTP
 description: The following analytic identifies the use of a curl contacting suspicious
-  remote domains to checkin to command and control servers or download further implants.
+  remote domains to checkin to Command And Control servers or download further implants.
   In the context of Silver Sparrow, curl is identified contacting s3.amazonaws.com.
   This particular behavior is common with MacOS adware-malicious software.
 data_source:

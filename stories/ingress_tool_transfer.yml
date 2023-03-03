@@ -5,9 +5,9 @@ date: '2021-03-24'
 author: Michael Haag, Splunk
 description: Adversaries may transfer tools or other files from an external system
   into a compromised environment. Files may be copied from an external adversary controlled
-  system through the command and control channel to bring tools into the victim network
+  system through the Command And Control channel to bring tools into the victim network
   or through alternate protocols with another tool such as FTP.
-narrative: Ingress tool transfer is a Technique under tactic Command and Control.
+narrative: Ingress tool transfer is a Technique under tactic Command And Control.
   Behaviors will include the use of living off the land binaries to download implants
   or binaries over alternate communication ports. It is imperative to baseline applications
   on endpoints to understand what generates network activity, to where, and what is

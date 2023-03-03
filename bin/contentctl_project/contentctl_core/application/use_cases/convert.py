@@ -24,6 +24,3 @@ class Convert:
 
         yml_output = YmlOutput()
         yml_output.writeDetections(sigma_converter_output_dto.detections, input_dto.output_path)
-
-        file_name = sigma_converter_output_dto.detections[0].file_path
-        print('Converted Sigma detection to: ' + input_dto.output_path + '/' + file_name)

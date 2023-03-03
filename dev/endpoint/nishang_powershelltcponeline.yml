@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 description: This query detects the Nishang Invoke-PowerShellTCPOneLine utility that
-  spawns a call back to a remote command and control server. This is a powershell
+  spawns a call back to a remote Command And Control server. This is a powershell
   oneliner. In addition, this will capture on the command-line additional utilities
   used by Nishang. Triage the endpoint and identify any parallel processes that look
   suspicious. Review the reputation of the remote IP or domain contacted by the powershell

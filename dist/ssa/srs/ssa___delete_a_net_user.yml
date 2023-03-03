@@ -7,18 +7,66 @@ description: This analytic will detect a suspicious net.exe/net1.exe command-lin
   user or deleting adversaries tracks created during its lateral movement additional
   systems. During triage, review parallel processes for additional behavior. Identify
   any other user accounts created before or after.
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",null),
-  parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",null),
-  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where process
-  IS NOT NULL AND like(process, "%/delete%") AND like(process, "%user%") AND (process_name="net1.exe"
-  OR process_name="net.exe") | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "process", process, "process_name",
-  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where like(process_cmd_line, "%user%") AND like(process_cmd_line, "%/delete%")
+  AND (process_file_name="net.exe" OR process_file_name="net1.exe") 
+  | eval body=create_map(
+    "activity_id", 1,
+    "analytic_stories", ["XMRig", "Ransomware"],
+    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
+    "category_uid", 2,
+    "class_name", "Detection Report",
+    "class_uid", 102001,
+    "confidence", 70,
+    "confidence_id", 3,
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ],
+    "duration", 0,
+    "time", timestamp,
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
+    "impact", 70,
+    "impact_id", 4,
+    "kill_chain", [create_map("phase", "Actions on Objectives", "phase_id", 7)],
+    "attacks", [create_map("tactics", [create_map("name", "Impact", "uid", "TA0040")], "technique", create_map("name", "Account Access Removal", "uid", "T1531"), "version", "12.1")],  
+    "message", concat("Delete A Net User has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "metadata", create_map(
+        "product", create_map(
+            "name", "Behavioral Analytic Service",
+            "vendor_name", "Splunk"
+        ),
+        "version", "1.0.0"
+    ),
+    "nist", ["DE.AE"],
+    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
+    "risk_level", "Medium",
+    "risk_level_id", 2,
+    "risk_score", 49,
+    "severity_id", 4,
+    "type_uid", 10200101,
+    "users", [
+        create_map(
+            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ]
+  )
+  | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -34,25 +82,30 @@ tags:
   cis20:
   - CIS 10
   kill_chain_phases:
-  - Exploitation
+  - Actions on Objectives
   mitre_attack_id:
   - T1531
   nist:
   - DE.AE
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 49
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/8776d79c-d26e-11eb-9a56-acde48001122/
-  event_schema: cim
+  event_schema: ocsf
+  mappings:
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: device.hostname
+    cim: dest
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
 test:
   name: Delete A Net User Unit Test
   tests:
