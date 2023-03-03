@@ -62,7 +62,7 @@ setup_schema = {
                 "SPLUNK_TA_FOR_IIS": {
                     "app_number": 3185,
                     "app_version": "1.2.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-iis_120.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-iis_120.tgz",
                 },
                 ES_APP_NAME: {
                     "app_number": 3449,
@@ -71,8 +71,8 @@ setup_schema = {
                 },
                 "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
                     "app_number": 2757,
-                    "app_version": "7.1.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/palo-alto-networks-add-on-for-splunk_710.tgz",
+                    "app_version": "8.0.1",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/palo-alto-networks-add-on-for-splunk_801.tgz",
                 },
                 "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
                     "app_number": 2882,
@@ -152,12 +152,12 @@ setup_schema = {
                 "SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM": {
                     "app_number": 3088,
                     "app_version": "4.1.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-google-cloud-platform_410.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-cloud-platform_410.tgz",
                 },
                 "SPLUNK_ADD_ON_FOR_GOOGLE_WORKSPACE": {
                     "app_number": 3110,
                     "app_version": "2.4.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-google-workspace_241.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_241.tgz",
                 },
             },
         },
