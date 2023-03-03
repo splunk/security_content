@@ -1,0 +1,78 @@
+name: Windows Multiple Invalid Users Failed To Authenticate Using NTLM
+id: 57ad5a64-9df7-11eb-a290-acde48001122
+version: 2
+date: '2021-04-15'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: 'The following analytic identifies one source endpoint failing to authenticate
+  with 30 unique invalid users using the NTLM protocol. This behavior could represent
+  an adversary performing a Password Spraying attack against an Active Directory environment
+  using NTLM to obtain initial access or elevate privileges. 
+  Active Directory environments can be very different depending on the organization. Users should test this detection and customize the arbitrary threshold when needed.
+  As attackers progress
+  in a breach, mistakes will be made. In certain scenarios, adversaries may execute
+  a password spraying attack using an invalid list of users. Event 4776 is generated
+  on the computer that is authoritative for the provided credentials. For domain accounts,
+  the domain controller is authoritative. For local accounts, the local computer is
+  authoritative. Error code 0xC0000064 stands for `The username you typed does not
+  exist` (the attempted user is a legitimate domain user).\
+
+  This logic can be used for real time security monitoring as well as threat hunting exercises.
+  This detection will only trigger on domain controllers, not on member servers or
+  workstations.\
+
+  The analytics returned fields allow analysts to investigate the event further by
+  providing fields like source workstation name and attempted user accounts.'
+search: ' `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xc0000064
+  | bucket span=5m _time 
+  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, Workstation
+  | where unique_accounts > 30 
+  | `windows_multiple_invalid_users_failed_to_authenticate_using_ntlm_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
+  Validation' within `Account Logon` needs to be enabled.
+known_false_positives: A host failing to authenticate with multiple invalid domain
+  users is not a common behavior for legitimate systems. Possible false positive scenarios
+  include but are not limited to vulnerability scanners and missconfigured systems.
+  If this detection triggers on a host other than a Domain Controller, the behavior
+  could represent a password spraying attack against the host's local accounts.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
+tags:
+  analytic_story:
+  - Active Directory Password Spraying
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Privilege Escalation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_ntlm_xml/windows-security.log
+  impact: 70
+  kill_chain_phases:
+  - Exploitation
+  message: Potential NTLM based password spraying attack from $Workstation$
+  mitre_attack_id:
+  - T1110.003
+  - T1110
+  observable:
+  - name: Workstation
+    type: Endpoint
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - TargetUserName
+  - Workstation
+  - Status
+  risk_score: 49
+  security_domain: endpoint
+  asset_type: Endpoint
