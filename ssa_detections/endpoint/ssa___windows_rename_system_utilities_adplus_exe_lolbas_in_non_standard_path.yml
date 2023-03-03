@@ -3,25 +3,31 @@ id: ecaaf956-c516-4980-b08e-8c01c19614ca
 version: 1
 date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
-status: production
 type: Anomaly
+status: production
 description: The following analytic identifies adplus.exe which is a native living
   off the land binary or script (LOLBAS) within the Windows operating system that
   may be abused by adversaries by moving it to a new directory. The list of binaries
   was derived from the https://lolbas-project.github.io site.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
-  "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
-  "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
-  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
-  null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
-  process_name IS NOT NULL AND process_name="adplus.exe"| where process_path IS NOT
-  NULL AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86/)=false
-  | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
-  body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
-  process_name]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where process_file_name="adplus.exe" AND (NOT match_regex(process_file_path,
+  /(?i)\\program files (x86)\\windows kits\\10\\debuggers\\x86/)=true) --finding_report--'
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
   Collect endpoint data such as Sysmon or Windows Events 4688.
@@ -45,26 +51,37 @@ tags:
   - T1036
   - T1036.003
   observable:
-  - name: dest_device_id
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
     type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  - name: process.file.name
+    type: File Name
+  - name: process.cmd_line
+    type: Other
+  - name: process.file.path
+    type: File
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
-  kill_chain_phases:
-  - Actions on Objectives
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
+  - process.file.path
   risk_score: 14
   security_domain: endpoint
+  mappings:
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: device.hostname
+    cim: dest
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.file.path
+    cim: process_path
 tests:
 - name: True Positive Test
   attack_data:

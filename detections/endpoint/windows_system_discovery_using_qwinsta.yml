@@ -10,7 +10,7 @@ description: The following analytic identifies the execution of qwinsta.exe exec
   about sessions on a remote desktop session host server. The information includes
   servername, sessionname, username and many more. This tool is being abused of Qakbot
   malware to gather information to the targeted or compromised host that will be send
-  back to its Command and control server.
+  back to its Command And Control server.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

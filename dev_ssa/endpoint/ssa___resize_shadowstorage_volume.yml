@@ -1,0 +1,81 @@
+name: Resize Shadowstorage Volume
+id: dbc30554-d27e-11eb-9e5e-acde48001122
+version: 3
+date: '2021-11-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the resizing of shadowstorage using
+  vssadmin.exe to avoid the shadow volumes being made again. This technique is typically
+  found used by adversaries during a ransomware event and a precursor to deleting
+  the shadowstorage.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    cmd_line|contains: shadowstorage
+  selection2:
+    cmd_line|contains: resize
+  selection3:
+    cmd_line|contains: maxsize
+  selection4:
+    process_name: vssadmin.exe
+  condition: selection1 and selection2 and selection3 and selection4
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: System administrators may resize the shadowstorage for valid
+  purposes. Filter as needed.
+references:
+- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+tags:
+  analytic_story:
+  - Clop Ransomware
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow
+    copy to perform offline password cracking.
+  mitre_attack_id:
+  - T1489
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
+    source: WinEventLog:Security

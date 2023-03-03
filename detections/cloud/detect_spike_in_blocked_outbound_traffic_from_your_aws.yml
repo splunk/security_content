@@ -45,7 +45,7 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   - Suspicious AWS Traffic
-  - Command and Control
+  - Command And Control
   asset_type: AWS Instance
   confidence: 50
   impact: 50

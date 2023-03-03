@@ -40,9 +40,9 @@ class ObjToYmlAdapter(Adapter):
             obj.tags.research_site_url = research_site_url
 
             # add ocsf schema tag
-            obj.tags.event_schema = 'cim'
+            obj.tags.event_schema = 'ocsf'
 
-            #body = FindingReportObject.writeFindingReport(obj)
+            body = FindingReportObject.writeFindingReport(obj)
             
             if obj.test:
                 test_dict = {
@@ -59,10 +59,12 @@ class ObjToYmlAdapter(Adapter):
 
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
+                exclude_none=True,
                 include =
                     {
                         "name": True,
                         "id": True,
+                        "eventSchema": True,
                         "version": True,
                         "description": True,
                         "search": True,
@@ -75,6 +77,7 @@ class ObjToYmlAdapter(Adapter):
                                 "cis20" : True,
                                 "nist": True,
                                 "kill_chain_phases": True,
+                                "mappings": True,
                                 "mitre_attack_id": True,
                                 "risk_severity": True,
                                 "risk_score": True,
@@ -107,12 +110,13 @@ class ObjToYmlAdapter(Adapter):
                 ))
 
             # Add Finding Report Object
-            #with open(file_path, 'r') as file:
-            #    data = file.read().replace('--body--', body)
+            with open(file_path, 'r') as file:
+               data = file.read().replace('--finding_report--', body)
 
-            #f = open(file_path, "w")
-            #f.write(data)
-            #f.close()       
+            f = open(file_path, "w")
+            f.write(data)
+            f.close()       
+
 
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
         if type == SecurityContentType.detections:

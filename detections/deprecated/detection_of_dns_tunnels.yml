@@ -9,7 +9,7 @@ description: 'This search is used to detect DNS tunneling, by calculating the su
   of the length of DNS queries and DNS answers. The search also filters out potential
   false positives by filtering out queries made to internal systems and the queries
   originating from internal DNS, Web, and Email servers. Endpoints using DNS as a
-  method of transmission for data exfiltration, command and control, or evasion of
+  method of transmission for data exfiltration, Command And Control, or evasion of
   security controls can often be detected by noting an unusually large volume of DNS
   traffic. \
 
@@ -48,7 +48,7 @@ tags:
   analytic_story:
   - Data Protection
   - Suspicious DNS Traffic
-  - Command and Control
+  - Command And Control
   asset_type: Endpoint
   confidence: 50
   impact: 50

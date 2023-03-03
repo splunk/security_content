@@ -3,26 +3,31 @@ id: 028e4406-6176-11ec-aec2-acde48001122
 version: 1
 date: '2021-12-20'
 author: Teoderick Contreras, Splunk
-status: production
 type: TTP
+status: production
 description: Attackers leverage an existing Windows binary, attrib.exe, to mark specific
   as hidden by using specific flags so that the victim does not see the file.  The
   search looks for specific command-line arguments to detect the use of attrib.exe
   to hide files.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND match_regex(cmd_line, /\+h/)=true AND process_name="attrib.exe"
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where process_file_name="attrib.exe" AND match_regex(process_cmd_line, /(?i)/)=true
+  --finding_report--'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
@@ -46,27 +51,32 @@ tags:
   - T1222.001
   - T1222
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: parent_process
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.name
+    type: File Name
+  - name: process.cmd_line
     type: Other
-    role:
-    - Attacker
-    - Parent Process
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - _time
-  kill_chain_phases:
-  - Exploitation
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 72
   security_domain: endpoint
+  mappings:
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: device.hostname
+    cim: dest
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: cmd_line
 tests:
 - name: True Positive Test
   attack_data:

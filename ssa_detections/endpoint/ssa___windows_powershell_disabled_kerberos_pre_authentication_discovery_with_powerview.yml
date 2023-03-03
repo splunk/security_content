@@ -3,8 +3,8 @@ id: dc3f2af7-ca69-47ce-a122-9f9787e19417
 version: 1
 date: '2022-11-14'
 author: Michael Haag, Splunk
-status: production
 type: TTP
+status: production
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainUser` commandlet with specific parameters.
   `Get-DomainUser` is part of PowerView, a PowerShell tool used to perform enumeration
@@ -15,18 +15,23 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   and attempt to crack their passwords offline.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND process_name IS NOT NULL | where (like (cmd_line, "%get-domainuser%")
-  AND like (cmd_line, "%preauthnotrequired%")) | eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
-  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where match_regex(process_cmd_line, /(?i)preauthnotrequired/)=true AND match_regex(process_cmd_line,
+  /(?i)get-domainuser/)=true --finding_report--'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -46,29 +51,30 @@ tags:
   - T1558
   - T1558.004
   observable:
-  - name: dest_device_id
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
     type: Hostname
-    role:
-    - Victim
+  - name: process.cmd_line
+    type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
-  kill_chain_phases:
-  - Exploitation
+  - process.user.name
+  - device.hostname
+  - process.cmd_line
   risk_score: 54
   security_domain: endpoint
+  mappings:
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: device.hostname
+    cim: dest
+  - ocsf: process.cmd_line
+    cim: cmd_line
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getdomainuser.log
     source: XmlWinEventLog
     sourcetype: XmlWinEventLog
-    update_timestamp: true

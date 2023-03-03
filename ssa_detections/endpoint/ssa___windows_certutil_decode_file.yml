@@ -3,8 +3,8 @@ id: b06983f4-8f72-11ec-ab50-acde48001122
 version: 1
 date: '2022-02-16'
 author: Michael Haag, Splunk
-status: production
 type: TTP
+status: production
 description: CertUtil.exe may be used to `encode` and `decode` a file, including PE
   and script code. Encoding will convert a file to base64 with `-----BEGIN CERTIFICATE-----`
   and `-----END CERTIFICATE-----` tags. Malicious usage will include decoding a encoded
@@ -15,18 +15,23 @@ description: CertUtil.exe may be used to `encode` and `decode` a file, including
   Review its contents or execution behavior for further analysis.
 data_source:
 - Windows Security 4688
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
-  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
-  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="certutil.exe"
-  AND (like (cmd_line, "%decode%")) | eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)) | eval body=create_map(["event_id", event_id,
-  "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where like(process_cmd_line, "%decode%") AND process_file_name="certutil.exe"
+  --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -53,37 +58,32 @@ tags:
   mitre_attack_id:
   - T1140
   observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
     type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  - name: process.file.name
+    type: File Name
+  - name: process.cmd_line
+    type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
-  kill_chain_phases:
-  - Exploitation
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 40
   security_domain: endpoint
+  mappings:
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: device.hostname
+    cim: dest
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: cmd_line
 tests:
 - name: True Positive Test
   attack_data:

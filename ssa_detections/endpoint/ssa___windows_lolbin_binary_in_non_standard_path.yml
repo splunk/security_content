@@ -3,8 +3,8 @@ id: 25689101-012a-324a-94d3-08301e6c065a
 version: 4
 date: '2022-08-31'
 author: Michael Haag, Splunk
-status: production
 type: Anomaly
+status: production
 description: The following analytic identifies native living off the land binaries
   within the Windows operating system that may be abused by adversaries by moving
   it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io
@@ -12,50 +12,55 @@ description: The following analytic identifies native living off the land binari
   regedit.exe) and DotNet binaries. It also does not include the category of OtherMSBinaries.
 data_source:
 - Windows Security 4688
-search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
-  "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
-  "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
-  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
-  null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
-
-  $cond_1 = | from $ssa_input | where process_name="bitsadmin.exe" OR process_name="certoc.exe"
-  OR process_name="certreq.exe" OR process_name="certutil.exe" OR process_name="cmdkey.exe"
-  OR process_name="cmdl32.exe" OR process_name="cmstp.exe" OR process_name="configsecuritypolicy.exe"
-  OR process_name="control.exe" OR process_name="cscript.exe" OR process_name="datasvcutil.exe"
-  OR process_name="desktopimgdownldr.exe" OR process_name="dfsvc.exe" OR process_name="diantz.exe"
-  OR process_name="diskshadow.exe" OR process_name="dllhost.exe" OR process_name="dnscmd.exe"
-  OR process_name="esentutl.exe" OR process_name="eventvwr.exe" OR process_name="expand.exe"
-  OR process_name="extexport.exe" OR process_name="extrac32.exe" OR process_name="findstr.exe"
-  OR process_name="finger.exe" OR process_name="fltmc.exe" OR process_name="forfiles.exe"
-  OR process_name="ftp.exe" OR process_name="gfxdownloadwrapper.exe" OR process_name="gpscript.exe"
-  OR process_name="imewdbld.exe" OR process_name="ie4uinit.exe" OR process_name="ieexec.exe"
-  OR process_name="ilasm.exe" OR process_name="infdefaultinstall.exe" OR process_name="makecab.exe"
-  OR process_name="mavinject.exe" OR process_name="microsoft.workflow.compiler.exe"
-  OR process_name="mmc.exe" OR process_name="msconfig.exe" OR process_name="msdt.exe"
-  OR process_name="mshta.exe" OR process_name="msiexec.exe" OR process_name="netsh.exe"
-  OR process_name="odbcconf.exe" OR process_name="offlinescannershell.exe" OR process_name="pcalua.exe"
-  OR process_name="pcwrun.exe" OR process_name="pktmon.exe" OR process_name="pnputil.exe"
-  OR process_name="presentationhost.exe" OR process_name="print.exe" OR process_name="printbrm.exe"
-  OR process_name="psr.exe" OR process_name="rasautou.exe" OR process_name="reg.exe"
-  OR process_name="regini.exe" OR process_name="register-cimprovider.exe" OR process_name="regsvr32.exe"
-  OR process_name="replace.exe" OR process_name="rpcping.exe" OR process_name="rundll32.exe"
-  OR process_name="runonce.exe" OR process_name="runscripthelper.exe" OR process_name="sc.exe"
-  OR process_name="schtasks.exe" OR process_name="scriptrunner.exe" OR process_name="settingsynchost.exe"
-  OR process_name="syncappvpublishingserver.exe" OR process_name="ttdinject.exe" OR
-  process_name="tttracer.exe" OR process_name="vbc.exe" OR process_name="verclsid.exe"
-  OR process_name="wab.exe" OR process_name="wlrmdr.exe" OR process_name="wmic.exe"
-  OR process_name="workfolders.exe" OR process_name="wscript.exe" OR process_name="wsreset.exe"
-  OR process_name="wuauclt.exe" OR process_name="xwizard.exe";
-
-  | from $cond_1 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
-  AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false AND match_regex(process_path,
-  /(?i)\\windows\\adws/)=false AND match_regex(process_path, /(?i)\\windows\\networkcontroller/)=false
-  AND match_regex(process_path, /(?i)\\windows\\systemapps/)=false AND match_regex(process_path,
-  /(?i)\\winsxs/)=false AND match_regex(process_path, /(?i)\\microsoft.net/)=false
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user),
-  body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
-  process_name]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
+  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
+  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (process_file_name="bitsadmin.exe" OR process_file_name="certoc.exe"
+  OR process_file_name="certreq.exe" OR process_file_name="certutil.exe" OR process_file_name="cmdkey.exe"
+  OR process_file_name="cmdl32.exe" OR process_file_name="cmstp.exe" OR process_file_name="configsecuritypolicy.exe"
+  OR process_file_name="control.exe" OR process_file_name="cscript.exe" OR process_file_name="datasvcutil.exe"
+  OR process_file_name="desktopimgdownldr.exe" OR process_file_name="dfsvc.exe" OR
+  process_file_name="diantz.exe" OR process_file_name="diskshadow.exe" OR process_file_name="dllhost.exe"
+  OR process_file_name="dnscmd.exe" OR process_file_name="esentutl.exe" OR process_file_name="eventvwr.exe"
+  OR process_file_name="expand.exe" OR process_file_name="extexport.exe" OR process_file_name="extrac32.exe"
+  OR process_file_name="findstr.exe" OR process_file_name="finger.exe" OR process_file_name="fltmc.exe"
+  OR process_file_name="forfiles.exe" OR process_file_name="ftp.exe" OR process_file_name="gfxdownloadwrapper.exe"
+  OR process_file_name="gpscript.exe" OR process_file_name="imewdbld.exe" OR process_file_name="ie4uinit.exe"
+  OR process_file_name="ieexec.exe" OR process_file_name="ilasm.exe" OR process_file_name="infdefaultinstall.exe"
+  OR process_file_name="makecab.exe" OR process_file_name="mavinject.exe" OR process_file_name="microsoft.workflow.compiler.exe"
+  OR process_file_name="mmc.exe" OR process_file_name="msconfig.exe" OR process_file_name="msdt.exe"
+  OR process_file_name="mshta.exe" OR process_file_name="msiexec.exe" OR process_file_name="netsh.exe"
+  OR process_file_name="odbcconf.exe" OR process_file_name="offlinescannershell.exe"
+  OR process_file_name="pcalua.exe" OR process_file_name="pcwrun.exe" OR process_file_name="pktmon.exe"
+  OR process_file_name="pnputil.exe" OR process_file_name="presentationhost.exe" OR
+  process_file_name="print.exe" OR process_file_name="printbrm.exe" OR process_file_name="psr.exe"
+  OR process_file_name="rasautou.exe" OR process_file_name="reg.exe" OR process_file_name="regini.exe"
+  OR process_file_name="register-cimprovider.exe" OR process_file_name="regsvr32.exe"
+  OR process_file_name="replace.exe" OR process_file_name="rpcping.exe" OR process_file_name="rundll32.exe"
+  OR process_file_name="runonce.exe" OR process_file_name="runscripthelper.exe" OR
+  process_file_name="sc.exe" OR process_file_name="schtasks.exe" OR process_file_name="scriptrunner.exe"
+  OR process_file_name="settingsynchost.exe" OR process_file_name="syncappvpublishingserver.exe"
+  OR process_file_name="ttdinject.exe" OR process_file_name="tttracer.exe" OR process_file_name="vbc.exe"
+  OR process_file_name="verclsid.exe" OR process_file_name="wab.exe" OR process_file_name="wlrmdr.exe"
+  OR process_file_name="wmic.exe" OR process_file_name="workfolders.exe" OR process_file_name="wscript.exe"
+  OR process_file_name="wsreset.exe" OR process_file_name="wuauclt.exe" OR process_file_name="xwizard.exe")
+  AND (NOT (match_regex(process_file_path, /(?i)(?i)\\windows\\system32/)=true OR
+  match_regex(process_file_path, /(?i)(?i)\\windows\\syswow64/)=true OR match_regex(process_file_path,
+  /(?i)(?i)\\windows\\networkcontrolle/)=true OR match_regex(process_file_path, /(?i)(?i)\\windows\\systemapps/)=true
+  OR match_regex(process_file_path, /(?i)(?i)\\winsxs/)=true OR match_regex(process_file_path,
+  /(?i)(?i)\\microsoft.net/)=true)) --finding_report--'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: False positives may be present and filtering may be required.
   Certain utilities will run from non-standard paths based on the third-party application
@@ -81,27 +86,37 @@ tags:
   - T1218
   - T1218.004
   observable:
-  - name: dest_device_id
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
     type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  - name: process.file.name
+    type: File Name
+  - name: process.cmd_line
+    type: Other
+  - name: process.file.path
+    type: File
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
-  - cmd_line
-  kill_chain_phases:
-  - Actions on Objectives
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
+  - process.file.path
   risk_score: 49
   security_domain: endpoint
+  mappings:
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: device.hostname
+    cim: dest
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.file.path
+    cim: process_path
 tests:
 - name: True Positive Test
   attack_data:

@@ -41,9 +41,11 @@ class DetectionTags(BaseModel):
     risk_level_id: int = None
     risk_level: str = None
     observable_str: str = None
+    evidence_str: str = None
     kill_chain_phases_id: list = None
     research_site_url: str = None
     event_schema: str = None
+    mappings: list = None
 
 
     @validator('cis20')
@@ -109,19 +111,19 @@ class DetectionTags(BaseModel):
                 raise ValueError('Mitre Attack ID are not following the pattern Txxxx: ' + values["name"])
         return v
 
-    @validator('observable')
-    def tags_observable(cls,v,values):
-        valid_roles = SES_OBSERVABLE_ROLE_MAPPING.keys()
-        valid_types = SES_OBSERVABLE_TYPE_MAPPING.keys()
+    # @validator('observable')
+    # def tags_observable(cls,v,values):
+    #     valid_roles = SES_OBSERVABLE_ROLE_MAPPING.keys()
+    #     valid_types = SES_OBSERVABLE_TYPE_MAPPING.keys()
         
-        for value in v:
-            if value['type'] in valid_types:
-                for role in value['role']:
-                    if role not in valid_roles:
-                        raise ValueError('Observable role ' + role + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_roles))
-            else:
-                raise ValueError('Observable type ' + value['type'] + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_types))
-        return v
+    #     for value in v:
+    #         if value['type'] in valid_types:
+    #             for role in value['role']:
+    #                 if role not in valid_roles:
+    #                     raise ValueError('Observable role ' + role + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_roles))
+    #         else:
+    #             raise ValueError('Observable type ' + value['type'] + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_types))
+    #     return v
 
     @validator('product')
     def tags_product(cls, v, values):
