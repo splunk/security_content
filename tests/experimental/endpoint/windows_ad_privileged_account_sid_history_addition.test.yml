@@ -1,7 +1,7 @@
-name: Active Directory SID History Privileged Account Addition Unit Test
+name: Windows AD Privileged Account SID History Addition Unit Test
 tests:
-- name: Active Directory SID History Privileged Account Addition
-  file: experimental/active_directory_sid_history_privileged_account_addition.yml
+- name: Windows AD Privileged Account SID History Addition
+  file: experimental/windows_ad_privileged_account_sid_history_addition.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
   latest_time: now
@@ -11,3 +11,5 @@ tests:
     source: XmlWinEventLog:Security
     sourcetype: xmlwineventlog
     update_timestamp: true
+
+
