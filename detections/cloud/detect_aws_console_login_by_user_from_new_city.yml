@@ -39,6 +39,7 @@ tags:
   - Suspicious AWS Login Activities
   - Suspicious Cloud Authentication Activities
   - AWS Identity and Access Management Account Takeover
+  - Compromised User Account
   asset_type: AWS Instance
   confidence: 60
   impact: 30
@@ -57,6 +58,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Authentication.signature
+  - Authentication.user
+  - Authentication.src
   risk_score: 18
   security_domain: threat
 tests:

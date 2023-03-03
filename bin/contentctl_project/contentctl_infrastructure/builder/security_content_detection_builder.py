@@ -140,7 +140,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
         if self.security_content_obj:
             annotations = {}
             annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 
-                'analytic_story', 'observable', 'context', 'impact', 'confidence', 'cve']
+                'analytic_story', 'context', 'impact', 'confidence', 'cve']
             for key in annotation_keys:
                 if key == 'mitre_attack':
                     if getattr(self.security_content_obj.tags, 'mitre_attack_id'):

@@ -45,6 +45,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - requestParameters.x-amz-server-side-encryption
+  - requestParameters.bucketName
+  - requestParameters.x-amz-copy-source
+  - requestParameters.key
+  - userAgent
+  - region
   risk_score: 15
   security_domain: threat
 tests:

@@ -1,0 +1,90 @@
+name: LOLBAS With Network Traffic
+id: 2820f032-19eb-497e-8642-25b04a880359
+version: 1
+date: '2021-12-09'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies LOLBAS with network traffic. When adversaries
+  abuse LOLBAS they are often used to download malicious code or executables. The
+  LOLBAS project documents Windows native binaries that can be abused by threat actors
+  to perform tasks like downloading malicious code. Looking for these process can
+  help defenders identify lateral movement, command-and-control, or exfiltration activies.
+data_source: []
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Network_Traffic.All_Traffic where (All_Traffic.app IN
+  ("*Regsvcs.exe", "*\\Ftp.exe", "*OfflineScannerShell.exe", "*Rasautou.exe", "*Schtasks.exe",
+  "*Xwizard.exe", "*Pnputil.exe", "*Atbroker.exe", "*Pcwrun.exe", "*Ttdinject.exe",
+  "*Mshta.exe", "*Bitsadmin.exe", "*Certoc.exe", "*Ieexec.exe", "*Microsoft.Workflow.Compiler.exe",
+  "*Runscripthelper.exe", "*Forfiles.exe", "*Msbuild.exe", "*Register-cimprovider.exe",
+  "*Tttracer.exe", "*Ie4uinit.exe", "*Bash.exe", "*Hh.exe", "*SettingSyncHost.exe",
+  "*Cmstp.exe", "*Stordiag.exe", "*Scriptrunner.exe", "*Odbcconf.exe", "*Extexport.exe",
+  "*Msdt.exe", "*WorkFolders.exe", "*Diskshadow.exe", "*Mavinject.exe", "*Regasm.exe",
+  "*Gpscript.exe", "*Regsvr32.exe", "*Msiexec.exe", "*Wuauclt.exe", "*Presentationhost.exe",
+  "*Wmic.exe", "*Runonce.exe", "*Syncappvpublishingserver.exe", "*Verclsid.exe", "*Infdefaultinstall.exe",
+  "*Installutil.exe", "*Netsh.exe", "*Wab.exe", "*Dnscmd.exe", "*\\At.exe", "*Pcalua.exe",
+  "*Msconfig.exe", "*makecab.exe", "*cscript.exe", "*notepad.exe", "*\\cmd.exe", "*certutil.exe",
+  "*\\powershell.exe", "*powershell_ise.exe")) by All_Traffic.app,All_Traffic.src,All_Traffic.src_ip,All_Traffic.user,All_Traffic.dest,All_Traffic.dest_ip
+  | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | rex field=app ".*\\\(?<process_name>.*)$" | rename app as process | `lolbas_with_network_traffic_filter`'
+how_to_implement: To successfully implement this detection you must ingest events
+  into the Network traffic data model that contain the source, destination, and communicating
+  process in the app feild. Relevant processes must also be ingested in the Endpoint
+  data model with matching process_id feild. Sysmon EID1 and EID3 are good examples
+  of this type this data type.
+known_false_positives: 'Legitmate usage of internal automation or scripting, espically
+  powershell.exe internal to internal or logon scripts. It may be necessary to omit
+  internal IP ranges if extremely noisy. ie NOT dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","170.98.0.0/16","0:0:0:0:0:0:0:1") '
+references:
+- https://lolbas-project.github.io/#
+- https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/
+tags:
+  analytic_story:
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: The LOLBAS $process_name$ on device $src$ was seen communicating with $dest$.
+  mitre_attack_id:
+  - T1105
+  - T1567
+  - T1218
+  observable:
+  - name: src
+    type: Hostname
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.user
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.dest
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_guid
+  - All_Traffic.app
+  - All_Traffic.src
+  - All_Traffic.src_ip
+  - All_Traffic.dest
+  - All_Traffic.dest_ip
+  - All_Traffic.process_id
+  risk_score: 25
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

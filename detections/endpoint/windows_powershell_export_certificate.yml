@@ -1,0 +1,53 @@
+name: Windows PowerShell Export Certificate
+id: 5e38ded4-c964-41f4-8cb6-4a1a53c6929f
+version: 1
+date: '2023-02-01'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies the PowerShell Cmdlet export-certificate
+  utilizing Script Block Logging. This particular behavior is related to an adversary
+  attempting to steal certificates local to the Windows endpoint within the Certificate
+  Store.
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*export-certificate*") |
+  rename Computer as dest  | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode ScriptBlockText dest user_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_export_certificate_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: It is possible administrators or scripts may run these commands,
+  filtering may be required.
+references:
+- https://dev.to/iamthecarisma/managing-windows-pfx-certificates-through-powershell-3pj
+- https://learn.microsoft.com/en-us/powershell/module/pki/export-certificate?view=windowsserver2022-ps
+tags:
+  analytic_story:
+  - Windows Certificate Services
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: A PowerShell Cmdlet related to exporting a Certificate was ran on $dest$,
+    attempting to export a certificate.
+  mitre_attack_id:
+  - T1552.004
+  - T1552
+  - T1649
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - dest
+  - EventCode
+  risk_score: 36
+  security_domain: endpoint

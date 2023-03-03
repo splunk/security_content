@@ -1,0 +1,67 @@
+name: Windows Spearphishing Attachment Connect To None MS Office Domain
+id: 1cb40e15-cffa-45cc-abbd-e35884a49766
+version: 2
+date: '2023-02-15'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: this detection was designed to identifies suspicious office documents
+  that connect to a website aside from Microsoft Office Domain. This technique was
+  seen in several malicious documents that abuses .rels xml properties of MS office
+  to connect or download malicious files. This hunting query can be a good pivot or
+  guide to check what URL link it tries to connect, what domain, where the documents
+  came from and how the connection happens.
+data_source:
+- Sysmon Event ID 22
+search: '`sysmon` EventCode=22 Image IN ("*\\winword.exe","*\\excel.exe","*\\powerpnt.exe","*\\mspub.exe","*\\visio.exe","*\\wordpad.exe","*\\wordview.exe","*\\onenote.exe",
+  "*\\onenotem.exe","*\\onenoteviewer.exe","*\\onenoteim.exe", "*\\msaccess.exe")
+  AND NOT(QueryName IN ("*.office.com", "*.office.net")) | stats count min(_time)
+  as firstTime max(_time) as lastTime by Image QueryName QueryResults QueryStatus
+  Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_spearphishing_attachment_connect_to_none_ms_office_domain_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Windows Office document may contain legitimate url link other
+  than MS office Domain. filter is needed
+references:
+- https://www.netskope.com/blog/asyncrat-using-fully-undetected-downloader
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  - AsyncRAT
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: a office document process $Image$ connect to an URL link $QueryName$ in
+    $Computer$
+  mitre_attack_id:
+  - T1566.001
+  - T1566
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - QueryName
+  - QueryResults
+  - QueryStatus
+  - Computer
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/office_doc_abuses_rels/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

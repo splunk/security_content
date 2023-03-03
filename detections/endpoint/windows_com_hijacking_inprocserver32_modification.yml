@@ -63,6 +63,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - UPDATE
   risk_score: 64
   security_domain: endpoint
 tests:

@@ -49,5 +49,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - http_content_type
+  - cookie
   risk_score: 25
   security_domain: threat

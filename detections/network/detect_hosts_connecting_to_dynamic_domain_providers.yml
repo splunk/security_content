@@ -68,6 +68,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.answer
+  - DNS.query
+  - host
   risk_score: 56
   security_domain: network
 tests:

@@ -56,6 +56,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - http_method
+  - http_user_agent
+  - uri_path
+  - url
+  - bytes_in
+  - bytes_out
+  - archive_hdr1
+  - archive_hdr2
+  - form_data
   risk_score: 25
   security_domain: network
 tests:

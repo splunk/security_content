@@ -4,12 +4,18 @@ version: 1
 date: '2022-12-20'
 author: Michael Haag, Splunk
 status: production
-data_source: []
 type: Hunting
-description: The following analytic requires the use of PowerShell inputs to run Get-WebGlobalModule to list out all the IIS Modules installed. The output is a list of Module names and the Image path of the DLL. 
-search: '`iis_get_webglobalmodule` | stats count min(_time) as firstTime max(_time) as lastTime by host name image | rename host as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iis_components_get_webglobalmodule_module_query_filter`'
-how_to_implement: You must ingest the PwSh cmdlet Get-WebGlobalModule in order to utilize this analytic. Follow https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
-known_false_positives: This analytic is meant to assist with hunting modules across a fleet of IIS servers. Filter and modify as needed.
+description: The following analytic requires the use of PowerShell inputs to run Get-WebGlobalModule
+  to list out all the IIS Modules installed. The output is a list of Module names
+  and the Image path of the DLL.
+data_source: []
+search: '`iis_get_webglobalmodule` | stats count min(_time) as firstTime max(_time)
+  as lastTime by host name image | rename host as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_iis_components_get_webglobalmodule_module_query_filter`'
+how_to_implement: You must ingest the PwSh cmdlet Get-WebGlobalModule in order to
+  utilize this analytic. Follow https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
+known_false_positives: This analytic is meant to assist with hunting modules across
+  a fleet of IIS servers. Filter and modify as needed.
 references:
 - https://docs.splunk.com/Documentation/Splunk/9.0.2/Data/MonitorWindowsdatawithPowerShellscripts
 - https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
@@ -33,6 +39,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - host
+  - name
+  - image
   risk_score: 1
   security_domain: endpoint
 tests:
@@ -41,4 +52,4 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
     source: powershell://AppCmdModules
     sourcetype: Pwsh:InstalledIISModules
-
+    update_timestamp: true

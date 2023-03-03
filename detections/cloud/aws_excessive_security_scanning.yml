@@ -43,6 +43,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - src
+  - userAgent
+  - user
+  - userIdentity.arn
   risk_score: 18
   security_domain: network
 tests:

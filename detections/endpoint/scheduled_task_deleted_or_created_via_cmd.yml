@@ -40,6 +40,7 @@ tags:
   - Qakbot
   - Trickbot
   - Prestige Ransomware
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 80
   impact: 70
@@ -61,6 +62,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.dest
   risk_score: 56
   security_domain: endpoint
 tests:

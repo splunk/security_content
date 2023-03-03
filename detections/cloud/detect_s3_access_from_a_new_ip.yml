@@ -43,5 +43,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - http_status
+  - bucket_name
+  - remote_ip
   risk_score: 25.0
   security_domain: network

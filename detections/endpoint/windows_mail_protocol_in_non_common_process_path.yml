@@ -47,6 +47,19 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - DestinationPort
+  - DestinationPortName
+  - DestinationHostname
+  - SourceHostname
+  - SourcePort
+  - SourcePortName
+  - Protocol
+  - DestinationIp
+  - Computer
+  - user
   risk_score: 9
   security_domain: endpoint
 tests:

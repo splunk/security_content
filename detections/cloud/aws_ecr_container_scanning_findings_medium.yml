@@ -42,6 +42,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - eventSource
+  - eventName
+  - responseElements.imageScanFindings.findings{}
+  - awsRegion
+  - requestParameters.imageId.imageDigest
+  - requestParameters.repositoryName
+  - user
+  - userName
+  - src_ip
   risk_score: 21
   security_domain: network
 tests:

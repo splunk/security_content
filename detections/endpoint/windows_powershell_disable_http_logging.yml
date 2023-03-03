@@ -4,24 +4,28 @@ version: 1
 date: '2022-12-21'
 author: Michael Haag, Splunk
 status: production
+type: TTP
+description: The following analtyic identifies the use of get-WebConfigurationProperty
+  and Set-ItemProperty attempting to disable HTTP logging on windows via PowerShell.
+  Adversaries may perform this action to disable HTTP logging to cover tracks and
+  delete logs on disk.
 data_source:
 - Powershell 4104
-type: TTP
-description: The following analtyic identifies the use of get-WebConfigurationProperty and Set-ItemProperty attempting to disable HTTP logging on windows via PowerShell. 
-  Adversaries may perform this action to disable HTTP logging to cover tracks and delete logs on disk.
-search: '`powershell` EventCode=4104 ScriptBlockText IN("*get-WebConfigurationProperty*","*Set-ItemProperty*") AND ScriptBlockText IN ("*httpLogging*","*Logfile.enabled*") AND ScriptBlockText IN ("*dontLog*", "*false*")   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_powershell_disable_http_logging_filter`'
+search: '`powershell` EventCode=4104 ScriptBlockText IN("*get-WebConfigurationProperty*","*Set-ItemProperty*")
+  AND ScriptBlockText IN ("*httpLogging*","*Logfile.enabled*") AND ScriptBlockText
+  IN ("*dontLog*", "*false*")   | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_disable_http_logging_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: It is possible administrators or scripts may run these commands, filtering may be required.
+known_false_positives: It is possible administrators or scripts may run these commands,
+  filtering may be required.
 references:
-  - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
-  - https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
-  - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
-  - https://www.secureworks.com/research/bronze-union
+- https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
+- https://www.crowdstrike.com/wp-content/uploads/2022/05/crowdstrike-iceapple-a-novel-internet-information-services-post-exploitation-framework-1.pdf
+- https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
+- https://www.secureworks.com/research/bronze-union
 tags:
   analytic_story:
   - IIS Components
@@ -45,6 +49,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - EventCode
   risk_score: 64
   security_domain: endpoint
 tests:

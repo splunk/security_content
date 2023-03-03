@@ -44,6 +44,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - userAgent
+  - errorCode
+  - eventSource
+  - requestParameters.userName
+  - requestParameters.policyDocument
+  - aws_account_id
+  - awsRegion
+  - eventID
   risk_score: 49
   security_domain: network
 tests:

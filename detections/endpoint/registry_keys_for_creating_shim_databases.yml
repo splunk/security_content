@@ -1,31 +1,30 @@
 name: Registry Keys for Creating SHIM Databases
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
-version: 4
-date: '2020-01-28'
-author: Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
+version: 5
+date: '2022-11-14'
+author: Steven Dick, Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: This search looks for registry activity associated with application compatibility
   shims, which can be leveraged by attackers for various nefarious purposes.
 data_source:
-- Sysmon Event ID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  where Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB*
-  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
-  |rename process_guid as proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
-  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
-  proc_guid | fields _time dest user parent_process_name parent_process process_name
-  process_path process proc_guid registry_path registry_value_name registry_value_data]
-  | table _time dest user parent_process_name parent_process process_name process_path
-  process proc_guid registry_path registry_value_name registry_value_data | `registry_keys_for_creating_shim_databases_filter`'
-how_to_implement: To successfully implement this search, you must populate the Change_Analysis
-  data model. This is typically populated via endpoint detection and response product,
-  such as Carbon Black or other endpoint data sources such as Sysmon. The data used
-  for this search is typically generated via logs that report reads and writes to
-  the registry.
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
+  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
+  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
+  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB*)
+  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`]
+  | fields firstTime lastTime dest user parent_process_name parent_process process_name
+  process_path process registry_key_name registry_path registry_value_name registry_value_data
+  process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `registry_keys_for_creating_shim_databases_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: There are many legitimate applications that leverage shim databases
   for compatibility purposes for legacy applications
 references: []
@@ -55,6 +54,23 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_guid
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 56
   security_domain: endpoint
 tests:

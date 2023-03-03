@@ -3,7 +3,7 @@ id: b11accac-6fa3-4103-8a1a-7210f1a67087
 version: 1
 date: '2022-04-27'
 author: Lou Stella, Splunk
-status: production
+status: experimental
 type: TTP
 description: On May 3rd, 2022, Splunk published a security advisory for a reflective
   Cross-Site Scripting (XSS) vulnerability stemming from the lack of input validation
@@ -40,6 +40,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - method
+  - uri_query
+  - status
+  - clientip
+  - user
+  - uri
   risk_score: 40
   security_domain: threat
 tests:

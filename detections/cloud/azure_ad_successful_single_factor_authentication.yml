@@ -50,6 +50,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - body.category
+  - body.properties.authenticationRequirement
+  - body.properties.authenticationDetails
+  - body.properties.userPrincipalName
+  - body.properties.ipAddress
+  - body.properties.appDisplayName
   risk_score: 45
   security_domain: identity
 tests:

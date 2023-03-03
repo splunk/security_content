@@ -44,6 +44,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - QueryName
+  - QueryStatus
+  - ProcessId
+  - Computer
   risk_score: 25
   security_domain: endpoint
 tests:

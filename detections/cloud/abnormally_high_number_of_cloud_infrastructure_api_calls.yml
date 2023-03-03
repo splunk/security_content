@@ -27,6 +27,7 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
+  - Compromised User Account
   asset_type: AWS Instance
   confidence: 50
   impact: 30
@@ -44,6 +45,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.command
+  - All_Changes.user
+  - All_Changes.status
   risk_score: 15
   security_domain: network
 tests:

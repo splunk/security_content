@@ -1,0 +1,66 @@
+name: Windows Powershell Cryptography Namespace
+id: f8b482f4-6d62-49fa-a905-dfa15698317b
+version: 1
+date: '2023-01-26'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies suspicious PowerShell script execution
+  via EventCode 4104 that is processing cryptography namespace library. This technique
+  was seen in several powershell malware, loader, downloader and stager that will
+  decrypt or decode the next malicious stager or the actual payload. This Anomaly
+  detection can be a good indicator that a powershell process to decrypt code. We
+  recommend to further check the parent_process_name, the file or data it tries to
+  decrypt, network connection and user who execute the script.
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = "*System.Security.Cryptography*"
+  AND NOT(ScriptBlockText IN ("*SHA*", "*MD5*", "*DeriveBytes*")) | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_cryptography_namespace_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: False positives should be limited. Filter as needed.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+tags:
+  analytic_story:
+  - AsyncRAT
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: A suspicious powershell script contains cryptography command in $ScriptBlockText$
+    with EventCode $EventCode$ in host $Computer$
+  mitre_attack_id:
+  - T1059.001
+  - T1059
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  - EventCodes
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/asyncrat_crypto_pwh_namespace/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

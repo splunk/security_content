@@ -3,7 +3,7 @@ id: 7fb15084-b14e-405a-bd61-a6de15a40722
 version: 1
 date: '2020-07-29'
 author: Rico Valdez, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: This search looks for cloud instances being modified by users who have
   not previously modified them.
@@ -48,6 +48,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.object_id
+  - All_Changes.command
+  - All_Changes.action
+  - All_Changes.change_type
+  - All_Changes.status
+  - All_Changes.user
   risk_score: 42
   security_domain: threat
 tests:

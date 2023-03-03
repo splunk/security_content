@@ -45,6 +45,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Group_Name
+  - member_id
+  - dest
+  - user
   risk_score: 42
   security_domain: access
 tests:

@@ -64,6 +64,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - event.name
+  - src
+  - event.type
+  - user_name
   risk_score: 54
   security_domain: threat
 tests:

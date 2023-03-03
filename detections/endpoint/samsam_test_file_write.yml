@@ -42,6 +42,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.user
+  - Filesystem.dest
+  - Filesystem.file_name
+  - Filesystem.file_path
   risk_score: 12
   security_domain: endpoint
 tests:

@@ -5,8 +5,13 @@ date: '2021-06-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: this search is designed to detect potential malicious process loading
-  COM object to wbemprox.dll,
+description: The following analytic identifies a potential suspicious process loading
+  a COM object from wbemprox.dll or faskprox.dll. The Microsoft Component Object Model
+  (COM) is a platform-independent, distributed, object-oriented system for creating
+  binary software components that can interact. This feature is being abused by several
+  threat actors, adversaries or even red teamers to gain privilege escalation or even
+  to evade detections. This TTP is a good indicator that a process is loading possible
+  known .dll modules that were known for its COM object.
 data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll",
@@ -44,6 +49,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - ImageLoaded
+  - process_name
+  - Computer
+  - EventCode
+  - Signed
+  - ProcessId
+  - Hashes
+  - IMPHASH
   risk_score: 35
   security_domain: endpoint
 tests:

@@ -56,6 +56,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - body.properties.status.errorCode
+  - body.category
+  - body.properties.authenticationDetails
+  - body.properties.userPrincipalName
+  - body.properties.ipAddress
   risk_score: 63
   security_domain: identity
 tests:

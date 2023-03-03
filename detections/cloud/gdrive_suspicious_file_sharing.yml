@@ -43,5 +43,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - src_ip
+  - parameters.owner
+  - parameters.target_user
+  - parameters.doc_title
+  - parameters.doc_type
   risk_score: 25
   security_domain: threat

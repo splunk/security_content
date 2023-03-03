@@ -79,5 +79,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_path
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.file_hash
+  - Filesystem.user
+  - Filesystem.process_guid
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process_guid
   risk_score: 81
   security_domain: endpoint

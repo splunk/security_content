@@ -36,6 +36,18 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Operation
+  - record_type
+  - app
+  - user
+  - LogonError
+  - authentication_method
+  - signature
+  - UserAgent
+  - src_ip
+  - record_type
   risk_score: 25
   security_domain: threat
 tests:

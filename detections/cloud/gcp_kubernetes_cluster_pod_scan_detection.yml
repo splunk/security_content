@@ -34,5 +34,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - category
+  - responseStatus.code
+  - sourceIPs{}
+  - userAgent
+  - verb
+  - requestURI
+  - responseStatus.reason
+  - properties.pod
   risk_score: 25
   security_domain: threat

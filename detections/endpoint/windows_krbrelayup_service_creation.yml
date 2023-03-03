@@ -38,6 +38,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Service_File_Name
+  - Service_Name
+  - Service_Start_Type
+  - Service_Type
   risk_score: 64
   security_domain: endpoint
 tests:

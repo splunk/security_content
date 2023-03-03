@@ -50,6 +50,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - attachment{}.file_extension_type
+  - attachment{}.sha256
+  - destination{}.service
+  - num_message_attachments
+  - payload_size
+  - subject
+  - destination{}.address
+  - source.address
   risk_score: 49
   security_domain: endpoint
 tests:

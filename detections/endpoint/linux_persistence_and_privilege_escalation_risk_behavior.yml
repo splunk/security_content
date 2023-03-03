@@ -54,6 +54,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Risk.analyticstories
+  - All_Risk.risk_object_type
+  - All_Risk.risk_object
+  - All_Risk.annotations.mitre_attack.mitre_tactic
+  - source
   risk_score: 56
   security_domain: audit
 tests:

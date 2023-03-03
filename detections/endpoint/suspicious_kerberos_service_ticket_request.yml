@@ -54,6 +54,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Service_Name
+  - Account_Name
+  - Client_Address
+  - Failure_Code
   risk_score: 60
   security_domain: endpoint
 tests:

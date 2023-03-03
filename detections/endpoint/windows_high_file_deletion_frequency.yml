@@ -31,6 +31,7 @@ tags:
   - Clop Ransomware
   - WhisperGate
   - DarkCrystal RAT
+  - Swift Slicer
   asset_type: Endpoint
   confidence: 80
   impact: 90
@@ -54,6 +55,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - EventCode
+  - TargetFilename
+  - Computer
+  - user
+  - Image
+  - ProcessID
+  - _time
   risk_score: 72
   security_domain: endpoint
 tests:

@@ -1,0 +1,73 @@
+name: AWS Concurrent Sessions From Different Ips
+id: 51c04fdb-2746-465a-b86e-b413a09c9085
+version: 1
+date: '2023-02-01'
+author: Bhavin Patel, Splunk
+status: production
+type: TTP
+description: The following analytic identifies an AWS IAM account with concurrent
+  sessions coming from more than one unique IP address within the span of 5 minutes.
+  This behavior could represent a session hijacking attack whereby an adversary has
+  extracted cookies from a victims browser and is using them from a different location
+  to access corporate online resources. When a user navigates the AWS Console after
+  authentication, the API call with the event name `DescribeEventAggregates` is registered
+  in the AWS CloudTrail logs. The Splunk Threat Research team leveraged this event
+  name to identify 2 concurrent sessions. The presence of this event occurring from
+  two different IP addresses is highly unlikely. As users may behave differently across
+  organizations, security teams should test and customize this detection to fit their
+  environments.
+data_source: []
+search: ' `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
+  | bin span=5m _time | stats values(userAgent) values(eventName) values(src_ip) as
+  src_ip  dc(src_ip) as distinct_ip_count by _time user_arn | where distinct_ip_count
+  > 1 | `aws_concurrent_sessions_from_different_ips_filter`'
+how_to_implement: You must install Splunk AWS Add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs.
+known_false_positives: A user with concurrent sessions from different Ips may also
+  represent the legitimate use of more than one device. Filter as needed and/or customize
+  the threshold to fit your environment.
+references:
+- https://attack.mitre.org/techniques/T1185/
+- https://breakdev.org/evilginx-2-next-generation-of-phishing-2fa-tokens/
+- https://github.com/kgretzky/evilginx2
+tags:
+  analytic_story:
+  - Compromised User Account
+  - AWS Identity and Access Management Account
+  asset_type: AWS Account
+  confidence: 60
+  impact: 70
+  message: User $user_arn$ has concurrent sessions from more than one unique IP address
+    $src_ip$ in the span of 5 minutes.
+  mitre_attack_id:
+  - T1185
+  observable:
+  - name: user_arn
+    type: User
+    role:
+    - Victim
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - userAgent
+  - errorCode
+  - user_arn
+  - aws_account_id
+  - src_ip
+  risk_score: 42
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/cloudtrail.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

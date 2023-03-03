@@ -3,7 +3,7 @@ id: 21193641-cb96-4a2c-a707-d9b9a7f7792b
 version: 1
 date: '2020-05-28'
 author: Rico Valdez, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: This search looks for AssumeRole events where an IAM role in a different
   account is requested for the first time.
@@ -50,21 +50,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Authentication.signature
+  - Authentication.vendor_account
+  - Authentication.user
+  - Authentication.user_role
+  - Authentication.src
   risk_score: 15
   security_domain: network
 tests:
 - name: True Positive Test
-  baselines:
-  - name: Previously Seen AWS Cross Account Activity - Initial
-    file: baselines/previously_seen_aws_cross_account_activity___initial.yml
-    pass_condition: '| stats count | where count > 0'
-    earliest_time: -30d
-    latest_time: -1d
-  - name: Previously Seen AWS Cross Account Activity - Update
-    file: baselines/previously_seen_aws_cross_account_activity___update.yml
-    pass_condition: '| stats count | where count > 0'
-    earliest_time: -30d
-    latest_time: -1d
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail

@@ -27,6 +27,7 @@ references:
 tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
+  - Compromised User Account
   asset_type: AWS Account
   confidence: 80
   impact: 80
@@ -49,6 +50,18 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - src
+  - eventName
+  - eventSource
+  - aws_account_id
+  - errorCode
+  - errorMessage
+  - userAgent
+  - eventID
+  - awsRegion
+  - user_name
+  - userIdentity.arn
   risk_score: 64
   security_domain: threat
 tests:

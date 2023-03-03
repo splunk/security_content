@@ -68,5 +68,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.src
+  - DNS.dest
+  - DNS.query
+  - DNS.record_type
   risk_score: 25
   security_domain: network

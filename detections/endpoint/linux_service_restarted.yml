@@ -5,15 +5,15 @@ date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for restarted or re-enable services in linux platform.
-  This technique can be executed or performed using systemctl or service tool application.
-  Adversaries may create or modify Windows services to repeatedly execute malicious
-  payloads as part of persistence. When Windows boots up, it starts programs or applications
-  called services that perform background system functions. Administrator may also
-  create a legitimated service for a specific tool or normal application as part of
-  task or automation, in this scenario it is suggested to look for the service path
-  of the actual script or executable that register as service and who created the
-  service for further verification.
+description: This analytic looks for restarted or re-enable services in the linux
+  platform. This technique can be executed or performed using systemctl or service
+  tool application. Adversaries may create or modify Linux services to repeatedly
+  execute malicious payloads as part of persistence. When the linux host boots up,
+  it starts programs or applications called services that perform background system
+  functions. Administrator may also create a legitimated service for a specific tool
+  or normal application as part of task or automation, in this scenario it is suggested
+  to look for the service path of the actual script or executable that registered
+  as service and who created the service for further verification.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -36,6 +36,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Living Off The Land
+  - AwfulShred
   asset_type: Endpoint
   confidence: 50
   impact: 50
@@ -52,6 +53,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
 tests:

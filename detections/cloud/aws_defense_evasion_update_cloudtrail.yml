@@ -47,6 +47,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - eventSource
+  - requestParameters.name
+  - userAgent
+  - aws_account_id
+  - src
+  - region
   risk_score: 90
   security_domain: threat
 tests:

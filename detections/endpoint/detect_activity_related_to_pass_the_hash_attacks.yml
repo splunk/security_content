@@ -47,6 +47,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Logon_Type
+  - Logon_Process
+  - WorkstationName
+  - user
+  - dest
   risk_score: 49
   security_domain: access
 tests:

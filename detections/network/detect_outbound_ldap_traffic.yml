@@ -52,6 +52,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Traffic.dest_ip
+  - All_Traffic.dest_port
+  - All_Traffic.src_ip
   risk_score: 56
   security_domain: network
 tests:

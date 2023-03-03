@@ -36,6 +36,7 @@ tags:
   - CISA AA22-257A
   - Qakbot
   - Prestige Ransomware
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 100
   impact: 80
@@ -51,6 +52,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - TaskName
+  - ActionName
+  - EventID
+  - dest
+  - ProcessID
   risk_score: 80
   security_domain: endpoint
 tests:

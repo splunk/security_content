@@ -47,6 +47,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - SourceImage
+  - TargetImage
+  - SourceProcessGUID
+  - TargetProcessGUID
+  - SourceProcessId
+  - TargetProcessId
+  - GrantedAccess
+  - CallTrace
+  - Computer
   risk_score: 25
   security_domain: endpoint
 tests:

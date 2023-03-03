@@ -52,5 +52,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ComputerName
+  - Service_File_Name
+  - Service_Type
+  - Service_Name
+  - Service_Start_Type
   risk_score: 45
   security_domain: endpoint

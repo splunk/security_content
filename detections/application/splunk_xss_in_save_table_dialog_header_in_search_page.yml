@@ -10,7 +10,7 @@ description: This is a hunting search to find persistent cross-site scripting XS
   (8.1.12,8.2.9,9.0.2). A remote user with "power" Splunk role can store this code
   that can lead to persistent cross site scripting.
 data_source: []
-search: '`splunkda` method=POST  uri=/en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model
+search: '`splunkd_webx` method=POST  uri=/en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model
   | table _time host status clientip user uri | `splunk_xss_in_save_table_dialog_header_in_search_page_filter`'
 how_to_implement: Watch for POST requests combined with XSS script strings or obfuscation
   against the injection point /en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model.
@@ -41,13 +41,21 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - host
+  - _time
+  - status
+  - clientip
+  - user
+  - uri
+  - method
   risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_xss_in_save_table_dialog_in_search_page.txt
-    source: /opt/splunk/var/log/splunk/splunkd_access.log
-    sourcetype: splunkd_access
+    source: /opt/splunk/var/log/splunk/web_access.log
+    sourcetype: splunk_web_access
     custom_index: _internal
     update_timestamp: true

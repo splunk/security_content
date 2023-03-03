@@ -1,7 +1,7 @@
 name: Linux Deletion Of Services
 id: b509bbd3-0331-4aaa-8e4a-d2affe100af6
 version: 1
-date: '2022-04-12'
+date: '2023-02-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -16,17 +16,18 @@ data_source:
 - Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path
-  IN ( "/etc/systemd/*", "/usr/lib/systemd/*") Filesystem.file_path = "*.service"
-  by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid
-  Filesystem.action | `drop_dm_object_name(Filesystem)` |rename process_guid as proc_guid
-  |join proc_guid, _time [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.parent_process_name != unknown by _time span=1h Processes.process_id
-  Processes.process_name Processes.process Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_path Processes.process_guid | `drop_dm_object_name(Processes)`
-  |rename process_guid as proc_guid | fields _time dest user parent_process_name parent_process
-  process_name process_path process proc_guid registry_path registry_value_name registry_value_data
-  registry_key_name action] | table  process_name process proc_guid file_name file_path
-  action _time parent_process_name parent_process  process_path dest user | `linux_deletion_of_services_filter`'
+  IN ( "/etc/systemd/*", "*/lib/systemd/*", "*/run/systemd/*") Filesystem.file_path
+  = "*.service" by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest
+  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)` |rename
+  process_guid as proc_guid |join proc_guid, _time [ | tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes where Processes.parent_process_name != unknown
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
+  Processes.parent_process_name Processes.parent_process Processes.process_path Processes.process_guid
+  | `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
+  dest user parent_process_name parent_process process_name process_path process proc_guid
+  registry_path registry_value_name registry_value_data registry_key_name action]
+  | table  process_name process proc_guid file_name file_path action _time parent_process_name
+  parent_process  process_path dest user | `linux_deletion_of_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
@@ -35,9 +36,12 @@ known_false_positives: Administrator or network operator can execute this comman
   Please update the filter macros to remove false positives.
 references:
 - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+- https://unix.stackexchange.com/questions/224992/where-do-i-put-my-systemd-unit-file
+- https://cert.gov.ua/article/3718487
 tags:
   analytic_story:
   - AcidRain
+  - AwfulShred
   asset_type: endpoint
   confidence: 80
   impact: 80
@@ -55,6 +59,23 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.process_guid
+  - Filesystem.file_path
+  - Filesystem.action
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process_path
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 64
   security_domain: endpoint
 tests:

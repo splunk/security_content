@@ -49,6 +49,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - signature
+  - Actor{}.ID
+  - ModifiedProperties{}.Name
+  - ModifiedProperties{}.NewValue
+  - Target{}.ID
+  - ActorIpAddress
   risk_score: 42
   security_domain: threat
 tests:

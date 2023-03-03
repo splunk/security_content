@@ -55,6 +55,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  - User_id
   risk_score: 100
   security_domain: endpoint
 tests:

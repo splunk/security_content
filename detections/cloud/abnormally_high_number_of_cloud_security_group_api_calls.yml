@@ -3,7 +3,7 @@ id: d4dfb7f3-7a37-498a-b5df-f19334e871af
 version: 1
 date: '2020-09-07'
 author: David Dorsey, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment about security groups by a user.
@@ -46,6 +46,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.command
+  - All_Changes.object_category
+  - All_Changes.status
+  - All_Changes.user
   risk_score: 15
   security_domain: network
 tests:

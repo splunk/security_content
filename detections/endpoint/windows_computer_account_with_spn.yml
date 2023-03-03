@@ -44,6 +44,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - MSADChangedAttributes
+  - New_UAC_Value
+  - Security_ID
+  - Account_Domain
+  - SAM_Account_Name
+  - DNS_Host_Name
+  - Logon_Id
   risk_score: 64
   security_domain: endpoint
 tests:

@@ -36,6 +36,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - object.message
+  - source.host
+  - object.involvedObject.name
+  - object.involvedObject.namespace
+  - object.involvedObject.kind
+  - object.message
+  - object.reason
   risk_score: 81
   security_domain: network
 tests:

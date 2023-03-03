@@ -49,6 +49,18 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - SourceImage
+  - TargetImage
+  - SourceProcessGuid
+  - SourceProcessId
+  - StartAddress
+  - StartFunction
+  - TargetProcessGuid
+  - TargetProcessId
+  - EventCode
+  - Computer
   risk_score: 49
   security_domain: endpoint
 tests:

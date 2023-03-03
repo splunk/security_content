@@ -64,6 +64,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - process_name
+  - process_id
+  - parent_process_name
+  - dest_port
+  - process_path
   risk_score: 81
   security_domain: endpoint
 tests:
