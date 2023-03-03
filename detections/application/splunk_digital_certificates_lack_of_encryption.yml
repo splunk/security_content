@@ -52,6 +52,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - group
+  - ssl
+  - sourceIp
+  - fwdType
+  - version
+  - hostname
   risk_score: 20
   security_domain: threat
 tests:

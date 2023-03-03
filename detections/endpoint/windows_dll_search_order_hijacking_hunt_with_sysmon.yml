@@ -5,14 +5,21 @@ date: '2022-12-31'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
+description: The following hunting analytic is an experimental query built against
+  a accidental feature using the latest Sysmon TA 3.0 (https://splunkbase.splunk.com/app/5709/)
+  which maps the module load (ImageLoaded) to process_name. This analytic will deprecate
+  once this is fixed. This hunting analytic identifies known libraries in Windows
+  that may be used in a DLL search order hijack or DLL Sideloading setting. This may
+  require recompiling the DLL, moving the DLL or moving the vulnerable process. The
+  query looks for any running out of system32 or syswow64. Some libraries natively
+  run out of other application paths and will need to be added to the exclusion as
+  needed. The lookup is comprised of Microsoft native libraries identified within
+  the Hijacklibs.net project.
 data_source:
 - Sysmon Event ID 7
-description: The following hunting analytic is an experimental query built against a accidental feature using the latest Sysmon TA 3.0 (https://splunkbase.splunk.com/app/5709/) which maps the module load (ImageLoaded) to process_name. 
-  This analytic will deprecate once this is fixed.
-  This hunting analytic identifies known libraries in Windows that may be used in a DLL search order hijack or DLL Sideloading setting. This may require recompiling the DLL, moving the DLL or moving the vulnerable process. The query looks for any running out of system32 or syswow64. Some libraries natively run out of other application paths and will need to be added to the exclusion as needed.
-  The lookup is comprised of Microsoft native libraries identified within the Hijacklibs.net project. 
-search: '`sysmon` EventCode=7 NOT (process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*")) 
-  | lookup hijacklibs library AS process_name OUTPUT islibrary | search islibrary = True | rename Computer as dest process_name AS ImageLoaded process_path AS Module_Path
+search: '`sysmon` EventCode=7 NOT (process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*"))
+  | lookup hijacklibs library AS process_name OUTPUT islibrary | search islibrary
+  = True | rename Computer as dest process_name AS ImageLoaded process_path AS Module_Path
   | stats values(parent_process_name) count by _time dest ImageLoaded Module_Path
   | `windows_dll_search_order_hijacking_hunt_with_sysmon_filter`'
 how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709
@@ -52,6 +59,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - ImageLoaded
+  - Module_Path
   risk_score: 1
   security_domain: endpoint
 tests:

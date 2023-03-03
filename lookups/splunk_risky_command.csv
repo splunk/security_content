@@ -1,0 +1,11 @@
+splunk_risky_command,description,vulnerable_versions,CVE,other_metadata
+*createrss*,createrss command overwrites existing RSS feeds without verifying permissions, 8.1.13 8.2.10,CVE-2023-22931
+*pivot?seedSid=*,pivot command allows a search to bypass SPL safeguards for risky commands using a saved job,8.1.13,8.2.10,9.0.4,CVE-2023-22934
+*|makeresults+&search_listener*,search_listener parameter in a Search allows for a Blind Server Side Request Forgery by an authenticated user,8.1.13 8.2.10 9.0.4,CVE-2023-22936
+*| map search=*| *,map search processing language (SPL) command lets a search bypass SPL safeguards for risky commands,8.1.13 8.2.10 9.0.4,CVE-2023-22939
+*|mcollect%20index*" ,collect command SPL aliases commands could potentially allow for the exposing of data to a summary index that unprivileged users could access,8.1.13,8.2.10,9.0.4,CVE-2023-22940
+*|"*meventcollect*" ,collect command SPL alias could potentially allow for the exposing of data to a summary index that unprivileged users could access,8.1.13,8.2.10,9.0.4,CVE-2023-22940
+*|"*summaryindex*",collect command SPL alias could potentially allow for the exposing of data to a summary index that unprivileged users could access,8.1.13,8.2.10,9.0.4,CVE-2023-22940
+*|"*sumindex*",collect command SPL alias could potentially allow for the exposing of data to a summary index that unprivileged users could access,8.1.13,8.2.10,9.0.4,CVE-2023-22940
+*|"*stash*",collect command SPL alias could potentially allow for the exposing of data to a summary index that unprivileged users could access,8.1.13,8.2.10,9.0.4,CVE-2023-22940
+*| sendalert *,display.page.search.patterns.sensitivity search parameter allows a search to bypass SPL safeguards for risky commands using obfuscation,8.1.13 8.2.10 9.0.4,CVE-2023-22935

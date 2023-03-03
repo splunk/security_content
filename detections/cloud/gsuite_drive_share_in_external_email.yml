@@ -3,7 +3,7 @@ id: f6ee02d6-fea0-11eb-b2c2-acde48001122
 version: 1
 date: '2021-08-16'
 author: Teoderick Contreras, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: This search is to detect suspicious google drive or google docs files
   shared outside or externally. This behavior might be a good hunting query to monitor
@@ -51,6 +51,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - parameters.doc_title
+  - src_domain
+  - dest_domain
+  - email
+  - parameters.visibility
+  - parameters.owner
+  - parameters.doc_type
   risk_score: 72
   security_domain: endpoint
 tests:

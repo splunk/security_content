@@ -22,10 +22,10 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   the entire logged PowerShell script block.'
 data_source:
 - Powershell 4104
-search: '`powershell` EventCode=4104 ScriptBlockText=*frombase64string* | stats count
-  min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
-  UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `powershell_fileless_script_contains_base64_encoded_content_filter`'
+search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText
+  = "*gnirtS46esaBmorF*" | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_fileless_script_contains_base64_encoded_content_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -39,28 +39,32 @@ tags:
   analytic_story:
   - Hermetic Wiper
   - Malicious PowerShell
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: A suspicious powershell script contains base64 command in $Message$ with
-    EventCode $EventCode$ in host $ComputerName$
+  message: A suspicious powershell script contains base64 command in $ScriptBlockText$
+    with EventCode $EventCode$ in host $Computer$
   mitre_attack_id:
   - T1059
   - T1027
   - T1059.001
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Hostname
-    role:
-    - Victim
-  - name: User
-    type: User
     role:
     - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  - EventCode
   risk_score: 56
   security_domain: endpoint
 tests:

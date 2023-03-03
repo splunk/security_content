@@ -58,5 +58,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - OriginalFileName
+  - process_name
+  - EventID
+  - CommandLine
+  - Computer
+  - parent_process_name
   risk_score: 80
   security_domain: endpoint

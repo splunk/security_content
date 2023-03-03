@@ -51,6 +51,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - Task_Name
+  - Command
+  - Author
+  - Enabled
+  - Hidden
+  - Arguments
   risk_score: 63
   security_domain: endpoint
 tests:

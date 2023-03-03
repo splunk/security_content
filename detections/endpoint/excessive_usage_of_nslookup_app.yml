@@ -49,6 +49,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Computer
+  - process_name
+  - EventCode
   risk_score: 28
   security_domain: endpoint
 tests:

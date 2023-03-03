@@ -51,5 +51,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - domain_detected
+  - basic_constraints.ca
+  - source
+  - host
   risk_score: 15
   security_domain: network

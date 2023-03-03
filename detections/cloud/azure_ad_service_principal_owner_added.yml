@@ -50,6 +50,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - body.operationName
+  - body.properties.initiatedBy.user.userPrincipalName
+  - body.properties.targetResources{}.userPrincipalName
+  - body.properties.targetResources{}.modifiedProperties{}.newValue
+  - body.propertiesresult
   risk_score: 54
   security_domain: audit
 tests:

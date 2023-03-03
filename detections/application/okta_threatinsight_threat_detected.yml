@@ -40,5 +40,18 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - signature
+  - eventType
+  - displayMessage
+  - client.device
+  - city
+  - state
+  - country
+  - user_agent
+  - outcome.reason
+  - outcome.result
+  - severity
   risk_score: 25
   security_domain: access

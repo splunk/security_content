@@ -45,6 +45,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - userAgent
+  - errorCode
   risk_score: 63
   security_domain: cloud
 tests:

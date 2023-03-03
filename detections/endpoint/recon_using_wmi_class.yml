@@ -41,6 +41,7 @@ tags:
   - Industroyer2
   - Qakbot
   - LockBit Ransomware
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 80
   impact: 75
@@ -62,6 +63,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 60
   security_domain: endpoint
 tests:

@@ -64,6 +64,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - action
+  - Logon_Account
+  - Source_Workstation
   risk_score: 49
   security_domain: endpoint
 tests:

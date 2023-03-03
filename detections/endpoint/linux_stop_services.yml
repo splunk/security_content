@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Industroyer2
+  - AwfulShred
   asset_type: Endpoint
   confidence: 70
   impact: 70
@@ -46,6 +47,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
 tests:

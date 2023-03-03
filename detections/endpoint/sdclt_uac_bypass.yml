@@ -1,8 +1,8 @@
 name: Sdclt UAC Bypass
 id: d71efbf6-da63-11eb-8c6e-acde48001122
-version: 2
-date: '2020-01-28'
-author: Teoderick Contreras, Splunk
+version: 3
+date: '2022-11-14'
+author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: This search is to detect a suspicious sdclt.exe registry modification.
@@ -10,26 +10,24 @@ description: This search is to detect a suspicious sdclt.exe registry modificati
   application by modifying some registry that sdclt.exe tries to open or query with
   payload file path on it to be executed.
 data_source:
-- Sysmon Event ID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App
-  Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*")
-  (Registry.registry_value_name = "(Default)" OR Registry.registry_value_name = "IsolatedCommand")
-  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
-  `drop_dm_object_name(Registry)` |rename process_guid as proc_guid |join proc_guid,
-  _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  Processes.parent_process_name Processes.parent_process Processes.process_guid |
-  `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | fields _time
-  dest user parent_process_name parent_process process_name process_path process proc_guid
-  registry_path registry_value_name registry_value_data registry_key_name] | table
-  _time dest user parent_process_name parent_process process_name process_path process
-  proc_guid registry_path registry_value_name registry_value_data registry_key_name
-  | `sdclt_uac_bypass_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
+  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
+  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
+  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE ((Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*"
+  OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_value_name
+  = "(Default)" OR Registry.registry_value_name = "IsolatedCommand")) BY _time span=1h
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime
+  dest user parent_process_name parent_process process_name process_path process registry_key_name
+  registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `sdclt_uac_bypass_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: Limited to no false positives are expected.
 references:
 - https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/
@@ -56,6 +54,23 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_guid
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 63
   security_domain: endpoint
 tests:

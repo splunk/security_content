@@ -56,6 +56,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - parameters.doc_title
+  - src_domain
+  - dest_domain
+  - email
+  - parameters.visibility
+  - parameters.owner
+  - parameters.doc_type
   risk_score: 21
   security_domain: endpoint
 tests:

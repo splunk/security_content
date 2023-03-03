@@ -53,5 +53,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - facility
+  - mnemonic
+  - disable_cause
+  - src_int_prefix_long
+  - src_int_suffix
+  - src_mac
+  - src_vlan
+  - action
+  - host
+  - src_interface
   risk_score: 25
   security_domain: network

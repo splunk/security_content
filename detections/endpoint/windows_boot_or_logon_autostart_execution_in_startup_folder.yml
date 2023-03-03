@@ -3,26 +3,29 @@ id: 99d157cb-923f-4a00-aee9-1f385412146f
 version: 1
 date: '2023-01-12'
 author: Teoderick Contreras, Splunk
-type: TTP
 status: production
-description: This analytic will identify suspicious files dropped or created in the Windows %startup% folder. 
-  This technique is a common way to gain persistence on a targeted host. Threat actor, adversaries and red teamer 
-  abuse this folder path to automatically execute their malicious sample upon boot or restart of the infected host. 
-  This TTP detection is a good indicator that a suspicious process wants to gain persistence on the targeted host. We suggest to 
-  verify the process name by using the process guid field, the file created and also the user and the computer name for further investigation.
+type: TTP
+description: This analytic will identify suspicious files dropped or created in the
+  Windows %startup% folder. This technique is a common way to gain persistence on
+  a targeted host. Threat actor, adversaries and red teamer abuse this folder path
+  to automatically execute their malicious sample upon boot or restart of the infected
+  host. This TTP detection is a good indicator that a suspicious process wants to
+  gain persistence on the targeted host. We suggest to verify the process name by
+  using the process guid field, the file created and also the user and the computer
+  name for further investigation.
 data_source:
 - Sysmon Event ID 11
-search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
-  where Filesystem.file_path = "*\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*" 
-  by Filesystem.file_create_time Filesystem.process_id Filesystem.file_name Filesystem.user Filesystem.file_path Filesystem.process_guid Filesystem.dest
-  | `drop_dm_object_name(Filesystem)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_boot_or_logon_autostart_execution_in_startup_folder_filter`'
+search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path = "*\\Microsoft\\Windows\\Start
+  Menu\\Programs\\Startup\\*" by Filesystem.file_create_time Filesystem.process_id
+  Filesystem.file_name Filesystem.user Filesystem.file_path Filesystem.process_guid
+  Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_boot_or_logon_autostart_execution_in_startup_folder_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: Administrators may allow creation of script or exe in this path.
+known_false_positives: Administrators may allow creation of script or exe in this
+  path.
 references:
 - https://attack.mitre.org/techniques/T1204/002/
 - https://www.fortinet.com/blog/threat-research/chaos-ransomware-variant-sides-with-russia
@@ -49,6 +52,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_create_time
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.user
+  - Filesystem.file_path
+  - Filesystem.process_guid
+  - Filesystem.dest
   risk_score: 81
   security_domain: endpoint
 tests:
@@ -57,3 +69,4 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
+    update_timestamp: true

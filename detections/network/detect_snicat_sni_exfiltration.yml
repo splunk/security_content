@@ -40,5 +40,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - server_name
+  - src_ip
+  - dest_ip
   risk_score: 25
   security_domain: network

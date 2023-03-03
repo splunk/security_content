@@ -53,6 +53,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Computer
+  - TargetImage
+  - GrantedAccess
+  - SourceImage
+  - SourceProcessId
+  - SourceUser
+  - TargetUser
   risk_score: 64
   security_domain: endpoint
 tests:

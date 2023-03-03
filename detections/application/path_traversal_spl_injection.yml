@@ -41,6 +41,12 @@ tags:
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
+  required_fields:
+  - status
+  - clientip
+  - method
+  - uri_path
+  - uri_query
   risk_score: 40
   security_domain: threat
 tests:

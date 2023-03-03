@@ -53,6 +53,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - EventCode
+  - cmdline
+  - _time
+  - parent_process_name
+  - process_name
+  - OriginalFileName
+  - process_path
   risk_score: 100
   security_domain: endpoint
 tests:

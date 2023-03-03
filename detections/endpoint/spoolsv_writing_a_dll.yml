@@ -62,6 +62,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.file_path
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.dest
   risk_score: 72
   security_domain: endpoint
 tests:

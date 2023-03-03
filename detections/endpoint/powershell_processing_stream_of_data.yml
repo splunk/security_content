@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Hermetic Wiper
   - Malicious PowerShell
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 80
   impact: 50
@@ -54,6 +55,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  - UserID
+  - Score
   risk_score: 40
   security_domain: endpoint
 tests:

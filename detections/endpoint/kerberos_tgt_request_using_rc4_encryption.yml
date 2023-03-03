@@ -48,6 +48,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Ticket_Encryption_Type
+  - Account_Name
+  - Client_Address
   risk_score: 25
   security_domain: endpoint
 tests:

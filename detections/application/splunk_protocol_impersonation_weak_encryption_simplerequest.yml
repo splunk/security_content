@@ -46,6 +46,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - host
+  - event_message
+  - path
   risk_score: 40
   security_domain: threat
 tests:

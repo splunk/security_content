@@ -1,0 +1,4 @@
+definition: (source=XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational OR source=XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational)
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: certificateservices_lifecycle

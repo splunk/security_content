@@ -51,5 +51,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - src_user
+  - src_ip
+  - eventType
+  - status
   risk_score: 18
   security_domain: access

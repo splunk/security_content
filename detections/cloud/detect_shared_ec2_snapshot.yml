@@ -43,6 +43,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - user_arn
+  - src_ip
+  - requestParameters.attributeType
+  - aws_account_id
+  - vendor_region
+  - user_agent
   risk_score: 48
   security_domain: threat
 tests:

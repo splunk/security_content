@@ -55,6 +55,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Share_Name
+  - Relative_Target_Name
+  - Object_Type
+  - Access_Mask
+  - user
+  - src_port
+  - Source_Address
   risk_score: 70
   security_domain: endpoint
 tests:

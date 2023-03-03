@@ -49,6 +49,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.process_id
+  - Processes.process
   risk_score: 49
   security_domain: endpoint
 tests:

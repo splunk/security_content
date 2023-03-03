@@ -1,0 +1,67 @@
+name: AWS High Number Of Failed Authentications From Ip
+id: f75b7f1a-b8eb-4975-a214-ff3e0a944757
+version: 1
+date: '2023-01-30'
+author: Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies an IP address failing to authenticate
+  20 or more times to the AWS Web Console in the span of 5 minutes. This behavior
+  could represent a brute force attack against an AWS tenant to obtain initial access
+  or elevate privileges. As environments differ across organizations, security teams
+  should customize the threshold of this detection.
+data_source: []
+search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=5m _time
+  | stats dc(_raw) AS failed_attempts values(user_name) as tried_accounts values(user_agent)
+  by _time, src_ip, eventName, eventSource aws_account_id | where failed_attempts
+  > 20 | `aws_high_number_of_failed_authentications_from_ip_filter`'
+how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
+  We recommend the users to try different combinations of the bucket span time and
+  the tried account threshold to tune this search according to their environment.
+known_false_positives: An Ip address with more than 20 failed authentication attempts
+  in the span of 5 minutes may also be triggered by a broken application.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
+- https://softwaresecuritydotblog.wordpress.com/2019/09/28/how-to-protect-against-credential-stuffing-on-aws/
+tags:
+  analytic_story:
+  - AWS Identity and Access Management Account Takeover
+  - Compromised User Account
+  asset_type: AWS Account
+  confidence: 90
+  impact: 60
+  message: Multiple failed console login attempts against users $tried_accounts$ seen
+    from $src_ip$
+  mitre_attack_id:
+  - T1110
+  - T1110.003
+  - T1110.004
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: tried_accounts
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - user
+  - action
+  - eventName
+  - src_ip
+  risk_score: 54
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
+    source: aws_cloudtrail
+    sourcetype: aws:cloudtrail
+    update_timestamp: true

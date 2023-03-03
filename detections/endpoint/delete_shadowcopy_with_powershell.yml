@@ -36,7 +36,7 @@ tags:
   mitre_attack_id:
   - T1490
   observable:
-  - name: User
+  - name: UserID
     type: User
     role:
     - Victim
@@ -48,6 +48,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  - EventCode
   risk_score: 81
   security_domain: endpoint
 tests:

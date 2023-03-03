@@ -3,7 +3,7 @@ id: b4aefb5f-1037-410d-a149-1e091288ba33
 version: 1
 date: '2022-06-16'
 author: Abhinav Mishra, Kumar Sharad, Namratha Sreekanta and Xiao Lin, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: The following analytic uses a pretrained machine learning text classifier
   to detect potentially risky commands. The model is trained independently and then
@@ -52,6 +52,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Search_Activity.search
+  - Search_Activity.user
+  - Search_Activity.search_type
   risk_score: 20
   security_domain: audit
 tests:

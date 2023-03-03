@@ -40,5 +40,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - eai:data
+  - splunk_server
+  - author
+  - eai:acl.sharing
+  - eai:appName
   risk_score: 40
   security_domain: threat

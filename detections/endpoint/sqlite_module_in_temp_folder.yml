@@ -45,6 +45,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name
+  - TargetFilename
+  - EventCode
+  - ProcessId
+  - Image
   risk_score: 9
   security_domain: endpoint
 tests:

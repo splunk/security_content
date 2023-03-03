@@ -28,6 +28,7 @@ known_false_positives: False positives should be limited, filter as needed. Add 
   shells as needed.
 references:
 - https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
+- https://app.any.run/tasks/ca1616de-89a1-4afc-a3e4-09d428df2420/
 tags:
   analytic_story:
   - Unusual Processes
@@ -55,6 +56,19 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
 tests:

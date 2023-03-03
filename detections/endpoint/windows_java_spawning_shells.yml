@@ -1,7 +1,7 @@
 name: Windows Java Spawning Shells
 id: 28c81306-5c47-11ec-bfea-acde48001122
-version: 1
-date: '2021-12-13'
+version: 2
+date: '2023-01-23'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -29,6 +29,10 @@ known_false_positives: Filtering may be required on internal developer build sys
 references:
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
+- https://www.horizon3.ai/manageengine-cve-2022-47966-technical-deep-dive/
+- https://github.com/horizon3ai/CVE-2022-47966/blob/3a51c6b72ebbd87392babd955a8fbeaee2090b35/CVE-2022-47966.py
+- https://blog.viettelcybersecurity.com/saml-show-stopper/
+- https://www.horizon3.ai/manageengine-cve-2022-47966-iocs/
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -36,6 +40,7 @@ tags:
   confidence: 50
   cve:
   - CVE-2021-44228
+  - CVE-2022-47966
   impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ spawning a Windows shell, potentially indicative of exploitation.
@@ -58,5 +63,18 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 40
   security_domain: endpoint

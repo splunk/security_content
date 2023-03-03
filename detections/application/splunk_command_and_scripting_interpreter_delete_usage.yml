@@ -45,6 +45,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Search_Activity.search
+  - Search_Activity.info
+  - Search_Activity.total_run_time
+  - Search_Activity.user
+  - Search_Activity.savedsearch_name
+  - Search_Activity.search_type
   risk_score: 27
   security_domain: audit
 tests:

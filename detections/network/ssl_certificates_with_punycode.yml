@@ -51,5 +51,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - All_Certificates.SSL.ssl_issuer_email_domain
+  - All_Certificates.SSL.ssl_issuer
+  - All_Certificates.SSL.ssl_subject_email
+  - All_Certificates.SSL.dest
+  - All_Certificates.SSL.src
+  - All_Certificates.SSL.sourcetype
+  - All_Certificates.SSL.ssl_subject_email_domain
   risk_score: 15
   security_domain: network

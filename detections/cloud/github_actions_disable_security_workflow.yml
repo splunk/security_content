@@ -44,6 +44,19 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - workflow_run.event
+  - workflow_run.name
+  - workflow_run.head_commit.id
+  - workflow_run.event workflow_run.head_branch
+  - workflow_run.head_commit.author.email
+  - workflow_run.head_commit.author.name
+  - workflow_run.head_commit.message
+  - workflow_run.head_commit.timestamp
+  - workflow_run.head_repository.full_name
+  - workflow_run.head_repository.owner.id
+  - workflow_run.head_repository.owner.login
+  - workflow_run.head_repository.owner.type
   risk_score: 27
   security_domain: network
 tests:

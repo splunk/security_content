@@ -37,5 +37,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - displayMessage
+  - user
+  - eventType
+  - client.userAgent.rawUserAgent
+  - client.userAgent.browser
+  - client.geographicalContext.city
+  - client.geographicalContext.country
   risk_score: 24
   security_domain: access

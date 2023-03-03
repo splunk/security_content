@@ -43,6 +43,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - subject
+  - action
+  - src_user
+  - user
+  - Account_Name
+  - Subject_Account_Name
+  - Subject_Account_Domain
   risk_score: 30
   security_domain: endpoint
 tests:

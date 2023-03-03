@@ -41,6 +41,7 @@ tags:
   - Hermetic Wiper
   - Malicious PowerShell
   - AgentTesla
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 80
   impact: 70
@@ -63,6 +64,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  - EventCode
   risk_score: 56
   security_domain: endpoint
 tests:

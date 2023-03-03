@@ -42,6 +42,7 @@ tags:
   - ProxyNotShell
   - Qakbot
   - Chaos Ransomware
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 50
   cve:
@@ -65,6 +66,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.process_id
+  - Processes.parent_process_id
   risk_score: 30
   security_domain: endpoint
 tests:

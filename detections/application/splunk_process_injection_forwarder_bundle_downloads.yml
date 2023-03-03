@@ -48,6 +48,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - component
+  - app
+  - serverclass
+  - peer
+  - host
   risk_score: 35
   security_domain: threat
 tests:

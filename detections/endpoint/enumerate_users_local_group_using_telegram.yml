@@ -45,6 +45,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ComputerName
+  - EventCode
+  - Process_Name
+  - Process_ID
+  - Account_Name
+  - Account_Domain
+  - Logon_ID
+  - Security_ID
+  - Message
   risk_score: 80
   security_domain: endpoint
 tests:

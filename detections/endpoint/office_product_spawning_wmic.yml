@@ -1,7 +1,7 @@
 name: Office Product Spawning Wmic
 id: ffc236d6-a6c9-11eb-95f1-acde48001122
-version: 4
-date: '2023-01-24'
+version: 5
+date: '2023-02-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -19,8 +19,8 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe") `process_wmic`
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
+  `process_wmic` by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `office_product_spawning_wmic_filter`'
@@ -60,6 +60,19 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 63
   security_domain: endpoint
 tests:

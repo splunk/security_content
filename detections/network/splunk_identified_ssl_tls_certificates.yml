@@ -47,6 +47,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - ssl_issuer
+  - ssl_subject_common_name
+  - ssl_subject_organization
+  - ssl_subject
+  - host
+  - sourcetype
   risk_score: 42
   security_domain: network
 tests:

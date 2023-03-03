@@ -1,0 +1,59 @@
+name: Windows Steal Authentication Certificates CryptoAPI
+id: 905d5692-6d7c-432f-bc7e-a6b4f464d40e
+version: 1
+date: '2023-02-08'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: The following analytic utilizes a Windows Event Log - CAPI2 - or CryptoAPI
+  2, to identify suspicious certificate extraction. Typically, this event log is meant
+  for diagnosing PKI issues, however is a great source to identify certificate exports.
+  Note that this event log is noisy as it captures common PKI requests from many different
+  processes. EventID 70 is generated anytime a certificate is exported. The description
+  for EventID 70 is "Acquire Certificate Private Key". STRT tested this analytic using
+  Mimikatz binary and the implementation of Mimikatz in Cobalt Strike.
+data_source:
+- Sysmon Event ID 7
+search: '`capi2_operational` EventCode=70 | xmlkv UserData_Xml | stats count min(_time)
+  as firstTime max(_time) as lastTime by Computer, UserData_Xml | rename Computer
+  as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `windows_steal_authentication_certificates_cryptoapi_filter`'
+how_to_implement: To implement this analytic, one will need to enable the Microsoft-Windows-CAPI2/Operational
+  log within the Windows Event Log. Note this is a debug log for many purposes, and
+  the analytic only focuses in on EventID 70. Review the following gist for additional
+  enabling information.
+known_false_positives: False positives may be present in some instances of legitimate
+  applications requiring to export certificates. Filter as needed.
+references:
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-vista/cc749296(v=ws.10)
+tags:
+  analytic_story:
+  - Windows Certificate Services
+  asset_type: Endpoint
+  confidence: 80
+  impact: 30
+  message: Certificates were exported via the CryptoAPI 2 on $dest$.
+  mitre_attack_id:
+  - T1649
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Computer
+  - UserData_Xml
+  risk_score: 24
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/capi2-operational.log
+    source: XmlWinEventLog:Microsoft-Windows-CAPI2/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

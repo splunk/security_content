@@ -45,6 +45,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - requestParameters.egress
+  - userName
+  - userIdentity.principalId
+  - src
+  - userAgent
   risk_score: 5
   security_domain: network
 tests:

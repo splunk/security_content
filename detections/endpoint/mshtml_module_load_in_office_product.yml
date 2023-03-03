@@ -1,7 +1,7 @@
 name: MSHTML Module Load in Office Product
 id: 5f1c168e-118b-11ec-84ff-acde48001122
-version: 4
-date: '2023-01-24'
+version: 5
+date: '2023-02-15'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,8 +12,8 @@ description: The following detection identifies the module load of mshtml.dll in
   processes and capture any file modifications for analysis.
 data_source:
 - Sysmon Event ID 7
-search: '`sysmon` EventID=7  parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe")
-  ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
+search: '`sysmon` EventID=7  parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
+  "msaccess.exe") ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name,
   ImageLoaded, OriginalFileName, ProcessGuid | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `mshtml_module_load_in_office_product_filter`'
@@ -57,6 +57,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ImageLoaded
+  - process_name
+  - OriginalFileName
+  - process_id
+  - dest
   risk_score: 80
   security_domain: endpoint
 tests:

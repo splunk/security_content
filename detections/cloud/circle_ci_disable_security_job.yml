@@ -36,6 +36,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _times
   risk_score: 72
   security_domain: network
 tests:

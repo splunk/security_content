@@ -43,5 +43,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - data.protoPayload.request.policy.bindings{}.role
+  - data.resource.type data.protoPayload.authenticationInfo.principalEmail
+  - data.protoPayload.authorizationInfo{}.permission
+  - data.protoPayload.authorizationInfo{}.resource
+  - data.protoPayload.response.bindings{}.role
+  - data.protoPayload.response.bindings{}.members{}
   risk_score: 25
   security_domain: threat

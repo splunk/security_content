@@ -3,23 +3,22 @@ id: a7a7afdb-3c58-45b6-9bff-63e5acfd9d40
 version: 1
 date: '2023-01-16'
 author: Teoderick Contreras, Splunk
-type: Anomaly
 status: production
-data_source:
-- Sysmon Event ID 12
+type: Anomaly
 description: This analytic is developed to detect suspicious registry modification
   to change the default icon association of windows to ransomware . This technique
-  was seen in Lockbit ransomware where it modified the default icon association of 
-  the compromised Windows OS  host with its dropped ransomware icon file as part of 
-  its  defacement payload. This registry is not commonly modified by a normal user 
-  so having this anomaly detection may help to catch possible lockbit ransomware 
-  infection or other malware.
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  where Registry.registry_path ="*\\defaultIcon\\(Default)*" Registry.registry_path = "*HKCR\\*" 
-  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.action Registry.dest  Registry.user 
-  | `security_content_ctime(lastTime)` 
-  | `security_content_ctime(firstTime)` 
-  | `drop_dm_object_name(Registry)` 
+  was seen in Lockbit ransomware where it modified the default icon association of
+  the compromised Windows OS  host with its dropped ransomware icon file as part of
+  its  defacement payload. This registry is not commonly modified by a normal user
+  so having this anomaly detection may help to catch possible lockbit ransomware infection
+  or other malware.
+data_source:
+- Sysmon Event ID 13
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
+  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
+  ="*\\defaultIcon\\(Default)*" Registry.registry_path = "*HKCR\\*" by Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.action Registry.dest  Registry.user
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
   | `windows_modify_registry_default_icon_setting_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
@@ -37,7 +36,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: a registry $Registry.registry_path$ was modified or created to modify defaulticon settings of the $dest$
+  message: a registry $Registry.registry_path$ was modified or created to modify defaulticon
+    settings of the $dest$
   mitre_attack_id:
   - T1112
   observable:
@@ -53,6 +53,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.action
   risk_score: 64
   security_domain: endpoint
 tests:
@@ -61,3 +69,4 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/lockbit_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
+    update_timestamp: true

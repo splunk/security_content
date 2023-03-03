@@ -48,5 +48,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.dest_category
+  - Web.url_length
+  - Web.http_user_agent_length
+  - Web.src
+  - Web.dest
+  - Web.url
+  - Web.http_user_agent
   risk_score: 25
   security_domain: network

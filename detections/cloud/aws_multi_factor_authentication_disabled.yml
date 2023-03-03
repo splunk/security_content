@@ -53,6 +53,18 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - src
+  - eventName
+  - eventSource
+  - aws_account_id
+  - errorCode
+  - errorMessage
+  - userAgent
+  - eventID
+  - awsRegion
+  - user_name
+  - userIdentity.arn
   risk_score: 64
   security_domain: threat
 tests:

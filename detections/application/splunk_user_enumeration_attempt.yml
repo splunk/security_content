@@ -41,6 +41,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - user
+  - src
+  - info
+  - action
   risk_score: 40
   security_domain: access
 tests:

@@ -46,6 +46,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  - EventCode
   risk_score: 54
   security_domain: endpoint
 tests:

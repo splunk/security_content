@@ -67,6 +67,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - Web.http_user_agent
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - sourcetype
   risk_score: 81
   security_domain: network
 tests:

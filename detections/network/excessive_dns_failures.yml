@@ -3,23 +3,20 @@ id: 104658f4-afdc-499e-9719-17243f9826f1
 version: 3
 date: '2022-12-21'
 author: bowesmana, Bhavin Patel, Splunk
-type: Anomaly
 status: experimental
-data_source: []
+type: Anomaly
 description: This search identifies DNS query failures by counting the number of DNS
   responses that do not indicate success, and trigger on more than 50 occurrences.
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where nodename=DNS "DNS.reply_code"!="No Error" "DNS.reply_code"!="NoError" DNS.reply_code!="unknown" NOT "DNS.query"="*.arpa" "DNS.query"="*.*" by "DNS.src" "DNS.query" "DNS.reply_code"
-| `drop_dm_object_name("DNS")` 
-| lookup cim_corporate_web_domain_lookup domain as query OUTPUT domain 
-| where isnull(domain) 
-| lookup update=true alexa_lookup_by_str domain as query OUTPUT rank 
-| where isnull(rank) 
-| eventstats max(count) as mc by src reply_code
-| eval mode_query=if(count=mc, query, null()) 
-| stats sum(count) as count values(mode_query) as query values(mc) as max_query_count by src reply_code
-| where count>50 
-| `get_asset(src)` 
-| `excessive_dns_failures_filter` '
+data_source: []
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+  where nodename=DNS "DNS.reply_code"!="No Error" "DNS.reply_code"!="NoError" DNS.reply_code!="unknown"
+  NOT "DNS.query"="*.arpa" "DNS.query"="*.*" by "DNS.src" "DNS.query" "DNS.reply_code"
+  | `drop_dm_object_name("DNS")` | lookup cim_corporate_web_domain_lookup domain as
+  query OUTPUT domain | where isnull(domain) | lookup update=true alexa_lookup_by_str
+  domain as query OUTPUT rank | where isnull(rank) | eventstats max(count) as mc by
+  src reply_code | eval mode_query=if(count=mc, query, null()) | stats sum(count)
+  as count values(mode_query) as query values(mc) as max_query_count by src reply_code
+  | where count>50 | `get_asset(src)` | `excessive_dns_failures_filter` '
 how_to_implement: To successfully implement this search you must ensure that DNS data
   is populating the Network_Resolution data model.
 known_false_positives: It is possible legitimate traffic can trigger this rule. Please
@@ -31,20 +28,25 @@ tags:
   - Suspicious DNS Traffic
   - Command and Control
   asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: Excessive DNS failures detected on $src$
   mitre_attack_id:
   - T1071.004
   - T1071
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  message: Excessive DNS failures detected on $src$
   observable:
   - name: src
     type: Hostname
     role:
     - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.query
+  - DNS.reply_code
+  - DNS.src
+  risk_score: 25
+  security_domain: network

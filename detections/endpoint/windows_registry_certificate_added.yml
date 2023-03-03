@@ -56,6 +56,17 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.process_guid
   risk_score: 42
   security_domain: endpoint
 tests:

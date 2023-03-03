@@ -43,5 +43,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - data.resource.type
+  - data.protoPayload.methodName
+  - data.protoPayload.serviceData.policyDelta.bindingDeltas{}.action
+  - data.protoPayload.authenticationInfo.principalEmail
+  - data.protoPayload.resourceLocation.currentLocations{}
+  - data.protoPayload.requestMetadata.callerIp
+  - data.protoPayload.resourceName
+  - data.protoPayload.serviceData.policyDelta.bindingDeltas{}.role
+  - data.protoPayload.serviceData.policyDelta.bindingDeltas{}.member
   risk_score: 25
   security_domain: network

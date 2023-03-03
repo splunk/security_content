@@ -50,6 +50,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - none
   risk_score: 50
   security_domain: threat
 tests:

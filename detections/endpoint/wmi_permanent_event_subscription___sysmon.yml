@@ -65,6 +65,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - host
+  - user
+  - Operation
+  - EventType
+  - Query
+  - Consumer
+  - Filter
   risk_score: 30
   security_domain: endpoint
 tests:

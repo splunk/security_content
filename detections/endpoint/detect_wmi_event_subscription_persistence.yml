@@ -61,6 +61,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Destination
+  - Computer
+  - User
   risk_score: 63
   security_domain: endpoint
 tests:

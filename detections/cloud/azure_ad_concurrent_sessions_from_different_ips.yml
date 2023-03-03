@@ -1,0 +1,69 @@
+name: Azure AD Concurrent Sessions From Different Ips
+id: a9126f73-9a9b-493d-96ec-0dd06695490d
+version: 1
+date: '2023-01-24'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies an Azure AD account with concurrent
+  sessions coming from more than one unique Ip address within the span of 5 minutes.
+  This behavior could represent a session hijacking attack whereby an adversary has
+  extracted cookies from a victims browser and is using them from a different location
+  to access corporate online resources. As users may behave differently across organizations,
+  security teams should test and customize this detection to fit their environments.
+data_source: []
+search: ' `azuread` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs
+  | rename properties.* as * | bucket span=5m _time | stats  dc(ipAddress) AS unique_ips
+  values(ipAddress) values(appDisplayName) by _time, userPrincipalName | where unique_ips
+  > 1 | `azure_ad_concurrent_sessions_from_different_ips_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  Specifically, this analytic leverages the SignInLogs log category.
+known_false_positives: A user with concurrent sessions from different Ips may also
+  represent the legitimate use of more than one device. Filter as needed and/or customize
+  the threshold to fit your environment.
+references:
+- https://attack.mitre.org/techniques/T1185/
+- https://breakdev.org/evilginx-2-next-generation-of-phishing-2fa-tokens/
+- https://github.com/kgretzky/evilginx2
+tags:
+  analytic_story:
+  - Compromised User Account
+  - Azure Active Directory Account Takeover
+  asset_type: Azure AD
+  confidence: 60
+  impact: 70
+  message: User $userPrincipalName$ has concurrent sessions from more than one unique
+    IP address in the span of 5 minutes.
+  mitre_attack_id:
+  - T1185
+  observable:
+  - name: userPrincipalName
+    type: User
+    role:
+    - Victim
+  - name: ipAddress
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - properties.status.errorCode
+  - category
+  - properties.authenticationDetails
+  - properties.userPrincipalName
+  - properties.ipAddress
+  risk_score: 42
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/azure_ad_concurrent_sessions_from_different_ips/azuread.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

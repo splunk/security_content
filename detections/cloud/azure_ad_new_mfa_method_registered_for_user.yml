@@ -1,0 +1,68 @@
+name: Azure AD New MFA Method Registered For User
+id: 2628b087-4189-403f-9044-87403f777a1b
+version: 1
+date: '2023-01-30'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the registration of a new Multi Factor
+  authentication method for an Azure AD account. Adversaries who have obtained unauthorized
+  access to an Azure AD account may register a new MFA method to maintain persistence.
+data_source: []
+search: ' `azuread` category=AuditLogs operationName="User registered security info"
+  properties.operationType=Add | rename properties.* as * | rename targetResources{}.*
+  as * | stats  values(userPrincipalName) by _time, resultDescription, result, callerIpAddress
+  | `azure_ad_new_mfa_method_registered_for_user_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  Specifically, this analytic leverages the AuditLogs log category.
+known_false_positives: Newly onboarded users who are registering an MFA method for
+  the first time will also trigger this detection.
+references:
+- https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+- https://attack.mitre.org/techniques/T1556/
+- https://attack.mitre.org/techniques/T1556/006/
+- https://twitter.com/jhencinski/status/1618660062352007174
+tags:
+  analytic_story:
+  - Compromised User Account
+  - Azure Active Directory Account Takeover
+  asset_type: Azure Active Directory
+  confidence: 80
+  impact: 80
+  message: UPDATE message
+  mitre_attack_id:
+  - T1556
+  - T1556.006
+  observable:
+  - name: userPrincipalName
+    type: User
+    role:
+    - Victim
+  - name: callerIpAddress
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - category
+  - operationName
+  - properties.operationType
+  - userPrincipalName
+  - resultDescription
+  - result
+  - callerIpAddress
+  risk_score: 64
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/azure_ad_new_mfa_method_registered_for_user/azuread.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

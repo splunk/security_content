@@ -49,6 +49,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - ImageLoaded
+  - Computer
+  - Signed
+  - Signature
+  - service_signature_verified
+  - service_signature_exists
+  - Hashes
   risk_score: 42
   security_domain: endpoint
 tests:

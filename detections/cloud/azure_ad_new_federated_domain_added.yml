@@ -55,6 +55,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - body.operationName
+  - body.properties.result
+  - body.callerIpAddress
+  - body.properties.targetResources{}.displayName
+  - body.properties.initiatedBy.user.userPrincipalName
   risk_score: 81
   security_domain: threat
 tests:

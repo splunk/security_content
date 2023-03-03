@@ -49,5 +49,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - Task_Name
+  - Description
+  - Command
   risk_score: 45
   security_domain: endpoint

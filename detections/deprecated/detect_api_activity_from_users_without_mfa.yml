@@ -62,5 +62,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - userIdentity.sessionContext.attributes.mfaAuthenticated
+  - eventName
+  - userIdentity.arn
+  - userIdentity.type
+  - user
   risk_score: 25.0
   security_domain: network

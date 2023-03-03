@@ -1,0 +1,61 @@
+name: Windows Export Certificate
+id: d8ddfa9b-b724-4df9-9dbe-f34cc0936714
+version: 2
+date: '2023-02-11'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies when a certificate is exported from
+  the Windows Certificate Store. This analytic utilizes the Certificates Lifecycle
+  log channel event ID 1007. EventID 1007 is focused on the Export of a certificate
+  from the local certificate store. In addition, review the ProcessName field as it
+  will help to determine automation/Admin or adversary extracting the certificate.
+  Depending on the organization, the certificate may be used for authentication to
+  the VPN or private resources.
+data_source:
+- Sysmon Event ID 1
+search: '`certificateservices_lifecycle` EventCode=1007 | xmlkv UserData_Xml | stats
+  count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectName, UserData_Xml
+  | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `windows_export_certificate_filter`'
+how_to_implement: To implement this analytic, you must collect Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
+  or Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational.
+known_false_positives: False positives may be generated based on an automated process
+  or service that exports certificates on the regular. Review is required before setting
+  to alert. Monitor for abnormal processes performing an export.
+references:
+- https://atomicredteam.io/defense-evasion/T1553.004/#atomic-test-4---install-root-ca-on-windows
+tags:
+  analytic_story:
+  - Windows Certificate Services
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: An certificate was exported on $dest$ from the Windows Certificate Store.
+  mitre_attack_id:
+  - T1552.004
+  - T1552
+  - T1649
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - SubjectName
+  - UserData_Xml
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certificateservices-lifecycle.log
+    source: XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
