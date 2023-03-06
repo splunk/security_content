@@ -42,7 +42,7 @@ field_mappings:
       NewProcessName: process.file.name
       Process_Command_Line: process.cmd_line
       SubjectUserSid: process.user.name
-      ProcessId: actor_process.pid
+      ProcessId: actor.process.pid
       ParentProcessName: actor.process.file.name
       Computer: device.hostname
 convert_to_log_source:
