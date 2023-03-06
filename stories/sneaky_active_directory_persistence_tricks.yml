@@ -1,0 +1,37 @@
+name: Sneaky Active Directory Persistence Tricks
+id: f676c4c1-c769-4ecb-9611-5fd85b497c56
+version: 1
+date: '2022-08-29'
+author: Dean Luxton, Mauricio Velazco, Splunk
+description: Monitor for activities and techniques associated with Windows Active Directory persistence techniques. 
+narrative: Persistence consists of techniques that adversaries use to keep access to systems across restarts, changed credentials, and other interruptions that could cut off their access. 
+  Active Directory is a centralized and hierarchical database that stores information about users, computers, and other resources on a network. It provides secure and efficient management 
+  of these resources and enables administrators to enforce security policies and delegate administrative tasks.\
+
+  In 2015 Active Directory security researcher Sean Metcalf published a blog post titled `Sneaky Active Directory Persistence Tricks`. In this blog post, 
+  Sean described several methods through which an attacker could persist administrative access on an Active Directory network after having Domain Admin level rights for 
+  a short period of time. At the time of writing, 8 years after the initial blog post, most of these techniques are still possible since they abuse legitimate administrative functionality and not software vulnerabilities.
+  Security engineers defending Active Directory networks should be aware of these technique available to adversaries post exploitation and deploy both preventive and detective security controls for them.\
+
+  This analytic story groups detection opportunities for most of the techniques described on Seans blog post as well as other high impact attacks against Active Directory networks and Domain Controllers like DCSync and DCShadow.
+  For some of these detection opportunities, it is necessary to enable the necessary GPOs and SACLs required, otherwise the event codes will not trigger. Each detection includes a list of requirements for enabling logging.  
+references: 
+  - https://adsecurity.org/?p=1929
+  - https://www.youtube.com/watch?v=Lz6haohGAMc&feature=youtu.be
+  - https://adsecurity.org/wp-content/uploads/2015/09/DEFCON23-2015-Metcalf-RedvsBlue-ADAttackAndDefense-Final.pdf
+  - https://attack.mitre.org/tactics/TA0003/
+  - https://www.dcshadow.com
+  - https://gist.github.com/gentilkiwi/dcc132457408cf11ad2061340dcb53c2
+  - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
+tags:
+  analytic_story: Windows Domain Controller Attacks
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

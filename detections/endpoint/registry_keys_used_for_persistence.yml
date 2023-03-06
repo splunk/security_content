@@ -57,6 +57,7 @@ tags:
   - Qakbot
   - Chaos Ransomware
   - AsyncRAT
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   cis20:
   - CIS 8
