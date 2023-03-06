@@ -1,0 +1,576 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Dynamic Related Ticket Search",
+    "coa": {
+        "data": {
+            "description": "Accepts a user or device and identifies if related tickets exists in a timeframe of last 30 days. Generates a global report and list of observables.",
+            "edges": [
+                {
+                    "id": "port_6_to_port_8",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_0_to_port_6",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_10_to_port_9",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_8_to_port_17",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "id": "port_17_to_port_10",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_9_to_port_19",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_19_to_port_14",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_14_to_port_16",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "id": "port_16_to_port_25",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "25",
+                    "targetPort": "25_in"
+                },
+                {
+                    "id": "port_25_to_port_1",
+                    "sourceNode": "25",
+                    "sourcePort": "25_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "e7ead2bdc6a802950dd37c47b3f4af40d61c676c",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 1708
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Creates a dataset without None values.",
+                            "join": [],
+                            "note": "Creates a dataset without None values."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:search_term",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "search term exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "10",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 60,
+                    "y": 622
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process results",
+                            "customNameId": 0,
+                            "description": "Iterates through the results of the run ticket query to link playbook input search term to their associated tickets.",
+                            "join": [],
+                            "note": "Iterates through the results of the run ticket query to link playbook input search term to their associated tickets."
+                        },
+                        "functionId": 3,
+                        "functionName": "process_results",
+                        "id": "14",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:search_term",
+                            "run_ticket_query:action_result.data",
+                            "run_ticket_query:action_result.parameter.query_table"
+                        ],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "code",
+                    "userCode": "    process_results__output = {}\n    for search_term in filtered_input_0_search_term_values:\n        process_results__output[search_term] = []\n        for result, query_table in zip(run_ticket_query_result_item_0, run_ticket_query_parameter_query_table):\n            if not isinstance(result, list):\n                list_result = [result]\n            else:\n                list_result = result\n            for result_item in list_result:\n                result_item_values = [item.lower() for item in result_item.values() if isinstance(item, str)]\n                match = False\n                for string_value in result_item_values:\n                    if search_term.lower() in string_value:\n                        match = True\n                        break\n                if match:\n                    process_results__output[search_term].append({**result_item, **{\"ticket_type\": query_table}})\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1158
+                },
+                "16": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "build output",
+                            "customNameId": 0,
+                            "description": "Extract relevant data and add them to an observable array.",
+                            "join": [],
+                            "note": "Extract relevant data and add them to an observable array."
+                        },
+                        "functionId": 5,
+                        "functionName": "build_output",
+                        "id": "16",
+                        "inputParameters": [
+                            "process_results:custom_function:output"
+                        ],
+                        "outputVariables": [
+                            "observable_array",
+                            "name",
+                            "number",
+                            "message",
+                            "start_time",
+                            "end_time",
+                            "assignee",
+                            "creator_name",
+                            "state",
+                            "matched_fields",
+                            "source_link",
+                            "source"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "code",
+                    "userCode": "    import re \n    \n    build_output__observable_array = []\n    build_output__name = []\n    build_output__number = []\n    build_output__message = []\n    build_output__start_time = []\n    build_output__end_time = []\n    build_output__assignee = []\n    build_output__creator_name = []\n    build_output__state = []\n    build_output__matched_fields = []\n    build_output__source_link = []\n    build_output__source = []\n    \n    def generate_ticket_link(sample_url, ticket_type, sys_id):\n        extract_host = re.search(r\"https*:\\/\\/[^\\/]+\", sample_url).group(0)\n        extract_host += f\"/nav_to.do?uri={ticket_type}.do?sys_id={sys_id}\"\n        return extract_host\n        \n    for key in process_results__output.keys():\n        \n        for value in process_results__output[key]:\n            assigned_to = None\n            caller_id = None\n            matched_fields = []\n            if value.get(\"assigned_to\"):\n                assigned_to = value[\"assigned_to\"][\"display_value\"]\n            if value.get(\"caller_id\"):\n                caller_id = value[\"caller_id\"][\"display_value\"]\n            \n            for k, v in value.items():\n                # generate matched fields where the searched entity appears\n                if isinstance(v, str) and key.lower() in v.lower():\n                    matched_fields.append(k)\n                # search for any link sample:\n                if isinstance(v, dict):\n                    sample_link = v.get('link')\n            \n            source_link = generate_ticket_link(sample_link, value['ticket_type'], value['sys_id'])\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    \"name\": value[\"short_description\"],\n                    \"id\": value[\"sys_id\"],\n                    \"number\": value[\"number\"],\n                    \"message\": json.dumps(value[\"description\"]),\n                    \"start_time\": value[\"sys_created_on\"],\n                    \"end_time\": value[\"closed_at\"],\n                    \"assigned_to\": assigned_to,\n                    \"creator_name\": caller_id,\n                    \"state\": value[\"state\"],\n                    \"notes\": [value[\"work_notes\"]],\n                    \"comments\": [value[\"comments\"]]\n                },\n                \"matched_fields\": matched_fields,\n                \"source\": \"ServiceNow\",\n                \"source_link\": source_link\n            }\n            build_output__observable_array.append(observable_object)\n            build_output__name.append(value[\"short_description\"])\n            build_output__number.append(value[\"number\"])\n            build_output__message.append(json.dumps(value[\"description\"]))  # eliminate new line issues\n            build_output__start_time.append(value[\"sys_created_on\"])\n            build_output__end_time.append(value[\"closed_at\"])\n            build_output__assignee.append(assigned_to)\n            build_output__creator_name.append(caller_id)\n            build_output__state.append(value[\"state\"])\n            build_output__matched_fields.append(matched_fields)\n            build_output__source.append(\"ServiceNow\")\n            build_output__source_link.append(source_link)\n            #phantom.debug(observable_object)\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1352
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "calculate earliest time",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "datetime_modify",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "calculate_earliest_time",
+                        "id": "17",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "datetime_modify": {
+                                "description": "Change a timestamp by adding or subtracting minutes, hours, or days.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "The datetime to modify, which should be provided in a string format determined by input_format_string",
+                                        "inputType": "item",
+                                        "label": "input_datetime",
+                                        "name": "input_datetime",
+                                        "placeholder": "2020-06-27T14:53:08.219016Z",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The format string to use for the input according to the Python's datetime.strptime() formatting rules. If none is provided the default will be '%Y-%m-%dT%H:%M:%S.%fZ'. In addition to strptime() formats, the special format \"epoch\" can be used to accept unix epoch timestamps.",
+                                        "inputType": "item",
+                                        "label": "input_format_string",
+                                        "name": "input_format_string",
+                                        "placeholder": "%Y-%m-%dT%H:%M:%S.%fZ",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "Choose a unit to modify the date by, which must be either seconds, minutes, hours, or days. If none is provided the default will be 'minutes'",
+                                        "inputType": "item",
+                                        "label": "modification_unit",
+                                        "name": "modification_unit",
+                                        "placeholder": "minutes",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The number of seconds, minutes, hours, or days to add or subtract. Use a negative number such as -1.5 to subtract time. Defaults to zero.",
+                                        "inputType": "item",
+                                        "label": "amount_to_modify",
+                                        "name": "amount_to_modify",
+                                        "placeholder": "0",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The format string to use for the output according to the Python's datetime.strftime() formatting rules. If none is provided the default will be '%Y-%m-%dT%H:%M:%S.%fZ'.",
+                                        "inputType": "item",
+                                        "label": "output_format_string",
+                                        "name": "output_format_string",
+                                        "placeholder": "%Y-%m-%dT%H:%M:%S.%fZ",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "datetime_modify",
+                                "name": "datetime_modify"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "datetime_modify": {
+                                "amount_to_modify": "-30",
+                                "input_datetime": "container:create_time",
+                                "input_format_string": "%Y-%m-%d %H:%M:%S.%f+00",
+                                "modification_unit": "days",
+                                "output_format_string": "'%Y-%m-%d','%H:%M:%S'"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 474
+                },
+                "19": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run ticket query",
+                            "customNameId": 0,
+                            "description": "Perform a text search match within ServiceNow.",
+                            "join": [],
+                            "note": "Perform a text search match within ServiceNow."
+                        },
+                        "connector": "ServiceNow",
+                        "connectorConfigs": [
+                            "servicenow"
+                        ],
+                        "connectorId": "a590c3bc-ca41-4a0e-b063-8066ca868794",
+                        "connectorVersion": "v1",
+                        "functionId": 3,
+                        "functionName": "run_ticket_query",
+                        "id": "19",
+                        "parameters": {
+                            "max_results": "100",
+                            "query": {
+                                "functionId": 3,
+                                "parameters": [
+                                    "space_delimiter_input:formatted_data",
+                                    "calculate_earliest_time:custom_function_result.data.datetime_string"
+                                ],
+                                "template": "sysparm_query=active=true^IR_OR_QUERY={0}^opened_at>javascript:gs.dateGenerate({1})&sysparm_display_value=true \n\n"
+                            },
+                            "query_table": "convert_table_list:custom_function_result.data.output"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "numeric",
+                                "default": 100,
+                                "field": "max_results"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "query_table"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 980
+                },
+                "25": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 3,
+                        "functionName": "format_report",
+                        "id": "25",
+                        "parameters": [
+                            "build_output:custom_function:name",
+                            "build_output:custom_function:number",
+                            "build_output:custom_function:message",
+                            "build_output:custom_function:start_time",
+                            "build_output:custom_function:end_time",
+                            "build_output:custom_function:assignee",
+                            "build_output:custom_function:creator_name",
+                            "build_output:custom_function:state",
+                            "build_output:custom_function:matched_fields",
+                            "build_output:custom_function:source",
+                            "build_output:custom_function:source_link"
+                        ],
+                        "template": "SOAR retrieved tickets from Service Now. The table below shows a summary of the information gathered.\n\n| Name | Number | Message | Start Time | End Time | Assignee | Creator Name | State | Matched Fields | Source | Source Link |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10} |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "25",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1530
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "default table list",
+                            "customNameId": 0,
+                            "description": "Adjust the table list variable to change which tables should be searched.",
+                            "join": [],
+                            "note": "Adjust the table list variable to change which tables should be searched."
+                        },
+                        "functionId": 2,
+                        "functionName": "default_table_list",
+                        "id": "6",
+                        "inputParameters": [],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "code",
+                    "userCode": "    \n    # Default tables list to find related tickets. Adjust as needed.\n    default_table_list = [\n        'incident', \n        'change_request', \n        'change_task', \n        'problem',\n        'sc_request', \n        'sc_task', \n        'sc_req_item',\n    ]\n    default_table_list__output = default_table_list\n    \n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 148
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "convert table list",
+                            "customNameId": 0,
+                            "join": [],
+                            "refreshNotableData": false
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "list_demux",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "convert_table_list",
+                        "id": "8",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "list_demux": {
+                                "description": "Accepts a single list and converts it into multiple custom function output results. All output will be placed in the \"output\" datapath. Sub-items and sub-item variable names are dependent on the input.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "A list of objects. Nested lists are not unpacked.",
+                                        "inputType": "item",
+                                        "label": "input_list",
+                                        "name": "input_list",
+                                        "placeholder": "[\"list_item_1\", \"list_item_2\", \"list_item_3\"]",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "list_demux",
+                                "name": "list_demux"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "list_demux": {
+                                "input_list": "default_table_list:custom_function:output"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "utility",
+                    "userCode": "\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 326
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "space delimiter input",
+                            "customNameId": 0,
+                            "description": "Convert playbook input into space delimiter string for ServiceNow query.",
+                            "drop_none": true,
+                            "join": [],
+                            "note": "Convert playbook input into space delimiter string for ServiceNow query.",
+                            "separator": " "
+                        },
+                        "functionId": 1,
+                        "functionName": "space_delimiter_input",
+                        "id": "9",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:search_term"
+                        ],
+                        "template": "{0}\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 802
+                }
+            },
+            "notes": "Inputs: user, device\nInteractions: ServiceNow\nActions: run query\nOutputs: report, observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name",
+                    "host name"
+                ],
+                "description": "Find tickets in ServiceNow that have mentioned this search term..",
+                "name": "search_term"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type, score, score_id, and categories.",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of reports. One report per reputation category.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-03-03T21:21:48.729159+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "user",
+        "device",
+        "ServiceNow",
+        "ticket"
+    ]
+}
