@@ -1,0 +1,13 @@
+name: Windows AD SID History Attribute Modified
+tests:
+- name: Windows AD SID History Attribute Modified
+  file: endpoint/windows_ad_sid_history_attribute_modified.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/sid_history2/windows-security.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
