@@ -1,0 +1,23 @@
+name: AD LDAP Entity Attribute Lookup
+id: fc0edc96-aa2b-4cb0-7b4d-63da67d3fe74
+version: 1
+date: '2023-01-11'
+author: Kelby Shelton, Lou Stella, Splunk
+type: Investigation
+description: "Accepts a user or device and looks up the most recent attributes and groups for that user or device. This playbook produces a normalized output for each user and device."
+playbook: AD_LDAP_Entity_Attribute_Lookup
+how_to_implement: This input playbook requires the AD LDAP connector to be configured. It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - AD LDAP
+tags:
+  platform_tags:
+    - attributes 
+    - user
+    - device 
+    - ad_ldap
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
