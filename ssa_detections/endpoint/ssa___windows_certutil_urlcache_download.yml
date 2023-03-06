@@ -22,9 +22,9 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   any>", null) | eval process_file_name=ucast(map_get(process_file,"name"), "string",
   null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
   | eval process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval
-  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor_process=ucast(map_get(input_event,"actor_process"),
-  "map<string, any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"),
-  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor=ucast(map_get(input_event,"actor"),
+  "map<string, any>", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
+  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
   null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
   any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
@@ -80,7 +80,7 @@ tags:
     cim: process
   - ocsf: process.user.name
     cim: user
-  - ocsf: actor_process.pid
+  - ocsf: actor.process.pid
     cim: parent_process_id
   - ocsf: actor.process.file.name
     cim: parent_process_name
