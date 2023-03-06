@@ -1,0 +1,277 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Attribute Lookup",
+    "coa": {
+        "data": {
+            "description": "Accepts a user or device and looks up the most recent attributes and groups for that user or device. This playbook produces a normalized output for each user and device.",
+            "edges": [
+                {
+                    "id": "port_3_to_port_1",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_0_to_port_14",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_14_to_port_2",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_15",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_15_to_port_3",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                }
+            ],
+            "hash": "be0b1202e1571a6a8a4d345c6d14d30afcef8422",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 864
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "playbook inputs filter",
+                            "customNameId": 0,
+                            "description": "Filter inputs to route inputs to appropriate actions.",
+                            "join": [],
+                            "note": "Filter inputs to route inputs to appropriate actions."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:user",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "playbook_inputs_filter",
+                        "id": "14",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 60,
+                    "y": 148
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "user results filter",
+                            "customNameId": 0,
+                            "description": "Determine if a user was found from the preceding action",
+                            "join": [],
+                            "note": "Determine if a user was found from the preceding action"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "get_user_attributes:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "user_results_filter",
+                        "id": "15",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 506
+                },
+                "2": {
+                    "data": {
+                        "action": "list user attributes",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get user attributes",
+                            "customNameId": 0,
+                            "description": "Query for the user attributes for filtered playbook inputs.",
+                            "join": [],
+                            "note": "Query for the user attributes for filtered playbook inputs."
+                        },
+                        "connector": "Azure AD Graph",
+                        "connectorConfigs": [
+                            "azure_ad_graph"
+                        ],
+                        "connectorId": "c6d3b801-5c26-4abd-9e89-6d8007e2778f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_user_attributes",
+                        "id": "2",
+                        "parameters": {
+                            "user_id": "filtered-data:playbook_inputs_filter:condition_1:playbook_input:user"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 328
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format user outputs",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each user.",
+                            "join": [],
+                            "note": "Format a normalized output for each user."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_user_outputs",
+                        "id": "3",
+                        "inputParameters": [
+                            "filtered-data:user_results_filter:condition_1:get_user_attributes:action_result.data.0",
+                            "filtered-data:user_results_filter:condition_1:get_user_attributes:action_result.parameter.user_id"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "code",
+                    "userCode": "    \n    format_user_outputs__observable_array = []\n    \n    # create normalized output dictionary\n    for pb_input, user in zip(filtered_result_0_parameter_user_id, filtered_result_0_data_0):\n        user_dict = {\n            \"account_type\": \"Azure AD Account\",\n            \"account_type_id\": 6,\n            \"account_uid\": user['userPrincipalName'],\n            \"domain\": user['userPrincipalName'].split('@')[1],\n            \"email_addr\": user['mail'],\n            \"full_name\": user['displayName'],\n            \"name\": user['userPrincipalName'].split('@')[0],\n            \"start_date\": user['createdDateTime'],\n            \"type\": \"User\",\n            \"type_id\": 1,\n            \"uid\": user['objectId']\n        }\n        phones = [\n            user['telephoneNumber'],\n            user['facsimileTelephoneNumber']\n        ]\n        labels = [\n            user['jobTitle'],\n            user['department']\n        ]\n        \n                \n        # clean up phone numbers\n        phones = [phone for phone in phones if phone]\n        user_dict['phones'] = phones\n            \n        # clean up labels\n        labels = [label for label in labels if label]\n        user_dict['labels'] = labels\n                \n        final_output = {\n            \"type\": \"user\",\n            \"value\": pb_input,\n            \"attributes\": user_dict,\n            \"source\": \"Azure AD Graph\"\n        }\n        format_user_outputs__observable_array.append(final_output)\n        \n    # phantom.debug(format_user_outputs__observable_array)\n        \n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 686
+                }
+            },
+            "notes": "Inputs: user, device\nInteractions: AD LDAP\nActions: get attributes, run query\nOutputs: report, observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name"
+                ],
+                "description": "A user identity in Active Directory such as sAMAccountName, userPrincipalName, or distinguishedName",
+                "name": "user"
+            },
+            {
+                "contains": [
+                    "host name"
+                ],
+                "description": "A device in Active Directory.",
+                "name": "device"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_user_outputs:custom_function:observable_array",
+                    "format_device_outputs:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries ",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-03-02T14:17:17.726698+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "attributes",
+        "user",
+        "device",
+        "azure_ad_graph"
+    ]
+}

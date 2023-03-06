@@ -1,0 +1,682 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Attribute Lookup",
+    "coa": {
+        "data": {
+            "description": "Accepts a user or device and looks up the most recent attributes and groups for that user or device. This playbook produces a normalized output for each user and device.",
+            "edges": [
+                {
+                    "id": "port_3_to_port_1",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_10_to_port_3",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_8_to_port_10",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_0_to_port_14",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_14_to_port_2",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_15_to_port_16",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "id": "port_16_to_port_17",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "id": "port_17_to_port_1",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_2_to_port_18",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_18_to_port_8",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_19_to_port_15",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_14_to_port_20",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_20_to_port_11",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_11_to_port_19",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                }
+            ],
+            "hash": "1161e9894971caa9d512c12b7eb803d24bf949bf",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1414
+                },
+                "10": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get user group attributes",
+                            "customNameId": 0,
+                            "description": "Get details for the groups to which the user belongs.",
+                            "join": [],
+                            "note": "Get details for the groups to which the user belongs."
+                        },
+                        "connector": "AD LDAP",
+                        "connectorConfigs": [
+                            "ad_ldap"
+                        ],
+                        "connectorId": "a5730e5d-a396-4695-92c2-35ff391aaf45",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_user_group_attributes",
+                        "id": "10",
+                        "parameters": {
+                            "attributes": "description;name;memberOf;distinguishedName",
+                            "filter": {
+                                "functionId": 1,
+                                "parameters": [
+                                    "merge_user_groups:custom_function:list"
+                                ],
+                                "template": "(|\n%%\n(distinguishedName={0})\n%%\n)\n"
+                            }
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "filter"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "sAMAccountName",
+                                "field": "attributes"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1042
+                },
+                "11": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get device attributes",
+                            "customNameId": 0,
+                            "description": "Query for the device attributes for filtered playbook inputs.",
+                            "join": [],
+                            "note": "Query for the device attributes for filtered playbook inputs."
+                        },
+                        "connector": "AD LDAP",
+                        "connectorConfigs": [
+                            "ad_ldap"
+                        ],
+                        "connectorId": "a5730e5d-a396-4695-92c2-35ff391aaf45",
+                        "connectorVersion": "v1",
+                        "functionId": 3,
+                        "functionName": "get_device_attributes",
+                        "id": "11",
+                        "parameters": {
+                            "attributes": "description;distinguishedName;objectSid;memberOf;name;sAMAccountName",
+                            "filter": "format_device_query:formatted_data.*"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "filter"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "sAMAccountName",
+                                "field": "attributes"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 506
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "playbook inputs filter",
+                            "customNameId": 0,
+                            "description": "Filter inputs to route inputs to appropriate actions.",
+                            "join": [],
+                            "note": "Filter inputs to route inputs to appropriate actions."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:user",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "!=",
+                                        "param": "playbook_input:device",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "device",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "playbook_inputs_filter",
+                        "id": "14",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 230,
+                    "y": 148
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "merge device groups",
+                            "customNameId": 0,
+                            "description": "Merge device groups, from preceding action block results, into a single deduplicated list.",
+                            "join": [],
+                            "note": "Merge device groups, from preceding action block results, into a single deduplicated list."
+                        },
+                        "customDatapaths": {
+                            "filter_device_results": {
+                                "condition_1:get_device_attributes:action_result.data.*.entries.*.attributes.memberOf": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:get_device_attributes:action_result.data.*.entries.*.attributes.memberOf",
+                                    "value": "filtered-data:filter_device_results:condition_1:get_device_attributes:action_result.data.*.entries.*.attributes.memberOf"
+                                }
+                            }
+                        },
+                        "functionId": 3,
+                        "functionName": "merge_device_groups",
+                        "id": "15",
+                        "inputParameters": [
+                            "filtered-data:filter_device_results:condition_1:get_device_attributes:action_result.data.*.entries.*.attributes.memberof"
+                        ],
+                        "outputVariables": [
+                            "list"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "code",
+                    "userCode": "\n    group_list = []\n    for group in filtered_result_0_data___entries___attributes_memberof:\n        group_list.extend(group)\n    \n    merge_device_groups__list = list(set(group_list))\n\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 864
+                },
+                "16": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get device group attributes",
+                            "customNameId": 0,
+                            "description": "Get details for the groups to which the device belongs.",
+                            "join": [],
+                            "note": "Get details for the groups to which the device belongs."
+                        },
+                        "connector": "AD LDAP",
+                        "connectorConfigs": [
+                            "ad_ldap"
+                        ],
+                        "connectorId": "a5730e5d-a396-4695-92c2-35ff391aaf45",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "get_device_group_attributes",
+                        "id": "16",
+                        "parameters": {
+                            "attributes": "description;name;memberOf;distinguishedName",
+                            "filter": {
+                                "functionId": 2,
+                                "parameters": [
+                                    "merge_device_groups:custom_function:list"
+                                ],
+                                "template": "(|\n%%\n(distinguishedName={0})\n%%\n)"
+                            }
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "filter"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "sAMAccountName",
+                                "field": "attributes"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1042
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format device outputs",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each device.",
+                            "join": [],
+                            "note": "Format a normalized output for each device."
+                        },
+                        "functionId": 4,
+                        "functionName": "format_device_outputs",
+                        "id": "17",
+                        "inputParameters": [
+                            "filtered-data:filter_device_results:condition_1:get_device_attributes:action_result.data.*.entries.*.attributes",
+                            "filtered-data:filter_device_results:condition_1:get_device_attributes:action_result.parameter.filter",
+                            "get_device_group_attributes:action_result.data.*.entries.*.attributes"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "code",
+                    "userCode": "    import re\n    \n    format_device_outputs__observable_array = []\n    \n    def extract_domain_name(dn):\n        dn_rex = re.search(r'(DC=.+)', dn)\n        if dn_rex:\n            dc_list = dn_rex.group(1).replace('DC=', '').split(',')\n            return '.'.join(dc_list)\n    \n    def extract_ou(dn):\n        dn_rex = re.search(r'(OU=.+?),DC', dn)\n        if dn_rex:\n            ou_list = dn_rex.group(1).replace('OU=', '').split(',')\n            return ou_list\n        \n    def extract_pb_input_from_filter(filter_query_list):\n        pb_input_list = []\n        for query in filter_query_list:\n            query_rex = re.search(r'sAMAccountName=([^\\)]+)', query)\n            hostname = query_rex.group(1).replace('*', '')\n            pb_input_list.append(hostname)\n        return pb_input_list\n    \n    # create dictionary of group attributes\n    group_dict = {}\n    for group in get_device_group_attributes_result_item_0:\n        group_dict[group['distinguishedname']] = group\n        \n    pb_input_hostname_list = extract_pb_input_from_filter(filtered_result_0_parameter_filter)\n    # create normalized output dictionary\n    for pb_input, device in zip(pb_input_hostname_list, filtered_result_0_data___entries___attributes):\n        device_dict = {\n            \"desc\": device['description'],\n            \"domain\": extract_domain_name(device['distinguishedname']),\n            \"hostname\": device['name'],\n            \"name\": device['samaccountname'],\n            \"type\": \"Unknown\",\n            \"type_id\": 0,\n            \"uid\": device['objectsid']        \n        }\n        \n        # use OUs as labels\n        ou_list = extract_ou(device['distinguishedname'])\n        if ou_list:\n            device_dict['labels'] = ou_list\n            \n        # lookup groups\n        group_list = []\n        for group in device['memberof']:\n            if group_dict.get(group):\n                group_details = group_dict[group]\n                if not group_details['description']:\n                    group_details['description'].append(\"None\")\n                temp_group_dict = {\n                    \"type\": \"Domain\",\n                    \"desc\": group_details['description'][0],\n                    \"name\": group_details['name'],\n                    \"privileges\": group_details['memberof'],\n                    \"uid\": group_details['distinguishedname']\n                }\n                # drop values with []\n                for k,v in temp_group_dict.copy().items():\n                    if v == []:\n                        temp_group_dict.pop(k)\n                group_list.append(temp_group_dict)\n        if group_list:\n            device_dict['groups'] = group_list\n\n                \n        final_output = {\n            \"type\": \"host name\",\n            \"value\": pb_input,\n            \"attributes\": device_dict,\n            \"source\": \"AD LDAP\"\n        }\n        format_device_outputs__observable_array.append(final_output)\n        \n    # phantom.debug(format_device_outputs__observable_array)\n\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1236
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter user results",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "get_user_attributes:action_result.summary.total_objects",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user results exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_user_results",
+                        "id": "18",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 684
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter device results",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "get_device_attributes:action_result.summary.total_objects",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "device results exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "filter_device_results",
+                        "id": "19",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 684
+                },
+                "2": {
+                    "data": {
+                        "action": "get attributes",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get user attributes",
+                            "customNameId": 0,
+                            "description": "Query for the user attributes for filtered playbook inputs.",
+                            "join": [],
+                            "note": "Query for the user attributes for filtered playbook inputs."
+                        },
+                        "connector": "AD LDAP",
+                        "connectorConfigs": [
+                            "ad_ldap"
+                        ],
+                        "connectorId": "a5730e5d-a396-4695-92c2-35ff391aaf45",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_user_attributes",
+                        "id": "2",
+                        "parameters": {
+                            "attributes": "userPrincipalName;mail;accountExpires;name;memberOf;title;department;manager;sAMAccountName;distinguishedName;mobile;ipPhone;homePhone;telephoneNumber;otherMobile;otherIpPhone;otherHomePhone;otherTelephone;whenCreated;objectSid;objectGUID",
+                            "principals": "filtered-data:playbook_inputs_filter:condition_1:playbook_input:user"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "default": "sAMAccountName",
+                                "field": "attributes"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "principals"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 506
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format device query",
+                            "customNameId": 0,
+                            "description": "Iterate through the playbook inputs and format a list of queries.",
+                            "join": [],
+                            "note": "Iterate through the playbook inputs and format a list of queries."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_device_query",
+                        "id": "20",
+                        "parameters": [
+                            "filtered-data:playbook_inputs_filter:condition_2:playbook_input:device"
+                        ],
+                        "template": "%%\n(&(objectCategory=computer)(|(sAMAccountName={0}*)(distinguishedName={0}*)(userPrincipalName={0}*)))\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 328
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format user outputs",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each user.",
+                            "join": [],
+                            "note": "Format a normalized output for each user."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_user_outputs",
+                        "id": "3",
+                        "inputParameters": [
+                            "filtered-data:filter_user_results:condition_1:get_user_attributes:action_result.data.*.entries.*.attributes",
+                            "filtered-data:filter_user_results:condition_1:get_user_attributes:action_result.parameter.principals",
+                            "get_user_group_attributes:action_result.data.*.entries.*.attributes"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "code",
+                    "userCode": "    \n    format_user_outputs__observable_array = []\n    \n    # create dictionary of group attributes\n    group_dict = {}\n    for group in get_user_group_attributes_result_item_0:\n        group_dict[group['distinguishedname']] = group\n    \n    # create normalized output dictionary\n    for pb_input, user in zip(filtered_result_0_parameter_principals, filtered_result_0_data___entries___attributes):\n        user_dict = {\n            \"account_type\": \"LDAP Account\",\n            \"account_type_id\": 1,\n            \"account_uid\": user['userPrincipalName'],\n            \"domain\": user['userPrincipalName'].split('@')[1],\n            \"email_addr\": user['mail'],\n            \"end_date\": user['accountExpires'],\n            \"full_name\": user['name'],\n            \"labels\": [\n                user['title'],\n                user['department']\n            ],\n            \"managed_by\": user['manager'],\n            \"name\": user['sAMAccountName'],\n            \"start_date\": user['whenCreated'],\n            \"type\": \"User\",\n            \"type_id\": 1,\n            \"uid\": user['distinguishedName'],\n            \"uuid\": user['objectGUID']\n        }\n        phones = [\n            user['mobile'],\n            user['ipPhone'],\n            user['homePhone'],\n            user['telephoneNumber'],\n            user['otherMobile'],\n            user['otherIpPhone'],\n            user['otherHomePhone'],\n            user['otherTelephone']\n        ]\n        \n        # lookup groups\n        group_list = []\n        for group in user['memberOf']:\n            if group_dict.get(group):\n                group_details = group_dict[group]\n                if not group_details['description']:\n                    group_details['description'].append(\"None\")\n                temp_group_dict = {\n                    \"type\": \"Domain\",\n                    \"desc\": group_details['description'][0],\n                    \"name\": group_details['name'],\n                    \"privileges\": group_details['memberof'],\n                    \"uid\": group_details['distinguishedname']\n                }\n                # drop values with []\n                for k,v in temp_group_dict.copy().items():\n                    if v == []:\n                        temp_group_dict.pop(k)\n                group_list.append(temp_group_dict)\n                \n                \n        if group_list:\n            user_dict['groups'] = group_list\n                \n        # clean up phone numbers\n        phones = [phone for phone in phones if phone != []]\n        if phones:\n            user_dict['phones'] = phones\n        \n                \n        final_output = {\n            \"type\": \"user\",\n            \"value\": pb_input,\n            \"attributes\": user_dict,\n            \"soure\": \"AD LDAP\"\n        }\n        format_user_outputs__observable_array.append(final_output)\n        \n    # phantom.debug(format_user_outputs__observable_array)\n        \n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1236
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "merge user groups",
+                            "customNameId": 0,
+                            "description": "Merge user groups, from preceding action block results, into a single deduplicated list.",
+                            "join": [],
+                            "note": "Merge user groups, from preceding action block results, into a single deduplicated list."
+                        },
+                        "customDatapaths": {
+                            "filter_user_results": {
+                                "condition_1:get_user_attributes:action_result.data.*.entries.*.attributes.memberOf": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:get_user_attributes:action_result.data.*.entries.*.attributes.memberOf",
+                                    "value": "filtered-data:filter_user_results:condition_1:get_user_attributes:action_result.data.*.entries.*.attributes.memberOf"
+                                }
+                            }
+                        },
+                        "functionId": 2,
+                        "functionName": "merge_user_groups",
+                        "id": "8",
+                        "inputParameters": [
+                            "filtered-data:filter_user_results:condition_1:get_user_attributes:action_result.data.*.entries.*.attributes.memberOf"
+                        ],
+                        "outputVariables": [
+                            "list"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "code",
+                    "userCode": "\n    \n    group_list = []\n    for group in filtered_result_0_data___entries___attributes_memberof:\n        group_list.extend(group)\n    \n    merge_user_groups__list = list(set(group_list))\n    \n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 864
+                }
+            },
+            "notes": "Inputs: user, device\nInteractions: AD LDAP\nActions: get attributes, run query\nOutputs: report, observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name"
+                ],
+                "description": "A user identity in Active Directory such as sAMAccountName, userPrincipalName, or distinguishedName",
+                "name": "user"
+            },
+            {
+                "contains": [
+                    "host name"
+                ],
+                "description": "A device in Active Directory.",
+                "name": "device"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_user_outputs:custom_function:observable_array",
+                    "format_device_outputs:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries ",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-03-03T18:13:51.717485+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "attributes",
+        "user",
+        "device",
+        "ad_ldap"
+    ]
+}
