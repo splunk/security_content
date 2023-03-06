@@ -51,7 +51,7 @@ field_mappings:
 convert_to_log_source:
   - data_source: Windows Security 4688
     mapping:
-      ProcessId: NewProcessId #New_Process_ID in Hex
+      ProcessId: NewProcessId 
       Image: NewProcessName
       CommandLine: Process_Command_Line
       User: SubjectUserSid
