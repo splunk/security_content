@@ -28,7 +28,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: Process $process_name$ with commandline $cmd_line$ spawn in non-default
+  message: Process $process_name$ with commandline $process$ spawn in non-default
     folder path on host $dest_device_id$
   mitre_attack_id:
   - T1036
@@ -50,7 +50,7 @@ tags:
   - _time
   - dest_user_id
   - process_path
-  - cmd_line
+  - process
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 56

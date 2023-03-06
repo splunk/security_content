@@ -70,7 +70,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 49

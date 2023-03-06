@@ -1,7 +1,7 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-version: 4
-date: '2023-02-15'
+version: 3
+date: '2022-03-01'
 author: Ignacio Bermudez Corrales, Splunk
 type: Anomaly
 status: production
@@ -14,16 +14,16 @@ data_source:
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
   null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
-  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
-  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
-  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
-  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
-  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
-  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_name=ucast(map_get(process_file,"name"), "string",
   null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
-  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
-  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  | eval process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval
+  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor_process=ucast(map_get(input_event,"actor_process"),
+  "map<string, any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
+  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
   null) | where (actor_process_file_name="winword.exe" OR actor_process_file_name="excel.exe"
@@ -31,9 +31,9 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   OR actor_process_file_name="acrord32.exe" OR actor_process_file_name="iexplore.exe"
   OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe"
   OR actor_process_file_name="powershell.exe" OR actor_process_file_name IS NOT NULL)
-  OR (actor_process_file_name="java.exe" AND (NOT match_regex(actor_process_cmd_line,
-  /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe" AND (NOT
-  actor_process_cmd_line="chrome-extension")) --finding_report--'
+  OR (actor_process_file_name="java.exe" AND (NOT match_regex(parent_process, /(?i)patch1-Hotfix1a/)=true))
+  OR (actor_process_file_name="chrome.exe" AND (NOT parent_process="chrome-extension"))
+  --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
@@ -60,26 +60,29 @@ tags:
     type: Hostname
   - name: actor.process.file.name
     type: File Name
-  - name: actor.process.cmd_line
-    type: Process
   product:
   - Splunk Behavioral Analytics
   required_fields:
   - process.user.name
   - device.hostname
   - actor.process.file.name
-  - actor.process.cmd_line
   risk_score: 35
   security_domain: endpoint
   mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
   - ocsf: process.user.name
     cim: user
-  - ocsf: device.hostname
-    cim: dest
+  - ocsf: actor_process.pid
+    cim: parent_process_id
   - ocsf: actor.process.file.name
     cim: parent_process_name
-  - ocsf: actor.process.cmd_line
-    cim: parent_process
+  - ocsf: device.hostname
+    cim: dest
 tests:
 - name: True Positive Test
   attack_data:

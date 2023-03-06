@@ -13,11 +13,11 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains: shadowstorage
+    process|contains: shadowstorage
   selection2:
-    cmd_line|contains: resize
+    process|contains: resize
   selection3:
-    cmd_line|contains: maxsize
+    process|contains: maxsize
   selection4:
     process_name: vssadmin.exe
   condition: selection1 and selection2 and selection3 and selection4
@@ -69,7 +69,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 64

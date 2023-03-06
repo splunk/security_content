@@ -12,9 +12,9 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains: /e:false
+    process|contains: /e:false
   selection2:
-    cmd_line|contains: ' sl '
+    process|contains: ' sl '
   selection3:
     process_name: wevtutil.exe
   condition: selection1 and selection2 and selection3
@@ -36,7 +36,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A wevtutil process $process_name$ with commandline $cmd_line$ to disable
+  message: A wevtutil process $process_name$ with commandline $process$ to disable
     event logs in host $dest_device_id$
   mitre_attack_id:
   - T1070

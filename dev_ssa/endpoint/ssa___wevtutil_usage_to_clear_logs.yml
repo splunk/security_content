@@ -12,14 +12,14 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|re:
+    process|re:
     - powershell
     - setup
     - application
     - sysmon
     - system
     - security
-    cmd_line|contains: ' cl '
+    process|contains: ' cl '
     process_name: wevtutil.exe
   condition: (selection1)
 how_to_implement: You must be ingesting data that records process activity from your
@@ -41,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A wevtutil process $process_name$ with commandline $cmd_line$ to clear
+  message: A wevtutil process $process_name$ with commandline $process$ to clear
     event logs in host $dest_device_id$
   mitre_attack_id:
   - T1070

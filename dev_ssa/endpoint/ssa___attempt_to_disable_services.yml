@@ -14,9 +14,9 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains: config
+    process|contains: config
   selection2:
-    cmd_line|contains: disabled
+    process|contains: disabled
   selection3:
     process_name: sc.exe
   condition: selection1 and selection2 and selection3

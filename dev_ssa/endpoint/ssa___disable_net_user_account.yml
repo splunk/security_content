@@ -13,9 +13,9 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains: user
+    process|contains: user
   selection2:
-    cmd_line|contains: /active:no
+    process|contains: /active:no
   selection3:
     process_name:
     - net.exe
@@ -69,7 +69,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 49

@@ -14,7 +14,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains:
+    process|contains:
     - ms-msdt:/id
     - ms-msdt:-id
     - ms-msdt:/id
@@ -22,12 +22,12 @@ search:
     - msdt
     process_name: msdt.exe
   selection2:
-    cmd_line|re:
+    process|re:
     - .xml
     - it_rebrowseforfile=
     - it_browseforfile=
   selection3:
-    cmd_line|re: pcwdiagnostic
+    process|re: pcwdiagnostic
   condition: selection1 and selection2 and selection3
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -77,7 +77,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 100

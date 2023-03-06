@@ -10,16 +10,16 @@ description: The following analytic identifies native .net binaries within the W
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
   null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_file=ucast(map_get(process,"file"),
-  "map<string, any>", null) | eval process_file_name=ucast(map_get(process_file,"name"),
-  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
-  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
-  | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>",
-  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
-  null) | eval actor_process_cmd_line=ucast(map_get(actor_process,"cmd_line"), "string",
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_name=ucast(map_get(process_file,"name"), "string",
   null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
-  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
-  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  | eval process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval
+  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor_process=ucast(map_get(input_event,"actor_process"),
+  "map<string, any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
+  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
   null) | where (match_regex(process_file_name, /(?i)MSBuild.exe/)=true OR match_regex(process_file_name,
@@ -51,11 +51,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   OR match_regex(process_file_name, /(?i)microsoft.activedirectory.webservices.exe/)=true
   OR match_regex(process_file_name, /(?i)iisual.exe/)=true OR match_regex(process_file_name,
   /(?i)filehistory.exe/)=true OR match_regex(process_file_name, /(?i)secureassessmentbrowser.exe/)=true)
-  AND (NOT (match_regex(process_file_path, /(?i)\\windows\\system32/)=true OR match_regex(process_file_path,
-  /(?i)\\windows\\syswow64/)=true OR match_regex(process_file_path, /(?i)\\windows\\adws/)=true
-  OR match_regex(process_file_path, /(?i)\\windows\\networkcontroller/)=true OR match_regex(process_file_path,
-  /(?i)\\windows\\systemapps/)=true OR match_regex(process_file_path, /(?i)\\winsxs/)=true
-  OR match_regex(process_file_path, /(?i)\\microsoft.net/)=true)) 
+  AND (NOT (match_regex(process_path, /(?i)\\windows\\system32/)=true OR match_regex(process_path,
+  /(?i)\\windows\\syswow64/)=true OR match_regex(process_path, /(?i)\\windows\\adws/)=true
+  OR match_regex(process_path, /(?i)\\windows\\networkcontroller/)=true OR match_regex(process_path,
+  /(?i)\\windows\\systemapps/)=true OR match_regex(process_path, /(?i)\\winsxs/)=true
+  OR match_regex(process_path, /(?i)\\microsoft.net/)=true)) 
   | eval body=create_map(
     "activity_id", 1,
     "analytic_stories", ["Masquerading - Rename System Utilities", "Unusual Processes", "Ransomware", "Signed Binary Proxy Execution InstallUtil", "WhisperGate"],
@@ -72,7 +72,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     ],
     "duration", 0,
     "time", timestamp,
-    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line, "process.file.path", process_file_path),
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
     "impact", 70,
     "impact_id", 4,
     "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
@@ -86,7 +86,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         "version", "1.0.0"
     ),
     "nist", ["DE.AE"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line), create_map("name", "process.file.path", "type_id", 24, "value", process_file_path)],
+    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
     "risk_level", "Medium",
     "risk_level_id", 2,
     "risk_score", 49,
@@ -131,23 +131,26 @@ tags:
   - device.hostname
   - process.file.name
   - process.cmd_line
-  - process.file.path
   risk_score: 49
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/21179107-099a-324a-94d3-08301e6c065f/
   event_schema: ocsf
   mappings:
-  - ocsf: process.user.name
-    cim: user
-  - ocsf: device.hostname
-    cim: dest
+  - ocsf: process.pid
+    cim: process_id
   - ocsf: process.file.name
     cim: process_name
   - ocsf: process.cmd_line
     cim: process
-  - ocsf: process.file.path
-    cim: process_path
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor_process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
 test:
   name: Windows DotNet Binary in Non Standard Path Unit Test
   tests:

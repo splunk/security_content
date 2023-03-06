@@ -31,7 +31,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|re:
+    process|re:
     - get-recipient
     - new-mailboxsearch
     - new-managementroleassignment
@@ -78,7 +78,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 32
