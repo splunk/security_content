@@ -18,11 +18,11 @@ search:
   selection1:
     process_name: certutil.exe
   selection2:
-    cmd_line|contains: split
+    process|contains: split
   selection3:
-    cmd_line|contains: verifyctl
+    process|contains: verifyctl
   selection4:
-    cmd_line|contains: verifyctl
+    process|contains: verifyctl
   condition: selection1 and selection2 and selection3 or selection4
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -73,7 +73,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 90

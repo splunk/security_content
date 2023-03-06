@@ -15,7 +15,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains: -decompile
+    process|contains: -decompile
     process_name: hh.exe
   condition: selection1
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -63,7 +63,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 90

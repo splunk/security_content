@@ -17,9 +17,9 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    cmd_line|contains: '4194304'
+    process|contains: '4194304'
   selection2:
-    cmd_line|re: get-aduser
+    process|re: get-aduser
   condition: selection1 and selection2
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -55,7 +55,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 54

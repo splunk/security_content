@@ -77,7 +77,7 @@ tags:
   - _time
   - dest_device_id
   - dest_user_id
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 35

@@ -39,7 +39,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: A cacls process $process_name$ with commandline $cmd_line$ try to modify
+  message: A cacls process $process_name$ with commandline $process$ try to modify
     a permission of a file or directory in host $dest_device_id$
   mitre_attack_id:
   - T1222
@@ -62,7 +62,7 @@ tags:
   - process_path
   - dest_user_id
   - process
-  - cmd_line
+  - process
   kill_chain_phases:
   - Exploitation
   risk_score: 35
