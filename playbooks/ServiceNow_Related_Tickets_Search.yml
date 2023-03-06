@@ -1,0 +1,24 @@
+name: ServiceNow Related Tickets Search
+id: fc0edc96-ff2b-48b0-9b4d-63da61bafe74
+version: 1
+date: '2023-02-28'
+author: Patrick Bareiss, Splunk
+type: Investigation
+description: "Accepts a user or device and identifies if related tickets exists in a timeframe of last 30 days. Generates a global report and list of observables."
+playbook: ServiceNow_Related_Tickets_Search
+how_to_implement: This input playbook requires the ServiceNow connector to be configured. It is designed to work in conjunction with the Dynamic Related Tickets Seach playbook or other playbooks in the same style. 
+references:
+  - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
+app_list: 
+  - Splunk
+tags:
+  platform_tags:
+    - user
+    - device 
+    - ServiceNow 
+    - ticket 
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
