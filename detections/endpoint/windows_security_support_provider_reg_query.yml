@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Windows Post-Exploitation
   - Prestige Ransomware
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   cis20:
   - CIS 3
