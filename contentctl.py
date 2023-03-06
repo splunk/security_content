@@ -97,7 +97,7 @@ def generate(args) -> None:
         sys.exit(1)
 
     if args.product not in ['ESCU', 'SSA', 'API']:
-        print("ERROR: invalid product. valid products are ESCU, SSA or API.  If you are building a custom app, use CUSTOM.")
+        print("ERROR: invalid product. valid products are ESCU, SSA or API. ")
         sys.exit(1)
 
 
@@ -410,7 +410,7 @@ def main(args):
 
     reporting_parser.set_defaults(func=reporting)
 
-    convert_parser.add_argument("-dm", "--data_model", required=False, type=str, default="cim", help="converter target, choose between cim, raw, ba")
+    convert_parser.add_argument("-dm", "--data_model", required=False, type=str, default="cim", help="converter target, choose between cim, raw, ocsf")
     convert_parser.add_argument("-lo", "--log_source", required=False, type=str, help="converter log source")
     convert_parser.add_argument("-dp", "--detection_path", required=False, type=str, help="path to a single detection")
     convert_parser.add_argument("-df", "--detection_folder", required=False, type=str, help="path to a detection folder")

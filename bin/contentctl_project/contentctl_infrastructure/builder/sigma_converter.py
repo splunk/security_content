@@ -131,73 +131,60 @@ class SigmaConverter():
 
                 elif input_dto.data_model == SigmaConverterTarget.OCSF:
 
-                    if not data_source.name == "Windows Security 4688":
-                        print("ERROR: Convert command for OCSF only supports data source Windows Security 4688 for now.")
-                        continue
-
                     processing_items = list()
                     logsource_condition = self.get_logsource_condition(data_source)
                     if input_dto.log_source and input_dto.log_source != detection.data_source[0]:
+                        data_source_new = self.load_data_source(input_dto.input_path, input_dto.log_source) 
+
                         try:
-                            field_mapping = self.find_mapping(data_source.convert_to_log_source, 'data_source', input_dto.log_source)
+                            field_mapping = self.get_mapping_converted_data_source(
+                                data_source,
+                                "data_source",
+                                input_dto.log_source,
+                                data_source_new,
+                                "data_model",
+                                "ocsf"
+                            )
                         except Exception as e:
                             print(e)
                             print("ERROR: Couldn't find data source mapping for log source " + input_dto.log_source + " and detection " + detection.name)
                             sys.exit(1)
 
-                        processing_items.append(
-                            self.get_field_transformation_processing_item(
-                                field_mapping['mapping'],
-                                logsource_condition
-                            )
-                        )
-                        data_source = self.load_data_source(input_dto.input_path, input_dto.log_source) 
+                        cim_to_ocsf_mapping = self.get_cim_to_ocsf_mapping(data_source_new)
 
-                    if input_dto.cim_to_ocsf:
-                        field_mapping_dot = {
-                            "data_model": "ocsf",
-                            "mapping": {
-                                "process_name": "process.file.name",
-                                "parent_process_name": "actor.process.file.name",
-                                "parent_process": "actor.process.cmd_line",
-                                "cmd_line": "process.cmd_line",
-                                "process": "process.cmd_line",
-                                "process_path": "process.file.path",
-                                "process_file_path": "process.file.path",
-                                "user": "process.user.name",
-                                "dest": "device.hostname"
-                            }
-                        }
+                    elif input_dto.cim_to_ocsf:
+                        field_mapping = self.get_cim_to_ocsf_mapping(data_source)
+                        cim_to_ocsf_mapping = field_mapping
 
-                        field_mapping = copy.deepcopy(field_mapping_dot)
-                        for field in field_mapping["mapping"].keys():
-                            field_mapping["mapping"][field] = field_mapping["mapping"][field].replace(".", "_")
-                        
                     else:
                         field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
+                        cim_to_ocsf_mapping = self.get_cim_to_ocsf_mapping(data_source)
 
-                    self.add_required_fields_and_mappings(field_mapping_dot, detection)
+                    field_mapping_underline = copy.deepcopy(field_mapping)
+                    for field in field_mapping_underline["mapping"].keys():
+                        field_mapping_underline["mapping"][field] = field_mapping_underline["mapping"][field].replace(".", "_")     
+
+                    self.add_required_fields(field_mapping, detection)
+                    self.add_mappings(cim_to_ocsf_mapping, detection)
+
                     self.update_observables(detection)
 
                     processing_items.append(
                         self.get_field_transformation_processing_item(
-                            field_mapping['mapping'],
+                            field_mapping_underline['mapping'],
                             logsource_condition
                         )
                     )
                     processing_items.append(
                         self.get_state_fields_processing_item(
-                            field_mapping['mapping'].values(),
+                            field_mapping_underline['mapping'].values(),
                             logsource_condition
                         )
                     )
 
                     sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
 
-                    if input_dto.cim_to_ocsf:
-                        splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection, field_mapping=field_mapping_dot)
-                    else:
-                        splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection)
+                    splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection, field_mapping=field_mapping)
                     search = splunk_backend.convert(sigma_rule, "data_model")[0]
 
                     search = search + ' --finding_report--'
@@ -325,20 +312,9 @@ class SigmaConverter():
         raise AttributeError("ERROR: Couldn't find mapping.")
 
 
-    def add_required_fields_and_mappings(self, field_mapping: dict, detection: Detection) -> None:
+    def add_required_fields(self, field_mapping: dict, detection: Detection) -> None:
         required_fields = list()
         required_fields = ["process.user.name", "device.hostname"]
-        mappings = list()
-        mappings = [
-            {
-                "ocsf": "process.user.name",
-                "cim": "user"
-            },
-            {
-                "ocsf": "device.hostname",
-                "cim": "dest"
-            }            
-        ]
         for mapping in field_mapping["mapping"].keys():
             for selection in detection.search.keys():
                 if selection != "condition":
@@ -346,11 +322,18 @@ class SigmaConverter():
                         if detection_field.startswith(mapping):
                             if not field_mapping["mapping"][mapping] in required_fields:
                                 required_fields.append(field_mapping["mapping"][mapping])
-                                mappings.append({"ocsf": field_mapping["mapping"][mapping], "cim": mapping})
 
-        detection.tags.mappings = mappings
         detection.tags.required_fields = required_fields
 
+
+    def add_mappings(self, field_mapping: dict, detection: Detection) -> None:
+        mappings = list()
+        for mapping in field_mapping["mapping"].keys():
+            mappings.append({
+                "ocsf": field_mapping["mapping"][mapping],
+                "cim": mapping
+            })
+        detection.tags.mappings = mappings
 
     def update_observables(self, detection : Detection) -> None:
         mapping_field_to_type = {
@@ -372,3 +355,29 @@ class SigmaConverter():
             })
 
         detection.tags.observable = observables
+
+
+    def get_cim_to_ocsf_mapping(self, data_source : DataSource) -> dict:
+        cim_to_ocsf_mapping = dict()
+        cim_to_ocsf_mapping["mapping"] = dict()
+        cim_mapping = self.find_mapping(data_source.field_mappings, "data_model", "cim")
+        ocsf_mapping = self.find_mapping(data_source.field_mappings, "data_model", "ocsf")
+
+        for key in cim_mapping["mapping"].keys():
+            cim_field = cim_mapping["mapping"][key].split(".")[1]
+            cim_to_ocsf_mapping["mapping"][cim_field] = ocsf_mapping["mapping"][key]
+
+        return cim_to_ocsf_mapping
+
+
+    def get_mapping_converted_data_source(self, det_ds: DataSource, det_ds_obj: str, det_ds_dm: str,  con_ds: DataSource, con_ds_obj: str, con_ds_dm: str) -> dict:
+        mapping = dict()
+        mapping["mapping"] = dict()
+        det_ds_mapping = self.find_mapping(det_ds.convert_to_log_source, det_ds_obj, det_ds_dm)
+        con_ds_mapping = self.find_mapping(con_ds.field_mappings, con_ds_obj, con_ds_dm)
+
+        for key in det_ds_mapping["mapping"].keys():
+            mapped_field = con_ds_mapping["mapping"][det_ds_mapping["mapping"][key]]
+            mapping["mapping"][key] = mapped_field
+
+        return mapping
