@@ -1,0 +1,235 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Enrichment",
+    "coa": {
+        "data": {
+            "description": "Moves the status to open and then launches the Dynamic playbooks for Reputation Analysis, Attribute Lookup, and Related Tickets.",
+            "edges": [
+                {
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_1",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_0_to_port_5",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_2",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                }
+            ],
+            "hash": "4146fe0c2400673f09352662ce5bfd3438a80b71",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 818
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Dynamic Identifier Reputation Analysis",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "dynamic_identifier_reputation_analysis",
+                        "id": "2",
+                        "inputs": {},
+                        "playbookName": "Dynamic_Identifier_Reputation_Analysis",
+                        "playbookRepo": 2,
+                        "playbookRepoName": "local",
+                        "playbookType": "automation",
+                        "synchronous": false,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "playbook",
+                    "warnings": {},
+                    "x": -1.4210854715202004e-14,
+                    "y": 325.99999999999994
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Dynamic Attribute Lookup",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "dynamic_attribute_lookup",
+                        "id": "3",
+                        "inputs": {},
+                        "playbookName": "Dynamic_Attribute_Lookup",
+                        "playbookRepo": 2,
+                        "playbookRepoName": "local",
+                        "playbookType": "automation",
+                        "synchronous": false,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "playbook",
+                    "warnings": {},
+                    "x": -1.4210854715202004e-14,
+                    "y": 490
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Dynamic Related Ticket Search",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "dynamic_related_ticket_search",
+                        "id": "4",
+                        "inputs": {},
+                        "playbookName": "Dynamic_Related_Tickets_Search",
+                        "playbookRepo": 2,
+                        "playbookRepoName": "local",
+                        "playbookType": "automation",
+                        "synchronous": false,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "playbook",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 660
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "set open status",
+                            "customNameId": 0,
+                            "description": "Change the event status to open before launching the playbooks.",
+                            "join": [],
+                            "note": "Change the event status to open before launching the playbooks.",
+                            "refreshNotableData": true
+                        },
+                        "functionId": 1,
+                        "functionName": "set_open_status",
+                        "id": "5",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "set_status": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "choices": "notableStatus",
+                                        "description": "",
+                                        "label": "status",
+                                        "name": "status",
+                                        "placeholder": "Select status",
+                                        "renderType": "dropdown",
+                                        "required": true
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "set status",
+                                "name": "set_status",
+                                "refreshNotableData": true
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "set_status": {
+                                "_internal": [
+                                    "container",
+                                    "trace"
+                                ],
+                                "status": "open"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 148
+                }
+            },
+            "notes": "Actions:\nDynamic Identifier Reputation Analysis\nDynamic Attribute Lookup\nDynamic Related Ticket Search"
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-03-06T21:07:35.539177+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "enrichment"
+    ]
+}
