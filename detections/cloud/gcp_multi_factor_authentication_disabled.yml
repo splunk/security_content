@@ -42,6 +42,7 @@ tags:
   - T1586
   - T1586.003
   - T1556
+  - T1556.006
   nist:
   - DE.CM
   observable:

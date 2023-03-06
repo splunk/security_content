@@ -142,9 +142,14 @@ setup_schema = {
                 "URL_TOOLBOX": {
                     "app_number": 2734,
                     "app_version": "1.9.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz",
-                },
-                "SPLUNK_TA_MICROSOFT_CLOUD_SERVICES": {
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz"
+                  },
+                   "SPLUNK_TA_FIX_WINDOWS":{
+                    "app_number": 9999,
+                    "app_version": "1.0.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/Splunk_TA_fix_windows.tgz"
+                  },
+                  "SPLUNK_TA_MICROSOFT_CLOUD_SERVICES": {
                     "app_number": 3110,
                     "app_version": "4.5.2",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_452.tgz",

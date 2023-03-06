@@ -1,0 +1,13 @@
+name: Windows AD Rogue Domain Controller Network Activity Unit Test
+tests:
+- name: Windows AD Rogue Domain Controller Network Activity
+  file: network/windows_ad_rogue_domain_controller_network_activity.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: zeek-dce_rpc.log
+    data: https://github.com/splunk/attack_data/blob/master/datasets/attack_techniques/T1207/mimikatz/zeek-dce_rpc.log
+    source: /opt/zeek/logs/current/dce_rpc.log
+    sourcetype: bro:dce_rpc:json
+    update_timestamp: true
