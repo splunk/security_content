@@ -1,0 +1,23 @@
+name: BishopFox Sliver Adversary Emulation Framework
+id: 8c2e2cba-3fd8-424f-a890-5080bdaf3f31
+version: 1
+date: '2023-01-24'
+author: Michael Haag, Splunk
+description: The following analytic story providers visibility into the latest adversary TTPs in regard to the use of Sliver. Sliver has gained more traction with adversaries as it is often seen as an alternative to Cobalt Strike. It is designed to be scalable and can be used by organizations of all sizes to perform security testing. Sliver is highly modular and contains an Extension package manager (armory) allowing easy install (automatic compilation) of various 3rd party tools such as BOFs and .NET tooling like Ghostpack (Rubeus, Seatbelt, SharpUp, Certify, and so forth) (CyberReason,2023). 
+narrative: Sliver is an open source cross-platform adversary emulation/red team framework produced by BishopFox.
+references:
+  - https://www.cybereason.com/blog/sliver-c2-leveraged-by-many-threat-actors
+  - https://www.ncsc.gov.uk/files/Advisory%20Further%20TTPs%20associated%20with%20SVR%20cyber%20actors.pdf
+  - https://www.proofpoint.com/uk/blog/security-briefs/ta551-uses-sliver-red-team-tool-new-activity
+  - https://www.cybereason.com/blog/threat-analysis-report-bumblebee-loader-the-high-road-to-enterprise-domain-control
+  - https://github.com/sliverarmory/armory
+  - https://github.com/BishopFox/sliver
+tags:
+  analytic_story: BishopFox Sliver Adversary Emulation Framework
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
