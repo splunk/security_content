@@ -1,0 +1,19 @@
+name: Automated Enrichment
+id: fc0edc96-ff1b-65e0-9a4d-64da6783fd64
+version: 1
+date: '2023-03-06'
+author: Kelby Shelton, Patrick Bareiss, Teoderick Contreras, Lou Stella Splunk
+type: Investigation
+description: "Moves the event status to open and then launches the Dynamic playbooks for Reputation Analysis, Attribute Lookup, and Related Tickets."
+playbook: Automated_Enrichment
+how_to_implement: This playbook relies on local versions of the Dynamic Identifier Reputation Analysis, Dynamic Attributed Lookup, and Dynamic Related Tickets Search playbooks, as well as compatible input playbooks for those.  
+references: []
+app_list: []
+tags:
+  platform_tags:
+    - Enrichment
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
