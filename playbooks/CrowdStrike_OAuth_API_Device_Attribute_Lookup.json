@@ -1,0 +1,606 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Attribute Lookup",
+    "coa": {
+        "data": {
+            "description": "Accepts device and looks up the most recent attributes for that hostname or IP. This playbook produces a normalized output for each device.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_17_to_port_1",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_18_to_port_11",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_19",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_19_to_port_20",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_20_to_port_18",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_20_to_port_21",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "21",
+                    "targetPort": "21_in"
+                },
+                {
+                    "id": "port_21_to_port_22",
+                    "sourceNode": "21",
+                    "sourcePort": "21_out",
+                    "targetNode": "22",
+                    "targetPort": "22_in"
+                },
+                {
+                    "id": "port_24_to_port_1",
+                    "sourceNode": "24",
+                    "sourcePort": "24_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_11_to_port_25",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "25",
+                    "targetPort": "25_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_25_to_port_17",
+                    "sourceNode": "25",
+                    "sourcePort": "25_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "id": "port_22_to_port_26",
+                    "sourceNode": "22",
+                    "sourcePort": "22_out",
+                    "targetNode": "26",
+                    "targetPort": "26_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_26_to_port_24",
+                    "sourceNode": "26",
+                    "sourcePort": "26_out",
+                    "targetNode": "24",
+                    "targetPort": "24_in"
+                }
+            ],
+            "hash": "1c6c95ac6900f02a350245c2f84d9e5b4252dad1",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 190,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1416
+                },
+                "11": {
+                    "data": {
+                        "action": "query device",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "query hostname",
+                            "customNameId": 0,
+                            "description": "Search for devices that have the hostname given to playbook input.",
+                            "join": [],
+                            "note": "Search for devices that have the hostname given to playbook input."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "query_hostname",
+                        "id": "11",
+                        "parameters": {
+                            "filter": "format_hostname_filter:formatted_data.*",
+                            "limit": "10"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 50,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 864
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build hostname observables",
+                            "customNameId": 0,
+                            "description": "Generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "Generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 2,
+                        "functionName": "build_hostname_observables",
+                        "id": "17",
+                        "inputParameters": [
+                            "filtered-data:filter_hostname_results:condition_1:query_hostname:action_result.data",
+                            "filtered-data:filter_hostname_results:condition_1:query_hostname:action_result.parameter.filter"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "code",
+                    "userCode": "    build_hostname_observables__observable_array = []\n    device_type_dict = {\n        'server': 1,\n        'desktop': 2,\n        'laptop': 3,\n        'tablet': 4,\n        'mobile': 5,\n        'virtual': 6,\n        'iot': 7,\n        'browser': 8\n    }\n    for item, input_string in zip(filtered_result_0_data, filtered_result_0_parameter_filter):\n        device = item[0]\n        device_dict = {\n            \"type\": \"host name\",\n            \"value\": input_string.replace(\"hostname:\", \"\").replace('\"', \"\"),\n            \"source\": \"Crowdstrike OAuth API\",\n            \"attributes\": {\n                \"desc\": f\"{device.get('system_product_name', 'No product name')} - {device.get('os_product_name', 'No os name')}\",\n                \"groups\": device.get('groups'),\n                \"hostname\": device.get('hostname'),\n                \"ip\": device.get('connection_ip'),\n                \"mac\": device.get('mac_address'),\n                \"name\": device.get('hostname'),\n                \"os\": device.get('os_version'),\n                \"hw_info\": {\n                    \"bios_manufacturer\": device.get('bios_manufacturer'),\n                    \"bios_ver\": device.get('bios_version'),\n                    \"serial_number\": device.get('serial_number')\n                },\n                \"type\": \"Unknown\",\n                \"type_id\": 0,\n                \"uid\": device.get('device_id')        \n            }\n        }\n        if device.get('product_type_desc'):\n            if device_type_dict.get(device['product_type_desc'].lower()):\n                device_dict['attributes']['type'] = device['product_type_desc']\n                device_dict['attributes']['type_id'] = device_type_dict[device['product_type_desc'].lower()]\n            else:\n                device_dict['attributes']['type'] = device['product_type_desc']\n                device_dict['attributes']['type_id'] = 99\n\n        build_hostname_observables__observable_array.append(device_dict)\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1222
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format hostname filter",
+                            "customNameId": 0,
+                            "description": "Format a filter for the query device, while looping through playbook inputs.",
+                            "join": [],
+                            "note": "Format a filter for the query device, while looping through playbook inputs."
+                        },
+                        "functionId": 3,
+                        "functionName": "format_hostname_filter",
+                        "id": "18",
+                        "parameters": [
+                            "filtered-data:ip_filter:condition_2:extract_ipv4:custom_function_result.data.input_value"
+                        ],
+                        "template": "%%\nhostname:\"{0}\"\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 686
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "extract ipv4",
+                            "customNameId": 0,
+                            "description": "Extract IP address from input device",
+                            "join": [],
+                            "note": "Extract IP address from input device"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "regex_extract_ipv4",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "extract_ipv4",
+                        "id": "19",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "regex_extract_ipv4": {
+                                "description": "Takes a single input and extracts all IPv4 addresses from it using regex.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "An input string that may contain an arbitrary number of ipv4 addresses",
+                                        "inputType": "item",
+                                        "label": "input_string",
+                                        "name": "input_string",
+                                        "placeholder": "192.0.2.1",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "regex_extract_ipv4",
+                                "name": "regex_extract_ipv4"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "regex_extract_ipv4": {
+                                "input_string": "filtered-data:device_id_input_filter:condition_1:playbook_input:device"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 328
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "device id input filter",
+                            "customNameId": 0,
+                            "description": "Ensure that device input exists",
+                            "join": [],
+                            "note": "Ensure that device input exists"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:device",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "device_id",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "device_id_input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 230,
+                    "y": 148
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "ip filter",
+                            "customNameId": 0,
+                            "description": "Determine which of the playbook inputs are devices or hostnames",
+                            "join": [],
+                            "note": "Determine which of the playbook inputs are devices or hostnames"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "extract_ipv4:custom_function_result.data.extracted_ipv4",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "ip exists",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "extract_ipv4:custom_function_result.data.extracted_ipv4",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "ip does not exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "ip_filter",
+                        "id": "20",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 230,
+                    "y": 506
+                },
+                "21": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format ip filter",
+                            "customNameId": 0,
+                            "description": "Format a filter for the query device, while looping through playbook inputs.",
+                            "join": [],
+                            "note": "Format a filter for the query device, while looping through playbook inputs."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_ip_filter",
+                        "id": "21",
+                        "parameters": [
+                            "filtered-data:ip_filter:condition_1:extract_ipv4:custom_function_result.data.extracted_ipv4"
+                        ],
+                        "template": "%%\nlocal_ip:\"{0}\",external_ip:\"{0}\"\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "21",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 686
+                },
+                "22": {
+                    "data": {
+                        "action": "query device",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "query ip",
+                            "customNameId": 0,
+                            "description": "Search for devices that have the IP given to playbook input.",
+                            "join": [],
+                            "note": "Search for devices that have the IP given to playbook input."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "query_ip",
+                        "id": "22",
+                        "parameters": {
+                            "filter": "format_ip_filter:formatted_data.*",
+                            "limit": "10"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 50,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "22",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 864
+                },
+                "24": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build ip observables",
+                            "customNameId": 0,
+                            "description": "Generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "Generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 1,
+                        "functionName": "build_ip_observables",
+                        "id": "24",
+                        "inputParameters": [
+                            "filtered-data:filter_ip_results:condition_1:query_ip:action_result.data",
+                            "filtered-data:filter_ip_results:condition_1:query_ip:action_result.parameter.filter"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "24",
+                    "type": "code",
+                    "userCode": "\n    build_ip_observables__observable_array = []\n    device_type_dict = {\n        'server': 1,\n        'desktop': 2,\n        'laptop': 3,\n        'tablet': 4,\n        'mobile': 5,\n        'virtual': 6,\n        'iot': 7,\n        'browser': 8\n    }\n    for item, input_string in zip(filtered_result_0_data, filtered_result_0_parameter_filter):\n        device = item[0]\n        value = input_string.replace(\"local_ip:\", \"\").replace('external_ip', \"\").replace('\"',\"\")\n        value = value.split(',')[0]\n        device_dict = {\n            \"type\": \"ip\",\n            \"value\": value,\n            \"source\": \"Crowdstrike OAuth API\",\n            \"attributes\": {\n                \"desc\": f\"{device.get('system_product_name', 'No product name')} - {device.get('os_product_name', 'No os name')}\",\n                \"groups\": device.get('groups'),\n                \"hostname\": device.get('hostname'),\n                \"ip\": device.get('connection_ip'),\n                \"mac\": device.get('mac_address'),\n                \"name\": device.get('hostname'),\n                \"os\": device.get('os_version'),\n                \"hw_info\": {\n                    \"bios_manufacturer\": device.get('bios_manufacturer'),\n                    \"bios_ver\": device.get('bios_version'),\n                    \"serial_number\": device.get('serial_number')\n                },\n                \"type\": \"Unknown\",\n                \"type_id\": 0,\n                \"uid\": device.get('device_id')        \n            }\n        }\n        if device.get('product_type_desc'):\n            if device_type_dict.get(device['product_type_desc'].lower()):\n                device_dict['attributes']['type'] = device['product_type_desc']\n                device_dict['attributes']['type_id'] = device_type_dict[device['product_type_desc'].lower()]\n            else:\n                device_dict['attributes']['type'] = device['product_type_desc']\n                device_dict['attributes']['type_id'] = 99\n\n        build_ip_observables__observable_array.append(device_dict)\n\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1230
+                },
+                "25": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter hostname results",
+                            "customNameId": 0,
+                            "description": "Filter on hostnames that returned results.",
+                            "join": [],
+                            "note": "Filter on hostnames that returned results."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "query_hostname:action_result.summary.total_devices",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "hostname exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "filter_hostname_results",
+                        "id": "25",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "25",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 1042
+                },
+                "26": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter ip results",
+                            "customNameId": 0,
+                            "description": "Filter on IPs that returned results.",
+                            "join": [],
+                            "note": "Filter on IPs that returned results."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "query_ip:action_result.summary.total_devices",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "ip exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 4,
+                        "functionName": "filter_ip_results",
+                        "id": "26",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "26",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 1042
+                }
+            },
+            "notes": "Inputs: device\nInteractions: CrowdStrike OAuth API\nActions: query device\nOutputs: observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "ip"
+                ],
+                "description": "A hostname that has a Crowdstrike agent.",
+                "name": "device"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_ip_observables:custom_function:observable_array",
+                    "build_hostname_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries ",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-03-02T13:59:05.442614+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "attributes",
+        "device",
+        "host name",
+        "ip",
+        "crowdstrike_oauth_api"
+    ]
+}
