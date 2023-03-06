@@ -1,0 +1,13 @@
+name: Notepad with no Command Line Arguments Unit Test
+tests:
+- name: Notepad with no Command Line Arguments
+  file: endpoint/notepad_with_no_command_line_arguments.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: notepad_windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/notepad_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
