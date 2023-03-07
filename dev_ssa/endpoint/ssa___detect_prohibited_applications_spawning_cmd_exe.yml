@@ -23,15 +23,14 @@ search:
       - opera.exe
       - firefox.exe
       - powershell.exe
-      - 
   selection2:
     parent_process_name: java.exe
   selection3:
-    parent_process|re: patch1-Hotfix1a
+    parent_process_name|re: patch1-Hotfix1a
   selection4:
     parent_process_name: chrome.exe
   selection5:
-    parent_process: chrome-extension
+    process: chrome-extension
   condition: selection1 or (selection2 and not selection3) or (selection4 and not selection5)
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified

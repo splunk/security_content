@@ -26,10 +26,9 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   actor_process_file_name="outlook.exe" OR actor_process_file_name="acrobat.exe" OR
   actor_process_file_name="acrord32.exe" OR actor_process_file_name="iexplore.exe"
   OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe"
-  OR actor_process_file_name="powershell.exe" OR actor_process_file_name IS NOT NULL)
-  OR (actor_process_file_name="java.exe" AND (NOT match_regex(parent_process, /(?i)patch1-Hotfix1a/)=true))
-  OR (actor_process_file_name="chrome.exe" AND (NOT parent_process="chrome-extension"))
-  
+  OR actor_process_file_name="powershell.exe") OR (actor_process_file_name="java.exe"
+  AND (NOT match_regex(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe"
+  AND (NOT process_cmd_line="chrome-extension")) 
   | eval body=create_map(
     "activity_id", 1,
     "analytic_stories", ["Suspicious Command-Line Executions", "Insider Threat"],
@@ -46,7 +45,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     ],
     "duration", 0,
     "time", timestamp,
-    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "actor.process.file.name", actor_process_file_name),
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.cmd_line", process_cmd_line, "actor.process.file.name", actor_process_file_name),
     "impact", 70,
     "impact_id", 4,
     "kill_chain", [create_map("phase", "Installation", "phase_id", 5)],
@@ -60,7 +59,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         "version", "1.0.0"
     ),
     "nist", ["DE.AE"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "actor.process.file.name", "type_id", 7, "value", actor_process_file_name)],
+    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line), create_map("name", "actor.process.file.name", "type_id", 7, "value", actor_process_file_name)],
     "risk_level", "Low",
     "risk_level_id", 1,
     "risk_score", 35,
@@ -95,6 +94,7 @@ tags:
   required_fields:
   - process.user.name
   - device.hostname
+  - process.cmd_line
   - actor.process.file.name
   risk_score: 35
   security_domain: endpoint
