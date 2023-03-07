@@ -32,10 +32,9 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   actor_process_file_name="outlook.exe" OR actor_process_file_name="acrobat.exe" OR
   actor_process_file_name="acrord32.exe" OR actor_process_file_name="iexplore.exe"
   OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe"
-  OR actor_process_file_name="powershell.exe" OR actor_process_file_name IS NOT NULL)
-  OR (actor_process_file_name="java.exe" AND (NOT match_regex(parent_process, /(?i)patch1-Hotfix1a/)=true))
-  OR (actor_process_file_name="chrome.exe" AND (NOT parent_process="chrome-extension"))
-  --finding_report--'
+  OR actor_process_file_name="powershell.exe") OR (actor_process_file_name="java.exe"
+  AND (NOT match_regex(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe"
+  AND (NOT process_cmd_line="chrome-extension")) --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
@@ -60,6 +59,8 @@ tags:
     type: User Name
   - name: device.hostname
     type: Hostname
+  - name: process.cmd_line
+    type: Other
   - name: actor.process.file.name
     type: File Name
   product:
@@ -67,6 +68,7 @@ tags:
   required_fields:
   - process.user.name
   - device.hostname
+  - process.cmd_line
   - actor.process.file.name
   risk_score: 35
   security_domain: endpoint
