@@ -66,9 +66,7 @@ class SigmaConverter():
                     sys.exit(1)
 
                 file_name = detection.name.replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
-
-                sigma_rule = self.get_sigma_rule(detection, data_source)
-
+                
 
                 if input_dto.data_model == SigmaConverterTarget.RAW:
                     if input_dto.log_source and input_dto.log_source != detection.data_source[0][0]:
@@ -78,7 +76,9 @@ class SigmaConverter():
                             print(e)
                             print("ERROR: Couldn't find data source mapping for log source " + input_dto.log_source + " for detection: " + detection.name)
                             sys.exit(1)
-                        
+
+                        detection = self.convert_detection_fields(detection, field_mapping)
+
                         logsource_condition = self.get_logsource_condition(data_source)
                         processing_item = self.get_field_transformation_processing_item(
                             field_mapping['mapping'],
@@ -87,9 +87,11 @@ class SigmaConverter():
                         sigma_processing_pipeline = self.get_pipeline_from_processing_items([processing_item])
                         splunk_backend = SplunkBackend(processing_pipeline=sigma_processing_pipeline)
                         data_source = self.load_data_source(input_dto.input_path, input_dto.log_source) 
+
                     else:
                         splunk_backend = SplunkBackend()
                     
+                    sigma_rule = self.get_sigma_rule(detection, data_source)
                     search = splunk_backend.convert(sigma_rule)[0]
                     search = self.add_source_macro(search, data_source.type)
                     search = self.add_stats_count(search, data_source.raw_fields)
@@ -106,10 +108,10 @@ class SigmaConverter():
                         print(e)
                         print("ERROR: Couldn't find data source mapping to cim for log source " + detection.data_source[0] + " and detection " + detection.name)
                         sys.exit(1)
-                    sigma_transformation_processing_item = self.get_field_transformation_processing_item(
-                        field_mapping['mapping'],
-                        logsource_condition
-                    )
+
+                    detection = self.convert_detection_fields(detection, field_mapping)
+                    sigma_rule = self.get_sigma_rule(detection, data_source)
+
                     sigma_state_fields_processing_item = self.get_state_fields_processing_item(
                         field_mapping['mapping'].values(),
                         logsource_condition
@@ -119,7 +121,6 @@ class SigmaConverter():
                         logsource_condition
                     )
                     sigma_processing_pipeline = self.get_pipeline_from_processing_items([
-                        sigma_transformation_processing_item,
                         sigma_state_fields_processing_item,
                         sigma_state_data_model_processing_item
                     ])
@@ -182,6 +183,8 @@ class SigmaConverter():
                         )
                     )
 
+                    detection = self.convert_detection_fields(detection, field_mapping)
+                    sigma_rule = self.get_sigma_rule(detection, data_source)
                     sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
 
                     splunk_backend = SplunkBABackend(processing_pipeline=sigma_processing_pipeline, detection=detection, field_mapping=field_mapping)
@@ -237,6 +240,20 @@ class SigmaConverter():
             },
             "detection": detection.search
         }])
+
+
+    def convert_detection_fields(self, detection: Detection, mappings: dict) -> Detection:
+        for selection in detection.search.keys():
+            if selection != "condition":
+                new_selection = copy.deepcopy(detection.search[selection])
+                for field in detection.search[selection].keys():
+                    for mapping in mappings["mapping"].keys():
+                        if mapping == field:
+                            new_selection[mappings["mapping"][mapping]] =  detection.search[selection][field]
+                            new_selection.pop(field)
+                detection.search[selection] = new_selection
+
+        return detection
 
 
     def get_logsource_condition(self, data_source: DataSource) -> LogsourceCondition:
@@ -341,9 +358,11 @@ class SigmaConverter():
             "device.hostname": "Hostname",
             "process.file.name": "File Name",
             "actor.process.file.name": "File Name",
+            "actor.process.file.path": "File Name",
             "actor.process.cmd_line": "Process",
             "process.cmd_line": "Other",
-            "process.file.path": "File"
+            "process.file.path": "File",
+            "process.file.name": "File"
         }
 
         observables = list()

@@ -38,6 +38,7 @@ field_mappings:
       ProcessGuid: Processes.process_guid
       ProcessId: Processes.process_id
       Image: Processes.process_path
+      Image|endswith: Processes.process_name
       CommandLine: Processes.process
       CurrentDirectory: Processes.process_current_directory
       User: Processes.user
@@ -45,9 +46,10 @@ field_mappings:
       Hashes: Processes.process_hash
       ParentProcessGuid: Processes.parent_process_guid
       ParentProcessId: Processes.parent_process_id
-      ParentImage: Processes.parent_process_path
+      ParentImage: Processes.parent_process_name
       ParentCommandLine: Processes.parent_process
       Computer: Processes.dest
+      OriginalFileName: Processes.original_file_name
 convert_to_log_source:
   - data_source: Windows Security 4688
     mapping:
@@ -60,6 +62,7 @@ convert_to_log_source:
       ParentImage: ParentProcessName
       ParentImage|endswith: ParentProcessName|endswith
       Computer: Computer
+      OriginalFileName: NewProcessName|endswith
   - data_source: Crowdstrike Process
     mapping:
       ProcessId: RawProcessId
