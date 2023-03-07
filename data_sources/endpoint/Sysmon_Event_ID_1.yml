@@ -53,10 +53,12 @@ convert_to_log_source:
     mapping:
       ProcessId: NewProcessId 
       Image: NewProcessName
+      Image|endswith: NewProcessName|endswith
       CommandLine: Process_Command_Line
       User: SubjectUserSid
       ParentProcessId: ProcessId
       ParentImage: ParentProcessName
+      ParentImage|endswith: ParentProcessName|endswith
       Computer: Computer
   - data_source: Crowdstrike Process
     mapping:

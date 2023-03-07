@@ -30,20 +30,24 @@ field_mappings:
     data_set: Endpoint.Processes
     mapping:
       NewProcessId: Processes.process_id
-      NewProcessName: Processes.process_name
+      NewProcessName: Processes.process_path
+      NewProcessName|endswith: Processes.process_name
       Process_Command_Line: Processes.process
       SubjectUserSid: Processes.user
       ProcessId: Processes.parent_process_id
-      ParentProcessName: Processes.parent_process_name
+      ParentProcessName: Processes.parent_process_path
+      ParentProcessName|endswith: Processes.parent_process_name
       Computer: Processes.dest
   - data_model: ocsf
     mapping:
       NewProcessId: process.pid
-      NewProcessName: process.file.name
+      NewProcessName: process.file.path
+      NewProcessName|endswith: process.file.name
       Process_Command_Line: process.cmd_line
       SubjectUserSid: process.user.name
       ProcessId: actor.process.pid
-      ParentProcessName: actor.process.file.name
+      ParentProcessName: actor.process.file.path
+      ParentProcessName|endswith: actor.process.file.name
       Computer: device.hostname
 convert_to_log_source:
   - data_source: Sysmon Event ID 1
