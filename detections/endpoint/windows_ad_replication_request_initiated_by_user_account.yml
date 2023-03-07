@@ -9,13 +9,14 @@ description: This alert was written to detect activity associated with the DCSyn
  When a domain controller receives a replication request, the user account permissions are validated, however no checks are performed to validate the request was initiated by a Domain Controller.
  Once an attacker gains control of an account with the necessary privileges, they can request password hashes for any or all users within the domain.
  This alert detects when a user account creates a handle to domainDNS with the necessary replication permissions. 
-search: '`wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-11d0-afd3-00c04fd930c9}", "domainDNS") AND Properties IN ("*Replicating Directory Changes All*", "*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*", "*{9923a32a-3607-11d2-b9be-0000f87a36b2}*","*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*") AND AccessMask="0x100" AND NOT (SubjectUserSid="NT AUT*" OR SubjectUserSid="S-1-5-18" OR SubjectDomainName="Window Manager" OR SubjectUserName="*$")
- | stats min(_time) as _time, count by SubjectDomainName, SubjectUserName, Computer, Logon_ID, ObjectName, ObjectServer, ObjectType, OperationType, status
- | rename SubjectDomainName as Target_Domain, SubjectUserName as user, Logon_ID as TargetLogonId, _time as attack_time
- | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
- | table attack_time, AuthenticationPackageName, LogonProcessName, LogonType, TargetUserSid, Target_Domain, user, Computer, TargetLogonId, status, src_ip, src_category, ObjectName, ObjectServer, ObjectType, OperationType
- | stats min(attack_time) as _time values(TargetUserSid) as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user, values(Computer) as Computer, values(status) as status, values(src_category) as src_category, values(src_ip) as src_ip by TargetLogonId
- | `windows_ad_replication_request_initiated_by_user_account_filter`'
+search: '`wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-11d0-afd3-00c04fd930c9}", "domainDNS") AND Properties IN ("*Replicating Directory Changes All*", "*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*", "*{9923a32a-3607-11d2-b9be-0000f87a36b2}*","*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*") AND AccessMask="0x100" AND NOT (SubjectUserSid="NT AUT*" OR SubjectUserSid="S-1-5-18" OR SubjectDomainName="Window Manager" OR SubjectUserName="*$") 
+| stats min(_time) as _time, count by SubjectDomainName, SubjectUserName, Computer, Logon_ID, ObjectName, ObjectServer, ObjectType, OperationType, status 
+| rename SubjectDomainName as Target_Domain, SubjectUserName as user, Logon_ID as TargetLogonId, _time as attack_time 
+| appendpipe 
+    [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] 
+| table attack_time, AuthenticationPackageName, LogonProcessName, LogonType, TargetUserSid, Target_Domain, user, Computer, TargetLogonId, status, src_ip, src_category, ObjectName, ObjectServer, ObjectType, OperationType 
+| stats min(attack_time) as _time values(TargetUserSid) as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user, values(Computer) as Computer, values(status) as status, values(src_category) as src_category, values(src_ip) as src_ip by TargetLogonId 
+| `windows_ad_replication_request_initiated_by_user_account_filter`s'
 how_to_implement: To successfully implement this search, you need to be ingesting eventcode `4662`. 
  The Advanced Security Audit policy settings `Audit Directory Services Access`
  within `DS Access` needs to be enabled, as well as the following SACLs applied to the domain root 
