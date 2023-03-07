@@ -16,7 +16,7 @@ data_source:
 - Sysmon Event ID 1
 search:
   selection1:
-    Image|endswith: '*7z*'
+    Image|endswith: '7z.exe'
     ParentImage:
     - rundll32.exe
     - dllhost.exe
