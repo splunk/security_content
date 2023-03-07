@@ -11,28 +11,30 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
   process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
   "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_name=ucast(map_get(process_file,"name"), "string",
-  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
-  | eval process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval
-  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor=ucast(map_get(input_event,"actor"),
-  "map<string, any>", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (like(process_cmd_line, "%.xls%") OR like(process_cmd_line, "%.gz%")
-  OR like(process_cmd_line, "%.tar%") OR like(process_cmd_line, "%.rar%") OR like(process_cmd_line,
-  "%.zip%") OR like(process_cmd_line, "%.7z%") OR like(process_cmd_line, "%.bmp%")
-  OR like(process_cmd_line, "%.gif%") OR like(process_cmd_line, "%.png%") OR like(process_cmd_line,
-  "%.jpg%") OR like(process_cmd_line, "%.txt%") OR like(process_cmd_line, "%.log%")
-  OR like(process_cmd_line, "%.key%") OR like(process_cmd_line, "%.pdf%") OR like(process_cmd_line,
-  "%.rtf%") OR like(process_cmd_line, "%.ppt%") OR like(process_cmd_line, "%.xls%")
-  OR like(process_cmd_line, "%.doc%") OR like(process_cmd_line, "%-nobanner%") OR
-  like(process_cmd_line, "%/accepteula%") OR like(process_cmd_line, "%-z %") OR like(process_cmd_line,
-  "%-s %") OR like(process_cmd_line, "%-q %") OR like(process_cmd_line, "%-r %") OR
-  like(process_cmd_line, "%-p %") OR like(process_cmd_line, "%-f %") OR like(process_cmd_line,
-  "%-c %")) AND like(process_file_name, "%sdelete%") 
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (like(process_cmd_line, "%.xls%") OR like(process_cmd_line, "%.gz%") OR like(process_cmd_line,
+  "%.tar%") OR like(process_cmd_line, "%.rar%") OR like(process_cmd_line, "%.zip%")
+  OR like(process_cmd_line, "%.7z%") OR like(process_cmd_line, "%.bmp%") OR like(process_cmd_line,
+  "%.gif%") OR like(process_cmd_line, "%.png%") OR like(process_cmd_line, "%.jpg%")
+  OR like(process_cmd_line, "%.txt%") OR like(process_cmd_line, "%.log%") OR like(process_cmd_line,
+  "%.key%") OR like(process_cmd_line, "%.pdf%") OR like(process_cmd_line, "%.rtf%")
+  OR like(process_cmd_line, "%.ppt%") OR like(process_cmd_line, "%.xls%") OR like(process_cmd_line,
+  "%.doc%") OR like(process_cmd_line, "%-nobanner%") OR like(process_cmd_line, "%/accepteula%")
+  OR like(process_cmd_line, "%-z %") OR like(process_cmd_line, "%-s %") OR like(process_cmd_line,
+  "%-q %") OR like(process_cmd_line, "%-r %") OR like(process_cmd_line, "%-p %") OR
+  like(process_cmd_line, "%-f %") OR like(process_cmd_line, "%-c %")) AND like(process_file_name,
+  "%sdelete%") 
   | eval body=create_map(
     "activity_id", 1,
     "analytic_stories", ["Information Sabotage", "Insider Threat"],
@@ -113,6 +115,8 @@ tags:
   mappings:
   - ocsf: process.pid
     cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
   - ocsf: process.file.name
     cim: process_name
   - ocsf: process.cmd_line
@@ -121,6 +125,8 @@ tags:
     cim: user
   - ocsf: actor.process.pid
     cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
   - ocsf: actor.process.file.name
     cim: parent_process_name
   - ocsf: device.hostname

@@ -10,17 +10,19 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
   process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
   "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_name=ucast(map_get(process_file,"name"), "string",
-  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
-  | eval process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval
-  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor=ucast(map_get(input_event,"actor"),
-  "map<string, any>", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where process_file_name="acccheckconsole.exe" AND (NOT match_regex(process_path,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  process_file_name="acccheckconsole.exe" AND (NOT match_regex(process_file_path,
   /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm64\\accchecker/)=true)
   
   | eval body=create_map(
@@ -39,7 +41,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     ],
     "duration", 0,
     "time", timestamp,
-    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.path", process_file_path, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
     "impact", 20,
     "impact_id", 2,
     "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
@@ -53,7 +55,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         "version", "1.0.0"
     ),
     "nist", ["DE.AE"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
+    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.path", "type_id", 24, "value", process_file_path), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
     "risk_level", "Info",
     "risk_level_id", 0,
     "risk_score", 14,
@@ -92,6 +94,7 @@ tags:
   required_fields:
   - process.user.name
   - device.hostname
+  - process.file.path
   - process.file.name
   - process.cmd_line
   risk_score: 14
@@ -102,6 +105,8 @@ tags:
   mappings:
   - ocsf: process.pid
     cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
   - ocsf: process.file.name
     cim: process_name
   - ocsf: process.cmd_line
@@ -110,6 +115,8 @@ tags:
     cim: user
   - ocsf: actor.process.pid
     cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
   - ocsf: actor.process.file.name
     cim: parent_process_name
   - ocsf: device.hostname
