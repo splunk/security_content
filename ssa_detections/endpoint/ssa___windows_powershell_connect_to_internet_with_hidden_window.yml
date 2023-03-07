@@ -21,18 +21,20 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
   process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
   "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_name=ucast(map_get(process_file,"name"), "string",
-  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
-  | eval process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval
-  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor=ucast(map_get(input_event,"actor"),
-  "map<string, any>", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (process_file_name="powershell_ise.exe" OR process_file_name="powershell.exe"
-  OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe"
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (process_file_name="powershell_ise.exe" OR process_file_name="powershell.exe" OR
+  process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe"
   OR process_file_name="pwsh.exe") AND (NOT match_regex(process_cmd_line, /(?i)(?i)[\\-|\\/]w(in*d*o*w*s*t*y*l*e*)*\\s+[^-]/)=true)
   --finding_report--'
 how_to_implement: You must be ingesting data that records process activity from your
@@ -83,6 +85,8 @@ tags:
   mappings:
   - ocsf: process.pid
     cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
   - ocsf: process.file.name
     cim: process_name
   - ocsf: process.cmd_line
@@ -91,6 +95,8 @@ tags:
     cim: user
   - ocsf: actor.process.pid
     cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
   - ocsf: actor.process.file.name
     cim: parent_process_name
   - ocsf: device.hostname

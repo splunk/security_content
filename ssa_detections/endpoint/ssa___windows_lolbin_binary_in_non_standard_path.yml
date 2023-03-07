@@ -17,19 +17,21 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
   process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
   "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_name=ucast(map_get(process_file,"name"), "string",
-  null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null)
-  | eval process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval
-  process_user_name=ucast(map_get(process_user,"name"), "string", null) | eval actor=ucast(map_get(input_event,"actor"),
-  "map<string, any>", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (process_file_name="bitsadmin.exe" OR process_file_name="certoc.exe"
-  OR process_file_name="certreq.exe" OR process_file_name="certutil.exe" OR process_file_name="cmdkey.exe"
-  OR process_file_name="cmdl32.exe" OR process_file_name="cmstp.exe" OR process_file_name="configsecuritypolicy.exe"
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (process_file_name="bitsadmin.exe" OR process_file_name="certoc.exe" OR process_file_name="certreq.exe"
+  OR process_file_name="certutil.exe" OR process_file_name="cmdkey.exe" OR process_file_name="cmdl32.exe"
+  OR process_file_name="cmstp.exe" OR process_file_name="configsecuritypolicy.exe"
   OR process_file_name="control.exe" OR process_file_name="cscript.exe" OR process_file_name="datasvcutil.exe"
   OR process_file_name="desktopimgdownldr.exe" OR process_file_name="dfsvc.exe" OR
   process_file_name="diantz.exe" OR process_file_name="diskshadow.exe" OR process_file_name="dllhost.exe"
@@ -56,11 +58,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   OR process_file_name="verclsid.exe" OR process_file_name="wab.exe" OR process_file_name="wlrmdr.exe"
   OR process_file_name="wmic.exe" OR process_file_name="workfolders.exe" OR process_file_name="wscript.exe"
   OR process_file_name="wsreset.exe" OR process_file_name="wuauclt.exe" OR process_file_name="xwizard.exe")
-  AND (NOT (match_regex(process_path, /(?i)(?i)\\windows\\system32/)=true OR match_regex(process_path,
-  /(?i)(?i)\\windows\\syswow64/)=true OR match_regex(process_path, /(?i)(?i)\\windows\\networkcontrolle/)=true
-  OR match_regex(process_path, /(?i)(?i)\\windows\\systemapps/)=true OR match_regex(process_path,
-  /(?i)(?i)\\winsxs/)=true OR match_regex(process_path, /(?i)(?i)\\microsoft.net/)=true))
-  --finding_report--'
+  AND (NOT (match_regex(process_file_path, /(?i)(?i)\\windows\\system32/)=true OR
+  match_regex(process_file_path, /(?i)(?i)\\windows\\syswow64/)=true OR match_regex(process_file_path,
+  /(?i)(?i)\\windows\\networkcontrolle/)=true OR match_regex(process_file_path, /(?i)(?i)\\windows\\systemapps/)=true
+  OR match_regex(process_file_path, /(?i)(?i)\\winsxs/)=true OR match_regex(process_file_path,
+  /(?i)(?i)\\microsoft.net/)=true)) --finding_report--'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: False positives may be present and filtering may be required.
   Certain utilities will run from non-standard paths based on the third-party application
@@ -90,6 +92,8 @@ tags:
     type: User Name
   - name: device.hostname
     type: Hostname
+  - name: process.file.path
+    type: File
   - name: process.file.name
     type: File Name
   - name: process.cmd_line
@@ -99,6 +103,7 @@ tags:
   required_fields:
   - process.user.name
   - device.hostname
+  - process.file.path
   - process.file.name
   - process.cmd_line
   risk_score: 49
@@ -106,6 +111,8 @@ tags:
   mappings:
   - ocsf: process.pid
     cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
   - ocsf: process.file.name
     cim: process_name
   - ocsf: process.cmd_line
@@ -114,6 +121,8 @@ tags:
     cim: user
   - ocsf: actor.process.pid
     cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
   - ocsf: actor.process.file.name
     cim: parent_process_name
   - ocsf: device.hostname
