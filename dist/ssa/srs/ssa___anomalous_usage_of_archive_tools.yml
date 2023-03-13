@@ -3,22 +3,22 @@ id: 63614a58-10e2-4c6c-ae81-ea1113681439
 version: 1
 description: The following detection identifies the usage of archive tools from the
   command line.
+runtime: SPL2
 search: ' | from read_ba_enriched_events()  
-  | where (process_file_name="WinRAR.exe" OR like(process_file_name, "7z%")
-  OR like(process_file_name, "winzip%")) AND (like(actor_process_file_name, "%powershell.exe")
-  OR like(actor_process_file_name, "%cmd.exe")) 
+  | where (process.file.name="WinRAR.exe" OR like(process.file.name, "7z%")
+  OR like(process.file.name, "winzip%")) AND (like(actor.process.file.name, "%powershell.exe")
+  OR like(actor.process.file.name, "%cmd.exe")) 
   | eval body=create_map(
     "devices", [
         create_map(
-            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "hostname", device.hostname, "type_id", 0, "uuid", device.uuid
         )
     ],
-    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line, "actor.process.file.name", actor_process_file_name),  
-    "message", concat("Anomalous usage of Archive Tools has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line), create_map("name", "actor.process.file.name", "type_id", 7, "value", actor_process_file_name)],
+    "evidence", create_map("process.user.name", process.user.name, "device.hostname", device.hostname, "process.file.name", process.file.name, "process.cmd_line", process.cmd_line, "actor.process.file.name", actor.process.file.name),  
+    "message", concat("Anomalous usage of Archive Tools has been triggered on ", device.hostname, " by ", process.user.name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process.user.name, "uuid", process.user.uuid
         )
     ]
   )
