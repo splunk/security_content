@@ -36,7 +36,7 @@ tags:
   mitre_attack_id:
   - T1047
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -48,8 +48,8 @@ tags:
   - _time
   - EventCode
   - Message
-  - ComputerName
-  - User
+  - Computer
+  - UserID
   risk_score: 63
   security_domain: endpoint
   asset_type: Endpoint
