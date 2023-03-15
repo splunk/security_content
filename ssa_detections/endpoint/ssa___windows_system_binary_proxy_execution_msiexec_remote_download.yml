@@ -54,7 +54,7 @@ tags:
   - name: device.hostname
     type: Hostname
   - name: process.file.name
-    type: File Name
+    type: File
   - name: process.cmd_line
     type: Other
   product:

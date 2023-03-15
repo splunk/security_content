@@ -22,8 +22,8 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
   null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
   | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  (process_file_name="icacls.exe" OR process_file_name="xcacls.exe" OR process_file_name="cacls.exe")
-  AND match_regex(process_cmd_line, /(?i)deny/)=true 
+  match_regex(process_cmd_line, /(?i)deny/)=true AND (process_file_name="icacls.exe"
+  OR process_file_name="xcacls.exe" OR process_file_name="cacls.exe") 
   | eval body=create_map(
     "devices", [
         create_map(

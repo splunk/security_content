@@ -60,7 +60,7 @@ tags:
   - name: process.file.path
     type: File
   - name: process.file.name
-    type: File Name
+    type: File
   - name: process.cmd_line
     type: Other
   product:

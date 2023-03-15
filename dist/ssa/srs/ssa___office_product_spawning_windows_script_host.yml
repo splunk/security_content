@@ -21,10 +21,10 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
   null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
   | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  (process_file_name="cscript.exe" OR process_file_name="wscript.exe") AND (match_regex(actor_process_file_name,
-  /(?i)visio.exe/)=true OR match_regex(actor_process_file_name, /(?i)mspub.exe/)=true
-  OR match_regex(actor_process_file_name, /(?i)powerpnt.exe/)=true OR match_regex(actor_process_file_name,
-  /(?i)excel.exe/)=true OR match_regex(actor_process_file_name, /(?i)winword.exe/)=true)
+  (match_regex(actor_process_file_name, /(?i)visio.exe/)=true OR match_regex(actor_process_file_name,
+  /(?i)mspub.exe/)=true OR match_regex(actor_process_file_name, /(?i)powerpnt.exe/)=true
+  OR match_regex(actor_process_file_name, /(?i)excel.exe/)=true OR match_regex(actor_process_file_name,
+  /(?i)winword.exe/)=true) AND (process_file_name="cscript.exe" OR process_file_name="wscript.exe")
   
   | eval body=create_map(
     "devices", [
