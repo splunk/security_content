@@ -46,6 +46,7 @@ class DetectionTags(BaseModel):
     research_site_url: str = None
     event_schema: str = None
     mappings: list = None
+    annotations: dict = None
 
 
     @validator('cis20')

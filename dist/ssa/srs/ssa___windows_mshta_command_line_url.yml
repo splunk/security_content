@@ -28,41 +28,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   (like(process_cmd_line, "%https://%") OR like(process_cmd_line, "%http://%")) AND
   process_file_name="mshta.exe" 
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["Suspicious MSHTA Activity", "Living Off The Land"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 100,
-    "confidence_id", 3,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "impact", 80,
-    "impact_id", 5,
-    "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
-    "attacks", [create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "Mshta", "uid", "T1218.005"), "version", "12.1"), create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "System Binary Proxy Execution", "uid", "T1218"), "version", "12.1")],  
     "message", concat("Windows MSHTA Command-Line URL has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.CM"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
-    "risk_level", "Critical",
-    "risk_level_id", 4,
-    "risk_score", 80,
-    "severity_id", 5,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -82,18 +55,6 @@ references:
 - https://redcanary.com/blog/introducing-atomictestharnesses/
 - https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
 tags:
-  analytic_story:
-  - Suspicious MSHTA Activity
-  - Living Off The Land
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1218.005
-  - T1218
-  nist:
-  - DE.CM
   required_fields:
   - process.user.name
   - device.hostname
@@ -123,6 +84,19 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - Suspicious MSHTA Activity
+    - Living Off The Land
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1218.005
+    - T1218
+    nist:
+    - DE.CM
 test:
   name: Windows MSHTA Command-Line URL Unit Test
   tests:
@@ -131,3 +105,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-security.log
       source: WinEventLog:Security
+runtime: SPL-DSP
