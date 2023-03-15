@@ -22,11 +22,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
   null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
   | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  (process_file_name="wscript.exe" OR process_file_name="cscript.exe" OR process_file_name="searchprotocolhost.exe"
+  like(actor_process_file_name, "%mshta.exe") AND (process_file_name="wscript.exe"
+  OR process_file_name="cscript.exe" OR process_file_name="searchprotocolhost.exe"
   OR process_file_name="microsoft.workflow.compiler.exe" OR process_file_name="msbuild.exe"
   OR process_file_name="colorcpl.exe" OR process_file_name="scrcons.exe" OR process_file_name="cmd.exe"
-  OR process_file_name="powershell.exe") AND like(actor_process_file_name, "%mshta.exe")
-  
+  OR process_file_name="powershell.exe") 
   | eval body=create_map(
     "devices", [
         create_map(
