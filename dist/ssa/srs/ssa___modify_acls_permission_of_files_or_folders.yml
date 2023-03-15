@@ -29,41 +29,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   (process_file_name="icacls.exe" OR process_file_name="xcacls.exe" OR process_file_name="cacls.exe")
   
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["XMRig"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 70,
-    "confidence_id", 3,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "impact", 50,
-    "impact_id", 3,
-    "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
-    "attacks", [create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "File and Directory Permissions Modification", "uid", "T1222"), "version", "12.1")],  
     "message", concat("Modify ACLs Permission Of Files Or Folders has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.AE"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
-    "risk_level", "Low",
-    "risk_level_id", 1,
-    "risk_score", 35,
-    "severity_id", 3,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -80,16 +53,6 @@ known_false_positives: System administrators may use this windows utility. filte
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
-  analytic_story:
-  - XMRig
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1222
-  nist:
-  - DE.AE
   required_fields:
   - process.user.name
   - device.hostname
@@ -119,6 +82,17 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - XMRig
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1222
+    nist:
+    - DE.AE
 test:
   name: Modify ACLs Permission Of Files Or Folders Unit Test
   tests:
@@ -127,3 +101,4 @@ test:
     - file_name: all_icalc.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
       source: WinEventLog:Security
+runtime: SPL-DSP

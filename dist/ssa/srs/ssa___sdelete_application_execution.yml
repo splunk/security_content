@@ -36,41 +36,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   like(process_cmd_line, "%-f %") OR like(process_cmd_line, "%-c %")) AND like(process_file_name,
   "%sdelete%") 
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["Information Sabotage", "Insider Threat"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 70,
-    "confidence_id", 3,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "impact", 60,
-    "impact_id", 4,
-    "kill_chain", [create_map("phase", "Actions on Objectives", "phase_id", 7), create_map("phase", "Exploitation", "phase_id", 4)],
-    "attacks", [create_map("tactics", [create_map("name", "Impact", "uid", "TA0040")], "technique", create_map("name", "Data Destruction", "uid", "T1485"), "version", "12.1"), create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "File Deletion", "uid", "T1070.004"), "version", "12.1"), create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "Indicator Removal", "uid", "T1070"), "version", "12.1")],  
     "message", concat("Sdelete Application Execution has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.AE"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
-    "risk_level", "Medium",
-    "risk_level_id", 2,
-    "risk_score", 42,
-    "severity_id", 4,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -88,20 +61,6 @@ references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
 tags:
-  analytic_story:
-  - Information Sabotage
-  - Insider Threat
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Actions on Objectives
-  - Exploitation
-  mitre_attack_id:
-  - T1485
-  - T1070.004
-  - T1070
-  nist:
-  - DE.AE
   required_fields:
   - process.user.name
   - device.hostname
@@ -131,6 +90,21 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - Information Sabotage
+    - Insider Threat
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Actions on Objectives
+    - Exploitation
+    mitre_attack_id:
+    - T1485
+    - T1070.004
+    - T1070
+    nist:
+    - DE.AE
 test:
   name: Sdelete Application Execution Unit Test
   tests:
@@ -139,3 +113,4 @@ test:
     - file_name: security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
       source: WinEventLog:Security
+runtime: SPL-DSP

@@ -63,6 +63,7 @@ class Detection(BaseModel, SecurityContentObject):
     source: str = None
     nes_fields: str = None
     providing_technologies: list = None
+    runtime: str = None
 
 
     # @validator('name')

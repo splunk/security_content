@@ -27,41 +27,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   process_file_name="MSBuild.exe" AND (match_regex(actor_process_file_name, /(?i)cscript.exe/)=true
   OR match_regex(actor_process_file_name, /(?i)wscript.exe/)=true) 
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["Trusted Developer Utilities Proxy Execution MSBuild", "Living Off The Land"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 100,
-    "confidence_id", 3,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line, "actor.process.file.name", actor_process_file_name),
-    "impact", 80,
-    "impact_id", 5,
-    "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
-    "attacks", [create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "MSBuild", "uid", "T1127.001"), "version", "12.1"), create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "Trusted Developer Utilities Proxy Execution", "uid", "T1127"), "version", "12.1")],  
     "message", concat("Windows Script Host Spawn MSBuild has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.CM"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line), create_map("name", "actor.process.file.name", "type_id", 7, "value", actor_process_file_name)],
-    "risk_level", "Critical",
-    "risk_level_id", 4,
-    "risk_score", 80,
-    "severity_id", 5,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -80,18 +53,6 @@ references:
 - https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
 - https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1127.001_MSBuild/InvokeMSBuild.ps1
 tags:
-  analytic_story:
-  - Trusted Developer Utilities Proxy Execution MSBuild
-  - Living Off The Land
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1127.001
-  - T1127
-  nist:
-  - DE.CM
   required_fields:
   - process.user.name
   - device.hostname
@@ -122,6 +83,19 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - Trusted Developer Utilities Proxy Execution MSBuild
+    - Living Off The Land
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1127.001
+    - T1127
+    nist:
+    - DE.CM
 test:
   name: Windows Script Host Spawn MSBuild Unit Test
   tests:
@@ -130,3 +104,4 @@ test:
     - file_name: msbuild-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/msbuild-windows-security.log
       source: WinEventLog:Security
+runtime: SPL-DSP

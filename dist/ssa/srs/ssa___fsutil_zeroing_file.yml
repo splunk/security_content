@@ -23,41 +23,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
   like(process_cmd_line, "%setzerodata%") AND process_file_name="fsutil.exe" 
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["Ransomware", "Insider Threat", "Information Sabotage"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 90,
-    "confidence_id", 3,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "impact", 60,
-    "impact_id", 4,
-    "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
-    "attacks", [create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "Indicator Removal", "uid", "T1070"), "version", "12.1")],  
     "message", concat("Fsutil Zeroing File has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.CM"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
-    "risk_level", "Medium",
-    "risk_level_id", 2,
-    "risk_score", 54,
-    "severity_id", 4,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -75,18 +48,6 @@ references:
 - https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
 - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
 tags:
-  analytic_story:
-  - Ransomware
-  - Insider Threat
-  - Information Sabotage
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1070
-  nist:
-  - DE.CM
   required_fields:
   - process.user.name
   - device.hostname
@@ -116,6 +77,19 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - Ransomware
+    - Insider Threat
+    - Information Sabotage
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1070
+    nist:
+    - DE.CM
 test:
   name: Fsutil Zeroing File Unit Test
   tests:
@@ -124,3 +98,4 @@ test:
     - file_name: windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
       source: WinEventLog:Security
+runtime: SPL-DSP
