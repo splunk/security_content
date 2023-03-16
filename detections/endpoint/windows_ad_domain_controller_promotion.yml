@@ -1,0 +1,55 @@
+name: Windows AD Domain Controller Promotion
+id: e633a0ef-2a6e-4ed7-b925-5ff999e5d1f0
+version: 1
+date: '2023-01-26'
+author: Dean Luxton
+type: TTP
+status: production
+data_source:
+- Windows Security 4742
+description: This analytic identifies a genuine DC promotion event. Identifying when a computer assigns itself the 
+  necessary SPNs to function as a domain controller. Note these events are triggered on the existing domain controllers, not the newly 
+  joined domain controller. This detection will serve to identify rogue DCs added to the network. There are 2x detections within this analytic story 
+  which identify DCShadow attacks, if you do not currently possess the logging for these detections, remove the where clause within this 
+  detection to identify DCShadow activity.  
+search: "`wineventlog_security` EventCode=4742 ServicePrincipalNames IN (\"*E3514235-4B06-11D1-AB04-00C04FC2DCD2/*\",\"*GC/*\")| stats min(_time) as _time latest(ServicePrincipalNames) as ServicePrincipalNames,values(signature) as signature, values(src_user) as src_user, values(user) as user by Logon_ID, dvc| where src_user=user| rename Logon_ID as TargetLogonId, user as dest | appendpipe [| map search=\"search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$\" | fields - dest, dvc, signature]| stats min(_time) as _time, values(TargetUserSid) as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user, values(status) as status, values(src_category) as src_category, values(src_ip) as src_ip values(ServicePrincipalNames) as ServicePrincipalNames values(signature) as signature values(dest) as dest values(dvc) as dvc by TargetLogonId | eval dest=trim(dest,\"$\") | `windows_ad_domain_controller_promotion_filter`"
+how_to_implement:  To successfully implement this search, you need to be ingesting eventcode
+ `4742`. The Advanced Security Audit policy setting `Audit Computer Account Management`
+ within `Account Management` needs to be enabled. 
+known_false_positives: None.
+references:
+- https://attack.mitre.org/techniques/T1207/
+tags:
+  analytic_story:
+  - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100 
+  impact: 80 
+  message: AD Domain Controller Promotion Event Detected for $dest$
+  mitre_attack_id:
+  - T1207
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ServicePrincipalNames
+  - src_user
+  - user
+  - Logon_ID
+  - dvc
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/dc_promo/windows-security-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

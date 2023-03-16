@@ -43,20 +43,28 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 70
-  message: $Processes.process_path.file_path$ process potentially loading malicious
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to register a DLL.
     code
   mitre_attack_id:
   - T1218
   - T1218.011
   observable:
-  - name: dest
-    type: Endpoint
+  - name: user
+    type: User
     role:
     - Victim
-  - name: Processes.process_path.file_path
-    type: File Name
+  - name: dest
+    type: Hostname
     role:
-    - Attacker
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

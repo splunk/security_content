@@ -1,0 +1,69 @@
+name: Notepad with no Command Line Arguments
+id: 5adbc5f1-9a2f-41c1-a810-f37e015f8179
+version: 1
+date: '2023-02-22'
+author: Michael Haag, Splunk
+type: TTP
+status: production
+data_source:
+- Sysmon Event ID 1
+description: The following analytic identifies behavior related to default SliverC2 framework where it will inject into Notepad.exe and spawn Notepad.exe with no command line arguments. In testing, this is a common procedure for SliverC2 usage, however may be modified or changed.
+  From Microsoft, "The Sideload, SpawnDll, and Execute-Assembly commands spawn and inject into notepad.exe by default. The following query finds process creation events where the same process creates and injects into notepad.exe within 10 seconds."
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=notepad.exe AND Processes.action!="blocked" by host _time span=1h Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name Processes.parent_process
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | regex process="(?i)(notepad\.exe.{0,4}$)" 
+  | `notepad_with_no_command_line_arguments_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: False positives may be present and filtering may need to occur based on organization endpoint behavior.
+references:
+- https://www.microsoft.com/en-us/security/blog/2022/08/24/looking-for-the-sliver-lining-hunting-for-emerging-command-and-control-frameworks/
+- https://www.cybereason.com/blog/sliver-c2-leveraged-by-many-threat-actors#Purple-Team-Section
+tags:
+  analytic_story:
+  - BishopFox Sliver Adversary Emulation Framework
+  asset_type: Endpoint
+  confidence: 70
+  impact: 50
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ with no command line arguments.
+  mitre_attack_id:
+  - T1055
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/notepad_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

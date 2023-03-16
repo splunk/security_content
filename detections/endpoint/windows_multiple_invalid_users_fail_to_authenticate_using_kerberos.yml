@@ -1,39 +1,35 @@
-name: Windows Invalid Users Failed Authentication via Kerberos
+name: Windows Multiple Invalid Users Fail To Authenticate Using Kerberos
 id: 001266a6-9d5b-11eb-829b-acde48001122
-version: 1
+version: 2
 date: '2021-04-14'
 author: Mauricio Velazco, Splunk
+type: TTP
 status: production
-type: Anomaly
+data_source:
+- Windows Security 4768
 description: 'The following analytic identifies one source endpoint failing to authenticate
-  with multiple invalid domain users using the Kerberos protocol. This behavior could
+  with 30 unique invalid domain users using the Kerberos protocol. This behavior could
   represent an adversary performing a Password Spraying attack against an Active Directory
-  environment using Kerberos to obtain initial access or elevate privileges. As attackers
+  environment using Kerberos to obtain initial access or elevate privileges. 
+  Active Directory environments can be very different depending on the organization. Users should test this detection and customize the arbitrary threshold when needed.
+  As attackers
   progress in a breach, mistakes will be made. In certain scenarios, adversaries may
   execute a password spraying attack using an invalid list of users. Event 4768 is
   generated every time the Key Distribution Center issues a Kerberos Ticket Granting
   Ticket (TGT). Failure code 0x6 stands for `client not found in Kerberos database`
   (the attempted user is not a valid domain user).\
 
-  The detection calculates the standard deviation for each host and leverages the
-  3-sigma statistical rule to identify an unusual number of users. To customize this
-  analytic, users can try different combinations of the `bucket` span time and the
-  calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.\
-
+  This logic can be used for real time security monitoring as well as threat hunting exercises.
   This detection will only trigger on domain controllers, not on member servers or
   workstations.\
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
-data_source:
-- Windows Security 4768
-search: '`wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$"
-  | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
-  as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
-  comp_avg , stdev(unique_accounts) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
-  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `windows_invalid_users_failed_authentication_via_kerberos_filter` '
+search: '`wineventlog_security` EventCode=4768 TargetUserName!=*$ Status=0x6
+  | bucket span=5m _time 
+  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, IpAddress
+  | where unique_accounts > 30 
+  | `windows_multiple_invalid_users_fail_to_authenticate_using_kerberos_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
@@ -47,18 +43,17 @@ tags:
   analytic_story:
   - Active Directory Password Spraying
   - Active Directory Kerberos Attacks
-  asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Potential Kerberos based password spraying attack from $Client_Address$
+  message: Potential Kerberos based password spraying attack from $IpAddress$
   mitre_attack_id:
   - T1110.003
   - T1110
   observable:
-  - name: Client_Address
+  - name: IpAddress
     type: Endpoint
     role:
-    - Victim
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -66,14 +61,15 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Result_Code
-  - Account_Name
-  - Client_Address
+  - Status
+  - TargetUserName
+  - IpAddress
   risk_score: 49
   security_domain: endpoint
+  asset_type: Endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos_xml/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

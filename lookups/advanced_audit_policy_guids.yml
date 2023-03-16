@@ -1,0 +1,7 @@
+description: List of GUIDs associated with Windows advanced audit policies
+filename: advanced_audit_policy_guids.csv
+name: advanced_audit_policy_guids
+default_match: 'false'
+match_type: WILDCARD(GUID)
+min_matches: 1
+case_sensitive_match: 'false'

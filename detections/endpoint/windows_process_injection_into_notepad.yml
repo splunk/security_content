@@ -1,0 +1,70 @@
+name: Windows Process Injection into Notepad
+id: b8340d0f-ba48-4391-bea7-9e793c5aae36
+version: 1
+date: '2023-02-22'
+author: Michael Haag, Splunk
+type: Anomaly
+status: production
+data_source:
+- Sysmon Event ID 10
+description: The following analytic utilizes Sysmon to identify process injection into Notepad.exe, based on GrantedAccess requests - 0x40 and 0x1fffff. This particular behavior is attributed to the defaults of the SliverC2 framework by BishopFox. 
+  By default, the analytic filters out any SourceImage paths of System32, Syswow64 and program files. Add more as needed, or remove and monitor what is consistently injecting into notepad.exe. 
+  This particular behavior will occur from a source image that is the initial payload dropped. 
+search: '`sysmon` EventCode=10 TargetImage IN (*\\notepad.exe) NOT (SourceImage IN ("*\\system32\\*","*\\syswow64\\*","*\\Program Files\\*")) GrantedAccess IN ("0x40","0x1fffff") | stats count min(_time) as firstTime max(_time) as lastTime by dest SourceImage TargetImage GrantedAccess CallTrace
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_process_injection_into_notepad_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives may be present based on SourceImage paths. If removing the paths is important, realize svchost and many native binaries inject into notepad consistently. Restrict or tune as needed.
+references:
+- https://dominicbreuker.com/post/learning_sliver_c2_08_implant_basics/
+- https://www.cybereason.com/blog/sliver-c2-leveraged-by-many-threat-actors
+tags:
+  analytic_story:
+  - BishopFox Sliver Adversary Emulation Framework
+  asset_type: Endpoint
+  confidence: 80
+  impact: 40
+  message: An instance of $SourceImage$ injecting into $TargetImage$ was identified on endpoint $dest$.
+  mitre_attack_id:
+  - T1055
+  - T1055.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: Process
+    role:
+    - Parent Process
+  - name: TargetImage
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest 
+  - SourceImage 
+  - TargetImage 
+  - GrantedAccess 
+  - CallTrace
+  risk_score: 32
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/T1055_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

@@ -1,7 +1,7 @@
 name: Linux SSH Remote Services Script Execute
 id: aa1748dd-4a5c-457a-9cf6-ca7b4eb711b3
 version: 1
-date: '2022-07-27'
+date: '2023-03-03'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -10,11 +10,10 @@ description: The following analytic identifies SSH being utilized to move latera
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where  Processes.process_name=ssh
-  Processes.process IN ("*oStrictHostKeyChecking*", "*oConnectTimeout*", "*oBatchMode*")
-  AND CommandLine IN ("*http:*","*https:*") by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  as lastTime from datamodel=Endpoint.Processes where  Processes.process_name=ssh Processes.process IN ("*oStrictHostKeyChecking*", "*oConnectTimeout*", "*oBatchMode*") AND Processes.process IN ("*http:*","*https:*") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `linux_ssh_remote_services_script_execute_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
