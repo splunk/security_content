@@ -20,7 +20,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
   null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
   | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  (process_file_name="WinRAR.exe" OR like(process_file_name, "7z%") OR like(process_file_name,
+  (process.file.name="WinRAR.exe" OR like(process_file_name, "7z%") OR like(process_file_name,
   "winzip%")) AND (like(actor_process_file_name, "%powershell.exe") OR like(actor_process_file_name,
   "%cmd.exe")) 
   | eval body=create_map(

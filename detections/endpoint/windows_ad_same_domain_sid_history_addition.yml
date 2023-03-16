@@ -1,0 +1,73 @@
+name: Windows AD Same Domain SID History Addition
+id: 5fde0b7c-df7a-40b1-9b3a-294c00f0289d
+version: 2
+date: '2022-09-09'
+author: Dean Luxton
+type: TTP
+status: production
+data_source:
+- Windows Security 4742
+- Windows Security 4738
+description: The following analytic looks for changes to the sIDHistory AD attribute of user or computer objects which exist within the same domain. 
+ The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
+ continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 
+ This analytic was written to pick up on activity via Mimikatz sid::patch. Please note there are additional avenues to abuse SID history such as DCShadow & Golden / Diamond tickets which won't be detected using these event codes.
+search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory
+  IN ("%%1793", -)
+  | rex field=SidHistory "(^%{|^)(?P<SidHistoryMatch>.*)(\-|\\\)"
+  | rex field=TargetSid "^(?P<TargetSidmatch>.*)(\-|\\\)"
+  | where SidHistoryMatch=TargetSidmatch OR SidHistoryMatch=TargetDomainName
+  | rename TargetSid as userSid, TargetDomainName as userDomainName
+  | table _time action status host user userSid userDomainName SidHistory Logon_ID src_user 
+  | `windows_ad_same_domain_sid_history_addition_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting eventcodes
+ `4738` and `4742`. The Advanced Security Audit policy settings 
+ `Audit User Account Management` and  `Audit Computer Account Management`
+ within `Account Management` all need to be enabled. SID resolution is not required..
+known_false_positives: Unknown
+references:
+- https://adsecurity.org/?p=1772
+- https://learn.microsoft.com/en-us/windows/win32/adschema/a-sidhistory?redirectedfrom=MSDN
+- https://learn.microsoft.com/en-us/defender-for-identity/security-assessment-unsecure-sid-history-attribute
+- https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/sid-history-injection
+tags:
+  analytic_story:
+  - Sneaky Active Directory Persistence Tricks
+  - Windows Persistence Techniques
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: Active Directory SID History Attribute was added to $user$ by $src_user$
+  mitre_attack_id:
+  - T1134.005
+  - T1134
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - SidHistory
+  - TargetSid
+  - TargetDomainName
+  - user
+  - src_user
+  - Logon_ID
+  risk_score: 100
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/mimikatz/windows-security-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

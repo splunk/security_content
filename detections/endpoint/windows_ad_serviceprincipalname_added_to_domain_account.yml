@@ -1,0 +1,63 @@
+name: Windows AD ServicePrincipalName Added To Domain Account
+id: 8a1259cb-0ea7-409c-8bfe-74bad89259f9
+version: 1
+date: '2022-11-17'
+author: Mauricio Velazco, Splunk
+type: TTP
+status: production
+data_source:
+- Windows Security 5136
+description: The following analytic identifies the addition of a Service Principal Name to a domain account. While this event may be part of a legitimate action part of certain administrative operations,
+  it may also be evidence of a persistence attack. Domain accounts with Servce Principal Names are vulnerable to a technique called Kerberoasting that enables attackers to potentially obtain the cleartext password 
+  of the account by performing offline cracking. An adversary who has obtained privileged access to a domain environment may add an SPN to a privileged account to then leverage the Kerberoasting technique and attempt
+  to obtain its clertext password. 
+search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName OperationType="%%14674"
+  | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
+  | `windows_ad_serviceprincipalname_added_to_domain_account_filter`'
+how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
+ `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
+ within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
+known_false_positives: A Service Principal Name should only be added to an account when an application requires it. While infrequent, this detection may trigger on 
+  legitimate actions. Filter as needed.
+references:
+- https://adsecurity.org/?p=3466
+- https://www.thehacker.recipes/ad/movement/dacl/targeted-kerberoasting
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+tags:
+  analytic_story:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/service_principal_name_added/windows-security.log
+  asset_type: endpoint
+  confidence: 50
+  impact: 60
+  message: A Servince Principal Name for $ObjectDN$ was set by $SubjectUserName$
+  mitre_attack_id:
+  - T1098
+  observable:
+  - name: SubjectUserName
+    type: User
+    role:
+    - Attacker
+  - name: ObjectDN
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ObjectDN
+  - signature
+  - SubjectUserName
+  - Computer
+  risk_score: 30
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/service_principal_name_added/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

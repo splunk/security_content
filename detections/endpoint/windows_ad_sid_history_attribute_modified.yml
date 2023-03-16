@@ -1,0 +1,60 @@
+name: Windows AD SID History Attribute Modified
+id: 1155e47d-307f-4247-beab-71071e3a458c
+version: 1
+date: '2022-11-16'
+author: Mauricio Velazco, Splunk
+type: TTP
+status: production
+data_source: 
+- Windows Security 5136
+description: The following analytic leverages event code `5136` to identify a modification of the SID History AD attribute. 
+  The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
+  continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 
+search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory OperationType="%%14674"
+  | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
+  | `windows_ad_sid_history_attribute_modified_filter`'
+how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
+ `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
+ within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
+known_false_positives: Domain mergers and migrations may generate large volumes of false positives for this analytic. 
+references:
+- https://adsecurity.org/?p=1772
+- https://learn.microsoft.com/en-us/windows/win32/adschema/a-sidhistory?redirectedfrom=MSDN
+- https://learn.microsoft.com/en-us/defender-for-identity/security-assessment-unsecure-sid-history-attribute
+- https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/sid-history-injection
+tags:
+  analytic_story:
+  - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 70
+  impact: 80
+  message: SID History AD attribute modified by $SubjectUserName$ for $ObjectDN$
+  mitre_attack_id:
+  - T1134
+  - T1134.005
+  observable:
+  - name: SubjectUserName
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - AttributeLDAPDisplayName
+  - OperationType=
+  - ObjectDN
+  - Computer
+  - SubjectUserName
+  - AttributeValue
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/sid_history2/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

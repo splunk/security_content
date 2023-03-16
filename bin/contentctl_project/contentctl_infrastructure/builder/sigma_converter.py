@@ -111,6 +111,11 @@ class SigmaConverter():
 
                     detection = self.convert_detection_fields(detection, field_mapping)
                     sigma_rule = self.get_sigma_rule(detection, data_source)
+                    
+                    sigma_transformation_processing_item = self.get_field_transformation_processing_item(
+                        field_mapping['mapping'],
+                        logsource_condition
+                    )
 
                     sigma_state_fields_processing_item = self.get_state_fields_processing_item(
                         field_mapping['mapping'].values(),
@@ -121,6 +126,7 @@ class SigmaConverter():
                         logsource_condition
                     )
                     sigma_processing_pipeline = self.get_pipeline_from_processing_items([
+                        sigma_transformation_processing_item,
                         sigma_state_fields_processing_item,
                         sigma_state_data_model_processing_item
                     ])

@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Windows Post-Exploitation
   - Prestige Ransomware
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 30
   impact: 30

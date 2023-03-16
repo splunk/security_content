@@ -1,7 +1,7 @@
-name: Multiple Users Remotely Failing To Authenticate From Host
-id: 80f9d53e-9ca1-11eb-b0d6-acde48001122
+name: Windows Unusual Count Of Users Remotely Failed To Auth From Host
+id: cf06a0ee-ffa9-4ed3-be77-0670ed9bab52
 version: 1
-date: '2021-04-13'
+date: '2022-09-22'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -26,13 +26,14 @@ description: 'The following analytic identifies a source host failing to authent
   providing fields like source process name, source account and attempted user accounts.'
 data_source:
 - Windows Security 4625
-search: ' `wineventlog_security` EventCode=4625 Logon_Type=3 Source_Network_Address!="-"
-  | bucket span=2m _time | eval Destination_Account = mvindex(Account_Name, 1) | stats
-  dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts
-  by _time, Source_Network_Address, ComputerName | eventstats avg(unique_accounts)
-  as comp_avg , stdev(unique_accounts) as comp_std by Source_Network_Address, ComputerName
-  | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts > 10
-  and unique_accounts >= upperBound, 1, 0) | search isOutlier=1 | `multiple_users_remotely_failing_to_authenticate_from_host_filter` '
+search: ' `wineventlog_security`  EventCode=4625 Logon_Type=3 IpAddress!="-"
+  | bucket span=2m _time 
+  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, IpAddress, Computer
+  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by IpAddress, Computer
+  | eval upperBound=(comp_avg+comp_std*3)
+  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+  | search isOutlier=1 
+  | `windows_unusual_count_of_users_remotely_failed_to_auth_from_host_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Event Logs from domain controllers as as well as member servers and workstations.
   The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
@@ -52,15 +53,15 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Potential password spraying attack on $ComputerName$
+  message: Potential password spraying attack on $Computer$
   mitre_attack_id:
   - T1110.003
   - T1110
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Endpoint
     role:
-    - Victim
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -69,10 +70,9 @@ tags:
   - _time
   - EventCode
   - Logon_Type
-  - Security_ID
-  - Account_Name
-  - ComputerName
-  - Source_Network_Address
+  - TargetUserName
+  - Computer
+  - IpAddress
   risk_score: 49
   security_domain: endpoint
 tests:

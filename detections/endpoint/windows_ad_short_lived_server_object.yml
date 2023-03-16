@@ -1,0 +1,70 @@
+name: Windows AD Short Lived Server Object
+id: 193769d3-1e33-43a9-970e-ad4a88256cdb
+version: 1
+date: '2022-10-17'
+author: Mauricio Velazco, Splunk
+type: TTP
+status: production
+data_source: 
+- Windows Security 5137
+- Windows Security 5141
+description: 'The following analytic identifies a change in an Active Directory environment that could represent evidence of the DCShadow attack.  
+  DCShadow allows an attacker who has obtained privileged access to register a rogue Domain Controller (DC). Once registered, the rogue DC may be able to inject
+  and replicate changes in the AD infrastructure for any domain object, including credentials and keys. This technique was initially released in 2018 by security 
+  researchers Benjamin Delpy and Vincent Le Toux. Specifically, the detection will trigger when a possible rogue Domain Controller
+  computer object is created and quickly deleted within 30 seconds or less in an Active Directory domain. This behavior was identfied by simulating the DCShadow attack with
+  Mimikatz.'
+search: ' `wineventlog_security` EventCode=5137 OR EventCode=5141 ObjectDN="*CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration*"
+  | transaction ObjectDN startswith=(EventCode=5137) endswith=(EventCode=5141) 
+  | eval short_lived=case((duration<30),"TRUE") 
+  | search short_lived = TRUE
+  | stats values(ObjectDN) values(signature) values(EventCode) by _time, Computer, SubjectUserName
+  | `windows_ad_short_lived_server_object_filter`'
+how_to_implement: To successfully implement this search, you ned to be ingesting Event codes 
+ `5137` and `5141`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
+ within `DS Access` needs to be enabled. For these event codes to be generated, specific SACLs are required.
+known_false_positives: Creating and deleting a server object within 30 seconds or less is unusual but not impossible in a production environment. Filter as needed.
+references:
+- https://www.dcshadow.com/
+- https://attack.mitre.org/techniques/T1207/
+- https://stealthbits.com/blog/detecting-dcshadow-with-event-logs/
+- https://pentestlab.blog/2018/04/16/dcshadow/
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5137
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5141
+tags:
+  analytic_story:
+  - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: Potential DCShadow Attack Detected on $Computer$
+  mitre_attack_id:
+  - T1207
+  observable:
+  - name: SubjectUserName
+    type: User
+    role:
+    - Attacker
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ObjectDN
+  - signature
+  - SubjectUserName
+  - Computer
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/short_lived_server_object/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
