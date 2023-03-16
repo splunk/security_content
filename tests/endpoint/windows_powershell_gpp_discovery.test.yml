@@ -1,0 +1,12 @@
+name: Windows PowerShell GPP Discovery Unit Test
+tests:
+- name: Windows PowerShell GPP Discovery
+  file: endpoint/windows_powershell_gpp_discovery.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: win-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog
