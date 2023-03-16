@@ -25,41 +25,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   process_file_name="aspnet_compiler.exe" AND (NOT match_regex(process_file_path,
   /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319/)=true) 
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["Unusual Processes", "Living Off The Land"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 70,
-    "confidence_id", 3,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.path", process_file_path, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "impact", 20,
-    "impact_id", 2,
-    "kill_chain", [create_map("phase", "Exploitation", "phase_id", 4)],
-    "attacks", [create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "Masquerading", "uid", "T1036"), "version", "12.1"), create_map("tactics", [create_map("name", "Defense Evasion", "uid", "TA0005")], "technique", create_map("name", "Rename System Utilities", "uid", "T1036.003"), "version", "12.1")],  
     "message", concat("Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard Path has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.AE"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.path", "type_id", 24, "value", process_file_path), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
-    "risk_level", "Info",
-    "risk_level_id", 0,
-    "risk_score", 14,
-    "severity_id", 2,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -78,18 +51,6 @@ references:
 - https://attack.mitre.org/techniques/T1036/003/
 - https://lolbas-project.github.io/
 tags:
-  analytic_story:
-  - Unusual Processes
-  - Living Off The Land
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1036
-  - T1036.003
-  nist:
-  - DE.AE
   required_fields:
   - process.user.name
   - device.hostname
@@ -120,6 +81,19 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - Unusual Processes
+    - Living Off The Land
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1036
+    - T1036.003
+    nist:
+    - DE.AE
 test:
   name: Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard
     Path Unit Test
@@ -130,3 +104,4 @@ test:
     - file_name: lolbas_dataset.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
       source: WinEventLog:Security
+runtime: SPL-DSP

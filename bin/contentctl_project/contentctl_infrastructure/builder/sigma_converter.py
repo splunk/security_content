@@ -189,7 +189,7 @@ class SigmaConverter():
                         )
                     )
 
-                    detection = self.convert_detection_fields(detection, field_mapping)
+                    detection = self.convert_detection_fields(detection, field_mapping_underline)
                     sigma_rule = self.get_sigma_rule(detection, data_source)
                     sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
 

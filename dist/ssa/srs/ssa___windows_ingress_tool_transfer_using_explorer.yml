@@ -29,41 +29,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   (like(process_cmd_line, "%https://%") OR like(process_cmd_line, "%http://%")) AND
   process_file_name="explorer.exe" 
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["DarkCrystal RAT"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 50,
-    "confidence_id", 2,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "impact", 50,
-    "impact_id", 3,
-    "kill_chain", [create_map("phase", "Command And Control", "phase_id", 6)],
-    "attacks", [create_map("tactics", [create_map("name", "Command And Control", "uid", "")], "technique", create_map("name", "Ingress Tool Transfer", "uid", "T1105"), "version", "12.1")],  
     "message", concat("Windows Ingress Tool Transfer Using Explorer has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.CM"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
-    "risk_level", "Low",
-    "risk_level_id", 1,
-    "risk_score", 25,
-    "severity_id", 3,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -79,16 +52,6 @@ known_false_positives: False positives may be present based on legitimate applic
 references:
 - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
 tags:
-  analytic_story:
-  - DarkCrystal RAT
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Command And Control
-  mitre_attack_id:
-  - T1105
-  nist:
-  - DE.CM
   required_fields:
   - process.user.name
   - device.hostname
@@ -118,6 +81,17 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - DarkCrystal RAT
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Command And Control
+    mitre_attack_id:
+    - T1105
+    nist:
+    - DE.CM
 test:
   name: Windows Ingress Tool Transfer Using Explorer Unit Test
   tests:
@@ -126,3 +100,4 @@ test:
     - file_name: T1105_explorer-windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/T1105_explorer-windows-security.log
       source: XmlWinEventLog
+runtime: SPL-DSP

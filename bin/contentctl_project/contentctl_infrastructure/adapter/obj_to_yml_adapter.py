@@ -57,6 +57,17 @@ class ObjToYmlAdapter(Adapter):
 
                 obj.test = test
 
+            # create annotations object
+            obj.tags.annotations = {
+                "analytic_story": obj.tags.analytic_story,
+                "cis20": obj.tags.cis20,
+                "kill_chain_phases": obj.tags.kill_chain_phases,
+                "mitre_attack_id": obj.tags.mitre_attack_id,
+                "nist": obj.tags.nist
+            }
+
+            obj.runtime = "SPL-DSP"
+
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
                 exclude_none=True,
@@ -71,14 +82,16 @@ class ObjToYmlAdapter(Adapter):
                         "how_to_implement": True,
                         "known_false_positives": True,
                         "references": True,
+                        "runtime": True,
                         "tags": 
                             {
-                                "analytic_story": True,
-                                "cis20" : True,
-                                "nist": True,
-                                "kill_chain_phases": True,
+                                #"analytic_story": True,
+                                #"cis20" : True,
+                                #"nist": True,
+                                #"kill_chain_phases": True,
+                                "annotations": True,
                                 "mappings": True,
-                                "mitre_attack_id": True,
+                                #"mitre_attack_id": True,
                                 "risk_severity": True,
                                 "risk_score": True,
                                 "security_domain": True,

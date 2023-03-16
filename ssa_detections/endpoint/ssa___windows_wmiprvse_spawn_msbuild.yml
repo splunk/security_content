@@ -31,7 +31,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
   null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
   | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  process_file_name="MSBuild.exe" AND match_regex(actor_process_file_name, /(?i)wmiprvse.exe/)=true
+  match_regex(actor_process_file_name, /(?i)wmiprvse.exe/)=true AND process_file_name="MSBuild.exe"
   --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -61,7 +61,7 @@ tags:
   - name: device.hostname
     type: Hostname
   - name: process.file.name
-    type: File Name
+    type: File
   - name: process.cmd_line
     type: Other
   - name: actor.process.file.name

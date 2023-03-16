@@ -32,41 +32,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   OR process_file_name="pwsh.exe") AND (NOT match_regex(process_cmd_line, /(?i)(?i)[\\-|\\/]w(in*d*o*w*s*t*y*l*e*)*\\s+[^-]/)=true)
   
   | eval body=create_map(
-    "activity_id", 1,
-    "analytic_stories", ["Malicious PowerShell", "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns", "HAFNIUM Group", "Log4Shell CVE-2021-44228"],
-    "cis_csc", [create_map("control", "CIS 10", "version", 7)],
-    "category_uid", 2,
-    "class_name", "Detection Report",
-    "class_uid", 102001,
-    "confidence", 70,
-    "confidence_id", 3,
     "devices", [
         create_map(
             "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
     ],
-    "duration", 0,
     "time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "impact", 50,
-    "impact_id", 3,
-    "kill_chain", [create_map("phase", "Actions on Objectives", "phase_id", 7)],
-    "attacks", [create_map("tactics", [create_map("name", "Exfiltration", "uid", "TA0010")], "technique", create_map("name", "Automated Exfiltration", "uid", "T1020"), "version", "12.1")],  
     "message", concat("Windows Powershell Connect to Internet With Hidden Window has been triggered on ", device_hostname, " by ", process_user_name, "."),
-    "metadata", create_map(
-        "product", create_map(
-            "name", "Behavioral Analytic Service",
-            "vendor_name", "Splunk"
-        ),
-        "version", "1.0.0"
-    ),
-    "nist", ["DE.AE"],
-    "observables", [create_map("name", "process.user.name", "type_id", 4, "value", process_user_name), create_map("name", "device.hostname", "type_id", 1, "value", device_hostname), create_map("name", "process.file.name", "type_id", 7, "value", process_file_name), create_map("name", "process.cmd_line", "type_id", 99, "value", process_cmd_line)],
-    "risk_level", "Low",
-    "risk_level_id", 1,
-    "risk_score", 35,
-    "severity_id", 3,
-    "type_uid", 10200101,
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
@@ -88,19 +61,6 @@ references:
 - https://twitter.com/M_haggis/status/1440758396534214658?s=20
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 tags:
-  analytic_story:
-  - Malicious PowerShell
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - HAFNIUM Group
-  - Log4Shell CVE-2021-44228
-  cis20:
-  - CIS 10
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack_id:
-  - T1020
-  nist:
-  - DE.AE
   required_fields:
   - process.user.name
   - device.hostname
@@ -130,6 +90,20 @@ tags:
     cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  annotations:
+    analytic_story:
+    - Malicious PowerShell
+    - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+    - HAFNIUM Group
+    - Log4Shell CVE-2021-44228
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Actions on Objectives
+    mitre_attack_id:
+    - T1020
+    nist:
+    - DE.AE
 test:
   name: Windows Powershell Connect to Internet With Hidden Window Unit Test
   tests:
@@ -138,3 +112,4 @@ test:
     - file_name: hidden_windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/hidden_windows-security.log
       source: WinEventLog:Security
+runtime: SPL-DSP
