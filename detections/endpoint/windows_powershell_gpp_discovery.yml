@@ -18,6 +18,7 @@ references:
 - https://pentestlab.blog/2017/03/20/group-policy-preferences/
 - https://adsecurity.org/?p=2288 
 - https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
+- https://attack.mitre.org/techniques/T1552/006/
 tags:
   analytic_story:
   - Active Directory Privilege Escalation
