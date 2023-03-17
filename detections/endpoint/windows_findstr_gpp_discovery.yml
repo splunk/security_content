@@ -4,7 +4,8 @@ version: 1
 date: '2023-03-16'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint
 description: UPDATE_DESCRIPTION
 search: ' | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=findstr.exe AND Processes.process=*sysvol* AND Processes.process=*cpassword*)
