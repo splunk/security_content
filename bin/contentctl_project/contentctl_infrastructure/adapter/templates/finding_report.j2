@@ -12,6 +12,7 @@
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
-    ]
+    ],
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
   )
   | into write_ba_finding_events();

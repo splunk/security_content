@@ -47,7 +47,8 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
         )
-    ]
+    ],
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
