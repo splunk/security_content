@@ -1,0 +1,16 @@
+name: Active Directory Privilege Escalation
+id: fa34a5d8-df0a-404c-8237-11f99cba1d5f
+version: 1
+date: '2023-03-20'
+author: Mauricio Velazco, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: Active Directory Privilege Escalation
+  category: []
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
