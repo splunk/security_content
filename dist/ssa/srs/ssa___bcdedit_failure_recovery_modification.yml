@@ -34,10 +34,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "message", concat("BCDEdit Failure Recovery Modification has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
+    "rule", create_map("name", "BCDEdit Failure Recovery Modification", "uuid", "76d79d6e-25bb-40f6-b3b2-e0a6b7e5ea13")
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information

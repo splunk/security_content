@@ -39,10 +39,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "message", concat("Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
+    "rule", create_map("name", "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView", "uuid", "dc3f2af7-ca69-47ce-a122-9f9787e19417")
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this analytic, you will need to enable

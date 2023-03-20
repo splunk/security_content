@@ -40,10 +40,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "message", concat("Detect Prohibited Applications Spawning cmd exe has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
+    "rule", create_map("name", "Detect Prohibited Applications Spawning cmd exe", "uuid", "c10a18cb-fd80-4ffa-a844-25026e0a0c94")
   )
   | into write_ba_finding_events();'
 how_to_implement: In order to successfully implement this analytic, you will need

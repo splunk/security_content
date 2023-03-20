@@ -37,10 +37,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "message", concat("Office Product Spawning Windows Script Host has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
+    "rule", create_map("name", "Office Product Spawning Windows Script Host", "uuid", "3ea3851a-8736-41a0-bc09-7e4485b48fa6")
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
