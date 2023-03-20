@@ -4,3 +4,4 @@ filename: ransomware_notes.csv
 match_type: WILDCARD(ransomware_notes)
 min_matches: 1
 name: ransomware_notes_lookup
+case_sensitive_match: 'false'
