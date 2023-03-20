@@ -3,7 +3,7 @@ id: ffeb7893-ff06-446f-815b-33ca73224e92
 version: 1
 date: '2022-04-13'
 author: Michael Haag, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies a process attempting to delete a scheduled
