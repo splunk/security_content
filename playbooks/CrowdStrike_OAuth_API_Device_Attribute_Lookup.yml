@@ -1,15 +1,15 @@
-name: Crowdstrike OAuth API Device Attribute Lookup
+name: CrowdStrike OAuth API Device Attribute Lookup
 id: fc0eac01-af2b-4cb0-7b4d-63da67d3fe74
 version: 1
 date: '2023-01-11'
 author: Teoderick Contreras, Splunk
 type: Investigation
 description: "Accepts a user or device and looks up the most recent attributes and groups for that user or device. This playbook produces a normalized output for each user and device."
-playbook: Crowdstrike_OAuth_API_Device_Attribute_Lookup
+playbook: CrowdStrike_OAuth_API_Device_Attribute_Lookup
 how_to_implement: This input playbook requires the Crowdstrike OAuth API connector to be configured. It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
 references: []
 app_list: 
-  - Crowdstrike OAuth API
+  - CrowdStrike OAuth API
 tags:
   platform_tags:
     - attributes 
