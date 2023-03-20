@@ -3,7 +3,7 @@ id: c91a0852-9fbb-11ec-af44-acde48001122
 version: 1
 date: '2022-03-09'
 author: Mauricio Velazco, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 - Network_Traffic

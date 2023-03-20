@@ -3,7 +3,7 @@ id: 295ca9ed-e97b-4520-90f7-dfb6469902e1
 version: 1
 date: '2022-10-20'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies the suspicious child process of calc.exe due to dll side loading technique to execute another executable. 
@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
   | `drop_dm_object_name("Processes")` 
   | `security_content_ctime(firstTime)` 
-  |`security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)` 
   | `windows_dll_side_loading_process_child_of_calc_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process 
   that include the name of the process responsible for the changes from your endpoints into the `Endpoint` 
