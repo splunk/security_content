@@ -10,9 +10,10 @@
     "message", concat("{{ detection.name }} has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
+    "rule", create_map("name", "{{ detection.name }}", "uuid", "{{ detection.id }}")
   )
   | into write_ba_finding_events();

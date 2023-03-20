@@ -69,10 +69,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "message", concat("Windows DotNet Binary in Non Standard Path has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
+    "rule", create_map("name", "Windows DotNet Binary in Non Standard Path", "uuid", "21179107-099a-324a-94d3-08301e6c065f")
   )
   | into write_ba_finding_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.

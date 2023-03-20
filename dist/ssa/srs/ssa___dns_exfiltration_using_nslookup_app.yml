@@ -38,10 +38,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "message", concat("DNS Exfiltration Using Nslookup App has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(device,"uuid"), "string", null)
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null)
+    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
+    "rule", create_map("name", "DNS Exfiltration Using Nslookup App", "uuid", "2452e632-9e0d-11eb-34ba-acde48001122")
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
