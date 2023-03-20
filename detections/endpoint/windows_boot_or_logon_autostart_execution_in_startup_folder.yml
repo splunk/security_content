@@ -3,7 +3,7 @@ id: 99d157cb-923f-4a00-aee9-1f385412146f
 version: 1
 date: '2023-01-12'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic will identify suspicious files dropped or created in the Windows %startup% folder. 

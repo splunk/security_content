@@ -1,0 +1,23 @@
+name: CVE-2023-21716 Word RTF Heap Corruption
+id: b1aeaf2c-8496-42e7-b2f7-15c328bc75d9
+version: 1
+date: '2023-03-10'
+author: Michael Haag, Splunk
+description: A proof-of-concept for CVE-2023-21716, a critical vulnerability in Microsoft Word that allows remote code execution utilizing a heap corruption in rich text files.
+narrative: This analytic story covers content that will assist organizations in identifying potential RTF RCE abuse on endpoints.
+  The vulnerability was assigned a 9.8 out of 10 severity score, with Microsoft addressing it in the February Patch Tuesday security updates along with a couple of workarounds. 
+  Security researcher Joshua Drake last year discovered the vulnerability in Microsoft Office''s "wwlib.dll" and sent Microsoft a technical advisory containing proof-of-concept (PoC) code showing the issue is exploitable.
+  A remote attacker could potentially take advantage of the issue to execute code with the same privileges as the victim that opens a malicious .RTF document.
+  Delivering the malicious file to a victim can be as easy as an attachment to an email, although plenty of other methods exist.
+  Microsoft warns that users don''t have to open a malicious RTF document and simply loading the file in the Preview Pane is enough for the compromise to start. (BleepingComputer, 2023) 
+references:
+  - https://www.bleepingcomputer.com/news/security/proof-of-concept-released-for-critical-microsoft-word-rce-bug/ 
+tags:
+  analytic_story: CVE-2023-21716 Word RTF Heap Corruption
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
