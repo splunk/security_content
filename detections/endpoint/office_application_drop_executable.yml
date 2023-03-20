@@ -38,6 +38,7 @@ tags:
   analytic_story:
   - FIN7
   - AgentTesla
+  - CVE-2023-21716 Word RTF Heap Corruption
   confidence: 80
   context:
   - Source:Endpoint

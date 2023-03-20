@@ -3,7 +3,7 @@ id: cb909b3e-512b-11ec-aa31-3e22fbd008af
 version: 1
 date: '2021-11-29'
 author: Mauricio Velazco, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic assists with identifying a PowerShell process
@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Processes.parent_process_name=wsmprovhost.exe OR Processes.parent_process_name=mmc.exe)
   (Processes.process_name=powershell.exe OR (Processes.process_name=cmd.exe AND Processes.process=*powershell.exe*)
   OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*))
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
