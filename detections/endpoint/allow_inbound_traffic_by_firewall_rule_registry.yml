@@ -3,7 +3,7 @@ id: 0a46537c-be02-11eb-92ca-acde48001122
 version: 4
 date: '2022-11-14'
 author: Steven Dick, Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic detects a potential suspicious modification of firewall

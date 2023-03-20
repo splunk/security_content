@@ -3,7 +3,7 @@ id: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
 version: 3
 date: '2022-03-15'
 author: Michael Haag, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies rundll32.exe with no command line arguments.

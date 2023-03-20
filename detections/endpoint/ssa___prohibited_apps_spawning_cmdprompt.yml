@@ -39,6 +39,7 @@ tags:
   analytic_story:
   - Suspicious Command-Line Executions
   - Insider Threat
+  - CVE-2023-21716 Word RTF Heap Corruption
   cis20:
   - CIS 8
   confidence: 50
