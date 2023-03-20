@@ -3,7 +3,7 @@ id: 9be25988-ad82-11eb-a14f-acde48001122
 version: 1
 date: '2023-01-25'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic will detect a suspicious process running in a
