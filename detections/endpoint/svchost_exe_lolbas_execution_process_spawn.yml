@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   "Regsvr32.exe", "Msiexec.exe", "Wuauclt.exe", "Presentationhost.exe", "Wmic.exe",
   "Runonce.exe", "Syncappvpublishingserver.exe", "Verclsid.exe", "Infdefaultinstall.exe",
   "Installutil.exe", "Netsh.exe", "Wab.exe", "Dnscmd.exe", "At.exe", "Pcalua.exe",
-  "Msconfig.exe")) by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  "Msconfig.exe")) by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `svchost_lolbas_execution_process_spawn_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
