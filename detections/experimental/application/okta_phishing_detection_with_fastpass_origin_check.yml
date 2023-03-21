@@ -2,7 +2,7 @@ name: Okta Phishing Detection with FastPass Origin Check
 id: f4ca0057-cbf3-44f8-82ea-4e330ee901d3
 version: 1
 date: '2023-03-09'
-author: Michael Haag, Splunk
+author: Okta, Inc, Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: The following analytic identifies when Okta''s FastPass prevents known phishing sites. When your users are enrolled in FastPass, Okta can provide defenders a high-fidelity signal for when user applications are being targeted by attackers wielding real-time (AiTM) proxies.
