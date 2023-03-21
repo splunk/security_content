@@ -5,11 +5,11 @@ date: '2023-03-17'
 author: Scott Dermott and Felicity Robson, Okta, Michael Haag, Splunk
 type: Hunting
 datamodel: []
-description: 'The following analytic looks for one or more policy evaluation events in which multiple client values (IP, User Agent, etc.) change associated to the same Device Token for a specific user. A detection opportunity arises when an adversary attempts to reuse a stolen web session cookie. /
+description: 'The following analytic looks for one or more policy evaluation events in which multiple client values (IP, User Agent, etc.) change associated to the same Device Token for a specific user. A detection opportunity arises when an adversary attempts to reuse a stolen web session cookie. \
 
-  * Retrieves policy evaluation events from successful authentication events. /
+  * Retrieves policy evaluation events from successful authentication events. \
 
-  * Aggregates/Groups by Device Token and User, providing the first policy evaluation event in the search window. / 
+  * Aggregates/Groups by Device Token and User, providing the first policy evaluation event in the search window. \
 
   * Evaluates whether there is more than one IP and whether there is more than one OS or browser for each combination of User/Device Token.'
 search: '`okta` eventType IN (policy.evaluate_sign_on) outcome.result IN
