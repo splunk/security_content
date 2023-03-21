@@ -1,6 +1,6 @@
-name: Splunk improperly formatted ingest eval parameter crashes splunkd Unit Test
+name: Splunk Improperly Formatted Parameter Crashes splunkd Unit Test
 tests:
-  - name: Splunk improperly formatted ingest eval parameter crashes splunkd
+  - name: Splunk Improperly Formatted Parameter Crashes splunkd
     file: application/splunk_improperly_formatted_parameter_crashes_splunkd.yml
     pass_condition: "| stats count | where count > 0"
     earliest_time: -24h
@@ -8,6 +8,6 @@ tests:
     attack_data:
       - file_name: splunk_improperly_formatted_ingest_eval_parameter_crashes_splunkd_data.log
         data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk/splunk_improperly_formatted_ingest_eval_parameter_crashes_splunkd_data.log
-        source: splunkd_ui_access.log
-        sourcetype: splunkd_ui_access
-        custom_index: _internal
+        source: audittrail
+        sourcetype: audittrail 
+        custom_index: _audit
