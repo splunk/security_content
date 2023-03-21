@@ -1,0 +1,13 @@
+name: Windows Large Number of Computer Service Tickets Requested Unit Test
+tests:
+- name: Windows Large Number of Computer Service Tickets Requested
+  file: endpoint/windows_large_number_of_computer_service_tickets_requested.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/large_number_computer_service_tickets/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

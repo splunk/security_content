@@ -1,0 +1,13 @@
+name: Windows File Share Discovery With Powerview Unit Test
+tests:
+- name: Windows File Share Discovery With Powerview
+  file: endpoint/windows_file_share_discovery_with_powerview.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
