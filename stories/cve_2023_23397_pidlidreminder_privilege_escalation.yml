@@ -1,4 +1,4 @@
-name: CVE-2023-23397 PidLidReminder Privilege Escalation
+name: CVE-2023-23397 Outlook Elevation of Privilege
 id: b459911b-551f-480f-a402-18cf89ca1e9c
 version: 1
 date: '2023-03-15'
@@ -14,7 +14,7 @@ references:
   - https://msrc.microsoft.com/blog/2023/03/microsoft-mitigates-outlook-elevation-of-privilege-vulnerability/
   - https://www.pwndefend.com/2023/03/15/the-long-game-persistent-hash-theft/
 tags:
-  analytic_story: CVE-2023-23397 PidLidReminder Privilege Escalation
+  analytic_story: CVE-2023-23397 Outlook Elevation of Privilege
   category:
   - Adversary Tactics
   product:
