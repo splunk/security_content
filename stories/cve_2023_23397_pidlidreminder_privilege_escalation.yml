@@ -4,10 +4,11 @@ version: 1
 date: '2023-03-15'
 author: Michael Haag, Splunk
 description: Microsoft has released CVE-2023-23397 to address the critical elevation of privilege (EoP) vulnerability affecting Microsoft Outlook for Windows. 
-narrative: Microsoft Threat Intelligence discovered limited, targeted abuse of a vulnerability in Microsoft Outlook for Windows that allows for new technology LAN manager (NTLM) credential theft. Microsoft has released CVE-2023-23397 to address the critical elevation of privilege (EoP) vulnerability affecting Microsoft Outlook for Windows. We strongly recommend all customers update Microsoft Outlook for Windows to remain secure.
-  CVE-2023-23397 is a critical EoP vulnerability in Microsoft Outlook that is triggered when an attacker sends a message with an extended MAPI property with a UNC path to an SMB (TCP 445) share on a threat actor-controlled server. No user interaction is required.
+narrative: Microsoft Threat Intelligence discovered limited, targeted abuse of a vulnerability in Microsoft Outlook for Windows that allows for new technology LAN manager (NTLM) credential theft. Microsoft has released CVE-2023-23397 to address the critical elevation of privilege (EoP) vulnerability affecting Microsoft Outlook for Windows. We strongly recommend all customers update Microsoft Outlook for Windows to remain secure.\
 
-  The connection to the remote SMB server sends the user''s NTLM negotiation message, which the attacker can then relay for authentication against other systems that support NTLM authentication. Online services such as Microsoft 365 do not support NTLM authentication and are not vulnerable to being attacked by these messages. (2023, Microsoft)
+  CVE-2023-23397 is a critical EoP vulnerability in Microsoft Outlook that is triggered when an attacker sends a message with an extended MAPI property with a UNC path to an SMB (TCP 445) share on a threat actor-controlled server. No user interaction is required.\
+  
+ The connection to the remote SMB server sends the user''s NTLM negotiation message, which the attacker can then relay for authentication against other systems that support NTLM authentication. Online services such as Microsoft 365 do not support NTLM authentication and are not vulnerable to being attacked by these messages. (2023, Microsoft)
 references:
   - https://twitter.com/ACEResponder/status/1636116096506818562?s=20
   - https://twitter.com/domchell/status/1635999068282408962?s=20
