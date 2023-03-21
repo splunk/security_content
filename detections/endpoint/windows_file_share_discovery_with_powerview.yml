@@ -9,10 +9,10 @@ description: The following analytic identifies the use of the Invoke-ShareFinder
   active domain computers and lists the active shares on each computer. Network file shares in Active Directory environments may contain sensitive information
   like backups, scripts, credentials, etc. Adversaries who have obtained a foothold in an AD network may leverage PowerView to identify secrets and leverage them 
   for Privilege Escalation or Lateral Movement.
-search: ' `powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*)
+search: '`powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*)
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  `windows_file_share_discovery_with_powerview_filter`'
+  | `windows_file_share_discovery_with_powerview_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
@@ -40,7 +40,7 @@ tags:
   kill_chain_phases:
   - Exploitation
   - Actions on Objectives
-  message: UPDATE message
+  message: Invoke-ShareFinder commandlet was executed on $Computer$
   mitre_attack_id:
   - T1135
   nist:
