@@ -1,7 +1,7 @@
-name: Detect shared ec2 snapshot Unit Test
+name: AWS EC2 Snapshot Shared Externally Unit Test
 tests:
-- name: Detect shared ec2 snapshot
-  file: cloud/detect_shared_ec2_snapshot.yml
+- name: AWS EC2 Snapshot Shared Externally
+  file: cloud/aws_ec2_snapshot_shared_externally.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -7d
   latest_time: now

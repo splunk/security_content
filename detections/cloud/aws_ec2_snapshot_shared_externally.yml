@@ -1,7 +1,7 @@
-name: Detect shared ec2 snapshot
+name: AWS EC2 Snapshot Shared Externally
 id: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
-version: 2
-date: '2021-07-20'
+version: 3
+date: '2023-03-20'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel: []
@@ -9,9 +9,7 @@ description: The following analytic utilizes AWS CloudTrail events to identify w
   an EC2 snapshot permissions are modified to be shared with a different AWS account.
   This method is used by adversaries to exfiltrate the EC2 snapshot.
 search: '`cloudtrail` eventName=ModifySnapshotAttribute | rename requestParameters.createVolumePermission.add.items{}.userId
-  as requested_account_id | search requested_account_id != NULL | eval match=if(requested_account_id==aws_account_id,"Match","No
-  Match") | table _time user_arn src_ip requestParameters.attributeType requested_account_id
-  aws_account_id match vendor_region user_agent | where match = "No Match" | `detect_shared_ec2_snapshot_filter` '
+  as requested_account_id | search requested_account_id != NULL | eval match=if(requested_account_id==aws_account_id,"Match","No Match") | table _time user_arn src_ip requestParameters.attributeType requested_account_id aws_account_id match vendor_region user_agent userIdentity.principalId | where match = "No Match" | `aws_ec2_snapshot_shared_externally_filter` '
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
 known_false_positives: It is possible that an AWS admin has legitimately shared a
@@ -34,7 +32,7 @@ tags:
   - Stage:Exfiltration
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
-  impact: 60
+  impact: 100
   kill_chain_phases:
   - Actions on Objectives
   message: AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$
@@ -67,5 +65,6 @@ tags:
   - aws_account_id
   - vendor_region
   - user_agent
-  risk_score: 48
+  - userIdentity.principalId
+  risk_score: 80
   security_domain: threat
