@@ -1,7 +1,7 @@
-name: AWS EC2 Snapshot Shared Externally Unit Test
+name: AWS EC2 Snapshot Possible Exfiltration Unit Test
 tests:
-- name: AWS EC2 Snapshot Shared aws_ec2_snapshot_shared_externally
-  file: cloud/aws_ec2_snapshot_shared_externally.yml
+- name: AWS EC2 Snapshot Possible Exfiltration
+  file: cloud/aws_ec2_snapshot_possible_exfiltration.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -7d
   latest_time: now
