@@ -4,7 +4,7 @@ version: 1
 date: '2022-04-13'
 author: Michael Haag, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: The following analytic identifies a process attempting to delete a scheduled
   task SD (Security Descriptor) from within the registry path of that task. This may
   occur from a non-standard process running and may not come from reg.exe. This particular
