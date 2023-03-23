@@ -42,6 +42,7 @@ tags:
   - Remcos
   - Qakbot
   - AgentTesla
+  - CVE-2023-21716 Word RTF Heap Corruption
   asset_type: Endpoint
   confidence: 80
   impact: 70

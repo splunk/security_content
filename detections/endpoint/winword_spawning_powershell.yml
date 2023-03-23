@@ -36,6 +36,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - DarkCrystal RAT
+  - CVE-2023-21716 Word RTF Heap Corruption
   asset_type: Endpoint
   confidence: 100
   impact: 70
