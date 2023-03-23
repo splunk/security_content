@@ -7,7 +7,7 @@ type: Hunting
 datamodel:
 - Endpoint
 description: This search detects a series of AWS API calls, made in a short time window, related to EC2 snapshots that can detect a potential exfiltration via EC2 Snapshot modifications. In this attack, the attacker typically proceeds by listing and creating EC2 snapshots of the available EC2 instances followed by modifying snapshot attributes such that it can be shared externally. Once this is done, the attacker can then load that EC2 snapshot and access all the sensitive information. 
-search: '`cloudtrail` eventName IN ("DescribeSnapshotAttribute", "CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute") src_ip NOT IN ("guardduty.amazonaws.com")
+search: '`cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip NOT IN ("guardduty.amazonaws.com")
 |  bin _time span=5m 
 |  stats count dc(eventName) as distinct_api_calls values(eventName)  values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(userAgent) as userAgent by _time userName src_ip aws_account_id 
 | where distinct_api_calls >= 2 | `aws_exfiltration_via_ec2_snapshot_filter`'
