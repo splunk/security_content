@@ -8,12 +8,16 @@ datamodel: []
 description: UPDATE_DESCRIPTION
 search: ' EventCode=4624 LogonType=3 TargetUserName!="ANONYMOUS LOGON" TargetUserName!="*$"
   | bucket span=5m _time
-  | stats dc(Computer) AS unique_targets values(Computer) as host_targets by _time, IpAddress, TargetUserName, EventCode
+  | stats dc(Computer) AS unique_targets values(Computer) as host_targets by _time, IpAddress, TargetUserName
+  | where unique_targets > 40
   | `windows_rapid_authentication_on_multiple_hosts_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows Event Logs from domain controllers as well as member servers and workstations.
+  The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
+  to be enabled.
+known_false_positives: Vulnerability scanners or system administration tools may also trigger this detection. Filter as needed.
 references:
-- REFERENCE
+- https://attack.mitre.org/techniques/T1135/
 tags:
   analytic_story:
   - Active Directory Privilege Escalation
@@ -24,9 +28,11 @@ tags:
   - CIS 16
   confidence: 80
   context:
-  - Update context
+  - Source:Endpoint
+  - Stage:Discovery
+  - Stage:Privilege Escalation
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/rapid_authentication_multiple_hosts/windows-security.log
   impact: 60
   kill_chain_phases:
   - Exploitation
@@ -36,21 +42,24 @@ tags:
   nist:
   - DE.CM
   observable:
-  - name: UPDATE
-    type: UPDATE
+  - name: ComputerName
+    type: Endpoint
     role:
-    - UPDATE
+    - Victim
+  - name: IpAddress
+    type: Endpoint
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - 
-  - 
-  -
-  -
-  -
-  - 
+  - EventCode
+  - Logon_Type
+  - TargetUserName
+  - Computer
+  - IpAddress
   risk_score: 48
   security_domain: endpoint
