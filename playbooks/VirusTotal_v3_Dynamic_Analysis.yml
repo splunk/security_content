@@ -1,0 +1,26 @@
+name: VirusTotal V3 Dynamic Analysis
+id: 388ed434-a498-4d55-8de4-b2657825cb67
+version: 1
+date: '2023-03-23'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: "Accepts a url link, domain or vault_id (hash) to be detonated using Virustotal V3 connector."
+playbook: VirusTotal_v3_Dynamic_Analysis
+how_to_implement: This input playbook requires the Virustotal V3 API connector to be configured. 
+  It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - virustotal v3
+tags:
+  platform_tags:
+    - reputation 
+    - url
+    - domain
+    - sandbox
+    - ip 
+    - virustotal_v3
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
