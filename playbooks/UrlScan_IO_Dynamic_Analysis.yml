@@ -18,7 +18,6 @@ tags:
     - domain
     - sandbox
     - ip 
-    - urlscan.io
   playbook_type: Input
   vpe_type: Modern
   playbook_fields: []
