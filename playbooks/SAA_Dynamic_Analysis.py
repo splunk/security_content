@@ -468,7 +468,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
             observable_object = {
                 "value": url,
                 "type": "url",
-                "reputation": {
+                "sandbox": {
                     "score": url_object['score'],
                     "confidence": url_object['confidence']
                 },
@@ -816,9 +816,9 @@ def build_file_output(action=None, success=None, container=None, results=None, h
             phantom.debug("vault: {} id: {}".format(_vault_id, external_id))
             observable_object = {
 
-                "vault_id": _vault_id,
+                "value": _vault_id,
                 "type": "hash",
-                "reputation": {
+                "sandbox": {
                     "score": file_object['score'],
                     "confidence": file_object['confidence'],
 
@@ -847,14 +847,28 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 def on_finish(container, summary):
     phantom.debug("on_finish() called")
 
+    build_url_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_url_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+    build_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+
+    observable_combined_value = phantom.concatenate(build_url_output__observable_array, build_file_output__observable_array)
+
+    output = {
+        "observable": observable_combined_value,
+    }
+
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
     # Write your custom code here...
-
+    format_url_report = phantom.get_format_data(name="format_url_report")
+    format_file_report = phantom.get_format_data(name="format_file_report")
+    markdown_report_combined_value = phantom.concatenate(format_url_report, format_file_report)
+    output['markdown_report'] = markdown_report_combined_value
     ################################################################################
     ## Custom Code End
     ################################################################################
+
+    phantom.save_playbook_output_data(output=output)
 
     return

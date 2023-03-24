@@ -1,7 +1,7 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Uncategorized",
+    "category": "Dynamic Analysis",
     "coa": {
         "data": {
             "description": "Accepts a URL or File_Hash and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\nRef: https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/",
@@ -186,7 +186,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -200,9 +200,10 @@
                     "errors": {},
                     "id": "1",
                     "type": "end",
+                    "userCode": "\n    # Write your custom code here...\n    format_url_report = phantom.get_format_data(name=\"format_url_report\")\n    format_file_report = phantom.get_format_data(name=\"format_file_report\")\n    markdown_report_combined_value = phantom.concatenate(format_url_report, format_file_report)\n    output['markdown_report'] = markdown_report_combined_value\n",
                     "warnings": {},
-                    "x": 190,
-                    "y": 1804
+                    "x": 200,
+                    "y": 1800
                 },
                 "10": {
                     "data": {
@@ -259,7 +260,7 @@
                     "errors": {},
                     "id": "11",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    phantom.debug(playbook_input_url_values)\n    # Build URL\n    for jobs_id in get_jobid_of_url_detonation_output__jobid:\n        \n        for url, external_id, url_object in zip(playbook_input_url_values, jobs_id, normalized_job_forensic_report_output__url_score_object):\n            parsed_url = urlparse(url)\n            phantom.debug(\"url: {} jobs_id:{}\".format(url, external_id))\n            phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n            observable_object = {\n                \"value\": url,\n                \"type\": \"url\",\n                \"reputation\": {\n                    \"score\": url_object['score'],\n                    \"confidence\": url_object['confidence']\n                },\n                \"attributes\": {\n                    \"hostname\": parsed_url.hostname,\n                    \"scheme\": parsed_url.scheme\n                },\n                \"categories\": url_object['categories'],\n                \"source\": \"Splunk Attack Analyzer (SAA)\",\n                \"source_link\": f\"https://app.twinwave.io/job/{external_id}\"\n            }\n\n            if parsed_url.path:\n                observable_object['attributes']['path'] = parsed_url.path\n            if parsed_url.query:\n                observable_object['attributes']['query'] = parsed_url.query\n            if parsed_url.port:\n                observable_object['attributes']['port'] = parsed_url.port\n\n            build_url_output__observable_array.append(observable_object)\n            phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    phantom.debug(playbook_input_url_values)\n    # Build URL\n    for jobs_id in get_jobid_of_url_detonation_output__jobid:\n        \n        for url, external_id, url_object in zip(playbook_input_url_values, jobs_id, normalized_job_forensic_report_output__url_score_object):\n            parsed_url = urlparse(url)\n            phantom.debug(\"url: {} jobs_id:{}\".format(url, external_id))\n            phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n            observable_object = {\n                \"value\": url,\n                \"type\": \"url\",\n                \"sandbox\": {\n                    \"score\": url_object['score'],\n                    \"confidence\": url_object['confidence']\n                },\n                \"attributes\": {\n                    \"hostname\": parsed_url.hostname,\n                    \"scheme\": parsed_url.scheme\n                },\n                \"categories\": url_object['categories'],\n                \"source\": \"Splunk Attack Analyzer (SAA)\",\n                \"source_link\": f\"https://app.twinwave.io/job/{external_id}\"\n            }\n\n            if parsed_url.path:\n                observable_object['attributes']['path'] = parsed_url.path\n            if parsed_url.query:\n                observable_object['attributes']['query'] = parsed_url.query\n            if parsed_url.port:\n                observable_object['attributes']['port'] = parsed_url.port\n\n            build_url_output__observable_array.append(observable_object)\n            phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1626
@@ -328,7 +329,7 @@
                     "userCode": "\n    # Write your custom code here...\n    get_jobid_of_file_detonation_output__jobid = []\n\n    get_jobid_of_file_detonation_output__jobid.append(saa_file_detonation_result_item_0)\n    #phantom.debug(\"get_jobid_of_file_detonation_output__jobid: {}\".format(get_jobid_of_file_detonation_output__jobid))\n",
                     "warnings": {},
                     "x": 340,
-                    "y": 686
+                    "y": 680
                 },
                 "15": {
                     "data": {
@@ -460,10 +461,10 @@
                     "errors": {},
                     "id": "19",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    for jobs_id in get_jobid_of_file_detonation_output__jobid:\n        for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, jobs_id, normalized_job_forensic_report_output_1__file_score_object):\n            phantom.debug(\"vault: {} id: {}\".format(_vault_id, external_id))\n            observable_object = {\n\n                \"vault_id\": _vault_id,\n                \"type\": \"hash\",\n                \"reputation\": {\n                    \"score\": file_object['score'],\n                    \"confidence\": file_object['confidence'],\n\n                },\n                \"enrichment\": {\n                    \"provider\": \"Splunk Attack Analyzer\",\n                    \"type\": \"file\",\n\n                },\n                \"categories\": file_object['categories'],\n                \"source\": \"Splunk Attack Analyzer (SAA)\",\n                \"source_link\":f\"https://app.twinwave.io/job/{external_id}\"\n            }\n            build_file_output__observable_array.append(observable_object)\n            phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    for jobs_id in get_jobid_of_file_detonation_output__jobid:\n        for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, jobs_id, normalized_job_forensic_report_output_1__file_score_object):\n            phantom.debug(\"vault: {} id: {}\".format(_vault_id, external_id))\n            observable_object = {\n\n                \"value\": _vault_id,\n                \"type\": \"hash\",\n                \"sandbox\": {\n                    \"score\": file_object['score'],\n                    \"confidence\": file_object['confidence'],\n\n                },\n                \"enrichment\": {\n                    \"provider\": \"Splunk Attack Analyzer\",\n                    \"type\": \"file\",\n\n                },\n                \"categories\": file_object['categories'],\n                \"source\": \"Splunk Attack Analyzer (SAA)\",\n                \"source_link\":f\"https://app.twinwave.io/job/{external_id}\"\n            }\n            build_file_output__observable_array.append(observable_object)\n            phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
                     "warnings": {},
                     "x": 340,
-                    "y": 1626
+                    "y": 1620
                 },
                 "2": {
                     "data": {
@@ -511,8 +512,8 @@
                     "id": "2",
                     "type": "filter",
                     "warnings": {},
-                    "x": 230,
-                    "y": 148
+                    "x": 240,
+                    "y": 140
                 },
                 "3": {
                     "data": {
@@ -586,7 +587,7 @@
                                     }
                                 ],
                                 "conditionIndex": 1,
-                                "customName": "saa_url_success_status",
+                                "customName": "saa_file_success_status",
                                 "logic": "and"
                             }
                         ],
@@ -717,8 +718,8 @@
                     "id": "7",
                     "type": "filter",
                     "warnings": {},
-                    "x": 230,
-                    "y": 1074
+                    "x": 240,
+                    "y": 1080
                 },
                 "8": {
                     "data": {
@@ -774,13 +775,25 @@
                 "name": "vault_id"
             }
         ],
-        "output_spec": null,
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_url_output:custom_function:observable_array",
+                    "build_file_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type, score, score_id, and categories.",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
         "playbook_type": "data",
         "python_version": "3",
         "schema": "5.0.8",
         "version": "5.5.0.108488"
     },
-    "create_time": "2023-03-23T11:53:03.128006+00:00",
+    "create_time": "2023-03-24T14:27:19.650468+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -788,7 +801,6 @@
     "tags": [
         "url",
         "file_hash",
-        "reputation",
         "D3-IPRA",
         "D3-FHRA",
         "D3-DNRA",
