@@ -484,7 +484,7 @@ def build_url_output_with_error_code(action=None, success=None, container=None, 
         observable_object = {
             "value": url,
             "type": "url",
-            "reputation": {
+            "sandbox": {
                 "score_id": url_object['score_id'],
                 "score": url_object['score'],
                 "confidence": url_object['confidence']
@@ -549,7 +549,7 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
         observable_object = {
             "value": url,
             "type": "url",
-            "reputation": {
+            "sandbox": {
                 "score_id": url_object['score_id'],
                 "score": url_object['score'],
                 "confidence": url_object['confidence']
@@ -585,14 +585,28 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
 def on_finish(container, summary):
     phantom.debug("on_finish() called")
 
+    build_url_output_with_error_code__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_url_output_with_error_code:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+    build_url_output_with_no_error_code__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_url_output_with_no_error_code:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+
+    observable_combined_value = phantom.concatenate(build_url_output_with_error_code__observable_array, build_url_output_with_no_error_code__observable_array)
+
+    output = {
+        "observable": observable_combined_value,
+    }
+
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
     # Write your custom code here...
-
+    no_error_code_format_report_url = phantom.get_format_data(name="no_error_code_format_report_url")
+    error_code_format_report_url = phantom.get_format_data(name="error_code_format_report_url")
+    markdown_report_combined_value = phantom.concatenate(no_error_code_format_report_url, error_code_format_report_url)
+    output['markdown_report'] = markdown_report_combined_value
     ################################################################################
     ## Custom Code End
     ################################################################################
+
+    phantom.save_playbook_output_data(output=output)
 
     return
