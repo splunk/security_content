@@ -1,7 +1,7 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Uncategorized",
+    "category": "Dynamic Analysis",
     "coa": {
         "data": {
             "description": "Accepts a URL or File_Hash and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\nRef: https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/",
@@ -310,7 +310,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 530,
-                    "y": -2.5579538487363607e-13
+                    "y": -3.197442310920451e-13
                 },
                 "1": {
                     "data": {
@@ -324,9 +324,10 @@
                     "errors": {},
                     "id": "1",
                     "type": "end",
+                    "userCode": "\n    # Write your custom code here...\n    format_report_url = phantom.get_format_data(name=\"format_report_url\")\n    format_report_win_file = phantom.get_format_data(name=\"format_report_win_file\")\n    format_report_linux_file = phantom.get_format_data(name=\"format_report_linux_file\")\n    format_report_android_file = phantom.get_format_data(name=\"format_report_android_file\")\n    format_report_mac_file = phantom.get_format_data(name=\"format_report_mac_file\")\n    markdown_report_combined_value = phantom.concatenate(format_report_url, format_report_win_file, format_report_linux_file, format_report_android_file, format_report_mac_file, format_report_mac_file)\n    output['markdown_report'] = markdown_report_combined_value\n",
                     "warnings": {},
                     "x": 700,
-                    "y": 1582
+                    "y": 1580
                 },
                 "10": {
                     "data": {
@@ -606,7 +607,7 @@
                     "errors": {},
                     "id": "15",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_win_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_win_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"vault_id\": _vault_id,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_win_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_win_file_output__observable_array: {}\".format(build_win_file_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    build_win_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_win_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"sandbox\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_win_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_win_file_output__observable_array: {}\".format(build_win_file_output__observable_array))\n",
                     "warnings": {},
                     "x": 340,
                     "y": 1400
@@ -841,7 +842,7 @@
                     "errors": {},
                     "id": "20",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_linux_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_linux_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"vault_id\": _vault_id,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_linux_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_linux_file_output__observable_array: {}\".format(build_linux_file_output__observable_array))\n\n",
+                    "userCode": "\n    # Write your custom code here...\n    build_linux_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_linux_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"sandbox\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_linux_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_linux_file_output__observable_array: {}\".format(build_linux_file_output__observable_array))\n\n",
                     "warnings": {},
                     "x": 680,
                     "y": 1400
@@ -1027,7 +1028,7 @@
                     "errors": {},
                     "id": "25",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_android_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_android_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"vault_id\": _vault_id,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_android_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_android_file_output__observable_array: {}\".format(build_android_file_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    build_android_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_android_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"sandbox\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_android_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_android_file_output__observable_array: {}\".format(build_android_file_output__observable_array))\n",
                     "warnings": {},
                     "x": 1020,
                     "y": 1380
@@ -1262,7 +1263,7 @@
                     "errors": {},
                     "id": "30",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_mac_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_mac_file_detonation_output__url_score_object):\n        observable_object = {\n            \n            \"vault_id\": _vault_id,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_mac_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_mac_file_output__observable_array: {}\".format(build_mac_file_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    build_mac_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_mac_file_detonation_output__url_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"sandbox\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_mac_file_output__observable_array.append(observable_object)\n        phantom.debug(\"build_mac_file_output__observable_array: {}\".format(build_mac_file_output__observable_array))\n",
                     "warnings": {},
                     "x": 1360,
                     "y": 1396
@@ -1394,7 +1395,7 @@
                     "errors": {},
                     "id": "7",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n# Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(playbook_input_url_values, crowdstrike_url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"reputation\": {\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence'],\n                \"categories\": url_object['categories']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\": f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n# Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(playbook_input_url_values, crowdstrike_url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"sandbox\": {\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence'],\n                \"categories\": url_object['categories']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\": f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
                     "warnings": {},
                     "x": 20,
                     "y": 1400
@@ -1446,13 +1447,28 @@
                 "name": "vault_id"
             }
         ],
-        "output_spec": null,
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_win_file_output:custom_function:observable_array",
+                    "build_linux_file_output:custom_function:observable_array",
+                    "build_android_file_output:custom_function:observable_array",
+                    "build_mac_file_output:custom_function:observable_array",
+                    "build_url_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type, score, score_id, and categories.",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
         "playbook_type": "data",
         "python_version": "3",
         "schema": "5.0.8",
         "version": "5.5.0.108488"
     },
-    "create_time": "2023-03-23T11:14:48.461550+00:00",
+    "create_time": "2023-03-24T14:42:42.435739+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -1460,7 +1476,6 @@
     "tags": [
         "file_hash",
         "url",
-        "reputation",
         "D3-IPRA",
         "domain",
         "D3-FHRA",
@@ -1468,6 +1483,7 @@
         "D3-URA",
         "sandbox",
         "D3-IRA",
-        "ip"
+        "ip",
+        "CrowdStrike_OAuth_API"
     ]
 }

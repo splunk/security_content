@@ -289,7 +289,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
         observable_object = {
             "value": url,
             "type": "url",
-            "reputation": {
+            "sandbox": {
                 "score": url_object['score'],
                 "confidence": url_object['confidence'],
                 "categories": url_object['categories']
@@ -654,9 +654,9 @@ def build_win_file_output(action=None, success=None, container=None, results=Non
     for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_win_file_detonation_output__file_score_object):
         observable_object = {
             
-            "vault_id": _vault_id,
+            "value": _vault_id,
             "type": "hash",
-            "reputation": {
+            "sandbox": {
                 "score": file_object['score'],
                 "confidence": file_object['confidence'],
                 "categories": file_object['categories']
@@ -891,9 +891,9 @@ def build_linux_file_output(action=None, success=None, container=None, results=N
     for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_linux_file_detonation_output__file_score_object):
         observable_object = {
             
-            "vault_id": _vault_id,
+            "value": _vault_id,
             "type": "hash",
-            "reputation": {
+            "sandbox": {
                 "score": file_object['score'],
                 "confidence": file_object['confidence'],
                 "categories": file_object['categories']
@@ -1129,9 +1129,9 @@ def build_android_file_output(action=None, success=None, container=None, results
     for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_android_file_detonation_output__file_score_object):
         observable_object = {
             
-            "vault_id": _vault_id,
+            "value": _vault_id,
             "type": "hash",
-            "reputation": {
+            "sandbox": {
                 "score": file_object['score'],
                 "confidence": file_object['confidence'],
                 "categories": file_object['categories']
@@ -1367,9 +1367,9 @@ def build_mac_file_output(action=None, success=None, container=None, results=Non
     for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_mac_file_detonation_output__url_score_object):
         observable_object = {
             
-            "vault_id": _vault_id,
+            "value": _vault_id,
             "type": "hash",
-            "reputation": {
+            "sandbox": {
                 "score": file_object['score'],
                 "confidence": file_object['confidence'],
                 "categories": file_object['categories']
@@ -1397,14 +1397,34 @@ def build_mac_file_output(action=None, success=None, container=None, results=Non
 def on_finish(container, summary):
     phantom.debug("on_finish() called")
 
+    build_win_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_win_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+    build_linux_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_linux_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+    build_android_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_android_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+    build_mac_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_mac_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+    build_url_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_url_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
+
+    observable_combined_value = phantom.concatenate(build_win_file_output__observable_array, build_linux_file_output__observable_array, build_android_file_output__observable_array, build_mac_file_output__observable_array, build_url_output__observable_array)
+
+    output = {
+        "observable": observable_combined_value,
+    }
+
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
     # Write your custom code here...
-
+    format_report_url = phantom.get_format_data(name="format_report_url")
+    format_report_win_file = phantom.get_format_data(name="format_report_win_file")
+    format_report_linux_file = phantom.get_format_data(name="format_report_linux_file")
+    format_report_android_file = phantom.get_format_data(name="format_report_android_file")
+    format_report_mac_file = phantom.get_format_data(name="format_report_mac_file")
+    markdown_report_combined_value = phantom.concatenate(format_report_url, format_report_win_file, format_report_linux_file, format_report_android_file, format_report_mac_file, format_report_mac_file)
+    output['markdown_report'] = markdown_report_combined_value
     ################################################################################
     ## Custom Code End
     ################################################################################
+
+    phantom.save_playbook_output_data(output=output)
 
     return
