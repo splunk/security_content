@@ -12,12 +12,11 @@ app_list:
   - CrowdStrike OAuth API
 tags:
   platform_tags:
-    - attributes 
-    - user
-    - device 
-    - host name
+    - reputation 
+    - url
+    - domain
+    - sandbox
     - ip 
-    - crowdstrike_oauth_api
   playbook_type: Input
   vpe_type: Modern
   playbook_fields: []
