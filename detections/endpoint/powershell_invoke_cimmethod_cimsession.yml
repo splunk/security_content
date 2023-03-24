@@ -19,6 +19,7 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   cis20:
   - CIS 3

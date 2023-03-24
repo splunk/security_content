@@ -20,7 +20,7 @@ references:
   - https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
-  - Active Directory Discovery
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   cis20:
   - CIS 3
