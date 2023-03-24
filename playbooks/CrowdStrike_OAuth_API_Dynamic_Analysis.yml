@@ -16,7 +16,8 @@ tags:
     - url
     - domain
     - sandbox
-    - ip 
+    - ip
+    - file_hash
   playbook_type: Input
   vpe_type: Modern
   playbook_fields: []
