@@ -1,4 +1,4 @@
-name: Windows IPC Share Accessed On Multiple Hosts
+name: Windows Administrative Shares Accessed On Multiple Hosts
 id: d92f2d95-05fb-48a7-910f-4d3d61ab8655
 version: 1
 date: '2023-03-23'
@@ -6,11 +6,11 @@ author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: UPDATE_DESCRIPTION
-search: ' `wineventlog_security`  EventCode=5140 ShareName="\\\\*\\IPC$"
+search: ' `wineventlog_security` EventCode=5140 (ShareName="\\\\*\\ADMIN$" OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$")
   | bucket span=5m _time
   | stats dc(Computer) AS unique_targets values(Computer) as host_targets by _time, IpAddress, SubjectUserName, ShareName
   | where unique_targets > 40
-  | `windows_ipc_share_accessed_on_multiple_hosts_filter`'
+  | `windows_administrative_shares_accessed_on_multiple_hosts_filter`'
 how_to_implement: UPDATE_HOW_TO_IMPLEMENT
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
 references:

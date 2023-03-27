@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Privilege Escalation
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   cis20:
   - CIS 3

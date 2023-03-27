@@ -1,4 +1,4 @@
-name: Windows Rapid Authentication on Multiple Hosts
+name: Windows Rapid Authentication On Multiple Hosts
 id: 62606c77-d53d-4182-9371-b02cdbbbcef7
 version: 1
 date: '2023-03-23'
@@ -21,6 +21,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Privilege Escalation
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   cis20:
   - CIS 3

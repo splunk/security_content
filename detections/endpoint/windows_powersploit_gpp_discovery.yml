@@ -1,4 +1,4 @@
-name: Windows PowerShell GPP Discovery
+name: Windows PowerSploit GPP Discovery
 id: 0130a0df-83a1-4647-9011-841e950ff302
 version: 1
 date: '2023-03-16'
@@ -12,7 +12,7 @@ description: The following analytic identifies the use of the Get-GPPPassword Po
 search: ' `powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_powershell_gpp_discovery_filter`'
+  | `windows_powersploit_gpp_discovery_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.

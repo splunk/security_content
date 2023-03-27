@@ -1,6 +1,6 @@
-name: Windows Rapid Authentication on Multiple Hosts Unit Test
+name: Windows Rapid Authentication On Multiple Hosts Unit Test
 tests:
-- name: Windows Rapid Authentication on Multiple Hosts
+- name: Windows Rapid Authentication On Multiple Hosts
   file: endpoint/windows_rapid_authentication_on_multiple_hosts.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
