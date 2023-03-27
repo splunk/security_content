@@ -83,18 +83,7 @@ def saa_url_detonation(action=None, success=None, container=None, results=None, 
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="saa_url_detonation", assets=["splunk attack analyzer"], callback=join_url_detonation_status_filter)
-
-    return
-
-
-@phantom.playbook_block()
-def join_url_detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("join_url_detonation_status_filter() called")
-
-    if phantom.completed(action_names=["saa_url_detonation", "saa_file_detonation"]):
-        # call connected block "url_detonation_status_filter"
-        url_detonation_status_filter(container=container, handle=handle)
+    phantom.act("detonate url", parameters=parameters, name="saa_url_detonation", assets=["splunk attack analyzer"], callback=filter_5)
 
     return
 
@@ -111,25 +100,13 @@ def url_detonation_status_filter(action=None, success=None, container=None, resu
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["saa_url_detonation:action_result.status", "==", "success"]
+            ["saa_file_detonation:action_result.status", "==", "success"]
         ],
         name="url_detonation_status_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        get_jobid_of_url_detonation_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
-
-    # collect filtered artifact ids and results for 'if' condition 2
-    matched_artifacts_2, matched_results_2 = phantom.condition(
-        container=container,
-        conditions=[
-            ["saa_file_detonation:action_result.status", "==", "success"]
-        ],
-        name="url_detonation_status_filter:condition_2")
-
-    # call connected blocks if filtered artifacts or results
-    if matched_artifacts_2 or matched_results_2:
-        get_jobid_of_file_detonation_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_2, filtered_results=matched_results_2)
+        get_jobid_of_file_detonation_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
@@ -207,18 +184,7 @@ def ssa_get_job_forensics_output(action=None, success=None, container=None, resu
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="ssa_get_job_forensics_output", assets=["splunk attack analyzer"], callback=join_get_jobid_forensic_filter)
-
-    return
-
-
-@phantom.playbook_block()
-def join_get_jobid_forensic_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("join_get_jobid_forensic_filter() called")
-
-    if phantom.completed(action_names=["ssa_get_job_forensics_output", "saa_get_file_job_forensics_output"]):
-        # call connected block "get_jobid_forensic_filter"
-        get_jobid_forensic_filter(container=container, handle=handle)
+    phantom.act("get job forensics", parameters=parameters, name="ssa_get_job_forensics_output", assets=["splunk attack analyzer"], callback=get_jobid_forensic_filter)
 
     return
 
@@ -242,18 +208,6 @@ def get_jobid_forensic_filter(action=None, success=None, container=None, results
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
         normalized_job_forensic_report_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
-
-    # collect filtered artifact ids and results for 'if' condition 2
-    matched_artifacts_2, matched_results_2 = phantom.condition(
-        container=container,
-        conditions=[
-            ["saa_get_file_job_forensics_output:action_result.status", "==", "success"]
-        ],
-        name="get_jobid_forensic_filter:condition_2")
-
-    # call connected blocks if filtered artifacts or results
-    if matched_artifacts_2 or matched_results_2:
-        normalized_job_forensic_report_output_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_2, filtered_results=matched_results_2)
 
     return
 
@@ -421,7 +375,7 @@ def format_url_report(action=None, success=None, container=None, results=None, h
     ################################################################################
 
     # Write your custom code here...
-    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_url"))
+    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_url"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -530,7 +484,7 @@ def saa_file_detonation(action=None, success=None, container=None, results=None,
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="saa_file_detonation", assets=["splunk attack analyzer"], callback=join_url_detonation_status_filter)
+    phantom.act("detonate file", parameters=parameters, name="saa_file_detonation", assets=["splunk attack analyzer"], callback=url_detonation_status_filter)
 
     return
 
@@ -608,7 +562,7 @@ def saa_get_file_job_forensics_output(action=None, success=None, container=None,
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="saa_get_file_job_forensics_output", assets=["splunk attack analyzer"], callback=join_get_jobid_forensic_filter)
+    phantom.act("get job forensics", parameters=parameters, name="saa_get_file_job_forensics_output", assets=["splunk attack analyzer"], callback=filter_6)
 
     return
 
@@ -776,7 +730,7 @@ def format_file_report(action=None, success=None, container=None, results=None, 
     ################################################################################
 
     # Write your custom code here...
-    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_file"))
+    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_file"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -839,6 +793,44 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     ################################################################################
 
     phantom.save_run_data(key="build_file_output:observable_array", value=json.dumps(build_file_output__observable_array))
+
+    return
+
+
+@phantom.playbook_block()
+def filter_5(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("filter_5() called")
+
+    # collect filtered artifact ids and results for 'if' condition 1
+    matched_artifacts_1, matched_results_1 = phantom.condition(
+        container=container,
+        conditions=[
+            ["saa_url_detonation:action_result.status", "==", "success"]
+        ],
+        name="filter_5:condition_1")
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_1 or matched_results_1:
+        get_jobid_of_url_detonation_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+
+    return
+
+
+@phantom.playbook_block()
+def filter_6(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("filter_6() called")
+
+    # collect filtered artifact ids and results for 'if' condition 1
+    matched_artifacts_1, matched_results_1 = phantom.condition(
+        container=container,
+        conditions=[
+            ["saa_get_file_job_forensics_output:action_result.status", "==", "success"]
+        ],
+        name="filter_6:condition_1")
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_1 or matched_results_1:
+        normalized_job_forensic_report_output_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
