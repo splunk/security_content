@@ -90,6 +90,7 @@ class SplunkBABackend(TextQueryBackend):
         detection_str = """
 | from read_ba_enriched_events()
 | eval timestamp = ucast(map_get(input_event,"time"),"long", null)
+| eval origin = ucast(map_get(input_event, "origin"),"map<string, any>", null)
 | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>", null)
 | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null)
 """.replace("\n", " ")

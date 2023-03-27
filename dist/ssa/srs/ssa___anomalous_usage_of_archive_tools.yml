@@ -30,15 +30,24 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         )
     ],
     "time", timestamp,
-    "start_time", timestamp,
-    "end_time", timestamp,
     "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line, "actor.process.file.name", actor_process_file_name),
+    "message", concat("Anomalous usage of Archive Tools has been triggered on ", device_hostname, " by ", process_user_name, "."),
     "users", [
         create_map(
             "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null))
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 2,
+    "risk_score", 42,
+    "severity_id", 0,
+    "rule", create_map("name", "Anomalous usage of Archive Tools", "version", 1, "uid", "63614a58-10e2-4c6c-ae81-ea1113681439", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(origin,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0"),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
@@ -49,22 +58,6 @@ known_false_positives: False positives can be ligitmate usage of archive tools f
 references:
 - https://attack.mitre.org/techniques/T1560/001/
 tags:
-  detection_report:
-    activity_id: 1
-    class_uid: 102001
-    category_uid: 2
-    risk_level_id: 2
-    risk_score: 42
-    rule:
-      name: Anomalous usage of Archive Tools
-      uid: 63614a58-10e2-4c6c-ae81-ea1113681439
-      version: 1
-    severity_id: 0  # Unknown -> This can be done after an Analyst categorized the Notable Event or Risk Event
-    metadata:
-      product: Splunk Behaviour Analytics
-      version: 1.0.0
-      uid: 
-    type_uid: 10200101
   required_fields:
   - process.user.name
   - device.hostname

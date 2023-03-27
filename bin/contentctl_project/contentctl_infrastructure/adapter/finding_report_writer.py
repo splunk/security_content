@@ -37,21 +37,21 @@ class FindingReportObject():
         #     detection.tags.kill_chain_phases_id[kill_chain_phase] = SES_KILL_CHAIN_MAPPINGS[kill_chain_phase]
 
 
-        # if detection.tags.risk_score < 20:
-        #     detection.tags.risk_level_id = 0
-        #     detection.tags.risk_level = "Info"
-        # elif detection.tags.risk_score < 40:
-        #     detection.tags.risk_level_id = 1
-        #     detection.tags.risk_level = "Low"            
-        # elif detection.tags.risk_score < 60:
-        #     detection.tags.risk_level_id = 2
-        #     detection.tags.risk_level = "Medium"   
-        # elif detection.tags.risk_score < 80:
-        #     detection.tags.risk_level_id = 3
-        #     detection.tags.risk_level = "High"   
-        # else:
-        #     detection.tags.risk_level_id = 4
-        #     detection.tags.risk_level = "Critical"  
+        if detection.tags.risk_score < 20:
+            detection.tags.risk_level_id = 0
+            detection.tags.risk_level = "Info"
+        elif detection.tags.risk_score < 40:
+            detection.tags.risk_level_id = 1
+            detection.tags.risk_level = "Low"            
+        elif detection.tags.risk_score < 60:
+            detection.tags.risk_level_id = 2
+            detection.tags.risk_level = "Medium"   
+        elif detection.tags.risk_score < 80:
+            detection.tags.risk_level_id = 3
+            detection.tags.risk_level = "High"   
+        else:
+            detection.tags.risk_level_id = 4
+            detection.tags.risk_level = "Critical"  
 
         # observable_str = "["
         # for i in range(len(detection.tags.observable)):            
