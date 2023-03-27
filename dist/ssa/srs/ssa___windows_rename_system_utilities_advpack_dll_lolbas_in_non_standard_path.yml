@@ -38,8 +38,17 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
             "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
-    "rule", create_map("name", "Windows Rename System Utilities Advpack dll LOLBAS in Non Standard Path", "uuid", "3284e4f4-67f7-49b6-ad5e-a8fcead2eef8")
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 0,
+    "risk_score", 14,
+    "severity_id", 0,
+    "rule", create_map("name", "Windows Rename System Utilities Advpack dll LOLBAS in Non Standard Path", "version", 1, "uid", "3284e4f4-67f7-49b6-ad5e-a8fcead2eef8", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(origin,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0"),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you must be ingesting logs

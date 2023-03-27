@@ -37,8 +37,17 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
             "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
-    "rule", create_map("name", "Windows Rundll32 Comsvcs Memory Dump", "uuid", "76bb9e35-f314-4c3d-a385-83c72a13ce4e")
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 2,
+    "risk_score", 40,
+    "severity_id", 0,
+    "rule", create_map("name", "Windows Rundll32 Comsvcs Memory Dump", "version", 5, "uid", "76bb9e35-f314-4c3d-a385-83c72a13ce4e", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(origin,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0"),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
   )
   | into write_ba_finding_events();'
 how_to_implement: You must be ingesting endpoint data that tracks process activity,

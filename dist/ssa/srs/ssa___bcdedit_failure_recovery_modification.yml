@@ -37,8 +37,17 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
             "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
         )
     ],
-    "customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null),
-    "rule", create_map("name", "BCDEdit Failure Recovery Modification", "uuid", "76d79d6e-25bb-40f6-b3b2-e0a6b7e5ea13")
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 4,
+    "risk_score", 80,
+    "severity_id", 0,
+    "rule", create_map("name", "BCDEdit Failure Recovery Modification", "version", 1, "uid", "76d79d6e-25bb-40f6-b3b2-e0a6b7e5ea13", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(origin,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0"),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
   )
   | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search you need to be ingesting information
