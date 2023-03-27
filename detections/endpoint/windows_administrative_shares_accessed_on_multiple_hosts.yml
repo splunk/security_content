@@ -6,9 +6,9 @@ author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: UPDATE_DESCRIPTION
-search: ' `wineventlog_security` EventCode=5140 (ShareName="\\\\*\\ADMIN$" OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$")
+search: ' `wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$" OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$")
   | bucket span=5m _time
-  | stats dc(Computer) AS unique_targets values(Computer) as host_targets by _time, IpAddress, SubjectUserName, ShareName
+  | stats dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName) as shares by _time, IpAddress, SubjectUserName, EventCode
   | where unique_targets > 40
   | `windows_administrative_shares_accessed_on_multiple_hosts_filter`'
 how_to_implement: UPDATE_HOW_TO_IMPLEMENT
