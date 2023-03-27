@@ -120,6 +120,7 @@ def normalize_score_url_with_error_code(action=None, success=None, container=Non
     normalize_score_url_with_error_code__url_score_object = None
     normalize_score_url_with_error_code__scores = None
     normalize_score_url_with_error_code__categories = None
+    normalize_score_url_with_error_code__confidence = None
 
     ################################################################################
     ## Custom Code Start
@@ -207,6 +208,7 @@ def normalize_score_url_with_error_code(action=None, success=None, container=Non
     phantom.save_run_data(key="normalize_score_url_with_error_code:url_score_object", value=json.dumps(normalize_score_url_with_error_code__url_score_object))
     phantom.save_run_data(key="normalize_score_url_with_error_code:scores", value=json.dumps(normalize_score_url_with_error_code__scores))
     phantom.save_run_data(key="normalize_score_url_with_error_code:categories", value=json.dumps(normalize_score_url_with_error_code__categories))
+    phantom.save_run_data(key="normalize_score_url_with_error_code:confidence", value=json.dumps(normalize_score_url_with_error_code__confidence))
 
     error_code_format_report_url(container=container)
 
@@ -221,11 +223,12 @@ def error_code_format_report_url(action=None, success=None, container=None, resu
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | urlscan.io |\n\n"""
+    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | urlscan.io |\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
         "url_reputation:action_result.parameter.url",
+        "normalize_score_url_with_error_code:custom_function:confidence",
         "normalize_score_url_with_error_code:custom_function:scores",
         "normalize_score_url_with_error_code:custom_function:categories",
         "url_reputation:action_result.data.*.task.reportURL"
@@ -236,7 +239,7 @@ def error_code_format_report_url(action=None, success=None, container=None, resu
     ################################################################################
 
     # Write your custom code here...
-    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="error_code_format_report_url"))
+    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="error_code_format_report_url"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -304,6 +307,7 @@ def normalize_score_url_with_no_error_code(action=None, success=None, container=
     normalize_score_url_with_no_error_code__url_score_object = None
     normalize_score_url_with_no_error_code__scores = None
     normalize_score_url_with_no_error_code__categories = None
+    normalize_score_url_with_no_error_code__confidence = None
 
     ################################################################################
     ## Custom Code Start
@@ -401,6 +405,7 @@ def normalize_score_url_with_no_error_code(action=None, success=None, container=
     phantom.save_run_data(key="normalize_score_url_with_no_error_code:url_score_object", value=json.dumps(normalize_score_url_with_no_error_code__url_score_object))
     phantom.save_run_data(key="normalize_score_url_with_no_error_code:scores", value=json.dumps(normalize_score_url_with_no_error_code__scores))
     phantom.save_run_data(key="normalize_score_url_with_no_error_code:categories", value=json.dumps(normalize_score_url_with_no_error_code__categories))
+    phantom.save_run_data(key="normalize_score_url_with_no_error_code:confidence", value=json.dumps(normalize_score_url_with_no_error_code__confidence))
 
     no_error_code_format_report_url(container=container)
 
@@ -415,12 +420,13 @@ def no_error_code_format_report_url(action=None, success=None, container=None, r
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | urlscan.io |\n"""
+    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score |Confidence |  Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |{4} | urlscan.io |\n"""
 
     # parameter list for template variable replacement
     parameters = [
         "url_reputation:action_result.parameter.url",
         "normalize_score_url_with_no_error_code:custom_function:scores",
+        "normalize_score_url_with_no_error_code:custom_function:confidence",
         "normalize_score_url_with_no_error_code:custom_function:categories",
         "url_reputation:action_result.data.*.task.reportURL"
     ]
@@ -430,7 +436,7 @@ def no_error_code_format_report_url(action=None, success=None, container=None, r
     ################################################################################
 
     # Write your custom code here...
-    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="no_error_code_format_report_url"))
+    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="no_error_code_format_report_url"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -466,21 +472,19 @@ def build_url_output_with_error_code(action=None, success=None, container=None, 
     # Write your custom code here...
     # Write your custom code here...
     from urllib.parse import urlparse
-    build_url_output__observable_array = []
+    build_url_output_with_error_code__observable_array = []
 
     # Build URL
-    url_scan_io_task_reporturl = [str(i or '') for i in url_reputation_result_item_1]
+    url_scan_io_task_reporturl = [str(i or 'no report url') for i in url_reputation_result_item_1]
     url_scan_io_parameter_url = [str(i or '') for i in url_reputation_parameter_url]
-    url_scan_io_url_score_object = [str(i or '') for i in normalize_score_url_with_error_code__url_score_object]
+    url_scan_io_url_score_object = normalize_score_url_with_error_code__url_score_object
     
-    #phantom.debug("url_reputation_parameter_url: {}".format(url_reputation_parameter_url))
+    phantom.debug("url_reputation_parameter_url: {}".format(url_reputation_parameter_url))
     #phantom.debug("url_reputation_result_item_1: {}".format(url_reputation_result_item_1))
     #phantom.debug("normalize_score_url_with_error_code__url_score_object: {}".format(normalize_score_url_with_error_code__url_score_object))
-    
-    for url, external_id, url_object in zip(url_reputation_parameter_url, url_reputation_result_item_1, normalize_score_url_with_error_code__url_score_object):
-    #for url, external_id, url_object in zip(url_scan_io_task_reporturl, url_scan_io_task_reporturl, url_scan_io_url_score_object):
+    for url, external_id, url_object in zip(url_scan_io_parameter_url, url_scan_io_task_reporturl, url_scan_io_url_score_object):
         parsed_url = urlparse(url)
-        phantom.debug("parsed_url: {}".format(parsed_url))
+        phantom.debug("{} {} {} parsed_url: {}".format(url, external_id, url_object, parsed_url))
         observable_object = {
             "value": url,
             "type": "url",
@@ -488,7 +492,7 @@ def build_url_output_with_error_code(action=None, success=None, container=None, 
                 "score_id": url_object['score_id'],
                 "score": url_object['score'],
                 "confidence": url_object['confidence']
-            },
+            }, 
             "attributes": {
                 "hostname": parsed_url.hostname,
                 "scheme": parsed_url.scheme
@@ -498,15 +502,17 @@ def build_url_output_with_error_code(action=None, success=None, container=None, 
             "source": "urlscan.io",
             "source_link": f"{external_id}"
         }
+
         if parsed_url.path:
             observable_object['attributes']['path'] = parsed_url.path
         if parsed_url.query:
             observable_object['attributes']['query'] = parsed_url.query
         if parsed_url.port:
             observable_object['attributes']['port'] = parsed_url.port
+
         
-        build_url_output__observable_array.append(observable_object)
-        phantom.debug("build_url_output__observable_array: {}".format(build_url_output__observable_array))
+        build_url_output_with_error_code__observable_array.append(observable_object)
+    phantom.debug("build_url_output_with_error_code__observable_array: {}".format(build_url_output_with_error_code__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -525,12 +531,11 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
     # the observables data path.
     ################################################################################
 
-    url_reputation_result_data = phantom.collect2(container=container, datapath=["url_reputation:action_result.parameter.url"], action_results=results)
-    filtered_result_0_data_urlscan_detections_error_code_filter = phantom.collect2(container=container, datapath=["filtered-data:urlscan_detections_error_code_filter:condition_2:url_reputation:action_result.data.*.task.reportURL"])
+    url_reputation_result_data = phantom.collect2(container=container, datapath=["url_reputation:action_result.parameter.url","url_reputation:action_result.data.*.task.reportURL"], action_results=results)
     normalize_score_url_with_no_error_code__url_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalize_score_url_with_no_error_code:url_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
 
     url_reputation_parameter_url = [item[0] for item in url_reputation_result_data]
-    filtered_result_0_data___task_reporturl = [item[0] for item in filtered_result_0_data_urlscan_detections_error_code_filter]
+    url_reputation_result_item_1 = [item[1] for item in url_reputation_result_data]
 
     build_url_output_with_no_error_code__observable_array = None
 
@@ -540,12 +545,13 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
 
     # Write your custom code here...
     from urllib.parse import urlparse
-    build_url_output__observable_array = []
+    build_url_output_with_no_error_code__observable_array = []
 
     # Build URL
-    for url, external_id, url_object in zip(url_reputation_parameter_url, filtered_result_0_data___task_reporturl, normalize_score_url_with_no_error_code__url_score_object):
+    phantom.debug(url_reputation_parameter_url)
+    for url, external_id, url_object in zip(url_reputation_parameter_url, url_reputation_result_item_1, normalize_score_url_with_no_error_code__url_score_object):
         parsed_url = urlparse(url)
-        phantom.debug("parsed_url: {}".format(parsed_url))
+        phantom.debug("{} {} {} parsed_url: {}".format(url, external_id, url_object, parsed_url))
         observable_object = {
             "value": url,
             "type": "url",
@@ -570,8 +576,8 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
         if parsed_url.port:
             observable_object['attributes']['port'] = parsed_url.port
         
-        build_url_output__observable_array.append(observable_object)
-        phantom.debug("build_url_output__observable_array: {}".format(build_url_output__observable_array))
+        build_url_output_with_no_error_code__observable_array.append(observable_object)
+    phantom.debug("build_url_output_with_no_error_code__observable_array: {}".format(build_url_output_with_no_error_code__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################

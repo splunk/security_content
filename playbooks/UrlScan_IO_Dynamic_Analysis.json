@@ -111,7 +111,7 @@
                     "targetPort": "5_in"
                 }
             ],
-            "hash": "6c0864d678b617e9406a8eced20d9e41957ed064",
+            "hash": "662e0c1ead292892eb76490c42919b482032f0a2",
             "nodes": {
                 "0": {
                     "data": {
@@ -127,7 +127,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -6.394884621840902e-14
+                    "y": -1.2789769243681803e-13
                 },
                 "1": {
                     "data": {
@@ -171,10 +171,10 @@
                     "errors": {},
                     "id": "10",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n\n    # Build URL\n    url_scan_io_task_reporturl = [str(i or '') for i in url_reputation_result_item_1]\n    url_scan_io_parameter_url = [str(i or '') for i in url_reputation_parameter_url]\n    url_scan_io_url_score_object = [str(i or '') for i in normalize_score_url_with_error_code__url_score_object]\n    \n    #phantom.debug(\"url_reputation_parameter_url: {}\".format(url_reputation_parameter_url))\n    #phantom.debug(\"url_reputation_result_item_1: {}\".format(url_reputation_result_item_1))\n    #phantom.debug(\"normalize_score_url_with_error_code__url_score_object: {}\".format(normalize_score_url_with_error_code__url_score_object))\n    \n    for url, external_id, url_object in zip(url_reputation_parameter_url, url_reputation_result_item_1, normalize_score_url_with_error_code__url_score_object):\n    #for url, external_id, url_object in zip(url_scan_io_task_reporturl, url_scan_io_task_reporturl, url_scan_io_url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}\".format(parsed_url))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"sandbox\": {\n                \"score_id\": url_object['score_id'],\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \"categories\": url_object['categories'],\n            \"description\" :url_object['description'],\n            \"source\": \"urlscan.io\",\n            \"source_link\": f\"{external_id}\"\n        }\n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output_with_error_code__observable_array = []\n\n    # Build URL\n    url_scan_io_task_reporturl = [str(i or 'no report url') for i in url_reputation_result_item_1]\n    url_scan_io_parameter_url = [str(i or '') for i in url_reputation_parameter_url]\n    url_scan_io_url_score_object = normalize_score_url_with_error_code__url_score_object\n    \n    phantom.debug(\"url_reputation_parameter_url: {}\".format(url_reputation_parameter_url))\n    #phantom.debug(\"url_reputation_result_item_1: {}\".format(url_reputation_result_item_1))\n    #phantom.debug(\"normalize_score_url_with_error_code__url_score_object: {}\".format(normalize_score_url_with_error_code__url_score_object))\n    for url, external_id, url_object in zip(url_scan_io_parameter_url, url_scan_io_task_reporturl, url_scan_io_url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"{} {} {} parsed_url: {}\".format(url, external_id, url_object, parsed_url))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"sandbox\": {\n                \"score_id\": url_object['score_id'],\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence']\n            }, \n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \"categories\": url_object['categories'],\n            \"description\" :url_object['description'],\n            \"source\": \"urlscan.io\",\n            \"source_link\": f\"{external_id}\"\n        }\n\n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n\n        \n        build_url_output_with_error_code__observable_array.append(observable_object)\n    phantom.debug(\"build_url_output_with_error_code__observable_array: {}\".format(build_url_output_with_error_code__observable_array))\n",
                     "warnings": {},
                     "x": 340,
-                    "y": 1254
+                    "y": 1260
                 },
                 "11": {
                     "data": {
@@ -191,7 +191,7 @@
                         "inputParameters": [
                             "url_reputation:action_result.parameter.url",
                             "normalize_score_url_with_no_error_code:custom_function:url_score_object",
-                            "filtered-data:urlscan_detections_error_code_filter:condition_2:url_reputation:action_result.data.*.task.reportURL"
+                            "url_reputation:action_result.data.*.task.reportURL"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -201,7 +201,7 @@
                     "errors": {},
                     "id": "11",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n\n    # Build URL\n    for url, external_id, url_object in zip(url_reputation_parameter_url, filtered_result_0_data___task_reporturl, normalize_score_url_with_no_error_code__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}\".format(parsed_url))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"sandbox\": {\n                \"score_id\": url_object['score_id'],\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \"categories\": url_object['categories'],\n            \"description\" :url_object['description'],\n            \"source\": \"urlscan.io\",\n            \"source_link\": f\"{external_id}\"\n        }\n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output_with_no_error_code__observable_array = []\n\n    # Build URL\n    phantom.debug(url_reputation_parameter_url)\n    for url, external_id, url_object in zip(url_reputation_parameter_url, url_reputation_result_item_1, normalize_score_url_with_no_error_code__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"{} {} {} parsed_url: {}\".format(url, external_id, url_object, parsed_url))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"sandbox\": {\n                \"score_id\": url_object['score_id'],\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \"categories\": url_object['categories'],\n            \"description\" :url_object['description'],\n            \"source\": \"urlscan.io\",\n            \"source_link\": f\"{external_id}\"\n        }\n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output_with_no_error_code__observable_array.append(observable_object)\n    phantom.debug(\"build_url_output_with_no_error_code__observable_array: {}\".format(build_url_output_with_no_error_code__observable_array))\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1260
@@ -350,7 +350,8 @@
                         "outputVariables": [
                             "url_score_object",
                             "scores",
-                            "categories"
+                            "categories",
+                            "confidence"
                         ],
                         "type": "code"
                     },
@@ -376,17 +377,18 @@
                         "id": "6",
                         "parameters": [
                             "url_reputation:action_result.parameter.url",
+                            "normalize_score_url_with_error_code:custom_function:confidence",
                             "normalize_score_url_with_error_code:custom_function:scores",
                             "normalize_score_url_with_error_code:custom_function:categories",
                             "url_reputation:action_result.data.*.task.reportURL"
                         ],
-                        "template": "SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | urlscan.io |\n\n",
+                        "template": "SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | urlscan.io |\n\n",
                         "type": "format"
                     },
                     "errors": {},
                     "id": "6",
                     "type": "format",
-                    "userCode": "\n    # Write your custom code here...\n    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"error_code_format_report_url\"))\n",
+                    "userCode": "\n    # Write your custom code here...\n    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"error_code_format_report_url\"))\n",
                     "warnings": {},
                     "x": 340,
                     "y": 1060
@@ -461,7 +463,8 @@
                         "outputVariables": [
                             "url_score_object",
                             "scores",
-                            "categories"
+                            "categories",
+                            "confidence"
                         ],
                         "type": "code"
                     },
@@ -488,16 +491,17 @@
                         "parameters": [
                             "url_reputation:action_result.parameter.url",
                             "normalize_score_url_with_no_error_code:custom_function:scores",
+                            "normalize_score_url_with_no_error_code:custom_function:confidence",
                             "normalize_score_url_with_no_error_code:custom_function:categories",
                             "url_reputation:action_result.data.*.task.reportURL"
                         ],
-                        "template": "SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | urlscan.io |\n",
+                        "template": "SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score |Confidence |  Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |{4} | urlscan.io |\n",
                         "type": "format"
                     },
                     "errors": {},
                     "id": "9",
                     "type": "format",
-                    "userCode": "\n    # Write your custom code here...\n    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"no_error_code_format_report_url\"))\n",
+                    "userCode": "\n    # Write your custom code here...\n    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"no_error_code_format_report_url\"))\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1060
@@ -534,7 +538,7 @@
         "schema": "5.0.8",
         "version": "5.5.0.108488"
     },
-    "create_time": "2023-03-24T14:08:30.332219+00:00",
+    "create_time": "2023-03-27T12:19:43.255588+00:00",
     "draft_mode": false,
     "labels": [
         "*"
