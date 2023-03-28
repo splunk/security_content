@@ -333,9 +333,9 @@ def normalized_job_forensic_report_output(action=None, success=None, container=N
         normalized_job_forensic_report_output__scores.append(score)
         normalized_job_forensic_report_output__categories.append(categories)
         normalized_job_forensic_report_output__confidence.append(confidence_)
-        phantom.debug("normalized_job_forensic_report_output__url_score_object: {}".format(normalized_job_forensic_report_output__url_score_object))
-        phantom.debug("normalized_job_forensic_report_output__categories: {}".format(normalized_job_forensic_report_output__categories))
-        phantom.debug("normalized_job_forensic_report_output__confidence: {}".format(normalized_job_forensic_report_output__confidence))
+        #phantom.debug("normalized_job_forensic_report_output__url_score_object: {}".format(normalized_job_forensic_report_output__url_score_object))
+        #phantom.debug("normalized_job_forensic_report_output__categories: {}".format(normalized_job_forensic_report_output__categories))
+        #phantom.debug("normalized_job_forensic_report_output__confidence: {}".format(normalized_job_forensic_report_output__confidence))
 
     ################################################################################
     ## Custom Code End
@@ -375,7 +375,7 @@ def format_url_report(action=None, success=None, container=None, results=None, h
     ################################################################################
 
     # Write your custom code here...
-    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_url"))
+    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_url"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -443,7 +443,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
                 observable_object['attributes']['port'] = parsed_url.port
 
             build_url_output__observable_array.append(observable_object)
-            phantom.debug("build_url_output__observable_array: {}".format(build_url_output__observable_array))
+            #phantom.debug("build_url_output__observable_array: {}".format(build_url_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -689,9 +689,9 @@ def normalized_job_forensic_report_output_1(action=None, success=None, container
         normalized_job_forensic_report_output_1__scores.append(score)
         normalized_job_forensic_report_output_1__categories.append(categories)
         normalized_job_forensic_report_output_1__confidence.append(confidence_)
-        phantom.debug("normalized_job_forensic_report_output_1__file_score_object: {}".format(normalized_job_forensic_report_output_1__file_score_object))
-        phantom.debug("normalized_job_forensic_report_output_1__scores: {}".format(normalized_job_forensic_report_output_1__scores))
-        phantom.debug("normalized_job_forensic_report_output_1__categories: {}".format(normalized_job_forensic_report_output_1__categories))
+        #phantom.debug("normalized_job_forensic_report_output_1__file_score_object: {}".format(normalized_job_forensic_report_output_1__file_score_object))
+        #phantom.debug("normalized_job_forensic_report_output_1__scores: {}".format(normalized_job_forensic_report_output_1__scores))
+        #phantom.debug("normalized_job_forensic_report_output_1__categories: {}".format(normalized_job_forensic_report_output_1__categories))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -730,7 +730,7 @@ def format_file_report(action=None, success=None, container=None, results=None, 
     ################################################################################
 
     # Write your custom code here...
-    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_file"))
+    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="format_report_file"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -787,7 +787,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
                 "source_link":f"https://app.twinwave.io/job/{external_id}"
             }
             build_file_output__observable_array.append(observable_object)
-            phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
+            #phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
