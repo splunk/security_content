@@ -239,7 +239,7 @@ def error_code_format_report_url(action=None, success=None, container=None, resu
     ################################################################################
 
     # Write your custom code here...
-    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="error_code_format_report_url"))
+    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="error_code_format_report_url"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -436,7 +436,7 @@ def no_error_code_format_report_url(action=None, success=None, container=None, r
     ################################################################################
 
     # Write your custom code here...
-    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="no_error_code_format_report_url"))
+    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name="no_error_code_format_report_url"))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -512,7 +512,7 @@ def build_url_output_with_error_code(action=None, success=None, container=None, 
 
         
         build_url_output_with_error_code__observable_array.append(observable_object)
-    phantom.debug("build_url_output_with_error_code__observable_array: {}".format(build_url_output_with_error_code__observable_array))
+    #phantom.debug("build_url_output_with_error_code__observable_array: {}".format(build_url_output_with_error_code__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -577,7 +577,7 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
             observable_object['attributes']['port'] = parsed_url.port
         
         build_url_output_with_no_error_code__observable_array.append(observable_object)
-    phantom.debug("build_url_output_with_no_error_code__observable_array: {}".format(build_url_output_with_no_error_code__observable_array))
+    #phantom.debug("build_url_output_with_no_error_code__observable_array: {}".format(build_url_output_with_no_error_code__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
