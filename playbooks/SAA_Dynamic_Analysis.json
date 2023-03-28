@@ -1,0 +1,850 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Dynamic Analysis",
+    "coa": {
+        "data": {
+            "description": "Accepts a URL or File_Hash and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\nRef: https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_5_to_port_6",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_8_to_port_10",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_10_to_port_11",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_11_to_port_1",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_2_to_port_12",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_14_to_port_15",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_17_to_port_18",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "id": "port_18_to_port_19",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_19_to_port_1",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_12_to_port_4",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_4_to_port_14",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_3_to_port_22",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "22",
+                    "targetPort": "22_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_22_to_port_5",
+                    "sourceNode": "22",
+                    "sourcePort": "22_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_15_to_port_23",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_23_to_port_17",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                }
+            ],
+            "hash": "4431688d2194725decdd567249661ad0b3d71a42",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # Write your custom code here...\n    format_url_report = phantom.get_format_data(name=\"format_url_report\")\n    format_file_report = phantom.get_format_data(name=\"format_file_report\")\n    markdown_report_combined_value = phantom.concatenate(format_url_report, format_file_report)\n    output['markdown_report'] = markdown_report_combined_value\n",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1804
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format url report ",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_url_report",
+                        "id": "10",
+                        "parameters": [
+                            "playbook_input:url",
+                            "normalized_job_forensic_report_output:custom_function:scores",
+                            "normalized_job_forensic_report_output:custom_function:confidence",
+                            "normalized_job_forensic_report_output:custom_function:categories",
+                            "get_jobid_of_url_detonation_output:custom_function:jobid"
+                        ],
+                        "template": "SOAR analyzed URL(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| URL | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA){1}{2}{3}{4} |\n%%\n\n\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "format",
+                    "userCode": "\n    # Write your custom code here...\n    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"format_report_url\"))\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1448
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build url output",
+                            "customNameId": 0,
+                            "description": "This block uses custom code to generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "This block uses custom code to generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 3,
+                        "functionName": "build_url_output",
+                        "id": "11",
+                        "inputParameters": [
+                            "playbook_input:url",
+                            "get_jobid_of_url_detonation_output:custom_function:jobid",
+                            "normalized_job_forensic_report_output:custom_function:url_score_object"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    phantom.debug(playbook_input_url_values)\n    # Build URL\n    for jobs_id in get_jobid_of_url_detonation_output__jobid:\n        \n        for url, external_id, url_object in zip(playbook_input_url_values, jobs_id, normalized_job_forensic_report_output__url_score_object):\n            parsed_url = urlparse(url)\n            phantom.debug(\"url: {} jobs_id:{}\".format(url, external_id))\n            phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n            observable_object = {\n                \"value\": url,\n                \"type\": \"url\",\n                \"sandbox\": {\n                    \"score\": url_object['score'],\n                    \"confidence\": url_object['confidence']\n                },\n                \"attributes\": {\n                    \"hostname\": parsed_url.hostname,\n                    \"scheme\": parsed_url.scheme\n                },\n                \"categories\": url_object['categories'],\n                \"source\": \"Splunk Attack Analyzer (SAA)\",\n                \"source_link\": f\"https://app.twinwave.io/job/{external_id}\"\n            }\n\n            if parsed_url.path:\n                observable_object['attributes']['path'] = parsed_url.path\n            if parsed_url.query:\n                observable_object['attributes']['query'] = parsed_url.query\n            if parsed_url.port:\n                observable_object['attributes']['port'] = parsed_url.port\n\n            build_url_output__observable_array.append(observable_object)\n            phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1626
+                },
+                "12": {
+                    "data": {
+                        "action": "detonate file",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "saa file detonation",
+                            "customNameId": 0,
+                            "description": "Queries SAA for information about the provided vault_id(s)",
+                            "join": [],
+                            "note": "Queries SAA for information about the provided vault_id(s)"
+                        },
+                        "connector": "Splunk Attack Analyzer",
+                        "connectorConfigs": [
+                            "splunk attack analyzer"
+                        ],
+                        "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "saa_file_detonation",
+                        "id": "12",
+                        "parameters": {
+                            "file": "playbook_input:vault_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "file"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 328
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get jobid of file detonation output",
+                            "customNameId": 0,
+                            "description": "This block uses custom code for fetching JobID for URL(s) or file(s) detonation.",
+                            "join": [],
+                            "note": "This block uses custom code for fetching JobID for URL(s) or file(s) detonation."
+                        },
+                        "functionId": 4,
+                        "functionName": "get_jobid_of_file_detonation_output",
+                        "id": "14",
+                        "inputParameters": [
+                            "saa_file_detonation:action_result.data.*.JobID"
+                        ],
+                        "outputVariables": [
+                            "jobid"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    get_jobid_of_file_detonation_output__jobid = []\n\n    get_jobid_of_file_detonation_output__jobid.append(saa_file_detonation_result_item_0)\n    #phantom.debug(\"get_jobid_of_file_detonation_output__jobid: {}\".format(get_jobid_of_file_detonation_output__jobid))\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 686
+                },
+                "15": {
+                    "data": {
+                        "action": "get job forensics",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "saa get file job forensics output",
+                            "customNameId": 0,
+                            "description": "Queries SAA Forensics data relative to the JobID of URL(s) or File(s) needs to be detonated.",
+                            "join": [],
+                            "note": "Queries SAA Forensics data relative to the JobID of URL(s) or File(s) needs to be detonated."
+                        },
+                        "connector": "Splunk Attack Analyzer",
+                        "connectorConfigs": [
+                            "splunk attack analyzer"
+                        ],
+                        "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "saa_get_file_job_forensics_output",
+                        "id": "15",
+                        "parameters": {
+                            "job_id": "get_jobid_of_file_detonation_output:custom_function:jobid",
+                            "timeout": "5"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "job_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "action",
+                    "userCode": "\n    # Write your custom code here...\n    parameters = []\n    for job_ids in get_jobid_of_file_detonation_output__jobid:\n        for job in job_ids:\n            if job is not None:\n                parameters.append({\n                    \"job_id\": job,\n                    \"timeout\": 5,\n                })\n    #phantom.debug(parameters)\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 880
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "normalized job forensic report output",
+                            "customNameId": 1,
+                            "description": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections.",
+                            "join": [],
+                            "note": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections."
+                        },
+                        "functionId": 5,
+                        "functionName": "normalized_job_forensic_report_output_1",
+                        "id": "17",
+                        "inputParameters": [
+                            "playbook_input:vault_id",
+                            "saa_get_file_job_forensics_output:action_result.data.*.DisplayScore",
+                            "saa_get_file_job_forensics_output:action_result.data.*.Detections.*.Description",
+                            "saa_get_file_job_forensics_output:action_result.data.*.Verdict",
+                            "saa_get_file_job_forensics_output:action_result.data"
+                        ],
+                        "outputVariables": [
+                            "file_score_object",
+                            "scores",
+                            "categories",
+                            "confidence"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"10\":\"Very_Safe\",\n        \"20\":\"Safe\",\n        \"30\":\"Probably_Safe\",\n        \"40\":\"Leans_Safe\",\n        \"50\":\"May_not_be_Safe\",\n        \"60\":\"Exercise_Caution\",\n        \"70\":\"Suspicious_or_Risky\",\n        \"80\":\"Possibly_Malicious\",\n        \"90\":\"Probably_Malicious\",\n        \"100\":\"Malicious\"\n    }\n    #phantom.debug(\"vault_id: {}\".format(ssa_get_job_forensics_output_result_item_0))\n    #phantom.debug(\"DisplayScore: {}\".format(ssa_get_job_forensics_output_result_item_1))\n    #phantom.debug(\"Category: {}\".format(ssa_get_job_forensics_output_result_item_2))\n    #phantom.debug(\"verdict: {}\".format(ssa_get_job_forensics_output_result_item_3))\n    #phantom.debug(\"action_data: {}\".format(ssa_get_job_forensics_output_result_item_4))\n\n    \n    normalized_job_forensic_report_output_1__file_score_object = []\n    normalized_job_forensic_report_output_1__scores = []\n    normalized_job_forensic_report_output_1__categories = []\n    normalized_job_forensic_report_output_1__confidence = []\n    \n    ## normalized NoneType value to avoid enumeration failure\n    file_detonation_param_list =  [(i or \"\") for i in playbook_input_vault_id_values] \n    file_detonation_threat_score_list = [(i or 0) for i in saa_get_file_job_forensics_output_result_item_0] \n    file_detonation_category_list = [(i or \"\") for i in saa_get_file_job_forensics_output_result_item_1] \n    file_detonation_verdict_list = [(i or \"\") for i in saa_get_file_job_forensics_output_result_item_2] \n    \n    ## get the set() or unique input url parameter.\n    \n    index_file_dict = {}\n    set_file_inputs = set(file_detonation_param_list)\n    \n    for file_input in set_file_inputs:\n        vaultid_list = []\n        score_list = []\n        display_score_list = []\n        category_list = []\n        \n        ## getting the index of each detonation phase of the url group the result for each url detonation\n        file_input_index = [indx for indx, vaultid_val in enumerate(file_detonation_param_list) if vaultid_val == file_input]\n        index_file_dict[file_input] = file_input_index\n        \n        for idx,(_vaultid, _score, _display_score, _category) in enumerate(zip(file_detonation_param_list, file_detonation_verdict_list, file_detonation_threat_score_list, file_detonation_category_list)):\n            if _vaultid == file_input and idx in index_file_dict[file_input]:\n                vaultid_list.append(_vaultid)\n                score_list.append(_score)\n                display_score_list.append(_display_score)\n                category_list.append(_category)\n                \n    ## if score_list is empty or it has one element but empty string, lets score it base on confidence score of its engine detonation\n        #phantom.debug(\"score_list: {} len: {}\".format(score_list, len(score_list)))\n        #phantom.debug(\"category_list: {} len: {}\".format(category_list, len(category_list)))\n        confidence_ = list(set(display_score_list))[0]\n        categories = list(set(category_list))\n        \n        if len(score_list) == 0 or (len(set(score_list)) == 1 and score_list[0] == \"\"):\n            if confidence_ >= 0 and confidence_ < 10:\n                          score_id = 0\n            elif confidence_ >= 10 and confidence_ < 20:\n                          score_id = 10\n            elif confidence_ >= 20 and confidence_ < 30:\n                          score_id = 20\n            elif confidence_ >= 30 and confidence_ < 40:\n                          score_id = 30\n            elif confidence_ >= 40 and confidence_ < 50:\n                          score_id = 40\n            elif confidence_ >= 50 and confidence_ < 60:\n                          score_id = 50\n            elif confidence_ >= 60 and confidence_ < 70:\n                          score_id = 60\n            elif confidence_ >= 70 and confidence_ < 80:\n                          score_id = 70\n            elif confidence_ >= 80 and confidence_ < 90:\n                          score_id = 80\n            elif confidence_ >= 90 and confidence_ < 100:\n                          score_id = 90\n            elif confidence_ >= 100:\n                          score_id = 100\n            \n            score = score_table[str(score_id)]\n            \n        else:\n            score = list(set(score_list))[0]\n                      \n        # Attach final object\n        normalized_job_forensic_report_output_1__file_score_object.append({'score': score, 'confidence': confidence_, 'categories': categories})\n        normalized_job_forensic_report_output_1__scores.append(score)\n        normalized_job_forensic_report_output_1__categories.append(categories)\n        normalized_job_forensic_report_output_1__confidence.append(confidence_)\n        phantom.debug(\"normalized_job_forensic_report_output_1__file_score_object: {}\".format(normalized_job_forensic_report_output_1__file_score_object))\n        phantom.debug(\"normalized_job_forensic_report_output_1__scores: {}\".format(normalized_job_forensic_report_output_1__scores))\n        phantom.debug(\"normalized_job_forensic_report_output_1__categories: {}\".format(normalized_job_forensic_report_output_1__categories))\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1254
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format file report ",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_file_report",
+                        "id": "18",
+                        "parameters": [
+                            "playbook_input:vault_id",
+                            "normalized_job_forensic_report_output_1:custom_function:scores",
+                            "normalized_job_forensic_report_output_1:custom_function:confidence",
+                            "normalized_job_forensic_report_output_1:custom_function:categories",
+                            "get_jobid_of_file_detonation_output:custom_function:jobid"
+                        ],
+                        "template": "SOAR analyzed File(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| File hash | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA){1}{2}{3}{4} |\n%%\n\n\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "format",
+                    "userCode": "\n    # Write your custom code here...\n    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"format_report_file\"))\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1448
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build file output",
+                            "customNameId": 0,
+                            "description": "This block uses custom code to generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "This block uses custom code to generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 6,
+                        "functionName": "build_file_output",
+                        "id": "19",
+                        "inputParameters": [
+                            "playbook_input:vault_id",
+                            "get_jobid_of_file_detonation_output:custom_function:jobid",
+                            "normalized_job_forensic_report_output_1:custom_function:file_score_object"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    for jobs_id in get_jobid_of_file_detonation_output__jobid:\n        for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, jobs_id, normalized_job_forensic_report_output_1__file_score_object):\n            phantom.debug(\"vault: {} id: {}\".format(_vault_id, external_id))\n            observable_object = {\n\n                \"value\": _vault_id,\n                \"type\": \"hash\",\n                \"sandbox\": {\n                    \"score\": file_object['score'],\n                    \"confidence\": file_object['confidence'],\n\n                },\n                \"enrichment\": {\n                    \"provider\": \"Splunk Attack Analyzer\",\n                    \"type\": \"file\",\n\n                },\n                \"categories\": file_object['categories'],\n                \"source\": \"Splunk Attack Analyzer (SAA)\",\n                \"source_link\":f\"https://app.twinwave.io/job/{external_id}\"\n            }\n            build_file_output__observable_array.append(observable_object)\n            phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1626
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "saa input filter",
+                            "customNameId": 0,
+                            "description": "Determine branches based on provided inputs.",
+                            "join": [],
+                            "note": "Determine branches based on provided inputs."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:url",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "saa_url_input",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "!=",
+                                        "param": "playbook_input:vault_id",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "saa_vault_id_input",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "saa_input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 230,
+                    "y": 148
+                },
+                "22": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "saa_url_detonation:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "saa_url_success_status",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 5,
+                        "functionName": "filter_5",
+                        "id": "22",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "22",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 506
+                },
+                "23": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "saa_get_file_job_forensics_output:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "get_job_file_forensic_sucess",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 6,
+                        "functionName": "filter_6",
+                        "id": "23",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "23",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 1074
+                },
+                "3": {
+                    "data": {
+                        "action": "detonate url",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "saa url detonation",
+                            "customNameId": 0,
+                            "description": "Queries SAA for information about the provided URL(s)",
+                            "join": [],
+                            "note": "Queries SAA for information about the provided URL(s)"
+                        },
+                        "connector": "Splunk Attack Analyzer",
+                        "connectorConfigs": [
+                            "splunk attack analyzer"
+                        ],
+                        "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "saa_url_detonation",
+                        "id": "3",
+                        "parameters": {
+                            "url": "playbook_input:url"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "url"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "userCode": "\n    # Write your custom code here...\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 328
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "url detonation status filter",
+                            "customNameId": 0,
+                            "description": "Filters successful url or file detonation results.",
+                            "join": [],
+                            "note": "Filters successful url or file detonation results."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "saa_file_detonation:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "saa_file_success_status",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "url_detonation_status_filter",
+                        "id": "4",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 506
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get jobid of url detonation output",
+                            "customNameId": 0,
+                            "description": "This block uses custom code for fetching JobID for URL(s) or file(s) detonation.",
+                            "join": [],
+                            "note": "This block uses custom code for fetching JobID for URL(s) or file(s) detonation.",
+                            "scope": "default"
+                        },
+                        "functionId": 1,
+                        "functionName": "get_jobid_of_url_detonation_output",
+                        "id": "5",
+                        "inputParameters": [
+                            "saa_url_detonation:action_result.data.*.JobID"
+                        ],
+                        "outputVariables": [
+                            "jobid"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    get_jobid_of_url_detonation_output__jobid = []\n\n    get_jobid_of_url_detonation_output__jobid.append(saa_url_detonation_result_item_0)\n    #phantom.debug(\"get_jobid_of_url_detonation_output__jobid: {}\".format(get_jobid_of_url_detonation_output__jobid))\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 686
+                },
+                "6": {
+                    "data": {
+                        "action": "get job forensics",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "ssa get job forensics output",
+                            "customNameId": 0,
+                            "description": "Queries SAA Forensics data relative to the JobID of URL(s) or File(s) needs to be detonated.",
+                            "join": [],
+                            "note": "Queries SAA Forensics data relative to the JobID of URL(s) or File(s) needs to be detonated."
+                        },
+                        "connector": "Splunk Attack Analyzer",
+                        "connectorConfigs": [
+                            "splunk attack analyzer"
+                        ],
+                        "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "ssa_get_job_forensics_output",
+                        "id": "6",
+                        "parameters": {
+                            "job_id": "get_jobid_of_url_detonation_output:custom_function:jobid",
+                            "timeout": "5"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "job_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "action",
+                    "userCode": "\n    # Write your custom code here...\n    parameters = []\n    for job_ids in get_jobid_of_url_detonation_output__jobid:\n        for job in job_ids:\n            if job is not None:\n                parameters.append({\n                    \"job_id\": job,\n                    \"timeout\": 5,\n                })\n    #phantom.debug(parameters)\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 880
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get jobid forensic filter",
+                            "customNameId": 0,
+                            "description": "Filters successful url or file detonation job forensic results.",
+                            "join": [],
+                            "note": "Filters successful url or file detonation job forensic results."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "ssa_get_job_forensics_output:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "get_job_forensic_success",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "get_jobid_forensic_filter",
+                        "id": "7",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 1074
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "normalized job forensic report output",
+                            "customNameId": 0,
+                            "description": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections.",
+                            "join": [],
+                            "note": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections."
+                        },
+                        "functionId": 2,
+                        "functionName": "normalized_job_forensic_report_output",
+                        "id": "8",
+                        "inputParameters": [
+                            "ssa_get_job_forensics_output:action_result.data.*.URLs.*.URL",
+                            "ssa_get_job_forensics_output:action_result.data.*.DisplayScore",
+                            "ssa_get_job_forensics_output:action_result.data.*.Detections.*.Description",
+                            "ssa_get_job_forensics_output:action_result.data.*.Verdict",
+                            "ssa_get_job_forensics_output:action_result.data"
+                        ],
+                        "outputVariables": [
+                            "url_score_object",
+                            "scores",
+                            "categories",
+                            "confidence"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"10\":\"Very_Safe\",\n        \"20\":\"Safe\",\n        \"30\":\"Probably_Safe\",\n        \"40\":\"Leans_Safe\",\n        \"50\":\"May_not_be_Safe\",\n        \"60\":\"Exercise_Caution\",\n        \"70\":\"Suspicious_or_Risky\",\n        \"80\":\"Possibly_Malicious\",\n        \"90\":\"Probably_Malicious\",\n        \"100\":\"Malicious\"\n    }\n    #phantom.debug(\"url: {}\".format(ssa_get_job_forensics_output_result_item_0))\n    #phantom.debug(\"DisplayScore: {}\".format(ssa_get_job_forensics_output_result_item_1))\n    #phantom.debug(\"Category: {}\".format(ssa_get_job_forensics_output_result_item_2))\n    #phantom.debug(\"verdict: {}\".format(ssa_get_job_forensics_output_result_item_3))\n    #phantom.debug(\"action_data: {}\".format(ssa_get_job_forensics_output_result_item_4))\n\n    \n    normalized_job_forensic_report_output__url_score_object = []\n    normalized_job_forensic_report_output__scores = []\n    normalized_job_forensic_report_output__categories = []\n    normalized_job_forensic_report_output__confidence = []\n    \n    ## normalized NoneType value to avoid enumeration failure\n    url_detonation_param_list =  [(i or \"\") for i in ssa_get_job_forensics_output_result_item_0] \n    url_detonation_threat_score_list = [(i or 0) for i in ssa_get_job_forensics_output_result_item_1] \n    url_detonation_category_list = [(i or \"\") for i in ssa_get_job_forensics_output_result_item_2] \n    url_detonation_verdict_list = [(i or \"\") for i in ssa_get_job_forensics_output_result_item_3] \n    \n    ## get the set() or unique input url parameter.\n    \n    index_url_dict = {}\n    set_url_inputs = set(url_detonation_param_list)\n    \n    for url_input in set_url_inputs:\n        url_list = []\n        score_list = []\n        display_score_list = []\n        category_list = []\n        \n        ## getting the index of each detonation phase of the url group the result for each url detonation\n        url_input_index = [indx for indx, url_val in enumerate(url_detonation_param_list) if url_val == url_input]\n        index_url_dict[url_input] = url_input_index\n\n        for idx,(_url, _score, _display_score, _category) in enumerate(zip(url_detonation_param_list, url_detonation_verdict_list, url_detonation_threat_score_list, url_detonation_category_list)):\n            if _url == url_input and idx in index_url_dict[url_input]:\n                url_list.append(_url)\n                score_list.append(_score)\n                display_score_list.append(_display_score)\n                category_list.append(_category)\n                \n    ## if score_list is empty or it has one element but empty string, lets score it base on confidence score of its engine detonation\n        #phantom.debug(\"score_list: {} len: {}\".format(score_list, len(score_list)))\n        #phantom.debug(\"category_list: {} len: {}\".format(category_list, len(category_list)))\n        confidence_ = list(set(display_score_list))[0]\n        categories = list(set(category_list))\n\n        if len(score_list) == 0 or (len(set(score_list)) == 1 and score_list[0] == \"\"):\n            if confidence_ >= 0 and confidence_ < 10:\n                          score_id = 0\n            elif confidence_ >= 10 and confidence_ < 20:\n                          score_id = 10\n            elif confidence_ >= 20 and confidence_ < 30:\n                          score_id = 20\n            elif confidence_ >= 30 and confidence_ < 40:\n                          score_id = 30\n            elif confidence_ >= 40 and confidence_ < 50:\n                          score_id = 40\n            elif confidence_ >= 50 and confidence_ < 60:\n                          score_id = 50\n            elif confidence_ >= 60 and confidence_ < 70:\n                          score_id = 60\n            elif confidence_ >= 70 and confidence_ < 80:\n                          score_id = 70\n            elif confidence_ >= 80 and confidence_ < 90:\n                          score_id = 80\n            elif confidence_ >= 90 and confidence_ < 100:\n                          score_id = 90\n            elif confidence_ >= 100:\n                          score_id = 100\n            \n            score = score_table[str(score_id)]\n            \n        else:\n            score = list(set(score_list))[0]\n                      \n        # Attach final object\n        normalized_job_forensic_report_output__url_score_object.append({'score': score, 'confidence': confidence_, 'categories': categories})\n        normalized_job_forensic_report_output__scores.append(score)\n        normalized_job_forensic_report_output__categories.append(categories)\n        normalized_job_forensic_report_output__confidence.append(confidence_)\n        phantom.debug(\"normalized_job_forensic_report_output__url_score_object: {}\".format(normalized_job_forensic_report_output__url_score_object))\n        phantom.debug(\"normalized_job_forensic_report_output__categories: {}\".format(normalized_job_forensic_report_output__categories))\n        phantom.debug(\"normalized_job_forensic_report_output__confidence: {}\".format(normalized_job_forensic_report_output__confidence))\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1254
+                }
+            },
+            "notes": "Inputs: url,  file_hash\nInteractions: Splunk Attack Analyzer\nActions: url detonation, , file detonation\nOutputs: report, observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "url"
+                ],
+                "description": "A URL provided for reputation analysis - Splunk Attack Analyzer",
+                "name": "url"
+            },
+            {
+                "contains": [
+                    "vault id"
+                ],
+                "description": "A vault_id provided for reputation analysis - Splunk Attack Analyzer",
+                "name": "vault_id"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_url_output:custom_function:observable_array",
+                    "build_file_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type, score, score_id, and categories.",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.8",
+        "version": "5.5.0.108488"
+    },
+    "create_time": "2023-03-27T09:04:31.268860+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "url",
+        "file_hash",
+        "D3-IPRA",
+        "D3-FHRA",
+        "D3-DNRA",
+        "D3-URA",
+        "ip",
+        "domain",
+        "sandbox"
+    ]
+}
