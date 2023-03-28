@@ -1,0 +1,13 @@
+name: Windows PowerShell WMI Win32_ScheduledJob Unit Test
+tests:
+- name: Windows PowerShell WMI Win32_ScheduledJob
+  file: endpoint/windows_powershell_wmi_win32_scheduledjob.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: win32_scheduledjob_windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/enableat_windows-sysmon.log/win32_scheduledjob_windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
