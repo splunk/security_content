@@ -200,9 +200,9 @@ def normalized_url_detonation_output(action=None, success=None, container=None, 
         normalized_url_detonation_output__scores.append(list(set(score_list))[0])
         normalized_url_detonation_output__categories.append(list(set(category_list)))
         normalized_url_detonation_output__confidence.append(list(set(verdict_list))[0])
-        phantom.debug("normalized_url_detonation_output__url_score_object: {}".format(normalized_url_detonation_output__url_score_object))
-        phantom.debug("normalized_url_detonation_output__scores: {}".format(normalized_url_detonation_output__scores))
-        phantom.debug("normalized_url_detonation_output__categories: {}".format(normalized_url_detonation_output__categories))
+        #phantom.debug("normalized_url_detonation_output__url_score_object: {}".format(normalized_url_detonation_output__url_score_object))
+        #phantom.debug("normalized_url_detonation_output__scores: {}".format(normalized_url_detonation_output__scores))
+        #phantom.debug("normalized_url_detonation_output__categories: {}".format(normalized_url_detonation_output__categories))
         
     
     ################################################################################
@@ -311,7 +311,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
             observable_object['attributes']['port'] = parsed_url.port
         
         build_url_output__observable_array.append(observable_object)
-        phantom.debug("build_url_output__observable_array: {}".format(build_url_output__observable_array))
+        #phantom.debug("build_url_output__observable_array: {}".format(build_url_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -514,9 +514,9 @@ def normalized_win_file_detonation_output(action=None, success=None, container=N
         normalized_win_file_detonation_output__scores.append(list(set(score_list))[0])
         normalized_win_file_detonation_output__categories.append(list(set(category_list)))
         normalized_win_file_detonation_output__confidence.append(list(set(verdict_list))[0])
-        phantom.debug("normalized_win_file_detonation_output__file_score_object: {}".format(normalized_win_file_detonation_output__file_score_object))
-        phantom.debug("normalized_win_file_detonation_output__scores: {}".format(normalized_win_file_detonation_output__scores))
-        phantom.debug("normalized_win_file_detonation_output__categories: {}".format(normalized_win_file_detonation_output__categories))
+        #phantom.debug("normalized_win_file_detonation_output__file_score_object: {}".format(normalized_win_file_detonation_output__file_score_object))
+        #phantom.debug("normalized_win_file_detonation_output__scores: {}".format(normalized_win_file_detonation_output__scores))
+        #phantom.debug("normalized_win_file_detonation_output__categories: {}".format(normalized_win_file_detonation_output__categories))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -670,7 +670,7 @@ def build_win_file_output(action=None, success=None, container=None, results=Non
             "source_link":f"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}"
         }
         build_win_file_output__observable_array.append(observable_object)
-        phantom.debug("build_win_file_output__observable_array: {}".format(build_win_file_output__observable_array))
+        #phantom.debug("build_win_file_output__observable_array: {}".format(build_win_file_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -811,9 +811,9 @@ def normalized_linux_file_detonation_output(action=None, success=None, container
         normalized_linux_file_detonation_output__scores.append(list(set(score_list))[0])
         normalized_linux_file_detonation_output__categories.append(list(set(category_list)))
         normalized_linux_file_detonation_output__confidence.append(list(set(verdict_list))[0])
-        phantom.debug("normalized_linux_file_detonation_output__file_score_object: {}".format(normalized_linux_file_detonation_output__file_score_object))
-        phantom.debug("normalized_linux_file_detonation_output__scores: {}".format(normalized_linux_file_detonation_output__scores))
-        phantom.debug("normalized_linux_file_detonation_output__categories: {}".format(normalized_linux_file_detonation_output__categories))
+        #phantom.debug("normalized_linux_file_detonation_output__file_score_object: {}".format(normalized_linux_file_detonation_output__file_score_object))
+        #phantom.debug("normalized_linux_file_detonation_output__scores: {}".format(normalized_linux_file_detonation_output__scores))
+        #phantom.debug("normalized_linux_file_detonation_output__categories: {}".format(normalized_linux_file_detonation_output__categories))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -907,7 +907,7 @@ def build_linux_file_output(action=None, success=None, container=None, results=N
             "source_link":f"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}"
         }
         build_linux_file_output__observable_array.append(observable_object)
-        phantom.debug("build_linux_file_output__observable_array: {}".format(build_linux_file_output__observable_array))
+        #phantom.debug("build_linux_file_output__observable_array: {}".format(build_linux_file_output__observable_array))
 
     ################################################################################
     ## Custom Code End
@@ -1049,9 +1049,9 @@ def normalized_android_file_detonation_output(action=None, success=None, contain
         normalized_android_file_detonation_output__scores.append(list(set(score_list))[0])
         normalized_android_file_detonation_output__categories.append(list(set(category_list)))
         normalized_android_file_detonation_output__confidence.append(list(set(verdict_list))[0])
-        phantom.debug("normalized_android_file_detonation_output__file_score_object: {}".format(normalized_android_file_detonation_output__file_score_object))
-        phantom.debug("normalized_android_file_detonation_output__scores: {}".format(normalized_android_file_detonation_output__scores))
-        phantom.debug("normalized_android_file_detonation_output__categories: {}".format(normalized_android_file_detonation_output__categories))
+        #phantom.debug("normalized_android_file_detonation_output__file_score_object: {}".format(normalized_android_file_detonation_output__file_score_object))
+        #phantom.debug("normalized_android_file_detonation_output__scores: {}".format(normalized_android_file_detonation_output__scores))
+        #phantom.debug("normalized_android_file_detonation_output__categories: {}".format(normalized_android_file_detonation_output__categories))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -1145,7 +1145,7 @@ def build_android_file_output(action=None, success=None, container=None, results
             "source_link":f"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}"
         }
         build_android_file_output__observable_array.append(observable_object)
-        phantom.debug("build_android_file_output__observable_array: {}".format(build_android_file_output__observable_array))
+        #phantom.debug("build_android_file_output__observable_array: {}".format(build_android_file_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -1287,9 +1287,9 @@ def normalized_mac_file_detonation_output(action=None, success=None, container=N
         normalized_mac_file_detonation_output__scores.append(list(set(score_list))[0])
         normalized_mac_file_detonation_output__categories.append(list(set(category_list)))
         normalized_mac_file_detonation_output__confidence.append(list(set(verdict_list))[0])
-        phantom.debug("normalized_mac_file_detonation_output__url_score_object: {}".format(normalized_mac_file_detonation_output__url_score_object))
-        phantom.debug("normalized_mac_file_detonation_output__scores: {}".format(normalized_mac_file_detonation_output__scores))
-        phantom.debug("normalized_mac_file_detonation_output__categories: {}".format(normalized_mac_file_detonation_output__categories))
+        #phantom.debug("normalized_mac_file_detonation_output__url_score_object: {}".format(normalized_mac_file_detonation_output__url_score_object))
+        #phantom.debug("normalized_mac_file_detonation_output__scores: {}".format(normalized_mac_file_detonation_output__scores))
+        #phantom.debug("normalized_mac_file_detonation_output__categories: {}".format(normalized_mac_file_detonation_output__categories))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -1383,7 +1383,7 @@ def build_mac_file_output(action=None, success=None, container=None, results=Non
             "source_link":f"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}"
         }
         build_mac_file_output__observable_array.append(observable_object)
-        phantom.debug("build_mac_file_output__observable_array: {}".format(build_mac_file_output__observable_array))
+        #phantom.debug("build_mac_file_output__observable_array: {}".format(build_mac_file_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
