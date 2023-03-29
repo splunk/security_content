@@ -1,7 +1,7 @@
 name: Allow Operation with Consent Admin
 id: 7de17d7a-c9d8-11eb-a812-acde48001122
-version: 3
-date: '2022-11-14'
+version: 4
+date: '2023-03-29'
 author: Steven Dick, Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -11,13 +11,8 @@ description: This analytic identifies a potential privilege escalation attempt t
   Admin` to perform an operation that requires elevation without consent or credentials.
   We also found this in some attacker to gain privilege escalation to the compromise
   machine.
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | join process_guid [
-  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*" Registry.registry_value_name = ConsentPromptBehaviorAdmin Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-  | `drop_dm_object_name(Registry)`] 
-  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
-  | where isnotnull(registry_value_data)
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*" Registry.registry_value_name = ConsentPromptBehaviorAdmin Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `allow_operation_with_consent_admin_filter`'

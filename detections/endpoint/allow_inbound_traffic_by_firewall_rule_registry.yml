@@ -1,7 +1,7 @@
 name: Allow Inbound Traffic By Firewall Rule Registry
 id: 0a46537c-be02-11eb-92ca-acde48001122
-version: 4
-date: '2022-11-14'
+version: 5
+date: '2023-03-29'
 author: Steven Dick, Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
@@ -10,13 +10,8 @@ description: This analytic detects a potential suspicious modification of firewa
   rule registry allowing inbound traffic in specific port with public profile. This
   technique was identified when an adversary wants to grant remote access to a machine
   by allowing the traffic in a firewall rule.
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | join process_guid [
-  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" Registry.registry_value_data = "*|Action=Allow|*" Registry.registry_value_data = "*|Dir=In|*"  Registry.registry_value_data = "*|LPort=*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-  | `drop_dm_object_name(Registry)`] 
-  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
-  | where isnotnull(registry_value_data)
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" Registry.registry_value_data = "*|Action=Allow|*" Registry.registry_value_data = "*|Dir=In|*"  Registry.registry_value_data = "*|LPort=*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `allow_inbound_traffic_by_firewall_rule_registry_filter`'
