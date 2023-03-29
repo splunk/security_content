@@ -1,0 +1,12 @@
+name: Windows Default Domain Policy GPO Modified Unit Test
+tests:
+- name: Windows Default Domain Policy GPO Modified
+  file: endpoint/windows_default_domain_policy_gpo_modified.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
