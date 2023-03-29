@@ -1,6 +1,6 @@
-name: Splunk Persistent XSS in RapidDiag through User Interface Views Unit Test
+name: Persistent XSS in RapidDiag through User Interface Views Unit Test
 tests:
-  - name: Splunk Persistent XSS in RapidDiag through User Interface Views
+  - name: Persistent XSS in RapidDiag through User Interface Views
     file: application/splunk_persistent_xss_in_rapiddiag_through_user_interface_views.yml
     pass_condition: "| stats count | where count > 0"
     earliest_time: -24h

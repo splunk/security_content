@@ -1,6 +1,6 @@
-name: Splunk XSS via View
+name: Splunk XSS via View Unit Test
 tests:
-  - name: Splunk Stored XSS via view module tag layoutPanel attribute
+  - name: Splunk XSS via View
     file: application/splunk_xss_via_view.yml
     pass_condition: "| stats count | where count > 0"
     earliest_time: -24h
