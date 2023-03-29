@@ -1,0 +1,25 @@
+name: CrowdStrike OAuth API Dynamic Analysis
+id: 5299d9dc-e9d5-41fb-b051-92ace0ff816d
+version: 1
+date: '2023-03-23'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: "Accepts url link, domain or vault_id (hash) to be detonated using CrowdStrike OAuth API connector. This playbook produces a normalized output for each user and device."
+playbook: CrowdStrike_OAuth_API_Dynamic_Analysis
+how_to_implement: This input playbook requires the Crowdstrike OAuth API connector to be configured. It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - reputation 
+    - url
+    - domain
+    - sandbox
+    - ip
+    - file_hash
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
