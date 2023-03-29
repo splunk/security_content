@@ -1,6 +1,6 @@
-name: Splunk unnecesary file extensions allowed by lookup table uploads Unit Test
+name: Splunk unnecessary file extensions allowed by lookup table uploads Unit Test
 tests:
-  - name: Splunk unnecesary file extensions allowed by lookup table uploads
+  - name: Splunk unnecessary file extensions allowed by lookup table uploads
     file: application/splunk_unnecessary_file_extensions_allowed_by_lookup_table_uploads.yml
     pass_condition: "| stats count | where count > 0"
     earliest_time: -24h
