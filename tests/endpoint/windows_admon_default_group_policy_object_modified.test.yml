@@ -1,0 +1,12 @@
+name: Windows Admon Default Group Policy Object Modified Unit Test
+tests:
+- name: Windows Admon Default Group Policy Object Modified
+  file: endpoint/windows_admon_default_group_policy_object_modified.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
+    source: ActiveDirectory
+    sourcetype: ActiveDirectory

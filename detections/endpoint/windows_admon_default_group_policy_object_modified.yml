@@ -1,17 +1,16 @@
-name: Windows Default Domain Policy GPO Modified
-id: fe6a6cc4-9e0d-4d66-bcf4-2c7f44860876
+name: Windows Admon Default Group Policy Object Modified
+id: 83458004-db60-4170-857d-8572f16f070b
 version: 1
-date: '2023-03-28'
+date: '2023-03-29'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
 description: UPDATE_DESCRIPTION
-search: ' EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=versionNumber ObjectDN="CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM,DC=*" 
-  | stats min(_time) as firstTime max(_time) as lastTime by ObjectDN SubjectUserSid AttributeValue Computer DSName
-  | rename AttributeValue as versionNumber
+search: ' `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" (displayName="Default Domain Policy" OR displayName="Default Domain Controllers Policy")
+  | stats min(_time) as firstTime max(_time) as lastTime values(gPCFileSysPath) by dcName, displayName
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `windows_default_domain_policy_gpo_modified_filter`'
+  | `windows_admon_default_group_policy_object_modified_filter`'
 how_to_implement: UPDATE_HOW_TO_IMPLEMENT
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
 references:
@@ -46,11 +45,7 @@ tags:
   nist:
   - DE.CM
   observable:
-  - name: SubjectUserSid
-    type: User
-    role:
-    - Attacker
-  - name: Computer
+  - name: dcName
     type: Endpoint
     role:
     - Victim
@@ -59,13 +54,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - EventCode
-  - ObjectClass
-  - AttributeLDAPDisplayName
-  - ObjectDN
-  - Computer
-  - DSName
-  - AttributeValue
-  - SubjectUserSid
+  - _time
+  - admonEventType
+  - objectCategory
+  - displayName
+  - gPCFileSysPath
+  - dcName
   risk_score: 50
   security_domain: endpoint
