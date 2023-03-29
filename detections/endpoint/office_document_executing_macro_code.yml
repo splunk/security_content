@@ -1,6 +1,6 @@
 name: Office Document Executing Macro Code
 id: b12c89bc-9d06-11eb-a592-acde48001122
-version: 3
+version: 4
 date: '2023-01-24'
 author: Teoderick Contreras, Splunk
 status: production
@@ -74,4 +74,4 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+    sourcetype: xmlwineventlog 
