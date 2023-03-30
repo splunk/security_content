@@ -56,5 +56,5 @@ tags:
   - DNS.src
   - DNS.query 
   - _time
-  risk_score: UPDATE (impact * confidence)/100
+  risk_score: 100
   security_domain: network
