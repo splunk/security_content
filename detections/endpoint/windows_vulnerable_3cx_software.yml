@@ -67,5 +67,5 @@ tags:
   - CommandLine
   - Computer
   - parent_process_name
-  risk_score: 80
+  risk_score: 90
   security_domain: endpoint
