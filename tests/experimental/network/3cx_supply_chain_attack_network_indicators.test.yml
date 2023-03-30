@@ -1,0 +1,13 @@
+name: 3CX Supply Chain Attack Network Indicators Unit Test
+tests:
+- name: 3CX Supply Chain Attack Network Indicators
+  file: network/3cx_supply_chain_attack_network_indicators.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: 3cx_network-windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_network-windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
