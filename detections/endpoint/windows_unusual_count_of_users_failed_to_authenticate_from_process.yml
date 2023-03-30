@@ -81,5 +81,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
