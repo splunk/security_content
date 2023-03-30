@@ -1,0 +1,13 @@
+name: Windows Vulnerable 3CX Software Unit Test
+tests:
+- name: Windows Vulnerable 3CX Software
+  file: endpoint/windows_vulnerable_3cx_software.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: 3cx_windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
