@@ -1,0 +1,7 @@
+description: A list of domains from the 3CX supply chain attack.
+filename: 3cx_ioc_domains.csv
+name: 3cx_ioc_domains
+default_match: 'false'
+match_type: WILDCARD(domain)
+min_matches: 1
+case_sensitive_match: 'false'
