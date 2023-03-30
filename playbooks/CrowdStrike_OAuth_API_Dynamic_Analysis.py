@@ -83,7 +83,7 @@ def crowdstrike_url_detonation(action=None, success=None, container=None, result
             parameters.append({
                 "url": playbook_input_url_item[0],
                 "limit": 50,
-                "environment": "Windows 7, 32-bit",
+                "environment": "Windows 7, 64-bit",
             })
 
     ################################################################################
