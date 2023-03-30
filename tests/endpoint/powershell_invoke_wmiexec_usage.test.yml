@@ -1,6 +1,6 @@
-name: PowerShell Invoke-WmiExec Usage Unit Test
+name: PowerShell Invoke WmiExec Usage Unit Test
 tests:
-- name: PowerShell Invoke-WmiExec Usage
+- name: PowerShell Invoke WmiExec Usage
   file: endpoint/powershell_invoke_wmiexec_usage.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h

@@ -1,4 +1,4 @@
-name: Windows PowerShell Get-CIMInstance Remote Computer Unit Test
+name: Windows PowerShell Get CIMInstance Remote Computer Unit Test
 tests:
 - name: Windows PowerShell Get-CIMInstance Remote Computer
   file: endpoint/windows_powershell_get_ciminstance_remote_computer.yml

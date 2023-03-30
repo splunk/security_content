@@ -1,6 +1,6 @@
-name: Windows Enable Win32_ScheduledJob via Registry Unit Test
+name: Windows Enable Win32 ScheduledJob via Registry Unit Test
 tests:
-- name: Windows Enable Win32_ScheduledJob via Registry
+- name: Windows Enable Win32 ScheduledJob via Registry
   file: endpoint/windows_enable_win32_scheduledjob_via_registry.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: -24h
