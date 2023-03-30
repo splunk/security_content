@@ -14,18 +14,17 @@ description: This analytic is to detect a suspicious child process of MSBuild sp
 data_source:
 - Windows Security 4688
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval origin = ucast(map_get(input_event, "origin"),"map<string, any>", null)
-  | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>", null)
-  | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval process=ucast(map_get(input_event,"process"),
-  "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"), "string",
-  null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>", null)
-  | eval process_file_path=ucast(map_get(process_file,"path"), "string", null) | eval
-  process_file_name=ucast(map_get(process_file,"name"), "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"),
-  "string", null) | eval process_user=ucast(map_get(process,"user"), "map<string,
-  any>", null) | eval process_user_name=ucast(map_get(process_user,"name"), "string",
-  null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>", null)
-  | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null) |
-  eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
   actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
   | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
   null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
