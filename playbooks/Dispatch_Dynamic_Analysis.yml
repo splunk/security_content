@@ -1,0 +1,28 @@
+name: Dispatch Dynamic Analysis
+id: a15da934-1f59-4672-b98c-ec1bbfd80885
+version: 1
+date: '2023-03-30'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: a Dispatch automatic dynamic analysis playbook that will execute several input playbook like urlscan.io, virustotal, crowdstrike and splunk analyzer to detonate files or url(s). 
+  This will produce a merge report and indicator tag for each inputs.
+playbook: Dispatch_Dynamic_Analysis
+how_to_implement: This automatic playbook requires "sandbox" tag for each input playbook you want to execute.. It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+  - urlscan.io
+  - VirusTotal_v3
+  - SAA
+tags:
+  platform_tags:
+    - url
+    - domain
+    - sandbox
+    - ip
+    - vault_id
+  playbook_type: Automatic
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
