@@ -76,7 +76,7 @@ def hunt_file(action=None, success=None, container=None, results=None, handle=No
     ## Custom Code End
     ################################################################################
 
-    phantom.act("hunt file", parameters=parameters, name="hunt_file", assets=["crowdstrike"], callback=filter_2)
+    phantom.act("hunt file", parameters=parameters, name="hunt_file", assets=["crowdstrike_oauth_api"], callback=filter_2)
 
     return
 
@@ -109,7 +109,7 @@ def hunt_domain(action=None, success=None, container=None, results=None, handle=
     ## Custom Code End
     ################################################################################
 
-    phantom.act("hunt domain", parameters=parameters, name="hunt_domain", assets=["crowdstrike"], callback=filter_3)
+    phantom.act("hunt domain", parameters=parameters, name="hunt_domain", assets=["crowdstrike_oauth_api"], callback=filter_3)
 
     return
 
@@ -364,7 +364,7 @@ def get_systems_from_file(action=None, success=None, container=None, results=Non
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get system info", parameters=parameters, name="get_systems_from_file", assets=["crowdstrike"], callback=format_report_file)
+    phantom.act("get system info", parameters=parameters, name="get_systems_from_file", assets=["crowdstrike_oauth_api"], callback=format_report_file)
 
     return
 
@@ -396,7 +396,7 @@ def get_systems_from_domain(action=None, success=None, container=None, results=N
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get system info", parameters=parameters, name="get_systems_from_domain", assets=["crowdstrike"], callback=format_report_domain)
+    phantom.act("get system info", parameters=parameters, name="get_systems_from_domain", assets=["crowdstrike_oauth_api"], callback=format_report_domain)
 
     return
 

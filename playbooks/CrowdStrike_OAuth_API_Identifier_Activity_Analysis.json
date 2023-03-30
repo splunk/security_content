@@ -118,7 +118,7 @@
                     "targetPort": "8_in"
                 }
             ],
-            "hash": "087adbe2d806f96cc17b09023f8b1ae68a56d1d9",
+            "hash": "9c4e7b32cc0b0e26cbefdc167d85e130fc59f118",
             "nodes": {
                 "0": {
                     "data": {
@@ -134,7 +134,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -2.5579538487363607e-13
+                    "y": -3.197442310920451e-13
                 },
                 "1": {
                     "data": {
@@ -191,7 +191,7 @@
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
-                            "crowdstrike"
+                            "crowdstrike_oauth_api"
                         ],
                         "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
                         "connectorVersion": "v1",
@@ -227,7 +227,7 @@
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
-                            "crowdstrike"
+                            "crowdstrike_oauth_api"
                         ],
                         "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
                         "connectorVersion": "v1",
@@ -315,7 +315,7 @@
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
-                            "crowdstrike"
+                            "crowdstrike_oauth_api"
                         ],
                         "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
                         "connectorVersion": "v1",
@@ -357,7 +357,7 @@
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
-                            "crowdstrike"
+                            "crowdstrike_oauth_api"
                         ],
                         "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
                         "connectorVersion": "v1",
@@ -582,7 +582,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-03-30T22:25:27.497757+00:00",
+    "create_time": "2023-03-30T22:48:59.978744+00:00",
     "draft_mode": false,
     "labels": [
         "*"
