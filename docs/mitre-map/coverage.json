@@ -236,8 +236,8 @@
         },
         {
             "techniqueID": "T1195.002",
-            "score": 1,
-            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cloud/github_actions_disable_security_workflow.yml"
+            "score": 4,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cloud/github_actions_disable_security_workflow.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/hunting_3cxdesktopapp_software.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/endpoint/windows_vulnerable_3cx_software.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/network/3cx_supply_chain_attack_network_indicators.yml"
         },
         {
             "techniqueID": "T1195",
