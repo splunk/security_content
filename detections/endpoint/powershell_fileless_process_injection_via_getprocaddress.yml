@@ -58,10 +58,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: User
-    type: User
-    role:
-    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
