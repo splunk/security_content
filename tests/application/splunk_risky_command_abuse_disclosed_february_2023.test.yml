@@ -1,6 +1,6 @@
-name: Splunk risky command abuse disclosed february 2023 Unit Test
+name: Splunk risky Command Abuse disclosed february 2023 Unit Test
 tests:
-  - name: Splunk risky command abuse disclosed february 2023
+  - name: Splunk risky Command Abuse disclosed february 2023
     file: application/splunk_risky_command_abuse_disclosed_february_2023.yml
     pass_condition: "| stats count | where count > 0"
     earliest_time: -24h
