@@ -1,5 +1,5 @@
 """
-Accepts a URL or File_Hash and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\nRef: https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
+Accepts a URL or vault_id and does detonation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\n
 """
 
 
@@ -787,7 +787,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
                 "source_link":f"https://app.twinwave.io/job/{external_id}"
             }
             build_file_output__observable_array.append(observable_object)
-            #phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
+            phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -839,13 +839,17 @@ def filter_6(action=None, success=None, container=None, results=None, handle=Non
 def on_finish(container, summary):
     phantom.debug("on_finish() called")
 
+    format_url_report = phantom.get_format_data(name="format_url_report")
+    format_file_report = phantom.get_format_data(name="format_file_report")
     build_url_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_url_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
     build_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
 
     observable_combined_value = phantom.concatenate(build_url_output__observable_array, build_file_output__observable_array)
+    report_combined_value = phantom.concatenate(format_url_report, format_file_report)
 
     output = {
         "observable": observable_combined_value,
+        "report": report_combined_value,
     }
 
     ################################################################################
@@ -853,10 +857,7 @@ def on_finish(container, summary):
     ################################################################################
 
     # Write your custom code here...
-    format_url_report = phantom.get_format_data(name="format_url_report")
-    format_file_report = phantom.get_format_data(name="format_file_report")
-    markdown_report_combined_value = phantom.concatenate(format_url_report, format_file_report)
-    output['markdown_report'] = markdown_report_combined_value
+    #phantom.debug(output)
     ################################################################################
     ## Custom Code End
     ################################################################################
