@@ -7,7 +7,7 @@ type: TTP
 datamodel:
 - Endpoint
 description: This analytic is to detect a suspicious rundll32 commandline to clear
-  shim cache. This technique is a anti-forensic technique to clear the cache taht
+  shim cache. This technique is a anti-forensic technique to clear the cache that
   are one important artifacts in terms of digital forensic during attacks or incident.
   This TTP is a good indicator that someone tries to evade some tools and clear foothold
   on the machine.
