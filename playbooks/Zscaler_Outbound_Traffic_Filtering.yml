@@ -1,0 +1,24 @@
+name: ZScaler Outbound Traffic Filtering
+id: 3e0df448-0546-4b2b-9143-365161cf40f9
+version: 1
+date: '2023-03-31'
+author: Patrick Bareiss, Splunk
+type: Investigation
+description: Accepts a URL or list of URLs and block them in ZScaler. Generates a list of observables with the blocked URLs.
+playbook: ZScaler_Outbound_Traffic_Filtering
+how_to_implement: This input playbook requires the ZScaler connector to be configured. It is designed to work in conjunction with the Dynamic URL Outbound Traffic Filtering Analysis playbook or other playbooks in the same style. 
+references:
+  - https://d3fend.mitre.org/technique/d3f:OutboundTrafficFiltering/
+app_list: 
+  - ZScaler
+tags:
+  platform_tags:
+    - denylist
+    - url
+    - D3-OTF
+    - ZScaler
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
