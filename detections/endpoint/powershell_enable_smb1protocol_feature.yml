@@ -33,13 +33,13 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
   kill_chain_phases:
   - Exploitation
-  message: Powershell Enable SMB1Protocol Feature
+  message: Powershell Enable SMB1Protocol Feature on $Computer$
   mitre_attack_id:
   - T1027
   - T1027.005
   observable:
-  - name: User
-    type: User
+  - name: Computer
+    type: Hostname
     role:
     - Victim
   product:
