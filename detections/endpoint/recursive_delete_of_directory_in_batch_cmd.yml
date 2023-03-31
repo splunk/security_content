@@ -34,12 +34,12 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
-  message: Recursive Delete of Directory In Batch CMD
+  message: Recursive Delete of Directory In Batch CMD by $user$ on $dest$
   mitre_attack_id:
   - T1070.004
   - T1070
   observable:
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
