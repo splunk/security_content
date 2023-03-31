@@ -31,6 +31,7 @@ tags:
   - Remcos
   - Azorult
   - AgentTesla
+  - 3CX Supply Chain Attack
   confidence: 70
   context:
   - Source:Endpoint
