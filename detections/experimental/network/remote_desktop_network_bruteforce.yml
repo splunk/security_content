@@ -54,7 +54,7 @@ tags:
   impact: 50
   risk_score: 25
   context: []
-  message: tbd
+  message: $dest$ may be the target of an RDP Bruteforce
   observable:
   - name: dest
     type: Hostname
