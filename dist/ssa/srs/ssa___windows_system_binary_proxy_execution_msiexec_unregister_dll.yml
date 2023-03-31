@@ -44,7 +44,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "risk_score", 35,
     "severity_id", 0,
     "rule", create_map("name", "Windows System Binary Proxy Execution MSIExec Unregister DLL", "uid", "df76a8d1-92e1-4ec9-b8f7-695b5838703e", "type", "Streaming"),
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", timestamp),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
     "type_uid", 10200101,
     "start_time", timestamp,
     "end_time", timestamp

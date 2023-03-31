@@ -48,7 +48,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "risk_score", 40,
     "severity_id", 0,
     "rule", create_map("name", "Windows CertUtil Decode File", "uid", "b06983f4-8f72-11ec-ab50-acde48001122", "type", "Streaming"),
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", timestamp),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
     "type_uid", 10200101,
     "start_time", timestamp,
     "end_time", timestamp
