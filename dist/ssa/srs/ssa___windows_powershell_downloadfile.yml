@@ -48,7 +48,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "risk_score", 35,
     "severity_id", 0,
     "rule", create_map("name", "Windows Powershell DownloadFile", "uid", "46440222-81d5-44b1-a376-19dcd70d1b08", "type", "Streaming"),
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", timestamp),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
     "type_uid", 10200101,
     "start_time", timestamp,
     "end_time", timestamp

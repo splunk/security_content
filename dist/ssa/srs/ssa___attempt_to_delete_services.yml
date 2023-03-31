@@ -45,7 +45,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "risk_score", 36,
     "severity_id", 0,
     "rule", create_map("name", "Attempt To Delete Services", "uid", "a0c8c292-d01a-11eb-aa18-acde48001122", "type", "Streaming"),
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", timestamp),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
     "type_uid", 10200101,
     "start_time", timestamp,
     "end_time", timestamp
