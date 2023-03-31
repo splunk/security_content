@@ -678,13 +678,17 @@ def list_demux_filter(action=None, success=None, container=None, results=None, h
 def on_finish(container, summary):
     phantom.debug("on_finish() called")
 
+    format_report_url = phantom.get_format_data(name="format_report_url")
+    format_report_file = phantom.get_format_data(name="format_report_file")
     build_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
     build_url_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_url_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
 
     observable_combined_value = phantom.concatenate(build_file_output__observable_array, build_url_output__observable_array)
+    report_combined_value = phantom.concatenate(format_report_url, format_report_file)
 
     output = {
         "observable": observable_combined_value,
+        "report": report_combined_value,
     }
 
     ################################################################################
@@ -692,11 +696,7 @@ def on_finish(container, summary):
     ################################################################################
 
     # Write your custom code here...
-    format_report_url = phantom.get_format_data(name="format_report_url")
-    format_report_file = phantom.get_format_data(name="format_report_file")
-    markdown_report_combined_value = phantom.concatenate(format_report_url, format_report_file,)
-    output['markdown_report'] = markdown_report_combined_value
-    #phantom.debug(output)
+
     ################################################################################
     ## Custom Code End
     ################################################################################

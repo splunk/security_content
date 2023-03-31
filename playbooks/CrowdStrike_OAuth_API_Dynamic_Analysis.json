@@ -145,7 +145,7 @@
                 }
             ],
             "globalCustomCode": "\n\n\nimport os",
-            "hash": "30cab54af0a2520644f9aa5802f9f99c834a2822",
+            "hash": "5ded383cdce241d6a5ec8b5af885582c1c57b864",
             "nodes": {
                 "0": {
                     "data": {
@@ -161,7 +161,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 250,
-                    "y": -6.394884621840902e-14
+                    "y": -3.197442310920451e-13
                 },
                 "1": {
                     "data": {
@@ -175,7 +175,7 @@
                     "errors": {},
                     "id": "1",
                     "type": "end",
-                    "userCode": "\n    # Write your custom code here...\n    format_report_url = phantom.get_format_data(name=\"format_report_url\")\n    format_report_file = phantom.get_format_data(name=\"format_report_file\")\n    markdown_report_combined_value = phantom.concatenate(format_report_url, format_report_file,)\n    output['markdown_report'] = markdown_report_combined_value\n    #phantom.debug(output)\n",
+                    "userCode": "\n    # Write your custom code here...\n\n",
                     "warnings": {},
                     "x": 260,
                     "y": 1920
@@ -460,7 +460,7 @@
                         "functionName": "crowdstrike_url_detonation",
                         "id": "3",
                         "parameters": {
-                            "environment": "Windows 7, 32-bit",
+                            "environment": "Windows 7, 64-bit",
                             "limit": 50,
                             "url": "playbook_input:url"
                         },
@@ -737,7 +737,7 @@
                     "y": 320
                 }
             },
-            "notes": "Inputs: url,  file_hash\nInteractions: Crowdstrike\nActions: url detonation, , file detonation\nOutputs: report, observables"
+            "notes": "Inputs: url,  vault_id\nInteractions: Crowdstrike\nActions: url detonation, , file detonation\nOutputs: report, observables"
         },
         "input_spec": [
             {
@@ -766,6 +766,17 @@
                 "description": "An array of observable dictionaries with value, type, score, score_id, and categories.",
                 "metadata": {},
                 "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_report_url:formatted_data",
+                    "format_report_file:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "a report with value, score, confidence, and categories.",
+                "metadata": {},
+                "name": "report"
             }
         ],
         "playbook_type": "data",
@@ -773,7 +784,7 @@
         "schema": "5.0.8",
         "version": "5.5.0.108488"
     },
-    "create_time": "2023-03-30T09:30:37.656459+00:00",
+    "create_time": "2023-03-31T08:35:53.571789+00:00",
     "draft_mode": false,
     "labels": [
         "*"
