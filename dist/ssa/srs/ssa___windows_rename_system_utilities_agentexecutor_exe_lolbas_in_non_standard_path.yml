@@ -45,7 +45,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     "risk_score", 14,
     "severity_id", 0,
     "rule", create_map("name", "Windows Rename System Utilities Agentexecutor exe LOLBAS in Non Standard Path", "uid", "e124f71f-11bc-47e4-9931-6046d256005d", "type", "Streaming"),
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", timestamp),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
     "type_uid", 10200101,
     "start_time", timestamp,
     "end_time", timestamp
