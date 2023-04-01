@@ -254,7 +254,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
         "type": "file_hash",
         "total_count": count,
         "source": "Defender ATP",
-        "devices": device_list
+        "identifier_activity": device_list
     }
     
     build_file_output__observable_array.append(observable_array)
@@ -308,7 +308,7 @@ def build_domain_output(action=None, success=None, container=None, results=None,
         "type": "domain",
         "total_count": count,
         "source": "Defender ATP",
-        "devices": device_list
+        "identifier_activity": device_list
     }
     
     build_domain_output__observable_array.append(observable_array)

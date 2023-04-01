@@ -104,7 +104,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "2da22b0256f06b4130bc597d0d103ef7edff9825",
+            "hash": "ae16e22f1f383596069ab316dfbead6553de9a2e",
             "nodes": {
                 "0": {
                     "data": {
@@ -120,7 +120,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -1.9184653865522705e-13
+                    "y": -2.5579538487363607e-13
                 },
                 "1": {
                     "data": {
@@ -161,7 +161,7 @@
                     "errors": {},
                     "id": "10",
                     "type": "code",
-                    "userCode": "\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_domain[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"devices\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_domain[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 340,
                     "y": 804
@@ -428,7 +428,7 @@
                     "errors": {},
                     "id": "9",
                     "type": "code",
-                    "userCode": "\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_file_hash[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"devices\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_file_hash[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 800
@@ -481,7 +481,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-03-30T23:04:33.691605+00:00",
+    "create_time": "2023-04-01T21:05:50.161069+00:00",
     "draft_mode": false,
     "labels": [
         "*"
