@@ -76,7 +76,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
 def build_url_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_url_query() called")
 
-    template = """| tstats count from datamodel=Web.Web where Web.url={0} by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
+    template = """count from datamodel=Web.Web where Web.url=\"{0}\" by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -104,7 +104,7 @@ def build_url_query(action=None, success=None, container=None, results=None, han
 def build_file_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_file_query() called")
 
-    template = """| tstats count from Endpoint.Filesystem where Filesystem.file_hash={0} by Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip"""
+    template = """count from Endpoint.Filesystem where Filesystem.file_hash=\"{0}\" by Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -132,7 +132,7 @@ def build_file_query(action=None, success=None, container=None, results=None, ha
 def build_domain_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_domain_query() called")
 
-    template = """| tstats count from datamodel=Network_Resolution where DNS.query IN (\"*.{0}\", \"{0}\") by DNS.src | `drop_dm_object_name(\"DNS\") | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
+    template = """count from datamodel=Network_Resolution where DNS.query=\"{0}\" by DNS.src | `drop_dm_object_name(\"DNS\") | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -160,7 +160,7 @@ def build_domain_query(action=None, success=None, container=None, results=None, 
 def build_ip_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_ip_query() called")
 
-    template = """| tstats count from datamodel=Network_Traffic where All_Traffic.direction=\"outbound\" All_Traffic.dest_ip={0} by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
+    template = """count from datamodel=Network_Traffic where  All_Traffic.dest_ip=\"{0}\" by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -294,8 +294,8 @@ def run_ip_query(action=None, success=None, container=None, results=None, handle
         parameters.append({
             "query": build_ip_query,
             "command": "tstats",
-            "search_mode": "smart",
             "display": "src, src_asset_id, src_dns, src_ip",
+            "search_mode": "smart",
         })
 
     ################################################################################
@@ -378,7 +378,7 @@ def filter_ip_query(action=None, success=None, container=None, results=None, han
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["run_ip_query:action_result.summary.{summaryVar}", ">", 0]
+            ["run_ip_query:action_result.summary.total_events", ">", 0]
         ],
         name="filter_ip_query:condition_1")
 

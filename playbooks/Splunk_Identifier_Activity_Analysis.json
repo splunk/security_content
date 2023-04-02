@@ -222,7 +222,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "f27290aa40261ee9ee5b1dbeb45c0f71c072d880",
+            "hash": "c50aaf29ded7bb67271a3061db213de5fb0fa2e7",
             "nodes": {
                 "0": {
                     "data": {
@@ -238,7 +238,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 530,
-                    "y": -1.2789769243681803e-13
+                    "y": -2.5579538487363607e-13
                 },
                 "1": {
                     "data": {
@@ -468,7 +468,7 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": ">",
-                                        "param": "run_ip_query:action_result.summary.{summaryVar}",
+                                        "param": "run_ip_query:action_result.summary.total_events",
                                         "value": "0"
                                     }
                                 ],
@@ -797,7 +797,7 @@
                         "parameters": [
                             "filtered-data:filter_1:condition_1:playbook_input:url"
                         ],
-                        "template": "| tstats count from datamodel=Web.Web where Web.url={0} by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip",
+                        "template": "count from datamodel=Web.Web where Web.url=\"{0}\" by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip",
                         "type": "format"
                     },
                     "errors": {},
@@ -820,7 +820,7 @@
                         "parameters": [
                             "filtered-data:filter_1:condition_2:playbook_input:file"
                         ],
-                        "template": "| tstats count from Endpoint.Filesystem where Filesystem.file_hash={0} by Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip",
+                        "template": "count from Endpoint.Filesystem where Filesystem.file_hash=\"{0}\" by Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip",
                         "type": "format"
                     },
                     "errors": {},
@@ -828,7 +828,7 @@
                     "type": "format",
                     "warnings": {},
                     "x": 340,
-                    "y": 328
+                    "y": 320
                 },
                 "5": {
                     "data": {
@@ -843,7 +843,7 @@
                         "parameters": [
                             "filtered-data:filter_1:condition_3:playbook_input:domain"
                         ],
-                        "template": "| tstats count from datamodel=Network_Resolution where DNS.query IN (\"*.{0}\", \"{0}\") by DNS.src | `drop_dm_object_name(\"DNS\") | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip",
+                        "template": "count from datamodel=Network_Resolution where DNS.query=\"{0}\" by DNS.src | `drop_dm_object_name(\"DNS\") | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip",
                         "type": "format"
                     },
                     "errors": {},
@@ -866,7 +866,7 @@
                         "parameters": [
                             "filtered-data:filter_1:condition_4:playbook_input:ip"
                         ],
-                        "template": "| tstats count from datamodel=Network_Traffic where All_Traffic.direction=\"outbound\" All_Traffic.dest_ip={0} by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip",
+                        "template": "count from datamodel=Network_Traffic where  All_Traffic.dest_ip=\"{0}\" by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip",
                         "type": "format"
                     },
                     "errors": {},
@@ -1041,7 +1041,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-01T21:05:04.325360+00:00",
+    "create_time": "2023-04-02T16:11:35.642611+00:00",
     "draft_mode": false,
     "labels": [
         "*"
