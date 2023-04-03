@@ -10,10 +10,10 @@ description: This search is to detect an anomaly event of a non-firefox process 
   the files in the profile folder. This folder contains all the sqlite database of the
   firefox browser related to users login, history, cookies and etc. Most of the RAT,
   trojan spy as well as FIN7 jssloader try to parse the those sqlite database to collect
-  information on the compromised host. This SACL Event (4663) need to be enabled to
-  tthe firefox profile directory to be eable to use this. Since you monitoring this
-  access to the folder a noise coming from firefox need to be filter and also sqlite
-  db browser and explorer .exe to make this detection more stable.
+  information on the compromised host. This SACL Event (4663) needs to be enabled to
+  the firefox profile directory to use this. Since this is monitoring the
+  access to the folder, we have obsevered noise and hence added `sqlite
+  db browser` and `explorer.exe` to make this detection more stable.
 search: '`wineventlog_security` EventCode=4663 NOT (process_name IN ("*\\firefox.exe",
   "*\\explorer.exe", "*sql*")) Object_Name="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*"
   | stats count min(_time) as firstTime max(_time) as lastTime by Object_Name Object_Type
@@ -31,6 +31,7 @@ tags:
   - Remcos
   - Azorult
   - AgentTesla
+  - 3CX Supply Chain Attack
   confidence: 70
   context:
   - Source:Endpoint
