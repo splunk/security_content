@@ -31,6 +31,8 @@ tags:
   - CIS 5
   - CIS 16
   confidence: 100
+  cve:
+  - CVE-2023-29059
   context:
   - Scope:Network
   dataset:
