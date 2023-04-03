@@ -73,16 +73,15 @@ def url_detonation_1(action=None, success=None, container=None, results=None, ha
     # Queries VirusTotal for information about the provided URL(s)
     ################################################################################
 
-    playbook_input_url = phantom.collect2(container=container, datapath=["playbook_input:url"])
+    filtered_input_0_url = phantom.collect2(container=container, datapath=["filtered-data:input_filter:condition_1:playbook_input:url"])
 
     parameters = []
 
     # build parameters list for 'url_detonation_1' call
-    for playbook_input_url_item in playbook_input_url:
-        if playbook_input_url_item[0] is not None:
+    for filtered_input_0_url_item in filtered_input_0_url:
+        if filtered_input_0_url_item[0] is not None:
             parameters.append({
-                "url": playbook_input_url_item[0],
-                "wait_time": "",
+                "url": filtered_input_0_url_item[0],
             })
 
     ################################################################################
@@ -95,7 +94,7 @@ def url_detonation_1(action=None, success=None, container=None, results=None, ha
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="url_detonation_1", assets=["virustotal_v3"], callback=url_detonate_filter)
+    phantom.act("detonate url", parameters=parameters, name="url_detonation_1", assets=["virus_total"], callback=url_detonate_filter)
 
     return
 
@@ -110,15 +109,15 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     # Queries VirusTotal for information about the provided vault_id(s)
     ################################################################################
 
-    playbook_input_vault_id = phantom.collect2(container=container, datapath=["playbook_input:vault_id"])
+    filtered_input_0_vault_id = phantom.collect2(container=container, datapath=["filtered-data:input_filter:condition_2:playbook_input:vault_id"])
 
     parameters = []
 
     # build parameters list for 'file_detonation' call
-    for playbook_input_vault_id_item in playbook_input_vault_id:
-        if playbook_input_vault_id_item[0] is not None:
+    for filtered_input_0_vault_id_item in filtered_input_0_vault_id:
+        if filtered_input_0_vault_id_item[0] is not None:
             parameters.append({
-                "vault_id": playbook_input_vault_id_item[0],
+                "vault_id": filtered_input_0_vault_id_item[0],
             })
 
     ################################################################################
@@ -132,7 +131,7 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["virustotal_v3"], callback=file_detonate_filter)
+    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["virus_total"], callback=file_detonate_filter)
 
     return
 

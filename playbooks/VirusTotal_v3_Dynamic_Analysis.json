@@ -120,7 +120,7 @@
                 }
             ],
             "globalCustomCode": "\n\n\nfrom math import log",
-            "hash": "6d1c8bfd4d293929a88550feb9db8f98826d2e76",
+            "hash": "c62a83f2b885857ecb0ed931a92f20293e4829a0",
             "nodes": {
                 "0": {
                     "data": {
@@ -136,7 +136,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -272,10 +272,10 @@
                     "errors": {},
                     "id": "13",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    # Build file_hash\n    for file_hash, file_data, file_object in zip(filtered_result_0_parameter_vault_id, filtered_result_0_data , normalize_score_file__file_score_object):\n        observable_object = {\n            \"value\": file_hash,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score_id\": file_object['score_id'],\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence']\n            },\n            \"attributes\": {\n                \"type\": file_data['attributes']['type_extension'],\n                \"name\": file_data['attributes']['meaningful_name'],\n                \"size\": file_data['attributes']['size'],\n                \"md5\": file_data['attributes']['md5'],\n                \"sha1\": file_data['attributes']['sha1'],\n                \"sha256\": file_data['attributes']['sha256']\n            },\n            \"source\": \"VirusTotal v3\",\n            \"source_link\": f\"https://www.virustotal.com/gui/file/{file_hash}\"\n        }\n        \n        build_file_output__observable_array.append(observable_object)\n        \n",
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    # Build file_hash\n    for file_hash, file_data, file_object in zip(filtered_result_0_parameter_vault_id, filtered_result_0_data , normalize_score_file__file_score_object):\n        observable_object = {\n            \"value\": file_hash,\n            \"type\": \"hash\",\n            \"sandbox\": {\n                \"score_id\": file_object['score_id'],\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence']\n            },\n            \"attributes\": {\n                \"type\": file_data['attributes']['type_extension'],\n                \"name\": file_data['attributes']['meaningful_name'],\n                \"size\": file_data['attributes']['size'],\n                \"md5\": file_data['attributes']['md5'],\n                \"sha1\": file_data['attributes']['sha1'],\n                \"sha256\": file_data['attributes']['sha256']\n            },\n            \"source\": \"VirusTotal v3\",\n            \"source_link\": f\"https://www.virustotal.com/gui/file/{file_hash}\"\n        }\n        \n        build_file_output__observable_array.append(observable_object)\n        \n",
                     "warnings": {},
                     "x": 340,
-                    "y": 1042
+                    "y": 1040
                 },
                 "15": {
                     "data": {
@@ -363,8 +363,8 @@
                             "Reconfigure invalid datapath."
                         ]
                     },
-                    "x": 230,
-                    "y": 148
+                    "x": 220,
+                    "y": 140
                 },
                 "3": {
                     "data": {
@@ -379,7 +379,7 @@
                         },
                         "connector": "VirusTotal v3",
                         "connectorConfigs": [
-                            "virustotal_v3"
+                            "virus_total"
                         ],
                         "connectorId": "3fe4875d-a4a7-47d3-9ef1-f9e63a6653a4",
                         "connectorVersion": "v1",
@@ -387,8 +387,7 @@
                         "functionName": "url_detonation_1",
                         "id": "3",
                         "parameters": {
-                            "url": "playbook_input:url",
-                            "wait_time": ""
+                            "url": "filtered-data:input_filter:condition_1:playbook_input:url"
                         },
                         "requiredParameters": [
                             {
@@ -402,11 +401,7 @@
                     "id": "3",
                     "type": "action",
                     "userCode": "    \n    # Write your custom code here...\n\n",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 0,
                     "y": 328
                 },
@@ -423,7 +418,7 @@
                         },
                         "connector": "VirusTotal v3",
                         "connectorConfigs": [
-                            "virustotal_v3"
+                            "virus_total"
                         ],
                         "connectorId": "3fe4875d-a4a7-47d3-9ef1-f9e63a6653a4",
                         "connectorVersion": "v1",
@@ -431,7 +426,7 @@
                         "functionName": "file_detonation",
                         "id": "4",
                         "parameters": {
-                            "vault_id": "playbook_input:vault_id"
+                            "vault_id": "filtered-data:input_filter:condition_2:playbook_input:vault_id"
                         },
                         "requiredParameters": [
                             {
@@ -445,11 +440,7 @@
                     "id": "4",
                     "type": "action",
                     "userCode": "\n    # Write your custom code here...\n    \n\n",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 340,
                     "y": 328
                 },
@@ -539,7 +530,7 @@
                     "errors": {},
                     "id": "8",
                     "type": "code",
-                    "userCode": "    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(filtered_result_0_parameter_url, filtered_result_0_data___id, normalize_score_url__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"reputation\": {\n                \"score_id\": url_object['score_id'],\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \"categories\": url_object['categories'],\n            \"source\": \"VirusTotal v3\",\n            \"source_link\": f\"https://www.virustotal.com/gui/url/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        \n        \n",
+                    "userCode": "    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(filtered_result_0_parameter_url, filtered_result_0_data___id, normalize_score_url__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"sandbox\": {\n                \"score_id\": url_object['score_id'],\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \"categories\": url_object['categories'],\n            \"source\": \"VirusTotal v3\",\n            \"source_link\": f\"https://www.virustotal.com/gui/url/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        \n        \n",
                     "warnings": {},
                     "x": 0,
                     "y": 1042
@@ -592,7 +583,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-03-23T00:01:47.766315+00:00",
+    "create_time": "2023-04-03T11:10:18.424298+00:00",
     "draft_mode": false,
     "labels": [
         "*"

@@ -13,7 +13,6 @@ app_list:
   - virustotal v3
 tags:
   platform_tags:
-    - reputation 
     - url
     - domain
     - sandbox
