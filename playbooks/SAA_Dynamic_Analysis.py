@@ -83,17 +83,17 @@ def saa_url_detonation(action=None, success=None, container=None, results=None, 
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="saa_url_detonation", assets=["splunk attack analyzer"], callback=filter_5)
+    phantom.act("detonate url", parameters=parameters, name="saa_url_detonation", assets=["splunk attack analyzer"], callback=url_detonation_status_filter_1)
 
     return
 
 
 @phantom.playbook_block()
-def url_detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("url_detonation_status_filter() called")
+def file_detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("file_detonation_status_filter() called")
 
     ################################################################################
-    # Filters successful url or file detonation results.
+    # Filters successful file  detonation results.
     ################################################################################
 
     # collect filtered artifact ids and results for 'if' condition 1
@@ -102,7 +102,7 @@ def url_detonation_status_filter(action=None, success=None, container=None, resu
         conditions=[
             ["saa_file_detonation:action_result.status", "==", "success"]
         ],
-        name="url_detonation_status_filter:condition_1")
+        name="file_detonation_status_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -411,14 +411,14 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     # Write your custom code here...
     from urllib.parse import urlparse
     build_url_output__observable_array = []
-    phantom.debug(playbook_input_url_values)
+    #phantom.debug(playbook_input_url_values)
     # Build URL
     for jobs_id in get_jobid_of_url_detonation_output__jobid:
         
         for url, external_id, url_object in zip(playbook_input_url_values, jobs_id, normalized_job_forensic_report_output__url_score_object):
             parsed_url = urlparse(url)
-            phantom.debug("url: {} jobs_id:{}".format(url, external_id))
-            phantom.debug("parsed_url: {}, url_object: {}".format(parsed_url, url_object))
+            #phantom.debug("url: {} jobs_id:{}".format(url, external_id))
+            #phantom.debug("parsed_url: {}, url_object: {}".format(parsed_url, url_object))
             observable_object = {
                 "value": url,
                 "type": "url",
@@ -484,7 +484,7 @@ def saa_file_detonation(action=None, success=None, container=None, results=None,
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="saa_file_detonation", assets=["splunk attack analyzer"], callback=url_detonation_status_filter)
+    phantom.act("detonate file", parameters=parameters, name="saa_file_detonation", assets=["splunk attack analyzer"], callback=file_detonation_status_filter)
 
     return
 
@@ -767,7 +767,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     build_file_output__observable_array = []
     for jobs_id in get_jobid_of_file_detonation_output__jobid:
         for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, jobs_id, normalized_job_forensic_report_output_1__file_score_object):
-            phantom.debug("vault: {} id: {}".format(_vault_id, external_id))
+            #phantom.debug("vault: {} id: {}".format(_vault_id, external_id))
             observable_object = {
 
                 "value": _vault_id,
@@ -787,7 +787,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
                 "source_link":f"https://app.twinwave.io/job/{external_id}"
             }
             build_file_output__observable_array.append(observable_object)
-            phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
+            #phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -798,8 +798,12 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 
 
 @phantom.playbook_block()
-def filter_5(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_5() called")
+def url_detonation_status_filter_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("url_detonation_status_filter_1() called")
+
+    ################################################################################
+    # Filters url detonation results.
+    ################################################################################
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
@@ -807,7 +811,7 @@ def filter_5(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["saa_url_detonation:action_result.status", "==", "success"]
         ],
-        name="filter_5:condition_1")
+        name="url_detonation_status_filter_1:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
