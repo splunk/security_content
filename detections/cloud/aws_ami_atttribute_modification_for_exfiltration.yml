@@ -19,7 +19,7 @@ known_false_positives: It is possible that an AWS admin has legitimately shared 
   snapshot with others for  a specific purpose.
 references:
 - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
-- https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot/
+- https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ami/
 - https://hackingthe.cloud/aws/enumeration/loot_public_ebs_snapshots/
 tags:
   analytic_story:
@@ -40,7 +40,7 @@ tags:
   impact: 100
   kill_chain_phases:
   - Actions on Objectives
-  message: AWS AMI from account $aws_account_id$ is shared externally with $accounts_added$ from $src_ip$
+  message: AWS AMI from account $aws_account_id$ is shared externally with $accounts_added$ from $src_ip$ or AMI made is made Public.
   mitre_attack_id:
   - T1537
   nist:
