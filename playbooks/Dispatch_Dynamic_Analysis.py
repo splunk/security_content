@@ -64,7 +64,7 @@ def dispatch_detonation_playbooks(action=None, success=None, container=None, res
     ################################################################################
 
     # call playbook "community/dispatch_input_playbooks", returns the playbook_run_id
-    playbook_run_id = phantom.playbook("community/dispatch_input_playbooks", container=container, name="dispatch_detonation_playbooks", callback=decision_2, inputs=inputs)
+    playbook_run_id = phantom.playbook("community/dispatch_input_playbooks", container=container, name="dispatch_detonation_playbooks", callback=filter_successful_observable_output, inputs=inputs)
 
     return
 
@@ -93,8 +93,12 @@ def artifacts_check_comment(action=None, success=None, container=None, results=N
 
 
 @phantom.playbook_block()
-def decision_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("decision_2() called")
+def filter_successful_observable_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("filter_successful_observable_output() called")
+
+    ################################################################################
+    # Filter to check if observable output is successfully generated or not.
+    ################################################################################
 
     # check for 'if' condition 1
     found_match_1 = phantom.decision(
@@ -122,7 +126,7 @@ def merge_report_1(action=None, success=None, container=None, results=None, hand
     # summary report for all sandbox detonation input playbooks.
     ################################################################################
 
-    template = """SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\\n\\n\n\n    | value | Score | Confidence | Source \n    | ---   | ---   | ---        | ---    \n    | \n    %%\n    {0}\n\n        \n"""
+    template = """SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\\n\\n\n| value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n{0}\n%%"""
 
     # parameter list for template variable replacement
     parameters = [

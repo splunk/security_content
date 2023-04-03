@@ -97,7 +97,7 @@
                     "targetPort": "28_in"
                 }
             ],
-            "hash": "4788458082a4a5282a15c4a8ee7ded73775346d8",
+            "hash": "022314ca36b1276988ac40a5f68d89a7bc05658e",
             "nodes": {
                 "0": {
                     "data": {
@@ -113,7 +113,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 360,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -128,7 +128,7 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 20,
+                    "x": 19.999999999999986,
                     "y": 1360
                 },
                 "15": {
@@ -146,7 +146,7 @@
                         "parameters": [
                             "normalized_observables_report:custom_function:sandbox_merge_report"
                         ],
-                        "template": "SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\\n\\n\n\n    | value | Score | Confidence | Source \n    | ---   | ---   | ---        | ---    \n    | \n    %%\n    {0}\n\n        \n",
+                        "template": "SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\\n\\n\n| value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n{0}\n%%",
                         "type": "format"
                     },
                     "errors": {},
@@ -547,7 +547,7 @@
                     "type": "playbook",
                     "warnings": {},
                     "x": 170,
-                    "y": 335
+                    "y": 334.99999999999994
                 },
                 "5": {
                     "data": {
@@ -618,7 +618,11 @@
                 "7": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "customName": "filter successful observable output",
+                            "customNameId": 0,
+                            "description": "Filter to check if observable output is successfully generated or not.",
+                            "join": [],
+                            "note": "Filter to check if observable output is successfully generated or not."
                         },
                         "conditions": [
                             {
@@ -639,6 +643,7 @@
                             {
                                 "comparisons": [
                                     {
+                                        "conditionIndex": 1,
                                         "op": "==",
                                         "param": "",
                                         "value": ""
@@ -652,7 +657,7 @@
                             }
                         ],
                         "functionId": 2,
-                        "functionName": "decision_2",
+                        "functionName": "filter_successful_observable_output",
                         "id": "7",
                         "type": "decision"
                     },
@@ -660,8 +665,8 @@
                     "id": "7",
                     "type": "decision",
                     "warnings": {},
-                    "x": 250,
-                    "y": 506
+                    "x": 260,
+                    "y": 500
                 }
             },
             "notes": "Inputs: url,  vault_id\nActions: url detonation, , file detonation\nOutputs: report, indicator tag, workbook update task"
@@ -673,7 +678,7 @@
         "schema": "5.0.8",
         "version": "5.5.0.108488"
     },
-    "create_time": "2023-03-29T11:30:11.294519+00:00",
+    "create_time": "2023-04-03T08:52:24.702684+00:00",
     "draft_mode": false,
     "labels": [
         "*"
