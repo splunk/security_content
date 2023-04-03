@@ -58,6 +58,7 @@ tags:
   - All_Changes.user
   risk_score: 42
   security_domain: threat
+  manual_test: True
 tests:
 - name: True Positive Test
   attack_data:
