@@ -31,6 +31,8 @@ tags:
   - CIS 5
   - CIS 16
   confidence: 90
+  cve:
+  - CVE-2023-29059
   context:
   - Source:Endpoint
   - Stage:Execution
