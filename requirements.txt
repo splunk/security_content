@@ -7,6 +7,8 @@ mock==4.0.3
 psutil==5.9.4
 pycvesearch==1.2
 pydantic==1.10.7
+pysigma==0.9.4
+pysigma-backend-splunk==1.0.2
 pytest==7.2.2
 PyYAML==5.4.1
 questionary==1.10.0
