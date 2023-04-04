@@ -37,8 +37,7 @@ tags:
   impact: 50
   kill_chain_phases:
   - Exploitation
-  message: A suspicious powershell script contains Thread Mutex in $ScriptBlockText$ with
-    EventCode $EventCode$ in host $Computer$
+  message: A suspicious powershell script contains Thread Mutex on host $Computer$
   mitre_attack_id:
   - T1027
   - T1027.005
@@ -46,10 +45,6 @@ tags:
   observable:
   - name: Computer
     type: Hostname
-    role:
-    - Victim
-  - name: UserID
-    type: User
     role:
     - Victim
   product:
