@@ -24,23 +24,15 @@ tags:
   asset_type: Endpoint
   cve:
     - CVE-2023-22937
-  cis20:
-    - CIS 3
-    - CIS 5
-    - CIS 16
   confidence: 50
   context:
     - Source:Endpoint
   dataset:
     - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_unnecesary_file_extensions_allowed_by_lookup_table_uploads.log
   impact: 50
-  kill_chain_phases:
-    - Exploitation
   message: Potential lookup template injection attempt from $user$ on lookup table at path $uri_path$
   mitre_attack_id:
     - T1189
-  nist:
-    - DE.CM
   observable:
     - name: user
       type: User

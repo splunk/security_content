@@ -3,8 +3,10 @@ id: 0734bd21-2769-4972-a5f1-78bb1e011224
 version: 1
 date: '2023-03-22'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
+data_source:
+- Powershell 4104
 description: This analytic detects the usage of the Invoke-WMIExec utility within PowerShell Script Block Logging (EventCode 4104). The utility is used for executing WMI commands on targets using NTLMv2 pass-the-hash authentication.
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*invoke-wmiexec*") 
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText 
@@ -21,19 +23,8 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/invokewmiexec_windows-powershell.log
   impact: 100
-  kill_chain_phases:
-  - Exploitation
   message: PowerShell was identified running a Invoke-WmiExec on $Computer$.
   mitre_attack_id:
   - T1047
@@ -53,3 +44,9 @@ tags:
   - Computer
   risk_score: 100
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/invokewmiexec_windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
