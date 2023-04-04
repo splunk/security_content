@@ -59,7 +59,7 @@ tags:
   - name: file_name
     type: File Name
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
