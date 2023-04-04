@@ -288,6 +288,9 @@ jobs:
   
   update-sources-github:
     runs-on: ubuntu-latest
+    permissions:
+      # Need the write permission because this job commits changes to some folders like dist
+      contents: write
     needs: [validate-and-build, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
