@@ -143,6 +143,13 @@ class Detection(BaseModel, SecurityContentObject):
     # def references_check(cls, v, values):
     #     return LinkValidator.SecurityContentObject_validate_references(v, values)
 
+    @root_validator
+    def missing_test_file(cls, values):
+        if values["status"] == DetectionStatus.production:
+            if "tests" not in values:
+                raise ValueError("Missing test file for detection: " + values["name"])
+        return values
+
     @validator("search")
     def search_validate(cls, v, values):
         # write search validator
