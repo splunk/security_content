@@ -1,0 +1,24 @@
+name: Winter Vivern
+id: 5ce5f311-b311-4568-90ca-0c36781d07a4
+version: 1
+date: '2023-02-16'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Winter Vivern trojan, including looking for several timeout execution, 
+  schedule task creation, screenshots, downloading filess through powershell and many more.
+narrative: Winter Vivern malware was found by cert ua that tried to download and run several powershell script on the 
+  target host that will try to collect several files with specific file extensions like (.edb, .ems, .eme, .emz, .key, .pem, 
+  .ovpn, .bat, .cer, .p12, .cfg, .log, .txt, .pdf, .doc, .docx, .xls, .xlsx, .rdg(=) in desktop directories, taking desktop 
+  screenshots and further exfiltration through HTTP. It will also create a persistence mechanism such as scheduled task to 
+  ensure persistence on the targeted host.
+references:
+- https://cert.gov.ua/article/3761023
+tags:
+  analytic_story: Winter Vivern
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

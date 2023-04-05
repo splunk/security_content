@@ -1,7 +1,7 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
 version: 6
-date: '2022-02-22'
+date: '2023-04-05'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
@@ -28,18 +28,19 @@ references:
 - https://www.joesandbox.com/analysis/691823/0/html
 tags:
   analytic_story:
-  - DHS Report TA18-074A
+  - Qakbot
   - NOBELIUM Group
   - Windows Persistence Techniques
-  - Living Off The Land
-  - Azorult
-  - DarkCrystal RAT
-  - CISA AA22-257A
-  - AgentTesla
-  - Qakbot
-  - Trickbot
+  - Winter Vivern
   - Prestige Ransomware
+  - DarkCrystal RAT
+  - AgentTesla
+  - Trickbot
   - AsyncRAT
+  - Living Off The Land
+  - CISA AA22-257A
+  - DHS Report TA18-074A
+  - Azorult
   asset_type: Endpoint
   cis20:
   - CIS 3

@@ -1,7 +1,7 @@
 name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
 version: 1
-date: '2021-09-13'
+date: '2023-04-05'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
@@ -23,6 +23,7 @@ references:
 - https://attack.mitre.org/techniques/T1033/
 tags:
   analytic_story:
+  - Winter Vivern
   - Active Directory Discovery
   - Qakbot
   confidence: 50

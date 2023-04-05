@@ -1,7 +1,7 @@
 name: Any Powershell DownloadString
 id: 4d015ef2-7adf-11eb-95da-acde48001122
 version: 3
-date: '2022-04-07'
+date: '2023-04-05'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -30,10 +30,11 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Winter Vivern
+  - Ingress Tool Transfer
+  - Hermetic Wiper
   - Malicious PowerShell
   - HAFNIUM Group
-  - Ingress Tool Transfer
   confidence: 70
   context:
   - Source:Endpoint

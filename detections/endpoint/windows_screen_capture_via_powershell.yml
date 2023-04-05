@@ -1,0 +1,63 @@
+name: Windows Screen Capture Via Powershell
+id: 5e0b1936-8f99-4399-8ee2-9edc5b32e170
+version: 1
+date: '2023-04-05'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: The following analytic identifies a possible powershell script that does screen capture in the compromised or targeted hosts. 
+  This technique was seen in Winter-Vivern malware that tries to capture desktop screen via powershell script and send it to its C2 server as part 
+  of its exfiltration technique. This TTP is a good indicator that a powershell process is possibly collecting desktop screenshots to a host system.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" 
+  AND ScriptBlockText = “*.CopyFromScreen*”
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_screen_capture_via_powershell_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: unknown
+references:
+- https://twitter.com/_CERT_UA/status/1620781684257091584
+- https://cert.gov.ua/article/3761104
+tags:
+  analytic_story:
+  - Winter Vivern
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Collection
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_exfiltration/windows-powershell-xml.log
+  impact: 70
+  kill_chain_phases:
+  - Exploitation
+  message: a powershell script that possibly doing screen capture on $Computer$
+  mitre_attack_id:
+  - T1113
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - UserID
+  - EventCode
+  risk_score: 49
+  security_domain: endpoint

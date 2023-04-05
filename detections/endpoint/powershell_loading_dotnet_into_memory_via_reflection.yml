@@ -1,7 +1,7 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
 version: 2
-date: '2022-05-02'
+date: '2023-04-05'
 author: Michael Haag, Splunk
 type: TTP
 datamodel: []
@@ -19,9 +19,10 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*[system.reflection.assembly]::load(*","*[reflection.assembly]*", "*reflection.assembly*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `powershell_loading_dotnet_into_memory_via_reflection_filter`'
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*[system.reflection.assembly]::load(*","*[reflection.assembly]*",
+  "*reflection.assembly*") | stats count min(_time) as firstTime max(_time) as lastTime
+  by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_loading_dotnet_into_memory_via_reflection_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -35,10 +36,11 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper 
-  - Malicious PowerShell
+  - Winter Vivern
   - AgentTesla
   - AsyncRAT
+  - Hermetic Wiper
+  - Malicious PowerShell
   confidence: 80
   context:
   - Source:Endpoint
@@ -49,7 +51,8 @@ tags:
   kill_chain_phases:
   - Exploitation
   message: A suspicious powershell script contains reflective class assembly command
-    in $ScriptBlockText$ to load .net code in memory with EventCode $EventCode$ in host $Computer$
+    in $ScriptBlockText$ to load .net code in memory with EventCode $EventCode$ in
+    host $Computer$
   mitre_attack_id:
   - T1059
   - T1059.001

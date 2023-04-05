@@ -1,7 +1,7 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
 version: 3
-date: '2022-01-18'
+date: '2023-04-05'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 type: Hunting
 datamodel:
@@ -30,18 +30,19 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Data Destruction
-  - IcedID
-  - Log4Shell CVE-2021-44228
-  - WhisperGate
-  - Hermetic Wiper
-  - Living Off The Land
-  - Azorult
-  - DarkCrystal RAT
   - ProxyNotShell
   - Qakbot
-  - Chaos Ransomware
+  - Winter Vivern
+  - DarkCrystal RAT
   - AsyncRAT
+  - Log4Shell CVE-2021-44228
+  - Hermetic Wiper
+  - Chaos Ransomware
+  - IcedID
+  - WhisperGate
+  - Data Destruction
+  - Living Off The Land
+  - Azorult
   automated_detection_testing: passed
   confidence: 50
   context:
