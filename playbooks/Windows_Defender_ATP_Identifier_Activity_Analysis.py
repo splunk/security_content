@@ -218,6 +218,12 @@ def format_report_domain(action=None, success=None, container=None, results=None
 def build_file_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_file_output() called")
 
+    ################################################################################
+    # Iterates through the objects returned by previous actions to create a list of 
+    # devices, which is then appended to the rest of the Observable object that contains 
+    # the context for that list
+    ################################################################################
+
     filtered_result_0_data_filter_2 = phantom.collect2(container=container, datapath=["filtered-data:filter_2:condition_1:get_file_devices:action_result.parameter.file_hash","filtered-data:filter_2:condition_1:get_file_devices:action_result.data","filtered-data:filter_2:condition_1:get_file_devices:action_result.summary.total_devices"])
 
     filtered_result_0_parameter_file_hash = [item[0] for item in filtered_result_0_data_filter_2]
@@ -250,7 +256,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     # Build observable object
     
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "file_hash",
         "total_count": count,
         "source": "Defender ATP",
@@ -271,6 +277,12 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 @phantom.playbook_block()
 def build_domain_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_domain_output() called")
+
+    ################################################################################
+    # Iterates through the objects returned by previous actions to create a list of 
+    # devices, which is then appended to the rest of the Observable object that contains 
+    # the context for that list
+    ################################################################################
 
     filtered_result_0_data_filter_3 = phantom.collect2(container=container, datapath=["filtered-data:filter_3:condition_1:get_domain_devices:action_result.parameter.domain","filtered-data:filter_3:condition_1:get_domain_devices:action_result.data","filtered-data:filter_3:condition_1:get_domain_devices:action_result.summary.total_devices"])
 
@@ -304,7 +316,7 @@ def build_domain_output(action=None, success=None, container=None, results=None,
     # Build observable object
     
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "domain",
         "total_count": count,
         "source": "Defender ATP",

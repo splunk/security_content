@@ -104,7 +104,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "ae16e22f1f383596069ab316dfbead6553de9a2e",
+            "hash": "c6ea021941332995785c2f27e13e40fdfe568a18",
             "nodes": {
                 "0": {
                     "data": {
@@ -120,7 +120,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -2.5579538487363607e-13
+                    "y": 0
                 },
                 "1": {
                     "data": {
@@ -135,15 +135,17 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 200,
-                    "y": 960
+                    "x": 190,
+                    "y": 1042
                 },
                 "10": {
                     "data": {
                         "advanced": {
                             "customName": "build domain output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Iterates through the objects returned by previous actions to create a list of devices, which is then appended to the rest of the Observable object that contains the context for that list",
+                            "join": [],
+                            "note": "Observable object creation"
                         },
                         "functionId": 2,
                         "functionName": "build_domain_output",
@@ -161,10 +163,10 @@
                     "errors": {},
                     "id": "10",
                     "type": "code",
-                    "userCode": "\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_domain[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_domain[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 340,
-                    "y": 804
+                    "y": 864
                 },
                 "2": {
                     "data": {
@@ -222,7 +224,8 @@
                         "advanced": {
                             "customName": "get file devices",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "\"get file devices\" action which returns a list of devices that have seen the file queried for"
                         },
                         "connector": "Windows Defender ATP",
                         "connectorConfigs": [
@@ -258,7 +261,8 @@
                         "advanced": {
                             "customName": "get domain devices",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "\"get domain devices\" action which returns a list of devices that have seen the domain queried for"
                         },
                         "connector": "Windows Defender ATP",
                         "connectorConfigs": [
@@ -317,7 +321,7 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 60,
-                    "y": 476
+                    "y": 506
                 },
                 "6": {
                     "data": {
@@ -349,14 +353,15 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 400,
-                    "y": 480
+                    "y": 506
                 },
                 "7": {
                     "data": {
                         "advanced": {
                             "customName": "format report file",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Markdown Report creation"
                         },
                         "functionId": 1,
                         "functionName": "format_report_file",
@@ -376,14 +381,15 @@
                     "type": "format",
                     "warnings": {},
                     "x": 0,
-                    "y": 660
+                    "y": 686
                 },
                 "8": {
                     "data": {
                         "advanced": {
                             "customName": "format report domain",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Markdown Report creation"
                         },
                         "functionId": 2,
                         "functionName": "format_report_domain",
@@ -403,14 +409,16 @@
                     "type": "format",
                     "warnings": {},
                     "x": 340,
-                    "y": 660
+                    "y": 686
                 },
                 "9": {
                     "data": {
                         "advanced": {
                             "customName": "build file output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Iterates through the objects returned by previous actions to create a list of devices, which is then appended to the rest of the Observable object that contains the context for that list",
+                            "join": [],
+                            "note": "Observable object creation"
                         },
                         "functionId": 1,
                         "functionName": "build_file_output",
@@ -428,10 +436,10 @@
                     "errors": {},
                     "id": "9",
                     "type": "code",
-                    "userCode": "\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_file_hash[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_file_hash[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 0,
-                    "y": 800
+                    "y": 864
                 }
             },
             "notes": "Inputs: file_hash, domain\nInteractions: Windows Defender ATP\nActions: get file devices, get domain devices\nOutputs: observable, markdown report"
@@ -481,7 +489,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-01T21:05:50.161069+00:00",
+    "create_time": "2023-04-05T17:52:46.216500+00:00",
     "draft_mode": false,
     "labels": [
         "*"
