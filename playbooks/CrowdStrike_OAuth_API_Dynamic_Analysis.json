@@ -145,7 +145,7 @@
                 }
             ],
             "globalCustomCode": "\n\n\nimport os",
-            "hash": "5ded383cdce241d6a5ec8b5af885582c1c57b864",
+            "hash": "635386c268cab57d414e246711ae9469715ee501",
             "nodes": {
                 "0": {
                     "data": {
@@ -161,7 +161,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 250,
-                    "y": -3.197442310920451e-13
+                    "y": -3.836930773104541e-13
                 },
                 "1": {
                     "data": {
@@ -385,7 +385,7 @@
                     "errors": {},
                     "id": "15",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"sandbox\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_file_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_file_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1740
@@ -703,7 +703,7 @@
                     "errors": {},
                     "id": "7",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n# Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(playbook_input_url_values, crowdstrike_url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"sandbox\": {\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence'],\n                \"categories\": url_object['categories']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\": f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n# Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(playbook_input_url_values, crowdstrike_url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"reputation\": {\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence'],\n                \"categories\": url_object['categories']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\": f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
                     "warnings": {},
                     "x": 460,
                     "y": 1740
@@ -784,7 +784,7 @@
         "schema": "5.0.8",
         "version": "5.5.0.108488"
     },
-    "create_time": "2023-03-31T08:35:53.571789+00:00",
+    "create_time": "2023-04-05T16:45:24.525655+00:00",
     "draft_mode": false,
     "labels": [
         "*"
