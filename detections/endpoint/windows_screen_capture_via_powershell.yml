@@ -10,7 +10,7 @@ description: The following analytic identifies a possible powershell script that
   This technique was seen in Winter-Vivern malware that tries to capture desktop screen via powershell script and send it to its C2 server as part 
   of its exfiltration technique. This TTP is a good indicator that a powershell process is possibly collecting desktop screenshots to a host system.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" 
-  AND ScriptBlockText = “*.CopyFromScreen*”
+  AND ScriptBlockText = "*.CopyFromScreen*"
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
