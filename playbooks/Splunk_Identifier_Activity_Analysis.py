@@ -76,6 +76,10 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
 def build_url_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_url_query() called")
 
+    ################################################################################
+    # Query may need editing to reflect your splunk environment
+    ################################################################################
+
     template = """count from datamodel=Web.Web where Web.url=\"{0}\" by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
 
     # parameter list for template variable replacement
@@ -104,7 +108,11 @@ def build_url_query(action=None, success=None, container=None, results=None, han
 def build_file_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_file_query() called")
 
-    template = """count from Endpoint.Filesystem where Filesystem.file_hash=\"{0}\" by Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip"""
+    ################################################################################
+    # Query may need editing to reflect your splunk environment
+    ################################################################################
+
+    template = """count from datamodel=Endpoint.Processes where (Processes.process_hash=\"{0}\" OR Processes.process_hash=\"*={0}*\") by Processes.dest | `drop_dm_object_name(\"Processes\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -131,6 +139,10 @@ def build_file_query(action=None, success=None, container=None, results=None, ha
 @phantom.playbook_block()
 def build_domain_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_domain_query() called")
+
+    ################################################################################
+    # Query may need editing to reflect your splunk environment
+    ################################################################################
 
     template = """count from datamodel=Network_Resolution where DNS.query=\"{0}\" by DNS.src | `drop_dm_object_name(\"DNS\") | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
 
@@ -159,6 +171,10 @@ def build_domain_query(action=None, success=None, container=None, results=None, 
 @phantom.playbook_block()
 def build_ip_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_ip_query() called")
+
+    ################################################################################
+    # Query may need editing to reflect your splunk environment
+    ################################################################################
 
     template = """count from datamodel=Network_Traffic where  All_Traffic.dest_ip=\"{0}\" by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
 
@@ -189,6 +205,10 @@ def run_url_query(action=None, success=None, container=None, results=None, handl
     phantom.debug("run_url_query() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
+
+    ################################################################################
+    # May need to change search command dependent on your format block
+    ################################################################################
 
     build_url_query = phantom.get_format_data(name="build_url_query")
 
@@ -222,6 +242,10 @@ def run_file_query(action=None, success=None, container=None, results=None, hand
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    ################################################################################
+    # May need to change search command dependent on your format block
+    ################################################################################
+
     build_file_query = phantom.get_format_data(name="build_file_query")
 
     parameters = []
@@ -254,6 +278,10 @@ def run_domain_query(action=None, success=None, container=None, results=None, ha
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    ################################################################################
+    # May need to change search command dependent on your format block
+    ################################################################################
+
     build_domain_query = phantom.get_format_data(name="build_domain_query")
 
     parameters = []
@@ -285,6 +313,10 @@ def run_ip_query(action=None, success=None, container=None, results=None, handle
     phantom.debug("run_ip_query() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
+
+    ################################################################################
+    # May need to change search command dependent on your format block
+    ################################################################################
 
     build_ip_query = phantom.get_format_data(name="build_ip_query")
 
@@ -393,6 +425,10 @@ def filter_ip_query(action=None, success=None, container=None, results=None, han
 def format_url_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_url_report() called")
 
+    ################################################################################
+    # Markdown report used in calling playbook
+    ################################################################################
+
     template = """SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| URL | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%"""
 
     # parameter list for template variable replacement
@@ -423,6 +459,10 @@ def format_url_report(action=None, success=None, container=None, results=None, h
 @phantom.playbook_block()
 def format_file_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_file_report() called")
+
+    ################################################################################
+    # Markdown report used in calling playbook
+    ################################################################################
 
     template = """SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| File | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%"""
 
@@ -455,6 +495,10 @@ def format_file_report(action=None, success=None, container=None, results=None, 
 def format_domain_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_domain_report() called")
 
+    ################################################################################
+    # Markdown report used in calling playbook
+    ################################################################################
+
     template = """SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| Domain | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%"""
 
     # parameter list for template variable replacement
@@ -485,6 +529,10 @@ def format_domain_report(action=None, success=None, container=None, results=None
 @phantom.playbook_block()
 def format_ip_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_ip_report() called")
+
+    ################################################################################
+    # Markdown report used in calling playbook
+    ################################################################################
 
     template = """SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| IP | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%"""
 
@@ -517,6 +565,10 @@ def format_ip_report(action=None, success=None, container=None, results=None, ha
 def build_url_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_url_output() called")
 
+    ################################################################################
+    # Observable object expected by calling playbook
+    ################################################################################
+
     filtered_input_0_url = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_1:playbook_input:url"])
     run_url_query_result_data = phantom.collect2(container=container, datapath=["run_url_query:action_result.data.*.src_dns","run_url_query:action_result.data.*.src_ip","run_url_query:action_result.data.*.src_asset_id"], action_results=results)
 
@@ -548,7 +600,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     
     # Build observable object    
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "url",
         "total_count": len(device_list),
         "source": "Splunk",
@@ -570,6 +622,10 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
 @phantom.playbook_block()
 def build_file_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_file_output() called")
+
+    ################################################################################
+    # Observable object expected by calling playbook
+    ################################################################################
 
     filtered_input_0_file = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_2:playbook_input:file"])
     run_file_query_result_data = phantom.collect2(container=container, datapath=["run_file_query:action_result.data.*.dest_dns","run_file_query:action_result.data.*.dest_ip","run_file_query:action_result.data.*.dest_asset_id"], action_results=results)
@@ -603,7 +659,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     
     # Build observable object    
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "file_hash",
         "total_count": len(device_list),
         "source": "Splunk",
@@ -625,6 +681,10 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 @phantom.playbook_block()
 def build_domain_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_domain_output() called")
+
+    ################################################################################
+    # Observable object expected by calling playbook
+    ################################################################################
 
     filtered_input_0_domain = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_3:playbook_input:domain"])
     run_domain_query_result_data = phantom.collect2(container=container, datapath=["run_domain_query:action_result.data.*.src_dns","run_domain_query:action_result.data.*.src_ip","run_domain_query:action_result.data.*.src_asset_id"], action_results=results)
@@ -657,7 +717,7 @@ def build_domain_output(action=None, success=None, container=None, results=None,
     
     # Build observable object    
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "domain",
         "total_count": len(device_list),
         "source": "Splunk",
@@ -679,6 +739,10 @@ def build_domain_output(action=None, success=None, container=None, results=None,
 @phantom.playbook_block()
 def build_ip_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_ip_output() called")
+
+    ################################################################################
+    # Observable object expected by calling playbook
+    ################################################################################
 
     filtered_input_0_ip = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_4:playbook_input:ip"])
     run_ip_query_result_data = phantom.collect2(container=container, datapath=["run_ip_query:action_result.data.*.src_dns","run_ip_query:action_result.data.*.src_ip","run_ip_query:action_result.data.*.src_asset_id"], action_results=results)
@@ -711,7 +775,7 @@ def build_ip_output(action=None, success=None, container=None, results=None, han
     
     # Build observable object    
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "ip_address",
         "total_count": len(device_list),
         "source": "Splunk",

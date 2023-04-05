@@ -222,7 +222,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "c50aaf29ded7bb67271a3061db213de5fb0fa2e7",
+            "hash": "fce7af7ffe7b23a7bcac38ab930673217f6594ea",
             "nodes": {
                 "0": {
                     "data": {
@@ -238,7 +238,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 530,
-                    "y": -2.5579538487363607e-13
+                    "y": -3.197442310920451e-13
                 },
                 "1": {
                     "data": {
@@ -263,7 +263,9 @@
                         "advanced": {
                             "customName": "run domain query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
                         },
                         "connector": "Splunk",
                         "connectorConfigs": [
@@ -311,7 +313,9 @@
                         "advanced": {
                             "customName": "run IP query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
                         },
                         "connector": "Splunk",
                         "connectorConfigs": [
@@ -358,7 +362,8 @@
                         "advanced": {
                             "customName": "filter URL query",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "only proceed when there are results"
                         },
                         "conditions": [
                             {
@@ -392,7 +397,8 @@
                         "advanced": {
                             "customName": "filter file query",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "only proceed when there are results"
                         },
                         "conditions": [
                             {
@@ -426,7 +432,8 @@
                         "advanced": {
                             "customName": "filter domain query",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "only proceed when there are results"
                         },
                         "conditions": [
                             {
@@ -453,14 +460,15 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 740,
-                    "y": 624
+                    "y": 620
                 },
                 "15": {
                     "data": {
                         "advanced": {
                             "customName": "filter IP query",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "only proceed when there are results"
                         },
                         "conditions": [
                             {
@@ -494,7 +502,9 @@
                         "advanced": {
                             "customName": "format URL report",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
                         },
                         "functionId": 5,
                         "functionName": "format_url_report",
@@ -520,7 +530,9 @@
                         "advanced": {
                             "customName": "format file report",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
                         },
                         "functionId": 6,
                         "functionName": "format_file_report",
@@ -546,7 +558,9 @@
                         "advanced": {
                             "customName": "format domain report",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
                         },
                         "functionId": 7,
                         "functionName": "format_domain_report",
@@ -572,7 +586,9 @@
                         "advanced": {
                             "customName": "format ip report",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
                         },
                         "functionId": 8,
                         "functionName": "format_ip_report",
@@ -596,7 +612,8 @@
                 "2": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "join": [],
+                            "note": "Routing paths by indicator type"
                         },
                         "conditions": [
                             {
@@ -673,7 +690,9 @@
                         "advanced": {
                             "customName": "build URL output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
                         },
                         "functionId": 1,
                         "functionName": "build_url_output",
@@ -692,7 +711,7 @@
                     "errors": {},
                     "id": "20",
                     "type": "code",
-                    "userCode": "\n    # Init variables + convenience naming\n    build_url_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_url_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_url_query_result_item_0, run_url_query_result_item_1, run_url_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"url\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_url_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    # Init variables + convenience naming\n    build_url_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_url_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_url_query_result_item_0, run_url_query_result_item_1, run_url_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"url\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_url_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 960
@@ -702,7 +721,9 @@
                         "advanced": {
                             "customName": "build file output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
                         },
                         "functionId": 2,
                         "functionName": "build_file_output",
@@ -721,7 +742,7 @@
                     "errors": {},
                     "id": "21",
                     "type": "code",
-                    "userCode": "\n    \n    # Init variables + convenience naming\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_file_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_file_query_result_item_0, run_file_query_result_item_1, run_file_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_file_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    \n    # Init variables + convenience naming\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_file_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_file_query_result_item_0, run_file_query_result_item_1, run_file_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_file_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 340,
                     "y": 960
@@ -731,7 +752,9 @@
                         "advanced": {
                             "customName": "build domain output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
                         },
                         "functionId": 3,
                         "functionName": "build_domain_output",
@@ -750,7 +773,7 @@
                     "errors": {},
                     "id": "22",
                     "type": "code",
-                    "userCode": "\n    # Init variables + convenience naming\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_domain_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_domain_query_result_item_0, run_domain_query_result_item_1, run_domain_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_domain_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    # Init variables + convenience naming\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_domain_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_domain_query_result_item_0, run_domain_query_result_item_1, run_domain_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_domain_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 680,
                     "y": 960
@@ -760,7 +783,9 @@
                         "advanced": {
                             "customName": "build ip output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
                         },
                         "functionId": 4,
                         "functionName": "build_ip_output",
@@ -779,7 +804,7 @@
                     "errors": {},
                     "id": "23",
                     "type": "code",
-                    "userCode": "    \n    # Init variables + convenience naming\n    build_ip_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_ip_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_ip_query_result_item_0, run_ip_query_result_item_1, run_ip_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"ip_address\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send Output\n    build_ip_output__observable_array.append(observable_array)\n    \n",
+                    "userCode": "    \n    # Init variables + convenience naming\n    build_ip_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_ip_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_ip_query_result_item_0, run_ip_query_result_item_1, run_ip_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"ip_address\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send Output\n    build_ip_output__observable_array.append(observable_array)\n    \n",
                     "warnings": {},
                     "x": 1020,
                     "y": 960
@@ -789,7 +814,9 @@
                         "advanced": {
                             "customName": "build URL query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
                         },
                         "functionId": 1,
                         "functionName": "build_url_query",
@@ -812,7 +839,9 @@
                         "advanced": {
                             "customName": "build file query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
                         },
                         "functionId": 2,
                         "functionName": "build_file_query",
@@ -820,7 +849,7 @@
                         "parameters": [
                             "filtered-data:filter_1:condition_2:playbook_input:file"
                         ],
-                        "template": "count from Endpoint.Filesystem where Filesystem.file_hash=\"{0}\" by Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip",
+                        "template": "count from datamodel=Endpoint.Processes where (Processes.process_hash=\"{0}\" OR Processes.process_hash=\"*={0}*\") by Processes.dest | `drop_dm_object_name(\"Processes\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip",
                         "type": "format"
                     },
                     "errors": {},
@@ -835,7 +864,9 @@
                         "advanced": {
                             "customName": "build domain query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
                         },
                         "functionId": 3,
                         "functionName": "build_domain_query",
@@ -858,7 +889,9 @@
                         "advanced": {
                             "customName": "build IP query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
                         },
                         "functionId": 4,
                         "functionName": "build_ip_query",
@@ -874,7 +907,7 @@
                     "type": "format",
                     "warnings": {},
                     "x": 1020,
-                    "y": 328
+                    "y": 320
                 },
                 "8": {
                     "data": {
@@ -883,7 +916,9 @@
                         "advanced": {
                             "customName": "run URL query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
                         },
                         "connector": "Splunk",
                         "connectorConfigs": [
@@ -922,7 +957,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 0,
-                    "y": 476
+                    "y": 480
                 },
                 "9": {
                     "data": {
@@ -931,7 +966,9 @@
                         "advanced": {
                             "customName": "run file query",
                             "customNameId": 0,
-                            "join": []
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
                         },
                         "connector": "Splunk",
                         "connectorConfigs": [
@@ -1041,7 +1078,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-02T16:11:35.642611+00:00",
+    "create_time": "2023-04-05T17:29:00.883561+00:00",
     "draft_mode": false,
     "labels": [
         "*"
