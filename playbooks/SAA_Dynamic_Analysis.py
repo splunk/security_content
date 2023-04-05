@@ -422,7 +422,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
             observable_object = {
                 "value": url,
                 "type": "url",
-                "sandbox": {
+                "reputation": {
                     "score": url_object['score'],
                     "confidence": url_object['confidence']
                 },
@@ -772,7 +772,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 
                 "value": _vault_id,
                 "type": "hash",
-                "sandbox": {
+                "reputation": {
                     "score": file_object['score'],
                     "confidence": file_object['confidence'],
 

@@ -223,7 +223,7 @@ def error_code_format_report_url(action=None, success=None, container=None, resu
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | urlscan.io |\n\n"""
+    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | urlscan.io |\n%%\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -420,7 +420,7 @@ def no_error_code_format_report_url_1(action=None, success=None, container=None,
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score |Confidence |  Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |{4} | urlscan.io |\n"""
+    template = """SOAR analyzed URL(s) using urlscan.io.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score |Confidence |  Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |{4} | urlscan.io |\n%%"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -488,7 +488,7 @@ def build_url_output_with_error_code(action=None, success=None, container=None, 
         observable_object = {
             "value": url,
             "type": "url",
-            "sandbox": {
+            "reputation": {
                 "score_id": url_object['score_id'],
                 "score": url_object['score'],
                 "confidence": url_object['confidence']
@@ -502,7 +502,8 @@ def build_url_output_with_error_code(action=None, success=None, container=None, 
             "source": "urlscan.io",
             "source_link": f"{external_id}"
         }
-
+        if parsed_url.hostname == None:
+            observable_object['attributes']['hostname'] = url.split("\\",1)[0]
         if parsed_url.path:
             observable_object['attributes']['path'] = parsed_url.path
         if parsed_url.query:
@@ -555,7 +556,7 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
         observable_object = {
             "value": url,
             "type": "url",
-            "sandbox": {
+            "reputation": {
                 "score_id": url_object['score_id'],
                 "score": url_object['score'],
                 "confidence": url_object['confidence']
@@ -569,6 +570,8 @@ def build_url_output_with_no_error_code(action=None, success=None, container=Non
             "source": "urlscan.io",
             "source_link": f"{external_id}"
         }
+        if parsed_url.hostname == None:
+            observable_object['attributes']['hostname'] = url.split("\\",1)[0]
         if parsed_url.path:
             observable_object['attributes']['path'] = parsed_url.path
         if parsed_url.query:
