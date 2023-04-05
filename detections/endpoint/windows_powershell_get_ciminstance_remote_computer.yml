@@ -5,6 +5,7 @@ date: '2023-03-27'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
+status: production
 data_source:
 - Powershell 4104
 description: This analytic identifies the use of Get-CimInstance cmdlet with the -ComputerName parameter, which indicates that the cmdlet is being used to retrieve information from a remote computer. This can be useful for detecting instances of remote access, such as when an attacker uses PowerShell to connect to a remote system and gather information. By monitoring for this cmdlet with the -ComputerName parameter, security analysts can identify potential malicious activity on remote systems and take appropriate action to mitigate any threats.
@@ -42,7 +43,6 @@ tags:
   - EventCode
   risk_score: 15
   security_domain: endpoint
-status: production
 tests:
 - name: True Positive Test
   attack_data:

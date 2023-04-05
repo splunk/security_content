@@ -3,8 +3,8 @@ id: e373a840-5bdc-47ef-b2fd-9cc7aaf387f0
 version: 1
 date: '2023-03-20'
 author: Michael Haag, Splunk
+type: TTP
 status: production
-type: Anomaly
 data_source:
 - Sysmon Event ID 1
 description: This analytic identifies the use of RemCom.exe - The open source psexec. This utility provides the ability to move laterally and run scripts or commands remotely.
@@ -71,4 +71,3 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1570/remcom/remcom_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

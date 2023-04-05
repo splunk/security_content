@@ -5,6 +5,7 @@ date: '2023-03-20'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
+status: production
 data_source:
 - Windows System 7045
 description: The following analytic identifies RemComSvc installed on an endpoint. This typically occurs when someone is moving laterally with RemCom.exe.
