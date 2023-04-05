@@ -184,7 +184,7 @@ def normalized_observables_report(action=None, success=None, container=None, res
         if isinstance(observable_item, dict):
             normalized_observables_report__observable_value.append(observable_item['value'])
             normalized_observables_report__observable_type.append(observable_item['type'])
-            format_observable += "{} | {} | {} | {} \n".format(observable_item['value'], observable_item['sandbox']['score'], observable_item['sandbox']['confidence'], observable_item['source'])
+            format_observable += "{} | {} | {} | {} \n".format(observable_item['value'], observable_item['reputation']['score'], observable_item['reputation']['confidence'], observable_item['source'])
     normalized_observables_report__sandbox_merge_report.append(format_observable)
     
     #phantom.debug("{} len:{}".format(normalized_observables_report__sandbox_merge_report, len(normalized_observables_report__sandbox_merge_report)))
