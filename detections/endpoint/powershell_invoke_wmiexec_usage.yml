@@ -23,7 +23,6 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
-  - CIS 16
   confidence: 100
   impact: 100
   message: PowerShell was identified running a Invoke-WmiExec on $Computer$.
