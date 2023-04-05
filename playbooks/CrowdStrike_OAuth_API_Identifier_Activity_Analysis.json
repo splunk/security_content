@@ -118,7 +118,7 @@
                     "targetPort": "8_in"
                 }
             ],
-            "hash": "9c4e7b32cc0b0e26cbefdc167d85e130fc59f118",
+            "hash": "347986cc4dc47b0ba94b00d3777abc45eb0311e6",
             "nodes": {
                 "0": {
                     "data": {
@@ -134,7 +134,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -3.197442310920451e-13
+                    "y": -3.836930773104541e-13
                 },
                 "1": {
                     "data": {
@@ -157,7 +157,9 @@
                         "advanced": {
                             "customName": "build domain output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "First constructs a list of devices based upon details returned in previous actions, and then appends that list to the observable object which includes the context in which that list makes any sense",
+                            "join": [],
+                            "note": "Create Observable output for parent playbook"
                         },
                         "functionId": 2,
                         "functionName": "build_domain_output",
@@ -175,7 +177,7 @@
                     "errors": {},
                     "id": "10",
                     "type": "code",
-                    "userCode": "\n\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = hunt_domain_parameter_domain[0]\n    count = hunt_domain_summary_device_count[0]\n    \n    # Build devices list\n    for item in get_systems_from_domain_result_item_0:\n        \n        # if AIDs that no longer exist saw the artifact, they can still \n        # be included in the middle of the hunt response, but will return\n        # empty-ish objects from the `get system info` action, so we need\n        # to length check them\n        \n        if len(item) > 0:\n            device = item[0]\n            device_filtered = {\n                \"name\": device['hostname'],\n                \"id\": device['device_id'],\n                \"ip_address\": device['local_ip'],\n                \"operating_system\": device['os_version']\n            }\n            device_list.append(device_filtered)\n            \n    \n    # Build observable object\n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Crowdstrike OAuth\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n",
+                    "userCode": "\n\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = hunt_domain_parameter_domain[0]\n    count = hunt_domain_summary_device_count[0]\n    \n    # Build devices list\n    for item in get_systems_from_domain_result_item_0:\n        \n        # if AIDs that no longer exist saw the artifact, they can still \n        # be included in the middle of the hunt response, but will return\n        # empty-ish objects from the `get system info` action, so we need\n        # to length check them\n        \n        if len(item) > 0:\n            device = item[0]\n            device_filtered = {\n                \"name\": device['hostname'],\n                \"id\": device['device_id'],\n                \"ip_address\": device['local_ip'],\n                \"operating_system\": device['os_version']\n            }\n            device_list.append(device_filtered)\n            \n    \n    # Build observable object\n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Crowdstrike OAuth\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n",
                     "warnings": {},
                     "x": 340,
                     "y": 960
@@ -187,7 +189,8 @@
                         "advanced": {
                             "customName": "get systems from file",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Queries Crowdstrike for details about each of the agent IDs returned by the original query"
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
@@ -223,7 +226,8 @@
                         "advanced": {
                             "customName": "get systems from domain",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Queries Crowdstrike for details about each of the agent IDs returned by the original query"
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
@@ -311,7 +315,8 @@
                         "advanced": {
                             "customName": "hunt file",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Queries Crowdstrike for presence of hash within last 30 days"
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
@@ -344,7 +349,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 0,
-                    "y": 328
+                    "y": 320
                 },
                 "4": {
                     "data": {
@@ -353,7 +358,8 @@
                         "advanced": {
                             "customName": "hunt domain",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Queries Crowdstrike for presence of domain within last 30 days"
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
@@ -386,7 +392,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 340,
-                    "y": 328
+                    "y": 320
                 },
                 "5": {
                     "data": {
@@ -457,7 +463,8 @@
                         "advanced": {
                             "customName": "format report file",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Create Markdown report for parent playbook to output"
                         },
                         "functionId": 1,
                         "functionName": "format_report_file",
@@ -484,7 +491,8 @@
                         "advanced": {
                             "customName": "format report domain",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Create Markdown report for parent playbook to output"
                         },
                         "functionId": 2,
                         "functionName": "format_report_domain",
@@ -511,7 +519,9 @@
                         "advanced": {
                             "customName": "build file output",
                             "customNameId": 0,
-                            "join": []
+                            "description": "First constructs a list of devices based upon details returned in previous actions, and then appends that list to the observable object which includes the context in which that list makes any sense",
+                            "join": [],
+                            "note": "Create Observable output for parent playbook"
                         },
                         "functionId": 1,
                         "functionName": "build_file_output",
@@ -529,7 +539,7 @@
                     "errors": {},
                     "id": "9",
                     "type": "code",
-                    "userCode": "\n\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = hunt_file_parameter_hash[0]\n    count = hunt_file_summary_device_count[0]\n    \n    # if AIDs that no longer exist saw the artifact, they can still \n    # be included in the middle of the hunt response, but will return\n    # empty-ish objects from the `get system info` action, so we need\n    # to length check them\n        \n    # Build devices list\n    for item in get_systems_from_file_result_item_0:\n        if len(item) > 0:\n            device = item[0]\n            device_filtered = {\n                \"name\": device['hostname'],\n                \"id\": device['device_id'],\n                \"ip_address\": device['local_ip'],\n                \"operating_system\": device['os_version']\n            }\n            device_list.append(device_filtered)\n            \n    \n    # Build observable object\n    observable_array = {\n        \"indicator\": indicator,\n        \"type\": \"file\",\n        \"total_count\": len(device_list),\n        \"source\": \"Crowdstrike OAuth\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n",
+                    "userCode": "\n\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = hunt_file_parameter_hash[0]\n    count = hunt_file_summary_device_count[0]\n    \n    # if AIDs that no longer exist saw the artifact, they can still \n    # be included in the middle of the hunt response, but will return\n    # empty-ish objects from the `get system info` action, so we need\n    # to length check them\n        \n    # Build devices list\n    for item in get_systems_from_file_result_item_0:\n        if len(item) > 0:\n            device = item[0]\n            device_filtered = {\n                \"name\": device['hostname'],\n                \"id\": device['device_id'],\n                \"ip_address\": device['local_ip'],\n                \"operating_system\": device['os_version']\n            }\n            device_list.append(device_filtered)\n            \n    \n    # Build observable object\n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file\",\n        \"total_count\": len(device_list),\n        \"source\": \"Crowdstrike OAuth\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n",
                     "warnings": {},
                     "x": 0,
                     "y": 960
@@ -582,7 +592,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-03-30T22:48:59.978744+00:00",
+    "create_time": "2023-04-05T17:44:09.354587+00:00",
     "draft_mode": false,
     "labels": [
         "*"

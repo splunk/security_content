@@ -220,6 +220,12 @@ def format_report_domain(action=None, success=None, container=None, results=None
 def build_file_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_file_output() called")
 
+    ################################################################################
+    # First constructs a list of devices based upon details returned in previous actions, 
+    # and then appends that list to the observable object which includes the context 
+    # in which that list makes any sense
+    ################################################################################
+
     hunt_file_result_data = phantom.collect2(container=container, datapath=["hunt_file:action_result.parameter.hash","hunt_file:action_result.summary.device_count"], action_results=results)
     get_systems_from_file_result_data = phantom.collect2(container=container, datapath=["get_systems_from_file:action_result.data"], action_results=results)
 
@@ -259,7 +265,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     
     # Build observable object
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "file",
         "total_count": len(device_list),
         "source": "Crowdstrike OAuth",
@@ -279,6 +285,12 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 @phantom.playbook_block()
 def build_domain_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("build_domain_output() called")
+
+    ################################################################################
+    # First constructs a list of devices based upon details returned in previous actions, 
+    # and then appends that list to the observable object which includes the context 
+    # in which that list makes any sense
+    ################################################################################
 
     hunt_domain_result_data = phantom.collect2(container=container, datapath=["hunt_domain:action_result.parameter.domain","hunt_domain:action_result.summary.device_count"], action_results=results)
     get_systems_from_domain_result_data = phantom.collect2(container=container, datapath=["get_systems_from_domain:action_result.data"], action_results=results)
@@ -320,7 +332,7 @@ def build_domain_output(action=None, success=None, container=None, results=None,
     
     # Build observable object
     observable_array = {
-        "indicator": indicator,
+        "value": indicator,
         "type": "domain",
         "total_count": len(device_list),
         "source": "Crowdstrike OAuth",
