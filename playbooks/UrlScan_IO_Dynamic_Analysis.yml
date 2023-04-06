@@ -13,7 +13,6 @@ app_list:
   - urlscan.io
 tags:
   platform_tags:
-    - reputation 
     - url
     - domain
     - sandbox
