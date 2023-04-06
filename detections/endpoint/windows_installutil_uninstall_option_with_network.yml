@@ -97,6 +97,7 @@ tags:
   - Ports.dest_port
   risk_score: 80
   security_domain: endpoint
+  manual_test: True
 tests:
 - name: True Positive Test
   attack_data:
