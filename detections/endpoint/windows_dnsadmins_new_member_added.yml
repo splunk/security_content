@@ -1,0 +1,61 @@
+name: Windows DnsAdmins New Member Added
+id: 27e600aa-77f8-4614-bc80-2662a67e2f48
+version: 1
+date: '2023-04-06'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: UPDATE_DESCRIPTION
+search: ' `wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins
+  | stats min(_time) as firstTime max(_time) as lastTime values(SubjectUserName) values(Computer) by MemberSid, TargetUserName
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_dnsadmins_new_member_added_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://attack.mitre.org/techniques/T1098/
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise
+- https://www.hackingarticles.in/windows-privilege-escalation-dnsadmins-to-domainadmin/
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/dnsadmins_member_added/windows-security.log
+  impact: 80
+  kill_chain_phases:
+  - Installation
+  - Actions on Objectives
+  message: UPDATE message
+  mitre_attack_id:
+  - T1098
+  nist:
+  - DE.CM
+  observable:
+  - name: SubjectUserName
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - TargetUserName
+  - SubjectUserName
+  - Computer
+  - MemberSid
+  - TargetUserName
+  risk_score: 40
+  security_domain: endpoint
