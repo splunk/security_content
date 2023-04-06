@@ -1,5 +1,5 @@
 """
-Accepts a URL or vault_id and does detonation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\n
+Accepts a URL or File_Hash and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\nRef: https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
 """
 
 
@@ -83,17 +83,17 @@ def saa_url_detonation(action=None, success=None, container=None, results=None, 
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="saa_url_detonation", assets=["splunk attack analyzer"], callback=url_detonation_status_filter_1)
+    phantom.act("detonate url", parameters=parameters, name="saa_url_detonation", assets=["splunk attack analyzer"], callback=filter_5)
 
     return
 
 
 @phantom.playbook_block()
-def file_detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("file_detonation_status_filter() called")
+def url_detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("url_detonation_status_filter() called")
 
     ################################################################################
-    # Filters successful file  detonation results.
+    # Filters successful url or file detonation results.
     ################################################################################
 
     # collect filtered artifact ids and results for 'if' condition 1
@@ -102,7 +102,7 @@ def file_detonation_status_filter(action=None, success=None, container=None, res
         conditions=[
             ["saa_file_detonation:action_result.status", "==", "success"]
         ],
-        name="file_detonation_status_filter:condition_1")
+        name="url_detonation_status_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -359,7 +359,7 @@ def format_url_report(action=None, success=None, container=None, results=None, h
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| URL | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\n\n"""
+    template = """SOAR analyzed URL(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| URL | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA){1}{2}{3}{4} |\n%%\n\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -411,18 +411,18 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     # Write your custom code here...
     from urllib.parse import urlparse
     build_url_output__observable_array = []
-    #phantom.debug(playbook_input_url_values)
+    phantom.debug(playbook_input_url_values)
     # Build URL
     for jobs_id in get_jobid_of_url_detonation_output__jobid:
         
         for url, external_id, url_object in zip(playbook_input_url_values, jobs_id, normalized_job_forensic_report_output__url_score_object):
             parsed_url = urlparse(url)
-            #phantom.debug("url: {} jobs_id:{}".format(url, external_id))
-            #phantom.debug("parsed_url: {}, url_object: {}".format(parsed_url, url_object))
+            phantom.debug("url: {} jobs_id:{}".format(url, external_id))
+            phantom.debug("parsed_url: {}, url_object: {}".format(parsed_url, url_object))
             observable_object = {
                 "value": url,
                 "type": "url",
-                "reputation": {
+                "sandbox": {
                     "score": url_object['score'],
                     "confidence": url_object['confidence']
                 },
@@ -484,7 +484,7 @@ def saa_file_detonation(action=None, success=None, container=None, results=None,
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="saa_file_detonation", assets=["splunk attack analyzer"], callback=file_detonation_status_filter)
+    phantom.act("detonate file", parameters=parameters, name="saa_file_detonation", assets=["splunk attack analyzer"], callback=url_detonation_status_filter)
 
     return
 
@@ -714,7 +714,7 @@ def format_file_report(action=None, success=None, container=None, results=None, 
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed File(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| File hash | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\n\n"""
+    template = """SOAR analyzed File(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| File hash | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA){1}{2}{3}{4} |\n%%\n\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -767,12 +767,12 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     build_file_output__observable_array = []
     for jobs_id in get_jobid_of_file_detonation_output__jobid:
         for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, jobs_id, normalized_job_forensic_report_output_1__file_score_object):
-            #phantom.debug("vault: {} id: {}".format(_vault_id, external_id))
+            phantom.debug("vault: {} id: {}".format(_vault_id, external_id))
             observable_object = {
 
                 "value": _vault_id,
                 "type": "hash",
-                "reputation": {
+                "sandbox": {
                     "score": file_object['score'],
                     "confidence": file_object['confidence'],
 
@@ -798,12 +798,8 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 
 
 @phantom.playbook_block()
-def url_detonation_status_filter_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("url_detonation_status_filter_1() called")
-
-    ################################################################################
-    # Filters url detonation results.
-    ################################################################################
+def filter_5(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("filter_5() called")
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
@@ -811,7 +807,7 @@ def url_detonation_status_filter_1(action=None, success=None, container=None, re
         conditions=[
             ["saa_url_detonation:action_result.status", "==", "success"]
         ],
-        name="url_detonation_status_filter_1:condition_1")
+        name="filter_5:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -843,17 +839,13 @@ def filter_6(action=None, success=None, container=None, results=None, handle=Non
 def on_finish(container, summary):
     phantom.debug("on_finish() called")
 
-    format_url_report = phantom.get_format_data(name="format_url_report")
-    format_file_report = phantom.get_format_data(name="format_file_report")
     build_url_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_url_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
     build_file_output__observable_array = json.loads(_ if (_ := phantom.get_run_data(key="build_file_output:observable_array")) != "" else "null")  # pylint: disable=used-before-assignment
 
     observable_combined_value = phantom.concatenate(build_url_output__observable_array, build_file_output__observable_array)
-    report_combined_value = phantom.concatenate(format_url_report, format_file_report)
 
     output = {
         "observable": observable_combined_value,
-        "report": report_combined_value,
     }
 
     ################################################################################
@@ -861,7 +853,10 @@ def on_finish(container, summary):
     ################################################################################
 
     # Write your custom code here...
-    #phantom.debug(output)
+    format_url_report = phantom.get_format_data(name="format_url_report")
+    format_file_report = phantom.get_format_data(name="format_file_report")
+    markdown_report_combined_value = phantom.concatenate(format_url_report, format_file_report)
+    output['markdown_report'] = markdown_report_combined_value
     ################################################################################
     ## Custom Code End
     ################################################################################
