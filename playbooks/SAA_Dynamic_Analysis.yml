@@ -9,15 +9,14 @@ playbook: SAA_Dynamic_Analysis
 how_to_implement: This input playbook requires the SAA API connector to be configured. It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
 references: []
 app_list: 
-  - CrowdStrike OAuth API
+  - Splunk Attack Analyzer API
 tags:
   platform_tags:
-    - reputation 
     - url
     - domain
     - sandbox
     - ip 
-    - file_hash
+    - vault_id
   playbook_type: Input
   vpe_type: Modern
   playbook_fields: []
