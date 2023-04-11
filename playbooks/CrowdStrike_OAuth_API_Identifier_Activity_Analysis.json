@@ -118,7 +118,7 @@
                     "targetPort": "8_in"
                 }
             ],
-            "hash": "347986cc4dc47b0ba94b00d3777abc45eb0311e6",
+            "hash": "6fbaceb0c56e5b4cba3c787f795f38e72a4081f9",
             "nodes": {
                 "0": {
                     "data": {
@@ -134,7 +134,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -3.836930773104541e-13
+                    "y": -4.476419235288631e-13
                 },
                 "1": {
                     "data": {
@@ -262,7 +262,9 @@
                         "advanced": {
                             "customName": "input filter",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Routing by indicator type",
+                            "join": [],
+                            "note": "Routing by indicator type"
                         },
                         "conditions": [
                             {
@@ -397,7 +399,9 @@
                 "5": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "description": "Only proceed if there are results",
+                            "join": [],
+                            "note": "Only proceed if there are results"
                         },
                         "conditions": [
                             {
@@ -429,7 +433,9 @@
                 "6": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "description": "Only proceed if there are results",
+                            "join": [],
+                            "note": "Only proceed if there are results"
                         },
                         "conditions": [
                             {
@@ -592,7 +598,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-05T17:44:09.354587+00:00",
+    "create_time": "2023-04-11T13:28:13.131689+00:00",
     "draft_mode": false,
     "labels": [
         "*"

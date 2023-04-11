@@ -21,6 +21,10 @@ def on_start(container):
 def input_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("input_filter() called")
 
+    ################################################################################
+    # Routing by indicator type
+    ################################################################################
+
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
@@ -118,6 +122,10 @@ def hunt_domain(action=None, success=None, container=None, results=None, handle=
 def filter_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("filter_2() called")
 
+    ################################################################################
+    # Only proceed if there are results
+    ################################################################################
+
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
@@ -136,6 +144,10 @@ def filter_2(action=None, success=None, container=None, results=None, handle=Non
 @phantom.playbook_block()
 def filter_3(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("filter_3() called")
+
+    ################################################################################
+    # Only proceed if there are results
+    ################################################################################
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
