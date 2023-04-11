@@ -15,7 +15,7 @@ references:
 tags:
   analytic_story:
   - Data Exfiltration
-  asset_type: EC2 Snapshot
+  asset_type: AWS Account
   confidence: 80
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
