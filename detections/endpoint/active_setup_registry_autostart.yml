@@ -13,8 +13,7 @@ description: This analytic is to detect a suspicious modification of the active 
   do the modification since modification of this registry is not commonly done. check
   the legitimacy of the file and process involve in this rules to check if it is a
   valid setup installer that creating or modifying this registry.
-search: '
-  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`| `active_setup_registry_autostart_filter`'
