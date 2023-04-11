@@ -459,8 +459,9 @@ class SplunkContainer:
                     wait_on_failure=self.interactive_failure,
                     wait_on_completion=self.interactive,
                     smoketest=self.synchronization_object.summarization_reproduce_failure_config[
-                        "smoketest"
-                    ],
+                        "mode"
+                    ]
+                    == "smoketest",
                 )
 
                 self.synchronization_object.addResult(
