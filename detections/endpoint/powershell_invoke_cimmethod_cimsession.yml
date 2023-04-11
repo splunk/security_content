@@ -3,11 +3,14 @@ id: 651ee958-a433-471c-b264-39725b788b83
 version: 1
 date: '2023-03-22'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
 status: production
 data_source:
 - Powershell 4104
 description: This analytic identifies the use of the New-CIMSession cmdlet being created along with the Invoke-CIMMethod cmdlet being used within PowerShell. This particular behavior is similar to the usage of the Invoke-WMIMethod cmdlet, which is known for executing WMI commands on targets using NTLMv2 pass-the-hash authentication. The New-CIMSession cmdlet allows users to create a new CIM session object for a specified computer system, which can then be used to execute CIM operations remotely. Similarly, the Invoke-CIMMethod cmdlet is used to invoke a specified method on one or more CIM objects. Therefore, the combination of New-CIMSession and Invoke-CIMMethod cmdlets in PowerShell can potentially indicate malicious behavior, and this analytic can help detect such activity.
+data_source:
+- Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*invoke-CIMMethod*", "*New-CimSession*")
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText 
   | `security_content_ctime(firstTime)` 

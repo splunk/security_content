@@ -3,6 +3,7 @@ id: 0734bd21-2769-4972-a5f1-78bb1e011224
 version: 1
 date: '2023-03-22'
 author: Michael Haag, Splunk
+status: production
 type: TTP
 status: production
 data_source:

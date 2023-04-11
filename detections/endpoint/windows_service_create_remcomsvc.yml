@@ -3,6 +3,7 @@ id: 0be4b5d6-c449-4084-b945-2392b519c33b
 version: 1
 date: '2023-03-20'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
 status: production
 data_source:
@@ -50,3 +51,4 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/remcom_windows-system.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog
+    update_timestamp: true

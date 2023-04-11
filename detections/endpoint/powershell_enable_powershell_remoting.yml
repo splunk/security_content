@@ -3,6 +3,7 @@ id: 40e3b299-19a5-4460-96e9-e1467f714f8e
 version: 1
 date: '2023-03-22'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
 status: production
 data_source: 

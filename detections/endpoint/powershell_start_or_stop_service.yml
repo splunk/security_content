@@ -3,6 +3,7 @@ id: 04207f8a-e08d-4ee6-be26-1e0c4488b04a
 version: 1
 date: '2023-03-24'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
 status: production
 data_source: 
@@ -30,8 +31,6 @@ tags:
   message: PowerShell was identified attempting to start or stop a service on $Computer$.
   mitre_attack_id:
   - T1059.001
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname

@@ -28,10 +28,6 @@ tags:
   analytic_story:
   - 3CX Supply Chain Attack
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
   cve:
   - CVE-2023-29059

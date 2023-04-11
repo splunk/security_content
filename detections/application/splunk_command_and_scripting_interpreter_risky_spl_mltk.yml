@@ -60,6 +60,7 @@ tags:
   - Search_Activity.search_type
   risk_score: 20
   security_domain: audit
+  manual_test: This search has a baseline and timestamps hard coded into the search.
 tests:
 - name: True Positive Test
   attack_data:

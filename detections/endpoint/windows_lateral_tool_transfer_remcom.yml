@@ -26,8 +26,6 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 80
-  kill_chain_phases:
-  - Installation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to move laterally.
   mitre_attack_id:
   - T1570
