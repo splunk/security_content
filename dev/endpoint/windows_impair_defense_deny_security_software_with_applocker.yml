@@ -1,0 +1,61 @@
+name: Windows Impair Defense Deny Security Software With Applocker
+id: e0b6ca60-9e29-4450-b51a-bba0abae2313
+version: 1
+date: '2022-06-24'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic identifies a modification in the Windows registry
+  by the Applocker utility that contains details or registry data values related to
+  denying the execution of several security products. This technique was seen in Azorult
+  malware where it drops an xml Applocker policy that will deny several AV products
+  and then loaded by using PowerShell Applocker commandlet.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    TargetObject: '*}Machine\\Software\\Policies\\Microsoft\\Windows\\SrpV2*'
+  selection2:
+    TargetObject: '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy Objects\\*'
+  selection3:
+    Details: '*Action\='
+    TargetObject: '*\\Software\\Policies\\Microsoft\\Windows\\SrpV2*'
+  condition: (selection1 and selection2) or selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: False positives may be present based on organization use of
+  Applocker. Filter as needed.
+references:
+- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+- https://www.microsoftpressstore.com/articles/article.aspx?p=2228450&seqNum=11
+tags:
+  analytic_story:
+  - Azorult
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: Applocker registry modification to deny the action of several AV products
+    on $dest$.
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 100
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

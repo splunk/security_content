@@ -1,0 +1,70 @@
+name: Windows Disable Memory Crash Dump
+id: 59e54602-9680-11ec-a8a6-acde48001122
+version: 1
+date: '2022-02-25'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies a process that is attempting to disable
+  the ability on Windows to generate a memory crash dump. This was recently identified
+  being utilized by HermeticWiper. To disable crash dumps, the value must be set to
+  0. This feature is typically modified to perform a memory crash dump when a computer
+  stops unexpectedly because of a Stop error (also known as a blue screen, system
+  crash, or bug check).
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Details: '0x00000000'
+    TargetObject: '*\\CurrentControlSet\\Control\\CrashControl\\CrashDumpEnabled'
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` and `Registry`
+  node.
+known_false_positives: unknown
+references:
+- https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
+- https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/memory-dump-file-options
+tags:
+  analytic_story:
+  - Data Destruction
+  - Ransomware
+  - Hermetic Wiper
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 100
+  impact: 90
+  message: A process $process_name$ was identified attempting to disable memory crash
+    dumps on $dest$.
+  mitre_attack_id:
+  - T1485
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

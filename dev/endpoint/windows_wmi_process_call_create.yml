@@ -1,0 +1,65 @@
+name: Windows WMI Process Call Create
+id: 0661c2de-93de-11ec-9833-acde48001122
+version: 1
+date: '2022-02-22'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: This analytic is to look for wmi commandlines to execute or create process.
+  This technique was used by adversaries or threat actor to execute their malicious
+  payload in local or remote host. This hunting query is a good pivot to start to
+  look further which process trigger the wmi or what process it execute locally or
+  remotely.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: wmic.exe
+  selection2:
+    Image|endswith: wmic.exe
+  selection3:
+    CommandLine: '* process *'
+  selection4:
+    CommandLine: '* call *'
+  selection5:
+    CommandLine: '* create *'
+  condition: (selection1 or selection2) and selection3 and selection4 and selection5
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Administrators may execute this command for testing or auditing.
+references:
+- https://github.com/NVISOsecurity/sigma-public/blob/master/rules/windows/process_creation/win_susp_wmi_execution.yml
+- https://github.com/redcanaryco/atomic-red-team/blob/2b804d25418004a5f1ba50e9dc637946ab8733c7/atomics/T1047/T1047.md
+tags:
+  analytic_story:
+  - Suspicious WMI Use
+  - Qakbot
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: process with $process$ commandline executed in $dest$
+  mitre_attack_id:
+  - T1047
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

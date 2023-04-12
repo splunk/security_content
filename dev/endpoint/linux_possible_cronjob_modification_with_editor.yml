@@ -1,0 +1,66 @@
+name: Linux Possible Cronjob Modification With Editor
+id: dcc89bde-5f24-11ec-87ca-acde48001122
+version: 1
+date: '2021-12-17'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: This analytic looks for possible modification of cronjobs file using
+  editor. This event is can be seen in normal user but can also be a good hunting
+  indicator for unwanted user modifying cronjobs for possible persistence or privilege
+  escalation.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine:
+    - '*nano *'
+    - '*vi *'
+    - '*vim *'
+  selection2:
+    Image|endswith:
+    - nano
+    - vim.basic
+  selection3:
+    CommandLine:
+    - '*/etc/cron*'
+    - '*/var/spool/cron/*'
+    - '*/etc/anacrontab*'
+  condition: (selection1 or selection2) and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can use this commandline
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://attack.mitre.org/techniques/T1053/003/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 30
+  impact: 20
+  message: A commandline $process$ that may modify cronjob file using editor in $dest$
+  mitre_attack_id:
+  - T1053.003
+  - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 6
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

@@ -3,11 +3,12 @@ id: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 version: 1
 date: '2021-04-07'
 author: Ryan Becwar
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This detection is to identify the abuse the Windows SC.exe to execute
   malicious commands or payloads via PowerShell.
+data_source:
+- Sysmon Event ID 7
 search: ' `wineventlog_system` EventCode=7045 | eval l_Service_File_Name=lower(Service_File_Name)
   | regex l_Service_File_Name="powershell[.\s]|powershell_ise[.\s]|pwsh[.\s]|psexec[.\s]"
   | regex l_Service_File_Name="-nop[rofile\s]+|-w[indowstyle]*\s+hid[den]*|-noe[xit\s]+|-enc[odedcommand\s]+"
@@ -26,15 +27,9 @@ references:
 tags:
   analytic_story:
   - Malicious Powershell
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: Identifies the abuse the Windows SC.exe to execute malicious powerShell
     as a service $Service_File_Name$ by $user$ on $dest$
   mitre_attack_id:
@@ -64,4 +59,9 @@ tags:
   - user
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog

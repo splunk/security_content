@@ -3,19 +3,20 @@ id: 4d4332ae-792c-11ec-89c1-acde48001122
 version: 2
 date: '2022-06-01'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic identifies a process making a DNS query to Discord, a well
   known instant messaging and digital distribution platform. Discord can be abused
   by adversaries, as seen in the WhisperGate campaign, to host and download malicious.
   external files. A process resolving a Discord DNS name could be an indicator of
   malware trying to download files from Discord for further execution.
+data_source:
+- Sysmon Event ID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*discord*") Image != "*\\AppData\\Local\\Discord\\*"
-  AND Image != "*\\Program Files*" AND Image != "discord.exe" | stats
-  count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus
-  process_name QueryResults Computer | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `suspicious_process_with_discord_dns_query_filter`'
+  AND Image != "*\\Program Files*" AND Image != "discord.exe" | stats count min(_time)
+  as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name
+  QueryResults Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `suspicious_process_with_discord_dns_query_filter`'
 how_to_implement: his detection relies on sysmon logs with the Event ID 22, DNS Query.
 known_false_positives: Noise and false positive can be seen if the following instant
   messaging is allowed to use within corporate network. In this case, a filter is
@@ -27,26 +28,13 @@ references:
 tags:
   analytic_story:
   - WhisperGate
-  automated_detection_testing: passed
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/discord_dnsquery/sysmon.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: suspicious process $process_name$ has a dns query in $QueryName$ on $Computer$
   mitre_attack_id:
   - T1059.005
   - T1059
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -70,4 +58,9 @@ tags:
   - Computer
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/discord_dnsquery/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

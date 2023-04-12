@@ -3,9 +3,10 @@ id: 2dd719ac-3021-11ec-97b4-acde48001122
 version: 4
 date: '2023-04-11'
 author: Steven Dick, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
+data_source:
+- Sysmon Event ID 1
 description: This analytic is intended to detect a suspicious modification of the Windows registry to disable
   a Windows Defender feature. This technique is intended to bypass or evade detection from
   Windows Defender AV, specifically the BlockAtFirstSeen feature where it blocks
@@ -28,15 +29,9 @@ tags:
   - IcedID
   - Windows Registry Abuse
   - Azorult
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $registry_path$ in $dest$
   mitre_attack_id:
   - T1562.001
@@ -58,12 +53,12 @@ tags:
   - _time
   - Processes.user
   - Processes.dest
-  - Processes.process_id 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_path  
-  - Processes.parent_process_name 
-  - Processes.parent_process 
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
@@ -73,4 +68,9 @@ tags:
   - Registry.process_guid
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

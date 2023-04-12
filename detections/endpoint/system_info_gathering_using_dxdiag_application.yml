@@ -3,9 +3,8 @@ id: f92d74f2-4921-11ec-b685-acde48001122
 version: 1
 date: '2021-11-19'
 author: Teoderick Contreras, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: This analytic is to detect a suspicious dxdiag.exe process command-line
   execution. Dxdiag is used to collect the system info of the target host. This technique
   has been used by Remcos RATS, various actors, and other malware to collect information
@@ -14,6 +13,8 @@ description: This analytic is to detect a suspicious dxdiag.exe process command-
   to audit host machine specifications. Thus in some rare cases, this detection will
   contain false positives in its results. To triage further, analyze what commands
   were passed after it pipes out the result to a file for further processing.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_dxdiag` AND Processes.process
   = "* /t *" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
@@ -32,15 +33,9 @@ references:
 tags:
   analytic_story:
   - Remcos
+  asset_type: Endpoint
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
   impact: 50
-  kill_chain_phases:
-  - Reconnaissance
   message: dxdiag.exe process with commandline $process$ on $dest$
   mitre_attack_id:
   - T1592
@@ -72,4 +67,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

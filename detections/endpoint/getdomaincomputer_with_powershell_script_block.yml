@@ -3,16 +3,18 @@ id: f64da023-b988-4775-8d57-38e512beb56e
 version: 2
 date: '2022-05-02'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainComputer` commandlet. `GetDomainComputer`
   is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
   Red Teams and adversaries alike may use PowerView to enumerate domain computers
   for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*") | stats count
-  min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `getdomaincomputer_with_powershell_script_block_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*") |
+  stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID
+  EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `getdomaincomputer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -23,15 +25,9 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
   impact: 30
-  kill_chain_phases:
-  - Reconnaissance
   message: Remote system discovery with PowerView on $Computer$ by $user$
   mitre_attack_id:
   - T1018
@@ -53,4 +49,9 @@ tags:
   - EventCode
   risk_score: 24
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

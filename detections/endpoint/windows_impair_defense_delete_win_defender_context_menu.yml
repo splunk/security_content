@@ -3,22 +3,22 @@ id: 395ed5fe-ad13-4366-9405-a228427bdd91
 version: 1
 date: '2022-06-07'
 author: Teoderick Contreras, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
-description: The search looks for the deletion of Windows Defender context menu within the registry.
-  This is consistent behavior with RAT malware across a fleet of endpoints. This particular
-  behavior is executed when an adversary gains access to an endpoint
+description: The search looks for the deletion of Windows Defender context menu within
+  the registry. This is consistent behavior with RAT malware across a fleet of endpoints.
+  This particular behavior is executed when an adversary gains access to an endpoint
   and begins to perform execution. Usually, a batch (.bat) will be executed and multiple
   registry and scheduled task modifications will occur. During triage, review parallel
   processes and identify any further file modifications.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry  
-  where Registry.registry_path = "*\\shellex\\ContextMenuHandlers\\EPP" Registry.action = deleted
-  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.dest Registry.user 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_delete_win_defender_context_menu_filter`'
+data_source:
+- Sysmon Event ID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\shellex\\ContextMenuHandlers\\EPP"
+  Registry.action = deleted by  Registry.registry_path Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid Registry.action Registry.dest
+  Registry.user | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_delete_win_defender_context_menu_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -34,24 +34,12 @@ tags:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
   asset_type: Endpoint
-  cis20:
-  - CIS 8
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
   impact: 50
-  kill_chain_phases:
-  - Delivery
   message: Windows Defender context menu registry key deleted on $dest$.
   mitre_attack_id:
   - T1562.001
   - T1562
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -71,5 +59,10 @@ tags:
   - Registry.action
   risk_score: 25
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

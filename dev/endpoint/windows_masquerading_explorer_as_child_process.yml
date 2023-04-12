@@ -1,0 +1,60 @@
+name: Windows Masquerading Explorer As Child Process
+id: 61490da9-52a1-4855-a0c5-28233c88c481
+version: 1
+date: '2022-10-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic identifies a suspicious parent process of explorer.exe.
+  Explorer is usually executed by userinit.exe that will exit after execution that
+  causes the main explorer.exe no parent process. Some malware like qakbot spawn another
+  explorer.exe to inject its code. This TTP detection is a good indicator that a process
+  spawning explorer.exe might inject code or masquerading its parent child process
+  to evade detections.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith: explorer.exe
+    ParentImage:
+    - cmd.exe
+    - powershell.exe
+    - regsvr32.exe
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: unknown
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.qakbot
+tags:
+  analytic_story:
+  - Qakbot
+  asset_type: Endpoint
+  confidence: 90
+  impact: 90
+  message: explorer.exe hash a suspicious parent process $parent_process_name$ in
+    $dest$
+  mitre_attack_id:
+  - T1574.002
+  - T1574
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

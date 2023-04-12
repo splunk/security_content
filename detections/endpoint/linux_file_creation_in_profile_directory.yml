@@ -3,15 +3,16 @@ id: 46ba0082-61af-11ec-9826-acde48001122
 version: 1
 date: '2021-12-20'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic looks for suspicious file creation in /etc/profile.d directory
   to automatically execute scripts by shell upon boot up of a linux machine. This
   technique is commonly abused by adversaries, malware and red teamers as a persistence
   mechanism to the targeted or compromised host. This Anomaly detection is a good
   indicator that someone wants to run a code after boot up which can be done also
   by the administrator or network operator for automation purposes.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/profile.d/*")
   by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid
@@ -30,27 +31,13 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  automated_detection_testing: passed
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A file $file_name$ is created in $file_path$ on $dest$
   mitre_attack_id:
   - T1546.004
   - T1546
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -69,4 +56,9 @@ tags:
   - Filesystem.file_path
   risk_score: 56
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

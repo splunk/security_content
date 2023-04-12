@@ -1,0 +1,66 @@
+name: Windows Mshta Execution In Registry
+id: e13ceade-b673-4d34-adc4-4d9c01729753
+version: 1
+date: '2022-10-14'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the usage of mshta.exe Windows binary
+  in registry to execute malicious script. This technique was seen in kovter malware
+  where it create several registry entry which is a encoded javascript and will be
+  executed by another registry containing mshta and javascript activexobject to execute
+  the encoded script using wscript.shell. This TTP is a good indication of kovter
+  malware or other adversaries or threat actors leveraging fileless detection that
+  survive system reboot.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Details:
+    - '*mshta*'
+    - '*javascript:*'
+    - '*vbscript:*'
+    - '*WScript.Shell*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: unknown
+references:
+- https://redcanary.com/threat-detection-report/techniques/mshta/
+- https://learn.microsoft.com/en-us/microsoft-365/security/intelligence/fileless-threats?view=o365-worldwide
+tags:
+  analytic_story:
+  - Suspicious Windows Registry Activities
+  - Windows Persistence Techniques
+  asset_type: Endpoint
+  confidence: 90
+  impact: 80
+  message: a registry $registry_path$ contains mshta $registry_value_data$ in $dest$
+  mitre_attack_id:
+  - T1218.005
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/mshta_in_registry/sysmon3.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

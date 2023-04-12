@@ -34,8 +34,6 @@ tags:
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
   - Unusual Processes
-  deployments:
-  - Daily Cache Updates
   detections:
   - Detect Prohibited Applications Spawning cmd.exe
   - Unusually Long Command Line - MLTK
@@ -50,3 +48,4 @@ tags:
   - Processes.process_name
   - Processes.process
   security_domain: endpoint
+

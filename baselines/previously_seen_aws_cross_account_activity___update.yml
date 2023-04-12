@@ -27,8 +27,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Authentication Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - AWS Cross Account Activity From Previously Unseen Account
   product:

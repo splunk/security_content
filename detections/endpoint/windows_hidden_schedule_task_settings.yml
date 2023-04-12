@@ -3,20 +3,18 @@ id: 0b730470-5fe8-4b13-93a7-fe0ad014d0cc
 version: 1
 date: '2022-04-26'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: The following query utilizes Windows Security EventCode 4698, 
-  A scheduled task was created, to identify suspicious tasks registered on 
-  Windows either via schtasks.exe OR TaskService with a hidden settings
-  that are unique entry of malware like industroyer2 or attack that uses 
-  lolbin to download other file or payload to the infected machine. 
-search: '`wineventlog_security` EventCode=4698
-  | xmlkv Message
-  | search Hidden = true
-  | stats count min(_time) as firstTime max(_time) as lastTime by  Task_Name, Command, Author, Hidden, dest
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following query utilizes Windows Security EventCode 4698, A scheduled
+  task was created, to identify suspicious tasks registered on Windows either via
+  schtasks.exe OR TaskService with a hidden settings that are unique entry of malware
+  like industroyer2 or attack that uses lolbin to download other file or payload to
+  the infected machine.
+data_source:
+- Windows Security 4698
+search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Hidden = true
+  | stats count min(_time) as firstTime max(_time) as lastTime by  Task_Name, Command,
+  Author, Hidden, dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_hidden_schedule_task_settings_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and
@@ -31,24 +29,11 @@ tags:
   - Active Directory Discovery
   - CISA AA22-257A
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/hidden_schedule_task/security.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: A schedule task with hidden setting enable in host $dest$
   mitre_attack_id:
   - T1053
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -69,3 +54,9 @@ tags:
   - Arguments
   risk_score: 64
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/hidden_schedule_task/security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

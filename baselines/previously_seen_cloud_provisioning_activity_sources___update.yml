@@ -29,8 +29,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Provisioning Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Cloud Provisioning Activity From Previously Unseen IP Address
   - Cloud Provisioning Activity From Previously Unseen City

@@ -37,8 +37,6 @@ tags:
   analytic_story:
   - Cloud Cryptomining
   - Suspicious Cloud Instance Activities
-  deployments:
-  - Weekly Model Rebuild 90 Day Lookback
   detections:
   - Abnormally High Number Of Cloud Instances Launched
   product:
@@ -51,3 +49,9 @@ tags:
   - All_Changes.status
   - All_Changes.object_category
   security_domain: network
+deployment:
+  scheduling:
+    cron_schedule: 0 2 * * 0
+    earliest_time: -90d@d
+    latest_time: -1d@d
+    schedule_window: auto

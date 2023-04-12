@@ -3,14 +3,15 @@ id: aa4f695a-3024-11ec-9987-acde48001122
 version: 4
 date: '2023-04-11'
 author: Steven Dick, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: This particular behavior is typically executed when an adversary or
-  malware gains access to an endpoint and begins to perform execution and to evade
-  detections. Usually, a batch (.bat) file will be executed and multiple registry and scheduled
+description: This particular behavior is typically executed when an adversary or malware
+  gains access to an endpoint and begins to perform execution and to evade detections.
+  Usually, a batch (.bat) file will be executed and multiple registry and scheduled
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus") Registry.registry_value_data = 0x00000001) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
   | `drop_dm_object_name(Registry)`
   | where isnotnull(registry_value_data)
@@ -28,15 +29,9 @@ tags:
   analytic_story:
   - IcedID
   - Windows Registry Abuse
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $registry_path$ in $dest$
   mitre_attack_id:
   - T1562.001
@@ -58,12 +53,12 @@ tags:
   - _time
   - Processes.user
   - Processes.dest
-  - Processes.process_id 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_path  
-  - Processes.parent_process_name 
-  - Processes.parent_process 
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
@@ -73,4 +68,9 @@ tags:
   - Registry.process_guid
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

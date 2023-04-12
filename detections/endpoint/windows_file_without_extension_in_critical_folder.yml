@@ -3,15 +3,16 @@ id: 0dbcac64-963c-11ec-bf04-acde48001122
 version: 1
 date: '2022-02-25'
 author: Teoderick Contreras, Bhavin Patel, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to look for suspicious file creation in the critical
   folder like "System32\Drivers" folder without file extension. This artifacts was
   seen in latest hermeticwiper where it drops its driver component in Driver Directory
   both the compressed(without file extension) and the actual driver component (with
   .sys file extension). This TTP is really a good indication that a host might be
   compromised by this destructive malware that wipes the boot sector of the system.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
   where Filesystem.file_path IN ("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*")
   by _time span=5m Filesystem.dest Filesystem.user Filesystem.file_name Filesystem.file_path
@@ -33,24 +34,12 @@ tags:
   analytic_story:
   - Data Destruction
   - Hermetic Wiper
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: Driver file with out file extension drop in $file_path$ in $dest$
   mitre_attack_id:
   - T1485
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -74,4 +63,9 @@ tags:
   - Processes.user
   risk_score: 90
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

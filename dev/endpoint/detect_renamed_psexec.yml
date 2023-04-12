@@ -1,0 +1,76 @@
+name: Detect Renamed PSExec
+id: 683e6196-b8e8-11eb-9a79-acde48001122
+version: 4
+date: '2022-04-07'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies renamed instances of `PsExec.exe` being
+  utilized on an endpoint. Most instances, it is highly probable to capture `Psexec.exe`
+  or other SysInternal utility usage with the command-line argument of `-accepteula`.
+  During triage, validate this is the legitimate version of `PsExec` by reviewing
+  the PE metadata. In addition, review parallel processes for further suspicious behavior.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: psexec.c
+    Image|endswith:
+    - psexec64.exe
+    - psexec.exe
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Limited false positives should be present. It is possible some
+  third party applications may use older versions of PsExec, filter as needed.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
+- https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
+tags:
+  analytic_story:
+  - SamSam Ransomware
+  - DHS Report TA18-074A
+  - HAFNIUM Group
+  - DarkSide Ransomware
+  - Active Directory Lateral Movement
+  - CISA AA22-320A
+  asset_type: Endpoint
+  confidence: 90
+  impact: 30
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ by $user$.
+  mitre_attack_id:
+  - T1569
+  - T1569.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 27
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
