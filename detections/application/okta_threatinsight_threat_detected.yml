@@ -1,0 +1,57 @@
+name: Okta ThreatInsight Threat Detected
+id: 140504ae-5fe2-4d65-b2bc-a211813fbca6
+version: 1
+date: '2022-09-21'
+author: Michael Haag, Splunk
+status: experimental
+type: Anomaly
+description: The following anomaly relies on the Okta ThreatInsight identification
+  of a threat. Use this to drive risk up by src_ip or add additional fields to track.
+  Identification may include password spraying, login failures and Login failures
+  with high unknown users count.
+data_source: []
+search: '`okta` eventType IN (security.threat.detected, security.internal.threat.detected)
+  | rename client.geographicalContext.country as country, client.geographicalContext.state
+  as state, client.geographicalContext.city as city | stats values(src_ip) count by
+  signature eventType displayMessage client.device city state country user_agent outcome.reason
+  outcome.result severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `okta_threatinsight_threat_detected_filter`'
+how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested.
+known_false_positives: False positives may be present. Tune Okta and tune the analytic
+  to ensure proper fidelity. Modify risk score as needed.
+references:
+- https://developer.okta.com/docs/reference/api/event-types/?q=security.threat.detected
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  asset_type: Infrastructure
+  confidence: 50
+  impact: 50
+  message: The following $src_ip$ has been conisidered a threat by Okta ThreatInsight.
+  mitre_attack_id:
+  - T1078
+  - T1078.001
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - signature
+  - eventType
+  - displayMessage
+  - client.device
+  - city
+  - state
+  - country
+  - user_agent
+  - outcome.reason
+  - outcome.result
+  - severity
+  risk_score: 25
+  security_domain: access

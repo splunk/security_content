@@ -3,15 +3,16 @@ id: 77592bec-d5cc-11eb-9e60-acde48001122
 version: 1
 date: '2021-06-25'
 author: Michael Hart, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This detection targets behaviors observed when threat actors have used
   sc.exe to modify services. We observed malware in a honey pot spawning numerous
   sc.exe processes in a short period of time, presumably to impair defenses, possibly
   to block others from compromising the same machine.  This detection will alert when
   we see both an excessive number of sc.exe processes launched with specific commandline
   arguments to disable the start of certain services.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
   as distinct_cmdlines values(Processes.process_id) as process_ids min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name
@@ -34,15 +35,9 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: An excessive amount of $process_name$ was executed on $dest$ attempting
     to disable services.
   mitre_attack_id:
@@ -72,6 +67,10 @@ tags:
   - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

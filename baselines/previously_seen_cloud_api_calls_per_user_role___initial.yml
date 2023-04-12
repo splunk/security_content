@@ -22,8 +22,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
-  deployments:
-  - 90 Day Baseline
   detections:
   - Cloud API Calls From Previously Unseen User Roles
   product:
@@ -37,3 +35,9 @@ tags:
   - All_Changes.user
   - All_Changes.command
   security_domain: network
+deployment:
+  scheduling:
+    cron_schedule: 0 2 * * 0
+    earliest_time: -90d@d
+    latest_time: -1d@d
+    schedule_window: auto

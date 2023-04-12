@@ -1,0 +1,56 @@
+name: GetWmiObject User Account with PowerShell
+id: b44f6ac6-0429-11ec-87e9-acde48001122
+version: 1
+date: '2021-08-23'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+description: This analytic looks for the execution of `powershell.exe` with command-line
+  arguments utilized to query local users. The `Get-WmiObject` commandlet combined
+  with the `Win32_UserAccount` parameter is used to return a list of all local users.
+  Red Teams and adversaries may leverage this commandlet to enumerate users for situational
+  awareness and Active Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith: powershell.exe
+  selection2:
+    CommandLine: '*Win32_UserAccount*'
+  selection3:
+    CommandLine: '*Get-WmiObject*'
+  condition: (selection1) and selection2 and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this PowerShell commandlet
+  for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1087/001/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: Local user discovery enumeration using PowerShell on $dest$ by $user$
+  mitre_attack_id:
+  - T1087
+  - T1087.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,67 @@
+name: Hide User Account From Sign-In Screen
+id: 834ba832-ad89-11eb-937d-acde48001122
+version: 2
+date: '2022-01-28'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic identifies a suspicious registry modification to hide a
+  user account on the Windows Login screen. This technique was seen in some tradecraft
+  where the adversary will create a hidden user account with Admin privileges in login
+  screen to avoid noticing by the user that they already compromise and to persist
+  on that said machine.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Details: '0x00000000'
+    TargetObject: '*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as CarbonBlack or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: Unknown. Filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  - Windows Registry Abuse
+  - Azorult
+  asset_type: Endpoint
+  confidence: 80
+  impact: 90
+  message: Suspicious registry modification ($registry_value_name$) which is used
+    go hide a user account on the Windows Login screen detected on $dest$ executed
+    by $user$
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: registry_value_name
+    type: Other
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

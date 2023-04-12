@@ -3,8 +3,8 @@ id: 5cc67381-44fa-4111-8a37-7a230943f027
 version: 4
 date: '2022-02-09'
 author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic leverages Kerberos Event 4769, A Kerberos service
   ticket was requested, to identify a potential kerberoasting attack against Active
   Directory networks. Kerberoasting allows an adversary to request kerberos tickets
@@ -13,6 +13,8 @@ description: The following analytic leverages Kerberos Event 4769, A Kerberos se
   for a specific combination of the Ticket_Options field based on common kerberoasting
   tools. Defenders should be aware that it may be possible for a Kerberoast attack
   to use different Ticket_Options.
+data_source:
+- Windows Security 4769
 search: '`wineventlog_security` EventCode=4769 Service_Name!="*$" (Ticket_Options=0x40810000
   OR Ticket_Options=0x40800000 OR Ticket_Options=0x40810010) Ticket_Encryption_Type=0x17
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
@@ -30,27 +32,15 @@ tags:
   analytic_story:
   - Windows Privilege Escalation
   - Active Directory Kerberos Attacks
-  - Hermetic Wiper 
+  - Hermetic Wiper
   asset_type: Endpoint
-  cis20:
-  - CIS 8
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: Potential kerberoasting attack via service principal name requests detected
     on $dest$
   mitre_attack_id:
   - T1558
   - T1558.003
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -70,3 +60,10 @@ tags:
   - service_id
   risk_score: 72
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

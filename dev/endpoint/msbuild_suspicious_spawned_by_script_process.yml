@@ -1,0 +1,66 @@
+name: MSBuild Suspicious Spawned By Script Process
+id: 213b3148-24ea-11ec-93a2-acde48001122
+version: 1
+date: '2021-10-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to detect a suspicious child process of MSBuild spawned
+  by Windows Script Host - cscript or wscript. This behavior or event are commonly
+  seen and used by malware or adversaries to execute malicious msbuild process using
+  malicious script in the compromised host. During triage, review parallel processes
+  and identify any file modifications. MSBuild may load a script from the same path
+  without having command-line arguments.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage:
+    - wscript.exe
+    - cscript.exe
+  selection2:
+    OriginalFileName: MSBuild.exe
+  selection3:
+    Image|endswith: msbuild.exe
+  condition: selection1 and selection2 and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited as developers do not spawn
+  MSBuild via a WSH.
+references:
+- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/
+tags:
+  analytic_story:
+  - Trusted Developer Utilities Proxy Execution MSBuild
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed
+    by $user$
+  mitre_attack_id:
+  - T1127.001
+  - T1127
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/regsvr32_silent/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

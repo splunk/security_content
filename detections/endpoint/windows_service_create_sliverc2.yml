@@ -4,7 +4,9 @@ version: 1
 date: '2023-03-03'
 author: Michael Haag, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source:
+- Windows System 7045
 description: When an adversary utilizes SliverC2 to laterally move with the Psexec module, it will create a service with the name and description of "Sliver" and "Sliver Implant". Note that these may be easily changed and are specific to only SliverC2.
   We have also created the same regex as Microsoft has outlined to attempt to capture the suspicious service path (regex101 reference).
 search: '`wineventlog_system` EventCode=7045 ServiceName="sliver"
@@ -21,25 +23,12 @@ tags:
   analytic_story:
   - BishopFox Sliver Adversary Emulation Framework
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Lateral Movement
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/sliver_windows-system.log
   impact: 90
-  kill_chain_phases:
-  - Installation
   message: A user mode service was created on $ComputerName$ related to SliverC2.
   mitre_attack_id:
   - T1569
   - T1569.002
-  nist:
-  - DE.CM
   observable:
   - name: ComputerName
     type: Endpoint
@@ -50,6 +39,16 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - UPDATE
+  - EventCode
+  - Computer
+  - ServiceName
+  - ImagePath
+  - ServiceType
   risk_score: 90
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/sliver_windows-system.log
+    source: XmlWinEventLog:System
+    sourcetype: XmlWinEventLog

@@ -1,0 +1,69 @@
+name: Windows Schtasks Create Run As System
+id: 41a0e58e-884c-11ec-9976-acde48001122
+version: 1
+date: '2022-02-07'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies Schtasks.exe creating a new task to
+  start and run as an elevated user - SYSTEM. This is commonly used by adversaries
+  to spawn a process in an elevated state.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: schtasks.exe
+  selection2:
+    Image|endswith: schtasks.exe
+  selection3:
+    CommandLine: '*/create *'
+  selection4:
+    CommandLine: '*/ru *'
+  selection5:
+    CommandLine: '*system*'
+  condition: (selection1 or selection2) and selection3 and selection4 and selection5
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives will be limited to legitimate applications
+  creating a task to run as SYSTEM. Filter as needed based on parent process, or modify
+  the query to have world writeable paths to restrict it.
+references:
+- https://pentestlab.blog/2019/11/04/persistence-scheduled-tasks/
+- https://www.ired.team/offensive-security/persistence/t1053-schtask
+- https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
+tags:
+  analytic_story:
+  - Windows Persistence Techniques
+  - Qakbot
+  asset_type: Endpoint
+  confidence: 60
+  impact: 80
+  message: An $process_name$ was created on endpoint $dest$ attempting to spawn as
+    SYSTEM.
+  mitre_attack_id:
+  - T1053.005
+  - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 48
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_system/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

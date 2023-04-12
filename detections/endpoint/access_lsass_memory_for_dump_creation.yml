@@ -3,9 +3,11 @@ id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 version: 2
 date: '2019-12-06'
 author: Patrick Bareiss, Splunk
+status: production
 type: TTP
-datamodel: []
 description: Detect memory dumping of the LSASS process.
+data_source:
+- Sysmon Event ID 1
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage,
   TargetProcessId, SourceImage, SourceProcessId | rename Computer as dest | `security_content_ctime(firstTime)`|
@@ -24,18 +26,8 @@ tags:
   analytic_story:
   - Credential Dumping
   asset_type: Windows
-  cis20:
-  - CIS 6
-  - CIS 8
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: process $SourceImage$ injected into $TargetImage$ and was attempted dump
     LSASS on $dest$. Adversaries tend to do this when trying to accesss credential
     material stored in the process memory of the Local Security Authority Subsystem
@@ -43,8 +35,6 @@ tags:
   mitre_attack_id:
   - T1003.001
   - T1003
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -69,3 +59,9 @@ tags:
   - SourceProcessId
   risk_score: 63
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

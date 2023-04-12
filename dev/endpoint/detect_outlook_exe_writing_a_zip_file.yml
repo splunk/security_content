@@ -1,0 +1,49 @@
+name: Detect Outlook exe writing a zip file
+id: a51bfe1a-94f0-4822-b1e4-16ae10145893
+version: 3
+date: '2020-07-21'
+author: Bhavin Patel, Splunk
+status: experimental
+type: TTP
+description: This search looks for execution of process `outlook.exe` where the process
+  is writing a `.zip` file to the disk.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith:
+    - outlook.exe
+    - explorer.exe
+  condition: selection1
+how_to_implement: You must be ingesting data that records filesystem and process activity
+  from your hosts to populate the Endpoint data model. This is typically populated
+  via endpoint detection-and-response product, such as Carbon Black, or endpoint data
+  sources, such as Sysmon.
+known_false_positives: It is not uncommon for outlook to write legitimate zip files
+  to the disk.
+references: []
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: tbd
+  mitre_attack_id:
+  - T1566
+  - T1566.001
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: network

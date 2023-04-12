@@ -3,36 +3,30 @@ id: 345f7e1d-a3fe-4158-abd8-e630f9878323
 version: 1
 date: '2022-10-12'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
-description: 'The following analytic identifies an authentication attempt event against a Google Cloud Platform tenant that fails during the Multi Factor Authentication challenge.
-  This behavior may represent an adversary trying to authenticate with compromised credentials for an account that has multi-factor authentication enabled. '
-search: ' `gws_reports_login` event.name=login_failure `gws_login_mfa_methods`
-  | stats values(user) by _time, src_ip, login_challenge_method
-  | `gcp_authentication_failed_during_mfa_challenge_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows Splunk administrators to collect Google Workspace event data in Splunk using Google Workspace APIs. 
-  Specifically, this analytic leverages the User log events.
-known_false_positives: Legitimate users may miss to reply the MFA challenge within the time window or deny it by mistake.
+description: 'The following analytic identifies an authentication attempt event against
+  a Google Cloud Platform tenant that fails during the Multi Factor Authentication
+  challenge. This behavior may represent an adversary trying to authenticate with
+  compromised credentials for an account that has multi-factor authentication enabled. '
+data_source: []
+search: ' `gws_reports_login` event.name=login_failure `gws_login_mfa_methods` | stats
+  values(user) by _time, src_ip, login_challenge_method | `gcp_authentication_failed_during_mfa_challenge_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Google
+  Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows
+  Splunk administrators to collect Google Workspace event data in Splunk using Google
+  Workspace APIs. Specifically, this analytic leverages the User log events.
+known_false_positives: Legitimate users may miss to reply the MFA challenge within
+  the time window or deny it by mistake.
 references:
-- https://attack.mitre.org/techniques/T1621/ 
+- https://attack.mitre.org/techniques/T1621/
 - https://attack.mitre.org/techniques/T1078/004/
 tags:
   analytic_story:
   - GCP Account Takeover
   asset_type: Google Cloud Platform tenant
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Initial Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/gcp_failed_mfa/gws_login.log
   impact: 60
-  kill_chain_phases:
-  - Exploitation
   message: User $user$ failed to pass MFA challenge
   mitre_attack_id:
   - T1586
@@ -40,8 +34,6 @@ tags:
   - T1078
   - T1078.004
   - T1621
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -63,3 +55,10 @@ tags:
   - event.parameters{}.multiValue{}
   risk_score: 54
   security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/gcp_failed_mfa/gws_login.log
+    source: gws:reports:login
+    sourcetype: gws:reports:login
+    update_timestamp: true

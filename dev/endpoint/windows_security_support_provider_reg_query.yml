@@ -1,0 +1,70 @@
+name: Windows Security Support Provider Reg Query
+id: 31302468-93c9-4eca-9ae3-2d41f53a4e2b
+version: 1
+date: '2022-11-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies a process command line related to the
+  discovery of possible Security Support Providers in the registry. This technique
+  is being abused by adversaries or post exploitation tools like winpeas to gather
+  LSA protection and configuration in the registry in the targeted host. This registry
+  entry can contain several information related to LSA that validates users for local
+  and remote sign-ins and enforces local security policies. Understanding LSA protection
+  may give a good information in accessing LSA content in memory which is commonly
+  attack by adversaries and tool like mimikatz to scrape password hashes or clear
+  plain text passwords.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: reg.exe
+  selection2:
+    Image|endswith: reg.exe
+  selection3:
+    CommandLine: '* query *'
+  selection4:
+    CommandLine:
+    - '*RunAsPPL*'
+    - '*LsaCfgFlags*'
+  selection5:
+    CommandLine: '*\\SYSTEM\\CurrentControlSet\\Control\\LSA*'
+  condition: (selection1 or selection2) and selection3 and selection4 and selection5
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+known_false_positives: unknown
+references:
+- https://blog.netwrix.com/2022/01/11/understanding-lsa-protection/
+- https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+- https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+tags:
+  analytic_story:
+  - Windows Post-Exploitation
+  - Prestige Ransomware
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: process with reg query command line $process$ in $dest$
+  mitre_attack_id:
+  - T1547.005
+  - T1547
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

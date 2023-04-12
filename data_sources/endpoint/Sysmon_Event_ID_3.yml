@@ -1,0 +1,34 @@
+name: Sysmon Event ID 3
+id: 0e90069b-ee5a-47c2-8411-b87ccf2a8b56
+date: '2022-10-20'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: network_connection
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - UserID
+  - ProcessGuid
+  - ProcessId
+  - Image
+  - User
+  - Protocol
+  - Initiated
+  - SourceIsIpv6
+  - SourceIp
+  - SourceHostname
+  - SourcePort
+  - SourcePortName
+  - DestinationIsIpv6
+  - DestinationIp
+  - DestinationHostname
+  - DestinationPort
+  - DestinationPortName

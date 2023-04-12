@@ -3,11 +3,11 @@ id: 354be8e0-32cd-4da0-8c47-796de13b60ea
 version: 1
 date: '2017-01-07'
 author: David Dorsey, Splunk
+status: deprecated
 type: TTP
-datamodel:
-- Vulnerabilities
 description: The search is used to detect systems that are still vulnerable to the
   Spectre and Meltdown vulnerabilities.
+data_source: []
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
   as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve ="CVE-2017-5753"
   OR Vulnerabilities.cve ="CVE-2017-5715" OR Vulnerabilities.cve ="CVE-2017-5754"
@@ -22,32 +22,21 @@ tags:
   analytic_story:
   - Spectre And Meltdown Vulnerabilities
   asset_type: Endpoint
-  cis20:
-  - CIS 4
+  confidence: 50
   cve:
   - CVE-2017-5753
-  nist:
-  - ID.RA
-  - RS.MI
-  - PR.IP
-  - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
   impact: 50
-  risk_score: 25
-  context:
-  - Unknown
   message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  risk_score: 25
+  security_domain: endpoint

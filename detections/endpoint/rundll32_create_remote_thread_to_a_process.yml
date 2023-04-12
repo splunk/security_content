@@ -3,13 +3,14 @@ id: 2dbeee3a-f067-11eb-96c0-acde48001122
 version: 1
 date: '2021-07-29'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
-  to any process. This technique was seen in IcedID malware to execute
-  its malicious code in normal process for defense evasion and to steal sensitive
-  information in the compromised host.
+  to any process. This technique was seen in IcedID malware to execute its malicious
+  code in normal process for defense evasion and to steal sensitive information in
+  the compromised host.
+data_source:
+- Sysmon Event ID 8
 search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe"
   | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage
   TargetProcessId SourceProcessId StartAddress EventCode Computer | `security_content_ctime(firstTime)`
@@ -25,15 +26,9 @@ tags:
   analytic_story:
   - IcedID
   - Living Off The Land
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: rundl32 process $SourceImage$ create a remote thread to process $TargetImage$
     in host $Computer$
   mitre_attack_id:
@@ -62,4 +57,9 @@ tags:
   - Computer
   risk_score: 56
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

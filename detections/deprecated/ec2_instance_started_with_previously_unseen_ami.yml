@@ -3,11 +3,12 @@ id: 347ec301-601b-48b9-81aa-9ddf9c829dd3
 version: 1
 date: '2018-03-12'
 author: David Dorsey, Splunk
+status: deprecated
 type: Anomaly
-datamodel: []
 description: This search looks for EC2 instances being created with previously unseen
   AMIs.  This search is deprecated and have been translated to use the latest Change
   Datamodel.
+data_source: []
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
   errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
   by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId
@@ -31,10 +32,14 @@ tags:
   analytic_story:
   - AWS Cryptomining
   asset_type: AWS Instance
-  cis20:
-  - CIS 1
-  nist:
-  - ID.AM
+  confidence: 50
+  impact: 50
+  message: tbd
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -44,17 +49,5 @@ tags:
   - eventName
   - errorCode
   - requestParameters.instancesSet.items{}.imageId
-  security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
-  impact: 50
   risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown
+  security_domain: endpoint

@@ -1,0 +1,99 @@
+name: Windows Rename System Utilities Agentexecutor exe LOLBAS in Non Standard Path
+id: e124f71f-11bc-47e4-9931-6046d256005d
+version: 1
+date: '2022-10-18'
+author: Splunk Threat Research Bot, Splunk
+type: Anomaly
+status: production
+description: The following analytic identifies AgentExecutor.exe which is a native
+  living off the land binary or script (LOLBAS) within the Windows operating system
+  that may be abused by adversaries by moving it to a new directory. The list of binaries
+  was derived from the https://lolbas-project.github.io site.
+data_source:
+- Windows Security 4688
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  process_file_name="agentexecutor.exe" AND (NOT match_regex(process_file_path, /(?i)\\program
+  files (x86)/)=true) --finding_report--'
+how_to_implement: To successfully implement this search, you must be ingesting logs
+  with the process name, command-line arguments, and parent processes from your endpoints.
+  Collect endpoint data such as Sysmon or Windows Events 4688.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+- https://attack.mitre.org/techniques/T1036/003/
+- https://lolbas-project.github.io/
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 70
+  impact: 20
+  message: A system process $process_name$ with path $process_path$ spawn in non-default
+    folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  observable:
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.path
+    type: File
+  - name: process.file.name
+    type: File
+  - name: process.cmd_line
+    type: Other
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process.user.name
+  - device.hostname
+  - process.file.path
+  - process.file.name
+  - process.cmd_line
+  risk_score: 14
+  security_domain: endpoint
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
+    source: WinEventLog:Security

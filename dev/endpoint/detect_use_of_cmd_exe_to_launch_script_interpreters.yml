@@ -1,0 +1,55 @@
+name: Detect Use of cmd exe to Launch Script Interpreters
+id: b89919ed-fe5f-492c-b139-95dbb162039e
+version: 4
+date: '2020-07-21'
+author: Bhavin Patel, Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: This search looks for the execution of the cscript.exe or wscript.exe
+  processes, with a parent of cmd.exe. The search will return the count, the first
+  and last time this execution was seen on a machine, the user, and the destination
+  of the machine
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith:
+    - wscript.exe
+    - cscript.exe
+    ParentImage: cmd.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+known_false_positives: Some legitimate applications may exhibit this behavior.
+references: []
+tags:
+  analytic_story:
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Suspicious Command-Line Executions
+  - Azorult
+  asset_type: Endpoint
+  confidence: 50
+  impact: 70
+  message: cmd.exe launching script interpreters on $dest$
+  mitre_attack_id:
+  - T1059
+  - T1059.003
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/cmd_spawns_cscript/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

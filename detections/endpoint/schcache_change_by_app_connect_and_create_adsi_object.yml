@@ -3,9 +3,8 @@ id: 991eb510-0fc6-11ec-82d3-acde48001122
 version: 1
 date: '2021-09-07'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic is to detect an application try to connect and create ADSI
   Object to do LDAP query. Every time an application connects to the directory and
   attempts to create an ADSI object, the Active Directory Schema is checked for changes.
@@ -15,6 +14,8 @@ description: This analytic is to detect an application try to connect and create
   application like blackmatter ransomware that use ADS object api to execute ldap
   query. having a good list of ldap or normal AD query tool used within the network
   is a good start to reduce the noise.
+data_source:
+- Sysmon Event ID 1
 search: '`sysmon` EventCode=11  TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
   = "*.sch*" NOT (Image IN ("*\\Windows\\system32\\mmc.exe")) |stats count min(_time)
   as firstTime max(_time) as lastTime by Image TargetFilename EventCode process_id  process_name
@@ -32,15 +33,9 @@ references:
 tags:
   analytic_story:
   - blackMatter ransomware
+  asset_type: Endpoint
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: process $Image$ create a file $TargetFilename$ in host $Computer$
   mitre_attack_id:
   - T1087.002
@@ -64,4 +59,9 @@ tags:
   - Computer
   risk_score: 25
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

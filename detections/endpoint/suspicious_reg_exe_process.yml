@@ -3,12 +3,13 @@ id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 version: 4
 date: '2020-07-22'
 author: David Dorsey, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This search looks for reg.exe being launched from a command prompt not
   started by the user. When a user launches cmd.exe, the parent process is usually
   explorer.exe. This search filters out those instances.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name
   != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name
@@ -35,23 +36,11 @@ tags:
   - Disabling Security Tools
   - DHS Report TA18-074A
   asset_type: Endpoint
-  cis20:
-  - CIS 8
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  - Stage:Initial Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to add a registry entry.
   mitre_attack_id:
   - T1112
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -84,5 +73,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

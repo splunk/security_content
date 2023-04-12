@@ -33,8 +33,6 @@ tags:
   analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Abnormally High AWS Instances Launched by User - MLTK
   product:

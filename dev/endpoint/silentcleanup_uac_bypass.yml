@@ -1,0 +1,55 @@
+name: SilentCleanup UAC Bypass
+id: 56d7cfcc-da63-11eb-92d4-acde48001122
+version: 2
+date: '2020-01-28'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search is to detect a suspicious modification of registry that may
+  related to UAC bypassed. This registry will be trigger once the attacker abuse the
+  silentcleanup task schedule to gain high privilege execution that will bypass User
+  control account.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Details: '*.exe*'
+    TargetObject: '*\\Environment\\windir'
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: unknown
+references:
+- https://github.com/hfiref0x/UACME
+- https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 90
+  impact: 70
+  message: Suspicious modification of registry $registry_path$ with possible payload
+    path $registry_value_name$ in $dest$
+  mitre_attack_id:
+  - T1548.002
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -3,25 +3,36 @@ id: 5ee98b2f-8b9e-457a-8bdc-dd41aaba9e87
 version: 1
 date: '2022-03-31'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: 'The following analytic identifies installation of a root CA certificate by monitoring the registry. The base paths may be found [here](https://gist.github.com/mattifestation/75d6117707bcf8c26845b3cbb6ad2b6b/raw/ae65ef15c706140ffc2e165615204e20f2903028/RootCAInstallationDetection.xml). In short, there are specific certificate registry paths that will be written to (SetValue) when a new certificate is added.
-  The high-fidelity events to pay attention to are SetValue events where the TargetObject property ends with "<THUMBPRINT_VALUE>\Blob" as this indicates the direct installation or modification of a root certificate binary blob.
-  The other high fidelity reference will be which process is making the registry modifications. There are very few processes that modify these day to day, therefore monitoring for all to start (hunting) provides a great beginning.'
+description: The following analytic identifies installation of a root CA certificate
+  by monitoring the registry. The base paths may be found [here](https://gist.github.com/mattifestation/75d6117707bcf8c26845b3cbb6ad2b6b/raw/ae65ef15c706140ffc2e165615204e20f2903028/RootCAInstallationDetection.xml).
+  In short, there are specific certificate registry paths that will be written to
+  (SetValue) when a new certificate is added. The high-fidelity events to pay attention
+  to are SetValue events where the TargetObject property ends with "<THUMBPRINT_VALUE>\Blob"
+  as this indicates the direct installation or modification of a root certificate
+  binary blob. The other high fidelity reference will be which process is making the
+  registry modifications. There are very few processes that modify these day to day,
+  therefore monitoring for all to start (hunting) provides a great beginning.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*\\certificates\\*") AND Registry.registry_value_name="Blob"
-  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_key_name Registry.registry_value_data 
-  | `drop_dm_object_name(Registry)` 
-  | join process_guid _time 
-  [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid 
-  | `drop_dm_object_name(Processes)`]
-  | table
-  _time dest user process_name process process_guid registry_path registry_value_name registry_value_data registry_key_name
-  | `windows_registry_certificate_added_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives will be limited to a legitimate business applicating consistently adding new root certificates to the endpoint. Filter by user, process, or thumbprint.
+  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
+  `drop_dm_object_name(Registry)` | join process_guid _time [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.process_guid | `drop_dm_object_name(Processes)`]
+  | table _time dest user process_name process process_guid registry_path registry_value_name
+  registry_value_data registry_key_name | `windows_registry_certificate_added_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
+  In addition, confirm the latest CIM App 4.20 or higher is installed and the latest
+  TA for the endpoint product.
+known_false_positives: False positives will be limited to a legitimate business applicating
+  consistently adding new root certificates to the endpoint. Filter by user, process,
+  or thumbprint.
 references:
 - https://posts.specterops.io/code-signing-certificate-cloning-attacks-and-defenses-6f98657fc6ec
 - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1553.004
@@ -29,25 +40,13 @@ tags:
   analytic_story:
   - Windows Drivers
   - Windows Registry Abuse
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1587.002/atomic_red_team/certblob_windows-sysmon.log
   impact: 60
-  kill_chain_phases:
-  - Exploitation
-  message: A root certificate was added on $dest$. 
+  message: A root certificate was added on $dest$.
   mitre_attack_id:
   - T1553.004
   - T1553
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -63,13 +62,16 @@ tags:
   - Registry.registry_key_name
   - Registry.registry_value_name
   - Registry.dest
-  - Processes.process_id 
-  - Processes.process_name 
+  - Processes.process_id
+  - Processes.process_name
   - Processes.process
   - Processes.dest
-  - Processes.process_guid 
+  - Processes.process_guid
   risk_score: 42
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1587.002/atomic_red_team/certblob_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

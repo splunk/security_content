@@ -1,0 +1,22 @@
+name: Windows Security 4698
+id: 697f3e1a-b7d9-4c60-83a7-45013b99a828
+date: '2022-11-30'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4698
+raw_fields: 
+- Account_Domain
+- Account_Name
+- Security ID
+- Logon ID
+- Message
+
