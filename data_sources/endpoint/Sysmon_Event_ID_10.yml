@@ -1,0 +1,26 @@
+name: Sysmon Event ID 10
+id: af9d8516-cfc7-41a4-91e9-6357316141f3
+date: '2022-10-17'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: process_access
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - SourceProcessGUID
+  - SourceProcessId
+  - SourceThreadId
+  - SourceImage
+  - TargetProcessGUID
+  - TargetProcessId
+  - TargetImage
+  - GrantedAccess
+  - CallTrace
+  - Computer

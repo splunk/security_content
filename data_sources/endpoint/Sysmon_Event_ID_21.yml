@@ -1,0 +1,21 @@
+name: Sysmon Event ID 21
+id: d2376a9d-6b01-4d1d-b95b-1c5ff63ec6bd
+date: '2022-12-02'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: wmi_event
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - Operation
+  - User
+  - Consumer
+  - Filter

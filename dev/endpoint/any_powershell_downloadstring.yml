@@ -1,0 +1,88 @@
+name: Any Powershell DownloadString
+id: 4d015ef2-7adf-11eb-95da-acde48001122
+version: 3
+date: '2022-04-07'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of PowerShell downloading a
+  file using `DownloadString` method. This particular method is utilized in many different
+  PowerShell frameworks to download files and output to disk. Identify the source
+  (IP/domain) and destination file and triage appropriately. If AMSI logging or PowerShell
+  transaction logs are available, review for further details of the implant.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: pwsh.dll
+  selection2:
+    Image|endswith:
+    - pwsh.exe
+    - sqlps.exe
+    - sqltoolsps.exe
+    - powershell.exe
+    - powershell_ise.exe
+  selection3:
+    OriginalFileName: PowerShell.EXE
+  selection4:
+    OriginalFileName: powershell_ise.EXE
+  selection5:
+    CommandLine: '*.DownloadString*'
+  condition: (selection1 or selection2 or selection3 or selection4) and selection5
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives may be present and filtering will need to occur
+  by parent process or command line argument. It may be required to modify this query
+  to an EDR product for more granular coverage.
+references:
+- https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstring?view=net-5.0
+- https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
+tags:
+  analytic_story:
+  - Hermetic Wiper
+  - Malicious PowerShell
+  - HAFNIUM Group
+  - Ingress Tool Transfer
+  asset_type: Endpoint
+  confidence: 70
+  impact: 80
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$. This behavior identifies the use of DownloadString
+    within PowerShell.
+  mitre_attack_id:
+  - T1059
+  - T1059.001
+  - T1105
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

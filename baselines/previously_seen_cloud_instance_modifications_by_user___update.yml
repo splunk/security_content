@@ -24,8 +24,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Instance Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Cloud Instance Modified By Previously Unseen User
   product:

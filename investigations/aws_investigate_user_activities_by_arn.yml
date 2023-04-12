@@ -30,7 +30,7 @@ tags:
   - AWS Suspicious Provisioning Activities
   - Suspicious Cloud Instance Activities
   - AWS Security Hub Alerts
-  - Command and Control
+  - Command And Control
   product:
   - Splunk Phantom
   required_fields:

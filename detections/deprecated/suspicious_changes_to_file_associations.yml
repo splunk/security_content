@@ -3,11 +3,13 @@ id: 1b989a0e-0129-4446-a695-f193a5b746fc
 version: 4
 date: '2020-07-22'
 author: Rico Valdez, Splunk
+status: deprecated
 type: TTP
-datamodel: []
 description: This search looks for changes to registry values that control Windows
   file associations, executed by a process that is not typical for legitimate, routine
   changes to this area.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
   as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name!=Explorer.exe
@@ -30,32 +32,21 @@ tags:
   - Suspicious Windows Registry Activities
   - Windows File Extension and Association Abuse
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 8
-  kill_chain_phases:
-  - Actions on Objectives
+  confidence: 50
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1546.001
-  nist:
-  - DE.CM
-  - PR.PT
-  - PR.IP
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  security_domain: endpoint
-  confidence: 50
-  impact: 50
   risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown
+  security_domain: endpoint

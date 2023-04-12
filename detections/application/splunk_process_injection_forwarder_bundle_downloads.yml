@@ -3,11 +3,27 @@ id: 8ea57d78-1aac-45d2-a913-0cd603fb6e9e
 version: 1
 date: '2022-05-26'
 author: Lou Stella, Splunk
+status: production
 type: Hunting
-datamodel: []
-description: On June 14th, 2022, Splunk released a security advisory relating to the authentication that happens between Universal Forwarders and Deployment Servers. In some circumstances, an unauthenticated client can download forwarder bundles from the Deployment Server. This hunting search pulls a full list of forwarder bundle downloads where the peer column is the forwarder, the host column is the Deployment Server, and then you have a list of the apps downloaded and the serverclasses in which the peer is a member of. You should look for apps or clients that you do not recognize as being part of your environment.
-search: '`splunkd` component="PackageDownloadRestHandler" | stats values(app) values(serverclass) by peer, host | `splunk_process_injection_forwarder_bundle_downloads_filter`'
-how_to_implement: This hunting search uses native logs produced when a deployment server is within your environment. Splunk SOAR customers can find a SOAR workbook that walks an analyst through the process of running these hunting searches in the references list of this detection. In order to use this workbook, a user will need to run a curl command to post the file to their SOAR instance such as "curl -u username:password https://soar.instance.name/rest/rest/workbook_template -d @splunk_psa_0622.json". A user should then create an empty container or case, attach the workbook, and begin working through the tasks.
+description: On June 14th, 2022, Splunk released a security advisory relating to the
+  authentication that happens between Universal Forwarders and Deployment Servers.
+  In some circumstances, an unauthenticated client can download forwarder bundles
+  from the Deployment Server. This hunting search pulls a full list of forwarder bundle
+  downloads where the peer column is the forwarder, the host column is the Deployment
+  Server, and then you have a list of the apps downloaded and the serverclasses in
+  which the peer is a member of. You should look for apps or clients that you do not
+  recognize as being part of your environment.
+data_source: []
+search: '`splunkd` component="PackageDownloadRestHandler" | stats values(app) values(serverclass)
+  by peer, host | `splunk_process_injection_forwarder_bundle_downloads_filter`'
+how_to_implement: This hunting search uses native logs produced when a deployment
+  server is within your environment. Splunk SOAR customers can find a SOAR workbook
+  that walks an analyst through the process of running these hunting searches in the
+  references list of this detection. In order to use this workbook, a user will need
+  to run a curl command to post the file to their SOAR instance such as "curl -u username:password
+  https://soar.instance.name/rest/rest/workbook_template -d @splunk_psa_0622.json".
+  A user should then create an empty container or case, attach the workbook, and begin
+  working through the tasks.
 known_false_positives: None at this time.
 references:
 - https://www.splunk.com/en_us/product-security/announcements/svd-2022-0607.html
@@ -16,25 +32,13 @@ tags:
   analytic_story:
   - Splunk Vulnerabilities
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  confidence: 70
   cve:
   - CVE-2022-32157
-  confidence: 70
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/splunk_ds/splunkd.log
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: $peer$ downloaded apps from $host$
   mitre_attack_id:
   - T1055
-  nist:
-  - DE.CM
   observable:
   - name: host
     type: Hostname
@@ -48,7 +52,15 @@ tags:
   - component
   - app
   - serverclass
-  - peer 
+  - peer
   - host
   risk_score: 35
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/splunk_ds/splunkd.log
+    source: /opt/splunk/var/log/splunk/splunkd.log
+    sourcetype: splunkd
+    update_timestamp: false
+    custom_index: _internal

@@ -1,0 +1,53 @@
+name: Okta Suspicious Activity Reported
+id: bfc840f5-c9c6-454c-aa13-b46fd0bf1e79
+version: 1
+date: '2022-09-21'
+author: Michael Haag, Splunk
+status: experimental
+type: TTP
+description: The following event is generated when an associate receives an email
+  from Okta asking if a login attempt was suspicious or not. If the associate identifies
+  it as suspicious an event is generated and should be reviewed.
+data_source: []
+search: '`okta` eventType=user.account.report_suspicious_activity_by_enduser | stats
+  count min(_time) as firstTime max(_time) as lastTime values(displayMessage) by user
+  eventType client.userAgent.rawUserAgent client.userAgent.browser client.geographicalContext.city
+  client.geographicalContext.country | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `okta_suspicious_activity_reported_filter`'
+how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested.
+  It also requires that suspicious activity reporting is enabled and associates are
+  trained to submit.
+known_false_positives: False positives should be limited as this is a high fidelity
+  marker.
+references:
+- https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  asset_type: Infrastructure
+  confidence: 50
+  impact: 50
+  message: The following $user$ has reported a suspicious login activity.
+  mitre_attack_id:
+  - T1078
+  - T1078.001
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - displayMessage
+  - user
+  - eventType
+  - client.userAgent.rawUserAgent
+  - client.userAgent.browser
+  - client.geographicalContext.city
+  - client.geographicalContext.country
+  risk_score: 25
+  security_domain: access

@@ -1,0 +1,50 @@
+name: Okta New Device Enrolled on Account
+id: bb27cbce-d4de-432c-932f-2e206e9130fb
+version: 1
+date: '2022-09-21'
+author: Michael Haag, Splunk
+status: experimental
+type: Anomaly
+description: The following anomaly will be generated when a new device is added to
+  an account. Albeit not malicious, risk is set low, but should be monitored. This
+  anomaly utilizes the legacy events from Okta.
+data_source: []
+search: '`okta` eventType=system.email.new_device_notification.sent_message displayMessage="Send
+  user new device notification email" | stats count min(_time) as firstTime max(_time)
+  as lastTime values(displayMessage) by user eventType client.userAgent.rawUserAgent
+  client.userAgent.browser client.geographicalContext.city client.geographicalContext.country
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_new_device_enrolled_on_account_filter`'
+how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested.
+known_false_positives: Tune the risk score as needed based on your organization.
+references:
+- https://developer.okta.com/docs/reference/api/event-types/?q=system.email.new_device_notification.sent_message
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  asset_type: Infrastructure
+  confidence: 60
+  impact: 40
+  message: $user$ has added a new device to their account.
+  mitre_attack_id:
+  - T1078
+  - T1078.001
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - displayMessage
+  - user
+  - eventType
+  - client.userAgent.rawUserAgent
+  - client.userAgent.browser
+  - client.geographicalContext.city
+  - client.geographicalContext.country
+  risk_score: 24
+  security_domain: access

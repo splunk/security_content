@@ -3,10 +3,11 @@ id: 4890cd6b-0112-4974-a272-c5c153aee551
 version: 1
 date: '2021-08-24'
 author: Patrick Bareiss, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search uses the Kubernetes logs from Splunk Connect from Kubernetes
   to detect Kubernetes Security Scanner.
+data_source: []
 search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling
   image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
   | rename object.* AS * | rename involvedObject.* AS * | rename source.host AS host
@@ -21,25 +22,11 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: Kubernetes
-  cis20:
-  - CIS 13
   confidence: 90
-  context:
-  - Unknown
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json
-  deployments:
-  - Slack Alert
   impact: 90
-  kill_chain_phases:
-  - Actions on Objectives
   message: Kubernetes Scanner image pulled on host $host$
   mitre_attack_id:
   - T1526
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: host
     type: Hostname
@@ -59,3 +46,9 @@ tags:
   - object.reason
   risk_score: 81
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json
+    sourcetype: kube:objects:events
+    source: kubernetes

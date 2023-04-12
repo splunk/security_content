@@ -3,9 +3,8 @@ id: d17dae9e-2618-11ec-b9f5-acde48001122
 version: 1
 date: '2021-10-05'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies winhlp32.exe, found natively in `c:\windows\`,
   spawning a child process that loads a file out of appdata, programdata, or temp.
   Winhlp32.exe has a rocky past in that multiple vulnerabilities were found and added
@@ -16,6 +15,8 @@ description: The following analytic identifies winhlp32.exe, found natively in `
   triage, review parallel processes to identify further suspicious behavior. Review
   module loads for unsuspecting unsigned modules. Capture any file modifications and
   analyze.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=winhlp32.exe
   Processes.process IN ("*\\appdata\\*","*\\programdata\\*", "*\\temp\\*") by Processes.dest
@@ -36,15 +37,9 @@ references:
 tags:
   analytic_story:
   - Remcos
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$, and is not typical activity for this process.
   mitre_attack_id:
@@ -85,6 +80,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

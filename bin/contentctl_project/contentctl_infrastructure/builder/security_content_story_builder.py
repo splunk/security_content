@@ -95,6 +95,7 @@ class SecurityContentStoryBuilder(StoryBuilder):
                             "tags": tags_obj
                         })
                         datamodels.update(detection.datamodel)
+
                         if detection.tags.kill_chain_phases:
                             kill_chain_phases.update(detection.tags.kill_chain_phases)
 

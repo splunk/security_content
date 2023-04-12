@@ -1,0 +1,60 @@
+name: Linux Insert Kernel Module Using Insmod Utility
+id: 18b5a1a0-6326-11ec-943a-acde48001122
+version: 1
+date: '2021-12-22'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic looks for inserting of linux kernel module using insmod
+  utility function. This event can detect a installation of rootkit or malicious kernel
+  module to gain elevated privileges to their malicious code and bypassed detections.
+  This Anomaly detection is a good indicator that someone installing kernel module
+  in a linux host either admin or adversaries. filter is needed in this scenario
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*insmod*'
+    Image|endswith:
+    - kmod
+    - sudo
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/kernel-module-driver-configuration/Working_with_Kernel_Modules/
+- https://security.stackexchange.com/questions/175953/how-to-load-a-malicious-lkm-at-startup
+- https://0x00sec.org/t/kernel-rootkits-getting-your-hands-dirty/1485
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Rootkit
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A commandline $process$ that may install kernel module on $dest$
+  mitre_attack_id:
+  - T1547.006
+  - T1547
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

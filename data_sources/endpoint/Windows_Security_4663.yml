@@ -1,0 +1,30 @@
+name: Windows Security 4663
+id: 39be9897-0654-4c71-a9eb-a138768c077a
+date: '2022-11-29'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4663
+raw_fields: 
+  - Access_Mask
+  - Accesses
+  - Account_Domain
+  - Account_Name
+  - ComputerName
+  - Error_Code
+  - Logon_ID
+  - Object_Name
+  - Object_Server
+  - Object_Type
+  - Process_ID
+  - Process_Name
+  - Resource_Attributes
+  - Security_ID

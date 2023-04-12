@@ -1,0 +1,65 @@
+name: Processes launching netsh
+id: b89919ed-fe5f-492c-b139-95dbb162040e
+version: 4
+date: '2021-09-16'
+author: Michael Haag, Josef Kuepker, Splunk
+status: production
+type: Anomaly
+description: This search looks for processes launching netsh.exe. Netsh is a command-line
+  scripting utility that allows you to, either locally or remotely, display or modify
+  the network configuration of a computer that is currently running. Netsh can be
+  used as a persistence proxy technique to execute a helper DLL when netsh.exe is
+  executed. In this search, we are looking for processes spawned by netsh.exe and
+  executing commands via the command line.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: netsh.exe
+  selection2:
+    Image|endswith: netsh.exe
+  condition: (selection1 or selection2)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Some VPN applications are known to launch netsh.exe. Outside
+  of these instances, it is unusual for an executable to launch netsh.exe and run
+  commands.
+references: []
+tags:
+  analytic_story:
+  - Netsh Abuse
+  - Disabling Security Tools
+  - DHS Report TA18-074A
+  - Azorult
+  asset_type: Endpoint
+  confidence: 70
+  impact: 20
+  message: A process $process_name$ has launched netsh with command-line $process$
+    on $dest$.
+  mitre_attack_id:
+  - T1562.004
+  - T1562
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 14
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
