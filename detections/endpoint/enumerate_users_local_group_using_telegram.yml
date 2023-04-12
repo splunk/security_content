@@ -3,13 +3,14 @@ id: fcd74532-ae54-11eb-a5ab-acde48001122
 version: 1
 date: '2021-05-06'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic will detect a suspicious Telegram process enumerating all
   network users in a local group. This technique was seen in a Monero infected honeypot
   to mapped all the users on the compromised system. EventCode 4798 is generated when
   a process enumerates a user's security-enabled local groups on a computer or device.
+data_source:
+- Windows Security 4798
 search: '`wineventlog_security` EventCode=4798  Process_Name = "*\\telegram.exe" |
   stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode
   Process_Name  Process_ID Account_Name Account_Domain Logon_ID Security_ID Message
@@ -24,15 +25,9 @@ references:
 tags:
   analytic_story:
   - XMRig
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: The Telegram application has been identified enumerating local groups on
     $ComputerName$ by $user$.
   mitre_attack_id:
@@ -63,4 +58,9 @@ tags:
   - Message
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

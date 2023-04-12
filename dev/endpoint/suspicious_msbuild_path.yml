@@ -1,0 +1,71 @@
+name: Suspicious msbuild path
+id: f5198224-551c-11eb-ae93-0242ac130002
+version: 3
+date: '2022-03-08'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies msbuild.exe executing from a non-standard
+  path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319
+  and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio
+  will run a copy of msbuild.exe. A moved instance of MSBuild is suspicious, however
+  there are instances of build applications that will move or use a copy of MSBuild.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: MSBuild.exe
+  selection2:
+    Image|endswith: msbuild.exe
+  selection3:
+    Processes.process_path: '*\\framework*\\v*\\*'
+  condition: (selection1 or selection2) and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Some legitimate applications may use a moved copy of msbuild.exe,
+  triggering a false positive. Baselining of MSBuild.exe usage is recommended to better
+  understand it's path usage. Visual Studio runs an instance out of a path that will
+  need to be filtered on.
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+tags:
+  analytic_story:
+  - Trusted Developer Utilities Proxy Execution MSBuild
+  - Cobalt Strike
+  - Masquerading - Rename System Utilities
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$
+  mitre_attack_id:
+  - T1036
+  - T1127
+  - T1036.003
+  - T1127.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

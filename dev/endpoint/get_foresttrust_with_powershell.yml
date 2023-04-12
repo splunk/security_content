@@ -1,0 +1,62 @@
+name: Get-ForestTrust with PowerShell
+id: 584f4884-0bf1-11ec-a5ec-acde48001122
+version: 1
+date: '2021-09-02'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: This analytic identifies Get-ForestTrust from PowerSploit in order to
+  gather domain trust information. Typically, this is utilized within a script being
+  executed and used to enumerate the domain trust information. This grants the adversary
+  an understanding of how large or small the domain is. During triage, review parallel
+  processes using an EDR product or 4688 events. It will be important to understand
+  the timeline of events around this activity.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*get-foresttrust*'
+    Image|endswith:
+    - cmd.exe
+    - powershell.exe
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Limited false positives as this requires an active Administrator
+  or adversary to bring in, import, and execute.
+references:
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestTrust/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 40
+  impact: 30
+  message: Suspicious PowerShell Get-ForestTrust was identified on endpoint $dest$
+    by user $user$.
+  mitre_attack_id:
+  - T1482
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 12
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

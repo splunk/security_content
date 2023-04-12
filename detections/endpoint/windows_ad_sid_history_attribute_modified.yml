@@ -4,7 +4,9 @@ version: 1
 date: '2022-11-16'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source: 
+- Windows Security 5136
 description: The following analytic leverages event code `5136` to identify a modification of the SID History AD attribute. 
   The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
   continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 
@@ -24,26 +26,12 @@ tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/sid_history2/windows-security.log
   impact: 80
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
   message: SID History AD attribute modified by $SubjectUserName$ for $ObjectDN$
   mitre_attack_id:
   - T1134
   - T1134.005
-  nist:
-  - DE.CM
   observable:
   - name: SubjectUserName
     type: User
@@ -64,3 +52,9 @@ tags:
   - AttributeValue
   risk_score: 56
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/sid_history2/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

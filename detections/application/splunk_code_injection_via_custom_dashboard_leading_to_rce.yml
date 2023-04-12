@@ -1,0 +1,63 @@
+name: Splunk Code Injection via custom dashboard leading to RCE
+id: b06b41d7-9570-4985-8137-0784f582a1b3
+version: 1
+date: '2022-10-11'
+author: Rod Soto
+status: experimental
+type: Hunting
+description: This hunting search provides information about a vulnerability in Splunk
+  Enterprise versions below 8.2.9, 8.1.12, 9.0.2, where an authenticated user can
+  execute arbitrary code via the dashboard pdf generation component. Please review
+  events with file=export in the _internal index for the potential targets of exploitation.
+data_source: []
+search: '`splunkd_ui` uri_path=*/data/ui/views/* OR uri_path=*saved/searches/* | dedup
+  uri_path | eval URL=urldecode("uri_path")| rex field=URL "\/saved\/searches\/(?<NAME>[^\/]*)"
+  | rex field=URL "\/data\/ui\/views\/(?<NAME1>[^\/]*)" | eval NAME=NAME."( Saved
+  Search )",NAME1=NAME1."( Dashboard )" | eval NAME=coalesce(NAME,NAME1) | eval STATUS=case(match(status,"2\d+"),"SUCCESS",match(status,"3\d+"),"REDIRECTION",match(status,"4\d+")
+  OR match(status,"5\d+"),"ERROR") | stats list(NAME) as DASHBOARD_TITLE,list(method)
+  as HTTP_METHOD,list(status) as Status_Code,list(STATUS) as STATUS by user | rename
+  user as User | `splunk_code_injection_via_custom_dashboard_leading_to_rce_filter`'
+how_to_implement: This detection does not require you to ingest any new data. The
+  detection does require the ability to search the _internal index.
+known_false_positives: Not all exports and downloads are malicious, special attention
+  must be put as well on /en-US/splunkd/__raw/services/pdfgen/render in the context
+  of this search.
+references:
+- https://www.splunk.com/en_us/product-security.html
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Endpoint
+  confidence: 50
+  cve:
+  - CVE-2022-43571
+  impact: 50
+  message: Potential exploitation of Code Injection via Dashboard PDF generation.
+  mitre_attack_id:
+  - T1210
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - user
+  - clientip
+  - uri
+  - uri_path
+  - method
+  - status
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
+    source: /opt/splunk/var/log/splunk/splunkd_ui_access.log
+    sourcetype: splunkd_ui_access
+    custom_index: _internal
+    update_timestamp: true

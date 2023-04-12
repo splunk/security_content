@@ -1,0 +1,74 @@
+name: Nishang PowershellTCPOneLine
+id: 1a382c6c-7c2e-11eb-ac69-acde48001122
+version: 2
+date: '2021-03-03'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: This query detects the Nishang Invoke-PowerShellTCPOneLine utility that
+  spawns a call back to a remote Command And Control server. This is a powershell
+  oneliner. In addition, this will capture on the command-line additional utilities
+  used by Nishang. Triage the endpoint and identify any parallel processes that look
+  suspicious. Review the reputation of the remote IP or domain contacted by the powershell
+  process.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: pwsh.dll
+  selection2:
+    Image|endswith:
+    - pwsh.exe
+    - sqlps.exe
+    - sqltoolsps.exe
+    - powershell.exe
+    - powershell_ise.exe
+  selection3:
+    OriginalFileName: PowerShell.EXE
+  selection4:
+    OriginalFileName: powershell_ise.EXE
+  selection5:
+    CommandLine: '*System.Text.ASCIIEncoding*'
+  selection6:
+    CommandLine: '*Net.Sockets.TCPClient*'
+  condition: (selection1 or selection2 or selection3 or selection4) and selection5
+    and selection6
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Limited false positives may be present. Filter as needed based
+  on initial analysis.
+references:
+- https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcpOneLine.ps1
+- https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/
+- https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
+- https://www.rapid7.com/blog/post/2021/03/03/rapid7s-insightidr-enables-detection-and-response-to-microsoft-exchange-0-day/
+tags:
+  analytic_story:
+  - HAFNIUM Group
+  asset_type: Endpoint
+  confidence: 60
+  impact: 70
+  message: Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest$
+  mitre_attack_id:
+  - T1059
+  - T1059.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 42
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

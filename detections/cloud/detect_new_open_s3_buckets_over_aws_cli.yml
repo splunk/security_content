@@ -3,10 +3,11 @@ id: 39c61d09-8b30-4154-922b-2d0a694ecc22
 version: 2
 date: '2021-07-19'
 author: Patrick Bareiss, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search looks for AWS CloudTrail events where a user has created
   an open/public S3 bucket over the aws cli.
+data_source: []
 search: '`cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR userAgent=aws-cli*
   ) eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp
   IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write
@@ -28,29 +29,14 @@ tags:
   analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
-  cis20:
-  - CIS 13
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
   impact: 60
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $userIdentity.userName$ has created an open/public bucket $bucketName$
     using AWS CLI with the following permissions - $requestParameters.accessControlList.x-amz-grant-read$
     $requestParameters.accessControlList.x-amz-grant-read-acp$ $requestParameters.accessControlList.x-amz-grant-write$
     $requestParameters.accessControlList.x-amz-grant-write-acp$ $requestParameters.accessControlList.x-amz-grant-full-control$
   mitre_attack_id:
   - T1530
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: userIdentity.userName
     type: User
@@ -79,3 +65,10 @@ tags:
   - bucketName
   risk_score: 48
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

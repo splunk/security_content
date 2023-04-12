@@ -3,23 +3,24 @@ id: 7e8458cc-acca-11eb-9e3f-acde48001122
 version: 2
 date: '2022-03-17'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic identifies suspicious modification of ACL permission to
   a files or folder to make it available to everyone. This technique may be used by
   the adversary to evade ACLs or protected files access. This changes is commonly
   configured by the file or directory owner with appropriate permission. This behavior
   is a good indicator if this command seen on a machine utilized by an account with
   no permission to do so.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = "cacls.exe"
   OR Processes.process_name = "icacls.exe" OR Processes.process_name = "xcacls.exe")
-  AND Processes.process = "*/G*" AND (Processes.process = "* everyone:*"  OR Processes.process = "* SYSTEM:*" OR Processes.process = "* S-1-1-0:*")
-  by Processes.parent_process_name Processes.process_name Processes.dest Processes.user
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `modify_acl_permission_to_files_or_folder_filter`'
+  AND Processes.process = "*/G*" AND (Processes.process = "* everyone:*"  OR Processes.process
+  = "* SYSTEM:*" OR Processes.process = "* S-1-1-0:*") by Processes.parent_process_name
+  Processes.process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `modify_acl_permission_to_files_or_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -30,15 +31,9 @@ references:
 tags:
   analytic_story:
   - XMRig
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
   impact: 40
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious ACL permission modification on $dest$
   mitre_attack_id:
   - T1222
@@ -61,6 +56,9 @@ tags:
   - Processes.process_id
   risk_score: 32
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

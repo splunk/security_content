@@ -5,18 +5,52 @@ description: The following analytic identifies the use of `cacls.exe`, `icacls.e
   or `xcacls.exe` placing the grant permission on a file or directory. Adversaries
   perform this behavior to allow components of their files to run, however it allows
   responders to review or gaining access to adversary files on disk.
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string",
-  null), process_name=ucast(map_get(input_event, "process_name"), "string", null),
-  process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event,
-  "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"),
-  "string", null) | where cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)grant/)=true
-  AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe")
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  match_regex(process_cmd_line, /(?i)grant/)=true AND (process_file_name="icacls.exe"
+  OR process_file_name="xcacls.exe" OR process_file_name="cacls.exe") 
+  | eval body=create_map(
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ],
+    "time", timestamp,
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
+    "message", concat("Grant Permission Using Cacls Utility has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "users", [
+        create_map(
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+        )
+    ],
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 1,
+    "risk_score", 35,
+    "severity_id", 0,
+    "rule", create_map("name", "Grant Permission Using Cacls Utility", "uid", "c6da561a-cd29-11eb-ae65-acde48001122", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
+  )
+  | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -26,40 +60,53 @@ known_false_positives: System administrators may use cacls utilities but this is
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
-  analytic_story:
-  - XMRig
-  - Insider Threat
-  cis20:
-  - CIS 14
-  - CIS 16
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1222
-  nist:
-  - PR.AC
-  - PR.IP
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 35
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/c6da561a-cd29-11eb-ae65-acde48001122/
-  event_schema: cim
+  event_schema: ocsf
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+  annotations:
+    analytic_story:
+    - XMRig
+    - Insider Threat
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1222
+    nist:
+    - DE.CM
 test:
   name: Grant Permission Using Cacls Utility Unit Test
   tests:
   - name: Grant Permission Using Cacls Utility
-    file: endpoint/ssa___grant_permission_using_cacls_utility.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: all_icalc.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
       source: WinEventLog:Security
+runtime: SPL-DSP

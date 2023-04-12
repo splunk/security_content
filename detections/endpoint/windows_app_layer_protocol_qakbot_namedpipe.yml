@@ -3,25 +3,27 @@ id: 63a2c15e-9448-43c5-a4a8-9852266aaada
 version: 1
 date: '2022-11-10'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
-description: The following analytic identifies a suspicious process creating or connecting to a possible Qakbot named pipe .
-  This technique was seen in Qakbot malware that creates named pipe after injecting its code in legitimate process to communicate 
-  on other process that also has an injected code to steal information on the compromised host. This Anomaly detection can be a 
-  good pivot for possible Qakbot infection. This detection looks for possible random generated named pipe (in GUID form) created by known process 
-  being abused by Qakbot.
-search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe") 
-  Image IN ("*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe")
-  | regex PipeName="^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}"
-  | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType ProcessGuid ProcessId PipeName SecurityID EventCode Computer UserID
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_app_layer_protocol_qakbot_namedpipe_filter`'
+description: The following analytic identifies a suspicious process creating or connecting
+  to a possible Qakbot named pipe . This technique was seen in Qakbot malware that
+  creates named pipe after injecting its code in legitimate process to communicate
+  on other process that also has an injected code to steal information on the compromised
+  host. This Anomaly detection can be a good pivot for possible Qakbot infection.
+  This detection looks for possible random generated named pipe (in GUID form) created
+  by known process being abused by Qakbot.
+data_source: []
+search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe")
+  Image IN ("*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe",
+  "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe",
+  "*\\msra.exe", "*\\xwizard.exe") | regex PipeName="^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}"
+  | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType
+  ProcessGuid ProcessId PipeName SecurityID EventCode Computer UserID | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_app_layer_protocol_qakbot_namedpipe_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, pipename, processguid and named pipe event type from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+  logs with the process name, pipename, processguid and named pipe event type from
+  your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of
+  the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://strontic.github.io/xcyclopedia/library/wermgr.exe-0F652BF7ADA772981E8AAB0D108FCC92.html
@@ -31,24 +33,11 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Command And Control
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: $Image$ is creating or connecting to a named pipe $PipeName$ in $Computer$
   mitre_attack_id:
   - T1071
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Endpoint
@@ -60,13 +49,20 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Image 
+  - Image
   - EventType
-  - ProcessGuid 
-  - ProcessId 
-  - PipeName 
-  - Computer 
+  - ProcessGuid
+  - ProcessId
+  - PipeName
+  - Computer
   - UserID
   - SecurityID
   risk_score: 49
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

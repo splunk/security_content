@@ -1,0 +1,60 @@
+name: Suspicious Reg exe Process
+id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
+version: 4
+date: '2020-07-22'
+author: David Dorsey, Splunk
+status: production
+type: Anomaly
+description: This search looks for reg.exe being launched from a command prompt not
+  started by the user. When a user launches cmd.exe, the parent process is usually
+  explorer.exe. This search filters out those instances.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith: cmd.exe
+    ParentImage: explorer.exe
+  condition: selection1
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: It's possible for system administrators to write scripts that
+  exhibit this behavior. If this is the case, the search will need to be modified
+  to filter them out.
+references:
+- https://car.mitre.org/wiki/CAR-2013-03-001/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Disabling Security Tools
+  - DHS Report TA18-074A
+  asset_type: Endpoint
+  confidence: 50
+  impact: 70
+  message: Suspicious $Processes.process_path.file_path$ process running with an uncommon
+    parent process $Processes.parent_process_name$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_path.file_path
+    type: File Name
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

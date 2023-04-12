@@ -1,0 +1,44 @@
+name: Spike in File Writes
+id: fdb0f805-74e4-4539-8c00-618927333aae
+version: 3
+date: '2020-03-16'
+author: David Dorsey, Splunk
+status: experimental
+type: Anomaly
+description: The search looks for a sharp increase in the number of files written
+  to a particular host
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    Filesystem.action: created
+  condition: selection1
+how_to_implement: In order to implement this search, you must populate the Endpoint
+  file-system data model node. This is typically populated via endpoint detection
+  and response product, such as Carbon Black or endpoint data sources such as Sysmon.
+  The data used for this search is typically generated via logs that report reads
+  and writes to the file system.
+known_false_positives: It is important to understand that if you happen to install
+  any new applications on your hosts or are copying a large number of files, you can
+  expect to see a large increase of file modifications.
+references: []
+tags:
+  analytic_story:
+  - SamSam Ransomware
+  - Ryuk Ransomware
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: tbd
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint

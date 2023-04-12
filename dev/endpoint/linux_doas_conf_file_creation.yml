@@ -1,0 +1,57 @@
+name: Linux Doas Conf File Creation
+id: f6343e86-6e09-11ec-9376-acde48001122
+version: 1
+date: '2022-01-05'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to detect the creation of doas.conf file in linux host
+  platform. This configuration file can be use by doas utility tool to allow or permit
+  standard users to perform tasks as root, the same way sudo does. This tool is developed
+  as a minimalistic alternative to sudo application. This tool can be abused advesaries,
+  attacker or malware to gain elevated privileges to the targeted or compromised host.
+  On the other hand this can also be executed by administrator for a certain task
+  that needs admin rights. In this case filter is needed.
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    TargetFilename: '*/etc/doas.conf'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://wiki.gentoo.org/wiki/Doas
+- https://www.makeuseof.com/how-to-install-and-use-doas/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: A file $file_name$ is created in $file_path$ on $dest$
+  mitre_attack_id:
+  - T1548.003
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

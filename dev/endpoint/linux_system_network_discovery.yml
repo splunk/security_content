@@ -1,0 +1,62 @@
+name: Linux System Network Discovery
+id: 535cb214-8b47-11ec-a2c7-acde48001122
+version: 1
+date: '2022-02-11'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to look for possible enumeration of local network configuration.
+  This technique is commonly used as part of recon of adversaries or threat actor
+  to know some network information for its next or further attack. This anomaly detections
+  may capture normal event made by administrator during auditing or testing network
+  connection of specific host or network to network.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith:
+    - arp
+    - ifconfig
+    - ip
+    - netstat
+    - firewall-cmd
+    - ufw
+    - iptables
+    - ss
+    - route
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1016/T1016.md
+tags:
+  analytic_story:
+  - Network Discovery
+  - Industroyer2
+  asset_type: endpoint
+  confidence: 30
+  impact: 30
+  message: A commandline $process$ executed on $dest$
+  mitre_attack_id:
+  - T1016
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

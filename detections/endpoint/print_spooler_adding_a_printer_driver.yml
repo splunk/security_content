@@ -3,9 +3,8 @@ id: 313681a2-da8e-11eb-adad-acde48001122
 version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: 'The following analytic identifies new printer drivers being load by
   utilizing the Windows PrintService operational logs, EventCode 316. This was identified
   during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare.
@@ -18,6 +17,8 @@ description: 'The following analytic identifies new printer drivers being load b
   During triage, isolate the endpoint and review for source of exploitation. Capture
   any additional file modification events and review the source of where the exploitation
   began.'
+data_source:
+- Sysmon Event ID 3
 search: '`printservice` EventCode=316 category = "Adding a printer driver" Message
   = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" | stats  count
   min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName
@@ -34,21 +35,12 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
+  asset_type: Endpoint
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  - Stage:Privilege Escalation
-  - Stage:Defense Evasion
-  - Scope:Inbound
   cve:
   - CVE-2021-34527
   - CVE-2021-1675
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious print driver was loaded on endpoint $ComputerName$.
   mitre_attack_id:
   - T1547.012
@@ -70,4 +62,9 @@ tags:
   - Message
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
+    source: WinEventLog:Microsoft-Windows-PrintService/Operational
+    sourcetype: WinEventLog

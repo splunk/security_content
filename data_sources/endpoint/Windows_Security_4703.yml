@@ -1,0 +1,34 @@
+name: Windows Security 4703
+id: 71d7a7dc-7517-4e8b-9c86-025b548be66b
+date: '2022-12-02'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4703
+raw_fields: 
+- Caller_Domain
+- Caller_User_Name
+- Computer
+- DisabledPrivilegeList
+- EnabledPrivilegeList
+- Guid
+- Logon_ID
+- ProcessId
+- ProcessName
+- SubjectDomainName
+- SubjectLogonId
+- SubjectUserName
+- SubjectUserSid
+- TargetDomainName
+- TargetLogonId
+- TargetUserName
+- TargetUserSid
+

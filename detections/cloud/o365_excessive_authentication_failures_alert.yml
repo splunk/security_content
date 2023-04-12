@@ -3,10 +3,11 @@ id: d441364c-349c-453b-b55f-12eccab67cf9
 version: 2
 date: '2022-02-18'
 author: Rod Soto, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search detects when an excessive number of authentication failures
   occur this search also includes attempts against MFA prompt codes
+data_source: []
 search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=*
   status=failure | stats count earliest(_time) AS firstTime latest(_time) AS lastTime
   values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS
@@ -24,17 +25,7 @@ tags:
   - Office 365 Detections
   asset_type: Office 365
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  - Stage:Initial Access
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: User $user$ has caused excessive number of authentication failures from
     $src_ip$ using UserAgent $UserAgent$.
   mitre_attack_id:
@@ -62,3 +53,9 @@ tags:
   - user
   risk_score: 64
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
+    sourcetype: o365:management:activity
+    source: o365

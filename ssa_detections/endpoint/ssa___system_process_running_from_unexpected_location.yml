@@ -1,0 +1,303 @@
+name: System Process Running from Unexpected Location
+id: 28179107-099a-464a-94d3-08301e6c055f
+version: 4
+date: '2022-03-24'
+author: Jose Hernadnez, Ignacio Bermudez Corrales, Splunk
+type: Anomaly
+status: production
+description: An attacker tries might try to use different version of a system command
+  without overriding original, or they might try to avoid some detection running the
+  process from a different folder. This detection checks that a list of system processes
+  run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes
+  has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv
+  and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
+data_source:
+- Windows Security 4688
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (process_file_name="xwizard.exe" OR process_file_name="xpsrchvw.exe" OR process_file_name="xcopy.exe"
+  OR process_file_name="wusa.exe" OR process_file_name="wuauclt.exe" OR process_file_name="wuapp.exe"
+  OR process_file_name="wuapihost.exe" OR process_file_name="wsqmcons.exe" OR process_file_name="wsmprovhost.exe"
+  OR process_file_name="wscript.exe" OR process_file_name="write.exe" OR process_file_name="wpr.exe"
+  OR process_file_name="wpnpinst.exe" OR process_file_name="wowreg32.exe" OR process_file_name="wlrmdr.exe"
+  OR process_file_name="wlanext.exe" OR process_file_name="wksprt.exe" OR process_file_name="wkspbroker.exe"
+  OR process_file_name="wisptis.exe" OR process_file_name="winver.exe" OR process_file_name="winrshost.exe"
+  OR process_file_name="winrs.exe" OR process_file_name="winresume.exe" OR process_file_name="winlogon.exe"
+  OR process_file_name="winload.exe" OR process_file_name="wininit.exe" OR process_file_name="wimserv.exe"
+  OR process_file_name="wifitask.exe" OR process_file_name="wiawow64.exe" OR process_file_name="wiaacmgr.exe"
+  OR process_file_name="whoami.exe" OR process_file_name="where.exe" OR process_file_name="wextract.exe"
+  OR process_file_name="wevtutil.exe" OR process_file_name="wermgr.exe" OR process_file_name="wecutil.exe"
+  OR process_file_name="wbengine.exe" OR process_file_name="wbadmin.exe" OR process_file_name="waitfor.exe"
+  OR process_file_name="w32tm.exe" OR process_file_name="vssadmin.exe" OR process_file_name="vmicsvc.exe"
+  OR process_file_name="verifiergui.exe" OR process_file_name="verifier.exe" OR process_file_name="verclsid.exe"
+  OR process_file_name="vdsldr.exe" OR process_file_name="vds.exe" OR process_file_name="userinit.exe"
+  OR process_file_name="upnpcont.exe" OR process_file_name="unregmp2.exe" OR process_file_name="unlodctr.exe"
+  OR process_file_name="ucsvc.exe" OR process_file_name="tzutil.exe" OR process_file_name="tzsync.exe"
+  OR process_file_name="typeperf.exe" OR process_file_name="tskill.exe" OR process_file_name="tsdiscon.exe"
+  OR process_file_name="tscon.exe" OR process_file_name="tracerpt.exe" OR process_file_name="tpmvscmgrsvr.exe"
+  OR process_file_name="tpmvscmgr.exe" OR process_file_name="timeout.exe" OR process_file_name="tcmsetup.exe"
+  OR process_file_name="taskmgr.exe" OR process_file_name="tasklist.exe" OR process_file_name="taskkill.exe"
+  OR process_file_name="taskhostw.exe" OR process_file_name="taskhost.exe" OR process_file_name="taskeng.exe"
+  OR process_file_name="takeown.exe" OR process_file_name="tabcal.exe" OR process_file_name="systray.exe"
+  OR process_file_name="systemreset.exe" OR process_file_name="systeminfo.exe" OR
+  process_file_name="syskey.exe" OR process_file_name="sxstrace.exe" OR process_file_name="svchost.exe"
+  OR process_file_name="subst.exe" OR process_file_name="srdelayed.exe" OR process_file_name="spreview.exe"
+  OR process_file_name="sppsvc.exe" OR process_file_name="spoolsv.exe" OR process_file_name="spinstall.exe"
+  OR process_file_name="sort.exe" OR process_file_name="snmptrap.exe" OR process_file_name="smss.exe"
+  OR process_file_name="slui.exe" OR process_file_name="sihost.exe" OR process_file_name="sigverif.exe"
+  OR process_file_name="shutdown.exe" OR process_file_name="shrpubw.exe" OR process_file_name="shadow.exe"
+  OR process_file_name="sfc.exe" OR process_file_name="setx.exe" OR process_file_name="setupugc.exe"
+  OR process_file_name="setupcl.exe" OR process_file_name="setspn.exe" OR process_file_name="sethc.exe"
+  OR process_file_name="sessionmsg.exe" OR process_file_name="services.exe" OR process_file_name="secinit.exe"
+  OR process_file_name="sdiagnhost.exe" OR process_file_name="sdclt.exe" OR process_file_name="sdchange.exe"
+  OR process_file_name="sdbinst.exe" OR process_file_name="schtasks.exe" OR process_file_name="sc.exe"
+  OR process_file_name="sbunattend.exe" OR process_file_name="rwinsta.exe" OR process_file_name="runonce.exe"
+  OR process_file_name="rundll32.exe" OR process_file_name="runas.exe" OR process_file_name="rstrui.exe"
+  OR process_file_name="rrinstaller.exe" OR process_file_name="rmttpmvscmgrsvr.exe"
+  OR process_file_name="resmon.exe" OR process_file_name="reset.exe" OR process_file_name="replace.exe"
+  OR process_file_name="repair-bde.exe" OR process_file_name="relog.exe" OR process_file_name="rekeywiz.exe"
+  OR process_file_name="regsvr32.exe" OR process_file_name="regini.exe" OR process_file_name="regedt32.exe"
+  OR process_file_name="reg.exe" OR process_file_name="recover.exe" OR process_file_name="recdisc.exe"
+  OR process_file_name="rdrleakdiag.exe" OR process_file_name="rdpinput.exe" OR process_file_name="rdpclip.exe"
+  OR process_file_name="rasphone.exe" OR process_file_name="raserver.exe" OR process_file_name="rasdial.exe"
+  OR process_file_name="rasautou.exe" OR process_file_name="qwinsta.exe" OR process_file_name="quser.exe"
+  OR process_file_name="query.exe" OR process_file_name="qprocess.exe" OR process_file_name="qappsrv.exe"
+  OR process_file_name="pwlauncher.exe" OR process_file_name="psr.exe" OR process_file_name="provtool.exe"
+  OR process_file_name="proquota.exe" OR process_file_name="printui.exe" OR process_file_name="printfilterpipelinesvc.exe"
+  OR process_file_name="print.exe" OR process_file_name="prevhost.exe" OR process_file_name="powercfg.exe"
+  OR process_file_name="poqexec.exe" OR process_file_name="plasrv.exe" OR process_file_name="phoneactivate.exe"
+  OR process_file_name="perfmon.exe" OR process_file_name="pcwrun.exe" OR process_file_name="pcawrk.exe"
+  OR process_file_name="pcaui.exe" OR process_file_name="pcalua.exe" OR process_file_name="p2phost.exe"
+  OR process_file_name="osk.exe" OR process_file_name="openfiles.exe" OR process_file_name="omadmprc.exe"
+  OR process_file_name="omadmclient.exe" OR process_file_name="odbcconf.exe" OR process_file_name="odbcad32.exe"
+  OR process_file_name="ocsetup.exe" OR process_file_name="ntprint.exe" OR process_file_name="ntoskrnl.exe"
+  OR process_file_name="nslookup.exe" OR process_file_name="notepad.exe" OR process_file_name="nltest.exe"
+  OR process_file_name="newdev.exe" OR process_file_name="netsh.exe" OR process_file_name="netiougc.exe"
+  OR process_file_name="netcfg.exe" OR process_file_name="netbtugc.exe" OR process_file_name="net1.exe"
+  OR process_file_name="net.exe" OR process_file_name="ndadmin.exe" OR process_file_name="nbtstat.exe"
+  OR process_file_name="mtstocom.exe" OR process_file_name="mstsc.exe" OR process_file_name="msra.exe"
+  OR process_file_name="mspaint.exe" OR process_file_name="msinfo32.exe" OR process_file_name="msiexec.exe"
+  OR process_file_name="mshta.exe" OR process_file_name="msg.exe" OR process_file_name="msfeedssync.exe"
+  OR process_file_name="msdtc.exe" OR process_file_name="msdt.exe" OR process_file_name="msconfig.exe"
+  OR process_file_name="mpnotify.exe" OR process_file_name="mountvol.exe" OR process_file_name="mobsync.exe"
+  OR process_file_name="mmc.exe" OR process_file_name="mfpmp.exe" OR process_file_name="mctadmin.exe"
+  OR process_file_name="mcbuilder.exe" OR process_file_name="mblctr.exe" OR process_file_name="manage-bde.exe"
+  OR process_file_name="makecab.exe" OR process_file_name="lsm.exe" OR process_file_name="lsass.exe"
+  OR process_file_name="lpremove.exe" OR process_file_name="lpksetup.exe" OR process_file_name="lpkinstall.exe"
+  OR process_file_name="logoff.exe" OR process_file_name="logman.exe" OR process_file_name="logagent.exe"
+  OR process_file_name="lodctr.exe" OR process_file_name="licensingdiag.exe" OR process_file_name="label.exe"
+  OR process_file_name="ktmutil.exe" OR process_file_name="ksetup.exe" OR process_file_name="klist.exe"
+  OR process_file_name="isoburn.exe" OR process_file_name="iscsicpl.exe" OR process_file_name="iscsicli.exe"
+  OR process_file_name="irftp.exe" OR process_file_name="ipconfig.exe" OR process_file_name="immersivetpmvscmgrsvr.exe"
+  OR process_file_name="iexpress.exe" OR process_file_name="ieetwcollector.exe" OR
+  process_file_name="ieunatt.exe" OR process_file_name="ie4uinit.exe" OR process_file_name="icsunattend.exe"
+  OR process_file_name="icardagt.exe" OR process_file_name="icacls.exe" OR process_file_name="hwrreg.exe"
+  OR process_file_name="hwrcomp.exe" OR process_file_name="help.exe" OR process_file_name="hdwwiz.exe"
+  OR process_file_name="grpconv.exe" OR process_file_name="gpupdate.exe" OR process_file_name="gpscript.exe"
+  OR process_file_name="gpresult.exe" OR process_file_name="getmac.exe" OR process_file_name="fveprompt.exe"
+  OR process_file_name="fvenotify.exe" OR process_file_name="ftp.exe" OR process_file_name="fsutil.exe"
+  OR process_file_name="fsquirt.exe" OR process_file_name="fsavailux.exe" OR process_file_name="forfiles.exe"
+  OR process_file_name="fontview.exe" OR process_file_name="fontdrvhost.exe" OR process_file_name="fodhelper.exe"
+  OR process_file_name="fltmc.exe" OR process_file_name="fixmapi.exe" OR process_file_name="finger.exe"
+  OR process_file_name="findstr.exe" OR process_file_name="find.exe" OR process_file_name="fhmanagew.exe"
+  OR process_file_name="fc.exe" OR process_file_name="extrac32.exe" OR process_file_name="expand.exe"
+  OR process_file_name="eventvwr.exe" OR process_file_name="eventcreate.exe" OR process_file_name="eudcedit.exe"
+  OR process_file_name="esentutl.exe" OR process_file_name="embeddedapplauncher.exe"
+  OR process_file_name="efsui.exe" OR process_file_name="easinvoker.exe" OR process_file_name="dxdiag.exe"
+  OR process_file_name="dwm.exe" OR process_file_name="dvdupgrd.exe" OR process_file_name="dvdplay.exe"
+  OR process_file_name="dstokenclean.exe" OR process_file_name="dsregcmd.exe" OR process_file_name="drvinst.exe"
+  OR process_file_name="drvcfg.exe" OR process_file_name="driverquery.exe" OR process_file_name="dpnsvr.exe"
+  OR process_file_name="dpapimig.exe" OR process_file_name="doskey.exe" OR process_file_name="dnscacheugc.exe"
+  OR process_file_name="dmclient.exe" OR process_file_name="dmcfghost.exe" OR process_file_name="dmcertinst.exe"
+  OR process_file_name="dllhst3g.exe" OR process_file_name="dllhost.exe" OR process_file_name="djoin.exe"
+  OR process_file_name="dispdiag.exe" OR process_file_name="diskraid.exe" OR process_file_name="diskperf.exe"
+  OR process_file_name="diskpart.exe" OR process_file_name="dinotify.exe" OR process_file_name="diantz.exe"
+  OR process_file_name="dialer.exe" OR process_file_name="dfrgui.exe" OR process_file_name="ddodiag.exe"
+  OR process_file_name="dcomcnfg.exe" OR process_file_name="dccw.exe" OR process_file_name="dashost.exe"
+  OR process_file_name="cttunesvr.exe" OR process_file_name="cttune.exe" OR process_file_name="ctfmon.exe"
+  OR process_file_name="csrss.exe" OR process_file_name="cscript.exe" OR process_file_name="credwiz.exe"
+  OR process_file_name="convert.exe" OR process_file_name="control.exe" OR process_file_name="consent.exe"
+  OR process_file_name="conhost.exe" OR process_file_name="compact.exe" OR process_file_name="comp.exe"
+  OR process_file_name="colorcpl.exe" OR process_file_name="cofire.exe" OR process_file_name="cmstp.exe"
+  OR process_file_name="cmmon32.exe" OR process_file_name="cmdl32.exe" OR process_file_name="cmdkey.exe"
+  OR process_file_name="cmd.exe" OR process_file_name="clip.exe" OR process_file_name="cliconfg.exe"
+  OR process_file_name="cleanmgr.exe" OR process_file_name="cipher.exe" OR process_file_name="choice.exe"
+  OR process_file_name="chkntfs.exe" OR process_file_name="chkdsk.exe" OR process_file_name="chgusr.exe"
+  OR process_file_name="chgport.exe" OR process_file_name="chglogon.exe" OR process_file_name="charmap.exe"
+  OR process_file_name="changepk.exe" OR process_file_name="change.exe" OR process_file_name="certutil.exe"
+  OR process_file_name="certreq.exe" OR process_file_name="cdpreference.exe" OR process_file_name="calc.exe"
+  OR process_file_name="cacls.exe" OR process_file_name="bthudtask.exe" OR process_file_name="browser_broker.exe"
+  OR process_file_name="bridgeunattend.exe" OR process_file_name="bootsect.exe" OR
+  process_file_name="bootim.exe" OR process_file_name="bootcfg.exe" OR process_file_name="bitsadmin.exe"
+  OR process_file_name="bdeunlock.exe" OR process_file_name="bdechangepin.exe" OR
+  process_file_name="bcdedit.exe" OR process_file_name="bcdboot.exe" OR process_file_name="bcastdvr.exe"
+  OR process_file_name="backgroundtaskhost.exe" OR process_file_name="baaupdate.exe"
+  OR process_file_name="autofmt.exe" OR process_file_name="autoconv.exe" OR process_file_name="autochk.exe"
+  OR process_file_name="auditpol.exe" OR process_file_name="audiodg.exe" OR process_file_name="attrib.exe"
+  OR process_file_name="at.exe" OR process_file_name="appidpolicyconverter.exe" OR
+  process_file_name="appidcertstorecheck.exe" OR process_file_name="alg.exe" OR process_file_name="aitstatic.exe"
+  OR process_file_name="aitagent.exe" OR process_file_name="acu.exe" OR process_file_name="wpcmon.exe"
+  OR process_file_name="workfolders.exe" OR process_file_name="windowsupdateelevatedinstaller.exe"
+  OR process_file_name="windowsanytimeupgradeui.exe" OR process_file_name="windowsanytimeupgraderesults.exe"
+  OR process_file_name="windowsanytimeupgrade.exe" OR process_file_name="windowsactiondialog.exe"
+  OR process_file_name="windows.media.backgroundplayback.exe" OR process_file_name="winsat.exe"
+  OR process_file_name="werfaultsecure.exe" OR process_file_name="werfault.exe" OR
+  process_file_name="webcache.exe" OR process_file_name="wallpaperhost.exe" OR process_file_name="wwahost.exe"
+  OR process_file_name="wudfhost.exe" OR process_file_name="wsreset.exe" OR process_file_name="wsmanhttpconfig.exe"
+  OR process_file_name="wscollect.exe" OR process_file_name="wpdshextautoplay.exe"
+  OR process_file_name="wmpdmc.exe" OR process_file_name="wfs.exe" OR process_file_name="vaultsysui.exe"
+  OR process_file_name="vaultcmd.exe" OR process_file_name="vssvc.exe" OR process_file_name="utilman.exe"
+  OR process_file_name="usoclient.exe" OR process_file_name="useraccountcontrolsettings.exe"
+  OR process_file_name="useraccountbroker.exe" OR process_file_name="upgraderesultsui.exe"
+  OR process_file_name="ui0detect.exe" OR process_file_name="tswpfwrp.exe" OR process_file_name="tpminit.exe"
+  OR process_file_name="tokenbrokercookies.exe" OR process_file_name="thumbnailextractionhost.exe"
+  OR process_file_name="taskmgr.exe" OR process_file_name="tapiunattend.exe" OR process_file_name="tswbprxy.exe"
+  OR process_file_name="tstheme.exe" OR process_file_name="tracert.exe" OR process_file_name="tcpsvcs.exe"
+  OR process_file_name="systemsettingsremovedevice.exe" OR process_file_name="systemsettingsbroker.exe"
+  OR process_file_name="systemsettingsadminflows.exe" OR process_file_name="systempropertiesremote.exe"
+  OR process_file_name="systempropertiesprotection.exe" OR process_file_name="systempropertiesperformance.exe"
+  OR process_file_name="systempropertieshardware.exe" OR process_file_name="systempropertiesdataexecutionprevention.exe"
+  OR process_file_name="systempropertiescomputername.exe" OR process_file_name="systempropertiesadvanced.exe"
+  OR process_file_name="sysreseterr.exe" OR process_file_name="synchost.exe" OR process_file_name="stikynot.exe"
+  OR process_file_name="srtasks.exe" OR process_file_name="sppextcomobj.exe" OR process_file_name="spaceagent.exe"
+  OR process_file_name="soundrecorder.exe" OR process_file_name="snippingtool.exe"
+  OR process_file_name="sndvol.exe" OR process_file_name="smartscreensettings.exe"
+  OR process_file_name="slidetoshutdown.exe" OR process_file_name="settingsynchost.exe"
+  OR process_file_name="setieinstalleddate.exe" OR process_file_name="sensordataservice.exe"
+  OR process_file_name="secedit.exe" OR process_file_name="searchprotocolhost.exe"
+  OR process_file_name="searchindexer.exe" OR process_file_name="searchfilterhost.exe"
+  OR process_file_name="sihclient.exe" OR process_file_name="runtimebroker.exe" OR
+  process_file_name="runlegacycplelevated.exe" OR process_file_name="rpcping.exe"
+  OR process_file_name="rmclient.exe" OR process_file_name="remoteposworker.exe" OR
+  process_file_name="relpost.exe" OR process_file_name="registeriepkeys.exe" OR process_file_name="register-cimprovider.exe"
+  OR process_file_name="recoverydrive.exe" OR process_file_name="reagentc.exe" OR
+  process_file_name="rdpsauachelper.exe" OR process_file_name="rdpsaproxy.exe" OR
+  process_file_name="rdpsa.exe" OR process_file_name="route.exe" OR process_file_name="rmactivate_ssp_isv.exe"
+  OR process_file_name="rmactivate_ssp.exe" OR process_file_name="rmactivate_isv.exe"
+  OR process_file_name="rmactivate.exe" OR process_file_name="rdspnf.exe" OR process_file_name="proximityuxhost.exe"
+  OR process_file_name="printisolationhost.exe" OR process_file_name="printdialoghost3d.exe"
+  OR process_file_name="printdialoghost.exe" OR process_file_name="printbrmui.exe"
+  OR process_file_name="presentationsettings.exe" OR process_file_name="presentationhost.exe"
+  OR process_file_name="pnputil.exe" OR process_file_name="pnpunattend.exe" OR process_file_name="pkgmgr.exe"
+  OR process_file_name="pickerhost.exe" OR process_file_name="passwordonwakesettingflyout.exe"
+  OR process_file_name="ping.exe" OR process_file_name="pathping.exe" OR process_file_name="optionalfeatures.exe"
+  OR process_file_name="openwith.exe" OR process_file_name="networkuxbroker.exe" OR
+  process_file_name="netplwiz.exe" OR process_file_name="netproj.exe" OR process_file_name="netevtfwdr.exe"
+  OR process_file_name="netcfgnotifyobjecthost.exe" OR process_file_name="narrator.exe"
+  OR process_file_name="netstat.exe" OR process_file_name="napstat.exe" OR process_file_name="musnotificationux.exe"
+  OR process_file_name="musnotification.exe" OR process_file_name="multidigimon.exe"
+  OR process_file_name="muiunattend.exe" OR process_file_name="msspellcheckinghost.exe"
+  OR process_file_name="mpsigstub.exe" OR process_file_name="migautoplay.exe" OR process_file_name="mdsched.exe"
+  OR process_file_name="mdres.exe" OR process_file_name="mbaeparsertask.exe" OR process_file_name="magnify.exe"
+  OR process_file_name="mschedexe.exe" OR process_file_name="mrt.exe" OR process_file_name="mrinfo.exe"
+  OR process_file_name="mdmappinstaller.exe" OR process_file_name="mdmagent.exe" OR
+  process_file_name="mdeserver.exe" OR process_file_name="lsaiso.exe" OR process_file_name="logonui.exe"
+  OR process_file_name="lockscreencontentserver.exe" OR process_file_name="lockapphost.exe"
+  OR process_file_name="locator.exe" OR process_file_name="locationnotifications.exe"
+  OR process_file_name="locationnotificationwindows.exe" OR process_file_name="licensingui.exe"
+  OR process_file_name="licensemanagershellext.exe" OR process_file_name="legacynetuxhost.exe"
+  OR process_file_name="launchwinapp.exe" OR process_file_name="launchtm.exe" OR process_file_name="languagecomponentsinstallercomhandler.exe"
+  OR process_file_name="installagent.exe" OR process_file_name="infdefaultinstall.exe"
+  OR process_file_name="icsentitlementhost.exe" OR process_file_name="hostname.exe"
+  OR process_file_name="gettingstarted.exe" OR process_file_name="genvalobj.exe" OR
+  process_file_name="gamepanel.exe" OR process_file_name="fondue.exe" OR process_file_name="filehistory.exe"
+  OR process_file_name="fxsunatd.exe" OR process_file_name="fxssvc.exe" OR process_file_name="fxscover.exe"
+  OR process_file_name="ehstorauthn.exe" OR process_file_name="easeofaccessdialog.exe"
+  OR process_file_name="easpoliciesbrokerhost.exe" OR process_file_name="eap3host.exe"
+  OR process_file_name="eosnotify.exe" OR process_file_name="edpcleanup.exe" OR process_file_name="dxpserver.exe"
+  OR process_file_name="dsmusertask.exe" OR process_file_name="dpiscaling.exe" OR
+  process_file_name="dmomacpmo.exe" OR process_file_name="dmnotificationbroker.exe"
+  OR process_file_name="displayswitch.exe" OR process_file_name="dism.exe" OR process_file_name="disksnapshot.exe"
+  OR process_file_name="deviceproperties.exe" OR process_file_name="devicepairingwizard.exe"
+  OR process_file_name="deviceenroller.exe" OR process_file_name="deviceeject.exe"
+  OR process_file_name="devicedisplayobjectprovider.exe" OR process_file_name="defrag.exe"
+  OR process_file_name="dataexchangehost.exe" OR process_file_name="dwwin.exe" OR
+  process_file_name="dfdwiz.exe" OR process_file_name="credentialuibroker.exe" OR
+  process_file_name="computerdefaults.exe" OR process_file_name="compattelrunner.exe"
+  OR process_file_name="compmgmtlauncher.exe" OR process_file_name="cloudstoragewizard.exe"
+  OR process_file_name="cloudnotifications.exe" OR process_file_name="cloudexperiencehostbroker.exe"
+  OR process_file_name="clipup.exe" OR process_file_name="checknetisolation.exe" OR
+  process_file_name="certenrollctrl.exe" OR process_file_name="castsrv.exe" OR process_file_name="camerasettingsuihost.exe"
+  OR process_file_name="bytecodegenerator.exe" OR process_file_name="bitlockerwizardelev.exe"
+  OR process_file_name="bitlockerwizard.exe" OR process_file_name="bitlockerdeviceencryption.exe"
+  OR process_file_name="bdeunlockwizard.exe" OR process_file_name="bdeuisrv.exe" OR
+  process_file_name="bdehdcfg.exe" OR process_file_name="backgroundtransferhost.exe"
+  OR process_file_name="axinstui.exe" OR process_file_name="autoworkplace.exe" OR
+  process_file_name="authhost.exe" OR process_file_name="atbroker.exe" OR process_file_name="applicationframehost.exe"
+  OR process_file_name="adaptertroubleshooter.exe" OR process_file_name="arp.exe")
+  AND (NOT match_regex(process_file_path, /(?i)\\windows\\syswow64/)=true) AND (NOT
+  match_regex(process_file_path, /(?i)\\windows\\system32/)=true) --finding_report--'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: None
+references: []
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Masquerading - Rename System Utilities
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: A system process $process_name$ with commandline $process$ spawn in non-default
+    folder path in host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  observable:
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.path
+    type: File
+  - name: process.file.name
+    type: File
+  - name: process.cmd_line
+    type: Other
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process.user.name
+  - device.hostname
+  - process.file.path
+  - process.file.name
+  - process.cmd_line
+  risk_score: 56
+  security_domain: endpoint
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
+    source: WinEventLog:Security

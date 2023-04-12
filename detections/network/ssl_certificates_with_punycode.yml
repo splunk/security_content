@@ -1,0 +1,63 @@
+name: SSL Certificates with Punycode
+id: 696694df-5706-495a-81f2-79501fa11b90
+version: 1
+date: '2022-11-01'
+author: Michael Haag, Splunk
+status: experimental
+type: Hunting
+description: The following analytic utilizes the Certificates Datamodel to look for
+  punycode domains, starting with xn--, found in the SSL issuer email domain. The
+  presence of punycode here does not equate to evil, therefore we need to decode the
+  punycode to determine what it translates to. Remove the CyberChef recipe as needed
+  and decode manually. Note that this is not the exact location of the malicious punycode
+  to trip CVE-2022-3602, but a method to at least identify fuzzing occurring on these
+  email paths. What does evil look like? it will start with
+data_source: []
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Certificates.All_Certificates by All_Certificates.SSL.ssl_issuer_email_domain
+  All_Certificates.SSL.ssl_issuer All_Certificates.SSL.ssl_subject_email All_Certificates.SSL.dest
+  All_Certificates.SSL.src All_Certificates.SSL.sourcetype All_Certificates.SSL.ssl_subject_email_domain
+  | `drop_dm_object_name("All_Certificates.SSL")` | eval punycode=if(like(ssl_issuer_email_domain,"%xn--%"),1,0)
+  | where punycode=1 | cyberchef infield="ssl_issuer_email_domain" outfield="convertedPuny"
+  jsonrecipe="[{"op":"From Punycode","args":[true]}]" | table ssl_issuer_email_domain
+  convertedPuny ssl_issuer ssl_subject_email dest src sourcetype ssl_subject_email_domain
+  | `ssl_certificates_with_punycode_filter`'
+how_to_implement: Ensure data is properly being ingested into the Certificates datamodel.
+  If decoding the of interest, the CyberChef app is needed https://splunkbase.splunk.com/app/5348.
+  If decoding is not needed, remove the cyberchef lines.
+known_false_positives: False positives may be present if the organization works with
+  international businesses. Filter as needed.
+references:
+- https://www.splunk.com/en_us/blog/security/nothing-puny-about-cve-2022-3602.html
+- https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
+- https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
+- https://github.com/corelight/CVE-2022-3602/tree/master/scripts
+tags:
+  analytic_story:
+  - OpenSSL CVE-2022-3602
+  asset_type: Network
+  confidence: 30
+  impact: 50
+  message: A x509 certificate has been identified to have punycode in the SSL issuer
+    email domain on $dest$.
+  mitre_attack_id:
+  - T1573
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - All_Certificates.SSL.ssl_issuer_email_domain
+  - All_Certificates.SSL.ssl_issuer
+  - All_Certificates.SSL.ssl_subject_email
+  - All_Certificates.SSL.dest
+  - All_Certificates.SSL.src
+  - All_Certificates.SSL.sourcetype
+  - All_Certificates.SSL.ssl_subject_email_domain
+  risk_score: 15
+  security_domain: network
