@@ -19,8 +19,6 @@ references: []
 tags:
   analytic_story:
   - Cloud Cryptomining
-  deployments:
-  - Hourly Cache Updates
   detections:
   - Cloud Compute Instance Created By Previously Unseen User
   product:
@@ -33,3 +31,9 @@ tags:
   - All_Changes.object_category
   - All_Changes.user
   security_domain: network
+deployment:
+  scheduling:
+    cron_schedule: 55 * * * *
+    earliest_time: -70m@m
+    latest_time: -10m@m
+    schedule_window: auto

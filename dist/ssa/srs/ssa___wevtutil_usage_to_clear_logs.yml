@@ -4,21 +4,55 @@ version: 2
 description: The wevtutil.exe application is the windows event log utility. This searches
   for wevtutil.exe with parameters for clearing the application, security, setup,
   powershell, sysmon, or system event logs.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event,
-  "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"),
-  "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"),
-  "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
-  | where cmd_line IS NOT NULL AND like(cmd_line, "% cl %") AND (match_regex(cmd_line,
-  /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line,
-  /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line,
-  /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name="wevtutil.exe"
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)) | eval body=create_map(["event_id", event_id, "cmd_line", cmd_line,
-  "process_name", process_name, "parent_process_name", parent_process_name, "process_path",
-  process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (match_regex(process_cmd_line, /(?i)powershell/)=true OR match_regex(process_cmd_line,
+  /(?i)setup/)=true OR match_regex(process_cmd_line, /(?i)application/)=true OR match_regex(process_cmd_line,
+  /(?i)sysmon/)=true OR match_regex(process_cmd_line, /(?i)system/)=true OR match_regex(process_cmd_line,
+  /(?i)security/)=true) AND like(process_cmd_line, "% cl %") AND process_file_name="wevtutil.exe"
+  
+  | eval body=create_map(
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ],
+    "time", timestamp,
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
+    "message", concat("WevtUtil Usage To Clear Logs has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "users", [
+        create_map(
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+        )
+    ],
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 3,
+    "risk_score", 63,
+    "severity_id", 0,
+    "rule", create_map("name", "WevtUtil Usage To Clear Logs", "uid", "5438113c-cdd9-11eb-93b8-acde48001122", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
+  )
+  | into write_ba_finding_events();'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
@@ -29,43 +63,57 @@ known_false_positives: The wevtutil.exe application is a legitimate Windows even
 references:
 - https://www.splunk.com/en_us/blog/security/detecting-clop-ransomware.html
 tags:
-  analytic_story:
-  - Windows Log Manipulation
-  - Ransomware
-  - Clop Ransomware
-  - Insider Threat
-  - CISA AA22-264A
-  cis20:
-  - CIS 8
-  - CIS 13
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1070
-  - T1070.001
-  nist:
-  - PR.DS
-  - PR.IP
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 63
   security_domain: endpoint
   risk_severity: medium
   research_site_url: https://research.splunk.com/endpoint/5438113c-cdd9-11eb-93b8-acde48001122/
-  event_schema: cim
+  event_schema: ocsf
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+  annotations:
+    analytic_story:
+    - Windows Log Manipulation
+    - Ransomware
+    - Clop Ransomware
+    - Insider Threat
+    - CISA AA22-264A
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1070
+    - T1070.001
+    nist:
+    - DE.CM
 test:
   name: WevtUtil Usage To Clear Logs Unit Test
   tests:
   - name: WevtUtil Usage To Clear Logs
-    file: endpoint/ssa___wevtutil_usage_to_clear_logs.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: clear_evt.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
       source: WinEventLog:Security
+runtime: SPL-DSP

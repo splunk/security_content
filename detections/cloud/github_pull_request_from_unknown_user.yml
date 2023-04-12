@@ -3,9 +3,10 @@ id: 9d7b9100-8878-4404-914e-ca5e551a641e
 version: 1
 date: '2021-09-01'
 author: Patrick Bareiss, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search looks for Pull Request from unknown user.
+data_source: []
 search: '`github` check_suite.pull_requests{}.id=* | stats count by check_suite.head_commit.author.name
   repository.full_name check_suite.pull_requests{}.head.ref check_suite.head_commit.message
   | rename check_suite.head_commit.author.name as user repository.full_name as repository
@@ -21,24 +22,12 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: GitHub
-  cis20:
-  - CIS 13
   confidence: 90
-  context:
-  - Source:Application Log
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json
   impact: 30
-  kill_chain_phases:
-  - Actions on Objectives
   message: Vulnerabilities found in packages used by GitHub repository $repository$
   mitre_attack_id:
   - T1195.001
   - T1195
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: repository
     type: Unknown
@@ -63,3 +52,9 @@ tags:
   - alert.severity
   risk_score: 27
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json
+    sourcetype: aws:firehose:json
+    source: github

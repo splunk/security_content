@@ -3,20 +3,23 @@ id: e13ceade-b673-4d34-adc4-4d9c01729753
 version: 1
 date: '2022-10-14'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic identifies the usage of mshta.exe Windows binary in registry to execute malicious script.
-  This technique was seen in kovter malware where it create several registry entry which is a encoded javascript and will be executed by 
-  another registry containing mshta and javascript activexobject to execute the encoded script using wscript.shell. 
-  This TTP is a good indication of kovter malware or other adversaries or threat actors leveraging fileless detection that survive system reboot.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  where Registry.registry_value_data = "*mshta*" OR Registry.registry_value_data IN ("*javascript:*", "*vbscript:*","*WScript.Shell*")
-  by Registry.registry_key_name Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_mshta_execution_in_registry_filter`'
+description: The following analytic identifies the usage of mshta.exe Windows binary
+  in registry to execute malicious script. This technique was seen in kovter malware
+  where it create several registry entry which is a encoded javascript and will be
+  executed by another registry containing mshta and javascript activexobject to execute
+  the encoded script using wscript.shell. This TTP is a good indication of kovter
+  malware or other adversaries or threat actors leveraging fileless detection that
+  survive system reboot.
+data_source:
+- Sysmon Event ID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_value_data
+  = "*mshta*" OR Registry.registry_value_data IN ("*javascript:*", "*vbscript:*","*WScript.Shell*")
+  by Registry.registry_key_name Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_mshta_execution_in_registry_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -32,24 +35,11 @@ tags:
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/mshta_in_registry/sysmon3.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: a registry $registry_path$ contains mshta $registry_value_data$ in $dest$
   mitre_attack_id:
   - T1218.005
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -68,7 +58,14 @@ tags:
   - Registry.registry_key_name
   - Registry.registry_path
   - Registry.dest
-  - Registry.registry_value_data 
-  - Registry.action 
+  - Registry.registry_value_data
+  - Registry.action
   risk_score: 72
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/mshta_in_registry/sysmon3.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

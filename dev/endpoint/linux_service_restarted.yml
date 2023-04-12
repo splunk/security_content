@@ -1,0 +1,70 @@
+name: Linux Service Restarted
+id: 084275ba-61b8-11ec-8d64-acde48001122
+version: 1
+date: '2021-12-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic looks for restarted or re-enable services in linux platform.
+  This technique can be executed or performed using systemctl or service tool application.
+  Adversaries may create or modify Windows services to repeatedly execute malicious
+  payloads as part of persistence. When Windows boots up, it starts programs or applications
+  called services that perform background system functions. Administrator may also
+  create a legitimated service for a specific tool or normal application as part of
+  task or automation, in this scenario it is suggested to look for the service path
+  of the actual script or executable that register as service and who created the
+  service for further verification.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine:
+    - '*systemctl *'
+    - '*service *'
+  selection2:
+    Image|endswith:
+    - systemctl
+    - service
+  selection3:
+    CommandLine:
+    - '*restart*'
+    - '*reload*'
+    - '*reenable*'
+  condition: (selection1 or selection2) and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and commandline executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can use this commandline
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://attack.mitre.org/techniques/T1543/003/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: A commandline $process$ that may create or start a service on $dest$
+  mitre_attack_id:
+  - T1053.006
+  - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

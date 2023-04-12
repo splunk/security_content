@@ -1,0 +1,70 @@
+name: Linux SSH Authorized Keys Modification
+id: f5ab595e-28e5-4327-8077-5008ba97c850
+version: 1
+date: '2022-07-27'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies based on process execution the modification
+  of SSH Authorized Keys. Adversaries perform this behavior to persist on endpoints.
+  During triage, review parallel processes and capture any additional file modifications
+  for review.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*/authorized_keys*'
+    Image|endswith:
+    - bash
+    - cat
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Filtering will be required as system administrators will add
+  and remove. One way to filter query is to add "echo".
+references:
+- https://redcanary.com/blog/lateral-movement-with-secure-shell/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1098.004/T1098.004.md
+tags:
+  analytic_story:
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ modifying SSH Authorized Keys.
+  mitre_attack_id:
+  - T1098.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/authkey_linux-sysmon.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true

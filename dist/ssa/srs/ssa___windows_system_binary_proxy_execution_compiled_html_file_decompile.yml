@@ -7,18 +7,51 @@ description: The following analytic identifies the decompile parameter with the 
   script inside used a technique for running an arbitrary command in a CHM file via
   an ActiveX object. This unpacks an HTML help file to a specified path for launching
   the next stage.
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND process_name IS NOT NULL AND process_name="hh.exe" AND
-  like (cmd_line, "%-decompile%")| eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
-  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  like(process_cmd_line, "%-decompile%") AND process_file_name="hh.exe" 
+  | eval body=create_map(
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ],
+    "time", timestamp,
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
+    "message", concat("Windows System Binary Proxy Execution Compiled HTML File Decompile has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "users", [
+        create_map(
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+        )
+    ],
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 4,
+    "risk_score", 90,
+    "severity_id", 0,
+    "rule", create_map("name", "Windows System Binary Proxy Execution Compiled HTML File Decompile", "uid", "11c32b19-05a6-48a8-ab28-18dbd9ec5d50", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
+  )
+  | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -30,42 +63,54 @@ references:
 - https://attack.mitre.org/techniques/T1218/001/
 - https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
 tags:
-  analytic_story:
-  - Suspicious Compiled HTML Activity
-  - Living Off The Land
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1218.001
-  - T1218
-  nist:
-  - PR.PT
-  - DE.CM
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
   risk_score: 90
   security_domain: endpoint
   risk_severity: high
   research_site_url: https://research.splunk.com/endpoint/11c32b19-05a6-48a8-ab28-18dbd9ec5d50/
-  event_schema: cim
+  event_schema: ocsf
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+  annotations:
+    analytic_story:
+    - Suspicious Compiled HTML Activity
+    - Living Off The Land
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1218.001
+    - T1218
+    nist:
+    - DE.CM
 test:
   name: Windows System Binary Proxy Execution Compiled HTML File Decompile Unit Test
   tests:
   - name: Windows System Binary Proxy Execution Compiled HTML File Decompile
-    file: endpoint/ssa___windows_system_binary_proxy_execution_compiled_html_file_decompile.yml
-    pass_condition: '@count_gt(0)'
     attack_data:
     - file_name: 4688_windows-security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/4688_windows-security.log
       source: XmlWinEventLog
+runtime: SPL-DSP

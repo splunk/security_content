@@ -1,0 +1,61 @@
+name: Okta MFA Exhaustion Hunt
+id: 97e2fe57-3740-402c-988a-76b64ce04b8d
+version: 1
+date: '2022-09-27'
+author: Michael Haag, Marissa Bower, Splunk
+status: experimental
+type: Hunting
+description: The following analytic identifies patterns within Okta data to determine
+  the amount of successful and failed pushes. Based on that, eval statements determine
+  a finding of whether this is suspicious or not. The events are within a window of
+  time and may be tuned as needed.
+data_source: []
+search: '`okta` eventType=system.push.send_factor_verify_push OR ((legacyEventType=core.user.factor.attempt_success)
+  AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) OR ((legacyEventType=core.user.factor.attempt_fail)
+  AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) | stats count(eval(legacyEventType="core.user.factor.attempt_success"))
+  as successes count(eval(legacyEventType="core.user.factor.attempt_fail")) as failures
+  count(eval(eventType="system.push.send_factor_verify_push")) as pushes by authenticationContext.externalSessionId,user,_time
+  | stats latest(_time) as lasttime earliest(_time) as firsttime sum(successes) as
+  successes sum(failures) as failures sum(pushes) as pushes by authenticationContext.externalSessionId,user
+  | eval seconds=lasttime-firsttime | eval lasttime=strftime(lasttime, "%c") | search
+  (pushes>1) | eval totalattempts=successes+failures | eval finding="Normal authentication
+  pattern" | eval finding=if(failures==pushes AND pushes>1,"Authentication attempts
+  not successful because multiple pushes denied",finding) | eval finding=if(totalattempts==0,"Multiple
+  pushes sent and ignored",finding) | eval finding=if(successes>0 AND pushes>3,"Probably
+  should investigate. Multiple pushes sent, eventual successful authentication!",finding)
+  | where seconds<600 AND finding="Multiple pushes sent, eventual successful authentication!"
+  AND totalattempts > 5 | sort - pushes, totalattempts | `okta_mfa_exhaustion_hunt_filter`'
+how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested.
+known_false_positives: False positives may be present. Tune Okta and tune the analytic
+  to ensure proper fidelity. Modify risk score as needed. Drop to anomaly until tuning
+  is complete.
+references:
+- https://developer.okta.com/docs/reference/api/event-types/?q=user.acount.lock
+- https://sec.okta.com/everythingisyes
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  - Okta MFA Exhaustion
+  asset_type: Infrastructure
+  confidence: 60
+  impact: 30
+  message: $src_user$ account has rejected multiple Okta pushes.
+  mitre_attack_id:
+  - T1110
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - src_user
+  - src_ip
+  - eventType
+  - status
+  risk_score: 18
+  security_domain: access

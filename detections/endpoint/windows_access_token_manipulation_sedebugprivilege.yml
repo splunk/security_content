@@ -3,20 +3,29 @@ id: 6ece9ed0-5f92-4315-889d-48560472b188
 version: 1
 date: '2022-08-24'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel: []
-description: The following analytic identifies a suspicious process enabling the "SeDebugPrivilege" privilege token. 
-  SeDebugPrivilege allows a process to inspect and adjust the memory of other processes, and has long been a security concern. SeDebugPrivilege allows the token bearer to access any process or thread, regardless of security descriptors, per Palantir.
-  This technique is abused by adversaries to gain debug privileges with their malicious software to be able to access or debug a process to dump credentials or to inject malicious code.
-search: '`wineventlog_security` EventCode=4703 EnabledPrivilegeList = "*SeDebugPrivilege*" AND NOT(ProcessName IN ("*\\Program File*", "*\\System32\\lsass.exe*", "*\\SysWOW64\\lsass.exe*", "*\\SysWOW64\\svchost.exe*", "*\\System32\\svchost.exe*"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer ProcessName ProcessId SubjectDomainName SubjectUserName SubjectUserSid TargetUserName TargetLogonId TargetDomainName EnabledPrivilegeList action
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies a suspicious process enabling the "SeDebugPrivilege"
+  privilege token. SeDebugPrivilege allows a process to inspect and adjust the memory
+  of other processes, and has long been a security concern. SeDebugPrivilege allows
+  the token bearer to access any process or thread, regardless of security descriptors,
+  per Palantir. This technique is abused by adversaries to gain debug privileges with
+  their malicious software to be able to access or debug a process to dump credentials
+  or to inject malicious code.
+data_source:
+- Windows Security 4703
+search: '`wineventlog_security` EventCode=4703 EnabledPrivilegeList = "*SeDebugPrivilege*"
+  AND NOT(ProcessName IN ("*\\Program File*", "*\\System32\\lsass.exe*", "*\\SysWOW64\\lsass.exe*",
+  "*\\SysWOW64\\svchost.exe*", "*\\System32\\svchost.exe*")) | stats count min(_time)
+  as firstTime max(_time) as lastTime by Computer ProcessName ProcessId SubjectDomainName
+  SubjectUserName SubjectUserSid TargetUserName TargetLogonId TargetDomainName EnabledPrivilegeList
+  action | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_access_token_manipulation_sedebugprivilege_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4703 EventCode enabled. The Windows TA is also
   required.
-known_false_positives: Some native binaries and browser applications may request SeDebugPrivilege. Filter as needed.
+known_false_positives: Some native binaries and browser applications may request SeDebugPrivilege.
+  Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4703
 - https://devblogs.microsoft.com/oldnewthing/20080314-00/?p=23113
@@ -27,26 +36,14 @@ tags:
   analytic_story:
   - Brute Ratel C4
   - AsyncRAT
-  asset_type:  Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Endpoint
   confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/sedebugprivilege_token/security-xml.log
   impact: 60
-  kill_chain_phases:
-  - Exploitation
-  message: A process $ProcessName$ adjust its privileges with SeDebugPrivilege on $Computer$.
+  message: A process $ProcessName$ adjust its privileges with SeDebugPrivilege on
+    $Computer$.
   mitre_attack_id:
   - T1134.002
   - T1134
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Endpoint
@@ -58,14 +55,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - ProcessName 
-  - Security_ID 
-  - action 
-  - result 
-  - Process_ID 
-  - Message 
-  - member_dn 
-  - ComputerName 
+  - ProcessName
+  - Security_ID
+  - action
+  - result
+  - Process_ID
+  - Message
+  - member_dn
+  - ComputerName
   - user
   risk_score: 36
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/sedebugprivilege_token/security-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

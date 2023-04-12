@@ -3,28 +3,27 @@ id: f6f904c4-1ac0-11ec-806b-acde48001122
 version: 2
 date: '2022-07-07'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect a suspicious creation of image in appdata folder
   made by process that also has a file reference in appdata folder. This technique
   was seen in remcos rat that capture screenshot of the compromised machine and place
   it in the appdata and will be send to its C2 server. This TTP is really a good indicator
   to check that process because it is in suspicious folder path and image files are
   not commonly created by user in this folder path.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=*.exe Processes.process_path="*\\appdata\\Roaming\\*"
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  |rename process_guid as proc_guid 
-  |join proc_guid, _time [| tstats `security_content_summariesonly`
-  count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_name IN ("*.png","*.jpg","*.bmp","*.gif","*.tiff") Filesystem.file_path= "*\\appdata\\Roaming\\*" 
-  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
-  | `drop_dm_object_name(Filesystem)` 
-  |rename process_guid as proc_guid | fields _time dest file_create_time file_name file_path process_name process_path
-  process proc_guid]
-  | `suspicious_image_creation_in_appdata_folder_filter`'
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
+  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+  where Filesystem.file_name IN ("*.png","*.jpg","*.bmp","*.gif","*.tiff") Filesystem.file_path=
+  "*\\appdata\\Roaming\\*" by _time span=1h Filesystem.dest Filesystem.file_create_time
+  Filesystem.file_name Filesystem.file_path Filesystem.process_guid | `drop_dm_object_name(Filesystem)`
+  |rename process_guid as proc_guid | fields _time dest file_create_time file_name
+  file_path process_name process_path process proc_guid] | `suspicious_image_creation_in_appdata_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -36,15 +35,9 @@ references:
 tags:
   analytic_story:
   - Remcos
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Collection
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: process $process_name$ creating image file $file_path$ in $dest$
   mitre_attack_id:
   - T1113
@@ -72,4 +65,9 @@ tags:
   - process
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

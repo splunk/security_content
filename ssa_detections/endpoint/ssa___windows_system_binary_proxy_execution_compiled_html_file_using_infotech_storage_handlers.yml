@@ -1,0 +1,109 @@
+name: Windows System Binary Proxy Execution Compiled HTML File Using InfoTech Storage
+  Handlers
+id: ba0c2450-caea-4086-ac3a-a71e2659754b
+version: 1
+date: '2022-09-02'
+author: Michael Haag, Splunk
+type: TTP
+status: production
+description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled
+  HTML Help (CHM) file using InfoTech Storage Handlers. This particular technique
+  will load Windows script code from a compiled help file, using InfoTech Storage
+  Handlers. itss.dll will load upon execution. Three InfoTech Storage handlers are
+  supported - ms-its, its, mk:@MSITStore. ITSS may be used to launch a specific html/htm
+  file from within a CHM file. CHM files may contain nearly any file type embedded.
+  Upon a successful execution, the following script engines may be used for execution
+  - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may
+  identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The "htm"
+  and "html" file extensions were the only extensions observed to be supported for
+  the execution of Shortcut commands or WSH script code. During investigation, identify
+  script content origination. hh.exe is natively found in C:\Windows\system32 and
+  C:\Windows\syswow64.
+data_source:
+- Windows Security 4688
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (like(process_cmd_line, "%mk:@MSITStore:%") OR like(process_cmd_line, "%its:%"))
+  AND process_file_name="hh.exe" --finding_report--'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: It is rare to see instances of InfoTech Storage Handlers being
+  used, but it does happen in some legitimate instances. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1218/001/
+- https://www.kb.cert.org/vuls/id/851869
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
+- https://lolbas-project.github.io/lolbas/Binaries/Hh/
+- https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
+- https://web.archive.org/web/20220119133748/https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+tags:
+  analytic_story:
+  - Suspicious Compiled HTML Activity
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 90
+  impact: 80
+  message: $process_name$ has been identified using Infotech Storage Handlers to load
+    a specific file within a CHM on $dest_device_id$ under user $dest_user_id$.
+  mitre_attack_id:
+  - T1218.001
+  - T1218
+  observable:
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.name
+    type: File
+  - name: process.cmd_line
+    type: Other
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
+  risk_score: 72
+  security_domain: endpoint
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/chm-wineventlog-security.log
+    source: WinEventLog:Security

@@ -1,0 +1,65 @@
+name: Detect Path Interception By Creation Of program exe
+id: cbef820c-e1ff-407f-887f-0a9240a2d477
+version: 3
+date: '2020-07-03'
+author: Patrick Bareiss, Splunk
+status: production
+type: TTP
+description: 'The detection Detect Path Interception By Creation Of program exe is
+  detecting the abuse of unquoted service paths, which is a popular technique for
+  privilege escalation. '
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage: services.exe
+  condition: selection1
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: unknown
+references:
+- https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae
+tags:
+  analytic_story:
+  - Windows Persistence Techniques
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to perform privilege escalation by
+    using unquoted service paths.
+  mitre_attack_id:
+  - T1574.009
+  - T1574
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.009/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

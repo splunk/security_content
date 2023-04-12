@@ -3,9 +3,8 @@ id: 35307032-a12d-11eb-835f-acde48001122
 version: 4
 date: '2022-03-15'
 author: Steven Dick,  Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies rundll32.exe with no command line arguments
   and performing a network connection. It is unusual for rundll32.exe to execute with
   no command line arguments present. This particular behavior is common with malicious
@@ -13,16 +12,18 @@ description: The following analytic identifies rundll32.exe with no command line
   and parallel processes. Identify any suspicious module loads related to credential
   dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and
   C:\Windows\syswow64.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where `process_rundll32` AND Processes.action!="blocked" by host _time span=1h Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name Processes.parent_process
-| `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| regex process="(?i)(rundll32\.exe.{0,4}$)"
-| rename dest as src
-| join host process_id 
-    [| tstats `security_content_summariesonly` count latest(All_Traffic.dest) as dest latest(All_Traffic.dest_ip) as dest_ip latest(All_Traffic.dest_port) as dest_port FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by host All_Traffic.process_id 
-    | `drop_dm_object_name(All_Traffic)`] 
-| `rundll32_with_no_command_line_arguments_with_network_filter`'
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes where `process_rundll32` AND Processes.action!="blocked"
+  by host _time span=1h Processes.process_id Processes.process_name Processes.dest
+  Processes.process_path Processes.process Processes.parent_process_name Processes.parent_process
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | regex process="(?i)(rundll32\.exe.{0,4}$)" | rename dest as src | join host process_id
+  [| tstats `security_content_summariesonly` count latest(All_Traffic.dest) as dest
+  latest(All_Traffic.dest_ip) as dest_ip latest(All_Traffic.dest_port) as dest_port
+  FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by host
+  All_Traffic.process_id | `drop_dm_object_name(All_Traffic)`] | `rundll32_with_no_command_line_arguments_with_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
@@ -42,17 +43,11 @@ tags:
   - Suspicious Rundll32 Activity
   - Cobalt Strike
   - PrintNightmare CVE-2021-34527
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
   cve:
   - CVE-2021-34527
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A rundll32 process $process_name$ with no commandline argument like this
     process commandline $process$ in host $src$
   mitre_attack_id:
@@ -86,6 +81,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 70
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

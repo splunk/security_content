@@ -1,0 +1,93 @@
+name: Windows Rundll32 Comsvcs Memory Dump
+id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
+version: 5
+date: '2022-04-14'
+author: Jose Hernandez, Michael Haag, Splunk
+type: TTP
+status: production
+description: The following analytic identifies memory dumping using comsvcs.dll with
+  the minidump function with `rundll32.exe`. This technique is common with adversaries
+  who would like to dump the memory of lsass.exe.
+data_source:
+- Windows Security 4688
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (match_regex(process_cmd_line, /(?i)minidump/)=true AND process_file_name="rundll32.exe")
+  AND match_regex(process_cmd_line, /(?i)comsvcs.dll/)=true --finding_report--'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including Windows command line logging. You can see how we test this with [Event
+  Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a)
+  on the [attack_range](https://github.com/splunk/attack_range/blob/develop/ansible/roles/windows_common/tasks/windows-enable-4688-cmd-line-audit.yml).
+known_false_positives: False positives should be limited, filter as needed.
+references:
+- https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-3---dump-lsassexe-memory-using-comsvcsdll
+tags:
+  analytic_story:
+  - Credential Dumping
+  - Suspicious Rundll32 Activity
+  asset_type: Endpoint
+  confidence: 100
+  impact: 40
+  message: A dump of a process was attempted using comsvcs.dll with the minidump function
+    on endpoint $dest_device_id$ by user $dest_device_user$.
+  mitre_attack_id:
+  - T1003.003
+  - T1003
+  observable:
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.name
+    type: File
+  - name: process.cmd_line
+    type: Other
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
+  risk_score: 40
+  security_domain: endpoint
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-security.log
+    source: WinEventLog:Security

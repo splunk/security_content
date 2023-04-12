@@ -1,0 +1,73 @@
+name: Office Product Spawning BITSAdmin
+id: e8c591f4-a6d7-11eb-8cf7-acde48001122
+version: 2
+date: '2021-04-26'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following detection identifies the latest behavior utilized by different
+  malware families (including TA551, IcedID). This detection identifies any Windows
+  Office Product spawning `bitsadmin.exe`. In malicious instances, the command-line
+  of `bitsadmin.exe` will contain a URL to a remote destination or similar command-line
+  arguments as transfer, Download, priority, Foreground. In addition, Threat Research
+  has released a detections identifying suspicious use of `bitsadmin.exe`. In this
+  instance, we narrow our detection down to the Office suite as a parent process.
+  During triage, review all file modifications. Capture and analyze any artifacts
+  on disk. The Office Product, or `bitsadmin.exe` will have reached out to a remote
+  destination, capture and block the IPs or domain. Review additional parallel processes
+  for further activity.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage:
+    - winword.exe
+    - excel.exe
+    - powerpnt.exe
+    - mspub.exe
+    - visio.exe
+  selection2:
+    OriginalFileName: bitsadmin.exe
+  selection3:
+    Image|endswith: bitsadmin.exe
+  condition: selection1 and selection2 and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: No false positives known. Filter as needed.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  asset_type: Endpoint
+  confidence: 90
+  impact: 70
+  message: office parent process $parent_process_name$ will execute a suspicious child
+    process $process_name$ with process id $process_id$ in host $dest$
+  mitre_attack_id:
+  - T1566
+  - T1566.001
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

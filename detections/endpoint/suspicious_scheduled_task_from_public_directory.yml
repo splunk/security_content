@@ -3,15 +3,16 @@ id: 7feb7972-7ac3-11eb-bac8-acde48001122
 version: 1
 date: '2021-03-01'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: The following detection identifies Scheduled Tasks registering (creating
   a new task) a binary or script to run from a public directory which includes users\public,
   \programdata\ and \windows\temp. Upon triage, review the binary or script in the
   command line for legitimacy, whether an approved binary/script or not. In addition,
   capture the binary or script in question and analyze for further behaviors. Identify
   the source and contain the endpoint.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
   (Processes.process=*\\users\\public\\* OR Processes.process=*\\programdata\\* OR
@@ -34,17 +35,9 @@ tags:
   - Living Off The Land
   - Azorult
   - DarkCrystal RAT
+  asset_type: Endpoint
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  - Stage:Initial Access
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtasks/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious scheduled task registered on $dest$
   mitre_attack_id:
   - T1053.005
@@ -74,6 +67,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtasks/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

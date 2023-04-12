@@ -1,0 +1,63 @@
+name: Runas Execution in CommandLine
+id: 4807e716-43a4-11ec-a0e7-acde48001122
+version: 1
+date: '2021-11-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: This analytic look for a spawned runas.exe process with a administrator
+  user option parameter. This parameter was abused by adversaries, malware author
+  or even red teams to gain elevated privileges in target host. This is a good hunting
+  query to figure out privilege escalation tactics that may used for different stages
+  like lateral movement but take note that administrator may use this command in purpose
+  so its better to see other event context before and after this analytic.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: runas.exe
+  selection2:
+    Image|endswith: runas.exe
+  selection3:
+    CommandLine: '*/user:*'
+  selection4:
+    CommandLine: '*admin*'
+  condition: (selection1 or selection2) and selection3 and selection4
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: A network operator or systems administrator may utilize an
+  automated or manual execute this command that may generate false positives. filter
+  is needed.
+references:
+- https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
+tags:
+  analytic_story:
+  - Windows Privilege Escalation
+  - Hermetic Wiper
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: elevated process using runas on $dest$ by $user$
+  mitre_attack_id:
+  - T1134
+  - T1134.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

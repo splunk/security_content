@@ -149,7 +149,7 @@ class NewContentQuestions():
                     'Unauthorized Software',
                     'Best Practices',
                     'Cloud Security',
-                    'Command and Control',
+                    'Command And Control',
                     'Lateral Movement',
                     'Ransomware',
                     'Privilege Escalation'

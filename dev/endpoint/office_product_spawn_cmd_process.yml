@@ -1,0 +1,73 @@
+name: Office Product Spawn CMD Process
+id: b8b19420-e892-11eb-9244-acde48001122
+version: 2
+date: '2021-07-19'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: this search is to detect a suspicious office product process that spawn
+  cmd child process. This is commonly seen in a ms office product having macro to
+  execute shell command to download or execute malicious lolbin relative to its malicious
+  code. This is seen in trickbot spear phishing doc where it execute shell cmd to
+  run mshta payload.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage:
+    - winword.exe
+    - excel.exe
+    - powerpnt.exe
+  selection2:
+    OriginalFileName: Cmd.Exe
+  selection3:
+    Image|endswith: cmd.exe
+  condition: (selection1) and selection2 and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: IT or network admin may create an document automation that
+  will run shell script.
+references:
+- https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+- https://bazaar.abuse.ch/sample/02cbc1ab80695fc12ff8822b926957c3a600247b9ca412a137f69cb5716c8781/
+- https://www.fortinet.com/blog/threat-research/latest-remcos-rat-phishing
+tags:
+  analytic_story:
+  - Trickbot
+  - DarkCrystal RAT
+  - Azorult
+  - Remcos
+  - Qakbot
+  - AgentTesla
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: an office product parent process $parent_process_name$ spawn child process
+    $process_name$ in host $dest$
+  mitre_attack_id:
+  - T1566
+  - T1566.001
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

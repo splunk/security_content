@@ -1,0 +1,77 @@
+name: Ping Sleep Batch Command
+id: ce058d6c-79f2-11ec-b476-acde48001122
+version: 1
+date: '2022-01-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic will identify the possible execution of ping sleep batch
+  commands. This technique was seen in several malware samples and is used to trigger
+  sleep times without explicitly calling sleep functions or commandlets. The goal
+  is to delay the execution of malicious code and bypass detection or sandbox analysis.
+  This  detection can be a good indicator of a process delaying its execution for
+  malicious purposes.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: ping.exe
+  selection2:
+    Image|endswith: ping.exe
+  selection3:
+    ParentCommandLine: '*-n*'
+  selection4:
+    ParentCommandLine: '*ping*'
+  selection5:
+    ParentCommandLine: '* Nul*'
+  selection6:
+    ParentCommandLine: '*&gt;*'
+  selection7:
+    CommandLine: '*-n*'
+  selection8:
+    CommandLine: '*ping*'
+  selection9:
+    CommandLine: '* Nul*'
+  selection10:
+    CommandLine: '*&gt;*'
+  condition: (selection1 or selection2) and selection3 and selection4 and selection5
+    and selection6 or selection7 or selection8 or selection9 or selection10
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Administrator or network operator may execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+tags:
+  analytic_story:
+  - WhisperGate
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: suspicious $process$ commandline run in $dest$
+  mitre_attack_id:
+  - T1497
+  - T1497.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/ping_sleep/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

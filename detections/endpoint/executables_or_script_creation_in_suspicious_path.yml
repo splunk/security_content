@@ -3,13 +3,14 @@ id: a7e3f0f0-ae42-11eb-b245-acde48001122
 version: 1
 date: '2021-10-06'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic will identify suspicious executable or scripts (known file
-  extensions) in a list of suspicious file paths in Windows. This technique is used by
-  adversaries to evade detection. The suspicious file path are known paths used in
-  the wild and are not common to have executable or scripts.
+  extensions) in a list of suspicious file paths in Windows. This technique is used
+  by adversaries to evade detection. The suspicious file path are known paths used
+  in the wild and are not common to have executable or scripts.
+data_source:
+- Sysmon Event ID 11
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name
@@ -54,16 +55,9 @@ tags:
   - LockBit Ransomware
   - AsyncRAT
   - Swift Slicer
-  automated_detection_testing: passed
+  asset_type: Endpoint
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
   impact: 40
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious executable or scripts with file name $file_name$, $file_path$
     and process_id $process_id$ executed in suspicious file path in Windows by $user$
   mitre_attack_id:
@@ -95,4 +89,9 @@ tags:
   - Filesystem.user
   risk_score: 20
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

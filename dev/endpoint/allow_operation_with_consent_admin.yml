@@ -1,0 +1,63 @@
+name: Allow Operation with Consent Admin
+id: 7de17d7a-c9d8-11eb-a812-acde48001122
+version: 2
+date: '2022-01-26'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic identifies a potential privilege escalation attempt to
+  perform malicious task. This registry modification is designed to allow the `Consent
+  Admin` to perform an operation that requires elevation without consent or credentials.
+  We also found this in some attacker to gain privilege escalation to the compromise
+  machine.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Registry.registry_value_name: ConsentPromptBehaviorAdmin
+    TargetObject: '*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*'
+    Details: '0x00000000'
+  condition: selection1
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: unknown
+references:
+- https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/341747f5-6b5d-4d30-85fc-fa1cc04038d4
+- https://www.trendmicro.com/vinfo/no/threat-encyclopedia/malware/Ransom.Win32.MRDEC.MRA/
+tags:
+  analytic_story:
+  - Ransomware
+  - Windows Registry Abuse
+  - Azorult
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: Suspicious registry modification was performed on endpoint $dest$ by user
+    $user$. This behavior is indicative of privilege escalation.
+  mitre_attack_id:
+  - T1548
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
