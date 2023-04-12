@@ -249,7 +249,7 @@ def format_report_url(action=None, success=None, container=None, results=None, h
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | https://www.virustotal.com/gui/url/{3} | VirusTotal v3 |\n%%{1}{2}{3}"""
+    template = """SOAR analyzed URL(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | https://www.virustotal.com/gui/url/{3} | VirusTotal v3 |\n%%"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -306,7 +306,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
         observable_object = {
             "value": url,
             "type": "url",
-            "sandbox": {
+            "reputation": {
                 "score_id": url_object['score_id'],
                 "score": url_object['score'],
                 "confidence": url_object['confidence']
@@ -413,9 +413,6 @@ def normalize_score_file(action=None, success=None, container=None, results=None
         # Reduce the confidence by percentage of vendors undetected.
         vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']
         confidence = 100 - int((summary_data['undetected']/vendors) * 100)
-        
-        phantom.debug("vendors: {}".format(vendors))
-        phantom.debug("confidence: {}".format(confidence))
 
         # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors
         # This can be adjusted to include whatever logic is desired.
@@ -439,8 +436,8 @@ def normalize_score_file(action=None, success=None, container=None, results=None
 
         normalize_score_file__file_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})
         normalize_score_file__scores.append(score)
-        phantom.debug("normalize_score_file__file_score_object: {}".format(normalize_score_file__file_score_object))
-        phantom.debug("normalize_score_file__scores: {}".format(normalize_score_file__scores))
+        #phantom.debug("normalize_score_file__file_score_object: {}".format(normalize_score_file__file_score_object))
+        #phantom.debug("normalize_score_file__scores: {}".format(normalize_score_file__scores))
 
     ################################################################################
     ## Custom Code End
@@ -462,7 +459,7 @@ def format_report_file(action=None, success=None, container=None, results=None, 
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed file(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| File | VT Name | VT Decription | Normalized Score  | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {2} | {3} | {1} | https://www.virustotal.com/gui/file/{0} | VirusTotal v3 |\n%%\n\n{1}\n{2}\n{3}\n"""
+    template = """SOAR analyzed file(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| File | VT Name | VT Decription | Normalized Score  | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {2} | {3} | {1} | https://www.virustotal.com/gui/file/{0} | VirusTotal v3 |\n%%\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -517,18 +514,18 @@ def build_file_output(action=None, success=None, container=None, results=None, h
         observable_object = {
             "value": file_hash,
             "type": "hash",
-            "sandbox": {
+            "reputation": {
                 "score_id": file_object['score_id'],
                 "score": file_object['score'],
                 "confidence": file_object['confidence']
             },
             "attributes": {
-                "type": file_data['attributes']['type_extension'],
-                "name": file_data['attributes']['meaningful_name'],
-                "size": file_data['attributes']['size'],
-                "md5": file_data['attributes']['md5'],
-                "sha1": file_data['attributes']['sha1'],
-                "sha256": file_data['attributes']['sha256']
+                "type": file_data[0]['attributes'].get('type_extension'),
+                "name": file_data[0]['attributes'].get('meaningful_name'),
+                "size": file_data[0]['attributes'].get('size'),
+                "md5": file_data[0]['attributes'].get('md5'),
+                "sha1": file_data[0]['attributes'].get('sha1'),
+                "sha256": file_data[0]['attributes'].get('sha256')
             },
             "source": "VirusTotal v3",
             "source_link": f"https://www.virustotal.com/gui/file/{file_hash}"
