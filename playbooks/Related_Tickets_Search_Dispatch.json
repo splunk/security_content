@@ -1,10 +1,10 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Dynamic Related Ticket Search",
+    "category": "Related Ticket Search",
     "coa": {
         "data": {
-            "description": "Detects available indicators and routes them to dynamic related ticket search playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags.",
+            "description": "Detects available indicators and routes them to dispatch related ticket search playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags.",
             "edges": [
                 {
                     "conditions": [
@@ -349,7 +349,7 @@
                             "workbook_task_update": {
                                 "container": "container:id",
                                 "note_content": "merge_reports:formatted_data",
-                                "note_title": "Dynamic Related Ticket Search Report",
+                                "note_title": "Dispatch Related Ticket Search Report",
                                 "owner": null,
                                 "status": "complete",
                                 "task_name": "playbook"
