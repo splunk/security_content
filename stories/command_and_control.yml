@@ -1,10 +1,10 @@
-name: Command and Control
+name: Command And Control
 id: 943773c6-c4de-4f38-89a8-0b92f98804d8
 version: 1
 date: '2018-06-01'
 author: Rico Valdez, Splunk
 description: Detect and investigate tactics, techniques, and procedures leveraged
-  by attackers to establish and operate command and control channels. Implants installed
+  by attackers to establish and operate Command And Control channels. Implants installed
   by attackers on compromised endpoints use these channels to receive instructions
   and send data back to the malicious operators.
 narrative: 'Threat actors typically architect and implement an infrastructure to use
@@ -27,7 +27,7 @@ references:
 - https://attack.mitre.org/wiki/Command_and_Control
 - https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
 tags:
-  analytic_story: Command and Control
+  analytic_story: Command And Control
   category:
   - Adversary Tactics
   product:

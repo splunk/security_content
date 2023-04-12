@@ -19,8 +19,6 @@ references: []
 tags:
   analytic_story:
   - Asset Tracking
-  deployments:
-  - Daily Cache Updates
   detections:
   - Detect Unauthorized Assets by MAC address
   product:

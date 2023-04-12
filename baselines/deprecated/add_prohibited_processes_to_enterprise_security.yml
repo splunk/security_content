@@ -21,8 +21,6 @@ tags:
   - Monitor for Unauthorized Software
   - SamSam Ransomware
   asset_type: Endpoint
-  deployments:
-  - Daily Cache Updates
   detections:
   - Prohibited Software On Endpoint
   product:

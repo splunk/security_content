@@ -1,0 +1,51 @@
+name: GetNetTcpconnection with PowerShell
+id: e02af35c-1de5-4afe-b4be-f45aba57272b
+version: 1
+date: '2021-08-25'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+description: This analytic looks for the execution of `powershell.exe` with command-line
+  utilized to get a listing of network connections on a compromised system. The `Get-NetTcpConnection`
+  commandlet lists the current TCP connections. Red Teams and adversaries alike may
+  use this commandlet for situational awareness and Active Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*Get-NetTcpConnection*'
+    Image|endswith: powershell.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1049/
+- https://docs.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=windowsserver2019-ps
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: Network Connection discovery on $dest$ by $user$
+  mitre_attack_id:
+  - T1049
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

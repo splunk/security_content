@@ -30,35 +30,38 @@ class SecurityContentBaselineBuilder(BaselineBuilder):
             sys.exit(1)
 
     def addDeployment(self, deployments: list) -> None:
-        matched_deployments = []
 
-        for d in deployments:
-            d_tags = dict(d.tags)
-            baseline_dict = self.baseline.dict()
-            baseline_tags_dict = self.baseline.tags.dict()
-            for d_tag in d_tags.keys():
-                for attr in baseline_dict.keys():
-                    if attr == d_tag:
-                        if isinstance(baseline_dict[attr], str):
-                            if baseline_dict[attr] == d_tags[d_tag]:
-                                matched_deployments.append(d)
-                        elif isinstance(baseline_dict[attr], list):
-                            if d_tags[d_tag] in baseline_dict[attr]:
-                                matched_deployments.append(d)
+        if not self.baseline.deployment:
 
-                for attr in baseline_tags_dict.keys():
-                    if attr == d_tag:
-                        if isinstance(baseline_tags_dict[attr], str):
-                            if baseline_tags_dict[attr] == d_tags[d_tag]:
-                                matched_deployments.append(d)
-                        elif isinstance(baseline_tags_dict[attr], list):
-                            if d_tags[d_tag] in baseline_tags_dict[attr]:
-                                matched_deployments.append(d)
+            matched_deployments = []
 
-        if len(matched_deployments) == 0:
-            raise ValueError('No deployment found for baseline: ' + self.baseline.name)
+            for d in deployments:
+                d_tags = dict(d.tags)
+                baseline_dict = self.baseline.dict()
+                baseline_tags_dict = self.baseline.tags.dict()
+                for d_tag in d_tags.keys():
+                    for attr in baseline_dict.keys():
+                        if attr == d_tag:
+                            if isinstance(baseline_dict[attr], str):
+                                if baseline_dict[attr] == d_tags[d_tag]:
+                                    matched_deployments.append(d)
+                            elif isinstance(baseline_dict[attr], list):
+                                if d_tags[d_tag] in baseline_dict[attr]:
+                                    matched_deployments.append(d)
 
-        self.baseline.deployment = matched_deployments[-1]
+                    for attr in baseline_tags_dict.keys():
+                        if attr == d_tag:
+                            if isinstance(baseline_tags_dict[attr], str):
+                                if baseline_tags_dict[attr] == d_tags[d_tag]:
+                                    matched_deployments.append(d)
+                            elif isinstance(baseline_tags_dict[attr], list):
+                                if d_tags[d_tag] in baseline_tags_dict[attr]:
+                                    matched_deployments.append(d)
+
+            if len(matched_deployments) == 0:
+                raise ValueError('No deployment found for baseline: ' + self.baseline.name)
+
+            self.baseline.deployment = matched_deployments[-1]
 
 
     def reset(self) -> None:

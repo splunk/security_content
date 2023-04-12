@@ -1,0 +1,68 @@
+name: Disabling Defender Services
+id: 911eacdc-317f-11ec-ad30-acde48001122
+version: 2
+date: '2022-01-28'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This particular behavior is typically executed when an adversaries or
+  malware gains access to an endpoint and beings to perform execution and to evade
+  detections. Usually, a batch (.bat) will be executed and multiple registry and scheduled
+  task modifications will occur. During triage, review parallel processes and identify
+  any further file modifications. Endpoint should be isolated.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    TargetObject:
+    - '*WdBoot*'
+    - '*WdFilter*'
+    - '*WdNisDrv*'
+    - '*WdNisSvc*'
+    - '*WinDefend*'
+    - '*SecurityHealthService*'
+  selection2:
+    TargetObject: '*\\System\\CurrentControlSet\\Services\\*'
+  selection3:
+    Details: '0x00000004'
+    Registry.registry_value_name: Start
+  condition: selection1 and selection2 and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: admin or user may choose to disable windows defender product
+references:
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+tags:
+  analytic_story:
+  - IcedID
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: modified/added/deleted registry entry $registry_path$ in $dest$
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

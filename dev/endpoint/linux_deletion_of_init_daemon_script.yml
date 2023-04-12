@@ -1,0 +1,59 @@
+name: Linux Deletion Of Init Daemon Script
+id: 729aab57-d26f-4156-b97f-ab8dda8f44b1
+version: 1
+date: '2022-04-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to detect a deletion of init daemon script in a linux
+  machine. daemon script that place in /etc/init.d/ is a directory that can start
+  and stop some daemon services in linux machines. attacker may delete or modify daemon
+  script to impair some security features or act as defense evasion in a compromised
+  linux machine. This TTP can be also a good indicator of a malware trying to wipe
+  or delete several files in compromised host as part of its destructive payload like
+  what acidrain malware does in linux or router machines. This detection can be a
+  good pivot to check what process and user tries to delete this type of files which
+  is not so common and need further investigation.
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    TargetFilename: /etc/init.d/*
+    Filesystem.action: deleted
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+tags:
+  analytic_story:
+  - AcidRain
+  asset_type: endpoint
+  confidence: 70
+  impact: 70
+  message: a $process_name$ deleting a daemon script in $dest$
+  mitre_attack_id:
+  - T1485
+  - T1070.004
+  - T1070
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

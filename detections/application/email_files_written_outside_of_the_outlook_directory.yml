@@ -1,0 +1,56 @@
+name: Email files written outside of the Outlook directory
+id: 8d52cf03-ba25-4101-aa78-07994aed4f74
+version: 3
+date: '2020-07-21'
+author: Bhavin Patel, Splunk
+status: experimental
+type: TTP
+description: The search looks at the change-analysis data model and detects email
+  files created outside the normal Outlook directory.
+data_source:
+- Sysmon Event ID 11
+search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path)
+  as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
+  where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path
+  != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*"
+  by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest
+  | `drop_dm_object_name("Filesystem")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `email_files_written_outside_of_the_outlook_directory_filter` '
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records the file-system activity from your hosts to populate the Endpoint.Filesystem
+  data model node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
+  The data used for this search is typically generated via logs that report file-system
+  reads and writes.
+known_false_positives: Administrators and users sometimes prefer backing up their
+  email data by moving the email files into a different folder. These attempts will
+  be detected by the search.
+references: []
+tags:
+  analytic_story:
+  - Collection and Staging
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: tbd
+  mitre_attack_id:
+  - T1114
+  - T1114.001
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_path
+  - Filesystem.file_name
+  - Filesystem.action
+  - Filesystem.process_id
+  - Filesystem.dest
+  risk_score: 25
+  security_domain: endpoint

@@ -1,0 +1,34 @@
+name: Sysmon Event ID 11
+id: 17c7daa1-ac43-4bf1-8f98-fb8e95f714f7
+date: '2022-09-13'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: file_event
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+supported_targets:
+  - Endpoint.Filesystem
+raw_fields:
+  - Computer
+  - EventID
+  - UserID
+  - ProcessGuid
+  - ProcessId
+  - Image
+  - TargetFilename
+field_mappings:
+  - data_model: cim
+    data_set: Endpoint.Filesystem
+    mapping:
+      Computer: Filesystem.dest
+      ProcessGuid: Filesystem.process_guid
+      ProcessId: Filesystem.process_id
+      TargetFilename: Filesystem.file_path
+

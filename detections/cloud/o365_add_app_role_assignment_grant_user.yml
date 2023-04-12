@@ -3,10 +3,11 @@ id: b2c81cc6-6040-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-26'
 author: Rod Soto, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search detects the creation of a new Federation setting by alerting
   about an specific event related to its creation.
+data_source: []
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app
   role assignment grant to user." | stats count min(_time) as firstTime max(_time)
   as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type by
@@ -26,16 +27,7 @@ tags:
   - Cloud Federated Credential Abuse
   asset_type: Office 365
   confidence: 60
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json
   impact: 30
-  kill_chain_phases:
-  - Exploitation
   message: User $Actor.ID$ has created a new federation setting on $dest$ from IP
     Address $ActorIpAddress$
   mitre_attack_id:
@@ -69,3 +61,9 @@ tags:
   - ResultStatus
   risk_score: 18
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json
+    sourcetype: o365:management:activity
+    source: o365

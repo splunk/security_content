@@ -1,0 +1,62 @@
+name: Suspicious mshta spawn
+id: 4d33a488-5b5f-11eb-ae93-0242ac130002
+version: 2
+date: '2021-01-20'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies wmiprvse.exe spawning mshta.exe. This
+  behavior is indicative of a DCOM object being utilized to spawn mshta from wmiprvse.exe
+  or svchost.exe. In this instance, adversaries may use LethalHTA that will spawn
+  mshta.exe from svchost.exe.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage:
+    - svchost.exe
+    - wmiprvse.exe
+  selection2:
+    OriginalFileName: MSHTA.EXE
+  selection3:
+    Image|endswith: mshta.exe
+  condition: (selection1) and selection2 and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Although unlikely, some legitimate applications may exhibit
+  this behavior, triggering a false positive.
+references:
+- https://codewhitesec.blogspot.com/2018/07/lethalhta.html
+- https://github.com/redcanaryco/AtomicTestHarnesses
+- https://redcanary.com/blog/introducing-atomictestharnesses/
+tags:
+  analytic_story:
+  - Suspicious MSHTA Activity
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 60
+  impact: 70
+  message: mshta.exe spawned by wmiprvse.exe on $dest$
+  mitre_attack_id:
+  - T1218
+  - T1218.005
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 42
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

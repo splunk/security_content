@@ -3,9 +3,10 @@ id: 295ca9ed-e97b-4520-90f7-dfb6469902e1
 version: 1
 date: '2022-10-20'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
+data_source:
+- Sysmon Event ID 1
 description: The following analytic identifies the suspicious child process of calc.exe due to dll side loading technique to execute another executable. 
   This technique was seen in qakbot malware that uses dll side loading technique to calc applications to load its malicious dll code. The malicious dll that abuses 
   dll side loading technique will load the actual qakbot loader dll using regsvr32.exe application. 
@@ -28,27 +29,12 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  - Stage:Privilege Escalation
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: calc.exe has a child process $process_name$ in $dest$
   mitre_attack_id:
   - T1574.002
   - T1574
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -62,14 +48,21 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
   risk_score: 81
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

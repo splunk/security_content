@@ -21,8 +21,6 @@ tags:
   - Ryuk Ransomware
   - Hidden Cobra Malware
   - Active Directory Lateral Movement
-  deployments:
-  - Daily Cache Updates
   detections:
   - Remote Desktop Network Traffic
   product:

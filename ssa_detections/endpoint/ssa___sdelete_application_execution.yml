@@ -1,0 +1,107 @@
+name: Sdelete Application Execution
+id: fcc52b9a-4616-11ec-8454-acde48001122
+version: 1
+date: '2021-11-15'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+status: production
+description: This analytic will detect the execution of sdelete.exe attempting to
+  delete potentially important files that may related to adversary or insider threats
+  to destroy evidence or information sabotage. Sdelete is a SysInternals utility meant
+  to securely delete files on disk. This tool is commonly used to clear tracks and
+  artifact on the targeted host.
+data_source:
+- Windows Security 4688
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (like(process_cmd_line, "%.xls%") OR like(process_cmd_line, "%.gz%") OR like(process_cmd_line,
+  "%.tar%") OR like(process_cmd_line, "%.rar%") OR like(process_cmd_line, "%.zip%")
+  OR like(process_cmd_line, "%.7z%") OR like(process_cmd_line, "%.bmp%") OR like(process_cmd_line,
+  "%.gif%") OR like(process_cmd_line, "%.png%") OR like(process_cmd_line, "%.jpg%")
+  OR like(process_cmd_line, "%.txt%") OR like(process_cmd_line, "%.log%") OR like(process_cmd_line,
+  "%.key%") OR like(process_cmd_line, "%.pdf%") OR like(process_cmd_line, "%.rtf%")
+  OR like(process_cmd_line, "%.ppt%") OR like(process_cmd_line, "%.xls%") OR like(process_cmd_line,
+  "%.doc%") OR like(process_cmd_line, "%-nobanner%") OR like(process_cmd_line, "%/accepteula%")
+  OR like(process_cmd_line, "%-z %") OR like(process_cmd_line, "%-s %") OR like(process_cmd_line,
+  "%-q %") OR like(process_cmd_line, "%-r %") OR like(process_cmd_line, "%-p %") OR
+  like(process_cmd_line, "%-f %") OR like(process_cmd_line, "%-c %")) AND like(process_file_name,
+  "%sdelete%") --finding_report--'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited, filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
+tags:
+  analytic_story:
+  - Information Sabotage
+  - Insider Threat
+  asset_type: Endpoint
+  confidence: 70
+  impact: 60
+  message: Sdelete process $process_name$ executed on $dest_device_id$ attempting
+    to permanently delete files by $dest_user_id$.
+  mitre_attack_id:
+  - T1485
+  - T1070.004
+  - T1070
+  observable:
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.name
+    type: File
+  - name: process.cmd_line
+    type: Other
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
+  risk_score: 42
+  security_domain: endpoint
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
+    source: WinEventLog:Security

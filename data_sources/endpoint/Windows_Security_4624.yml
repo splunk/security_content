@@ -1,0 +1,30 @@
+name: Windows Security 4624
+id: 2d8de7a3-8dd3-4472-b447-0d99a332cdf0
+date: '2022-11-28'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4624
+raw_fields: 
+  - Account_Domain
+  - Account_Name
+  - ComputerName
+  - EventCode
+  - Impersonation_Level
+  - Logon_ID
+  - Logon_GUID
+  - Logon_Process
+  - Logon_Type
+  - Network_Account_Domain
+  - Network_Account_Name
+  - Process_Name
+  - Process_ID
+  - Security_ID

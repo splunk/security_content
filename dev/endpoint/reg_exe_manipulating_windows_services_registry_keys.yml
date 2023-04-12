@@ -1,0 +1,63 @@
+name: Reg exe Manipulating Windows Services Registry Keys
+id: 8470d755-0c13-45b3-bd63-387a373c10cf
+version: 5
+date: '2020-11-26'
+author: Rico Valdez, Splunk
+status: production
+type: TTP
+description: The search looks for reg.exe modifying registry keys that define Windows
+  services and their configurations.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*reg*'
+    Image|endswith: reg.exe
+  selection2:
+    CommandLine: '*add*'
+  selection3:
+    CommandLine: '*Services*'
+  condition: selection1 and selection2 and selection3
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: It is unusual for a service to be created or modified by directly
+  manipulating the registry. However, there may be legitimate instances of this behavior.
+  It is important to validate and investigate, as appropriate.
+references: []
+tags:
+  analytic_story:
+  - Windows Service Abuse
+  - Windows Persistence Techniques
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 60
+  impact: 75
+  message: A reg.exe process $process_name$ with commandline $process$ in host $dest$
+  mitre_attack_id:
+  - T1574.011
+  - T1574
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 45
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

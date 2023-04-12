@@ -1,0 +1,78 @@
+name: Windows Protocol Tunneling with Plink
+id: 8aac5e1e-0fab-4437-af0b-c6e60af23eed
+version: 1
+date: '2022-09-15'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of Plink being utilized to
+  proxy egress or laterally in an organization. The analytic is limited to specific
+  Plink options on the command-line, including -R -L and -D which will have the remote
+  and local IP address or port and -l for a username. Modify the options as seen fit
+  for your organization.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine:
+    - '*-R *'
+    - '*-L *'
+    - '*-D *'
+    - '*-l *'
+    OriginalFileName: Plink
+  selection2:
+    Image|endswith: plink.exe
+  condition: selection1 or selection2
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives may be present if the organization allows for
+  SSH tunneling outbound or internally. Filter as needed.
+references:
+- https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
+- https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+- https://attack.mitre.org/techniques/T1572/
+- https://documentation.help/PuTTY/using-cmdline-portfwd.html#S3.8.3.5
+tags:
+  analytic_story:
+  - CISA AA22-257A
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to tunnel to a remote destination.
+  mitre_attack_id:
+  - T1572
+  - T1021.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/plink/plink-windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

@@ -1,0 +1,59 @@
+name: Windows AD Replication Service Traffic
+id: c6e24183-a5f4-4b2a-ad01-2eb456d09b67
+version: 1
+date: "2022-11-26"
+author: Steven Dick
+type: TTP
+status: experimental
+data_source: []
+description:
+  This search looks for evidence of Active Directory replication traffic [MS-DRSR] from unexpected sources.
+  This traffic is often seen exclusively between Domain Controllers for AD database replication.
+  Any detections from non-domain controller source to a domain controller may indicate the usage of DCSync or DCShadow credential dumping techniques.
+search:
+  '| tstats `security_content_summariesonly` count values(All_Traffic.transport) as transport values(All_Traffic.user) as user
+  values(All_Traffic.src_category) as src_category values(All_Traffic.dest_category) as dest_category min(_time) as firstTime max(_time) as lastTime
+  from datamodel=Network_Traffic where All_Traffic.app IN ("ms-dc-replication","*drsr*","ad drs") by All_Traffic.src All_Traffic.dest All_Traffic.app
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name("All_Traffic")`
+  | `windows_ad_replication_service_traffic_filter`'
+how_to_implement:
+  To successfully implement this search, you need to be ingesting
+  application aware firewall or proxy logs into the Network Datamodel. Categorize
+  all known domain controller Assets servers with an appropriate category for filtering.
+known_false_positives: New domain controllers or certian scripts run by administrators.
+references:
+  - https://adsecurity.org/?p=1729
+  - https://attack.mitre.org/techniques/T1003/006/
+  - https://attack.mitre.org/techniques/T1207/
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: endpoint
+  confidence: 100
+  impact: 100
+  message: Active Directory Replication Traffic from Unknown Source - $src$
+  mitre_attack_id:
+    - T1003
+    - T1003.006
+    - T1207
+  observable:
+    - name: dest
+      type: IP Address
+      role:
+        - Victim
+    - name: src
+      type: IP Address
+      role:
+        - Attacker
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  required_fields:
+    - All_Traffic.src
+    - All_Traffic.dest
+    - All_Traffic.app
+  risk_score: 100
+  security_domain: network

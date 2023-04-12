@@ -3,15 +3,16 @@ id: 6c135f8d-5e60-454e-80b7-c56eed739833
 version: 6
 date: '2022-02-08'
 author: Michael Haag, David Dorsey, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies rundll32.exe loading an export function
   by ordinal value. Adversaries may abuse rundll32.exe to proxy execution of malicious
   code. Using rundll32.exe, vice executing directly, may avoid triggering security
   tools that may not monitor execution of the rundll32.exe process because of allowlists
   or false positives from normal operations. Utilizing ordinal values makes it a bit
   more complicated for analysts to understand the behavior until the DLL is reviewed.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_rundll32` by Processes.dest Processes.user Processes.parent_process_name
@@ -28,9 +29,9 @@ known_false_positives: False positives are possible with native utilities and th
   party applications. Filtering may be needed based on command-line, or add world
   writeable paths to restrict query.
 references:
-  - https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
-  - https://twitter.com/M_haggis/status/1491109262428635136
-  - https://twitter.com/pr0xylife/status/1590394227758104576
+- https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/
+- https://twitter.com/M_haggis/status/1491109262428635136
+- https://twitter.com/pr0xylife/status/1590394227758104576
 tags:
   analytic_story:
   - Unusual Processes
@@ -38,25 +39,13 @@ tags:
   - Living Off The Land
   - IcedID
   asset_type: Endpoint
-  cis20:
-  - CIS 8
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/ordinal_windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Installation
   message: A rundll32 process $process_name$ with ordinal parameter like this process
     commandline $process$ on host $dest$.
   mitre_attack_id:
   - T1218
   - T1218.011
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -85,5 +74,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/ordinal_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

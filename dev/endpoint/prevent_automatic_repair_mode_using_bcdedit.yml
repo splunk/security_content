@@ -1,0 +1,58 @@
+name: Prevent Automatic Repair Mode using Bcdedit
+id: 7742aa92-c9d9-11eb-bbfc-acde48001122
+version: 1
+date: '2021-06-10'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search is to detect a suspicious bcdedit.exe execution to ignore
+  all failures. This technique was used by ransomware to prevent the compromise machine
+  automatically boot in repair mode.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*bootstatuspolicy*'
+    Image|endswith: bcdedit.exe
+  selection2:
+    CommandLine: '*ignoreallfailures*'
+  condition: selection1 and selection2
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed bcdedit.exe may be used.
+known_false_positives: Administrators may modify the boot configuration ignore failure
+  during testing and debugging.
+references:
+- https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_1_tamada-yamazaki-nakatsuru_en.pdf
+tags:
+  analytic_story:
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: A suspicious process $process_name$ with process id $process_id$ contains
+    commandline $process$ to ignore all bcdedit execution failure in host $dest$
+  mitre_attack_id:
+  - T1490
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
