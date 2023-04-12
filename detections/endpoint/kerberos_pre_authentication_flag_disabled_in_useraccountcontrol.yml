@@ -3,8 +3,8 @@ id: 0cb847ee-9423-11ec-b2df-acde48001122
 version: 1
 date: '2022-02-22'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic leverages Windows Security Event 4738, `A user
   account was changed`, to identify a change performed on a domain user object that
   disables Kerberos Pre-Authentication. Disabling the Pre Authentication flag in the
@@ -12,6 +12,8 @@ description: The following analytic leverages Windows Security Event 4738, `A us
   attack against the user's password offline leveraging the ASP REP Roasting technique.
   Red Teams and adversaries alike who have obtained privileges in an Active Directory
   network may use this technique as a backdoor or a way to escalate privileges.
+data_source:
+- Windows Security 4738
 search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
   Preauth'' - Enabled*" | table EventCode, Account_Name, Security_ID, MSADChangedAttributes
   | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
@@ -28,15 +30,7 @@ tags:
   - Active Directory Kerberos Attacks
   asset_type: endpoint
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-security.log
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: Kerberos Pre Authentication was Disabled for $Account_Name$
   mitre_attack_id:
   - T1558
@@ -58,3 +52,10 @@ tags:
   - MSADChangedAttributes
   risk_score: 45
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

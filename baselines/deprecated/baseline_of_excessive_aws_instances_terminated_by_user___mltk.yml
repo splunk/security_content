@@ -33,8 +33,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious AWS EC2 Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Abnormally High AWS Instances Terminated by User - MLTK
   product:

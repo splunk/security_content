@@ -3,10 +3,11 @@ id: f27349e5-1641-4f6a-9e68-30402be0ad4c
 version: 1
 date: '2020-05-20'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides information on Kubernetes accounts accessing sensitve
   objects such as configmpas or secrets
+data_source: []
 search: '`kubernetes_azure` category=kube-audit | spath input=properties.log| search
   objectRef.resource=clusterroles OR clusterrolebindings | table sourceIPs{} user.username
   user.groups{} objectRef.namespace requestURI annotations.authorization.k8s.io/reason
@@ -20,23 +21,19 @@ tags:
   analytic_story:
   - Kubernetes Sensitive Role Activity
   asset_type: Azure AKS Kubernetes cluster
-  kill_chain_phases:
-  - Exploitation
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: threat
   confidence: 50
   impact: 50
-  risk_score: 25
-  context:
-  - Unknown
   message: tbd
   observable:
   - name: field
     type: Unknown
     role:
     - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  risk_score: 25
+  security_domain: threat

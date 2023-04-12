@@ -1,0 +1,58 @@
+name: Windows Modify Show Compress Color And Info Tip Registry
+id: b7548c2e-9a10-11ec-99e3-acde48001122
+version: 1
+date: '2022-03-02'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to look for suspicious registry modification related
+  to file compression color and information tips. This IOC was seen in hermetic wiper
+  where it has a thread that will create this registry entry to change the color of
+  compressed or encrypted files in NTFS file system as well as the pop up information
+  tips. This is a good indicator that a process tries to modified one of the registry
+  GlobalFolderOptions related to file compression attribution in terms of color in
+  NTFS file system.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Registry.registry_value_name:
+    - ShowCompColor
+    - ShowInfoTip
+    TargetObject: '*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced*'
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
+known_false_positives: unknown
+references:
+- https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
+tags:
+  analytic_story:
+  - Data Destruction
+  - Windows Defense Evasion Tactics
+  - Hermetic Wiper
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: Registry modification in "ShowCompColor" and "ShowInfoTips" on $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/globalfolderoptions_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

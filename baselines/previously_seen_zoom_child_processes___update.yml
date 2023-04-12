@@ -27,8 +27,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Zoom Child Processes
-  deployments:
-  - Hourly Cache Updates
   detections:
   - First Time Seen Child Process of Zoom
   product:
@@ -41,3 +39,9 @@ tags:
   - Processes.process_name
   - Processes.dest
   security_domain: endpoint
+deployment:
+  scheduling:
+    cron_schedule: 55 * * * *
+    earliest_time: -70m@m
+    latest_time: -10m@m
+    schedule_window: auto

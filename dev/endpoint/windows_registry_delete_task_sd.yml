@@ -1,0 +1,64 @@
+name: Windows Registry Delete Task SD
+id: ffeb7893-ff06-446f-815b-33ca73224e92
+version: 1
+date: '2022-04-13'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies a process attempting to delete a scheduled
+  task SD (Security Descriptor) from within the registry path of that task. This may
+  occur from a non-standard process running and may not come from reg.exe. This particular
+  behavior will remove the actual Task Name from the Task Scheduler GUI and from the
+  command-line query - schtasks.exe /query. In addition, in order to perform this
+  action, the user context will need to be SYSTEM.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Registry.user: SYSTEM
+    TargetObject: '*\\Schedule\\TaskCache\\Tree\\*'
+    Registry.registry_value_name: SD
+    Registry.action:
+    - modified
+    - Deleted
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited as the activity is not common
+  to delete ONLY the SD from the registry. Filter as needed. Update the analytic Modified
+  or Deleted values based on product that is in the datamodel.
+references:
+- https://www.microsoft.com/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/
+- https://gist.github.com/MHaggis/5f7fd6745915166fc6da863d685e2728
+- https://gist.github.com/MHaggis/b246e2fae6213e762a6e694cabaf0c17
+tags:
+  analytic_story:
+  - Windows Registry Abuse
+  - Windows Persistence Techniques
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: A scheduled task security descriptor was deleted from the registry on $dest$.
+  mitre_attack_id:
+  - T1053.005
+  - T1562
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/sd_delete_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

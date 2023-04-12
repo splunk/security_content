@@ -1,0 +1,68 @@
+name: Linux PHP Privilege Escalation
+id: 4fc4c031-e5be-4cc0-8cf9-49f9f507bcb5
+version: 1
+date: '2022-08-09'
+author: Gowthamaraj Rajendran, Splunk
+status: production
+type: Anomaly
+description: PHP is a general-purpose scripting language geared toward web development.
+  It was originally created by Danish-Canadian programmer Rasmus Lerdorf in 1994.
+  The PHP reference implementation is now produced by The PHP Group. If sudo right
+  is given to php application for the user, then the user can run system commands
+  as root and possibly get a root shell.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*system*'
+  selection2:
+    CommandLine: '*php*-r*'
+  selection3:
+    CommandLine: '*sudo*'
+  condition: selection1 and selection2 and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the
+  Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: False positives may be present, filter as needed.
+references:
+- https://gtfobins.github.io/gtfobins/php/
+- https://en.wikipedia.org/wiki/PHP
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 60
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$
+  mitre_attack_id:
+  - T1548.003
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/php/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true

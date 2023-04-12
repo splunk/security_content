@@ -3,11 +3,12 @@ id: 69c12d59-d951-431e-ab77-ec426b8d65e6
 version: 1
 date: '2020-11-06'
 author: Rod Soto, Jose Hernandez, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The search looks for a Windows Security Account Manager (SAM) was stopped
   via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe"
   "Processes.process"="*stop \"samss\"*") BY "Processes.dest", "Processes.user", "Processes.process"
@@ -25,24 +26,12 @@ tags:
   analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
-  cis20:
-  - CIS 8
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Delivery
   message: 'The Windows Security Account Manager (SAM) was stopped via cli by $user$
     on $dest$ by this command: $processs$'
   mitre_attack_id:
   - T1489
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: dest
     type: Endpoint
@@ -68,5 +57,9 @@ tags:
   - Processes.user
   risk_score: 70
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

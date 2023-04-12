@@ -3,13 +3,14 @@ id: 723b861a-92eb-11eb-93b8-acde48001122
 version: 1
 date: '2021-04-01'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This detection identifies failure attempts to delete groups. We want
   to identify when a group is attempting to be deleted, but either access is denied,
   there is a conflict or there is no group. This is indicative of administrators performing
   an action, but also could be suspicious behavior occurring. Review parallel IAM
   events - recently added users, new groups and so forth.
+data_source: []
 search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode
   IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com)
   | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName)
@@ -30,15 +31,7 @@ tags:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
   confidence: 50
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
   impact: 10
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user_arn$ has had mulitple failures while attempting to delete groups
     from $src$
   mitre_attack_id:
@@ -68,3 +61,10 @@ tags:
   - requestParameters.groupName
   risk_score: 5
   security_domain: cloud
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

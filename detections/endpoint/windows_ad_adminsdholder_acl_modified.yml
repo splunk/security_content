@@ -4,7 +4,9 @@ version: 1
 date: '2022-11-15'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source: 
+- Windows Security 5136
 description: The following analytic identifies the modification of the Access Control List for the AdminSDHolder object within a Windows domain. Specifically, the 
   detection triggers on the addition of a new rule to the existing ACL. AdminSDHolder is an object located in the System Partition in Active Directory and is used as a 
   security template for objects that are members of certain privileged groups. Objects in these groups are enumerated and any objects with security descriptors that dont 
@@ -31,25 +33,11 @@ tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/adminsdholder_modified/windows-security.log
   impact: 80
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
   message: The AdminSDHolder domain object has been modified on $Computer$ by $SubjectUserName$
   mitre_attack_id:
   - T1546
-  nist:
-  - DE.CM
   observable:
   - name: SubjectUserName
     type: User
@@ -74,3 +62,9 @@ tags:
   - AttributeValue
   risk_score: 56
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546/adminsdholder_modified/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
