@@ -36,7 +36,7 @@ tags:
   confidence: 50
   context:
   - Source:Endpoint
-  - Stage:Reconnaissance
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1590.002/enum_dns_record/sysmon.log
   impact: 50
