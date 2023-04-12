@@ -1,19 +1,20 @@
 name: 3CX Supply Chain Attack Network Indicators
 id: 791b727c-deec-4fbe-a732-756131b3c5a1
 version: 1
-date: '2023-03-30'
+date: "2023-03-30"
 author: Michael Haag, Splunk
 type: TTP
 status: experimental
 data_source: []
 description: The analytic provided below employs the Network_Resolution datamodel to detect domain indicators associated with the 3CX supply chain attack. By leveraging this query, you can efficiently conduct retrospective analysis of your data to uncover potential compromises.
-search: '| tstats `summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query 
-  | `drop_dm_object_name(DNS)` 
+search:
+  "| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query
+  | `drop_dm_object_name(DNS)`
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)`
   | lookup 3cx_ioc_domains domain as query OUTPUT Description isIOC
   | search isIOC=true
-  | `3cx_supply_chain_attack_network_indicators_filter`'
+  | `3cx_supply_chain_attack_network_indicators_filter`"
 how_to_implement: To successfully implement this search you need to be ingesting information into the `Network Resolution` datamodel in the `DNS` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA''s are installed.
 known_false_positives: False positives will be present for accessing the 3cx[.]com website. Remove from the lookup as needed.
 references:
@@ -24,37 +25,37 @@ references:
   - https://www.3cx.com/community/threads/3cx-desktopapp-security-alert.119951/
 tags:
   analytic_story:
-  - 3CX Supply Chain Attack
+    - 3CX Supply Chain Attack
   asset_type: Network
   confidence: 100
   cve:
-  - CVE-2023-29059
+    - CVE-2023-29059
   impact: 100
   message: Indicators related to 3CX supply chain attack have been identified on $src$.
   mitre_attack_id:
-  - T1195.002
+    - T1195.002
   observable:
-  - name: src
-    type: Hostname
-    role:
-    - Victim
-  - name: query
-    type: URL Domain
-    role:
-    - Attacker
+    - name: src
+      type: Hostname
+      role:
+        - Victim
+    - name: query
+      type: URL Domain
+      role:
+        - Attacker
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   required_fields:
-  - DNS.src
-  - DNS.query 
-  - _time
+    - DNS.src
+    - DNS.query
+    - _time
   risk_score: 100
   security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_network-windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_network-windows-sysmon.log
+        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        sourcetype: xmlwineventlog
