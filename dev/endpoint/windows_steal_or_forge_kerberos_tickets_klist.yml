@@ -1,0 +1,60 @@
+name: Windows Steal or Forge Kerberos Tickets Klist
+id: 09d88404-1e29-46cb-806c-1eedbc85ad5d
+version: 1
+date: '2022-11-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies a process execution of Windows OS klist.exe
+  tool. This tool is being abused or used by several post exploitation tool such as
+  winpeas that being used by ransomware prestige to display or gather list of currently
+  cached kerberos ticket. This cahced data can be used for lateral movement or even
+  privilege escalation on the targeted host. This hunting query can be a good pivot
+  in possible kerberos attack or pass the hash technique.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage:
+    - cmd.exe
+    - powershell*
+    OriginalFileName: klist.exe
+  selection2:
+    Image|endswith: klist.exe
+  condition: selection1 or selection2
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+known_false_positives: unknown
+references:
+- https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+- https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+tags:
+  analytic_story:
+  - Windows Post-Exploitation
+  - Prestige Ransomware
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: process klist.exe executed in $dest$
+  mitre_attack_id:
+  - T1558
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

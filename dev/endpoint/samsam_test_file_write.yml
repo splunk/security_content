@@ -1,0 +1,51 @@
+name: Samsam Test File Write
+id: 493a879d-519d-428f-8f57-a06a0fdc107e
+version: 1
+date: '2018-12-14'
+author: Rico Valdez, Splunk
+status: production
+type: TTP
+description: The search looks for a file named "test.txt" written to the windows system
+  directory tree, which is consistent with Samsam propagation.
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    TargetFilename: '*\\windows\\system32\\test.txt'
+  condition: selection1
+how_to_implement: You must be ingesting data that records the file-system activity
+  from your hosts to populate the Endpoint file-system data-model node. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
+known_false_positives: No false positives have been identified.
+references: []
+tags:
+  analytic_story:
+  - SamSam Ransomware
+  asset_type: Endpoint
+  confidence: 20
+  impact: 60
+  message: A samsam ransomware test file creation in $file_path$ in host $dest$
+  mitre_attack_id:
+  - T1486
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 12
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/sam_sam_note/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

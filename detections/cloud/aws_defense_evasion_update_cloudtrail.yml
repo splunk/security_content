@@ -3,43 +3,37 @@ id: 7c921d28-ef48-4f1b-85b3-0af8af7697db
 version: 1
 date: '2022-07-17'
 author: Gowthamaraj Rajendran, Splunk
+status: production
 type: TTP
-datamodel: []
-description: This analytic identifies `UpdateTrail` events in CloudTrail logs. Attackers may evade the logging capability by updating the settings and impairing 
-  them with wrong parameters. For example, Attackers may change the multi-regional log into a single region logs, which evades the logging for other regions. 
-  When the adversary has the right type of permissions in the compromised AWS environment, they may update the CloudTrail settings that is logging activities 
-  in your environment.
-search: '`cloudtrail` eventName = UpdateTrail eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success| stats
-  count min(_time) as firstTime max(_time) as lastTime values(requestParameters.name) as cloudtrail_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
+description: This analytic identifies `UpdateTrail` events in CloudTrail logs. Attackers
+  may evade the logging capability by updating the settings and impairing them with
+  wrong parameters. For example, Attackers may change the multi-regional log into
+  a single region logs, which evades the logging for other regions. When the adversary
+  has the right type of permissions in the compromised AWS environment, they may update
+  the CloudTrail settings that is logging activities in your environment.
+data_source: []
+search: '`cloudtrail` eventName = UpdateTrail eventSource = cloudtrail.amazonaws.com
+  userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
+  firstTime max(_time) as lastTime values(requestParameters.name) as cloudtrail_name
+  by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `aws_defense_evasion_update_cloudtrail_filter`'
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in
   your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has updated cloudtrail logging. Please investigate this activity. 
+  that an AWS admin has updated cloudtrail logging. Please investigate this activity.
 references:
 - https://attack.mitre.org/techniques/T1562/008/
 tags:
   analytic_story:
   - AWS Defense Evasion
   asset_type: AWS Account
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
-  context:
-  - Source:Cloud Data
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/update_cloudtrail/aws_cloudtrail_events.json
   impact: 100
-  kill_chain_phases:
-  - Actions on Objectives
-  message: User $user_arn$ has updated a cloudtrail logging for account id $aws_account_id$ from IP $src$
+  message: User $user_arn$ has updated a cloudtrail logging for account id $aws_account_id$
+    from IP $src$
   mitre_attack_id:
   - T1562
   - T1562.008
-  nist:
-  - DE.CM
   observable:
   - name: src
     type: IP Address
@@ -54,7 +48,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time 
+  - _time
   - eventName
   - eventSource
   - requestParameters.name
@@ -64,3 +58,10 @@ tags:
   - region
   risk_score: 90
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/update_cloudtrail/aws_cloudtrail_events.json
+    source: aws_cloudtrail
+    sourcetype: aws:cloudtrail
+    update_timestamp: true

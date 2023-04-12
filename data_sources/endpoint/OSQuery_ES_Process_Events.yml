@@ -1,0 +1,35 @@
+name: OSQuery ES Process Events
+id: 1cacd11a-d07c-4dca-869f-f9d437d09f8b
+date: '2022-12-17'
+author: Patrick Bareiss, Splunk
+type: osquery
+source: osquery
+sourcetype: osquery:results
+category: process_creation
+product: macos
+supported_TA:
+- name: add-on for osquery
+  version: 1.0.0
+  url: https://splunkbase.splunk.com/app/4402
+references: []
+raw_fields:
+- pid
+- path
+- parent
+- original_parent
+- cmdline
+- cmdline_count
+- env
+- cwd
+- uid
+- euid
+- gid
+- egid
+- username
+- signing_id
+- team_id
+- cdhash
+- platform_binary
+- exit_code
+- child_pid
+- event_type

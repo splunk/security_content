@@ -3,19 +3,28 @@ id: e98944a9-92e4-443c-81b8-a322e33ce75a
 version: 1
 date: '2022-08-23'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
-description: The following analytic identifies the creation of a new Automation Runbook Webhook within an Azure tenant. Azure Automation is a cloud-based automation platform that allows
-  administrators to automate Azure management tasks and orchestrate actions across external systems within Azure. Azure Automation script files called Runbooks that can be written in PowerShell or Python.
-  One of the ways administrators can configure a Runbook to be executed is through HTTP Webhooks. Webhooks leverage custom unauthenticated URLs that are exposed to the Internet.
-  An adversary who has obtained privileged access to an Azure tenant may create a Webhook to trigger the execution of an Automation Runbook with malicious code that can create users or execute code on a VM.
-  This provides a persistent foothold on the environment.
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation webhook" status.value=Succeeded
-  | stats values(object) by _time, caller, claims.ipaddr, resourceGroupName, object_path
-  | `azure_runbook_webhook_created_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Audit events into your Splunk environment. 
-  Specifically, this analytic leverages the Azure Activity log category.
-known_false_positives: Administrators may legitimately create Azure Runbook Webhooks. Filter as needed.
+description: The following analytic identifies the creation of a new Automation Runbook
+  Webhook within an Azure tenant. Azure Automation is a cloud-based automation platform
+  that allows administrators to automate Azure management tasks and orchestrate actions
+  across external systems within Azure. Azure Automation script files called Runbooks
+  that can be written in PowerShell or Python. One of the ways administrators can
+  configure a Runbook to be executed is through HTTP Webhooks. Webhooks leverage custom
+  unauthenticated URLs that are exposed to the Internet. An adversary who has obtained
+  privileged access to an Azure tenant may create a Webhook to trigger the execution
+  of an Automation Runbook with malicious code that can create users or execute code
+  on a VM. This provides a persistent foothold on the environment.
+data_source: []
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
+  webhook" status.value=Succeeded | stats values(object) by _time, caller, claims.ipaddr,
+  resourceGroupName, object_path | `azure_runbook_webhook_created_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Audit events into your Splunk environment. Specifically,
+  this analytic leverages the Azure Activity log category.
+known_false_positives: Administrators may legitimately create Azure Runbook Webhooks.
+  Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/automation/overview
 - https://docs.microsoft.com/en-us/azure/automation/automation-runbook-types
@@ -27,26 +36,13 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
-  asset_type: Azure 
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Azure
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_runbook_webhook/azure-activity.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A new Azure Runbook Webhook $object$ was created by $caller$
   mitre_attack_id:
   - T1078
   - T1078.004
-  nist:
-  - DE.CM
   observable:
   - name: object
     type: Other
@@ -71,3 +67,10 @@ tags:
   - object_path
   risk_score: 63
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_runbook_webhook/azure-activity.log
+    source: mscs:azure:audit
+    sourcetype: mscs:azure:audit
+    update_timestamp: true

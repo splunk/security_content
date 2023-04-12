@@ -1,0 +1,79 @@
+name: WMIC XSL Execution via URL
+id: 787e9dd0-4328-11ec-a029-acde48001122
+version: 1
+date: '2021-11-11'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible
+  Stylesheet Language) script. This originally was identified by Casey Smith, dubbed
+  Squiblytwo, as an application control bypass. Many adversaries will utilize this
+  technique to invoke JScript or VBScript within an XSL file. This technique can also
+  execute local/remote scripts and, similar to its Regsvr32 "Squiblydoo" counterpart,
+  leverages a trusted, built-in Windows tool. Adversaries may abuse any alias in Windows
+  Management Instrumentation provided they utilize the /FORMAT switch. Upon identifying
+  a suspicious execution, review for confirmed network connnection and script download.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: wmic.exe
+  selection2:
+    Image|endswith: wmic.exe
+  selection3:
+    CommandLine:
+    - '*http://*'
+    - '*https://*'
+  selection4:
+    CommandLine: '*/format:*'
+  condition: (selection1 or selection2) and selection3 and selection4
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives are limited as legitimate applications typically
+  do not download files or xsl using WMIC. Filter as needed.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md
+- https://web.archive.org/web/20190814201250/https://subt0x11.blogspot.com/2018/04/wmicexe-whitelisting-bypass-hacking.html
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md#atomic-test-4---wmic-bypass-using-remote-xsl-file
+tags:
+  analytic_story:
+  - Suspicious WMI Use
+  asset_type: Endpoint
+  confidence: 100
+  impact: 80
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ utilizing wmic to download a remote XSL script.
+  mitre_attack_id:
+  - T1220
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1220/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

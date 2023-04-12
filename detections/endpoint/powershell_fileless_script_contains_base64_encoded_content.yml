@@ -3,8 +3,8 @@ id: 8acbc04c-c882-11eb-b060-acde48001122
 version: 2
 date: '2022-04-26'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
 description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify suspicious PowerShell execution. Script Block Logging captures the command
   sent to PowerShell, the full command to be executed. Upon enabling, logs will output
@@ -20,11 +20,12 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText = "*gnirtS46esaBmorF*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `powershell_fileless_script_contains_base64_encoded_content_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText
+  = "*gnirtS46esaBmorF*" | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_fileless_script_contains_base64_encoded_content_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -36,20 +37,14 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   - AsyncRAT
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/frombase64string.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
-  message: A suspicious powershell script contains base64 command in $ScriptBlockText$ with
-    EventCode $EventCode$ in host $Computer$
+  message: A suspicious powershell script contains base64 command in $ScriptBlockText$
+    with EventCode $EventCode$ in host $Computer$
   mitre_attack_id:
   - T1059
   - T1027
@@ -72,4 +67,9 @@ tags:
   - EventCode
   risk_score: 56
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/frombase64string.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

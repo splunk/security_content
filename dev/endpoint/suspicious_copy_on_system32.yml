@@ -1,0 +1,80 @@
+name: Suspicious Copy on System32
+id: ce633e56-25b2-11ec-9e76-acde48001122
+version: 1
+date: '2021-10-05'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is to detect a suspicious copy of file from systemroot
+  folder of the windows OS. This technique is commonly used by APT or other malware
+  as part of execution (LOLBIN) to run its malicious code using the available legitimate
+  tool in OS. this type of event may seen or may execute of normal user in some instance
+  but this is really a anomaly that needs to be check within the network.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage:
+    - cmd.exe
+    - powershell*
+    - pwsh.exe
+    - sqlps.exe
+    - sqltoolsps.exe
+    - powershell_ise.exe
+  selection2:
+    OriginalFileName: copy.exe
+  selection3:
+    Image|endswith: copy.exe
+  selection4:
+    Image|endswith: xcopy.exe
+  selection5:
+    OriginalFileName: xcopy.exe
+  selection6:
+    CommandLine:
+    - '*\\Windows\\System32\*'
+    - '*\\Windows\\SysWow64\\*'
+  selection7:
+    CommandLine: '*copy*'
+  condition: selection1 and selection2 and selection3 and selection4 and selection5
+    and selection6 and selection7
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: every user may do this event but very un-ussual.
+references:
+- https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Qakbot
+  - IcedID
+  asset_type: Endpoint
+  confidence: 90
+  impact: 70
+  message: execution of copy exe to copy file from $process$ in $dest$
+  mitre_attack_id:
+  - T1036.003
+  - T1036
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/copy_sysmon/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,58 @@
+name: Okta Suspicious Use of a Session Cookie
+id: 71ad47d1-d6bd-4e0a-b35c-020ad9a6959e
+version: 1
+date: '2023-03-17'
+author: Scott Dermott and Felicity Robson, Okta, Michael Haag, Splunk
+type: Hunting
+status: experimental
+data_source: []
+description: 'The following analytic looks for one or more policy evaluation events in which multiple client values (IP, User Agent, etc.) change associated to the same Device Token for a specific user. A detection opportunity arises when an adversary attempts to reuse a stolen web session cookie. \
+
+  * Retrieves policy evaluation events from successful authentication events. \
+
+  * Aggregates/Groups by Device Token and User, providing the first policy evaluation event in the search window. \
+
+  * Evaluates whether there is more than one IP and whether there is more than one OS or browser for each combination of User/Device Token.'
+search: '`okta` eventType IN (policy.evaluate_sign_on) outcome.result IN
+  (ALLOW, SUCCESS) | stats earliest(_time) as _time values(client.ipAddress) as src_ip
+  values(client.userAgent.rawUserAgent) as user_agent values(client.userAgent.os) as
+  userAgentOS_list values(client.geographicalContext.city) as city values(client.userAgent.browser) as userAgentBrowser_list
+  values(device.os_platform) as okta_device_os dc(client.userAgent.browser) as dc_userAgentBrowser
+  dc(client.userAgent.os) as dc_userAgentOS dc(client.ipAddress) as dc_src_ip
+  values(outcome.reason) as reason by debugContext.debugData.dtHash actor.alternateId
+  | where dc_src_ip>1 AND (dc_userAgentOS>1 OR dc_userAgentBrowser>1)
+  | `okta_suspicious_use_of_a_session_cookie_filter`'
+how_to_implement: This analytic is specific to Okta and requires Okta:im2 logs to be ingested.
+known_false_positives: False positives may be present based on organization size and configuration of Okta. 
+references:
+  - https://attack.mitre.org/techniques/T1539/
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  asset_type: Infrastructure
+  confidence: 70
+  impact: 80
+  message: A suspicious use of a session cookie was identified by user $actor.alternateId$. 
+  mitre_attack_id:
+  - T1539
+  observable:
+  - name: actor.alternateId
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - client.ipAddress
+  - client.userAgent.rawUserAgent
+  - client.userAgent.os
+  - client.geographicalContext.city
+  - client.userAgent.browser
+  - device.os_platform
+  - debugContext.debugData.dtHash
+  - actor.alternateId
+  risk_score: 56
+  security_domain: access

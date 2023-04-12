@@ -1,0 +1,52 @@
+name: Windows Indirect Command Execution Via pcalua
+id: 3428ac18-a410-4823-816c-ce697d26f7a8
+version: 1
+date: '2022-04-05'
+author: Eric McGinnis, Splunk
+status: production
+type: TTP
+description: The following analytic detects programs that have been started by pcalua.exe.
+  pcalua.exe is the Microsoft Windows Program Compatability Assistant.  While this
+  tool can be used to start legitimate programs, it has been observed being used to
+  evade protections on command line execution.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentCommandLine: '*pcalua* -a*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the full process path in the process field of CIM's Process data model.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Tune and filter known instances where pcalua.exe may be used.
+known_false_positives: Some legacy applications may be run using pcalua.exe.  Filter
+  these results as needed.
+references:
+- https://twitter.com/KyleHanslovan/status/912659279806640128
+- https://lolbas-project.github.io/lolbas/Binaries/Pcalua/
+tags:
+  analytic_story:
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: The Program Compatability Assistant (pcalua.exe) launched the process $process_name$
+  mitre_attack_id:
+  - T1202
+  observable:
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

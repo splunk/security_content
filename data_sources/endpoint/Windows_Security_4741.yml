@@ -1,0 +1,44 @@
+name: Windows Security 4741
+id: d9432b11-9db3-4abe-a8aa-d78537990037
+date: '2022-12-02'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4741
+raw_fields: 
+- Account_Domain
+- Account_Expires
+- Account_Name
+- AllowedToDelegateTo
+- ComputerName
+- DNS_Host_Name
+- Home_Directory
+- Home_Drive
+- Logon_Hours
+- Logon_ID
+- MSADChangedAttributes
+- New_UAC_Value
+- Old_UAC_Value
+- Password_Last_Set
+- Primary_Group_ID
+- Profile_Path
+- SAM_Account_Name
+- SID_History
+- Script_Path
+- Security_ID
+- Subject_Account_Domain
+- Subject_Account_Name
+- Subject_Logon_ID
+- Subject_Security_ID
+- User_Parameters
+- User_Principal_Name
+- User_Workstations
+

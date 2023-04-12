@@ -1,0 +1,57 @@
+name: Linux NOPASSWD Entry In Sudoers File
+id: ab1e0d52-624a-11ec-8e0b-acde48001122
+version: 1
+date: '2021-12-21'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to look for suspicious command lines that may add entry
+  to /etc/sudoers with NOPASSWD attribute in linux platform. This technique is commonly
+  abuse by adversaries, malware author and red teamers to gain elevated privilege
+  to the targeted or compromised host. /etc/sudoers file controls who can run what
+  commands users can execute on the machines and can also control whether user need
+  a password to execute particular commands. This file is composed of aliases (basically
+  variables) and user specifications.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*NOPASSWD:*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://askubuntu.com/questions/334318/sudoers-file-enable-nopasswd-for-user-all-commands
+- https://help.ubuntu.com/community/Sudoers
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: a commandline $process$ executed on $dest$
+  mitre_attack_id:
+  - T1548.003
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/nopasswd_sudoers/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

@@ -4,7 +4,9 @@ version: 1
 date: '2023-01-26'
 author: Dean Luxton
 type: TTP
-datamodel: []
+status: production
+data_source:
+- Windows Security 4742
 description: This analytic identifies a genuine DC promotion event. Identifying when a computer assigns itself the 
   necessary SPNs to function as a domain controller. Note these events are triggered on the existing domain controllers, not the newly 
   joined domain controller. This detection will serve to identify rogue DCs added to the network. There are 2x detections within this analytic story 
@@ -21,23 +23,11 @@ tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
-  cis20:
-  - CIS 4
-  - CIS 6
   confidence: 100 
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/dc_promo/windows-security-xml.log
   impact: 80 
-  kill_chain_phases:
-  - Actions on Objectives
   message: AD Domain Controller Promotion Event Detected for $dest$
   mitre_attack_id:
   - T1207
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -57,3 +47,9 @@ tags:
   - dvc
   risk_score: 80
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/dc_promo/windows-security-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
