@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - XMRig
   - Azorult
+  - Sandworm Tools
   confidence: 80
   context:
   - Source:Endpoint

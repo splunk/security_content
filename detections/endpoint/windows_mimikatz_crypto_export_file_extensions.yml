@@ -16,6 +16,7 @@ references:
 tags:
   analytic_story:
   - Windows Certificate Services
+  - Sandworm Tools
   asset_type: Endpoint
   cis20:
   - CIS 3

@@ -26,6 +26,7 @@ tags:
   analytic_story:
   - Credential Dumping
   - CISA AA22-320A
+  - Sandworm Tools
   asset_type: Endpoint
   cis20:
   - CIS 3

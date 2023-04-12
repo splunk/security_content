@@ -47,6 +47,7 @@ tags:
   - DarkCrystal RAT
   - Qakbot
   - CISA AA22-320A
+  - Sandworm Tools
   asset_type: Endpoint
   cis20:
   - CIS 3

@@ -39,6 +39,7 @@ tags:
   - Malicious PowerShell
   - CISA AA22-264A
   - CISA AA22-320A
+  - Sandworm Tools
   confidence: 100
   context:
   - Source:Endpoint

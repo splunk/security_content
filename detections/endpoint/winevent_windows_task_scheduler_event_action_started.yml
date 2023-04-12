@@ -37,6 +37,8 @@ tags:
   - Qakbot
   - Prestige Ransomware
   - AsyncRAT
+  - Winter Vivern
+  - Sandworm Tools
   confidence: 100
   context:
   - Source:Endpoint

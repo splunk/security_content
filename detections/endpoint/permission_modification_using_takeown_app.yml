@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - Sandworm Tools
   confidence: 80
   context:
   - Source:Endpoint

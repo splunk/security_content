@@ -33,6 +33,7 @@ tags:
   - Qakbot
   - IcedID
   - AsyncRAT
+  - Sandworm Tools
   confidence: 90
   context:
   - Stage:Execution
