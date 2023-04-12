@@ -25,8 +25,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Authentication Activities
-  deployments:
-  - 90 Day Baseline
   detections:
   - Detect AWS Console Login by User from New Country
   - Detect AWS Console Login by User from New Region
@@ -42,3 +40,9 @@ tags:
   - Authentication.user
   - Authentication.src
   security_domain: network
+deployment:
+  scheduling:
+    cron_schedule: 0 2 * * 0
+    earliest_time: -90d@d
+    latest_time: -1d@d
+    schedule_window: auto

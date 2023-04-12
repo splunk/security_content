@@ -1,0 +1,67 @@
+name: Windows Rename System Utilities Agentexecutor exe LOLBAS in Non Standard Path
+id: e124f71f-11bc-47e4-9931-6046d256005d
+version: 1
+date: '2022-10-18'
+author: Splunk Threat Research Bot, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies AgentExecutor.exe which is a native
+  living off the land binary or script (LOLBAS) within the Windows operating system
+  that may be abused by adversaries by moving it to a new directory. The list of binaries
+  was derived from the https://lolbas-project.github.io site.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process_name: agentexecutor.exe
+  selection2:
+    process_path|re: \\program files (x86)
+  condition: selection1 and not selection2
+how_to_implement: To successfully implement this search, you must be ingesting logs
+  with the process name, command-line arguments, and parent processes from your endpoints.
+  Collect endpoint data such as Sysmon or Windows Events 4688.
+known_false_positives: False positives may be present and filtering may be required.
+  Certain utilities will run from non-standard paths based on the third-party application
+  in use.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+- https://attack.mitre.org/techniques/T1036/003/
+- https://lolbas-project.github.io/
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 70
+  impact: 20
+  message: A system process $process_name$ with path $process_path$ spawn in non-default
+    folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  kill_chain_phases:
+  - Actions on Objectives
+  risk_score: 14
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
+    source: WinEventLog:Security

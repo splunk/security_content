@@ -1,0 +1,23 @@
+name: Sysmon Event ID 20
+id: 3168d1c1-1cd4-4905-85b7-e7feea42be56
+date: '2022-10-20'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: wmi_event
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - UserID
+  - Operation
+  - User
+  - Name
+  - Type
+  - Destination

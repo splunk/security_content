@@ -25,7 +25,7 @@ tags:
   - Suspicious AWS S3 Activities
   - Suspicious AWS Traffic
   - Suspicious Cloud Instance Activities
-  - Command and Control
+  - Command And Control
   product:
   - Splunk Phantom
   required_fields:

@@ -3,13 +3,14 @@ id: 6d663014-fe92-11eb-ab07-acde48001122
 version: 1
 date: '2021-08-16'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search is to detect a suspicious attachment file extension in Gsuite
   email that may related to spear phishing attack. This file type is commonly used
   by malware to lure user to click on it to execute malicious code to compromised
   targetted machine. But this search can also catch some normal files related to this
   file type that maybe send by employee or network admin.
+data_source: []
 search: '`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh",
   "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go")
   | eval phase="plan" | eval severity="medium" | stats count min(_time) as firstTime
@@ -31,14 +32,7 @@ tags:
   - Dev Sec Ops
   asset_type: GSuite
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:
   - T1566.001
@@ -68,3 +62,9 @@ tags:
   - source.address
   risk_score: 49
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log
+    source: http:gsuite
+    sourcetype: gsuite:gmail:bigquery

@@ -3,10 +3,8 @@ id: 69afee44-5c91-11ec-bf1f-497c9a704a72
 version: 1
 date: '2021-12-13'
 author: Jose Hernandez
+status: production
 type: Anomaly
-datamodel:
-- Network_Traffic
-- Web
 description: CVE-2021-44228 Log4Shell payloads can be injected via various methods,
   but on of the most common vectors injection is via Web calls. Many of the vulnerable
   java web applications that are using log4j have a web component to them are specially
@@ -17,6 +15,7 @@ description: CVE-2021-44228 Log4Shell payloads can be injected via various metho
   Specifically it has been successfully exploited via headers like X-Forwarded-For,
   User-Agent, Referer, and X-Api-Version. In this detection we match the invocation
   function with a network connection to a malicious ip address.
+data_source: []
 search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)"
   | join affected_host type=inner [| tstats `security_content_summariesonly` count
   min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic
@@ -35,27 +34,13 @@ tags:
   - Log4Shell CVE-2021-44228
   - CISA AA22-320A
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 30
-  context:
-  - Source:Application Log
-  - Stage:Execution
   cve:
   - CVE-2021-44228
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_network_logs/log4j_network_logs.log
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: CVE-2021-44228 Log4Shell triggered for host $dest$
   mitre_attack_id:
   - T1190
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -85,3 +70,12 @@ tags:
   - user
   risk_score: 15
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
+    source: nginx
+    sourcetype: nginx:plus:kv
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_network_logs/log4j_network_logs.log
+    source: stream:Splunk_IP
+    sourcetype: stream:ip

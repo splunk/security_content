@@ -3,9 +3,10 @@ id: 610e12dc-b6fa-4541-825e-4a0b3b6f6773
 version: 1
 date: '2021-09-06'
 author: Patrick Bareiss, Splunk
+status: production
 type: Correlation
-datamodel: []
 description: This search correlations detections by user and risk_score
+data_source: []
 search: '`risk_index` | fillnull | stats sum(risk_score) as risk_score values(source)
   as signals values(repository) as repository by user | sort - risk_score | where
   risk_score > 80 | `correlation_by_user_and_risk_filter`'
@@ -16,24 +17,12 @@ tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: AWS Account
-  cis20:
-  - CIS 13
   confidence: 100
-  context:
-  - Unknown
-  deployments:
-  - Slack Alert
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: Correlation triggered for user $user$
   mitre_attack_id:
   - T1204.003
   - T1204
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: user
     type: User

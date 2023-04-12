@@ -5,17 +5,53 @@ description: The following analytic identifies AccCheckConsole.exe which is a na
   living off the land binary or script (LOLBAS) within the Windows operating system
   that may be abused by adversaries by moving it to a new directory. The list of binaries
   was derived from the https://lolbas-project.github.io site.
-search: '| from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
-  "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
-  "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
-  null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
-  null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string",
-  null)), event_id=ucast(map_get(input_event, "event_id"), "string", null)| where
-  process_name IS NOT NULL AND process_name="acccheckconsole.exe"| where process_path
-  IS NOT NULL AND match_regex(process_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm64\\accchecker/)=false
-  | eval start_time=timestamp,end_time=timestamp, entities=mvappend(device, user),
-  body=create_map(["event_id", event_id, "process_path", process_path, "process_name",
-  process_name]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  process_file_name="acccheckconsole.exe" AND (NOT match_regex(process_file_path,
+  /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm64\\accchecker/)=true)
+  
+  | eval body=create_map(
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ],
+    "time", timestamp,
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.path", process_file_path, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
+    "message", concat("Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard Path has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "users", [
+        create_map(
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+        )
+    ],
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 0,
+    "risk_score", 14,
+    "severity_id", 0,
+    "rule", create_map("name", "Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard Path", "uid", "c842931e-661f-42bc-a4df-0460d93cfb69", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
+  )
+  | into write_ba_finding_events();'
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
   Collect endpoint data such as Sysmon or Windows Events 4688.
@@ -27,39 +63,57 @@ references:
 - https://attack.mitre.org/techniques/T1036/003/
 - https://lolbas-project.github.io/
 tags:
-  analytic_story:
-  - Unusual Processes
-  - Living Off The Land
-  cis20:
-  - CIS 8
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack_id:
-  - T1036
-  - T1036.003
-  nist:
-  - PR.PT
-  - DE.CM
   required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
+  - process.user.name
+  - device.hostname
+  - process.file.path
+  - process.file.name
+  - process.cmd_line
   risk_score: 14
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/c842931e-661f-42bc-a4df-0460d93cfb69/
-  event_schema: cim
+  event_schema: ocsf
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+  annotations:
+    analytic_story:
+    - Unusual Processes
+    - Living Off The Land
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    mitre_attack_id:
+    - T1036
+    - T1036.003
+    nist:
+    - DE.AE
 test:
   name: Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard
     Path Unit Test
   tests:
   - name: Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard
       Path
-    file: endpoint/ssa___acccheckconsole_exe.yml
-    pass_condition: '@count_eq(1)'
     attack_data:
-    - file_name: dotnet_lolbin-windows-security.log
+    - file_name: lolbas_dataset.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/lolbas_dataset.log
       source: WinEventLog:Security
+runtime: SPL-DSP

@@ -3,23 +3,26 @@ id: 9c27ec42-d338-11eb-9044-acde48001122
 version: 3
 date: '2022-11-14'
 author: Steven Dick, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: this search is to identify modification in registry to disable AMSI windows
   feature to evade detections. This technique was seen in several ransomware, RAT
   and even APT to impaire defenses of the compromise machine and to be able to execute
-  payload with minimal alert as much as possible.  
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
- | `drop_dm_object_name(Processes)` 
- | join process_guid [
- | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
- | `drop_dm_object_name(Registry)`] 
- | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
- | where isnotnull(registry_value_data)
- | `security_content_ctime(firstTime)` 
- | `security_content_ctime(lastTime)`
- | `disable_amsi_through_registry_filter`'
+  payload with minimal alert as much as possible.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
+  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
+  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
+  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable"
+  Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime
+  dest user parent_process_name parent_process process_name process_path process registry_key_name
+  registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_amsi_through_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -33,13 +36,9 @@ tags:
   analytic_story:
   - Ransomware
   - Windows Registry Abuse
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
   message: Disable AMSI Through Registry
   mitre_attack_id:
   - T1562.001
@@ -57,12 +56,12 @@ tags:
   - _time
   - Processes.user
   - Processes.dest
-  - Processes.process_id 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_path  
-  - Processes.parent_process_name 
-  - Processes.parent_process 
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
@@ -70,8 +69,11 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_data
   - Registry.process_guid
-  security_domain: endpoint
-  asset_type: Endpoint
-  confidence: 50
-  impact: 50
   risk_score: 25.0
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -3,15 +3,16 @@ id: c3bc1430-04e7-4178-835f-047d8e6e97df
 version: 3
 date: '2022-03-15'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies regasm.exe with no command line arguments.
   This particular behavior occurs when another process injects into regasm.exe, no
   command line arguments will be present. During investigation, identify any network
   connections and parallel processes. Identify any suspicious module loads related
   to credential dumping or file writes. Regasm.exe are natively found in `C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe`
   and `C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe`.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_regasm` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
@@ -34,25 +35,13 @@ tags:
   - Suspicious Regsvcs Regasm Activity
   - Living Off The Land
   asset_type: Endpoint
-  cis20:
-  - CIS 8
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Actions on Objectives
   message: The process $process_name$ was spawned by $parent_process_name$ without
     any command-line arguments on $dest$ by $user$.
   mitre_attack_id:
   - T1218
   - T1218.009
-  nist:
-  - PR.PT
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -89,5 +78,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

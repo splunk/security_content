@@ -1,0 +1,68 @@
+name: Windows System Network Connections Discovery Netsh
+id: abfb7cc5-c275-4a97-9029-62cd8d4ffeca
+version: 1
+date: '2022-11-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies a process execution of Windows OS built-in
+  tool netsh.exe to show state, configuration and profile of host firewall. This tool
+  is being used or abused by several adversaries or even post exploitation tool to
+  bypass firewall rules or to discover firewall settings. This hunting detection can
+  help to detect a possible suspicious usage of netsh.exe to retrieve firewall settings
+  or even firewall wlan profile. We recommend checking which parent process and process
+  name execute this command. Also check the process file path for verification that
+  may lead to further TTP's threat behavior.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: netsh.exe
+  selection2:
+    Image|endswith: netsh.exe
+  selection3:
+    CommandLine:
+    - '*state*'
+    - '*config*'
+    - '*wlan*'
+    - '*profile*'
+  selection4:
+    CommandLine: '* show *'
+  condition: (selection1 or selection2) and selection3 and selection4
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+known_false_positives: network administrator can use this tool for auditing process.
+references:
+- https://attack.mitre.org/techniques/T1049/
+- https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
+- https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+tags:
+  analytic_story:
+  - Windows Post-Exploitation
+  - Prestige Ransomware
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: netsh process with command line $process$ in $dest$
+  mitre_attack_id:
+  - T1049
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

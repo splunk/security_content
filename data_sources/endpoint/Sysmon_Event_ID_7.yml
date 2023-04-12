@@ -1,0 +1,26 @@
+name: Sysmon Event ID 7
+id: 2ac8483c-754e-4d67-b18a-8aaa4b830122
+date: '2022-10-20'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: image_load
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - UserID
+  - ProcessGuid
+  - ProcessId
+  - Image
+  - ImageLoaded
+  - Hashes
+  - Signed
+  - Signature
+  - SignatureStatus

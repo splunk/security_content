@@ -3,16 +3,22 @@ id: 374832b1-3603-420c-b456-b373e24d34c0
 version: 1
 date: '2022-10-04'
 author: Bhavin Patel, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: The following analytic identifies an attempt to disable multi-factor authentication for an AWS IAM user. An adversary who has obtained access to an AWS tenant may disable multi-factor authentication as a way to plant a backdoor and maintain persistence using a valid account. This way the attackers can keep persistance in the environment without adding new users.
-search: '`cloudtrail` (eventName= DeleteVirtualMFADevice OR eventName=DeactivateMFADevice) 
- | stats count min(_time) as firstTime max(_time) as lastTime by src eventName eventSource aws_account_id 
-  userAgent eventID awsRegion user_name userIdentity.arn status | `security_content_ctime(firstTime)`
+description: The following analytic identifies an attempt to disable multi-factor
+  authentication for an AWS IAM user. An adversary who has obtained access to an AWS
+  tenant may disable multi-factor authentication as a way to plant a backdoor and
+  maintain persistence using a valid account. This way the attackers can keep persistance
+  in the environment without adding new users.
+data_source: []
+search: '`cloudtrail` (eventName= DeleteVirtualMFADevice OR eventName=DeactivateMFADevice)
+  | stats count min(_time) as firstTime max(_time) as lastTime by src eventName eventSource
+  aws_account_id userAgent eventID awsRegion user_name userIdentity.arn status | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_multi_factor_authentication_disabled_filter`'
-how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search requires AWS Cloudtrail logs.
-known_false_positives: AWS Administrators may disable MFA but it is highly unlikely for this event to occur without prior notice to the company
+how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search
+  requires AWS Cloudtrail logs.
+known_false_positives: AWS Administrators may disable MFA but it is highly unlikely
+  for this event to occur without prior notice to the company
 references:
 - https://attack.mitre.org/techniques/T1621/
 - https://aws.amazon.com/what-is/mfa/
@@ -20,30 +26,16 @@ tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
   asset_type: AWS Account
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Outcome:Blocked
-  - Stage:Recon
-  - Other:Brute Force
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/cloudtrail.json
   impact: 80
-  kill_chain_phases:
-  - Exploitation
-  message: User $user_name$ has disabled Multi-Factor authentication for AWS account $aws_account_id$
+  message: User $user_name$ has disabled Multi-Factor authentication for AWS account
+    $aws_account_id$
   mitre_attack_id:
   - T1586
   - T1586.003
   - T1621
   - T1556
   - T1556.006
-  nist:
-  - DE.CM
   observable:
   - name: aws_account_id
     type: Other
@@ -62,16 +54,23 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - src 
-  - eventName 
-  - eventSource 
-  - aws_account_id 
-  - errorCode 
+  - src
+  - eventName
+  - eventSource
+  - aws_account_id
+  - errorCode
   - errorMessage
-  - userAgent 
-  - eventID 
+  - userAgent
+  - eventID
   - awsRegion
-  - user_name 
-  - userIdentity.arn 
+  - user_name
+  - userIdentity.arn
   risk_score: 64
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/cloudtrail.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

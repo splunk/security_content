@@ -1,0 +1,63 @@
+name: Abnormally High Number Of Cloud Security Group API Calls
+id: d4dfb7f3-7a37-498a-b5df-f19334e871af
+version: 1
+date: '2020-09-07'
+author: David Dorsey, Splunk
+status: experimental
+type: Anomaly
+description: This search will detect a spike in the number of API calls made to your
+  cloud infrastructure environment about security groups by a user.
+data_source: []
+search: '| tstats count as security_group_api_calls values(All_Changes.command) as
+  command from datamodel=Change where All_Changes.object_category=firewall AND All_Changes.status=success
+  by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")` | eval
+  HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time,
+  "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) | join user HourOfDay
+  isWeekend [ summary cloud_excessive_security_group_api_calls_v1] | where cardinality
+  >=16 | apply cloud_excessive_security_group_api_calls_v1 threshold=0.005 | rename
+  "IsOutlier(security_group_api_calls)" as isOutlier | where isOutlier=1 | eval expected_upper_threshold
+  = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0) | where security_group_api_calls
+  > expected_upper_threshold | eval distance_from_threshold = security_group_api_calls
+  - expected_upper_threshold | table _time, user, command, security_group_api_calls,
+  expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_security_group_api_calls_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
+  run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to
+  create the probability density function model.
+known_false_positives: ''
+references: []
+tags:
+  analytic_story:
+  - Suspicious Cloud User Activities
+  asset_type: AWS Instance
+  confidence: 50
+  impact: 30
+  message: user $user$ has made $api_calls$ api calls related to security groups,
+    violating the dynamic threshold of $expected_upper_threshold$ with the following
+    command $command$.
+  mitre_attack_id:
+  - T1078.004
+  - T1078
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.command
+  - All_Changes.object_category
+  - All_Changes.status
+  - All_Changes.user
+  risk_score: 15
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

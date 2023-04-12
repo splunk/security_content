@@ -1,0 +1,56 @@
+name: Domain Group Discovery With Wmic
+id: a87736a6-95cd-4728-8689-3c64d5026b3e
+version: 1
+date: '2021-08-25'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+description: This analytic looks for the execution of `wmic.exe` with command-line
+  arguments utilized to query for domain groups. The arguments utilized in this command
+  return a list of all domain groups. Red Teams and adversaries alike use wmic.exe
+  to enumerate domain groups for situational awareness and Active Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith: wmic.exe
+  selection2:
+    CommandLine: '*ds_group*'
+  selection3:
+    CommandLine: '*/NAMESPACE:\\\\root\\directory\\ldap*'
+  selection4:
+    CommandLine: '*GET ds_samaccountname*'
+  condition: (selection1) and selection2 and selection3 and selection4
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1069/002/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: Domain group discovery enumeration on $dest$ by $user$
+  mitre_attack_id:
+  - T1069
+  - T1069.002
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

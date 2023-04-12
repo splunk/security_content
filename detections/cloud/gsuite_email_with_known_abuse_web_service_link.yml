@@ -3,12 +3,13 @@ id: 8630aa22-042b-11ec-af39-acde48001122
 version: 1
 date: '2021-08-23'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This analytics is to detect a gmail containing a link that are known
   to be abused by malware or attacker like pastebin, telegram and discord to deliver
   malicious payload. This event can encounter some normal email traffic within organization
   and external email that normally using this application and services.
+data_source: []
 search: '`gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*telegram*","t.me")
   | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" | rex field=destination{}.address
   "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"
@@ -29,14 +30,7 @@ tags:
   - Dev Sec Ops
   asset_type: GSuite
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:
   - T1566.001
@@ -54,3 +48,9 @@ tags:
   - _time
   risk_score: 25
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log
+    source: http:gsuite
+    sourcetype: gsuite:gmail:bigquery
