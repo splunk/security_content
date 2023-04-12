@@ -1,0 +1,41 @@
+name: Detect Baron Samedit CVE-2021-3156 via OSQuery
+id: 1de31d5d-8fa6-4ee0-af89-17069134118a
+version: 1
+date: '2021-01-28'
+author: Shannon Davis, Splunk
+status: experimental
+type: TTP
+description: This search detects the heap-based buffer overflow of sudoedit
+data_source: []
+search: '`osquery_process` | search "columns.cmdline"="sudoedit -s \\*" | `detect_baron_samedit_cve_2021_3156_via_osquery_filter`'
+how_to_implement: OSQuery installed and configured to pick up process events (info
+  at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402.
+  The vulnerability is exposed when a non privledged user tries passing in a single
+  \ character at the end of the command while using the shell and edit flags.
+known_false_positives: unknown
+references: []
+tags:
+  analytic_story:
+  - Baron Samedit CVE-2021-3156
+  asset_type: Endpoint
+  confidence: 50
+  cve:
+  - CVE-2021-3156
+  impact: 50
+  message: tbd
+  mitre_attack_id:
+  - T1068
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - columns.cmdline
+  risk_score: 25
+  security_domain: endpoint

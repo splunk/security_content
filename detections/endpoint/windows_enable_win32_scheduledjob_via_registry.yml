@@ -3,9 +3,11 @@ id: 12c80db8-ef62-4456-92df-b23e1b3219f6
 version: 1
 date: '2023-03-27'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
+status: production
+data_source:
+- Sysmon Event ID 13
 description: 'This analytic searches for a registry modification that enables the use of the at.exe or wmi Win32_ScheduledJob command to add scheduled tasks on a Windows endpoint. Specifically, it looks for the creation of a new DWORD value named "EnableAt" in the following registry path: "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Configuration". If this value is set to 1, it enables the at.exe and wmi Win32_ScheduledJob commands to schedule tasks on the system. Detecting this registry modification is important because it may indicate that an attacker has enabled the ability to add scheduled tasks to the system, which can be used to execute malicious code at specific times or intervals.'
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
@@ -21,24 +23,11 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Lateral Movement
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/enableat_windows-sysmon.log
   impact: 50
-  kill_chain_phases:
-  - Installation
   message: A process has modified the schedule task registry value - EnableAt - on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1053.005
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -61,3 +50,9 @@ tags:
   - Registry.registry_value_type
   risk_score: 25
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/enableat_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

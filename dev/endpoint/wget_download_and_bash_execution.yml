@@ -1,0 +1,77 @@
+name: Wget Download and Bash Execution
+id: 35682718-5a85-11ec-b8f7-acde48001122
+version: 1
+date: '2021-12-11'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of wget on Linux or MacOS attempting
+  to download a file from a remote source and pipe it to bash. This is typically found
+  with coinminers and most recently with CVE-2021-44228, a vulnerability in Log4j.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith: wget
+  selection2:
+    CommandLine: '*-q *'
+  selection3:
+    CommandLine: '*-O- *'
+  selection4:
+    CommandLine: '*--quiet*'
+  selection5:
+    CommandLine: '*bash*'
+  selection6:
+    CommandLine: '*|*'
+  condition: selection1 and selection2 and selection3 and selection4 or selection5
+    or selection6
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is
+  occurring correctly. If the EDR is not parsing the pipe bash in the command-line,
+  modifying the analytic will be required. Add parent process name (Processes.parent_process_name)
+  as needed to filter.
+known_false_positives: False positives should be limited, however filtering may be
+  required.
+references:
+- https://www.huntress.com/blog/rapid-response-critical-rce-vulnerability-is-affecting-java
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
+- https://gist.github.com/nathanqthai/01808c569903f41a52e7e7b575caa890
+tags:
+  analytic_story:
+  - Ingress Tool Transfer
+  - Log4Shell CVE-2021-44228
+  asset_type: Endpoint
+  confidence: 100
+  cve:
+  - CVE-2021-44228
+  impact: 80
+  message: An instance of $process_name$ was identified on endpoint $dest$ attempting
+    to download a remote file and run it with bash.
+  mitre_attack_id:
+  - T1105
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/linux-sysmon_curlwget.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

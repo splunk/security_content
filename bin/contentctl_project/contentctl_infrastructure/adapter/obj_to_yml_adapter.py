@@ -1,10 +1,14 @@
 import os
 import re
 
+from urllib.parse import urlparse
+
 from bin.contentctl_project.contentctl_infrastructure.adapter.yml_writer import YmlWriter
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
 from bin.contentctl_project.contentctl_core.domain.entities.enums.enums import SecurityContentType
 from bin.contentctl_project.contentctl_infrastructure.adapter.finding_report_writer import FindingReportObject
+from bin.contentctl_project.contentctl_core.domain.entities.unit_test_old import UnitTestOld
+
 
 class ObjToYmlAdapter(Adapter):
     input_path: str
@@ -36,29 +40,58 @@ class ObjToYmlAdapter(Adapter):
             obj.tags.research_site_url = research_site_url
 
             # add ocsf schema tag
-            obj.tags.event_schema = 'cim'
+            obj.tags.event_schema = 'ocsf'
 
             body = FindingReportObject.writeFindingReport(obj)
+            
+            if obj.test:
+                test_dict = {
+                    "name": obj.name + " Unit Test",
+                    "tests": [obj.test.dict()]
+                }
+                test_dict["tests"][0]["name"] = obj.name
+                for count in range(len(test_dict["tests"][0]["attack_data"])):
+                    a = urlparse(test_dict["tests"][0]["attack_data"][count]["data"])
+                    test_dict["tests"][0]["attack_data"][count]["file_name"] = os.path.basename(a.path)
+                test = UnitTestOld.parse_obj(test_dict)
+
+                obj.test = test
+
+            # create annotations object
+            obj.tags.annotations = {
+                "analytic_story": obj.tags.analytic_story,
+                "cis20": obj.tags.cis20,
+                "kill_chain_phases": obj.tags.kill_chain_phases,
+                "mitre_attack_id": obj.tags.mitre_attack_id,
+                "nist": obj.tags.nist
+            }
+
+            obj.runtime = "SPL-DSP"
 
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
+                exclude_none=True,
                 include =
                     {
                         "name": True,
                         "id": True,
+                        "eventSchema": True,
                         "version": True,
                         "description": True,
                         "search": True,
                         "how_to_implement": True,
                         "known_false_positives": True,
                         "references": True,
+                        "runtime": True,
                         "tags": 
                             {
-                                "analytic_story": True,
-                                "cis20" : True,
-                                "nist": True,
-                                "kill_chain_phases": True,
-                                "mitre_attack_id": True,
+                                #"analytic_story": True,
+                                #"cis20" : True,
+                                #"nist": True,
+                                #"kill_chain_phases": True,
+                                "annotations": True,
+                                "mappings": True,
+                                #"mitre_attack_id": True,
                                 "risk_severity": True,
                                 "risk_score": True,
                                 "security_domain": True,
@@ -91,37 +124,16 @@ class ObjToYmlAdapter(Adapter):
 
             # Add Finding Report Object
             with open(file_path, 'r') as file:
-                data = file.read().replace('--body--', body)
+               data = file.read().replace('--finding_report--', body)
 
             f = open(file_path, "w")
             f.write(data)
             f.close()       
 
+
     def writeObjectNewContent(self, object: dict, type: SecurityContentType) -> None:
         if type == SecurityContentType.detections:
             file_path = os.path.join(self.input_path, 'detections', object['source'], self.convertNameToFileName(object['name'],object['tags']['product']))
-            test_obj = {}
-            test_obj['name'] = object['name'] + ' Unit Test'
-            test_obj['tests'] = [
-                {
-                    'name': object['name'],
-                    'file': object['source'] + '/' + self.convertNameToFileName(object['name'],object['tags']['product']),
-                    'pass_condition': '| stats count | where count > 0',
-                    'earliest_time': '-24h',
-                    'latest_time': 'now',
-                    'attack_data': [
-                        {
-                            'file_name': 'UPDATE',
-                            'data': 'UPDATE',
-                            'source': 'UPDATE',
-                            'sourcetype': 'UPDATE',
-                            'update_timestamp': True
-                        }
-                    ]
-                }
-            ]
-            file_path_test = os.path.join(self.input_path, 'tests', object['source'], self.convertNameToTestFileName(object['name'],object['tags']['product']))
-            YmlWriter.writeYmlFile(file_path_test, test_obj)
             object.pop('source')
         elif type == SecurityContentType.stories:
             file_path = os.path.join(self.input_path, 'stories', self.convertNameToFileName(object['name'],object['tags']['product']))

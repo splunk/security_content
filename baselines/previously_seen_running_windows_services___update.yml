@@ -25,8 +25,6 @@ tags:
   - Orangeworm Attack Group
   - Windows Service Abuse
   - NOBELIUM Group
-  deployments:
-  - Hourly Cache Updates
   detections:
   - First Time Seen Running Windows Service
   product:
@@ -38,3 +36,9 @@ tags:
   - EventCode
   - Message
   security_domain: endpoint
+deployment:
+  scheduling:
+    cron_schedule: 55 * * * *
+    earliest_time: -70m@m
+    latest_time: -10m@m
+    schedule_window: auto

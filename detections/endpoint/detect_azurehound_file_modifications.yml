@@ -3,9 +3,8 @@ id: 1c34549e-c31b-11eb-996b-acde48001122
 version: 1
 date: '2021-06-01'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic is similar to SharpHound file modifications, but
   this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound
   equivilent but for Azure. It's possible this may never be seen in an environment
@@ -13,6 +12,8 @@ description: The following analytic is similar to SharpHound file modifications,
   zip file with a similar name will drop `20210601090751-azurecollection.zip`. In
   addition to the zip, multiple .json files will be written to disk, which are in
   the zip.
+data_source:
+- Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip",
   "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json",
@@ -31,15 +32,9 @@ references:
 tags:
   analytic_story:
   - Discovery Techniques
+  asset_type: Endpoint
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Reconnaissance
   message: A file - $file_name$ was written to disk that is related to AzureHound,
     a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$.
   mitre_attack_id:
@@ -76,4 +71,9 @@ tags:
   - file_create_time
   risk_score: 63
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

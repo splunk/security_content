@@ -1,0 +1,70 @@
+name: Gsuite Drive Share In External Email
+id: f6ee02d6-fea0-11eb-b2c2-acde48001122
+version: 1
+date: '2021-08-16'
+author: Teoderick Contreras, Splunk
+status: experimental
+type: Anomaly
+description: This search is to detect suspicious google drive or google docs files
+  shared outside or externally. This behavior might be a good hunting query to monitor
+  exfitration of data made by an attacker or insider to a targetted machine.
+data_source: []
+search: '`gsuite_drive` NOT (email IN("", "null")) | rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)"
+  | rex field=email "[^@]+@(?<dest_domain>[^@]+)" | where src_domain = "internal_test_email.com"
+  and not dest_domain = "internal_test_email.com" | eval phase="plan" | eval severity="low"
+  | stats values(parameters.doc_title) as doc_title, values(parameters.doc_type) as
+  doc_types, values(email) as dst_email_list, values(parameters.visibility) as visibility,
+  values(parameters.doc_id) as doc_id, count min(_time) as firstTime max(_time) as
+  lastTime by parameters.owner ip_address phase severity  | rename parameters.owner
+  as user ip_address as src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `gsuite_drive_share_in_external_email_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file
+  extension, source email, destination email, num of attachment and etc. In order
+  for the search to work for your environment, please edit the query to use your company
+  specific email domain instead of `internal_test_email.com`.
+known_false_positives: network admin or normal user may share files to customer and
+  external team.
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  - Insider Threat
+  asset_type: GSuite
+  confidence: 90
+  impact: 80
+  message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
+  mitre_attack_id:
+  - T1567.002
+  - T1567
+  observable:
+  - name: parameters.owner
+    type: User
+    role:
+    - Attacker
+  - name: email
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - parameters.doc_title
+  - src_domain
+  - dest_domain
+  - email
+  - parameters.visibility
+  - parameters.owner
+  - parameters.doc_type
+  risk_score: 72
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
+    source: http:gsuite
+    sourcetype: gsuite:drive:json

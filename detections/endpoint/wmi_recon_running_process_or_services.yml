@@ -3,17 +3,19 @@ id: b5cd5526-cce7-11eb-b3bd-acde48001122
 version: 2
 date: '2022-05-02'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104, where WMI is performing an event query looking for running processes
   or running services. This technique is commonly found in malware and APT events
   where the adversary will map all running security applications or services on the
   compromised machine. During triage, review parallel processes within the same timeframe.
   Review the full script block to identify other related artifacts.
+data_source:
+- Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*"
-  OR ScriptBlockText="*Win32_Service*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
+  OR ScriptBlockText="*Win32_Service*") | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -26,20 +28,14 @@ references:
 - https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Recon
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/win32process.log
   impact: 20
-  kill_chain_phases:
-  - Reconnaissance
-  message: Suspicious powerShell script execution by $user$ on $Computer$ via
-    EventCode 4104, where WMI is performing an event query looking for running processes
-    or running services
+  message: Suspicious powerShell script execution by $user$ on $Computer$ via EventCode
+    4104, where WMI is performing an event query looking for running processes or
+    running services
   mitre_attack_id:
   - T1592
   observable:
@@ -64,4 +60,9 @@ tags:
   - EventCode
   risk_score: 20
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/win32process.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

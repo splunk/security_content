@@ -1,0 +1,53 @@
+name: aws detect sts get session token abuse
+id: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
+version: 1
+date: '2020-07-27'
+author: Rod Soto, Splunk
+status: experimental
+type: Hunting
+description: This search provides detection of suspicious use of sts:GetSessionToken.
+  These tokens can be created on the go and used by attackers to move laterally and
+  escalate privileges.
+data_source: []
+search: '`aws_cloudwatchlogs_eks` ASIA  userIdentity.type=IAMUser| spath eventName
+  | search eventName=GetSessionToken | table sourceIPAddress eventTime userIdentity.arn
+  userName userAgent user_type status region | `aws_detect_sts_get_session_token_abuse_filter`'
+how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This
+  search works with cloudwatch logs
+known_false_positives: Sts:GetSessionToken can be very noisy as in certain environments
+  numerous calls of this type can be executed. This search can be adjusted to provide
+  specific values to identify cases of abuse. In specific environments the use of
+  field requestParameters.serialNumber will need to be used.
+references: []
+tags:
+  analytic_story:
+  - AWS Cross Account Activity
+  asset_type: AWS Account
+  confidence: 50
+  impact: 50
+  message: tbd
+  mitre_attack_id:
+  - T1550
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - userIdentity.type
+  - eventName
+  - sourceIPAddress
+  - eventTime
+  - userIdentity.arn
+  - userName
+  - userAgent
+  - user_type
+  - status
+  - region
+  risk_score: 25
+  security_domain: threat

@@ -1,0 +1,25 @@
+name: Windows System 7045
+id: 2ec35920-ff39-4041-a7e2-d9044136c1f9
+date: '2022-10-20'
+author: Patrick Bareiss, Splunk
+type: wineventlog_system
+source: WinEventLog:System
+sourcetype: WinEventLog
+category: system
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.manageengine.com/products/active-directory-audit/kb/system-events/event-id-7045.html
+raw_fields: 
+  - EventCode
+  - ComputerName
+  - Message
+  - Service_Account
+  - Service_File_Name
+  - Service_Name
+  - Service_Start_Type
+  - Service_Type
+  - User
