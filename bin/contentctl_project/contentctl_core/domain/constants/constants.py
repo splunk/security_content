@@ -1,4 +1,21 @@
 
+ATTACK_TACTICS_KILLCHAIN_MAPPING = {
+    "Reconnaissance": "Reconnaissance",
+    "Resource Development": "Weaponization",
+    "Initial Access": "Delivery",
+    "Execution": "Installation",
+    "Persistence": "Installation",
+    "Privilege Escalation": "Exploitation",
+    "Defense Evasion": "Exploitation",
+    "Credential Access": "Exploitation",
+    "Discovery": "Exploitation", 
+    "Lateral Movement": "Exploitation",
+    "Collection": "Exploitation",
+    "Command And Control": "Command And Control",
+    "Command And Control": "Command And Control",
+    "Exfiltration": "Actions on Objectives",
+    "Impact": "Actions on Objectives"
+}
 
 SES_CONTEXT_MAPPING = {
     "Unknown": 0,
@@ -57,7 +74,7 @@ SES_KILL_CHAIN_MAPPINGS = {
     "Delivery": 3,
     "Exploitation": 4,
     "Installation": 5,
-    "Command & Control": 6,
+    "Command And Control": 6,
     "Actions on Objectives": 7
 }
 
@@ -76,23 +93,43 @@ SES_OBSERVABLE_ROLE_MAPPING = {
 }
 
 SES_OBSERVABLE_TYPE_MAPPING = {
-    "Other": -1,
     "Unknown": 0,
-    "Device": 1,
-    "Container": 2,
-    "Endpoint": 3,
-    "Hostname": 4,
-    "IP Address": 5,
-    "User": 6,
-    "Username": 7,
-    "Email": 8,
-    "Email Address": 9,
-    "URL": 10,
-    "URL Domain": 11,
-    "File": 12,
-    "File Name": 13,
-    "File Hash": 14,
-    "Process": 15,
-    "Process Name": 16,
-    "Location": 17
+    "Hostname": 1,
+    "IP Address": 2,
+    "MAC Address": 3,
+    "User Name": 4,
+    "Email Address": 5,
+    "URL String": 6,
+    "File Name": 7,
+    "File Hash": 8,
+    "Process Name": 9,
+    "Ressource UID": 10,
+    "Endpoint": 20,
+    "User": 21,
+    "Email": 22,
+    "Uniform Resource Locator": 23,
+    "File": 24,
+    "Process": 25,
+    "Geo Location": 26,
+    "Container": 27,
+    "Registry Key": 28,
+    "Registry Value": 29,
+    "Other": 99
+}
+
+SES_ATTACK_TACTICS_ID_MAPPING = {
+    "Reconnaissance": "TA0043",
+    "Resource_Development": "TA0042",
+    "Initial_Access": "TA0001",
+    "Execution": "TA0002",
+    "Persistence": "TA0003",
+    "Privilege_Escalation": "TA0004",
+    "Defense_Evasion": "TA0005",
+    "Credential_Access": "TA0006",
+    "Discovery": "TA0007",
+    "Lateral_Movement": "TA0008",
+    "Collection": "TA0009",
+    "Command_and_Control": "TA0011",
+    "Exfiltration": "TA0010",
+    "Impact": "TA0040"
 }

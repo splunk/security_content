@@ -3,15 +3,16 @@ id: f443dac2-c7cf-11eb-ab51-acde48001122
 version: 1
 date: '2021-06-07'
 author: Michael Hart
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This detection targets behaviors observed in post exploit kits like Meterpreter
   and Koadic that are run in memory.  We have observed that these tools must invoke
   an excessive number of taskhost.exe and taskhostex.exe processes to complete various
   actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course
   of normal operations to see so many distinct taskhost and taskhostex processes running
   concurrently in a short time frame.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
   process_ids  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
   WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe"
@@ -32,15 +33,9 @@ references:
 tags:
   analytic_story:
   - Meterpreter
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: An excessive amount of $process_name$ was executed on $dest$ indicative
     of suspicious behavior.
   mitre_attack_id:
@@ -66,6 +61,10 @@ tags:
   - Processes.user
   risk_score: 56
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_windows
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true

@@ -27,7 +27,7 @@ tags:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Suspicious AWS Traffic
   - Suspicious DNS Traffic
-  - Command and Control
+  - Command And Control
   product:
   - Splunk Phantom
   required_fields:

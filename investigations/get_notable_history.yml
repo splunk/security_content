@@ -84,7 +84,7 @@ tags:
   - Suspicious Cloud Provisioning Activities
   - Suspicious GCP Storage Activities
   - Windows DNS SIGRed CVE-2020-1350
-  - Command and Control
+  - Command And Control
   product:
   - Splunk Phantom
   required_fields:

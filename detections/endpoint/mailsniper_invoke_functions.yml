@@ -3,12 +3,13 @@ id: a36972c8-b894-11eb-9f78-acde48001122
 version: 2
 date: '2022-05-02'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect known mailsniper.ps1 functions executed in a
   machine. This technique was seen in some attacker to harvest some sensitive e-mail
   in a compromised exchange server.
+data_source:
+- Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365MailSearch*",
   "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*",
   "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
@@ -25,17 +26,11 @@ references:
 tags:
   analytic_story:
   - Data Exfiltration
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
-  message: mailsniper.ps1 functions $ScriptBlockText$ executed on a $Computer$ by user
-    $user$.
+  message: mailsniper.ps1 functions $ScriptBlockText$ executed on a $Computer$ by
+    user $user$.
   mitre_attack_id:
   - T1114
   - T1114.001
@@ -61,4 +56,9 @@ tags:
   - EventCode
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

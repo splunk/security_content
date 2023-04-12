@@ -3,11 +3,12 @@ id: 27af8c15-38b0-4408-b339-920170724adb
 version: 1
 date: '2020-10-09'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides detection of accounts with high risk roles by projects.
   Compromised accounts with high risk roles can move laterally or even scalate privileges
   at different projects depending on organization schema.
+data_source: []
 search: '`google_gcp_pubsub_message` data.protoPayload.request.policy.bindings{}.role=roles/owner
   OR roles/editor OR roles/iam.serviceAccountUser OR roles/iam.serviceAccountAdmin
   OR roles/iam.serviceAccountTokenCreator OR roles/dataflow.developer OR roles/dataflow.admin
@@ -28,10 +29,16 @@ tags:
   analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
-  kill_chain_phases:
-  - Exploitation
+  confidence: 50
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1078
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -44,15 +51,5 @@ tags:
   - data.protoPayload.authorizationInfo{}.resource
   - data.protoPayload.response.bindings{}.role
   - data.protoPayload.response.bindings{}.members{}
-  security_domain: threat
-  confidence: 50
-  impact: 50
   risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown
+  security_domain: threat

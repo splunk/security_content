@@ -3,13 +3,13 @@ id: accb0712-c381-11eb-8e5b-acde48001122
 version: 1
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
-type: Anomaly
-datamodel:
-- Endpoint
+status: production
+type: TTP
 description: This analytic identifies suspicious modification of registry to deface
   or change the wallpaper of a compromised machines as part of its payload. This technique
   was commonly seen in ransomware like REVIL where it create a bitmap file contain
   a note that the machine was compromised and make it as a wallpaper.
+data_source: []
 search: '`sysmon` EventCode =13  (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper"
   AND Image != "*\\explorer.exe") OR (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper"
   AND Details = "*\\temp\\*") | stats count min(_time) as firstTime max(_time) as
@@ -32,15 +32,9 @@ tags:
   - Windows Registry Abuse
   - Brute Ratel C4
   - LockBit Ransomware
+  asset_type: Endpoint
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
   impact: 60
-  kill_chain_phases:
-  - Exploitation
   message: Wallpaper modification on $dest$
   mitre_attack_id:
   - T1491
@@ -65,4 +59,9 @@ tags:
   - user_id
   risk_score: 54
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

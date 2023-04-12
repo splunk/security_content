@@ -1,0 +1,109 @@
+name: Svchost LOLBAS Execution Process Spawn
+id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
+version: 2
+date: '2021-11-22'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies `svchost.exe` spawning a LOLBAS execution
+  process. When adversaries execute code on remote endpoints abusing the Task Scheduler
+  and creating a malicious remote scheduled task, the executed command is spawned
+  as a child process of `svchost.exe`. The LOLBAS project documents Windows native
+  binaries that can be abused by threat actors to perform tasks like executing malicious
+  code. Looking for child processes of svchost.exe that are part of the LOLBAS project
+  can help defenders identify lateral movement activity.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith:
+    - Regsvcs.exe
+    - Ftp.exe
+    - OfflineScannerShell.exe
+    - Rasautou.exe
+    - Schtasks.exe
+    - Xwizard.exe
+    - Pnputil.exe
+    - Atbroker.exe
+    - Pcwrun.exe
+    - Ttdinject.exe
+    - Mshta.exe
+    - Bitsadmin.exe
+    - Certoc.exe
+    - Ieexec.exe
+    - Microsoft.Workflow.Compiler.exe
+    - Runscripthelper.exe
+    - Forfiles.exe
+    - Msbuild.exe
+    - Register-cimprovider.exe
+    - Tttracer.exe
+    - Ie4uinit.exe
+    - Bash.exe
+    - Hh.exe
+    - SettingSyncHost.exe
+    - Cmstp.exe
+    - Stordiag.exe
+    - Scriptrunner.exe
+    - Odbcconf.exe
+    - Extexport.exe
+    - Msdt.exe
+    - WorkFolders.exe
+    - Diskshadow.exe
+    - Mavinject.exe
+    - Regasm.exe
+    - Gpscript.exe
+    - Regsvr32.exe
+    - Msiexec.exe
+    - Wuauclt.exe
+    - Presentationhost.exe
+    - Wmic.exe
+    - Runonce.exe
+    - Syncappvpublishingserver.exe
+    - Verclsid.exe
+    - Infdefaultinstall.exe
+    - Installutil.exe
+    - Netsh.exe
+    - Wab.exe
+    - Dnscmd.exe
+    - At.exe
+    - Pcalua.exe
+    - Msconfig.exe
+    ParentImage: svchost.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints.
+known_false_positives: Legitimate applications may trigger this behavior, filter as
+  needed.
+references:
+- https://attack.mitre.org/techniques/T1053/005/
+- https://www.ired.team/offensive-security/persistence/t1053-schtask
+- https://lolbas-project.github.io/
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 60
+  impact: 90
+  message: Svchost.exe spawned a LOLBAS process on $dest$
+  mitre_attack_id:
+  - T1053
+  - T1053.005
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 54
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement_lolbas/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

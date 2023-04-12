@@ -22,8 +22,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious AWS S3 Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Detect Spike in S3 Bucket deletion
   product:
