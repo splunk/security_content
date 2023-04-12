@@ -1,0 +1,78 @@
+name: Windows Odbcconf Load Response File
+id: 7b6c3fac-0c37-4efc-a85e-de88f42b6763
+version: 1
+date: '2022-09-15'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the odbcconf.exe, Windows Open Database
+  Connectivity utility, loading up a resource file. The file extension is arbitrary
+  and may be named anything. The resource file itself may have different commands
+  supported by Odbcconf to load up a DLL (REGSVR) on disk or additional commands.
+  During triage, review file modifications and parallel processes.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process|contains:
+    - '/f '
+    - '-f '
+    process_name: odbcconf.exe
+  selection2:
+    process|contains: .rsp
+  condition: (selection1) and selection2
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives may be present and filtering may need to occur
+  based on legitimate application usage. Filter as needed.
+references:
+- https://strontic.github.io/xcyclopedia/library/odbcconf.exe-07FBA12552331355C103999806627314.html
+- https://twitter.com/redcanary/status/1541838407894171650?s=20&t=kp3WBPtfnyA3xW7D7wx0uw
+tags:
+  analytic_story:
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 70
+  impact: 60
+  message: $process_name$ has been identified on $dest_device_id$ under user $dest_user_id$
+    attempting to circumvent controls.
+  mitre_attack_id:
+  - T1218.008
+  - T1218
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - process
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 42
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/odbcconf-windows-security.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

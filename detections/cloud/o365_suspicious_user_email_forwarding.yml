@@ -3,10 +3,11 @@ id: f8dfe015-dbb3-4569-ba75-b13787e06aa4
 version: 1
 date: '2020-12-16'
 author: Patrick Bareiss, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search detects when multiple user configured a forwarding rule to
   the same destination.
+data_source: []
 search: '`o365_management_activity` Operation=Set-Mailbox | spath input=Parameters
   | rename Identity AS src_user | search ForwardingSmtpAddress=* | stats dc(src_user)
   AS count_src_user earliest(_time) as firstTime latest(_time) as lastTime values(src_user)
@@ -21,27 +22,13 @@ tags:
   - Office 365 Detections
   - Data Exfiltration
   asset_type: Office 365
-  cis20:
-  - CIS 16
   confidence: 60
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Stage:Exfiltration
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user$ configured multiple users $src_user$ with a count of $count_src_user$,
     a forwarding rule to same destination $ForwardingSmtpAddress$
   mitre_attack_id:
   - T1114.003
   - T1114
-  nist:
-  - DE.DP
-  - DE.AE
   observable:
   - name: user
     type: User
@@ -61,3 +48,9 @@ tags:
   - Parameters
   risk_score: 48
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json
+    sourcetype: o365:management:activity
+    source: o365

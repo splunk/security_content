@@ -1,0 +1,56 @@
+name: Linux Sudoers Tmp File Creation
+id: be254a5c-63e7-11ec-89da-acde48001122
+version: 1
+date: '2021-12-23'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to looks for file creation of sudoers.tmp file cause
+  by editing /etc/sudoers using visudo or editor in linux platform. This technique
+  may abuse by adversaries, malware author and red teamers to gain elevated privilege
+  to targeted or compromised host. /etc/sudoers file controls who can run what commands
+  as what users on what machines and can also control special things such as whether
+  you need a password for particular commands. The file is composed of aliases (basically
+  variables) and user specifications (which control who can run what).
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    TargetFilename: '*sudoers.tmp*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://forum.ubuntuusers.de/topic/sudo-visudo-gibt-etc-sudoers-tmp/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  asset_type: Endpoint
+  confidence: 90
+  impact: 80
+  message: A file $file_name$ is created in $file_path$ on $dest$
+  mitre_attack_id:
+  - T1548.003
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/sudoers_temp/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

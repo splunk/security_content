@@ -3,9 +3,8 @@ id: e6fc13b0-1609-11ec-b533-acde48001122
 version: 1
 date: '2021-09-15'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This search is to detect an anomaly event of a non-firefox process accessing
   the files in the profile folder. This folder contains all the sqlite database of the
   firefox browser related to users login, history, cookies and etc. Most of the RAT,
@@ -14,6 +13,8 @@ description: This search is to detect an anomaly event of a non-firefox process 
   the firefox profile directory to use this. Since this is monitoring the
   access to the folder, we have obsevered noise and hence added `sqlite
   db browser` and `explorer.exe` to make this detection more stable.
+data_source:
+- Windows Security 4663
 search: '`wineventlog_security` EventCode=4663 NOT (process_name IN ("*\\firefox.exe",
   "*\\explorer.exe", "*sql*")) Object_Name="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*"
   | stats count min(_time) as firstTime max(_time) as lastTime by Object_Name Object_Type
@@ -32,15 +33,9 @@ tags:
   - Azorult
   - AgentTesla
   - 3CX Supply Chain Attack
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_sacl/security.log
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: a non firefox browser process $process_name$ accessing $Object_Name$
   mitre_attack_id:
   - T1555
@@ -71,4 +66,9 @@ tags:
   - user
   risk_score: 35
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_sacl/security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

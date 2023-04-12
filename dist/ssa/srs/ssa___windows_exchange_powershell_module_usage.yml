@@ -23,19 +23,53 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
   - Get-Recipient cmdlet to view existing recipient objects in your organization.
   This cmdlet returns all mail-enabled objects (for example, mailboxes, mail users,
   mail contacts, and distribution groups).'
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND process_name IS NOT NULL | where (like (cmd_line, "%new-mailboxexportrequest%")
-  OR like (cmd_line, "%new-managementroleassignment%") OR like (cmd_line, "%new-mailboxsearch%")
-  OR like (cmd_line,"%get-recipient%")) | eval start_time=timestamp, end_time=timestamp,
-  entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event,
-  "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line",
-  cmd_line, "process_name", process_name, "parent_process_name", parent_process_name,
-  "process_path", process_path]) | into write_ssa_detected_events();'
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  match_regex(process_cmd_line, /(?i)get-recipient/)=true OR match_regex(process_cmd_line,
+  /(?i)new-mailboxsearch/)=true OR match_regex(process_cmd_line, /(?i)new-managementroleassignment/)=true
+  OR match_regex(process_cmd_line, /(?i)new-mailboxexportrequest/)=true 
+  | eval body=create_map(
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ],
+    "time", timestamp,
+    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.cmd_line", process_cmd_line),
+    "message", concat("Windows Exchange PowerShell Module Usage has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "users", [
+        create_map(
+            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+        )
+    ],
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 1,
+    "risk_score", 32,
+    "severity_id", 0,
+    "rule", create_map("name", "Windows Exchange PowerShell Module Usage", "uid", "1118bc65-b0c7-4589-bc2f-ad6802fd0909", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
+  )
+  | into write_ba_finding_events();'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -52,41 +86,53 @@ references:
 - https://learn.microsoft.com/en-us/powershell/module/exchange/get-recipient?view=exchange-ps
 - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
 tags:
-  analytic_story:
-  - ProxyShell
-  - CISA AA22-264A
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack_id:
-  - T1059
-  - T1059.001
-  nist:
-  - DE.CM
   required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
+  - process.user.name
+  - device.hostname
+  - process.cmd_line
   risk_score: 32
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/1118bc65-b0c7-4589-bc2f-ad6802fd0909/
-  event_schema: cim
+  event_schema: ocsf
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+  annotations:
+    analytic_story:
+    - ProxyShell
+    - CISA AA22-264A
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Installation
+    mitre_attack_id:
+    - T1059
+    - T1059.001
+    nist:
+    - DE.CM
 test:
   name: Windows Exchange PowerShell Module Usage Unit Test
   tests:
   - name: Windows Exchange PowerShell Module Usage
-    file: endpoint/ssa___windows_exchange_powershell_module_usage.yml
-    pass_condition: '| stats count | where count > 0'
     attack_data:
-    - file_name: pwsh_multipass.log
+    - file_name: windows-powershell.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
       source: XmlWinEventLog
+runtime: SPL-DSP

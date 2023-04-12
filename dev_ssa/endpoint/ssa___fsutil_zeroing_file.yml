@@ -1,0 +1,76 @@
+name: Fsutil Zeroing File
+id: f792cdc9-43ee-4429-a3c0-ffce4fed1a85
+version: 1
+date: '2021-12-07'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: This search is to detect a suspicious fsutil process to zeroing a target
+  file. This technique was seen in lockbit ransomware where it tries to zero out its
+  malware path as part of its defense evasion after encrypting the compromised host.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process|contains: setzerodata
+    process_name: fsutil.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+known_false_positives: System administrators or scripts may delete user accounts via
+  this technique. Filter as needed.
+references:
+- https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
+tags:
+  analytic_story:
+  - Ransomware
+  - Insider Threat
+  - Information Sabotage
+  asset_type: Endpoint
+  confidence: 90
+  impact: 60
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
+    deletion.
+  mitre_attack_id:
+  - T1070
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - process
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 54
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
+    source: WinEventLog:Security

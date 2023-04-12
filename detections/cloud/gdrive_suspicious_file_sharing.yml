@@ -1,0 +1,54 @@
+name: Gdrive suspicious file sharing
+id: a7131dae-34e3-11ec-a2de-acde48001122
+version: 1
+date: '2021-10-24'
+author: Rod Soto, Teoderick Contreras
+status: experimental
+type: Hunting
+description: This search can help the detection of compromised accounts or internal
+  users sharing potentially malicious/classified documents with users outside your
+  organization via GSuite file sharing .
+data_source: []
+search: '`gsuite_drive` name=change_user_access | rename parameters.* as * | search
+  email = "*@yourdomain.com" target_user != "*@yourdomain.com" | stats count values(owner)
+  as owner values(target_user) as target values(doc_type) as doc_type values(doc_title)
+  as doc_title dc(target_user) as distinct_target by src_ip email | where distinct_target
+  > 50 | `gdrive_suspicious_file_sharing_filter`'
+how_to_implement: Need to implement Gsuite logging targeting Google suite drive activity.
+  In order for the search to work for your environment please update `yourdomain.com`
+  value in the query with the domain relavant for your organization.
+known_false_positives: This is an anomaly search, you must specify your domain in
+  the parameters so it either filters outside domains or focus on internal domains.
+  This search may also help investigate compromise of accounts. By looking at for
+  example source ip addresses, document titles and abnormal number of shares and shared
+  target users.
+references:
+- https://www.splunk.com/en_us/blog/security/investigating-gsuite-phishing-attacks-with-splunk.html
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  - Data Exfiltration
+  asset_type: GDrive
+  confidence: 50
+  impact: 50
+  message: tbd
+  mitre_attack_id:
+  - T1566
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - src_ip
+  - parameters.owner
+  - parameters.target_user
+  - parameters.doc_title
+  - parameters.doc_type
+  risk_score: 25
+  security_domain: threat

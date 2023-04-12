@@ -1,0 +1,61 @@
+name: Linux Change File Owner To Root
+id: c1400ea2-6257-11ec-ad49-acde48001122
+version: 1
+date: '2021-12-21'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic looks for a commandline that change the file owner to root
+  using chown utility tool. This technique is commonly abuse by adversaries, malware
+  author and red teamers to escalate privilege to the targeted or compromised host
+  by changing the owner of their malicious file to root. This event is not so common
+  in corporate network except from the administrator doing normal task that needs
+  high privilege.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*chown *'
+  selection2:
+    Image|endswith: chown
+  selection3:
+    CommandLine: '* root *'
+  condition: (selection1 or selection2) and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://unix.stackexchange.com/questions/101073/how-to-change-permissions-from-root-user-to-all-users
+- https://askubuntu.com/questions/617850/changing-from-user-to-superuser
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A commandline $process$ that may change ownership to root on $dest$
+  mitre_attack_id:
+  - T1222.002
+  - T1222
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

@@ -9,7 +9,7 @@ description: Leverage searches that allow you to detect and investigate unusual 
   The complete list of targeted devices is unknown at this time, but WatchGuard FireBox has specifically been listed as a target. 
   The modular malware consists of core components and modules that are deployed as child processes using the Linux API fork. 
   At this point, four modules have been identified that download and upload files, gather system information and contain updating mechanisms for the malware itself. 
-  Additional modules can be downloaded and executed from the command and control (C2) server.
+  Additional modules can be downloaded and executed from the Command And Control (C2) server.
 narrative: Adversaries may use this technique to maximize the impact on the target organization in operations where network wide availability interruption
   is the goal. 
 references:

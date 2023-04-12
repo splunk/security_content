@@ -3,25 +3,30 @@ id: a7093c28-796c-4ebb-9997-e2c18b870837
 version: 1
 date: '2022-06-22'
 author: Gowthamaraj Rajendran, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainUser` or `Get-NetUSer` commandlets with specific parameters. These commandlets
-  are part of PowerView, a PowerShell tool used to perform enumeration and discovery
-  on Windows Active Directory networks. As the names suggest, these commandlets are 
-  used to identify domain users in a network and combining them with the `-SPN` parameter allows
-  adversaries to discover domain accounts associated with a Service Principal Name (SPN).
-  Red Teams and adversaries alike may leverage PowerView and these commandlets to identify accounts that can be
-  attacked with the Kerberoasting technique.
-search: '`powershell` EventCode=4104 (ScriptBlockText =*Get-NetUser* OR ScriptBlockText=*Get-DomainUser*) ScriptBlockText= *-SPN* 
-| stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer 
-| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_powerview_spn_discovery_filter`'
-how_to_implement: The following analytic requires PowerShell operational logs
-  to be imported. Modify the powershell macro as needed to match the sourcetype or
-  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: False positive may include Administrators using PowerView for troubleshooting and management.
+  to identify the execution of the `Get-DomainUser` or `Get-NetUSer` commandlets with
+  specific parameters. These commandlets are part of PowerView, a PowerShell tool
+  used to perform enumeration and discovery on Windows Active Directory networks.
+  As the names suggest, these commandlets are used to identify domain users in a network
+  and combining them with the `-SPN` parameter allows adversaries to discover domain
+  accounts associated with a Service Principal Name (SPN). Red Teams and adversaries
+  alike may leverage PowerView and these commandlets to identify accounts that can
+  be attacked with the Kerberoasting technique.
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 (ScriptBlockText =*Get-NetUser* OR ScriptBlockText=*Get-DomainUser*)
+  ScriptBlockText= *-SPN* | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode ScriptBlockText Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `windows_powerview_spn_discovery_filter`'
+how_to_implement: The following analytic requires PowerShell operational logs to be
+  imported. Modify the powershell macro as needed to match the sourcetype or add index.
+  This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: False positive may include Administrators using PowerView for
+  troubleshooting and management.
 references:
-- https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/kerberoast 
+- https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/kerberoast
 - https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1
 - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
 - https://attack.mitre.org/techniques/T1558/003
@@ -29,26 +34,12 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   asset_type: endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
-  context:
-  - Source:Endpoint
-  - Stage:Recon
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview-2/windows-powershell.log
   impact: 30
-  kill_chain_phases:
-  - Reconnaissance
-  - Exploitation
   message: PowerView commandlets used for SPN discovery executed on $Computer$
   mitre_attack_id:
   - T1558
   - T1558.003
-  nist:
-  - DE.CM
   observable:
   - name: Client_Address
     type: Endpoint
@@ -65,3 +56,9 @@ tags:
   - ScriptBlockText
   risk_score: 27
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview-2/windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

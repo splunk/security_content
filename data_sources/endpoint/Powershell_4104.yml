@@ -1,0 +1,24 @@
+name: Powershell 4104
+id: 595473bc-80d5-4bb2-b98f-4dbd8c1f5065
+date: '2022-10-20'
+author: Patrick Bareiss, Splunk
+type: powershell
+source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+sourcetype: XmlWinEventLog
+category: ps_script
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.myeventlog.com/search/show/980
+raw_fields: 
+  - EventID
+  - ProcessID
+  - Computer
+  - UserID
+  - MessageNumber
+  - MessageTotal
+  - ScriptBlockId
+  - ScriptBlockText

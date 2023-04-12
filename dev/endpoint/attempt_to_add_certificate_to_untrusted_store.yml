@@ -1,0 +1,68 @@
+name: Attempt To Add Certificate To Untrusted Store
+id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
+version: 7
+date: '2021-09-16'
+author: Patrick Bareiss, Rico Valdez, Splunk
+status: production
+type: TTP
+description: Attempt To Add Certificate To Untrusted Store
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: CertUtil.exe
+  selection2:
+    Image|endswith: certutil.exe
+  selection3:
+    CommandLine: '*-addstore*'
+  condition: (selection1 or selection2) and selection3
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: There may be legitimate reasons for administrators to add a
+  certificate to the untrusted certificate store. In such cases, this will typically
+  be done on a large number of systems.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md
+tags:
+  analytic_story:
+  - Disabling Security Tools
+  asset_type: Endpoint
+  confidence: 50
+  impact: 70
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    attempting to add a certificate to the store on endpoint $dest$ by user $user$.
+  mitre_attack_id:
+  - T1553.004
+  - T1553
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.004/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

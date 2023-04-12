@@ -3,18 +3,19 @@ id: c396a0c4-c9f2-11eb-b4f5-acde48001122
 version: 2
 date: '2022-03-22'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104 that is using memory stream as new object backstore. The malicious
   PowerShell script will contain stream flate data and will be decompressed in memory
   to run or drop the actual payload. During triage, review parallel processes within
   the same timeframe. Review the full script block to identify other related artifacts.
-search: '`powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText = *IO.MemoryStream*
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `powershell_using_memory_as_backing_store_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText
+  = *IO.MemoryStream* | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_using_memory_as_backing_store_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -28,17 +29,11 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell-xml.log
   impact: 50
-  kill_chain_phases:
-  - Exploitation
   message: A PowerShell script contains memorystream command in $ScriptBlockText$
     as new object backstore with EventCode $EventCode$ on host $Computer$.
   mitre_attack_id:
@@ -65,4 +60,9 @@ tags:
   - UserID
   risk_score: 40
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

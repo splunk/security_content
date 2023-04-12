@@ -1,0 +1,104 @@
+name: Registry Keys Used For Persistence
+id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
+version: 9
+date: '2022-09-19'
+author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
+status: production
+type: TTP
+description: The search looks for modifications to registry keys that can be used
+  to launch an application or service at system startup.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Registry.registry_key_name: Debugger
+    TargetObject:
+    - '*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*'
+    - '*\\Classes\\htmlfile\\shell\\open\\command'
+    - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SharedTaskScheduler'
+    - '*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Common
+      Startup'
+    - HKLM\\SOFTWARE\\Microsoft\\Netsh\\*
+    - '*\\currentversion\\runservices*'
+    - '*\\currentversion\\policies\\explorer\\run*'
+    - '*\\CurrentVersion\\Winlogon\\VmApplet*'
+    - '*\\CurrentVersion\\Winlogon\\Userinit*'
+    - '*\\CurrentVersion\\Winlogon\\Notify*'
+    - '*\\CurrentVersion\\Winlogon\\Shell*'
+    - '*\\currentVersion\\Windows\\Appinit_Dlls*'
+    - '*\\currentversion\\run*'
+    - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run'
+    - '*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce'
+  selection2:
+    Registry.registry_key_name: Security Packages
+    TargetObject: '*\\CurrentControlSet\\Control\\Lsa'
+  selection3:
+    Registry.registry_key_name: Security Packages
+    TargetObject: '*\\CurrentControlSet\\Control\\Lsa\\OSConfig'
+  selection4:
+    TargetObject: '*\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\*'
+  selection5:
+    Registry.registry_key_name: Load
+    TargetObject: '*currentVersion\\Windows'
+  selection6:
+    Registry.registry_key_name: Svchost
+    TargetObject: '*\\CurrentVersion'
+  selection7:
+    Registry.registry_key_name: BootExecute
+    TargetObject: '*\\CurrentControlSet\Control\Session Manager'
+  selection8:
+    Registry.registry_key_name: auto_update
+    TargetObject: '*\\Software\\Run'
+  condition: (selection1 or selection2 or selection3 or selection4 or selection5 or
+    selection6 or selection7 or selection8)
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: There are many legitimate applications that must execute on
+  system startup and will use these registry keys to accomplish that task.
+references: []
+tags:
+  analytic_story:
+  - Suspicious Windows Registry Activities
+  - Suspicious MSHTA Activity
+  - DHS Report TA18-074A
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Ransomware
+  - Windows Persistence Techniques
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - IcedID
+  - Remcos
+  - Windows Registry Abuse
+  - Azorult
+  - Qakbot
+  asset_type: Endpoint
+  confidence: 95
+  impact: 80
+  message: A registry activity in $registry_path$ related to persistence in host $dest$
+  mitre_attack_id:
+  - T1547.001
+  - T1547
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 76
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

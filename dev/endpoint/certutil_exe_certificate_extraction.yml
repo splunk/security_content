@@ -1,0 +1,65 @@
+name: Certutil exe certificate extraction
+id: 337a46be-600f-11eb-ae93-0242ac130002
+version: 2
+date: '2022-07-15'
+author: Rod Soto, Splunk
+status: production
+type: TTP
+description: This search looks for arguments to certutil.exe indicating the manipulation
+  or extraction of Certificate. This certificate can then be used to sign new authentication
+  tokens specially inside Federated environments such as Windows ADFS.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*-exportPFX*'
+    Image|endswith: certutil.exe
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Unless there are specific use cases, manipulating or exporting
+  certificates using certutil is uncommon. Extraction of certificate has been observed
+  during attacks such as Golden SAML and other campaigns targeting Federated services.
+references:
+- https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack
+- https://strontic.github.io/xcyclopedia/library/certutil.exe-09A8A29BAA3A451713FD3D07943B4A43.html
+tags:
+  analytic_story:
+  - Windows Persistence Techniques
+  - Cloud Federated Credential Abuse
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 70
+  impact: 90
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting export a certificate.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/certutil_exe_certificate_extraction/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
