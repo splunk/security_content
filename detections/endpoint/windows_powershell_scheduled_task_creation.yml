@@ -1,0 +1,67 @@
+name: Windows PowerShell Scheduled Task Creation
+id: 8e29190f-2c22-45e1-bbe0-c4ec0b0cc887
+version: 1
+date: '2023-04-10'
+author: Michael Haag, Splunk
+type: Anomaly
+datamodel: []
+description: The following analytic is designed to detect the use of certain PowerShell Cmdlets which can be used to schedule tasks in Windows. The Cmdlets in question are New-ScheduledTaskAction, Register-ScheduledTask, and Set-ScheduledTask. These Cmdlets allow users to create, register and modify scheduled tasks, which could be used for various purposes such as running malicious code, exfiltrating data, or maintaining persistence on an endpoint. The detection of these Cmdlets being used within a system could indicate that an attacker is attempting to establish persistence or perform malicious actions on the system.
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTaskAction*", "*Register-ScheduledTask*", "*Set-ScheduledTask*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_scheduled_task_creation_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: False positives may be present based on administrative scripts and utilities that use these cmdlets. Filter as needed.
+references:
+  - https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtaskaction
+  - https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/register-scheduledtask
+  - https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/set-scheduledtask
+  - https://devblogs.microsoft.com/scripting/use-powershell-to-create-scheduled-tasks
+  - https://4sysops.com/archives/powershell-script-to-create-scheduled-tasks
+  - https://www.red-gate.com/simple-talk/sysadmin/powershell/powershell-scheduled-tasks
+  - https://docs.microsoft.com/en-us/windows/win32/taskschd/about-the-task-scheduler
+  - https://docs.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page
+  - https://docs.microsoft.com/en-us/windows/win32/taskschd/scheduled-tasks
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/4104_scheduledtaskcreation.log
+  impact: 50
+  kill_chain_phases:
+  - Installation
+  message: PowerShell attempting to create a task via New-ScheduledTaskAction, Register-ScheduledTask, or Set-ScheduledTask on $dest$.
+  mitre_attack_id:
+  - T1053.003
+  - T1053
+  - T1059.001
+  - T1059
+  nist:
+  - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - dest
+  - EventCode
+  risk_score: 25
+  security_domain: endpoint
