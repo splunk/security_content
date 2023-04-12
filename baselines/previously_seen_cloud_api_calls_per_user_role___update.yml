@@ -24,8 +24,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Cloud API Calls From Previously Unseen User Roles
   product:

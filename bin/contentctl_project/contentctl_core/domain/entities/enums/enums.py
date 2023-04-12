@@ -7,6 +7,7 @@ class AnalyticsType(enum.Enum):
     hunting = 3
     correlation = 4
 
+
 class DataModel(enum.Enum):
     Endpoint = 1
     Network_Traffic = 2
@@ -26,6 +27,7 @@ class DataModel(enum.Enum):
     Risk = 16
     Splunk_Audit = 17
 
+
 class SecurityContentType(enum.Enum):
     detections = 1
     baselines = 2
@@ -38,8 +40,22 @@ class SecurityContentType(enum.Enum):
     unit_tests = 9
     attack_data = 10
 
+
 class SecurityContentProduct(enum.Enum):
     ESCU = 1
     SSA = 2
     API = 3
     CUSTOM = 4
+
+
+class SigmaConverterTarget(enum.Enum):
+    CIM = 1
+    RAW = 2
+    OCSF = 3
+    ALL = 4
+
+
+class DetectionStatus(enum.Enum):
+    production = "production"
+    deprecated = "deprecated"
+    experimental = "experimental"

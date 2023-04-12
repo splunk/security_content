@@ -38,7 +38,7 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytic_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
-{% if detection.tags.risk_score is defined and detection.type | lower != "correlation" %}
+{% if detection.deployment.rba.enabled is defined %}
 action.risk = 1
 action.risk.param._risk_message = {{ detection.tags.message }}
 action.risk.param._risk = {{ detection.risk | tojson }}
@@ -73,6 +73,10 @@ action.notable.param.rule_description = {{ detection.deployment.notable.rule_des
 action.notable.param.rule_title = {% if detection.type | lower == "correlation" %}RBA: {{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}{% else %}{{ detection.deployment.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}{% endif +%}
 action.notable.param.security_domain = {{ detection.tags.security_domain }}
 action.notable.param.severity = high
+{% if detection.tags.drilldown_search is not none %}
+action.notable.param.drilldown_name = {{ detection.name }}
+action.notable.param.drilldown_search = {{ detection.tags.drilldown_search }}
+{% endif %}
 {% endif %}
 {% if detection.deployment.email.to is defined %}
 action.email.subject.alert = {{ detection.deployment.email.subject | custom_jinja2_enrichment_filter(detection) }}

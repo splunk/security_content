@@ -3,12 +3,13 @@ id: 2a9b80d3-6340-4345-11ad-212bf444d111
 version: 2
 date: '2021-07-19'
 author: Bhavin Patel, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search looks for AWS CloudTrail events where a user A(victim A)
   creates a login profile for user B, followed by a AWS Console login event from user
   B from the same src_ip as user B. This correlated event can be indicative of privilege
   escalation since both events happened from the same src_ip
+data_source: []
 search: '`cloudtrail` eventName = CreateLoginProfile | rename requestParameters.userName
   as new_login_profile | table src_ip eventName new_login_profile userIdentity.userName  |
   join new_login_profile src_ip [| search `cloudtrail` eventName = ConsoleLogin |
@@ -28,28 +29,13 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  cis20:
-  - CIS 13
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
   impact: 90
-  kill_chain_phases:
-  - Actions on Objectives
   message: User $user_arn$ is attempting to create a login profile for $requestParameters.userName$
     and did a console login from this IP $src_ip$
   mitre_attack_id:
   - T1136.003
   - T1136
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: src_ip
     type: IP Address
@@ -71,3 +57,10 @@ tags:
   - requestParameters.userName
   risk_score: 72
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

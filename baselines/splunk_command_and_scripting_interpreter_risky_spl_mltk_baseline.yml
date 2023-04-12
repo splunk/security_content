@@ -77,4 +77,9 @@ tags:
   security_domain: audit
   detections: 
   - Splunk Command and Scripting Interpreter Risky SPL MLTK
-
+deployment:
+  scheduling:
+    cron_schedule: 55 * * * *
+    earliest_time: -70m@m
+    latest_time: -10m@m
+    schedule_window: auto

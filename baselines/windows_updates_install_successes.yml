@@ -17,8 +17,6 @@ references: []
 tags:
   analytic_story:
   - Monitor for Updates
-  deployments:
-  - Daily Cache Updates
   detections:
   - No Windows Updates in a time frame
   product:

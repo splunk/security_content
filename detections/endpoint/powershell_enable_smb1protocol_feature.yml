@@ -3,17 +3,18 @@ id: afed80b2-d34b-11eb-a952-acde48001122
 version: 2
 date: '2022-02-25'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect a suspicious enabling of smb1protocol through
   "powershell.exe". This technique was seen in some ransomware (like reddot) where
   it enable smb share to do the lateral movement and encrypt other files within the
   compromise network system.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*" ScriptBlockText
-  = "*SMB1Protocol*" | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `powershell_enable_smb1protocol_feature_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*"
+  ScriptBlockText = "*SMB1Protocol*" | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_enable_smb1protocol_feature_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
@@ -23,16 +24,12 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Hermetic Wiper 
+  - Hermetic Wiper
   - Malicious PowerShell
   - Ransomware
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
   message: Powershell Enable SMB1Protocol Feature
   mitre_attack_id:
   - T1027
@@ -52,8 +49,11 @@ tags:
   - ScriptBlockText
   - Computer
   - UserID
-  security_domain: endpoint
-  confidence: 50
-  impact: 50
   risk_score: 25
-  asset_type: Endpoint
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

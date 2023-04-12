@@ -4,8 +4,8 @@ date: '2021-12-21'
 author: Patrick Bareiss
 description: This configuration file applies to all detections of type baseline.
 scheduling:
-  cron_schedule: 0 * * * *
-  earliest_time: -70m@m
+  cron_schedule: 10 0 * * *
+  earliest_time: -1450m@m
   latest_time: -10m@m
   schedule_window: auto
 tags:

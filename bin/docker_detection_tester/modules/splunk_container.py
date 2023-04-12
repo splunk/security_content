@@ -439,35 +439,23 @@ class SplunkContainer:
                 )
                 
                 
-                self.synchronization_object.addResult(result, duration_string =  datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time)))
+                self.synchronization_object.addResult(result, duration_string =  str(datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time))))
 
                 # Remove the data from the test that we just ran.  We MUST do this when running on CI because otherwise, we will download
                 # a massive amount of data over the course of a long path and will run out of space on the relatively small CI runner drive
                 shutil.rmtree(result["attack_data_directory"],ignore_errors=True)
             except Exception as e:
+                import traceback
                 print(
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
                     % (detection_to_test, str(e))
                 )
+                print(traceback.print_exc())
                 
-                #traceback.print_exc()
-                #import pdb
-                #pdb.set_trace()
-                # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
-                # process the result correctly.  
-                detection_to_test.replace("security_content/tests", "security_content/detections")
-                try:
-                    test_file_obj = testing_service.load_file(os.path.join("security_content/", detection_to_test))
-                    if 'file' not in test_file_obj:
-                        raise Exception(f"'file' field not found in {detection_to_test}")
-                except:
-                    test_file_obj['file'] = detection_to_test.replace("tests/", "").replace(".test.yml", ".yml")
-                    print(f"Error getting the detection file associated with the test file. We will try our best to convert it: {detection_to_test}-->{test_file_obj['file']}")
-                    
-
+                
                 self.synchronization_object.addError(
-                    {"detection_file": test_file_obj['file'],
-                        "detection_error": str(e)}, duration_string = datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time))
+                    {"detection_file": detection_to_test,
+                        "detection_error": str(e)}, duration_string = str(datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time)))
 
 
                 )

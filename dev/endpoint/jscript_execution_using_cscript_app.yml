@@ -1,0 +1,63 @@
+name: Jscript Execution Using Cscript App
+id: 002f1e24-146e-11ec-a470-acde48001122
+version: 1
+date: '2021-09-13'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search is to detect a execution of jscript using cscript process.
+  Commonly when a user run jscript file it was executed by wscript.exe application.
+  This technique was seen in FIN7 js implant to execute its malicious script using
+  cscript process. This behavior is uncommon and a good artifacts to check further
+  anomalies within the network
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentCommandLine: '*//e:jscript*'
+    ParentImage: cscript.exe
+  selection2:
+    CommandLine: '*//e:jscript*'
+    Image|endswith: cscript.exe
+  condition: selection1 or selection2
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: unknown
+references:
+- https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+- https://attack.mitre.org/groups/G0046/
+tags:
+  analytic_story:
+  - FIN7
+  - Remcos
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Process name $process_name$ with commandline $process$ to execute jscript
+    in $dest$
+  mitre_attack_id:
+  - T1059
+  - T1059.007
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

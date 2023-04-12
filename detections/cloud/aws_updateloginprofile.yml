@@ -3,22 +3,19 @@ id: 2a9b80d3-6a40-4115-11ad-212bf3d0d111
 version: 3
 date: '2022-03-03'
 author: Bhavin Patel, Splunk
+status: production
 type: TTP
-datamodel: []
 description: This search looks for AWS CloudTrail events where a user A who has already
   permission to update login profile, makes an API call to update login profile for
   another user B . Attackers have been know to use this technique for Privilege Escalation
   in case new victim(user B) has more permissions than old victim(user B)
-search: ' `cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com errorCode = success 
-  | eval match=if(match(userIdentity.userName,requestParameters.userName), 1,0) 
-  | search match=0 
-  | stats
-  count min(_time) as firstTime max(_time) as lastTime by requestParameters.userName
-  src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.userName
-  user_arn 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `aws_updateloginprofile_filter`'
+data_source: []
+search: ' `cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com
+  errorCode = success | eval match=if(match(userIdentity.userName,requestParameters.userName),
+  1,0) | search match=0 | stats count min(_time) as firstTime max(_time) as lastTime
+  by requestParameters.userName src eventName eventSource aws_account_id errorCode
+  userAgent eventID awsRegion userIdentity.userName user_arn | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `aws_updateloginprofile_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
 known_false_positives: While this search has no known false positives, it is possible
@@ -30,26 +27,14 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
-  cis20:
-  - CIS 13
   confidence: 60
-  context:
-  - Source:Cloud Data
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json
   impact: 50
-  kill_chain_phases:
-  - Actions on Objectives
   message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an
     event $eventName$ for updating the existing login profile, potentially giving
     user $user_arn$ more access privilleges
   mitre_attack_id:
   - T1136.003
   - T1136
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: src
     type: IP Address
@@ -71,3 +56,10 @@ tags:
   - requestParameters.userName
   risk_score: 30
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

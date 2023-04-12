@@ -3,16 +3,18 @@ id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 version: 2
 date: '2022-11-11'
 author: Rod Soto, Patrick Bareiss Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: This search provides detection of users with KMS keys performing encryption
   specifically against S3 buckets.
+data_source: []
 search: '`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"
   | rename requestParameters.bucketName AS bucketName, requestParameters.x-amz-copy-source
   AS src_file, requestParameters.key AS dest_file | stats count min(_time) as firstTime
-  max(_time) as lastTime values(bucketName) as bucketName values(src_file) AS src_file values(dest_file) AS dest_file
-  values(userAgent) AS userAgent values(region) AS region values(src) AS src by user
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
+  max(_time) as lastTime values(bucketName) as bucketName values(src_file) AS src_file
+  values(dest_file) AS dest_file values(userAgent) AS userAgent values(region) AS
+  region values(src) AS src by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
 how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs
 known_false_positives: There maybe buckets provisioned with S3 encryption
@@ -25,13 +27,6 @@ tags:
   - Ransomware Cloud
   asset_type: S3 Bucket
   confidence: 50
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
   impact: 30
   message: User $user$ with KMS keys is performing encryption, against S3 buckets
     on these files $dest_file$
@@ -61,5 +56,10 @@ tags:
   - region
   risk_score: 15
   security_domain: threat
-  kill_chain_phases:
-  - Exploitation
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true
