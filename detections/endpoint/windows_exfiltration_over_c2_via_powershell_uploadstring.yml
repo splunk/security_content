@@ -5,8 +5,8 @@ date: '2023-04-05'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-datamodel:
-- Endpoint
+data_source:
+  - Powershell 4104
 description: The following analytic identifies potential data exfiltration using the PowerShell net.webclient command. This technique was observed in the Winter-Vivern malware, which uploads desktop screenshots and files from compromised or targeted hosts. Detecting this TTP can serve as a valuable indicator that a process is attempting to upload files to an external or internal URI link. We recommend examining the process, the files it is trying to upload, and the URL link or C2 destination where the data is being uploaded.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Net.webclient*" AND ScriptBlockText = "*.UploadString*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
@@ -24,24 +24,13 @@ tags:
   analytic_story:
   - Winter Vivern
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_uploadstring/windows-powershell-xml.log
   impact: 70
   kill_chain_phases:
   - Command & Control
   message: A PowerShell script on $Computer$ is attempting to transfer files to a remote URL.
   mitre_attack_id:
   - T1041
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -59,3 +48,9 @@ tags:
   - EventCode
   risk_score: 49
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_uploadstring/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
