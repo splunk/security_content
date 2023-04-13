@@ -144,7 +144,7 @@ def normalized_url_detonation_output(action=None, success=None, container=None, 
     normalized_url_detonation_output__url_score_object = None
     normalized_url_detonation_output__scores = None
     normalized_url_detonation_output__categories = None
-    normalized_url_detonation_output__confidence = None
+    normalized_url_detonation_output__score_id = None
 
     ################################################################################
     ## Custom Code Start
@@ -165,7 +165,7 @@ def normalized_url_detonation_output(action=None, success=None, container=None, 
     normalized_url_detonation_output__url_score_object = []
     normalized_url_detonation_output__scores = []
     normalized_url_detonation_output__categories = []
-    normalized_url_detonation_output__confidence = []
+    normalized_url_detonation_output__score_id = []
     
     url_detonation_param_list =  [(i or "") for i in filtered_result_0_parameter_url] 
     url_detonation_verdict_list = [(i or "") for i in filtered_result_0_data___sandbox___verdict] 
@@ -215,7 +215,7 @@ def normalized_url_detonation_output(action=None, success=None, container=None, 
         normalized_url_detonation_output__url_score_object.append({'score': score, 'score_id': score_id,'confidence': list(set(score_list))[0], 'categories': list(set(category_list))})
         normalized_url_detonation_output__scores.append(score)
         normalized_url_detonation_output__categories.append(list(set(category_list)))
-        normalized_url_detonation_output__confidence.append(list(set(score_list))[0])
+        normalized_url_detonation_output__score_id.append(score_id)
         #phantom.debug("normalized_url_detonation_output__url_score_object: {}".format(normalized_url_detonation_output__url_score_object))
         #phantom.debug("normalized_url_detonation_output__scores: {}".format(normalized_url_detonation_output__scores))
         #phantom.debug("normalized_url_detonation_output__categories: {}".format(normalized_url_detonation_output__categories))
@@ -228,7 +228,7 @@ def normalized_url_detonation_output(action=None, success=None, container=None, 
     phantom.save_run_data(key="normalized_url_detonation_output:url_score_object", value=json.dumps(normalized_url_detonation_output__url_score_object))
     phantom.save_run_data(key="normalized_url_detonation_output:scores", value=json.dumps(normalized_url_detonation_output__scores))
     phantom.save_run_data(key="normalized_url_detonation_output:categories", value=json.dumps(normalized_url_detonation_output__categories))
-    phantom.save_run_data(key="normalized_url_detonation_output:confidence", value=json.dumps(normalized_url_detonation_output__confidence))
+    phantom.save_run_data(key="normalized_url_detonation_output:score_id", value=json.dumps(normalized_url_detonation_output__score_id))
 
     format_report_url(container=container)
 
@@ -243,13 +243,13 @@ def format_report_url(action=None, success=None, container=None, results=None, h
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) or File using Crowdstrike.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n"""
+    template = """SOAR analyzed URL(s) or File using Crowdstrike.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | score id |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
         "playbook_input:url",
         "normalized_url_detonation_output:custom_function:scores",
-        "normalized_url_detonation_output:custom_function:confidence",
+        "normalized_url_detonation_output:custom_function:score_id",
         "normalized_url_detonation_output:custom_function:categories",
         "url_detonation:action_result.data.*.id"
     ]
@@ -486,7 +486,7 @@ def normalized_file_detonation_output(action=None, success=None, container=None,
     normalized_file_detonation_output__file_score_object = None
     normalized_file_detonation_output__scores = None
     normalized_file_detonation_output__categories = None
-    normalized_file_detonation_output__confidence = None
+    normalized_file_detonation_output__score_id = None
 
     ################################################################################
     ## Custom Code Start
@@ -496,7 +496,7 @@ def normalized_file_detonation_output(action=None, success=None, container=None,
     normalized_file_detonation_output__file_score_object = []
     normalized_file_detonation_output__scores = []
     normalized_file_detonation_output__categories = []
-    normalized_file_detonation_output__confidence = []
+    normalized_file_detonation_output__score_id = []
     ## normalized NoneType value to avoid enumeration failure
     file_detonation_param_list =  [(i or "") for i in filtered_result_0_parameter_vault_id] 
     file_detonation_threat_score_list = [(i or "") for i in filtered_result_0_data___sandbox___threat_score] 
@@ -550,7 +550,7 @@ def normalized_file_detonation_output(action=None, success=None, container=None,
         normalized_file_detonation_output__file_score_object.append({'score': score, 'score_id': score_id,'confidence': list(set(score_list))[0], 'categories': list(set(category_list))})
         normalized_file_detonation_output__scores.append(score)
         normalized_file_detonation_output__categories.append(list(set(category_list)))
-        normalized_file_detonation_output__confidence.append(list(set(score_list))[0])
+        normalized_file_detonation_output__score_id.append(score_id)
         #phantom.debug("normalized_file_detonation_output__file_score_object: {}".format(normalized_file_detonation_output__file_score_object))
         #phantom.debug("normalized_file_detonation_output__scores: {}".format(normalized_file_detonation_output__scores))
         #phantom.debug("normalized_file_detonation_output__categories: {}".format(normalized_file_detonation_output__categories))
@@ -561,7 +561,7 @@ def normalized_file_detonation_output(action=None, success=None, container=None,
     phantom.save_run_data(key="normalized_file_detonation_output:file_score_object", value=json.dumps(normalized_file_detonation_output__file_score_object))
     phantom.save_run_data(key="normalized_file_detonation_output:scores", value=json.dumps(normalized_file_detonation_output__scores))
     phantom.save_run_data(key="normalized_file_detonation_output:categories", value=json.dumps(normalized_file_detonation_output__categories))
-    phantom.save_run_data(key="normalized_file_detonation_output:confidence", value=json.dumps(normalized_file_detonation_output__confidence))
+    phantom.save_run_data(key="normalized_file_detonation_output:score_id", value=json.dumps(normalized_file_detonation_output__score_id))
 
     format_report_file(container=container)
 
@@ -576,13 +576,13 @@ def format_report_file(action=None, success=None, container=None, results=None, 
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed File(s) using CrowdStrike.  The table below shows a summary of the information gathered.\n\n| File hash | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n\n"""
+    template = """SOAR analyzed File(s) using CrowdStrike.  The table below shows a summary of the information gathered.\n\n| vault_id | Normalized Score | score id |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
         "filtered-data:sandbox_filter:condition_1:file_detonation:action_result.parameter.vault_id",
         "normalized_file_detonation_output:custom_function:scores",
-        "normalized_file_detonation_output:custom_function:confidence",
+        "normalized_file_detonation_output:custom_function:score_id",
         "normalized_file_detonation_output:custom_function:categories",
         "filtered-data:windows_sandbox_filter:condition_1:windows_file_detonation:action_result.data.*.id"
     ]
