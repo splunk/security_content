@@ -3,6 +3,7 @@ id: 5e0b1936-8f99-4399-8ee2-9edc5b32e170
 version: 1
 date: '2023-04-05'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
 datamodel:
 - Endpoint
