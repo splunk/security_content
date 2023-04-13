@@ -41,6 +41,7 @@ tags:
   - AsyncRAT
   - Hermetic Wiper
   - Malicious PowerShell
+  asset_type: Endpoint
   confidence: 80
   context:
   - Source:Endpoint
