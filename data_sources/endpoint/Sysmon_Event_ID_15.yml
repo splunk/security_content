@@ -1,0 +1,26 @@
+name: Sysmon Event ID 15
+id: 4c3d1c6e-cbde-400c-8f0a-2fb321eb9b73
+date: '2022-11-28'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: create_stream_hash
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields: 
+  - EventID
+  - Computer
+  - Guid
+  - IMPHASH
+  - MD5
+  - ProcessGuid
+  - ProcessId
+  - SHA256
+  - TargetFilename
+  - UserID

@@ -20,8 +20,6 @@ references: []
 tags:
   analytic_story:
   - AWS Suspicious Provisioning Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - AWS Cloud Provisioning From Previously Unseen IP Address
   - AWS Cloud Provisioning From Previously Unseen City

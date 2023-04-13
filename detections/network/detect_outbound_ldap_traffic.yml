@@ -3,14 +3,14 @@ id: 5e06e262-d7cd-4216-b2f8-27b437e18458
 version: 1
 date: '2021-12-13'
 author: Bhavin Patel, Johan Bjerke, Splunk
+status: production
 type: Hunting
-datamodel:
-- Network_Traffic
 description: Malicious actors often abuse misconfigured LDAP servers or applications
   that use the LDAP servers in organizations. Outbound LDAP traffic should not be
   allowed outbound through your perimeter firewall.  This search will help determine
   if you have any LDAP connections to IP addresses outside of private (RFC1918) address
   space.
+data_source: []
 search: '| tstats earliest(_time) as earliest_time latest(_time) as latest_time values(All_Traffic.dest_ip)
   as dest_ip from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port
   = 389 OR All_Traffic.dest_port = 636 AND NOT (All_Traffic.dest_ip = 10.0.0.0/8 OR
@@ -30,31 +30,15 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Endpoint
-  cis20:
-  - CIS 12
-  - CIS 13
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Initial Access
   cve:
   - CVE-2021-44228
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_ldap/bro_conn.json
   impact: 70
-  kill_chain_phases:
-  - Command & Control
-  - Actions on Objectives
   message: An outbound LDAP connection from $src_ip$ in your infrastructure connecting
     to dest ip $dest_ip$
   mitre_attack_id:
   - T1190
   - T1059
-  nist:
-  - PR.DS
-  - PR.PT
-  - DE.AE
-  - DE.CM
   observable:
   - name: src_ip
     type: IP Address
@@ -75,3 +59,9 @@ tags:
   - All_Traffic.src_ip
   risk_score: 56
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_ldap/bro_conn.json
+    sourcetype: bro:conn:json
+    source: /opt/malware/conn.log

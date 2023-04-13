@@ -16,7 +16,7 @@ class ReportingInputDto:
 class Reporting:
 
     def execute(self, input_dto: ReportingInputDto) -> None:
-        factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[],[])
+        factory_output_dto = FactoryOutputDto([],[],[],[],[],[],[],[])
         factory = Factory(factory_output_dto)
         factory.execute(input_dto.factory_input_dto)
 

@@ -3,10 +3,19 @@ id: 3fc16961-97e5-4a5b-a079-e4ab0d9763eb
 version: 1
 date: '2023-01-18'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
-description: The following PowerShell Script Block analytic identifies the native ability to add a DLL to the Windows Global Assembly Cache. Each computer where the Common Language Runtime is installed has a machine-wide code cache called the Global Assembly Cache. The Global Assembly Cache stores assemblies specifically designated to be shared by several applications on the computer. By adding a DLL to the GAC, this allows an adversary to call it via any other means across the operating systems. 
-  This is native and built into Windows. Per the Microsoft blog, the more high fidelity method may be to look for W3WP.exe spawning PowerShell that includes the same CommandLine as identified in this analytic.
+description: The following PowerShell Script Block analytic identifies the native
+  ability to add a DLL to the Windows Global Assembly Cache. Each computer where the
+  Common Language Runtime is installed has a machine-wide code cache called the Global
+  Assembly Cache. The Global Assembly Cache stores assemblies specifically designated
+  to be shared by several applications on the computer. By adding a DLL to the GAC,
+  this allows an adversary to call it via any other means across the operating systems.
+  This is native and built into Windows. Per the Microsoft blog, the more high fidelity
+  method may be to look for W3WP.exe spawning PowerShell that includes the same CommandLine
+  as identified in this analytic.
+data_source:
+- Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN("*system.enterpriseservices.internal.publish*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
   Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -14,32 +23,22 @@ search: '`powershell` EventCode=4104 ScriptBlockText IN("*system.enterpriseservi
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: False positives may be present based on developers or third party utilities adding items to the GAC.
+known_false_positives: False positives may be present based on developers or third
+  party utilities adding items to the GAC.
 references:
-  - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
-  - https://www.microsoft.com/en-us/security/blog/2022/07/26/malicious-iis-extensions-quietly-open-persistent-backdoors-into-servers/
+- https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
+- https://www.microsoft.com/en-us/security/blog/2022/07/26/malicious-iis-extensions-quietly-open-persistent-backdoors-into-servers/
 tags:
   analytic_story:
   - IIS Components
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_publish_powershell.log
   impact: 80
-  kill_chain_phases:
-  - Installation
-  message: PowerShell was used to install a module to the Global Assembly Cache on $Computer$.
+  message: PowerShell was used to install a module to the Global Assembly Cache on
+    $Computer$.
   mitre_attack_id:
   - T1505
   - T1505.004
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -56,3 +55,10 @@ tags:
   - EventCode
   risk_score: 64
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_publish_powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

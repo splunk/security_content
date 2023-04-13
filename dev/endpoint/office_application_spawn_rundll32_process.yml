@@ -1,0 +1,60 @@
+name: Office Application Spawn rundll32 process
+id: 958751e4-9c5f-11eb-b103-acde48001122
+version: 2
+date: '2021-04-13'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This detection was designed to identify suspicious spawned processes
+  of known MS office applications due to macro or malicious code. this technique can
+  be seen in so many malware like trickbot that used MS office as its weapon or attack
+  vector to initially infect the machines.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage:
+    - winword.exe
+    - excel.exe
+    - powerpnt.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: unknown
+references:
+- https://any.run/malware-trends/trickbot
+- https://any.run/report/47561b4e949041eff0a0f4693c59c81726591779fe21183ae9185b5eb6a69847/aba3722a-b373-4dae-8273-8730fb40cdbe
+- https://www.joesandbox.com/analysis/702680/0/html
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  - Trickbot
+  - IcedID
+  - AgentTesla
+  asset_type: Endpoint
+  confidence: 90
+  impact: 70
+  message: Office application spawning rundll32.exe on $dest$
+  mitre_attack_id:
+  - T1566
+  - T1566.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

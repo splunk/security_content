@@ -4,7 +4,9 @@ version: 2
 date: '2021-04-13'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source:
+- Windows Security 4625
 description: 'The following analytic identifies a source process name failing to authenticate
   with 30 uniquer users. This behavior could represent an adversary performing a Password
   Spraying attack against an Active Directory environment to obtain initial access
@@ -44,15 +46,7 @@ tags:
   - Active Directory Password Spraying
   - Insider Threat
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Initial Access
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Potential password spraying attack from $Computer$
   mitre_attack_id:
   - T1110.003
@@ -77,3 +71,9 @@ tags:
   risk_score: 49
   security_domain: endpoint
   asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

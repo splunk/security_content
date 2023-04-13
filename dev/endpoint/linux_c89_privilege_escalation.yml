@@ -1,0 +1,68 @@
+name: Linux c89 Privilege Escalation
+id: 54c95f4d-3e5d-44be-9521-ea19ba62f7a8
+version: 1
+date: '2022-08-11'
+author: Gowthamaraj Rajendran, Splunk
+status: production
+type: Anomaly
+description: The c89 and cc commands compile, assemble, and link-edit C programs;
+  the cxx or c++ command does the same for C++ programs. The c89 command should be
+  used when compiling C programs that are written according to Standard C. If sudo
+  right is given to c89 application for the user, then the user can run system commands
+  as root and possibly get a root shell.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*-wrapper*'
+  selection2:
+    CommandLine: '*c89*'
+  selection3:
+    CommandLine: '*sudo*'
+  condition: selection1 and selection2 and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the
+  Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: False positives may be present, filter as needed.
+references:
+- https://gtfobins.github.io/gtfobins/c89/
+- https://www.ibm.com/docs/en/zos/2.1.0?topic=guide-c89-compiler-invocation-using-host-environment-variables
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 60
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$
+  mitre_attack_id:
+  - T1548.003
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/c89/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true

@@ -1,0 +1,47 @@
+name: Windows AD Rogue Domain Controller Network Activity
+id: c4aeeeef-da7f-4338-b3ba-553cbcbe2138
+version: 1
+date: "2022-09-08"
+author: Dean Luxton
+type: TTP
+status: experimental
+data_source: []
+description:
+  This detection is looking at zeek wiredata for specific replication RPC calls being performed from a device which is not a domain controller.
+  If you would like to capture these RPC calls using Splunk Stream, please vote for my idea here https://ideas.splunk.com/ideas/APPSID-I-619 ;)
+search: '`zeek_rpc` DrsReplicaAdd OR DRSGetNCChanges
+  | where NOT (dest_category="Domain Controller") OR NOT (src_category="Domain Controller")
+  | fillnull value="Unknown" src_category, dest_category
+  | table _time endpoint operation src src_category dest dest_category | `windows_ad_rogue_domain_controller_network_activity_filter`'
+how_to_implement: Run zeek on domain controllers to capture the DCE RPC calls, ensure the domain controller categories are defined in Assets and Identities.
+known_false_positives: None.
+references:
+  - https://adsecurity.org/?p=1729
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: Rogue DC Activity Detected from $src_category$ device $src$ to $dest$ ($dest_category$)
+  mitre_attack_id:
+    - T1207
+  observable:
+    - name: src
+      type: IP Address
+      role:
+        - Attacker
+    - name: dest
+      type: IP Address
+      role:
+        - Victim
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  required_fields:
+    - _time
+    - src
+    - dest
+  risk_score: 100
+  security_domain: network

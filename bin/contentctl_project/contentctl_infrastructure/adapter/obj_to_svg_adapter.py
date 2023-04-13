@@ -17,10 +17,10 @@ class ObjToSvgAdapter(Adapter):
         obj = dict()
 
         for detection in detections_tmp:
-            if not detection.deprecated:
+            if not (detection.status == "deprecated"):
                 detections.append(detection)
 
-                if not detection.test and not detection.experimental:
+                if not detection.test and not (detection.status == "experimental"):
                     detection_without_test = detection_without_test + 1
 
 

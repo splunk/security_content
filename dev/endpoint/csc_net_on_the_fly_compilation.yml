@@ -1,0 +1,67 @@
+name: CSC Net On The Fly Compilation
+id: ea73128a-43ab-11ec-9753-acde48001122
+version: 1
+date: '2021-11-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: this analytic is to detect a suspicious compile before delivery approach
+  of .net compiler csc.exe. This technique was seen in several adversaries, malware
+  and even in red teams to take advantage the csc.exe .net compiler tool to compile
+  on the fly a malicious .net code to evade detection from security product. This
+  is a good hunting query to check further the file or process created after this
+  event and check the file path that passed to csc.exe which is the .net code. Aside
+  from that, powershell is capable of using this compiler in executing .net code in
+  a powershell script so filter on that case is needed.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: csc.exe
+  selection2:
+    Image|endswith: csc.exe
+  selection3:
+    CommandLine: '*/noconfig*'
+  selection4:
+    CommandLine: '*/fullpaths*'
+  selection5:
+    CommandLine: '*@*'
+  condition: (selection1 or selection2) and selection3 and selection4 and selection5
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: A network operator or systems administrator may utilize an
+  automated powershell script taht execute .net code that may generate false positive.
+  filter is needed.
+references:
+- https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
+- https://tccontre.blogspot.com/2019/06/maicious-macro-that-compile-c-code-as.html
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: csc.exe with commandline $process$ to compile .net code on $dest$ by $user$
+  mitre_attack_id:
+  - T1027.004
+  - T1027
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

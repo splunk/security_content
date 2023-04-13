@@ -3,11 +3,12 @@ id: 56f91724-cf3f-4666-84e1-e3712fb41e76
 version: 3
 date: '2020-07-21'
 author: David Dorsey, Splunk
+status: deprecated
 type: Anomaly
-datamodel: []
 description: This search looks for EC2 instances being modified by users who have
   not previously modified them. This search is deprecated and have been translated
   to use the latest Change Datamodel.
+data_source: []
 search: '`cloudtrail` `ec2_modification_api_calls` [search `cloudtrail` `ec2_modification_api_calls`
   errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
   by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_modifications_by_user
@@ -29,12 +30,16 @@ tags:
   analytic_story:
   - Unusual AWS EC2 Modifications
   asset_type: AWS Instance
-  cis20:
-  - CIS 1
+  confidence: 50
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1078.004
-  nist:
-  - ID.AM
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -43,19 +48,5 @@ tags:
   - _time
   - errorCode
   - userIdentity.arn
-  risk_object: user
-  risk_object_type: user
   risk_score: 25.0
   security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
-  impact: 50
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown

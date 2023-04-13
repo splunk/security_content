@@ -1,0 +1,52 @@
+name: GetDomainController with PowerShell
+id: 868ee0e4-52ab-484a-833a-6d85b7c028d0
+version: 1
+date: '2021-09-07'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+description: This analytic looks for the execution of `powershell.exe` with command-line
+  arguments utilized to discover remote systems. `Get-DomainController` is part of
+  PowerView, a PowerShell tool used to perform enumeration on Windows domains. Red
+  Teams and adversaries alike may leverage PowerView to enumerate domain groups for
+  situational awareness and Active Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*Get-DomainController*'
+    Image|endswith: powershell.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use PowerView for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1018/
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainController/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 80
+  impact: 30
+  message: Remote system discovery using PowerView on $dest$ by $user$
+  mitre_attack_id:
+  - T1018
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 24
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

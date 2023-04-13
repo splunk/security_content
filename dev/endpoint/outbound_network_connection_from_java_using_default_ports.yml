@@ -1,0 +1,60 @@
+name: Outbound Network Connection from Java Using Default Ports
+id: d2c14d28-5c47-11ec-9892-acde48001122
+version: 2
+date: '2022-06-28'
+author: Mauricio Velazco, Lou Stella, Splunk
+status: production
+type: TTP
+description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
+  is that the victim server will perform outbound connections to attacker-controlled
+  infrastructure. This is required as part of the JNDI lookup as well as for retrieving
+  the second stage .class payload. The following analytic identifies the Java process
+  reaching out to default ports used by the LDAP and RMI protocols. This behavior
+  could represent successfull exploitation. Note that adversaries can easily decide
+  to use arbitrary ports for these protocols and potentially bypass this detection.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Image|endswith:
+    - java.exe
+    - javaw.exe
+    - javaw.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Legitimate Java applications may use perform outbound connections
+  to these ports. Filter as needed
+references:
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
+- https://www.govcert.admin.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+tags:
+  analytic_story:
+  - Log4Shell CVE-2021-44228
+  asset_type: Endpoint
+  confidence: 60
+  cve:
+  - CVE-2021-44228
+  impact: 90
+  message: Java performed outbound connections to default ports of LDAP or RMI on
+    $dest$
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 54
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

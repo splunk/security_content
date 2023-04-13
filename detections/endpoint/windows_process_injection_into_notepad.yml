@@ -4,7 +4,9 @@ version: 1
 date: '2023-02-22'
 author: Michael Haag, Splunk
 type: Anomaly
-datamodel: []
+status: production
+data_source:
+- Sysmon Event ID 10
 description: The following analytic utilizes Sysmon to identify process injection into Notepad.exe, based on GrantedAccess requests - 0x40 and 0x1fffff. This particular behavior is attributed to the defaults of the SliverC2 framework by BishopFox. 
   By default, the analytic filters out any SourceImage paths of System32, Syswow64 and program files. Add more as needed, or remove and monitor what is consistently injecting into notepad.exe. 
   This particular behavior will occur from a source image that is the initial payload dropped. 
@@ -23,25 +25,12 @@ tags:
   analytic_story:
   - BishopFox Sliver Adversary Emulation Framework
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/T1055_windows-sysmon.log
   impact: 40
-  kill_chain_phases:
-  - Exploitation
   message: An instance of $SourceImage$ injecting into $TargetImage$ was identified on endpoint $dest$.
   mitre_attack_id:
   - T1055
   - T1055.002
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -72,3 +61,10 @@ tags:
   - CallTrace
   risk_score: 32
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/T1055_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

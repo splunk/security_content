@@ -17,8 +17,6 @@ references: []
 tags:
   analytic_story:
   - Monitor Backup Solution
-  deployments:
-  - Daily Cache Updates
   detections:
   - Unsuccessful Netbackup backups
   product:
