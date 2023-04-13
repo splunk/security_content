@@ -6,7 +6,7 @@ author: Kelby Shelton, Splunk
 type: Investigation
 description: Launches "related tickets" input playbooks, creates events, and then concludes the Response Tasks where this playbook appears.
 playbook: Mission_Control_Related_Tickets_Search
-how_to_implement: - Requires Input Playbooks with the supported inputs and outputs.\n- Task update function requires that this playbook be present in a Mission Control Response Task.\n- Playbook inputs can be modified to include or omit variables from the incident.\n- Markdown merge function must be modified when adding or removing input playbooks.
+how_to_implement: "- Requires Input Playbooks with the supported inputs and outputs.\n- Task update function requires that this playbook be present in a Mission Control Response Task.\n- Playbook inputs can be modified to include or omit variables from the incident.\n- Markdown merge function must be modified when adding or removing input playbooks."
 references: []
 app_list: 
   - Mission Control
