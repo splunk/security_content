@@ -3,14 +3,9 @@ id: 5ce5f311-b311-4568-90ca-0c36781d07a4
 version: 1
 date: '2023-02-16'
 author: Teoderick Contreras, Splunk
-description: Leverage searches that allow you to detect and investigate unusual activities
-  that might relate to the Winter Vivern trojan, including looking for several timeout execution, 
-  schedule task creation, screenshots, downloading filess through powershell and many more.
-narrative: Winter Vivern malware was found by cert ua that tried to download and run several powershell script on the 
-  target host that will try to collect several files with specific file extensions like (.edb, .ems, .eme, .emz, .key, .pem, 
-  .ovpn, .bat, .cer, .p12, .cfg, .log, .txt, .pdf, .doc, .docx, .xls, .xlsx, .rdg(=) in desktop directories, taking desktop 
-  screenshots and further exfiltration through HTTP. It will also create a persistence mechanism such as scheduled task to 
-  ensure persistence on the targeted host.
+description: Utilize searches that enable you to detect and investigate unusual activities potentially related to the Winter Vivern malicious software. This includes examining multiple timeout executions, scheduled task creations, screenshots, and downloading files through PowerShell, among other indicators.
+
+Narrative: The Winter Vivern malware, identified by CERT UA, is designed to download and run multiple PowerShell scripts on targeted hosts. These scripts aim to gather a variety of files with specific extensions, including (.edb, .ems, .eme, .emz, .key, .pem, .ovpn, .bat, .cer, .p12, .cfg, .log, .txt, .pdf, .doc, .docx, .xls, .xlsx, and .rdg), primarily from desktop directories. In addition to this, the malware captures desktop screenshots and performs data exfiltration using HTTP. To maintain its presence on the targeted host, Winter Vivern also establishes a persistence mechanism, such as creating a scheduled task.
 references:
 - https://cert.gov.ua/article/3761023
 tags:

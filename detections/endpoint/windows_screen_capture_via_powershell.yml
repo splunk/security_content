@@ -6,9 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies a possible powershell script that does screen capture in the compromised or targeted hosts. 
-  This technique was seen in Winter-Vivern malware that tries to capture desktop screen via powershell script and send it to its C2 server as part 
-  of its exfiltration technique. This TTP is a good indicator that a powershell process is possibly collecting desktop screenshots to a host system.
+description: The following analytic identifies a potential PowerShell script that captures screen images on compromised or targeted hosts. This technique was observed in the Winter-Vivern malware, which attempts to capture desktop screens using a PowerShell script and send the images to its C2 server as part of its exfiltration strategy. This TTP serves as a useful indicator that a PowerShell process may be gathering desktop screenshots from a host system, potentially signaling malicious activity.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" 
   AND ScriptBlockText = "*.CopyFromScreen*"
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
@@ -39,7 +37,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: a powershell script that possibly doing screen capture on $Computer$
+  message: A PowerShell script was identified possibly performing screen captures on $Computer$.
   mitre_attack_id:
   - T1113
   nist:
