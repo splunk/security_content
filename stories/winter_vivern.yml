@@ -4,8 +4,7 @@ version: 1
 date: '2023-02-16'
 author: Teoderick Contreras, Splunk
 description: Utilize searches that enable you to detect and investigate unusual activities potentially related to the Winter Vivern malicious software. This includes examining multiple timeout executions, scheduled task creations, screenshots, and downloading files through PowerShell, among other indicators.
-
-Narrative: The Winter Vivern malware, identified by CERT UA, is designed to download and run multiple PowerShell scripts on targeted hosts. These scripts aim to gather a variety of files with specific extensions, including (.edb, .ems, .eme, .emz, .key, .pem, .ovpn, .bat, .cer, .p12, .cfg, .log, .txt, .pdf, .doc, .docx, .xls, .xlsx, and .rdg), primarily from desktop directories. In addition to this, the malware captures desktop screenshots and performs data exfiltration using HTTP. To maintain its presence on the targeted host, Winter Vivern also establishes a persistence mechanism, such as creating a scheduled task.
+narrative: The Winter Vivern malware, identified by CERT UA, is designed to download and run multiple PowerShell scripts on targeted hosts. These scripts aim to gather a variety of files with specific extensions, including (.edb, .ems, .eme, .emz, .key, .pem, .ovpn, .bat, .cer, .p12, .cfg, .log, .txt, .pdf, .doc, .docx, .xls, .xlsx, and .rdg), primarily from desktop directories. In addition to this, the malware captures desktop screenshots and performs data exfiltration using HTTP. To maintain its presence on the targeted host, Winter Vivern also establishes a persistence mechanism, such as creating a scheduled task.
 references:
 - https://cert.gov.ua/article/3761023
 tags:
