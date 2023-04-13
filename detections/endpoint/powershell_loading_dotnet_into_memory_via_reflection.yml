@@ -3,8 +3,10 @@ id: 85bc3f30-ca28-11eb-bd21-acde48001122
 version: 3
 date: '2023-04-05'
 author: Michael Haag, Splunk
+status: production
 type: TTP
-datamodel: []
+data_source:
+- Powershell 4104
 description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify suspicious PowerShell execution. Script Block Logging captures the command
   sent to PowerShell, the full command to be executed. Upon enabling, logs will output
@@ -43,14 +45,7 @@ tags:
   - Malicious PowerShell
   asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/reflection.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A suspicious powershell script contains reflective class assembly command
     in $ScriptBlockText$ to load .net code in memory with EventCode $EventCode$ in
     host $Computer$
@@ -79,4 +74,9 @@ tags:
   - EventCode
   risk_score: 56
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/reflection.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
