@@ -1,0 +1,856 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Attribute Lookup",
+    "coa": {
+        "data": {
+            "description": "Launches \"attribute lookup\" input playbooks, creates events, and then concludes the Response Tasks where this playbook appears.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_12",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_0_to_port_13",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_13_to_port_14",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_12_to_port_14",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_10_to_port_16",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "id": "port_16_to_port_18",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "id": "port_18_to_port_19",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_14_to_port_10",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_17_to_port_24",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "24",
+                    "targetPort": "24_in"
+                },
+                {
+                    "id": "port_19_to_port_17",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "id": "port_26_to_port_1",
+                    "sourceNode": "26",
+                    "sourcePort": "26_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_24_to_port_27",
+                    "sourceNode": "24",
+                    "sourcePort": "24_out",
+                    "targetNode": "27",
+                    "targetPort": "27_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_27_to_port_26",
+                    "sourceNode": "27",
+                    "sourcePort": "27_out",
+                    "targetNode": "26",
+                    "targetPort": "26_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_27_to_port_28",
+                    "sourceNode": "27",
+                    "sourcePort": "27_out",
+                    "targetNode": "28",
+                    "targetPort": "28_in"
+                },
+                {
+                    "id": "port_28_to_port_26",
+                    "sourceNode": "28",
+                    "sourcePort": "28_out",
+                    "targetNode": "26",
+                    "targetPort": "26_in"
+                }
+            ],
+            "hash": "a0b85c6310544f7ed3b46a355735bbe943716c23",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 190,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 2098
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "observable filter",
+                            "customNameId": 0,
+                            "description": "Exclude Null playbook outputs",
+                            "join": [],
+                            "note": "Exclude Null playbook outputs"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "observable_merge:custom_function_result.data.item",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "observable not none",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "observable_filter",
+                        "id": "10",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 230,
+                    "y": 490
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Azure AD Graph Entity Attribute Lookup",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "azure_ad_graph_entity_attribute_lookup",
+                        "id": "12",
+                        "inputs": {
+                            "device": {
+                                "datapaths": [],
+                                "deduplicate": false
+                            },
+                            "user": {
+                                "datapaths": [
+                                    "artifact:*.cef.user",
+                                    "container:data.summary.user"
+                                ],
+                                "deduplicate": false
+                            }
+                        },
+                        "playbookName": "Azure_AD_Graph_User_Attribute_Lookup",
+                        "playbookRepo": 2,
+                        "playbookRepoName": "local",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "playbook",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 147.99999999999997
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "CrowdStrike Device Attribute Lookup",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "crowdstrike_device_attribute_lookup",
+                        "id": "13",
+                        "inputs": {
+                            "device": {
+                                "datapaths": [
+                                    "artifact:*.cef.dest",
+                                    "artifact:*.cef.dest_ip",
+                                    "artifact:*.cef.src",
+                                    "artifact:*.cef.src_ip",
+                                    "container:data.summary.dest",
+                                    "container:data.summary.src",
+                                    "container:data.summary.dest_ip",
+                                    "container:data.summary.src_ip"
+                                ],
+                                "deduplicate": false
+                            }
+                        },
+                        "playbookName": "CrowdStrike_OAuth_API_Device_Attribute_Lookup",
+                        "playbookRepo": 2,
+                        "playbookRepoName": "local",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "playbook",
+                    "warnings": {},
+                    "x": -1.4210854715202004e-14,
+                    "y": 147.99999999999997
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "observable merge",
+                            "customNameId": 0,
+                            "description": "Merges outputs from previous playbooks. Add or take away datapaths based on which input playbooks are present.",
+                            "join": [],
+                            "note": "Merges outputs from previous playbooks. Add or take away datapaths based on which input playbooks are present."
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "list_merge",
+                            "repoName": "community"
+                        },
+                        "functionId": 6,
+                        "functionName": "observable_merge",
+                        "id": "14",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "list_merge": {
+                                "description": "Merge 2-10 different data paths into a single output data path. For example, if IP addresses are stored in the fields sourceAddress, destinationAddress, and deviceAddress, then those three fields could be merged together to form a single list of IP addresses.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_1",
+                                        "name": "input_1",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_2",
+                                        "name": "input_2",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_3",
+                                        "name": "input_3",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_4",
+                                        "name": "input_4",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_5",
+                                        "name": "input_5",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_6",
+                                        "name": "input_6",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_7",
+                                        "name": "input_7",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_8",
+                                        "name": "input_8",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_9",
+                                        "name": "input_9",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_10",
+                                        "name": "input_10",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "list_merge",
+                                "name": "list_merge"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "list_merge": {
+                                "input_1": [
+                                    "azure_ad_graph_entity_attribute_lookup:playbook_output:observable"
+                                ],
+                                "input_10": null,
+                                "input_2": [
+                                    "crowdstrike_device_attribute_lookup:playbook_output:observable"
+                                ],
+                                "input_3": null,
+                                "input_4": null,
+                                "input_5": null,
+                                "input_6": null,
+                                "input_7": null,
+                                "input_8": null,
+                                "input_9": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 312
+                },
+                "16": {
+                    "data": {
+                        "action": "create events",
+                        "actionType": "post",
+                        "advanced": {
+                            "customName": "create events",
+                            "customNameId": 0,
+                            "description": "Create new events with the outputs of the dispatch lookup (Contains custom code)",
+                            "join": [],
+                            "note": "Create new events with the outputs of the dispatch lookup (Contains custom code)"
+                        },
+                        "connector": "Mission Control",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": 183,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "create_events",
+                        "id": "16",
+                        "parameters": {
+                            "incident_id": "container:external_id",
+                            "pairs": [
+                                {
+                                    "name": "Placeholder",
+                                    "value": "filtered-data:observable_filter:condition_1:observable_merge:custom_function_result.data.item"
+                                }
+                            ]
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "array",
+                                "field": "pairs"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "incident_id"
+                            }
+                        ],
+                        "type": "missionControl"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "missionControl",
+                    "userCode": "\n    parameters = []\n    \n    for filtered_cf_result_0_item in filtered_cf_result_0:\n        pairs = []\n        for k,v in filtered_cf_result_0_item[0]['attributes'].items():\n            pairs.append(\n                {\"name\": k, \"value\": v}\n            )\n            \n        parameters.append({\n            \"incident_id\": external_id_value,\n            \"pairs\": pairs\n        })\n\n",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 670
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter response tasks",
+                            "customNameId": 0,
+                            "description": "Locate the response task that contains this playbook in the suggestions",
+                            "join": [],
+                            "note": "Locate the response task that contains this playbook in the suggestions"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "get_tasks:action_result.data.*.suggestions.playbooks.*.name",
+                                        "value": "get_playbook_name:custom_function:output"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "task match",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "filter_response_tasks",
+                        "id": "17",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 230,
+                    "y": 1204
+                },
+                "18": {
+                    "data": {
+                        "action": "get tasks",
+                        "actionType": "get",
+                        "advanced": {
+                            "customName": "get tasks",
+                            "customNameId": 0,
+                            "description": "Get all tasks from response template",
+                            "join": [],
+                            "note": "Get all tasks from response template"
+                        },
+                        "connector": "Mission Control",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": 183,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_tasks",
+                        "id": "18",
+                        "parameters": {
+                            "id": "container:external_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "type": "missionControl"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "missionControl",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 848
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get playbook name",
+                            "customNameId": 0,
+                            "description": "Get the current playbook name for the downstream block in case the playbook is used in a custom repo or the playbook name changes.",
+                            "join": [],
+                            "note": "Get the current playbook name for the downstream block in case the playbook is used in a custom repo or the playbook name changes."
+                        },
+                        "functionId": 1,
+                        "functionName": "get_playbook_name",
+                        "id": "19",
+                        "inputParameters": [],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "code",
+                    "userCode": "    \n    get_playbook_name__output = phantom.get_playbook_info()[0]['name']\n    \n",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 1026
+                },
+                "24": {
+                    "data": {
+                        "action": "add task note",
+                        "actionType": "post",
+                        "advanced": {
+                            "customName": "add task note",
+                            "customNameId": 0,
+                            "description": "Leave a closing note for the task associated with this playbook.",
+                            "join": [],
+                            "note": "Leave a closing note for the task associated with this playbook."
+                        },
+                        "connector": "Mission Control",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": 183,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "add_task_note",
+                        "id": "24",
+                        "parameters": {
+                            "content": "MC Attribute Lookup created new events",
+                            "id": "container:external_id",
+                            "phase_id": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.phase_id",
+                            "response_plan_id": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.response_plan_id",
+                            "task_id": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.id",
+                            "title": "Task Complete"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "title"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "content"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "task_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "phase_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "response_plan_id"
+                            }
+                        ],
+                        "type": "missionControl"
+                    },
+                    "errors": {},
+                    "id": "24",
+                    "type": "missionControl",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 1384
+                },
+                "26": {
+                    "data": {
+                        "action": "update task",
+                        "actionType": "post",
+                        "advanced": {
+                            "customName": "close task",
+                            "customNameId": 1,
+                            "description": "Close the task associated with this playbook. (Contains custom code)",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "start_task"
+                            ],
+                            "note": "Close the task associated with this playbook. (Contains custom code)"
+                        },
+                        "connector": "Mission Control",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": 183,
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "close_task_1",
+                        "id": "26",
+                        "parameters": {
+                            "id": "container:external_id",
+                            "name": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.name",
+                            "order": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.order",
+                            "task_id": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "name"
+                            },
+                            {
+                                "data_type": "numeric",
+                                "default": "",
+                                "field": "order"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "task_id"
+                            }
+                        ],
+                        "type": "missionControl"
+                    },
+                    "errors": {},
+                    "id": "26",
+                    "type": "missionControl",
+                    "userCode": "    new_param = []\n    for item in parameters:\n        item['status'] = \"Ended\"\n        new_param.append(item)\n    parameters = new_param\n",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 1920
+                },
+                "27": {
+                    "data": {
+                        "advanced": {
+                            "customName": "task status decision",
+                            "customNameId": 0,
+                            "description": "Determines if the task has been started before progressing to closed.",
+                            "join": [],
+                            "note": "Determines if the task has been started before progressing to closed."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.status",
+                                        "value": "Pending"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "task has not started",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "task has started",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "task_status_decision",
+                        "id": "27",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "27",
+                    "type": "decision",
+                    "warnings": {},
+                    "x": 250,
+                    "y": 1562
+                },
+                "28": {
+                    "data": {
+                        "action": "update task",
+                        "actionType": "post",
+                        "advanced": {
+                            "customName": "start task",
+                            "customNameId": 0,
+                            "description": "Start the task associated with this playbook. (Contains custom code)",
+                            "join": [],
+                            "note": "Start the task associated with this playbook. (Contains custom code)"
+                        },
+                        "connector": "Mission Control",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": 183,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "start_task",
+                        "id": "28",
+                        "parameters": {
+                            "id": "container:external_id",
+                            "name": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.name",
+                            "order": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.order",
+                            "owner": "soar_automation_user",
+                            "task_id": "filtered-data:filter_response_tasks:condition_1:get_tasks:action_result.data.*.id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "name"
+                            },
+                            {
+                                "data_type": "numeric",
+                                "default": "",
+                                "field": "order"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "task_id"
+                            }
+                        ],
+                        "type": "missionControl"
+                    },
+                    "errors": {},
+                    "id": "28",
+                    "type": "missionControl",
+                    "userCode": "\n    new_param = []\n    for item in parameters:\n        item['status'] = \"Started\"\n        new_param.append(item)\n    parameters = new_param\n\n",
+                    "warnings": {},
+                    "x": 80,
+                    "y": 1742
+                }
+            },
+            "notes": "- Requires Input Playbooks with the supported inputs and outputs.\n- Task update function requires that this playbook be present in a Mission Control Response Task.\n- Playbook inputs can be modified to include or omit variables from the incident.\n- Observable merge function must be modified when adding or removing input playbooks."
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114228"
+    },
+    "create_time": "2023-03-15T01:54:01.504494+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": []
+}

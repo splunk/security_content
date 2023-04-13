@@ -1,0 +1,19 @@
+name: MC Attribute Lookup
+id: d76dd338-b2a0-4916-abdc-40dff5924c70
+version: 1
+date: '2023-03-14'
+author: Kelby Shelton, Splunk
+type: Investigation
+description: Launches "attribute lookup" input playbooks, creates events, and then concludes the Response Tasks where this playbook appears.
+playbook: MC_Attribute_Lookup
+how_to_implement: - Requires Input Playbooks with the supported inputs and outputs.\n- Task update function requires that this playbook be present in a Mission Control Response Task.\n- Playbook inputs can be modified to include or omit variables from the incident.\n- Observable merge function must be modified when adding or removing input playbooks.
+references: []
+app_list: 
+  - Mission Control
+tags:
+  platform_tags:
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
