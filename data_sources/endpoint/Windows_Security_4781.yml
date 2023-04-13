@@ -1,0 +1,23 @@
+name: Windows Security 4781
+id: 82fc31b7-2886-4478-899f-fcd4b89e4d9e
+date: '2022-11-30'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4781
+raw_fields: 
+- Account_Domain
+- Account_Name
+- EventCode
+- Logon_ID
+- New_Account_Name
+- Old_Account_Name
+- Security_ID

@@ -1,0 +1,76 @@
+name: Windows System Binary Proxy Execution Compiled HTML File Decompile
+id: 11c32b19-05a6-48a8-ab28-18dbd9ec5d50
+version: 1
+date: '2022-09-02'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the decompile parameter with the HTML
+  Help application, HH.exe. This is a uncommon command to see ran and behavior. Most
+  recently this was seen in a APT41 campaign where a CHM file was delivered and a
+  script inside used a technique for running an arbitrary command in a CHM file via
+  an ActiveX object. This unpacks an HTML help file to a specified path for launching
+  the next stage.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process|contains: -decompile
+    process_name: hh.exe
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives should be limited, filter as needed.
+references:
+- https://www.ptsecurity.com/ww-en/analytics/pt-esc-threat-intelligence/higaisa-or-winnti-apt-41-backdoors-old-and-new/
+- https://redcanary.com/blog/introducing-atomictestharnesses/
+- https://attack.mitre.org/techniques/T1218/001/
+- https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
+tags:
+  analytic_story:
+  - Suspicious Compiled HTML Activity
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 90
+  impact: 100
+  message: $process_name$ has been identified using decompile against a CHM on $dest_device_id$
+    under user $dest_user_id$.
+  mitre_attack_id:
+  - T1218.001
+  - T1218
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - process
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/4688_windows-security.log
+    source: XmlWinEventLog
+    update_timestamp: true

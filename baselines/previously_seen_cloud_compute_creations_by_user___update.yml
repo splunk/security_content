@@ -22,8 +22,6 @@ references: []
 tags:
   analytic_story:
   - Cloud Cryptomining
-  deployments:
-  - Daily Cache Updates
   detections:
   - Cloud Compute Instance Created By Previously Unseen User
   product:

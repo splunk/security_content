@@ -1,0 +1,68 @@
+name: Conti Common Exec parameter
+id: 624919bc-c382-11eb-adcc-acde48001122
+version: 1
+date: '2021-06-02'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search detects the suspicious commandline argument of revil ransomware
+  to encrypt specific or all local drive and network shares of the compromised machine
+  or host.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine:
+    - '*-m local*'
+    - '*-m net*'
+    - '*-m all*'
+    - '*-nomutex*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: 3rd party tool may have commandline parameter that can trigger
+  this detection.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
+tags:
+  analytic_story:
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ executing specific Conti Ransomware related
+    parameters.
+  mitre_attack_id:
+  - T1204
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/inf1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

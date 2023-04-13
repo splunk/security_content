@@ -1,0 +1,55 @@
+name: Windows Deleted Registry By A Non Critical Process File Path
+id: 15e70689-f55b-489e-8a80-6d0cd6d8aad2
+version: 1
+date: '2022-03-28'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to detect deletion of registry with suspicious process
+  file path. This technique was seen in Double Zero wiper malware where it will delete
+  all the subkey in HKLM, HKCU and HKU registry hive as part of its destructive payload
+  to the targeted hosts. This anomaly detections can catch possible malware or advesaries
+  deleting registry as part of defense evasion or even payload impact but can also
+  catch for third party application updates or installation. In this scenario false
+  positive filter is needed.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Registry.action: deleted
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: This detection can catch for third party application updates
+  or installation. In this scenario false positive filter is needed.
+references:
+- https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+tags:
+  analytic_story:
+  - Double Zero Destructor
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: registry was deleted by a suspicious $process_name$ with proces path $process_path
+    in $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

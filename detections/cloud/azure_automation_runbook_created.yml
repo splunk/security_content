@@ -3,22 +3,32 @@ id: 178d696d-6dc6-4ee8-9d25-93fee34eaf5b
 version: 1
 date: '2022-08-22'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
-description: The following analytic identifies the creation of a new Azure Automation Runbook within an Azure tenant. Azure Automation is a cloud-based automation platform that allows
-  administrators to automate Azure management tasks and orchestrate actions across external systems within Azure. Azure Automation script files called Runbooks that can be written in PowerShell or Python.
-  Adversaries or red teams who have obtained privileged access to an Azure tenant may create an Azure Automation Runbook that runs with elevated privileges to maintain persistence in the Azure tenant. A malicious Automation Runbook can be created to create Global Administrators in Azure AD, execute code on VMs, etc.
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation Runbook" object!=AzureAutomationTutorial* status.value=Succeeded
-  | dedup object
+description: The following analytic identifies the creation of a new Azure Automation
+  Runbook within an Azure tenant. Azure Automation is a cloud-based automation platform
+  that allows administrators to automate Azure management tasks and orchestrate actions
+  across external systems within Azure. Azure Automation script files called Runbooks
+  that can be written in PowerShell or Python. Adversaries or red teams who have obtained
+  privileged access to an Azure tenant may create an Azure Automation Runbook that
+  runs with elevated privileges to maintain persistence in the Azure tenant. A malicious
+  Automation Runbook can be created to create Global Administrators in Azure AD, execute
+  code on VMs, etc.
+data_source: []
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
+  Runbook" object!=AzureAutomationTutorial* status.value=Succeeded | dedup object
   | stats values(object) by _time, caller, claims.ipaddr, resourceGroupName, object_path
   | `azure_automation_runbook_created_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Audit events into your Splunk environment. 
-  Specifically, this analytic leverages the Azure Activity log category.
-known_false_positives: Administrators may legitimately create Azure Automation Runbooks. Filter as needed.
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Audit events into your Splunk environment. Specifically,
+  this analytic leverages the Azure Activity log category.
+known_false_positives: Administrators may legitimately create Azure Automation Runbooks.
+  Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/automation/overview
 - https://docs.microsoft.com/en-us/azure/automation/automation-runbook-types
-- https://docs.microsoft.com/en-us/azure/automation/manage-runbooks 
+- https://docs.microsoft.com/en-us/azure/automation/manage-runbooks
 - https://www.inversecos.com/2021/12/how-to-detect-malicious-azure.html
 - https://www.netspi.com/blog/technical/cloud-penetration-testing/maintaining-azure-persistence-via-automation-accounts/
 - https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT503/AZT503-3/
@@ -26,27 +36,13 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
-  asset_type: Azure 
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  asset_type: Azure
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques//T1078.004/azure_automation_runbook/azure-activity.log
   impact: 70
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
   message: A new Azure Automation Runbook $object$ was created by $caller$
   mitre_attack_id:
   - T1136
   - T1136.003
-  nist:
-  - DE.CM
   observable:
   - name: object
     type: Other
@@ -71,3 +67,10 @@ tags:
   - object_path
   risk_score: 63
   security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_automation_runbook/azure-activity.log
+    source: mscs:azure:audit
+    sourcetype: mscs:azure:audit
+    update_timestamp: true

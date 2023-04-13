@@ -3,13 +3,13 @@ id: cb6b339e-d4c6-11eb-a026-acde48001122
 version: 1
 date: '2021-06-24'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This search is to detect a suspicious excessive usage of sc.exe in a
   host machine. This technique was seen in several ransomware , xmrig and other malware
   to create, modify, delete or disable a service may related to security application
   or to gain privilege escalation.
+data_source: []
 search: '`sysmon` EventCode = 1 process_name = "sc.exe" |  bucket _time span=15m |
   stats values(process) as process count as numScExe by Computer, _time |  eventstats
   avg(numScExe) as avgScExe, stdev(numScExe) as stdScExe, count as numSlots by Computer
@@ -28,14 +28,9 @@ tags:
   analytic_story:
   - Ransomware
   - Azorult
-  context:
-  - Source:Endpoint
-  - Scope:Local
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
   message: Excessive Usage Of SC Service Utility
   mitre_attack_id:
   - T1569
@@ -54,8 +49,11 @@ tags:
   - EventCode
   - process_name
   - process
-  security_domain: endpoint
-  confidence: 50
-  impact: 50
   risk_score: 25
-  asset_type: Endpoint
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

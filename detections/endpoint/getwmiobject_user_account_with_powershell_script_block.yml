@@ -3,13 +3,15 @@ id: 640b0eda-0429-11ec-accd-acde48001122
 version: 2
 date: '2023-04-05'
 author: Mauricio Velazco, Splunk
+status: production
 type: Hunting
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-WmiObject` commandlet used with specific parameters.
   The `Win32_UserAccount` parameter is used to return a list of all local users. Red
   Teams and adversaries may leverage this commandlet to enumerate users for situational
   awareness and Active Directory Discovery.
+data_source:
+- Powershell 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText="*Get-WmiObject*" AND ScriptBlockText="*Win32_UserAccount*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
   Computer UserID | `security_content_ctime(firstTime)` | `getwmiobject_user_account_with_powershell_script_block_filter`'
@@ -26,15 +28,9 @@ tags:
   - Winter Vivern
   - Active Directory Discovery
   - Malicious PowerShell
+  asset_type: Endpoint
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-powershell.log
   impact: 30
-  kill_chain_phases:
-  - Reconnaissance
   message: Local user discovery enumeration using PowerShell on $Computer$ by $UserID$
   mitre_attack_id:
   - T1087
@@ -57,4 +53,9 @@ tags:
   - UserID
   risk_score: 15
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

@@ -25,8 +25,7 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Authentication Activities
-  deployments:
-  - Daily Cache Updates
+
   detections:
   - Detect AWS Console Login by User from New Country
   - Detect AWS Console Login by User from New Region

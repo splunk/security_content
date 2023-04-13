@@ -12,7 +12,7 @@ from bin.contentctl_project.contentctl_core.domain.entities.macro import Macro
 from bin.contentctl_project.contentctl_core.domain.entities.mitre_attack_enrichment import MitreAttackEnrichment
 from bin.contentctl_project.contentctl_infrastructure.builder.cve_enrichment import CveEnrichment
 from bin.contentctl_project.contentctl_infrastructure.builder.splunk_app_enrichment import SplunkAppEnrichment
-
+from bin.contentctl_project.contentctl_core.domain.constants.constants import *
 
 class SecurityContentDetectionBuilder(DetectionBuilder):
     security_content_obj : SecurityContentObject
@@ -38,31 +38,35 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addDeployment(self, deployments: list) -> None:
         if self.security_content_obj:
-            matched_deployments = []
 
-            for d in deployments:
-                d_tags = dict(d.tags)
-                for d_tag in d_tags.keys():
-                    for attr in dir(self.security_content_obj):
-                        if not (attr.startswith('__') or attr.startswith('_')):
-                            if attr == d_tag:
-                                if type(self.security_content_obj.__getattribute__(attr)) is str:
-                                    attr_values = [self.security_content_obj.__getattribute__(attr)]
-                                else:
-                                    attr_values = self.security_content_obj.__getattribute__(attr)
-                                
-                                for attr_value in attr_values:
-                                    if attr_value == d_tags[d_tag]:
-                                        matched_deployments.append(d)
+            if not self.security_content_obj.deployment:
 
-            if len(matched_deployments) == 0:
-                self.security_content_obj.deployment = None
-            else:
-                self.security_content_obj.deployment = matched_deployments[-1]
+                matched_deployments = []
+
+                for d in deployments:
+                    d_tags = dict(d.tags)
+                    for d_tag in d_tags.keys():
+                        for attr in dir(self.security_content_obj):
+                            if not (attr.startswith('__') or attr.startswith('_')):
+                                if attr == d_tag:
+                                    if type(self.security_content_obj.__getattribute__(attr)) is str:
+                                        attr_values = [self.security_content_obj.__getattribute__(attr)]
+                                    else:
+                                        attr_values = self.security_content_obj.__getattribute__(attr)
+                                    
+                                    for attr_value in attr_values:
+                                        if attr_value == d_tags[d_tag]:
+                                            matched_deployments.append(d)
+
+                if len(matched_deployments) == 0:
+                    self.security_content_obj.deployment = None
+                else:
+                    self.security_content_obj.deployment = matched_deployments[-1]
 
 
     def addRBA(self) -> None:
         if self.security_content_obj:
+
             risk_objects = []
             risk_object_user_types = {'user', 'username', 'email address'}
             risk_object_system_types = {'device', 'endpoint', 'hostname', 'ip address'}
@@ -71,20 +75,16 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                 for entity in self.security_content_obj.tags.observable:
                     risk_object = dict()
                     if entity['type'].lower() in risk_object_user_types:
-                        for r in entity['role']:
-                            if 'attacker' == r.lower() or 'victim' ==r.lower():
-                                risk_object['risk_object_type'] = 'user'
-                                risk_object['risk_object_field'] = entity['name']
-                                risk_object['risk_score'] = self.security_content_obj.tags.risk_score
-                                risk_objects.append(risk_object)
+                        risk_object['risk_object_type'] = 'user'
+                        risk_object['risk_object_field'] = entity['name']
+                        risk_object['risk_score'] = self.security_content_obj.tags.risk_score
+                        risk_objects.append(risk_object)
 
                     elif entity['type'].lower() in risk_object_system_types:
-                        for r in entity['role']:
-                            if 'attacker' == r.lower() or 'victim' ==r.lower():
-                                risk_object['risk_object_type'] = 'system'
-                                risk_object['risk_object_field'] = entity['name']
-                                risk_object['risk_score'] = self.security_content_obj.tags.risk_score
-                                risk_objects.append(risk_object)
+                        risk_object['risk_object_type'] = 'system'
+                        risk_object['risk_object_field'] = entity['name']
+                        risk_object['risk_score'] = self.security_content_obj.tags.risk_score
+                        risk_objects.append(risk_object)
                     else:
                         risk_object['threat_object_field'] = entity['name']
                         risk_object['threat_object_type'] = entity['type'].lower()
@@ -102,15 +102,13 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addProvidingTechnologies(self) -> None:
         if self.security_content_obj:
-            # if self.security_content_obj.tags.supported_tas:
-                if 'Endpoint' in self.security_content_obj.datamodel:
-                    self.security_content_obj.providing_technologies = ["Sysmon", "Microsoft Windows","Carbon Black Response","CrowdStrike Falcon", "Symantec Endpoint Protection"]
-                if "`cloudtrail`" in str(self.security_content_obj.search):
-                    self.security_content_obj.providing_technologies = ["Amazon Web Services - Cloudtrail"]
-                if '`wineventlog_security`' in self.security_content_obj.search or '`powershell`' in self.security_content_obj.search:
-                    self.security_content_obj.providing_technologies = ["Microsoft Windows"]
+            if 'Endpoint' in str(self.security_content_obj.search):
+                self.security_content_obj.providing_technologies = ["Sysmon", "Microsoft Windows","Carbon Black Response","CrowdStrike Falcon", "Symantec Endpoint Protection"]
+            if "`cloudtrail`" in str(self.security_content_obj.search):
+                self.security_content_obj.providing_technologies = ["Amazon Web Services - Cloudtrail"]
+            if '`wineventlog_security`' in self.security_content_obj.search or '`powershell`' in self.security_content_obj.search:
+                self.security_content_obj.providing_technologies = ["Microsoft Windows"]
 
-    
 
 
     def addNesFields(self) -> None:
@@ -175,12 +173,11 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             self.security_content_obj.baselines = matched_baselines
 
 
-    def addUnitTest(self, tests: list) -> None:
+    def addUnitTest(self) -> None:
         if self.security_content_obj:
-            for test in tests:
-                if test.tests[0].name == self.security_content_obj.name:
-                    self.security_content_obj.test = test
-                    return
+            if self.security_content_obj.tests:
+                self.security_content_obj.test = self.security_content_obj.tests[0]
+
 
 
     def addMitreAttackEnrichment(self, attack_enrichment: dict) -> None:
@@ -258,6 +255,55 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
             if self.security_content_obj.tags.supported_tas:
                 for splunk_app in self.security_content_obj.tags.supported_tas:
                     self.security_content_obj.splunk_app_enrichment.append(SplunkAppEnrichment.enrich_splunk_app(splunk_app, force_cached_or_offline=self.force_cached_or_offline))
+
+    def addCIS(self) -> None:
+        if self.security_content_obj:
+            if self.security_content_obj.tags.security_domain == "network":
+                self.security_content_obj.tags.cis20 = ["CIS 13"]
+            else:
+                self.security_content_obj.tags.cis20 = ["CIS 10"]
+
+
+    def addKillChainPhase(self) -> None:
+        if self.security_content_obj:
+            if not self.security_content_obj.tags.kill_chain_phases:
+                kill_chain_phases = list()
+                if self.security_content_obj.tags.mitre_attack_enrichments:
+                    for mitre_attack_enrichment in self.security_content_obj.tags.mitre_attack_enrichments:
+                        for mitre_attack_tactic in mitre_attack_enrichment.mitre_attack_tactics:
+                            kill_chain_phases.append(ATTACK_TACTICS_KILLCHAIN_MAPPING[mitre_attack_tactic])
+                self.security_content_obj.tags.kill_chain_phases = list(dict.fromkeys(kill_chain_phases))
+
+    def addNist(self) -> None:
+        if self.security_content_obj:
+            if self.security_content_obj.type == "TTP":
+                self.security_content_obj.tags.nist = ["DE.CM"]
+            else:
+                self.security_content_obj.tags.nist = ["DE.AE"]
+
+    def addDatamodel(self) -> None:
+        if self.security_content_obj:
+            self.security_content_obj.datamodel = []
+            data_models = [
+                "Authentication", 
+                "Change", 
+                "Change_Analysis", 
+                "Email", 
+                "Endpoint", 
+                "Network_Resolution", 
+                "Network_Sessions", 
+                "Network_Traffic", 
+                "Risk", 
+                "Splunk_Audit", 
+                "UEBA", 
+                "Updates", 
+                "Vulnerabilities", 
+                "Web"
+            ]
+            for data_model in data_models:
+                if data_model in self.security_content_obj.search:
+                    self.security_content_obj.datamodel.append(data_model)
+
 
     def reset(self) -> None:
         self.security_content_obj = None

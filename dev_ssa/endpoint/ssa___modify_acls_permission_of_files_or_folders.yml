@@ -1,0 +1,74 @@
+name: Modify ACLs Permission Of Files Or Folders
+id: 9ae9a48a-cdbe-11eb-875a-acde48001122
+version: 3
+date: '2022-03-17'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic identifies suspicious modification of ACL permission to
+  a files or folder to make it available to everyone or to a specific user. This technique
+  may be used by the adversary to evade ACLs or protected files access. This changes
+  is commonly configured by the file or directory owner with appropriate permission.
+  This behavior raises suspicion if this command is seen on an endpoint utilized by
+  an account with no permission to do so.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process|re:
+    - 'S-1-1-0:'
+    - 'SYSTEM:'
+    - 'everyone:'
+  selection2:
+    process_name:
+    - icacls.exe
+    - xcacls.exe
+    - cacls.exe
+  condition: (selection1) and (selection2)
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
+known_false_positives: System administrators may use this windows utility. filter
+  is needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  asset_type: Endpoint
+  confidence: 70
+  impact: 50
+  message: A cacls process $process_name$ with commandline $process$ try to modify
+    a permission of a file or directory in host $dest_device_id$
+  mitre_attack_id:
+  - T1222
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - process
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+    source: WinEventLog:Security

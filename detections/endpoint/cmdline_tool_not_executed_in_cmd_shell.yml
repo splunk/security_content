@@ -3,9 +3,8 @@ id: 6c3f7dd8-153c-11ec-ac2d-acde48001122
 version: 2
 date: '2022-10-27'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following analytic identifies a non-standard parent process (not
   matching CMD, PowerShell, or Explorer) spawning `ipconfig.exe` or `systeminfo.exe`.
   This particular behavior was seen in FIN7's JSSLoader .NET payload. This is also
@@ -14,16 +13,20 @@ description: The following analytic identifies a non-standard parent process (no
   executed with a shell application or Explorer parent, and not by another application.
   This TTP is a good indicator for an adversary gathering host information, but one
   possible false positive might be an automated tool used by a system administator.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = "ipconfig.exe"
-  OR Processes.process_name = "systeminfo.exe" OR Processes.process_name = "net.exe" OR Processes.process_name = "net1.exe" 
-  OR Processes.process_name = "arp.exe" OR Processes.process_name = "nslookup.exe" OR Processes.process_name = "route.exe"
-  OR Processes.process_name = "netstat.exe" OR Processes.process_name = "whoami.exe") AND NOT (Processes.parent_process_name
-  = "cmd.exe" OR Processes.parent_process_name = "powershell*" OR Processes.parent_process_name="pwsh.exe"
-  OR Processes.parent_process_name = "explorer.exe") by Processes.parent_process_name
-  Processes.parent_process Processes.process_name Processes.original_file_name Processes.process_id
-  Processes.process Processes.dest Processes.user | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cmdline_tool_not_executed_in_cmd_shell_filter`'
+  OR Processes.process_name = "systeminfo.exe" OR Processes.process_name = "net.exe"
+  OR Processes.process_name = "net1.exe" OR Processes.process_name = "arp.exe" OR
+  Processes.process_name = "nslookup.exe" OR Processes.process_name = "route.exe"
+  OR Processes.process_name = "netstat.exe" OR Processes.process_name = "whoami.exe")
+  AND NOT (Processes.parent_process_name = "cmd.exe" OR Processes.parent_process_name
+  = "powershell*" OR Processes.parent_process_name="pwsh.exe" OR Processes.parent_process_name
+  = "explorer.exe") by Processes.parent_process_name Processes.parent_process Processes.process_name
+  Processes.original_file_name Processes.process_id Processes.process Processes.dest
+  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `cmdline_tool_not_executed_in_cmd_shell_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -41,15 +44,9 @@ tags:
   - Qakbot
   - CISA AA22-277A
   - Qakbot
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: A non-standard parent process $parent_process_name$ spawned child process
     $process_name$ to execute command-line tool on $dest$.
   mitre_attack_id:
@@ -91,6 +88,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

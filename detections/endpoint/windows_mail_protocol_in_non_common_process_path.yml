@@ -3,49 +3,41 @@ id: ac3311f5-661d-4e99-bd1f-3ec665b05441
 version: 1
 date: '2022-09-16'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
-description: The following analytic identifies a possible windows application having a SMTP connection 
-  in a non common installation path in windows operating system.This network protocol is being used by adversaries, 
-  threat actors and malware like AgentTesla as a command and control communication to transfer its collected stolen information 
-  like the desktop screenshots, browser information and system information of a targeted or compromised host.
-search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\thunderbird.exe","*\\outlook.exe")) 
-  (DestinationPortName="smtp" OR DestinationPort=25 OR DestinationPort=587)
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image DestinationPort DestinationPortName DestinationHostname 
-    SourceHostname SourcePort SourcePortName Protocol DestinationIp Computer user 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies a possible windows application having
+  a SMTP connection in a non common installation path in windows operating system.This
+  network protocol is being used by adversaries, threat actors and malware like AgentTesla
+  as a Command And Control communication to transfer its collected stolen information
+  like the desktop screenshots, browser information and system information of a targeted
+  or compromised host.
+data_source:
+- Sysmon Event ID 3
+search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\thunderbird.exe","*\\outlook.exe"))
+  (DestinationPortName="smtp" OR DestinationPort=25 OR DestinationPort=587) | stats
+  count min(_time) as firstTime max(_time) as lastTime by Image DestinationPort DestinationPortName
+  DestinationHostname SourceHostname SourcePort SourcePortName Protocol DestinationIp
+  Computer user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_mail_protocol_in_non_common_process_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and sysmon eventcode = 3 connection events from your endpoints.
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: third party application may use this network protocol as part of its feature. Filter is needed.
+  logs with the process name and sysmon eventcode = 3 connection events from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: third party application may use this network protocol as part
+  of its feature. Filter is needed.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla
 tags:
   analytic_story:
   - AgentTesla
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 30
-  context:
-  - Source:Endpoint
-  - Stage:Command And Control
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_smtp/sysmon.log
   impact: 30
-  kill_chain_phases:
-  - Command & Control
-  message: a process $Image$ is having a SMTP connection to $DestinationHostname$ in $Computer$
+  message: a process $Image$ is having a SMTP connection to $DestinationHostname$
+    in $Computer$
   mitre_attack_id:
   - T1071.003
   - T1071
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -57,16 +49,23 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Image 
-  - DestinationPort 
-  - DestinationPortName 
-  - DestinationHostname 
-  - SourceHostname 
-  - SourcePort 
-  - SourcePortName 
-  - Protocol 
-  - DestinationIp 
-  - Computer 
-  - user 
+  - Image
+  - DestinationPort
+  - DestinationPortName
+  - DestinationHostname
+  - SourceHostname
+  - SourcePort
+  - SourcePortName
+  - Protocol
+  - DestinationIp
+  - Computer
+  - user
   risk_score: 9
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_smtp/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

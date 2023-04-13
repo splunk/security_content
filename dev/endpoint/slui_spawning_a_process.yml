@@ -1,0 +1,62 @@
+name: SLUI Spawning a Process
+id: 879c4330-b3e0-11eb-b1b1-acde48001122
+version: 1
+date: '2021-05-13'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the Microsoft Software Licensing User
+  Interface Tool, `slui.exe`, spawning a child process. This behavior is associated
+  with publicly known UAC bypass. `slui.exe` is commonly associated with software
+  updates and is most often spawned by `svchost.exe`. The `slui.exe` process should
+  not have child processes, and any processes spawning from it will be running with
+  elevated privileges. During triage, review the child process and additional parallel
+  processes. Identify any file modifications that may have lead to the bypass.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    ParentImage: slui.exe
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Certain applications may spawn from `slui.exe` that are legitimate.
+  Filtering will be needed to ensure proper monitoring.
+references:
+- https://www.exploit-db.com/exploits/46998
+- https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
+- https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+tags:
+  analytic_story:
+  - DarkSide Ransomware
+  - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  confidence: 90
+  impact: 70
+  message: A slui process $parent_process_name$ spawning child process $process_name$
+    in host $dest$
+  mitre_attack_id:
+  - T1548.002
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

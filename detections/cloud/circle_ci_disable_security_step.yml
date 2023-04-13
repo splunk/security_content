@@ -1,0 +1,48 @@
+name: Circle CI Disable Security Step
+id: 72cb9de9-e98b-4ac9-80b2-5331bba6ea97
+version: 1
+date: '2021-09-01'
+author: Patrick Bareiss, Splunk
+status: experimental
+type: Anomaly
+description: This search looks for disable security step in CircleCI pipeline.
+data_source: []
+search: '`circleci` | rename workflows.job_id AS job_id | join job_id [ | search `circleci`
+  | stats values(name) as step_names count by job_id job_name ] | stats count by step_names
+  job_id job_name vcs.committer_name vcs.subject vcs.url owners{} | rename vcs.* as
+  * , owners{} as user | lookup mandatory_step_for_job job_name OUTPUTNEW step_name
+  AS mandatory_step | search mandatory_step=* | eval mandatory_step_executed=if(like(step_names,
+  "%".mandatory_step."%"), 1, 0) | where mandatory_step_executed=0 | rex field=url
+  "(?<repository>[^\/]*\/[^\/]*)$" | eval phase="build"  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `circle_ci_disable_security_step_filter`'
+how_to_implement: You must index CircleCI logs.
+known_false_positives: unknown
+references: []
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: CircleCI
+  confidence: 90
+  impact: 80
+  message: disable security step $mandatory_step$ in job $job_name$ from user $user$
+  mitre_attack_id:
+  - T1554
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _times
+  risk_score: 72
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_step/circle_ci_disable_security_step.json
+    sourcetype: circleci
+    source: circleci

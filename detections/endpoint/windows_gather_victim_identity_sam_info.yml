@@ -3,21 +3,26 @@ id: a18e85d7-8b98-4399-820c-d46a1ca3516f
 version: 1
 date: '2022-08-24'
 author: Teoderick Contreras, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
-description: The following analytic identifies a process that loads the samlib.dll module. 
-  This module is being abused by adversaries, threat actors and red teamers to access information of SAM objects or access credentials information in DC. 
-  This hunting query can be a good indicator that a process is capable of accessing the SAM object.
-search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileName = "samlib.dll") OR (ImageLoaded = "*\\samcli.dll" AND OriginalFileName = "SAMCLI.DLL")
-AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic identifies a process that loads the samlib.dll
+  module. This module is being abused by adversaries, threat actors and red teamers
+  to access information of SAM objects or access credentials information in DC. This
+  hunting query can be a good indicator that a process is capable of accessing the
+  SAM object.
+data_source:
+- Sysmon Event ID 7
+search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileName
+  = "samlib.dll") OR (ImageLoaded = "*\\samcli.dll" AND OriginalFileName = "SAMCLI.DLL")
+  AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats
+  count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name
+  Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_gather_victim_identity_sam_info_filter`'
-how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709 will 
-  add the ImageLoaded name to the process_name field, allowing this query to work. Use as an example and implement for other products.
-known_false_positives: this module can be loaded by a third party application. Filter is needed.
+how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709
+  will add the ImageLoaded name to the process_name field, allowing this query to
+  work. Use as an example and implement for other products.
+known_false_positives: this module can be loaded by a third party application. Filter
+  is needed.
 references:
 - https://redcanary.com/blog/active-breach-evading-defenses/
 - https://strontic.github.io/xcyclopedia/library/samlib.dll-0BDF6351009F6EBA5BA7E886F23263B1.html
@@ -25,27 +30,13 @@ tags:
   analytic_story:
   - Brute Ratel C4
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 30
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  - Stage:Privilege Escalation
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
   impact: 30
-  kill_chain_phases:
-  - Exploitation
-  message: An instance of $Computer$ that loads $ImageLoaded$ that are related to accessing to SAM object information.
+  message: An instance of $Computer$ that loads $ImageLoaded$ that are related to
+    accessing to SAM object information.
   mitre_attack_id:
   - T1589.001
   - T1589
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Endpoint
@@ -57,11 +48,18 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Image 
-  - ImageLoaded 
-  - Computer 
-  - EventCode 
-  - Signed 
-  - ProcessId 
+  - Image
+  - ImageLoaded
+  - Computer
+  - EventCode
+  - Signed
+  - ProcessId
   risk_score: 9
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

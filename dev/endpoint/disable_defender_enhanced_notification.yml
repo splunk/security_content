@@ -1,0 +1,59 @@
+name: Disable Defender Enhanced Notification
+id: dc65678c-301f-11ec-8e30-acde48001122
+version: 2
+date: '2022-01-26'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is intended to detect a suspicious modification of registry
+  to disable windows defender features. This technique attempts to bypass or evade
+  detection from Windows Defender AV, specifically the Enhanced Notification feature
+  where a user or admin would receive alerts.
+data_source:
+- Sysmon Event ID 13
+search:
+  selection1:
+    Registry.registry_value_name: DisableEnhancedNotifications
+    TargetObject: '*Microsoft\\Windows Defender\\Reporting*'
+    Details: '0x00000001'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data executions
+  from your endpoints. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+known_false_positives: user may choose to disable windows defender AV
+references:
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+tags:
+  analytic_story:
+  - IcedID
+  - Windows Registry Abuse
+  - Azorult
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: modified/added/deleted registry entry $registry_path$ in $dest$
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -3,22 +3,26 @@ id: a28f0bc3-3400-4a6e-a2da-89b9e95f0d2a
 version: 1
 date: '2022-08-29'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
-description: The following analytic identifies the assignment of sensitive and privileged Azure Active Directory roles to an Azure AD user. 
-    Adversaries and red teams alike may assign these roles to a compromised account to establish Persistence in an Azure AD environment.
-search: ' `azuread` "body.operationName"="Add member to role"  
-  | rename body.properties.* as * 
-  | rename targetResources{}.userPrincipalName as userPrincipalName 
-  | rename initiatedBy.user.userPrincipalName as initiatedBy 
-  | rename targetResources{}.modifiedProperties{}.newValue as roles
-  | eval role=mvindex(roles,1)
-  | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description | search isprvilegedadrole = True
-  | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName, role, description
-  | `azure_ad_privileged_role_assigned_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. 
+description: The following analytic identifies the assignment of sensitive and privileged
+  Azure Active Directory roles to an Azure AD user. Adversaries and red teams alike
+  may assign these roles to a compromised account to establish Persistence in an Azure
+  AD environment.
+data_source: []
+search: ' `azuread` "body.operationName"="Add member to role" | rename body.properties.*
+  as * | rename targetResources{}.userPrincipalName as userPrincipalName | rename
+  initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.modifiedProperties{}.newValue
+  as roles | eval role=mvindex(roles,1) | lookup privileged_azure_ad_roles azureadrole
+  AS role OUTPUT isprvilegedadrole description | search isprvilegedadrole = True |
+  stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName,
+  role, description | `azure_ad_privileged_role_assigned_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
   Specifically, this analytic leverages the AuditLogs log category.
-known_false_positives: Administrators will legitimately assign the privileged roles users as part of administrative tasks. Filter as needed.
+known_false_positives: Administrators will legitimately assign the privileged roles
+  users as part of administrative tasks. Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/roles/concept-understand-roles
 - https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
@@ -30,25 +34,13 @@ tags:
   analytic_story:
   - Azure Active Directory Persistence
   asset_type: Azure Active Directory
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
   impact: 70
-  kill_chain_phases:
-  - Installation
-  message: A privileged Azure AD role was assigned for User $userPrincipalName$ initiated by $initiatedBy$  
+  message: A privileged Azure AD role was assigned for User $userPrincipalName$ initiated
+    by $initiatedBy$
   mitre_attack_id:
   - T1098
   - T1098.003
-  nist:
-  - DE.CM
   observable:
   - name: userPrincipalName
     type: User
@@ -70,3 +62,10 @@ tags:
   - body.properties.result
   risk_score: 63
   security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true

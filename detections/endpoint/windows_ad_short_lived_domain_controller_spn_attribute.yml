@@ -4,7 +4,10 @@ version: 2
 date: '2022-09-02'
 author: Dean Luxton
 type: TTP
-datamodel: []
+status: production
+data_source:
+- Windows Security 5136
+- Windows Security 4624
 description: The following analytic identifies when either a global catalog SPN or a DRS RPC SPN are temporarily added to an Active Directory computer object, both of which can be evidence of a DCShadow attack.  
   DCShadow allows an attacker who has obtained privileged access to register a rogue Domain Controller (DC). Once registered, the rogue DC may be able to inject
   and replicate changes into the AD infrastructure for any domain object, including credentials and keys. This technique was initially released in 2018 by security researchers Benjamin Delpy and Vincent Le Toux.
@@ -33,23 +36,11 @@ tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
-  cis20:
-  - CIS 4
-  - CIS 6
   confidence: 100
-  context:
-    - Source:Endpoint
-    - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/mimikatz/windows-security-xml.log
   impact: 100
-  kill_chain_phases:
-  - Actions on Objectives
   message: Short Lived Domain Controller SPN AD Attribute Triggered by $user$ from $src_ip$
   mitre_attack_id:
   - T1207
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -76,3 +67,9 @@ tags:
   - signature
   risk_score: 100
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/mimikatz/windows-security-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

@@ -3,16 +3,18 @@ id: 70803451-0047-4e12-9d63-77fa7eb8649c
 version: 2
 date: '2022-06-29'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
   for domain computers. Red Teams and adversaries may leverage `[Adsisearcher]` to
   enumerate domain computers for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*adsisearcher*" AND ScriptBlockText = "*objectcategory=computer*"
-  AND ScriptBlockText IN ("*findAll()*","*findOne()*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
-  | `remote_system_discovery_with_adsisearcher_filter`'
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = "*adsisearcher*" AND ScriptBlockText
+  = "*objectcategory=computer*" AND ScriptBlockText IN ("*findAll()*","*findOne()*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
+  Computer UserID | `security_content_ctime(firstTime)` | `remote_system_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -23,16 +25,9 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  asset_type: Endpoint
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Recon
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/adsisearcher-powershell.log
   impact: 30
-  kill_chain_phases:
-  - Reconnaissance
   message: Remote system discovery enumeration on $Computer$ by $user$
   mitre_attack_id:
   - T1018
@@ -53,4 +48,9 @@ tags:
   - UserID
   risk_score: 15
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/adsisearcher-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

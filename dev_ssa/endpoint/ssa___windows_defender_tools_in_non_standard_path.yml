@@ -1,0 +1,64 @@
+name: Windows Defender Tools in Non Standard Path
+id: c205bd2e-cd5b-4224-8510-578a2a1f83d7
+version: 1
+date: '2022-07-18'
+author: Lou Stella, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies usage of the MPCmdRun utility that
+  can be abused by adversaries by moving it to a new directory.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process_name|re: mpcmdrun.exe
+  selection2:
+    process_path|re: \\windows defender
+  selection3:
+    process_path|re: \\microsoft\\windows defender\\platform
+  condition: selection1 and not selection2 and not selection3
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: False positives may be present and filtering may be required.
+references:
+- https://attack.mitre.org/techniques/T1036/003/
+- https://lolbas-project.github.io/lolbas/Binaries/MpCmdRun/
+tags:
+  analytic_story:
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: Process $process_name$ with commandline $process$ spawn in non-default
+    folder path on host $dest_device_id$
+  mitre_attack_id:
+  - T1036
+  - T1036.003
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - dest_device_id
+  - process_name
+  - _time
+  - dest_user_id
+  - process_path
+  - process
+  kill_chain_phases:
+  - Actions on Objectives
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/mpcmdrun/windows-security.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

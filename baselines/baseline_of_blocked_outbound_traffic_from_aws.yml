@@ -27,9 +27,7 @@ tags:
   analytic_story:
   - AWS Network ACL Activity
   - Suspicious AWS Traffic
-  - Command and Control
-  deployments:
-  - Daily Cache Updates
+  - Command And Control
   detections:
   - Detect Spike in blocked Outbound Traffic from your AWS
   product:

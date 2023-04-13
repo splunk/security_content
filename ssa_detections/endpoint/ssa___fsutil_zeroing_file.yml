@@ -1,0 +1,94 @@
+name: Fsutil Zeroing File
+id: f792cdc9-43ee-4429-a3c0-ffce4fed1a85
+version: 1
+date: '2021-12-07'
+author: Michael Haag, Splunk
+type: TTP
+status: production
+description: This search is to detect a suspicious fsutil process to zeroing a target
+  file. This technique was seen in lockbit ransomware where it tries to zero out its
+  malware path as part of its defense evasion after encrypting the compromised host.
+data_source:
+- Windows Security 4688
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  like(process_cmd_line, "%setzerodata%") AND process_file_name="fsutil.exe" --finding_report--'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+known_false_positives: System administrators or scripts may delete user accounts via
+  this technique. Filter as needed.
+references:
+- https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-file
+tags:
+  analytic_story:
+  - Ransomware
+  - Insider Threat
+  - Information Sabotage
+  asset_type: Endpoint
+  confidence: 90
+  impact: 60
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
+    deletion.
+  mitre_attack_id:
+  - T1070
+  observable:
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.name
+    type: File
+  - name: process.cmd_line
+    type: Other
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
+  risk_score: 54
+  security_domain: endpoint
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-security.log
+    source: WinEventLog:Security

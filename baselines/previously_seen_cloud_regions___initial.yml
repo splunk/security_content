@@ -22,8 +22,6 @@ references: []
 tags:
   analytic_story:
   - Cloud Cryptomining
-  deployments:
-  - 90 Day Baseline
   detections:
   - Cloud Compute Instance Created In Previously Unused Region
   product:
@@ -35,3 +33,9 @@ tags:
   - All_Changes.action
   - All_Changes.vendor_region
   security_domain: network
+deployment:
+  scheduling:
+    cron_schedule: 0 2 * * 0
+    earliest_time: -90d@d
+    latest_time: -1d@d
+    schedule_window: auto

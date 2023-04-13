@@ -1,0 +1,63 @@
+name: Firewall Allowed Program Enable
+id: 9a8f63a8-43ac-11ec-904c-acde48001122
+version: 1
+date: '2021-11-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic detects a potential suspicious modification of firewall
+  rule allowing to execute specific application. This technique was identified when
+  an adversary and red teams to bypassed firewall file execution restriction in a
+  targetted host. Take note that this event or command can run by administrator during
+  testing or allowing legitimate tool or application.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*allow*'
+  selection2:
+    CommandLine: '*firewall*'
+  selection3:
+    CommandLine: '*add*'
+  selection4:
+    CommandLine: '*ENABLE*'
+  condition: selection1 and selection2 and selection3 and selection4
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: A network operator or systems administrator may utilize an
+  automated or manual execution of this firewall rule that may generate false positives.
+  Filter as needed.
+references:
+- https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Azorult
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: firewall allowed program commandline $process$ of $process_name$ on $dest$
+    by $user$
+  mitre_attack_id:
+  - T1562.004
+  - T1562
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

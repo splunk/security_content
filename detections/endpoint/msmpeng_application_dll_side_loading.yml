@@ -3,14 +3,15 @@ id: 8bb3f280-dd9b-11eb-84d5-acde48001122
 version: 3
 date: '2023-03-15'
 author: Teoderick Contreras, Splunk, Sanjay Govind
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll
   in non default windows defender folder. This technique was seen couple days ago
   with revil ransomware in Kaseya Supply chain. The approach is to drop an old version
   of msmpeng.exe to load the actual payload name as mspvc.dll which will load the
   revil ransomware to the compromise machine
+data_source:
+- Sysmon Event ID 11
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND NOT 
@@ -27,13 +28,9 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
   message: ''
   mitre_attack_id:
   - T1574.002
@@ -54,8 +51,11 @@ tags:
   - Filesystem.file_name
   - Filesystem.user
   - Filesystem.file_path
-  security_domain: endpoint
-  asset_type: Endpoint
-  confidence: 50
-  impact: 50
   risk_score: 25.0
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

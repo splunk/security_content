@@ -1,0 +1,69 @@
+name: Linux apt-get Privilege Escalation
+id: d870ce3b-e796-402f-b2af-cab4da1223f2
+version: 1
+date: '2022-08-11'
+author: Gowthamaraj Rajendran, Splunk
+status: production
+type: Anomaly
+description: The apt-get is a command line tool for interacting with the Advanced
+  Package Tool (APT) library (a package management system for Linux distributions).
+  It allows you to search for, install, manage, update, and remove software. The tool
+  does not build software from the source code. If sudo right is given to the tool
+  for user, then the user can run system commands as root and possibly get a root
+  shell.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*APT::Update::Pre-Invoke::*'
+  selection2:
+    CommandLine: '*apt-get*'
+  selection3:
+    CommandLine: '*sudo*'
+  condition: selection1 and selection2 and selection3
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the
+  Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: False positives may be present, filter as needed.
+references:
+- https://gtfobins.github.io/gtfobins/apt-get/
+- https://phoenixnap.com/kb/how-to-use-apt-get-commands
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 20
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$
+  mitre_attack_id:
+  - T1548.003
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 10
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true

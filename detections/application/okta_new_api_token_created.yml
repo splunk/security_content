@@ -1,0 +1,53 @@
+name: Okta New API Token Created
+id: c3d22720-35d3-4da4-bd0a-740d37192bd4
+version: 1
+date: '2022-09-21'
+author: Michael Haag, Splunk
+status: experimental
+type: TTP
+description: The following analytic identifies when a new API token is created. Adversaries
+  who have gained access to a privileged account may add a new token for persistence.
+  This analytic uses the eventType system.api_token.create.
+data_source: []
+search: '`okta` eventType=system.api_token.create | stats count min(_time) as firstTime
+  max(_time) as lastTime values(displayMessage) by src_user src_ip eventType status
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_new_api_token_created_filter`'
+how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested.
+known_false_positives: False positives may be present. Tune Okta and tune the analytic
+  to ensure proper fidelity. Modify risk score as needed.
+references:
+- https://developer.okta.com/docs/reference/api/event-types/?q=security.threat.detected
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  asset_type: Infrastructure
+  confidence: 80
+  impact: 80
+  message: $src_user$ has created a new API token within Okta.
+  mitre_attack_id:
+  - T1078
+  - T1078.001
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - signature
+  - eventType
+  - displayMessage
+  - client.device
+  - city
+  - state
+  - country
+  - user_agent
+  - outcome.reason
+  - outcome.result
+  - severity
+  risk_score: 64
+  security_domain: access

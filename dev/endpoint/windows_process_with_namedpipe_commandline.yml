@@ -1,0 +1,55 @@
+name: Windows Process With NamedPipe CommandLine
+id: e64399d4-94a8-11ec-a9da-acde48001122
+version: 1
+date: '2022-02-23'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic is to look for process commandline that contains named
+  pipe. This technique was seen in some adversaries, threat actor and malware like
+  olympic destroyer to communicate to its other child processes after process injection
+  that serve as defense evasion and privilege escalation. On the other hand this analytic
+  may catch some normal process that using this technique for example browser application.
+  In that scenario we include common process path we've seen during testing that cause
+  false positive which is the program files. False positive may still be arise if
+  the normal application is in other folder path.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*\\\\.\\pipe\\*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Normal browser application may use this technique. Please update
+  the filter macros to remove false positives.
+references:
+- https://blog.talosintelligence.com/2018/02/olympic-destroyer.html
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Process with named pipe in $process$ on $dest$
+  mitre_attack_id:
+  - T1055
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

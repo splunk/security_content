@@ -24,8 +24,6 @@ references: []
 tags:
   analytic_story:
   - Spectre And Meltdown Vulnerabilities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Spectre and Meltdown Vulnerable Systems
   product:
