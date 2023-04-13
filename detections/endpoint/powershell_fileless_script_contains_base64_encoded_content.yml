@@ -39,6 +39,7 @@ tags:
   - Malicious PowerShell
   - Winter Vivern
   - AsyncRAT
+  asset_type: Endpoint
   confidence: 80
   context:
   - Source:Endpoint
