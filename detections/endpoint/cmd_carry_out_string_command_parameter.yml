@@ -44,6 +44,7 @@ tags:
   - Data Destruction
   - Living Off The Land
   - Azorult
+  asset_type: Endpoint
   automated_detection_testing: passed
   confidence: 50
   cve:
