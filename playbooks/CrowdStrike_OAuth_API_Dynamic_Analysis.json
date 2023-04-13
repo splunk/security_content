@@ -145,7 +145,7 @@
                 }
             ],
             "globalCustomCode": "\n\n\nimport os",
-            "hash": "635386c268cab57d414e246711ae9469715ee501",
+            "hash": "16f2bb4b40e5aff758ffa9b04e1dfabc73242e46",
             "nodes": {
                 "0": {
                     "data": {
@@ -161,7 +161,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 250,
-                    "y": -3.836930773104541e-13
+                    "y": -5.755396159656812e-13
                 },
                 "1": {
                     "data": {
@@ -193,7 +193,7 @@
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
-                            "crowdstrike_url_reputation"
+                            "crowdstrike"
                         ],
                         "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
                         "connectorVersion": "v1",
@@ -219,9 +219,8 @@
                         "functionName": "file_detonation",
                         "id": "10",
                         "parameters": {
-                            "detail_report": true,
                             "environment": "list_demux:custom_function_result.data.output.sandbox_type",
-                            "is_confidential": false,
+                            "is_confidential": true,
                             "limit": 50,
                             "vault_id": "list_demux:custom_function_result.data.output.value"
                         },
@@ -251,11 +250,7 @@
                     "id": "10",
                     "type": "action",
                     "userCode": "\n    # Write your custom code here...\n",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath configuration."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 0,
                     "y": 1000
                 },
@@ -325,7 +320,7 @@
                     "errors": {},
                     "id": "12",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    normalized_file_detonation_output__file_score_object = []\n    normalized_file_detonation_output__scores = []\n    normalized_file_detonation_output__categories = []\n    normalized_file_detonation_output__confidence = []\n    ## normalized NoneType value to avoid enumeration failure\n    file_detonation_param_list =  [(i or \"\") for i in filtered_result_0_parameter_vault_id] \n    file_detonation_threat_score_list = [(i or \"\") for i in filtered_result_0_data___sandbox___threat_score] \n    file_detonation_category_list = [(i or \"\") for i in filtered_result_0_data___sandbox___signatures___category] \n    file_detonation_verdict_list = [(i or \"\") for i in filtered_result_0_data___sandbox___verdict] \n    \n    ## get the set() or unique input vault id parameter.\n    \n    index_file_dict = {}\n    set_vault_id_inputs = set(file_detonation_param_list)\n    \n    for vault_id_input in set_vault_id_inputs:\n        ## crowdstrike detonation can have a multiple phase of score, verdict and category during detonation. we will try to get all the unique values of each\n        ## object filed we want to include in report. \n        \n        file_list = []\n        score_list = []\n        verdict_list = []\n        category_list = []\n        \n        ## getting the index of each detonation phase of the url/file. group the result for each detonation\n        vault_id_input_index = [indx for indx, vault_id_val in enumerate(file_detonation_param_list) if vault_id_val == vault_id_input]\n        index_file_dict[vault_id_input] = vault_id_input_index\n        phantom.debug(\"vault_id: {} vault_id_list: {}\".format(vault_id_input, index_file_dict))\n        \n        for idx,(_vault_id, _score, _verdict, _category) in enumerate(zip(file_detonation_param_list, file_detonation_verdict_list, file_detonation_threat_score_list, file_detonation_category_list)):\n            if _vault_id == vault_id_input and idx in index_file_dict[vault_id_input]:\n                file_list.append(_vault_id)\n                score_list.append(_score)\n                verdict_list.append(_verdict)\n                category_list.append(_category)\n        \n        # Attach final object\n        normalized_file_detonation_output__file_score_object.append({'score': list(set(score_list))[0], 'confidence': list(set(verdict_list))[0], 'categories': list(set(category_list))})\n        normalized_file_detonation_output__scores.append(list(set(score_list))[0])\n        normalized_file_detonation_output__categories.append(list(set(category_list)))\n        normalized_file_detonation_output__confidence.append(list(set(verdict_list))[0])\n        #phantom.debug(\"normalized_file_detonation_output__file_score_object: {}\".format(normalized_file_detonation_output__file_score_object))\n        #phantom.debug(\"normalized_file_detonation_output__scores: {}\".format(normalized_file_detonation_output__scores))\n        #phantom.debug(\"normalized_file_detonation_output__categories: {}\".format(normalized_file_detonation_output__categories))\n",
+                    "userCode": "\n    # Write your custom code here...\n    normalized_file_detonation_output__file_score_object = []\n    normalized_file_detonation_output__scores = []\n    normalized_file_detonation_output__categories = []\n    normalized_file_detonation_output__confidence = []\n    ## normalized NoneType value to avoid enumeration failure\n    file_detonation_param_list =  [(i or \"\") for i in filtered_result_0_parameter_vault_id] \n    file_detonation_threat_score_list = [(i or \"\") for i in filtered_result_0_data___sandbox___threat_score] \n    file_detonation_category_list = [(i or \"\") for i in filtered_result_0_data___sandbox___signatures___category] \n    file_detonation_verdict_list = [(i or \"\") for i in filtered_result_0_data___sandbox___verdict] \n    \n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    ## get the set() or unique input vault id parameter.\n    \n    index_file_dict = {}\n    set_vault_id_inputs = set(file_detonation_param_list)\n    \n    for vault_id_input in set_vault_id_inputs:\n        ## crowdstrike detonation can have a multiple phase of score, verdict and category during detonation. we will try to get all the unique values of each\n        ## object filed we want to include in report. \n        \n        file_list = []\n        score_list = []\n        verdict_list = []\n        category_list = []\n        \n        ## getting the index of each detonation phase of the url/file. group the result for each detonation\n        vault_id_input_index = [indx for indx, vault_id_val in enumerate(file_detonation_param_list) if vault_id_val == vault_id_input]\n        index_file_dict[vault_id_input] = vault_id_input_index\n        #phantom.debug(\"vault_id: {} vault_id_list: {}\".format(vault_id_input, index_file_dict))\n        \n        for idx,(_vault_id, _score, _verdict, _category) in enumerate(zip(file_detonation_param_list, file_detonation_verdict_list, file_detonation_threat_score_list, file_detonation_category_list)):\n            if _vault_id == vault_id_input and idx in index_file_dict[vault_id_input]:\n                file_list.append(_vault_id)\n                score_list.append(_score)\n                verdict_list.append(_verdict)\n                category_list.append(_category)\n                \n        # Attach final object\n        score_id = round(list(set(verdict_list))[0] / 10)\n        score = score_table[str(score_id)]\n        \n        normalized_file_detonation_output__file_score_object.append({'score': score, 'score_id': score_id,'confidence': list(set(score_list))[0], 'categories': list(set(category_list))})\n        normalized_file_detonation_output__scores.append(score)\n        normalized_file_detonation_output__categories.append(list(set(category_list)))\n        normalized_file_detonation_output__confidence.append(list(set(score_list))[0])\n        #phantom.debug(\"normalized_file_detonation_output__file_score_object: {}\".format(normalized_file_detonation_output__file_score_object))\n        #phantom.debug(\"normalized_file_detonation_output__scores: {}\".format(normalized_file_detonation_output__scores))\n        #phantom.debug(\"normalized_file_detonation_output__categories: {}\".format(normalized_file_detonation_output__categories))\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1380
@@ -349,14 +344,18 @@
                             "normalized_file_detonation_output:custom_function:categories",
                             "filtered-data:windows_sandbox_filter:condition_1:windows_file_detonation:action_result.data.*.id"
                         ],
-                        "template": "SOAR analyzed File(s) using CrowdStrike.  The table below shows a summary of the information gathered.\n\n| File hash | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n\n",
+                        "template": "SOAR analyzed File(s) using CrowdStrike.  The table below shows a summary of the information gathered.\n\n| File hash | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n\n",
                         "type": "format"
                     },
                     "errors": {},
                     "id": "14",
                     "type": "format",
                     "userCode": "\n    # Write your custom code here...\n    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"format_report_win_file\"))\n",
-                    "warnings": {},
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
                     "x": 0,
                     "y": 1560
                 },
@@ -385,8 +384,12 @@
                     "errors": {},
                     "id": "15",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_file_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
-                    "warnings": {},
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    for _vault_id, external_id, file_object in zip(playbook_input_vault_id_values, filtered_result_0_data___id, normalized_file_detonation_output__file_score_object):\n        observable_object = {\n            \n            \"value\": _vault_id,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score\": file_object['score'],\n                \"score_id\": file_object['score_id'],\n                \"confidence\": file_object['confidence'],\n                \"categories\": file_object['categories']\n            },\n            \"enrichment\": {\n                \"provider\": \"CrowdStrike OAuth API\",\n                \"type\": \"file\",\n                \n            },\n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\":f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        build_file_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
                     "x": 0,
                     "y": 1740
                 },
@@ -444,7 +447,7 @@
                         "action": "detonate url",
                         "actionType": "generic",
                         "advanced": {
-                            "customName": "crowdstrike url detonation",
+                            "customName": "url detonation",
                             "customNameId": 0,
                             "description": "Queries CrowdStrike for information about the provided URL(s)",
                             "join": [],
@@ -452,12 +455,12 @@
                         },
                         "connector": "CrowdStrike OAuth API",
                         "connectorConfigs": [
-                            "crowdstrike_url_reputation"
+                            "crowdstrike"
                         ],
                         "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
                         "connectorVersion": "v1",
                         "functionId": 1,
-                        "functionName": "crowdstrike_url_detonation",
+                        "functionName": "url_detonation",
                         "id": "3",
                         "parameters": {
                             "environment": "Windows 7, 64-bit",
@@ -484,7 +487,11 @@
                     "errors": {},
                     "id": "3",
                     "type": "action",
-                    "warnings": {},
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
                     "x": 460,
                     "y": 1000
                 },
@@ -493,7 +500,9 @@
                         "advanced": {
                             "customName": "list demux",
                             "customNameId": 0,
-                            "join": []
+                            "description": "A utility to create a dictionary contains the vault id and sandbox name type that will be used to distinguish sandboxes to be executed depending on the basic file type checking of vault id.",
+                            "join": [],
+                            "note": "A utility to create a dictionary contains the vault id and sandbox name type that will be used to distinguish sandboxes to be executed depending on the basic file type checking of vault id."
                         },
                         "customFunction": {
                             "draftMode": false,
@@ -557,6 +566,12 @@
                                         "op": "==",
                                         "param": "list_demux:custom_function_result.success",
                                         "value": "True"
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_demux:custom_function_result.message",
+                                        "value": "\"Timed out while waiting for the result\""
                                     }
                                 ],
                                 "conditionIndex": 0,
@@ -574,7 +589,7 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 60,
-                    "y": 670
+                    "y": 680
                 },
                 "4": {
                     "data": {
@@ -591,7 +606,7 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": "==",
-                                        "param": "crowdstrike_url_detonation:action_result.status",
+                                        "param": "url_detonation:action_result.status",
                                         "value": "success"
                                     }
                                 ],
@@ -643,7 +658,7 @@
                     "errors": {},
                     "id": "5",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    #phantom.debug(\"filtered_result_0_parameter_url: {}\".format(filtered_result_0_parameter_url))\n    #phantom.debug(\"filtered_result_0_data: {}\".format(filtered_result_0_data))    \n    #phantom.debug(\"filtered_result_0_data___verdict: {}\".format(filtered_result_0_data___verdict))\n    #phantom.debug(\"filtered_result_0_data___sandbox___threat_score: {}\".format(filtered_result_0_data___sandbox___threat_score))\n    #phantom.debug(\"filtered_result_0_data___sandbox___signatures___category: {}\".format(filtered_result_0_data___sandbox___signatures___category))\n    #phantom.debug(\"filtered_result_0_summary_verdict: {}\".format(filtered_result_0_summary_verdict))\n    #phantom.debug(\"filtered_result_0_data___sandbox___verdict: {}\".format(filtered_result_0_data___sandbox___verdict))\n    #phantom.debug(\"crowdstrike_url_detonation_result_data: {}\".format(crowdstrike_url_detonation_result_data))    \n    \n    ## define variables for easy code debugging\n    \n    normalized_url_detonation_output__url_score_object = []\n    normalized_url_detonation_output__scores = []\n    normalized_url_detonation_output__categories = []\n    normalized_url_detonation_output__confidence = []\n    \n    url_detonation_param_list =  [(i or \"\") for i in filtered_result_0_parameter_url] \n    url_detonation_verdict_list = [(i or \"\") for i in filtered_result_0_data___sandbox___verdict] \n    url_detonation_threat_score_list = [(i or \"\") for i in filtered_result_0_data___sandbox___threat_score] \n    url_detonation_category_list = [(i or \"\") for i in filtered_result_0_data___sandbox___signatures___category] \n    \n    ## get the set() or unique input url parameter.\n    \n    index_url_dict = {}\n    set_url_inputs = set(url_detonation_param_list)\n    \n    \n    for url_input in set_url_inputs:\n        url_list = []\n        score_list = []\n        verdict_list = []\n        category_list = []\n        \n        ## getting the index of each detonation phase of the url group the result for each url detonation\n        url_input_index = [indx for indx, url_val in enumerate(url_detonation_param_list) if url_val == url_input]\n        index_url_dict[url_input] = url_input_index\n        \n        for idx,(_url, _score, _verdict, _category) in enumerate(zip(url_detonation_param_list, url_detonation_verdict_list, url_detonation_threat_score_list, url_detonation_category_list)):\n            if _url == url_input and idx in index_url_dict[url_input]:\n                url_list.append(_url)\n                score_list.append(_score)\n                verdict_list.append(_verdict)\n                category_list.append(_category)\n            \n        # Attach final object\n        normalized_url_detonation_output__url_score_object.append({'score': list(set(score_list))[0], 'confidence': list(set(verdict_list))[0], 'categories': list(set(category_list))})\n        normalized_url_detonation_output__scores.append(list(set(score_list))[0])\n        normalized_url_detonation_output__categories.append(list(set(category_list)))\n        normalized_url_detonation_output__confidence.append(list(set(verdict_list))[0])\n        #phantom.debug(\"normalized_url_detonation_output__url_score_object: {}\".format(normalized_url_detonation_output__url_score_object))\n        #phantom.debug(\"normalized_url_detonation_output__scores: {}\".format(normalized_url_detonation_output__scores))\n        #phantom.debug(\"normalized_url_detonation_output__categories: {}\".format(normalized_url_detonation_output__categories))\n        \n    \n",
+                    "userCode": "\n    # Write your custom code here...\n    #phantom.debug(\"filtered_result_0_parameter_url: {}\".format(filtered_result_0_parameter_url))\n    #phantom.debug(\"filtered_result_0_data: {}\".format(filtered_result_0_data))    \n    #phantom.debug(\"filtered_result_0_data___verdict: {}\".format(filtered_result_0_data___verdict))\n    #phantom.debug(\"filtered_result_0_data___sandbox___threat_score: {}\".format(filtered_result_0_data___sandbox___threat_score))\n    #phantom.debug(\"filtered_result_0_data___sandbox___signatures___category: {}\".format(filtered_result_0_data___sandbox___signatures___category))\n    #phantom.debug(\"filtered_result_0_summary_verdict: {}\".format(filtered_result_0_summary_verdict))\n    #phantom.debug(\"filtered_result_0_data___sandbox___verdict: {}\".format(filtered_result_0_data___sandbox___verdict))\n    #phantom.debug(\"crowdstrike_url_detonation_result_data: {}\".format(crowdstrike_url_detonation_result_data))    \n    \n    ## define variables for easy code debugging\n    \n    normalized_url_detonation_output__url_score_object = []\n    normalized_url_detonation_output__scores = []\n    normalized_url_detonation_output__categories = []\n    normalized_url_detonation_output__confidence = []\n    \n    url_detonation_param_list =  [(i or \"\") for i in filtered_result_0_parameter_url] \n    url_detonation_verdict_list = [(i or \"\") for i in filtered_result_0_data___sandbox___verdict] \n    url_detonation_threat_score_list = [(i or \"\") for i in filtered_result_0_data___sandbox___threat_score] \n    url_detonation_category_list = [(i or \"\") for i in filtered_result_0_data___sandbox___signatures___category] \n\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    ## get the set() or unique input url parameter.\n    \n    index_url_dict = {}\n    set_url_inputs = set(url_detonation_param_list)\n    \n    \n    for url_input in set_url_inputs:\n        url_list = []\n        score_list = []\n        verdict_list = []\n        category_list = []\n        \n        ## getting the index of each detonation phase of the url group the result for each url detonation\n        url_input_index = [indx for indx, url_val in enumerate(url_detonation_param_list) if url_val == url_input]\n        index_url_dict[url_input] = url_input_index\n        \n        for idx,(_url, _score, _verdict, _category) in enumerate(zip(url_detonation_param_list, url_detonation_verdict_list, url_detonation_threat_score_list, url_detonation_category_list)):\n            if _url == url_input and idx in index_url_dict[url_input]:\n                url_list.append(_url)\n                score_list.append(_score)\n                verdict_list.append(_verdict)\n                category_list.append(_category)\n        \n        score_id = round(list(set(verdict_list))[0] / 10)\n        score = score_table[str(score_id)]\n        \n        # Attach final object\n        normalized_url_detonation_output__url_score_object.append({'score': score, 'score_id': score_id,'confidence': list(set(score_list))[0], 'categories': list(set(category_list))})\n        normalized_url_detonation_output__scores.append(score)\n        normalized_url_detonation_output__categories.append(list(set(category_list)))\n        normalized_url_detonation_output__confidence.append(list(set(score_list))[0])\n        #phantom.debug(\"normalized_url_detonation_output__url_score_object: {}\".format(normalized_url_detonation_output__url_score_object))\n        #phantom.debug(\"normalized_url_detonation_output__scores: {}\".format(normalized_url_detonation_output__scores))\n        #phantom.debug(\"normalized_url_detonation_output__categories: {}\".format(normalized_url_detonation_output__categories))\n        \n    \n",
                     "warnings": {},
                     "x": 460,
                     "y": 1380
@@ -665,16 +680,20 @@
                             "normalized_url_detonation_output:custom_function:scores",
                             "normalized_url_detonation_output:custom_function:confidence",
                             "normalized_url_detonation_output:custom_function:categories",
-                            "crowdstrike_url_detonation:action_result.data.*.id"
+                            "url_detonation:action_result.data.*.id"
                         ],
-                        "template": "SOAR analyzed URL(s) or File using Crowdstrike.  The table below shows a summary of the information gathered.\n\n| URL | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n",
+                        "template": "SOAR analyzed URL(s) or File using Crowdstrike.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n",
                         "type": "format"
                     },
                     "errors": {},
                     "id": "6",
                     "type": "format",
                     "userCode": "\n    # Write your custom code here...\n    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"format_report_url\"))\n",
-                    "warnings": {},
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
                     "x": 460,
                     "y": 1560
                 },
@@ -692,7 +711,7 @@
                         "id": "7",
                         "inputParameters": [
                             "playbook_input:url",
-                            "crowdstrike_url_detonation:action_result.data.*.id",
+                            "url_detonation:action_result.data.*.id",
                             "normalized_url_detonation_output:custom_function:url_score_object"
                         ],
                         "outputVariables": [
@@ -703,8 +722,12 @@
                     "errors": {},
                     "id": "7",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n# Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(playbook_input_url_values, crowdstrike_url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"reputation\": {\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence'],\n                \"categories\": url_object['categories']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\": f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
-                    "warnings": {},
+                    "userCode": "\n    # Write your custom code here...\n# Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(playbook_input_url_values, url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"reputation\": {\n                \"score\": url_object['score'],\n                \"score_id\": url_object['score_id'],\n                \"confidence\": url_object['confidence'],\n                \"categories\": url_object['categories']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \n            \"source\": \"CrowdStrike OAuth API\",\n            \"source_link\": f\"https://falcon.crowdstrike.com/intelligence/sandbox/reports/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
                     "x": 460,
                     "y": 1740
                 },
@@ -781,19 +804,17 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.8",
-        "version": "5.5.0.108488"
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-05T16:45:24.525655+00:00",
+    "create_time": "2023-04-13T09:14:02.480922+00:00",
     "draft_mode": false,
     "labels": [
         "*"
     ],
     "tags": [
         "url",
-        "domain",
         "sandbox",
-        "ip",
         "CrowdStrike_OAuth_API",
         "vault_id",
         "D3-DA"

@@ -46,7 +46,7 @@ def input_filter(action=None, success=None, container=None, results=None, handle
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        crowdstrike_url_detonation(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+        url_detonation(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     # collect filtered artifact ids and results for 'if' condition 2
     matched_artifacts_2, matched_results_2 = phantom.condition(
@@ -64,8 +64,8 @@ def input_filter(action=None, success=None, container=None, results=None, handle
 
 
 @phantom.playbook_block()
-def crowdstrike_url_detonation(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("crowdstrike_url_detonation() called")
+def url_detonation(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("url_detonation() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -77,12 +77,12 @@ def crowdstrike_url_detonation(action=None, success=None, container=None, result
 
     parameters = []
 
-    # build parameters list for 'crowdstrike_url_detonation' call
+    # build parameters list for 'url_detonation' call
     for playbook_input_url_item in playbook_input_url:
         if playbook_input_url_item[0] is not None:
             parameters.append({
-                "url": playbook_input_url_item[0],
                 "limit": 50,
+                "url": playbook_input_url_item[0],
                 "environment": "Windows 7, 64-bit",
             })
 
@@ -96,7 +96,7 @@ def crowdstrike_url_detonation(action=None, success=None, container=None, result
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="crowdstrike_url_detonation", assets=["crowdstrike_url_reputation"], callback=url_detonation_filter)
+    phantom.act("detonate url", parameters=parameters, name="url_detonation", assets=["crowdstrike"], callback=url_detonation_filter)
 
     return
 
@@ -113,7 +113,7 @@ def url_detonation_filter(action=None, success=None, container=None, results=Non
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["crowdstrike_url_detonation:action_result.status", "==", "success"]
+            ["url_detonation:action_result.status", "==", "success"]
         ],
         name="url_detonation_filter:condition_1")
 
@@ -171,7 +171,20 @@ def normalized_url_detonation_output(action=None, success=None, container=None, 
     url_detonation_verdict_list = [(i or "") for i in filtered_result_0_data___sandbox___verdict] 
     url_detonation_threat_score_list = [(i or "") for i in filtered_result_0_data___sandbox___threat_score] 
     url_detonation_category_list = [(i or "") for i in filtered_result_0_data___sandbox___signatures___category] 
-    
+
+    score_table = {
+        "0":"Unknown",
+        "1":"Very_Safe",
+        "2":"Safe",
+        "3":"Probably_Safe",
+        "4":"Leans_Safe",
+        "5":"May_not_be_Safe",
+        "6":"Exercise_Caution",
+        "7":"Suspicious_or_Risky",
+        "8":"Possibly_Malicious",
+        "9":"Probably_Malicious",
+        "10":"Malicious"
+    }
     ## get the set() or unique input url parameter.
     
     index_url_dict = {}
@@ -194,12 +207,15 @@ def normalized_url_detonation_output(action=None, success=None, container=None, 
                 score_list.append(_score)
                 verdict_list.append(_verdict)
                 category_list.append(_category)
-            
+        
+        score_id = round(list(set(verdict_list))[0] / 10)
+        score = score_table[str(score_id)]
+        
         # Attach final object
-        normalized_url_detonation_output__url_score_object.append({'score': list(set(score_list))[0], 'confidence': list(set(verdict_list))[0], 'categories': list(set(category_list))})
-        normalized_url_detonation_output__scores.append(list(set(score_list))[0])
+        normalized_url_detonation_output__url_score_object.append({'score': score, 'score_id': score_id,'confidence': list(set(score_list))[0], 'categories': list(set(category_list))})
+        normalized_url_detonation_output__scores.append(score)
         normalized_url_detonation_output__categories.append(list(set(category_list)))
-        normalized_url_detonation_output__confidence.append(list(set(verdict_list))[0])
+        normalized_url_detonation_output__confidence.append(list(set(score_list))[0])
         #phantom.debug("normalized_url_detonation_output__url_score_object: {}".format(normalized_url_detonation_output__url_score_object))
         #phantom.debug("normalized_url_detonation_output__scores: {}".format(normalized_url_detonation_output__scores))
         #phantom.debug("normalized_url_detonation_output__categories: {}".format(normalized_url_detonation_output__categories))
@@ -227,7 +243,7 @@ def format_report_url(action=None, success=None, container=None, results=None, h
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) or File using Crowdstrike.  The table below shows a summary of the information gathered.\n\n| URL | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n"""
+    template = """SOAR analyzed URL(s) or File using Crowdstrike.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -235,7 +251,7 @@ def format_report_url(action=None, success=None, container=None, results=None, h
         "normalized_url_detonation_output:custom_function:scores",
         "normalized_url_detonation_output:custom_function:confidence",
         "normalized_url_detonation_output:custom_function:categories",
-        "crowdstrike_url_detonation:action_result.data.*.id"
+        "url_detonation:action_result.data.*.id"
     ]
 
     ################################################################################
@@ -265,11 +281,11 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     ################################################################################
 
     playbook_input_url = phantom.collect2(container=container, datapath=["playbook_input:url"])
-    crowdstrike_url_detonation_result_data = phantom.collect2(container=container, datapath=["crowdstrike_url_detonation:action_result.data.*.id"], action_results=results)
+    url_detonation_result_data = phantom.collect2(container=container, datapath=["url_detonation:action_result.data.*.id"], action_results=results)
     normalized_url_detonation_output__url_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_detonation_output:url_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
 
     playbook_input_url_values = [item[0] for item in playbook_input_url]
-    crowdstrike_url_detonation_result_item_0 = [item[0] for item in crowdstrike_url_detonation_result_data]
+    url_detonation_result_item_0 = [item[0] for item in url_detonation_result_data]
 
     build_url_output__observable_array = None
 
@@ -283,7 +299,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     build_url_output__observable_array = []
     
     # Build URL
-    for url, external_id, url_object in zip(playbook_input_url_values, crowdstrike_url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):
+    for url, external_id, url_object in zip(playbook_input_url_values, url_detonation_result_item_0, normalized_url_detonation_output__url_score_object):
         parsed_url = urlparse(url)
         phantom.debug("parsed_url: {}, url_object: {}".format(parsed_url, url_object))
         observable_object = {
@@ -291,6 +307,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
             "type": "url",
             "reputation": {
                 "score": url_object['score'],
+                "score_id": url_object['score_id'],
                 "confidence": url_object['confidence'],
                 "categories": url_object['categories']
             },
@@ -407,10 +424,9 @@ def file_detonation(action=None, success=None, container=None, results=None, han
         if list_demux__result_item[0] is not None and list_demux__result_item[1] is not None:
             parameters.append({
                 "limit": 50,
+                "is_confidential": True,
                 "vault_id": list_demux__result_item[0],
                 "environment": list_demux__result_item[1],
-                "detail_report": True,
-                "is_confidential": False,
             })
 
     ################################################################################
@@ -422,7 +438,7 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["crowdstrike_url_reputation"], callback=sandbox_filter)
+    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["crowdstrike"], callback=sandbox_filter)
 
     return
 
@@ -487,6 +503,20 @@ def normalized_file_detonation_output(action=None, success=None, container=None,
     file_detonation_category_list = [(i or "") for i in filtered_result_0_data___sandbox___signatures___category] 
     file_detonation_verdict_list = [(i or "") for i in filtered_result_0_data___sandbox___verdict] 
     
+    score_table = {
+        "0":"Unknown",
+        "1":"Very_Safe",
+        "2":"Safe",
+        "3":"Probably_Safe",
+        "4":"Leans_Safe",
+        "5":"May_not_be_Safe",
+        "6":"Exercise_Caution",
+        "7":"Suspicious_or_Risky",
+        "8":"Possibly_Malicious",
+        "9":"Probably_Malicious",
+        "10":"Malicious"
+    }
+    
     ## get the set() or unique input vault id parameter.
     
     index_file_dict = {}
@@ -504,7 +534,7 @@ def normalized_file_detonation_output(action=None, success=None, container=None,
         ## getting the index of each detonation phase of the url/file. group the result for each detonation
         vault_id_input_index = [indx for indx, vault_id_val in enumerate(file_detonation_param_list) if vault_id_val == vault_id_input]
         index_file_dict[vault_id_input] = vault_id_input_index
-        phantom.debug("vault_id: {} vault_id_list: {}".format(vault_id_input, index_file_dict))
+        #phantom.debug("vault_id: {} vault_id_list: {}".format(vault_id_input, index_file_dict))
         
         for idx,(_vault_id, _score, _verdict, _category) in enumerate(zip(file_detonation_param_list, file_detonation_verdict_list, file_detonation_threat_score_list, file_detonation_category_list)):
             if _vault_id == vault_id_input and idx in index_file_dict[vault_id_input]:
@@ -512,12 +542,15 @@ def normalized_file_detonation_output(action=None, success=None, container=None,
                 score_list.append(_score)
                 verdict_list.append(_verdict)
                 category_list.append(_category)
-        
+                
         # Attach final object
-        normalized_file_detonation_output__file_score_object.append({'score': list(set(score_list))[0], 'confidence': list(set(verdict_list))[0], 'categories': list(set(category_list))})
-        normalized_file_detonation_output__scores.append(list(set(score_list))[0])
+        score_id = round(list(set(verdict_list))[0] / 10)
+        score = score_table[str(score_id)]
+        
+        normalized_file_detonation_output__file_score_object.append({'score': score, 'score_id': score_id,'confidence': list(set(score_list))[0], 'categories': list(set(category_list))})
+        normalized_file_detonation_output__scores.append(score)
         normalized_file_detonation_output__categories.append(list(set(category_list)))
-        normalized_file_detonation_output__confidence.append(list(set(verdict_list))[0])
+        normalized_file_detonation_output__confidence.append(list(set(score_list))[0])
         #phantom.debug("normalized_file_detonation_output__file_score_object: {}".format(normalized_file_detonation_output__file_score_object))
         #phantom.debug("normalized_file_detonation_output__scores: {}".format(normalized_file_detonation_output__scores))
         #phantom.debug("normalized_file_detonation_output__categories: {}".format(normalized_file_detonation_output__categories))
@@ -543,7 +576,7 @@ def format_report_file(action=None, success=None, container=None, results=None, 
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed File(s) using CrowdStrike.  The table below shows a summary of the information gathered.\n\n| File hash | Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n\n"""
+    template = """SOAR analyzed File(s) using CrowdStrike.  The table below shows a summary of the information gathered.\n\n| File hash | Normalized Score | Confidence |Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://falcon.crowdstrike.com/intelligence/sandbox/reports/{4} | CrowdStrike OAuth API |\n%%\n\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -602,6 +635,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
             "type": "hash",
             "reputation": {
                 "score": file_object['score'],
+                "score_id": file_object['score_id'],
                 "confidence": file_object['confidence'],
                 "categories": file_object['categories']
             },
@@ -627,6 +661,12 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 @phantom.playbook_block()
 def list_demux(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("list_demux() called")
+
+    ################################################################################
+    # A utility to create a dictionary contains the vault id and sandbox name type 
+    # that will be used to distinguish sandboxes to be executed depending on the basic 
+    # file type checking of vault id.
+    ################################################################################
 
     get_vault_id_information__sandbox_type = json.loads(_ if (_ := phantom.get_run_data(key="get_vault_id_information:sandbox_type")) != "" else "null")  # pylint: disable=used-before-assignment
 
@@ -662,8 +702,10 @@ def list_demux_filter(action=None, success=None, container=None, results=None, h
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
+        logical_operator="and",
         conditions=[
-            ["list_demux:custom_function_result.success", "==", True]
+            ["list_demux:custom_function_result.success", "==", True],
+            ["list_demux:custom_function_result.message", "!=", "\"Timed out while waiting for the result\""]
         ],
         name="list_demux_filter:condition_1")
 
