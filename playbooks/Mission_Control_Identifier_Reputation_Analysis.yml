@@ -1,11 +1,11 @@
-name: MC Related Tickets Search
-id: 35c157a6-bfdc-44ef-8a67-8693a432caf5
+name: Mission Control Identifier Reputation Analysis
+id: a66a961d-a9f8-4653-ae59-55c4958a70a7
 version: 1
 date: '2023-03-14'
 author: Kelby Shelton, Splunk
 type: Investigation
-description: Launches "related tickets" input playbooks, creates events, and then concludes the Response Tasks where this playbook appears.
-playbook: MC_Related_Tickets_Search
+description: Launches "reputation analysis" input playbooks, adds reputation reports, and then concludes the Response Tasks where this playbook appears.
+playbook: Mission_Control_Identifier_Reputation_Analysis
 how_to_implement: - Requires Input Playbooks with the supported inputs and outputs.\n- Task update function requires that this playbook be present in a Mission Control Response Task.\n- Playbook inputs can be modified to include or omit variables from the incident.\n- Markdown merge function must be modified when adding or removing input playbooks.
 references: []
 app_list: 
