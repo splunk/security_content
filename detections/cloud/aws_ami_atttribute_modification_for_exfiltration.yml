@@ -1,11 +1,11 @@
 name: AWS AMI Atttribute Modification for Exfiltration
 id: f2132d74-cf81-4c5e-8799-ab069e67dc9f
-version: 1
+version: 2
 date: '2023-03-31'
-author: Bhavin Patel
+author: BHavin Patel, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
+data_source: []
 description: This search looks for suspicious AWS AMI attribute modifications, such as sharing it with another AWS account or making the full AMI image public. Adversaries are known to abuse these APIs to exfiltrate sensitive organization information stored in the AWS Resources, there by its very important to monitor these seemingly benign API activity in Cloudtrail logs.
 search: '`cloudtrail` eventName=ModifyImageAttribute (requestParameters.launchPermission.add.items{}.userId = * OR requestParameters.launchPermission.add.items{}.group = all) 
 |  rename requestParameters.launchPermission.add.items{}.group as group_added 
@@ -26,27 +26,11 @@ tags:
   - Suspicious Cloud Instance Activities
   - Data Exfiltration
   asset_type: EC2 Snapshot
-  cis20:
-  - CIS 13
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_ami_shared_public/aws_cloudtrail_events.json
   impact: 100
-  kill_chain_phases:
-  - Actions on Objectives
   message: AWS AMI from account $aws_account_id$ is shared externally with $accounts_added$ from $src_ip$ or AMI made is made Public.
   mitre_attack_id:
   - T1537
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: user_arn
     type: User
@@ -72,3 +56,10 @@ tags:
   - userIdentity.principalId
   risk_score: 80
   security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_ami_shared_public/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

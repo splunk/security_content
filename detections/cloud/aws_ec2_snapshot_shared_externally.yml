@@ -53,7 +53,7 @@ tags:
   - vendor_region
   - user_agent
   - userIdentity.principalId
-  risk_score: 80
+  risk_score: 48
   security_domain: threat
 tests:
 - name: True Positive Test

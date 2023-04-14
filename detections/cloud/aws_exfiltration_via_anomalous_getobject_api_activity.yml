@@ -50,6 +50,7 @@ tags:
   - userIdentity.principalId
   risk_score: 64
   security_domain: threat
+tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json
