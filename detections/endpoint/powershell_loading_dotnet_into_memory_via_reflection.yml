@@ -43,6 +43,7 @@ tags:
   - AsyncRAT
   - Hermetic Wiper
   - Malicious PowerShell
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 70
