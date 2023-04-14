@@ -1,16 +1,29 @@
 name: Data Destruction
 id: 4ae5c0d1-cebd-47d1-bfce-71bf096e38aa
 version: 1
-date: '2022-02-14'
+date: '2023-04-06'
 author: Teoderick Contreras, Splunk
-description: Leverage searches that allow you to detect and investigate unusual activities
-  that might relate to the data destruction, including deleting files, overwriting files, wiping disk and encrypting files.
-narrative: Adversaries may use this technique to maximize the impact on the target organization in operations where network wide availability interruption
-  is the goal. 
+description: Leverage searches that allow you to detect and investigate unusual activities that might relate to the data destruction, 
+  including deleting files, overwriting files, wiping disk and unrecoverable file encryption. This analytic story may cover several 
+  known activities related to malware implants used in geo-political war to wipe disks or files to interrupt the network-wide operation 
+  of a targeted organization. Analytics can detect the behavior of "DoubleZero Destructor", "CaddyWiper", "AcidRain", "AwfulShred", 
+  "Hermetic Wiper", "Swift Slicer", "Whisper Gate" and many more.
+narrative: Adversaries may partially or completely overwrite the contents of a storage device rendering the data irrecoverable through 
+  the storage interface or using 3rd party drivers to directly access disk content like Master Boot Record to wipe it. 
+  These several attacks were seen in geo-political war to impair the operation of targeted organizations or to interrupt network-wide services.
 references:
 - https://attack.mitre.org/techniques/T1485/
 - https://researchcenter.paloaltonetworks.com/2018/09/unit42-xbash-combines-botnet-ransomware-coinmining-worm-targets-linux-windows/
 - https://www.picussecurity.com/blog/a-brief-history-and-further-technical-analysis-of-sodinokibi-ransomware
+- https://www.splunk.com/en_us/blog/security/threat-advisory-strt-ta02-destructive-software.html
+- https://www.splunk.com/en_us/blog/security/detecting-hermeticwiper.html
+- https://www.splunk.com/en_us/blog/security/threat-update-doublezero-destructor.html
+- https://www.splunk.com/en_us/blog/security/threat-update-caddywiper.html
+- https://www.splunk.com/en_us/blog/security/strt-ta03-cpe-destructive-software.html
+- https://www.splunk.com/en_us/blog/security/threat-update-cyclopsblink.html
+- https://www.splunk.com/en_us/blog/security/threat-update-acidrain-wiper.html
+- https://www.splunk.com/en_us/blog/security/threat-update-industroyer2.html
+- https://www.splunk.com/en_us/blog/security/threat-advisory-swiftslicer-wiper-strt-ta03.html
 tags:
   analytic_story: Data Destruction
   category:

@@ -1,7 +1,7 @@
 name: Powershell Windows Defender Exclusion Commands
 id: 907ac95c-4dd9-11ec-ba2c-acde48001122
 version: 1
-date: '2021-11-25'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,11 +28,12 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Remcos
-  - Windows Defense Evasion Tactics
-  - WhisperGate
   - CISA AA22-320A
   - AgentTesla
+  - Remcos
+  - Windows Defense Evasion Tactics
+  - Data Destruction
+  - WhisperGate
   asset_type: Endpoint
   confidence: 80
   impact: 80
