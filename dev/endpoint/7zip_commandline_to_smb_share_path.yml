@@ -1,0 +1,68 @@
+name: 7zip CommandLine To SMB Share Path
+id: 01d29b48-ff6f-11eb-b81e-acde48001122
+version: 1
+date: '2021-08-17'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: This search is to detect a suspicious 7z process with commandline pointing
+  to SMB network share. This technique was seen in CONTI LEAK tools where it use 7z
+  to archive a sensitive files and place it in network share tmp folder. This search
+  is a good hunting query that may give analyst a hint why specific user try to archive
+  a file pointing to SMB user which is un usual.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: 7z.exe
+  selection2:
+    Image|endswith:
+    - 7z.exe
+    - 7za.exe
+  selection3:
+    OriginalFileName: 7za.exe
+  selection4:
+    CommandLine:
+    - '*\\C$\\*'
+    - '*\\Admin$\\*'
+    - '*\\IPC$\\*'
+  condition: (selection1 or selection2 or selection3) and selection4
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed 7z.exe may be used.
+known_false_positives: unknown
+references:
+- https://threadreaderapp.com/thread/1423361119926816776.html
+tags:
+  analytic_story:
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: archive process $process_name$ with suspicious cmdline $process$ in host
+    $dest$
+  mitre_attack_id:
+  - T1560.001
+  - T1560
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

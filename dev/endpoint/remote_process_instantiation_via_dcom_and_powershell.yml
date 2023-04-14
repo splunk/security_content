@@ -1,0 +1,69 @@
+name: Remote Process Instantiation via DCOM and PowerShell
+id: d4f42098-4680-11ec-ad07-3e22fbd008af
+version: 1
+date: '2021-11-15'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: This analytic looks for the execution of `powershell.exe` with arguments
+  utilized to start a process on a remote endpoint by abusing the DCOM protocol. Specifically,
+  this search looks for the abuse of ShellExecute and ExecuteShellCommand. Red Teams
+  and adversaries alike may abuse DCOM and `powershell.exe` for lateral movement and
+  remote code execution.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: pwsh.dll
+  selection2:
+    Image|endswith:
+    - pwsh.exe
+    - sqlps.exe
+    - sqltoolsps.exe
+    - powershell.exe
+    - powershell_ise.exe
+  selection3:
+    OriginalFileName: PowerShell.EXE
+  selection4:
+    OriginalFileName: powershell_ise.EXE
+  selection5:
+    CommandLine:
+    - '*Document.ActiveView.ExecuteShellCommand*'
+    - '*Document.Application.ShellExecute*'
+  condition: (selection1 or selection2 or selection3 or selection4) and selection5
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints.
+known_false_positives: Administrators may leverage DCOM to start a process on remote
+  systems, but this activity is usually limited to a small set of hosts or users.
+references:
+- https://attack.mitre.org/techniques/T1021/003/
+- https://www.cybereason.com/blog/dcom-lateral-movement-techniques
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 70
+  impact: 90
+  message: A process was started on a remote endpoint from $dest by abusing DCOM using
+    PowerShell.exe
+  mitre_attack_id:
+  - T1021
+  - T1021.003
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/lateral_movement/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

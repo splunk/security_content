@@ -1,0 +1,55 @@
+name: PowerShell Start or Stop Service
+id: 04207f8a-e08d-4ee6-be26-1e0c4488b04a
+version: 1
+date: '2023-03-24'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+status: production
+data_source: 
+- Powershell 4104
+description: This analytic identifies the use of PowerShell's Start-Service or Stop-Service cmdlets on an endpoint. These cmdlets allow users to start or stop a specified Windows service. The ability to manipulate services can be leveraged by attackers to disable or stop critical services, which can cause system instability or disrupt business operations.
+  By detecting the use of Start-Service or Stop-Service cmdlets via PowerShell, this analytic can help organizations identify potential malicious activity related to attackers attempting to manipulate services on compromised systems. However, note that this behavior may be noisy, as these cmdlets are commonly used by system administrators or other legitimate users to manage services. Therefore, it is recommended not to enable this analytic as a direct notable or TTP. Instead, it should be used as part of a broader set of security controls to detect and investigate potential threats.
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*start-service*", "*stop-service*") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `powershell_start_or_stop_service_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: This behavior may be noisy, as these cmdlets are commonly used by system administrators or other legitimate users to manage services. Therefore, it is recommended not to enable this analytic as a direct notable or TTP. Instead, it should be used as part of a broader set of security controls to detect and investigate potential threats.
+references:
+  - https://learn-powershell.net/2012/01/15/startingstopping-and-restarting-remote-services-with-powershell/
+  - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-service?view=powershell-7.3
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 20
+  impact: 50
+  message: PowerShell was identified attempting to start or stop a service on $Computer$.
+  mitre_attack_id:
+  - T1059.001
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  risk_score: 10
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/start_stop_service_windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

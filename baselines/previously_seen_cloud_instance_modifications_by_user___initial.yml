@@ -20,8 +20,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Cloud Instance Activities
-  deployments:
-  - 90 Day Baseline
   detections:
   - Cloud Instance Modified By Previously Unseen User
   product:
@@ -35,3 +33,9 @@ tags:
   - All_Changes.status
   - All_Changes.user
   security_domain: network
+deployment:
+  scheduling:
+    cron_schedule: 0 2 * * 0
+    earliest_time: -90d@d
+    latest_time: -1d@d
+    schedule_window: auto

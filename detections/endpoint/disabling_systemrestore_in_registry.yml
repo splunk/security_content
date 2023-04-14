@@ -3,23 +3,29 @@ id: f4f837e2-91fb-11eb-8bf6-acde48001122
 version: 3
 date: '2022-11-14'
 author: Steven Dick, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: The following search identifies the modification of registry related
   in disabling the system restore of a machine. This event or behavior are seen in
   some RAT malware to make the restore of the infected machine  difficult and keep
   their infection on the box.
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | join process_guid [
-  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableSR" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableConfig" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableSR" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableConfig" Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-  | `drop_dm_object_name(Registry)`] 
-  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
-  | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `disabling_systemrestore_in_registry_filter`'
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
+  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
+  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
+  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableSR"
+  OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableConfig"
+  OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableSR"
+  OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableConfig"
+  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime
+  dest user parent_process_name parent_process process_name process_path process registry_key_name
+  registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_systemrestore_in_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -31,17 +37,9 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: The Windows registry was modified to disable system restore on $dest$ by
     $user$.
   mitre_attack_id:
@@ -63,12 +61,12 @@ tags:
   - _time
   - Processes.user
   - Processes.dest
-  - Processes.process_id 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_path  
-  - Processes.parent_process_name 
-  - Processes.parent_process 
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
@@ -78,4 +76,17 @@ tags:
   - Registry.process_guid
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

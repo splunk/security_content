@@ -90,7 +90,7 @@ class ContentChanger:
     def fix_wrong_kill_chain_phases(self, objects : list) -> None:
         valid_kill_chain_phases = [
             'Reconnaissance', 'Weaponization', 'Delivery', 
-            'Exploitation', 'Installation', 'Command and Control', 
+            'Exploitation', 'Installation', 'Command And Control', 
             'Actions on Objectives']
         for obj in objects:
             if 'kill_chain_phases' in obj['tags']:
@@ -196,4 +196,4 @@ class ContentChanger:
         for obj in objects:
             if 'Command & Control' in obj['tags']['analytic_story']:
                 obj['tags']['analytic_story'].remove('Command & Control')
-                obj['tags']['analytic_story'].append('Command and Control')
+                obj['tags']['analytic_story'].append('Command And Control')

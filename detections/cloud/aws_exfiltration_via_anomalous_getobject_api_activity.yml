@@ -3,8 +3,9 @@ id: e4384bbf-5835-4831-8d85-694de6ad2cc6
 version: 1
 date: '2023-04-10'
 author: Bhavin Patel, Splunk
+status: production
 type: Anomaly
-datamodel: []
+data_source: []
 description: This search uses built in  Splunk command `| anomalydetection` to detect anomalies with respect to users making GetObject API calls to download objects from S3. 
 search: '`cloudtrail` eventName=GetObject | bin _time span=10m |  stats count values(requestParameters.bucketName) as bucketName by _time user_type user_arn userIdentity.principalId
 | anomalydetection "count" "user_type" "user_arn" action=annotate | `aws_exfiltration_via_anomalous_getobject_api_activity_filter`'
@@ -18,18 +19,10 @@ tags:
   - Data Exfiltration
   asset_type: AWS Account
   confidence: 80
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: Anomalous S3 activities detected by user $user_arn$ 
   mitre_attack_id:
   - T1119
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: user_arn
     type: User
@@ -57,3 +50,9 @@ tags:
   - userIdentity.principalId
   risk_score: 64
   security_domain: threat
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

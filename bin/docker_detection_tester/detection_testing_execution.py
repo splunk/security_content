@@ -179,14 +179,13 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
     if ret.returncode != 0:
-        print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
-            ret.stderr))
+        print(f"Error generating new content0.\n\tQuitting and dumping error...\n{str(ret.stderr)}\n{str(ret.stdout)}")
         sys.exit(1)
 
     ret = subprocess.run("tar -czf DA-ESS-ContentUpdate.spl -C dist/escu .",
                          shell=True, capture_output=True)
     if ret.returncode != 0:
-        print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
+        print("Error generating new content1.\n\tQuitting and dumping error...\n[%s]" % (
             ret.stderr))
         sys.exit(1)
 
@@ -394,7 +393,7 @@ def main(args: list[str]):
         sys.exit(1)
 
     try:
-        all_test_files = github_service.get_test_files(settings['mode'],
+        all_detection_files = github_service.get_detection_files(settings['mode'],
                                                     settings['folders'],
                                                     settings['types'],
                                                     settings['detections_list'])
@@ -405,14 +404,14 @@ def main(args: list[str]):
         #we are running on GitHub Actions against multiple machines.  Hopefully, this
         #will reduce that chnaces the some machines run and complete quickly while
         #others take a long time.
-        random.shuffle(all_test_files)        
+        random.shuffle(all_detection_files)        
 
     except Exception as e:
         print("Error getting test files:\n%s"%(str(e)), file=sys.stderr)
         print("\tQuitting...", file=sys.stderr)
         sys.exit(1)
 
-    print("***This run will test [%d] detections!***"%(len(all_test_files)))
+    print("***This run will test [%d] detections!***"%(len(all_detection_files)))
     
 
     
@@ -450,7 +449,7 @@ def main(args: list[str]):
     # If this is a mock run, finish it now
     if settings['mock']:
         #The function below 
-        if finish_mock(settings, all_test_files):
+        if finish_mock(settings, all_detection_files):
             # mock was successful!
             print("Mock successful!  Manifests generated!")
             sys.exit(0)
@@ -503,9 +502,10 @@ def main(args: list[str]):
 
     #Setup requires a different teardown handler than during execution
     signal.signal(signal.SIGINT, shutdown_signal_handler_setup)
-
+    
+    
     try:
-        cm = container_manager.ContainerManager(all_test_files,
+        cm = container_manager.ContainerManager(all_detection_files,
                                                 FULL_DOCKER_HUB_CONTAINER_NAME,
                                                 settings['local_base_container_name'],
                                                 settings['num_containers'],

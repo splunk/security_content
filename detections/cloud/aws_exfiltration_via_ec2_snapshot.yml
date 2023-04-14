@@ -2,10 +2,10 @@ name: AWS Exfiltration via EC2 Snapshot
 id: ac90b339-13fc-4f29-a18c-4abbba1f2171
 version: 1
 date: '2023-03-22'
-author: BHavin P
-type: Hunting
-datamodel:
-- Endpoint
+author: BHavin Patel, Splunk
+status: production
+type: TTP
+data_source: []
 description: This search detects a series of AWS API calls, made in a short time window, related to EC2 snapshots that can detect a potential exfiltration via EC2 Snapshot modifications. In this attack, the attacker typically proceeds by listing and creating EC2 snapshots of the available EC2 instances followed by modifying snapshot attributes such that it can be shared externally. Once this is done, the attacker can then load that EC2 snapshot and access all the sensitive information. 
 search: '`cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip NOT IN ("guardduty.amazonaws.com")
 |  bin _time span=5m 
@@ -22,27 +22,11 @@ tags:
   - Suspicious Cloud Instance Activities
   - Data Exfiltration
   asset_type: EC2 Snapshot
-  cis20:
-  - CIS 13
   confidence: 80
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  - Stage:Exfiltration
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: Potential AWS EC2 Exfiltration detected on account id - $aws_account_id$ by user $user_arn$ from src_ip $src_ip$
   mitre_attack_id:
   - T1537
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: user_arn
     type: User
@@ -73,3 +57,9 @@ tags:
   - requestParameters.createVolumePermission.add.items{}.userId
   risk_score: 64
   security_domain: threat
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

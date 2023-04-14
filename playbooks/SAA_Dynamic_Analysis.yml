@@ -1,0 +1,24 @@
+name: SAA Dynamic Analysis
+id: 2754c122-c63b-4558-9b83-23c1e1b96177
+version: 1
+date: '2023-03-24'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: "Accepts url link, domain or vault_id (hash) to be detonated using Splunk Attacker (SAA) API connector. This playbook produces a normalized output for each user and device."
+playbook: SAA_Dynamic_Analysis
+how_to_implement: This input playbook requires the SAA API connector to be configured. It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - Splunk Attack Analyzer API
+tags:
+  platform_tags:
+    - url
+    - domain
+    - sandbox
+    - ip 
+    - vault_id
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR

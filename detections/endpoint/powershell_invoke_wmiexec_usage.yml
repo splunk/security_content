@@ -1,0 +1,53 @@
+name: PowerShell Invoke WmiExec Usage
+id: 0734bd21-2769-4972-a5f1-78bb1e011224
+version: 1
+date: '2023-03-22'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+status: production
+data_source:
+- Powershell 4104
+description: This analytic detects the usage of the Invoke-WMIExec utility within PowerShell Script Block Logging (EventCode 4104). The utility is used for executing WMI commands on targets using NTLMv2 pass-the-hash authentication.
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*invoke-wmiexec*") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `powershell_invoke_wmiexec_usage_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: False positives should be limited as this analytic is designed to detect a specific utility. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
+references:
+  - https://github.com/Kevin-Robertson/Invoke-TheHash/blob/master/Invoke-WMIExec.ps1
+tags:
+  analytic_story:
+  - Suspicious WMI Use
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: PowerShell was identified running a Invoke-WmiExec on $Computer$.
+  mitre_attack_id:
+  - T1047
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  risk_score: 100
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/invokewmiexec_windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

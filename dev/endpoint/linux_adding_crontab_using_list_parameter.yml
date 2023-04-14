@@ -1,0 +1,58 @@
+name: Linux Adding Crontab Using List Parameter
+id: 52f6d751-1fd4-4c74-a4c9-777ecfeb5c58
+version: 1
+date: '2022-04-22'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following analytic identifies a suspicious cron jobs modification
+  using crontab list parameters. This command line parameter can be abused by malware
+  like industroyer2, adversaries, and red teamers to add a crontab entry to their
+  malicious code to execute to the schedule they want. This event can also be executed
+  by administrator or normal user for automation purposes so filter is needed.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '* -l*'
+    Image|endswith: crontab
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+- https://cert.gov.ua/article/39518
+tags:
+  analytic_story:
+  - Industroyer2
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: A possible crontab list command $process$ executed on $dest$
+  mitre_attack_id:
+  - T1053.003
+  - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_list_parameter/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

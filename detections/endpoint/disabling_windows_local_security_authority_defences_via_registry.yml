@@ -3,9 +3,10 @@ id: 45cd08f8-a2c9-4f4e-baab-e1a0c624b0ab
 version: 1
 date: '2022-09-09'
 author: Dean Luxton
+status: production
 type: TTP
-datamodel:
-- Endpoint
+data_source:
+- Sysmon Event ID 13
 description: This detection looks for the deletion of registry keys which disable LSA protection and MS Defender Device Guard. 
 search: '| tstats `security_content_summariesonly` min(_time) as _time from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\LsaCfgFlags",
@@ -34,25 +35,11 @@ tags:
   - Windows Defence Evasion Tactics
   - Windows Registry Abuse 
   asset_type: Endpoint
-  cis20:
-  - CIS 5
-  - CIS 6
-  - CIS 16
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/disable_lsa_protection/windows-sysmon.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/disable_credential_guard/windows-sysmon.log
   impact: 60
-  kill_chain_phases:
-  - Actions on Objectives
   message: An attempt to disable Windows LSA defences was detected on $dest$. The reg key $registry_path$ was deleted by $user$. 
   mitre_attack_id:
   - T1556
-  nist:
-  - DE.CM
   observable:
   - name: user
     type: User
@@ -74,3 +61,9 @@ tags:
   - Registry.user
   risk_score: 60
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/disable_lsa_protection/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

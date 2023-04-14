@@ -1,0 +1,23 @@
+name: Sysmon Event ID 23
+id: 866d1829-7772-4269-a402-43a619de4802
+date: '2022-11-28'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: file_delete
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+raw_fields:
+  - Computer
+  - EventID
+  - User
+  - ProcessGuid
+  - ProcessId
+  - Image
+  - TargetFileName

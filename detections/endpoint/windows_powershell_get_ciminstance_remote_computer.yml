@@ -1,0 +1,51 @@
+name: Windows PowerShell Get CIMInstance Remote Computer
+id: d8c972eb-ed84-431a-8869-ca4bd83257d1
+version: 1
+date: '2023-03-27'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+status: production
+data_source:
+- Powershell 4104
+description: This analytic identifies the use of Get-CimInstance cmdlet with the -ComputerName parameter, which indicates that the cmdlet is being used to retrieve information from a remote computer. This can be useful for detecting instances of remote access, such as when an attacker uses PowerShell to connect to a remote system and gather information. By monitoring for this cmdlet with the -ComputerName parameter, security analysts can identify potential malicious activity on remote systems and take appropriate action to mitigate any threats.
+search: '`powershell` EventCode=4104 ScriptBlockText="*get-ciminstance*" AND ScriptBlockText="*computername*"  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_get_ciminstance_remote_computer_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: This is meant to be a low risk RBA anomaly analytic or to be used for hunting. Enable this with a low risk score and let it generate risk in the risk index.
+references:
+  - https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/get-ciminstance?view=powershell-7.3
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: A PowerShell Cmdlet Get-CIMInstnace was ran on $Computer$, attempting to connect to a remote host.
+  mitre_attack_id:
+  - T1059.001
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - EventCode
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/get_ciminstance_windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

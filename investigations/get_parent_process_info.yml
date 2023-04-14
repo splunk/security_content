@@ -49,7 +49,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
-  - Command and Control
+  - Command And Control
   product:
   - Splunk Phantom
   required_fields:

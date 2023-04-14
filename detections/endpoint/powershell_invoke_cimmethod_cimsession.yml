@@ -1,0 +1,55 @@
+name: PowerShell Invoke CIMMethod CIMSession
+id: 651ee958-a433-471c-b264-39725b788b83
+version: 1
+date: '2023-03-22'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+status: production
+data_source:
+- Powershell 4104
+description: This analytic identifies the use of the New-CIMSession cmdlet being created along with the Invoke-CIMMethod cmdlet being used within PowerShell. This particular behavior is similar to the usage of the Invoke-WMIMethod cmdlet, which is known for executing WMI commands on targets using NTLMv2 pass-the-hash authentication. The New-CIMSession cmdlet allows users to create a new CIM session object for a specified computer system, which can then be used to execute CIM operations remotely. Similarly, the Invoke-CIMMethod cmdlet is used to invoke a specified method on one or more CIM objects. Therefore, the combination of New-CIMSession and Invoke-CIMMethod cmdlets in PowerShell can potentially indicate malicious behavior, and this analytic can help detect such activity.
+data_source:
+- Powershell 4104
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*invoke-CIMMethod*", "*New-CimSession*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `powershell_invoke_cimmethod_cimsession_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: False positives may be present based on third-party applications or administrators using CIM. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
+references:
+- https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/invoke-cimmethod?view=powershell-7.3
+tags:
+  analytic_story:
+  - Malicious PowerShell
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: PowerShell was identified running a Invoke-CIMMethod Invoke-CIMSession on $Computer$.
+  mitre_attack_id:
+  - T1047
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/4104-cimmethod-windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

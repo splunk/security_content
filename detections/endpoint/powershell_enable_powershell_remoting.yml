@@ -1,0 +1,54 @@
+name: PowerShell Enable PowerShell Remoting
+id: 40e3b299-19a5-4460-96e9-e1467f714f8e
+version: 1
+date: '2023-03-22'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+status: production
+data_source: 
+- Powershell 4104
+description: This analytic utilizes PowerShell Script Block Logging (EventCode 4104) to identify the use of Enable-PSRemoting cmdlet. This cmdlet allows users to enable PowerShell remoting on a local or remote computer, which allows other computers to run commands on the target computer. The ability to remotely execute commands can be abused by attackers to take control of compromised systems and pivot to other systems on the network.
+  By detecting the use of Enable-PSRemoting cmdlet via script block logging, this analytic can help organizations identify potential malicious activity related to attackers attempting to gain remote control of compromised systems.
+search: '`powershell` EventCode=4104 ScriptBlockText="*Enable-PSRemoting*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`| `powershell_enable_powershell_remoting_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Note that false positives may occur due to the use of the Enable-PSRemoting cmdlet by legitimate users, such as system administrators. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
+references:
+- https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting?view=powershell-7.3
+tags:
+  analytic_story:
+  - Malicious PowerShell
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: PowerShell was identified running a Invoke-PSremoting on $Computer$.
+  mitre_attack_id:
+  - T1059.001
+  - T1059
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/4104-psremoting-windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

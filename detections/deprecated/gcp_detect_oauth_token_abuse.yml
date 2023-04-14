@@ -3,12 +3,13 @@ id: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
 version: 1
 date: '2020-09-01'
 author: Rod Soto, Splunk
+status: deprecated
 type: Hunting
-datamodel: []
 description: This search provides detection of possible GCP Oauth token abuse. GCP
   Oauth token without time limit can be exfiltrated and reused for keeping access
   sessions alive without further control of authentication, allowing attackers to
   access and move laterally.
+data_source: []
 search: '`google_gcp_pubsub_message` type.googleapis.com/google.cloud.audit.AuditLog
   |table protoPayload.@type protoPayload.status.details{}.@type protoPayload.status.details{}.violations{}.callerIp
   protoPayload.status.details{}.violations{}.type protoPayload.status.message  | `gcp_detect_oauth_token_abuse_filter`'
@@ -23,25 +24,21 @@ tags:
   analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
-  kill_chain_phases:
-  - Exploitation
+  confidence: 50
+  impact: 50
+  message: tbd
   mitre_attack_id:
   - T1078
+  observable:
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  security_domain: threat
-  confidence: 50
-  impact: 50
   risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown
+  security_domain: threat

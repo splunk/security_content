@@ -3,8 +3,9 @@ id: 05c4b09f-ea28-4c7c-a7aa-a246f665c8a2
 version: 1
 date: '2023-04-10'
 author: Bhavin Patel, Splunk
-type: Hunting
-datamodel: []
+status: production
+type: TTP
+data_source: []
 description: This search looks for potential misuse of an AWS service known as DataSync. This AWS service is used to transfer data between different AWS cloud storage services, such as Amazon S3, Amazon EFS, and Amazon FSx for Windows File Server. Attackers can create a task in AWS to periodically copy data from a private AWS location to a public location resulting in the compromise of the data.  
 search: '`cloudtrail` eventName = CreateTask eventSource="datasync.amazonaws.com" | rename  requestParameters.*  as *  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip aws_account_id awsRegion eventName destinationLocationArn sourceLocationArn userAgent user_arn userIdentity.principalId  errorCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_exfiltration_via_datasync_task_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
@@ -17,18 +18,10 @@ tags:
   - Data Exfiltration
   asset_type: AWS Account
   confidence: 80
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
   impact: 80
-  kill_chain_phases:
-  - Actions on Objectives
   message: DataSync task created on account id - $aws_account_id$ by user $user_arn$ from src_ip $src_ip$
   mitre_attack_id:
   - T1119
-  nist:
-  - PR.DS
-  - PR.AC
-  - DE.CM
   observable:
   - name: user_arn
     type: User
@@ -58,3 +51,9 @@ tags:
   - userIdentity.principalId
   risk_score: 64
   security_domain: threat
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

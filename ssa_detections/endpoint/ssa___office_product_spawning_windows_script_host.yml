@@ -1,0 +1,98 @@
+name: Office Product Spawning Windows Script Host
+id: 3ea3851a-8736-41a0-bc09-7e4485b48fa6
+version: 1
+date: '2022-10-12'
+author: Michael Haag, Splunk
+type: TTP
+status: production
+description: The following analytic will identify a Windows Office Product spawning
+  WScript.exe or CScript.exe. Tuning may be required based on legitimate application
+  usage that may spawn scripts from an Office product.
+data_source:
+- Windows Security 4688
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
+  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
+  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
+  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
+  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
+  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
+  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
+  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
+  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
+  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
+  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
+  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
+  (match_regex(actor_process_file_name, /(?i)visio.exe/)=true OR match_regex(actor_process_file_name,
+  /(?i)mspub.exe/)=true OR match_regex(actor_process_file_name, /(?i)powerpnt.exe/)=true
+  OR match_regex(actor_process_file_name, /(?i)excel.exe/)=true OR match_regex(actor_process_file_name,
+  /(?i)winword.exe/)=true) AND (process_file_name="cscript.exe" OR process_file_name="wscript.exe")
+  --finding_report--'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives may be present based on macro based approved
+  documents in the organization. Filtering may be needed.
+references:
+- https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  asset_type: Endpoint
+  confidence: 90
+  impact: 70
+  message: A Microsoft office parent process $parent_process_name$ has spawned a suspicious
+    child process $process_name$ on host $dest$.
+  mitre_attack_id:
+  - T1566
+  - T1566.001
+  observable:
+  - name: process.user.name
+    type: User Name
+  - name: device.hostname
+    type: Hostname
+  - name: process.file.name
+    type: File
+  - name: process.cmd_line
+    type: Other
+  - name: actor.process.file.name
+    type: File Name
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process.user.name
+  - device.hostname
+  - process.file.name
+  - process.cmd_line
+  - actor.process.file.name
+  risk_score: 63
+  security_domain: endpoint
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: process.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-security.log
+    source: XmlWinEventLog

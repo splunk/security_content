@@ -21,8 +21,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious AWS S3 Activities
-  deployments:
-  - Daily Cache Updates
   detections:
   - Detect S3 access from a new IP
   product:

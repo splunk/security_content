@@ -1,0 +1,24 @@
+name: UrlScan IO Dynamic Analysis
+id: a1173c28-7b33-4a56-9d7f-5dbbca595cb0
+version: 1
+date: '2023-03-23'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: "Accepts a url link, IP, or domain to be detonated using urlscan.io API connector."
+playbook: UrlScan_IO_Dynamic_Analysis
+how_to_implement: This input playbook requires the urlscan.io API connector to be configured. 
+  It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - urlscan.io
+tags:
+  platform_tags:
+    - url
+    - domain
+    - sandbox
+    - ip 
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR

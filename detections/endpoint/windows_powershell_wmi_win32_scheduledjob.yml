@@ -1,0 +1,54 @@
+name: Windows PowerShell WMI Win32 ScheduledJob
+id: 47c69803-2c09-408b-b40a-063c064cbb16
+version: 1
+date: '2023-03-27'
+author: Michael Haag, Splunk
+type: TTP
+status: production
+data_source:
+- Powershell 4104
+description: The following analytic detects the use of the PowerShell script block logging mechanism to detect the use of the Win32_ScheduledJob WMI class. This class allows the creation and management of scheduled tasks on Windows systems. However, due to security concerns, the class has been disabled by default in Windows systems, and its use must be explicitly enabled by modifying the registry. As a result, the detection of the use of this class may indicate malicious activity, especially if the class was enabled on the system by the attacker. Therefore, it is recommended to monitor the use of Win32_ScheduledJob through PowerShell script block logging and to investigate any suspicious activity. 
+search: '`powershell` EventCode=4104 ScriptBlockText="*win32_scheduledjob*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_wmi_win32_scheduledjob_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: False positives may be present based on legacy applications or utilities. Win32_ScheduledJob uses the Remote Procedure Call (RPC) protocol to create scheduled tasks on remote computers. It uses the DCOM (Distributed Component Object Model) infrastructure to establish a connection with the remote computer and invoke the necessary methods. The RPC service needs to be running on both the local and remote computers for the communication to take place.
+references:
+- https://securityonline.info/wmiexec-regout-get-outputdata-response-from-registry/
+- https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-scheduledjob
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 50
+  impact: 80
+  message: PowerShell attempting to create a task via WMI - Win32_ScheduledJob,  was ran on $dest$.
+  mitre_attack_id:
+  - T1059.001
+  - T1059
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - dest
+  - EventCode
+  risk_score: 40
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/win32_scheduledjob_windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

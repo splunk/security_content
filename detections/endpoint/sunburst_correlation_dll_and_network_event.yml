@@ -1,0 +1,50 @@
+name: Sunburst Correlation DLL and Network Event
+id: 701a8740-e8db-40df-9190-5516d3819787
+version: 1
+date: '2020-12-14'
+author: Patrick Bareiss, Splunk
+status: experimental
+type: TTP
+description: The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe.
+  After a period of 12-14 days, the malware will attempt to resolve a subdomain of
+  avsvmcloud.com. This detections will correlate both events.
+data_source:
+- Sysmon Event ID 7
+search: '(`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.dll)
+  OR (`sysmon` EventCode=22 QueryName=*avsvmcloud.com) | eventstats dc(EventCode)
+  AS dc_events | where dc_events=2 | stats min(_time) as firstTime max(_time) as lastTime
+  values(ImageLoaded) AS ImageLoaded values(QueryName) AS QueryName by host | rename
+  host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `sunburst_correlation_dll_and_network_event_filter` '
+how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driver
+  loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll
+  is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query.
+  We suggest to run this detection at least once a day over the last 14 days.
+known_false_positives: unknown
+references:
+- https://www.mandiant.com/resources/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor
+tags:
+  analytic_story:
+  - NOBELIUM Group
+  asset_type: Windows
+  confidence: 50
+  impact: 50
+  message: tbd
+  mitre_attack_id:
+  - T1203
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ImageLoaded
+  - QueryName
+  risk_score: 25
+  security_domain: endpoint

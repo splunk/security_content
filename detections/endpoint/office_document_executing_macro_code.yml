@@ -1,11 +1,10 @@
 name: Office Document Executing Macro Code
 id: b12c89bc-9d06-11eb-a592-acde48001122
-version: 3
+version: 4
 date: '2023-01-24'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: this detection was designed to identifies suspicious office documents
   that using macro code. Macro code is known to be one of the prevalent weaponization
   or attack vector of threat actor. This malicious macro code is embed to a office
@@ -13,7 +12,10 @@ description: this detection was designed to identifies suspicious office documen
   or other malware component. It is really good practice to disable macro by default
   to avoid automatically execute macro code while opening or closing a office document
   files.
-search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
+data_source:
+- Sysmon Event ID 7
+search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE",
+  "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
   ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") | stats min(_time)
   as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count
   by Computer EventCode Image process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)`
@@ -39,15 +41,9 @@ tags:
   - Qakbot
   - Azorult
   - Remcos
+  asset_type: Endpoint
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Office document executing a macro on $dest$
   mitre_attack_id:
   - T1566
@@ -73,4 +69,9 @@ tags:
   - _time
   risk_score: 35
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog 

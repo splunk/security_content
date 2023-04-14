@@ -1,0 +1,71 @@
+name: Linux Service File Created In Systemd Directory
+id: c7495048-61b6-11ec-9a37-acde48001122
+version: 1
+date: '2021-12-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic looks for suspicious file creation in systemd timer directory
+  in linux platform. systemd is a system and service manager for Linux distributions.
+  From the Windows perspective, this process fulfills the duties of wininit.exe and
+  services.exe combined. At the risk of simplifying the functionality of systemd,
+  it initializes a Linux system and starts relevant services that are defined in service
+  unit files. Adversaries, malware and red teamers may abuse this this feature by
+  stashing systemd service file to persist on the targetted or compromised host.
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    TargetFilename:
+    - '*/etc/systemd/system*'
+    - '*/lib/systemd/system*'
+    - '*/usr/lib/systemd/system*'
+    - '*/run/systemd/system*'
+    - '*~/.config/systemd/*'
+    - '*~/.local/share/systemd/*'
+    - '*/etc/systemd/user*'
+    - '*/lib/systemd/user*'
+    - '*/usr/lib/systemd/user*'
+    - '*/run/systemd/user*'
+    Filesystem.file_name: '*.service'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the file name, file path, and process_guid executions from your endpoints.
+  If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can create file in systemd
+  folders for automation purposes. Please update the filter macros to remove false
+  positives.
+references:
+- https://attack.mitre.org/techniques/T1053/006/
+- https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+- https://redcanary.com/blog/attck-t1501-understanding-systemd-service-persistence/
+- https://github.com/microsoft/MSTIC-Sysmon/blob/main/linux/configs/attack-based/persistence/T1053.003_Cron_Activity.xml
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A service file named as $file_path$ is created in systemd folder on $dest$
+  mitre_attack_id:
+  - T1053.006
+  - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

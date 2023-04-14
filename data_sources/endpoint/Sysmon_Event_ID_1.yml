@@ -1,0 +1,73 @@
+name: Sysmon Event ID 1
+id: 398e5e07-226e-474e-91c8-a22a995e2bb8
+date: '2022-09-13'
+author: Patrick Bareiss, Splunk
+type: sysmon
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+category: process_creation
+product: windows
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  version: 3.0.0
+  url: https://splunkbase.splunk.com/app/5709/
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+supported_targets:
+  - Endpoint.Processes
+  - Windows Security 4688
+  - Crowdstrike Process
+raw_fields:
+  - ProcessGuid
+  - ProcessId
+  - Image
+  - CommandLine
+  - CurrentDirectory
+  - User
+  - IntegrityLevel
+  - Hashes
+  - ParentProcessGuid
+  - ParentProcessId
+  - ParentImage
+  - ParentCommandLine
+  - Computer
+field_mappings:
+  - data_model: cim
+    data_set: Endpoint.Processes
+    mapping:
+      ProcessGuid: Processes.process_guid
+      ProcessId: Processes.process_id
+      Image: Processes.process_path
+      Image|endswith: Processes.process_name
+      CommandLine: Processes.process
+      CurrentDirectory: Processes.process_current_directory
+      User: Processes.user
+      IntegrityLevel: Processes.process_integrity_level
+      Hashes: Processes.process_hash
+      ParentProcessGuid: Processes.parent_process_guid
+      ParentProcessId: Processes.parent_process_id
+      ParentImage: Processes.parent_process_name
+      ParentCommandLine: Processes.parent_process
+      Computer: Processes.dest
+      OriginalFileName: Processes.original_file_name
+convert_to_log_source:
+  - data_source: Windows Security 4688
+    mapping:
+      ProcessId: NewProcessId 
+      Image: NewProcessName
+      Image|endswith: NewProcessName|endswith
+      CommandLine: Process_Command_Line
+      User: SubjectUserSid
+      ParentProcessId: ProcessId
+      ParentImage: ParentProcessName
+      ParentImage|endswith: ParentProcessName|endswith
+      Computer: Computer
+      OriginalFileName: NewProcessName|endswith
+  - data_source: Crowdstrike Process
+    mapping:
+      ProcessId: RawProcessId
+      Image: ImageFileName
+      CommandLine: CommandLine
+      User: UserSid
+      ParentProcessId: ParentProcessId
+      ParentImage: ParentBaseFileName

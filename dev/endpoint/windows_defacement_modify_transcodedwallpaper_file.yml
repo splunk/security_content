@@ -1,0 +1,61 @@
+name: Windows Defacement Modify Transcodedwallpaper File
+id: e11c3d90-5bc7-42ad-94cd-ba75db10d897
+version: 1
+date: '2022-08-25'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies a modification to the Transcodedwallpaper
+  file in the wallpaper theme directory to change the wallpaper of the host machine.
+  This technique was seen in adversaries attempting to deface or change the desktop
+  wallpaper of the targeted host. During our testing, the common process that affects
+  or changes the wallpaper if a user changes it via desktop personalized setting is
+  explorer.exe.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Processes.process_path: '*\\Windows\\Explorer.EXE'
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: 3rd part software application can change the wallpaper. Filter
+  is needed.
+references:
+- https://forums.ivanti.com/s/article/Wallpaper-Windows-Settings-Desktop-Settings-and-the-transcodedwallpaper-jpg?language=en_US
+- https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/ransom_sifreli.a
+tags:
+  analytic_story:
+  - Brute Ratel C4
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: modification or creation of transcodedwallpaper file by $process_name$
+    in $dest$
+  mitre_attack_id:
+  - T1491
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/wallpaper_via_transcodedwallpaper/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

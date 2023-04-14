@@ -41,7 +41,7 @@ class DetectionBuilder(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def addUnitTest(self, tests: list) -> None:
+    def addUnitTest(self) -> None:
         pass
 
     @abc.abstractmethod
@@ -69,7 +69,23 @@ class DetectionBuilder(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def addCIS(self) -> None:
+        pass
+
+    @abc.abstractmethod
+    def addKillChainPhase(self) -> None:
+        pass
+
+    @abc.abstractmethod
+    def addNist(self) -> None:
+        pass
+
+    @abc.abstractmethod
     def reset(self) -> None:
+        pass
+
+    @abc.abstractmethod
+    def addDatamodel(self) -> None:
         pass
 
     @abc.abstractmethod
