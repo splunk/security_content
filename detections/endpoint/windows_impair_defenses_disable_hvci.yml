@@ -8,8 +8,8 @@ type: TTP
 data_source:
 - Sysmon Event ID 13
 description: The following analytic refers to a detection mechanism designed to identify when the Hypervisor-protected Code Integrity (HVCI) feature is disabled within the Windows registry. HVCI is a security feature in Windows 10 and Windows Server 2016 that helps protect the kernel and system processes from being tampered with by malicious code.
-HVCI relies on hardware-assisted virtualization and Microsoft's Hyper-V hypervisor to ensure that only kernel-mode code that has been signed by Microsoft or the system's hardware manufacturer can be executed. This prevents attackers from exploiting vulnerabilities to run unsigned code, like kernel-mode rootkits or other malicious software, at the kernel level.
-Disabling HVCI may expose the system to security risks and could be an indicator of a potential compromise or unauthorized activity. The analytic aims to detect and report events or configurations that lead to the disabling of HVCI.
+  HVCI relies on hardware-assisted virtualization and Microsoft's Hyper-V hypervisor to ensure that only kernel-mode code that has been signed by Microsoft or the system's hardware manufacturer can be executed. This prevents attackers from exploiting vulnerabilities to run unsigned code, like kernel-mode rootkits or other malicious software, at the kernel level.
+  Disabling HVCI may expose the system to security risks and could be an indicator of a potential compromise or unauthorized activity. The analytic aims to detect and report events or configurations that lead to the disabling of HVCI.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\\Enabled" Registry.registry_value_data="0x00000000"  by  Registry.registry_path Registry.registry_value_name
   Registry.registry_value_data Registry.process_guid Registry.action  Registry.user
