@@ -12,14 +12,18 @@ from datetime import datetime, timedelta
 def on_start(container):
     phantom.debug('on_start() called')
 
-    # call 'filter_1' block
-    filter_1(container=container)
+    # call 'routing_artifacts' block
+    routing_artifacts(container=container)
 
     return
 
 @phantom.playbook_block()
-def filter_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_1() called")
+def routing_artifacts(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("routing_artifacts() called")
+
+    ################################################################################
+    # Route SHA1 file hashes and domains respectively
+    ################################################################################
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
@@ -27,7 +31,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["playbook_input:file_hash", "!=", None]
         ],
-        name="filter_1:condition_1")
+        name="routing_artifacts:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -39,7 +43,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["playbook_input:domain", "!=", None]
         ],
-        name="filter_1:condition_2")
+        name="routing_artifacts:condition_2")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_2 or matched_results_2:
@@ -54,7 +58,7 @@ def get_file_devices(action=None, success=None, container=None, results=None, ha
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
-    filtered_input_0_file_hash = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_1:playbook_input:file_hash"])
+    filtered_input_0_file_hash = phantom.collect2(container=container, datapath=["filtered-data:routing_artifacts:condition_1:playbook_input:file_hash"])
 
     parameters = []
 
@@ -75,7 +79,7 @@ def get_file_devices(action=None, success=None, container=None, results=None, ha
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get file devices", parameters=parameters, name="get_file_devices", assets=["windows_defender_atp"], callback=filter_2)
+    phantom.act("get file devices", parameters=parameters, name="get_file_devices", assets=["windows_defender_atp"], callback=filter_file_response)
 
     return
 
@@ -86,7 +90,7 @@ def get_domain_devices(action=None, success=None, container=None, results=None, 
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
-    filtered_input_0_domain = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_2:playbook_input:domain"])
+    filtered_input_0_domain = phantom.collect2(container=container, datapath=["filtered-data:routing_artifacts:condition_2:playbook_input:domain"])
 
     parameters = []
 
@@ -107,22 +111,22 @@ def get_domain_devices(action=None, success=None, container=None, results=None, 
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get domain devices", parameters=parameters, name="get_domain_devices", assets=["windows_defender_atp"], callback=filter_3)
+    phantom.act("get domain devices", parameters=parameters, name="get_domain_devices", assets=["windows_defender_atp"], callback=filter_domain_response)
 
     return
 
 
 @phantom.playbook_block()
-def filter_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_2() called")
+def filter_file_response(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("filter_file_response() called")
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["get_file_devices:action_result.summary.total_devices", ">", 0]
+            ["get_file_devices:action_result.summary.{summaryVar}", ">", 0]
         ],
-        name="filter_2:condition_1")
+        name="filter_file_response:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -132,16 +136,16 @@ def filter_2(action=None, success=None, container=None, results=None, handle=Non
 
 
 @phantom.playbook_block()
-def filter_3(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_3() called")
+def filter_domain_response(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("filter_domain_response() called")
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["get_domain_devices:action_result.summary.total_devices", ">", 0]
+            ["get_domain_devices:action_result.summary.{summaryVar}", ">", 0]
         ],
-        name="filter_3:condition_1")
+        name="filter_domain_response:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -160,8 +164,8 @@ def format_report_file(action=None, success=None, container=None, results=None, 
     parameters = [
         "get_file_devices:action_result.parameter.file_hash",
         "get_file_devices:action_result.data.*.computerDnsName",
-        "filtered-data:filter_2:condition_1:get_file_devices:action_result.data.*.lastIpAddress",
-        "filtered-data:filter_2:condition_1:get_file_devices:action_result.data.*.osPlatform",
+        "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.lastIpAddress",
+        "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.osPlatform",
         "get_file_devices:action_result.data.*.id"
     ]
 
@@ -192,8 +196,8 @@ def format_report_domain(action=None, success=None, container=None, results=None
     parameters = [
         "get_domain_devices:action_result.parameter.domain",
         "get_domain_devices:action_result.data.*.computerDnsName",
-        "filtered-data:filter_3:condition_1:get_domain_devices:action_result.data.*.lastIpAddress",
-        "filtered-data:filter_3:condition_1:get_domain_devices:action_result.data.*.osPlatform",
+        "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.lastIpAddress",
+        "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.osPlatform",
         "get_domain_devices:action_result.data.*.id"
     ]
 
@@ -224,11 +228,11 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     # the context for that list
     ################################################################################
 
-    filtered_result_0_data_filter_2 = phantom.collect2(container=container, datapath=["filtered-data:filter_2:condition_1:get_file_devices:action_result.parameter.file_hash","filtered-data:filter_2:condition_1:get_file_devices:action_result.data","filtered-data:filter_2:condition_1:get_file_devices:action_result.summary.total_devices"])
+    filtered_result_0_data_filter_file_response = phantom.collect2(container=container, datapath=["filtered-data:filter_file_response:condition_1:get_file_devices:action_result.parameter.file_hash","filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data","filtered-data:filter_file_response:condition_1:get_file_devices:action_result.summary.total_devices"])
 
-    filtered_result_0_parameter_file_hash = [item[0] for item in filtered_result_0_data_filter_2]
-    filtered_result_0_data = [item[1] for item in filtered_result_0_data_filter_2]
-    filtered_result_0_summary_total_devices = [item[2] for item in filtered_result_0_data_filter_2]
+    filtered_result_0_parameter_file_hash = [item[0] for item in filtered_result_0_data_filter_file_response]
+    filtered_result_0_data = [item[1] for item in filtered_result_0_data_filter_file_response]
+    filtered_result_0_summary_total_devices = [item[2] for item in filtered_result_0_data_filter_file_response]
 
     build_file_output__observable_array = None
 
@@ -284,11 +288,11 @@ def build_domain_output(action=None, success=None, container=None, results=None,
     # the context for that list
     ################################################################################
 
-    filtered_result_0_data_filter_3 = phantom.collect2(container=container, datapath=["filtered-data:filter_3:condition_1:get_domain_devices:action_result.parameter.domain","filtered-data:filter_3:condition_1:get_domain_devices:action_result.data","filtered-data:filter_3:condition_1:get_domain_devices:action_result.summary.total_devices"])
+    filtered_result_0_data_filter_domain_response = phantom.collect2(container=container, datapath=["filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.parameter.domain","filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data","filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.summary.total_devices"])
 
-    filtered_result_0_parameter_domain = [item[0] for item in filtered_result_0_data_filter_3]
-    filtered_result_0_data = [item[1] for item in filtered_result_0_data_filter_3]
-    filtered_result_0_summary_total_devices = [item[2] for item in filtered_result_0_data_filter_3]
+    filtered_result_0_parameter_domain = [item[0] for item in filtered_result_0_data_filter_domain_response]
+    filtered_result_0_data = [item[1] for item in filtered_result_0_data_filter_domain_response]
+    filtered_result_0_summary_total_devices = [item[2] for item in filtered_result_0_data_filter_domain_response]
 
     build_domain_output__observable_array = None
 

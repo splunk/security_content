@@ -104,7 +104,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "c6ea021941332995785c2f27e13e40fdfe568a18",
+            "hash": "b09360d8f57025be3b7987bb0e945bdc0c881598",
             "nodes": {
                 "0": {
                     "data": {
@@ -120,7 +120,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -151,9 +151,9 @@
                         "functionName": "build_domain_output",
                         "id": "10",
                         "inputParameters": [
-                            "filtered-data:filter_3:condition_1:get_domain_devices:action_result.parameter.domain",
-                            "filtered-data:filter_3:condition_1:get_domain_devices:action_result.data",
-                            "filtered-data:filter_3:condition_1:get_domain_devices:action_result.summary.total_devices"
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.parameter.domain",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.summary.total_devices"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -171,7 +171,11 @@
                 "2": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "customName": "routing_artifacts",
+                            "customNameId": 0,
+                            "description": "Route SHA1 file hashes and domains respectively",
+                            "join": [],
+                            "note": "Route SHA1 file hashes and domains respectively"
                         },
                         "conditions": [
                             {
@@ -202,7 +206,7 @@
                             }
                         ],
                         "functionId": 1,
-                        "functionName": "filter_1",
+                        "functionName": "routing_artifacts",
                         "id": "2",
                         "type": "filter"
                     },
@@ -237,7 +241,7 @@
                         "functionName": "get_file_devices",
                         "id": "3",
                         "parameters": {
-                            "file_hash": "filtered-data:filter_1:condition_1:playbook_input:file_hash"
+                            "file_hash": "filtered-data:routing_artifacts:condition_1:playbook_input:file_hash"
                         },
                         "requiredParameters": [
                             {
@@ -252,7 +256,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 0,
-                    "y": 328
+                    "y": 320
                 },
                 "4": {
                     "data": {
@@ -274,7 +278,7 @@
                         "functionName": "get_domain_devices",
                         "id": "4",
                         "parameters": {
-                            "domain": "filtered-data:filter_1:condition_2:playbook_input:domain"
+                            "domain": "filtered-data:routing_artifacts:condition_2:playbook_input:domain"
                         },
                         "requiredParameters": [
                             {
@@ -289,12 +293,15 @@
                     "type": "action",
                     "warnings": {},
                     "x": 340,
-                    "y": 328
+                    "y": 320
                 },
                 "5": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "customName": "filter_file_response",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Esnure there are results for get_file_devices"
                         },
                         "conditions": [
                             {
@@ -302,7 +309,7 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": ">",
-                                        "param": "get_file_devices:action_result.summary.total_devices",
+                                        "param": "get_file_devices:action_result.summary.{summaryVar}",
                                         "value": "0"
                                     }
                                 ],
@@ -312,7 +319,7 @@
                             }
                         ],
                         "functionId": 2,
-                        "functionName": "filter_2",
+                        "functionName": "filter_file_response",
                         "id": "5",
                         "type": "filter"
                     },
@@ -326,7 +333,10 @@
                 "6": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "customName": "filter_domain_response",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Esnure there are results for get_domain_devices"
                         },
                         "conditions": [
                             {
@@ -334,7 +344,7 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": ">",
-                                        "param": "get_domain_devices:action_result.summary.total_devices",
+                                        "param": "get_domain_devices:action_result.summary.{summaryVar}",
                                         "value": "0"
                                     }
                                 ],
@@ -344,7 +354,7 @@
                             }
                         ],
                         "functionId": 3,
-                        "functionName": "filter_3",
+                        "functionName": "filter_domain_response",
                         "id": "6",
                         "type": "filter"
                     },
@@ -369,8 +379,8 @@
                         "parameters": [
                             "get_file_devices:action_result.parameter.file_hash",
                             "get_file_devices:action_result.data.*.computerDnsName",
-                            "filtered-data:filter_2:condition_1:get_file_devices:action_result.data.*.lastIpAddress",
-                            "filtered-data:filter_2:condition_1:get_file_devices:action_result.data.*.osPlatform",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.lastIpAddress",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.osPlatform",
                             "get_file_devices:action_result.data.*.id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Windows Defender ATP. The table below shows a summary of the information gathered.\n\n| File | Computer | Last IP Address | OS | Defender ATP ID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | Defender ATP |\n%%\n",
@@ -397,8 +407,8 @@
                         "parameters": [
                             "get_domain_devices:action_result.parameter.domain",
                             "get_domain_devices:action_result.data.*.computerDnsName",
-                            "filtered-data:filter_3:condition_1:get_domain_devices:action_result.data.*.lastIpAddress",
-                            "filtered-data:filter_3:condition_1:get_domain_devices:action_result.data.*.osPlatform",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.lastIpAddress",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.osPlatform",
                             "get_domain_devices:action_result.data.*.id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Windows Defender ATP. The table below shows a summary of the information gathered.\n\n| Domain | Computer | Last IP Address | OS | Defender ATP ID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | Defender ATP |\n%%",
@@ -424,9 +434,9 @@
                         "functionName": "build_file_output",
                         "id": "9",
                         "inputParameters": [
-                            "filtered-data:filter_2:condition_1:get_file_devices:action_result.parameter.file_hash",
-                            "filtered-data:filter_2:condition_1:get_file_devices:action_result.data",
-                            "filtered-data:filter_2:condition_1:get_file_devices:action_result.summary.total_devices"
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.parameter.file_hash",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.summary.total_devices"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -489,7 +499,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-05T17:52:46.216500+00:00",
+    "create_time": "2023-04-14T14:48:13.695855+00:00",
     "draft_mode": false,
     "labels": [
         "*"
