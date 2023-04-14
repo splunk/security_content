@@ -38,6 +38,7 @@ tags:
   - IcedID
   - CISA AA22-257A
   - Industroyer2
+  - Sandworm Tools
   - Data Destruction
   asset_type: Endpoint
   confidence: 100
