@@ -41,6 +41,7 @@ tags:
   - Malicious PowerShell
   - Winter Vivern
   - AsyncRAT
+  - Data Destruction
   confidence: 80
   impact: 70
   message: A suspicious powershell script contains base64 command in $ScriptBlockText$
