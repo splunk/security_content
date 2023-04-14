@@ -39,6 +39,7 @@ tags:
   - AsyncRAT
   - Winter Vivern
   - Sandworm Tools
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 80
