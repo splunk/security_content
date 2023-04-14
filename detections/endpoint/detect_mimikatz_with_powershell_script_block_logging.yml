@@ -42,6 +42,7 @@ tags:
   - CISA AA22-264A
   - CISA AA22-320A
   - Sandworm Tools
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 90
