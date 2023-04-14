@@ -80,7 +80,7 @@ def build_url_query(action=None, success=None, container=None, results=None, han
     # Query may need editing to reflect your splunk environment
     ################################################################################
 
-    template = """count from datamodel=Web.Web where Web.url=\"{0}\" by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
+    template = """count from datamodel=Web.Web where Web.url=\"{0}\" by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\""""
 
     # parameter list for template variable replacement
     parameters = [
@@ -112,7 +112,7 @@ def build_file_query(action=None, success=None, container=None, results=None, ha
     # Query may need editing to reflect your splunk environment
     ################################################################################
 
-    template = """count from datamodel=Endpoint.Processes where (Processes.process_hash=\"{0}\" OR Processes.process_hash=\"*={0}*\") by Processes.dest | `drop_dm_object_name(\"Processes\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip"""
+    template = """count from datamodel=Endpoint.Processes where (Processes.process_hash=\"{0}\" OR Processes.process_hash=\"*={0}*\") by Processes.dest | `drop_dm_object_name(\"Processes\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip | fillnull value=\"Unknown\""""
 
     # parameter list for template variable replacement
     parameters = [
@@ -144,7 +144,7 @@ def build_domain_query(action=None, success=None, container=None, results=None, 
     # Query may need editing to reflect your splunk environment
     ################################################################################
 
-    template = """count from datamodel=Network_Resolution where DNS.query=\"{0}\" by DNS.src | `drop_dm_object_name(\"DNS\") | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
+    template = """count from datamodel=Network_Resolution where DNS.query=\"{0}\" by DNS.src | `drop_dm_object_name(\"DNS\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\""""
 
     # parameter list for template variable replacement
     parameters = [
@@ -176,7 +176,7 @@ def build_ip_query(action=None, success=None, container=None, results=None, hand
     # Query may need editing to reflect your splunk environment
     ################################################################################
 
-    template = """count from datamodel=Network_Traffic where  All_Traffic.dest_ip=\"{0}\" by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip"""
+    template = """count from datamodel=Network_Traffic where  All_Traffic.dest_ip=\"{0}\" by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\""""
 
     # parameter list for template variable replacement
     parameters = [
@@ -596,6 +596,14 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
             "ip_address": ip,
             "operating_system": "Unknown" 
         }
+        
+        # Drop devices from list if we don't know anything about them
+        if device.get("name") == "Unknown":
+            if device.get("id") == "Unknown":
+                if device.get("ip_address") == "Unknown":
+                    continue
+        
+        # Add devices to list 
         device_list.append(device)
     
     # Build observable object    
@@ -655,6 +663,14 @@ def build_file_output(action=None, success=None, container=None, results=None, h
             "ip_address": ip,
             "operating_system": "Unknown" 
         }
+        
+        # Drop devices from list if we don't know anything about them
+        if device.get("name") == "Unknown":
+            if device.get("id") == "Unknown":
+                if device.get("ip_address") == "Unknown":
+                    continue
+        
+        # Add devices to list 
         device_list.append(device)
     
     # Build observable object    
@@ -713,6 +729,14 @@ def build_domain_output(action=None, success=None, container=None, results=None,
             "ip_address": ip,
             "operating_system": "Unknown" 
         }
+        
+        # Drop devices from list if we don't know anything about them
+        if device.get("name") == "Unknown":
+            if device.get("id") == "Unknown":
+                if device.get("ip_address") == "Unknown":
+                    continue
+        
+        # Add devices to list 
         device_list.append(device)
     
     # Build observable object    
@@ -771,6 +795,14 @@ def build_ip_output(action=None, success=None, container=None, results=None, han
             "ip_address": ip,
             "operating_system": "Unknown" 
         }
+        
+        # Drop devices from list if we don't know anything about them
+        if device.get("name") == "Unknown":
+            if device.get("id") == "Unknown":
+                if device.get("ip_address") == "Unknown":
+                    continue
+        
+        # Add devices to list    
         device_list.append(device)
     
     # Build observable object    
