@@ -98,9 +98,16 @@
                     "sourcePort": "10_out",
                     "targetNode": "11",
                     "targetPort": "11_in"
+                },
+                {
+                    "id": "port_11_to_port_1",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
                 }
             ],
-            "hash": "359d39b5fb39feffe490768af266255e4a7ce7a4",
+            "hash": "0f8bdd2e4ac47ac1e8f90ba38d41508686ba9d2e",
             "nodes": {
                 "0": {
                     "data": {
@@ -116,7 +123,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 300,
-                    "y": -1.9184653865522705e-13
+                    "y": -2.5579538487363607e-13
                 },
                 "1": {
                     "data": {
@@ -131,8 +138,8 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 600,
-                    "y": -1.9184653865522705e-13
+                    "x": 180,
+                    "y": 1380
                 },
                 "10": {
                     "data": {
@@ -147,7 +154,7 @@
                         "functionName": "merge_reports",
                         "id": "10",
                         "parameters": [
-                            "filtered-data:filter_3:condition_1:dispatch_activity_analysis_playbooks:playbook_output:{outputPath}"
+                            "filtered-data:markdown_filter:condition_1:dispatch_activity_analysis_playbooks:playbook_output:{outputPath}"
                         ],
                         "template": "%%\n{0}\n\n%%",
                         "type": "format"
@@ -289,6 +296,8 @@
                 "2": {
                     "data": {
                         "advanced": {
+                            "customName": "route_artifacts",
+                            "customNameId": 0,
                             "description": "Only dispatch playbooks against new artifacts.",
                             "join": [],
                             "note": "Only dispatch playbooks against new artifacts."
@@ -326,7 +335,7 @@
                             }
                         ],
                         "functionId": 1,
-                        "functionName": "decision_1",
+                        "functionName": "route_artifacts",
                         "id": "2",
                         "type": "decision"
                     },
@@ -340,7 +349,11 @@
                 "3": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "customName": "filter_inputs",
+                            "customNameId": 0,
+                            "description": "Ensure there are artifacts",
+                            "join": [],
+                            "note": "Ensure there are artifacts"
                         },
                         "conditions": [
                             {
@@ -358,7 +371,7 @@
                             }
                         ],
                         "functionId": 1,
-                        "functionName": "filter_1",
+                        "functionName": "filter_inputs",
                         "id": "3",
                         "type": "filter"
                     },
@@ -372,12 +385,14 @@
                 "4": {
                     "data": {
                         "advanced": {
+                            "customName": "No Artifacts",
+                            "customNameId": 0,
                             "description": "Comment and exit if there are no new artifacts",
                             "join": [],
                             "note": "Comment and exit if there are no new artifacts"
                         },
                         "functionId": 1,
-                        "functionName": "add_comment_1",
+                        "functionName": "no_artifacts",
                         "id": "4",
                         "selectMore": false,
                         "tab": "apis",
@@ -431,7 +446,7 @@
                     "type": "utility",
                     "warnings": {},
                     "x": 420,
-                    "y": 344
+                    "y": 340
                 },
                 "6": {
                     "data": {
@@ -459,7 +474,9 @@
                                 "deduplicate": false
                             },
                             "playbook_repo": {
-                                "datapaths": [],
+                                "datapaths": [
+                                    ""
+                                ],
                                 "deduplicate": false
                             },
                             "playbook_tags": {
@@ -486,6 +503,8 @@
                 "7": {
                     "data": {
                         "advanced": {
+                            "customName": "route outputs",
+                            "customNameId": 0,
                             "description": "Determine if outputs exist",
                             "join": [],
                             "note": "Determine if outputs exist"
@@ -523,7 +542,7 @@
                             }
                         ],
                         "functionId": 2,
-                        "functionName": "decision_2",
+                        "functionName": "route_outputs",
                         "id": "7",
                         "type": "decision"
                     },
@@ -537,7 +556,11 @@
                 "8": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "customName": "markdown filter",
+                            "customNameId": 0,
+                            "description": "Ensure there are outputs",
+                            "join": [],
+                            "note": "Ensure there are outputs"
                         },
                         "conditions": [
                             {
@@ -555,7 +578,7 @@
                             }
                         ],
                         "functionId": 3,
-                        "functionName": "filter_3",
+                        "functionName": "markdown_filter",
                         "id": "8",
                         "type": "filter"
                     },
@@ -564,15 +587,19 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 60,
-                    "y": 852
+                    "y": 860
                 },
                 "9": {
                     "data": {
                         "advanced": {
-                            "join": []
+                            "customName": "No Outputs",
+                            "customNameId": 0,
+                            "description": "Comment and exit if there are no observables returned",
+                            "join": [],
+                            "note": "Comment and exit if there are no observables returned"
                         },
                         "functionId": 2,
-                        "functionName": "add_comment_2",
+                        "functionName": "no_outputs",
                         "id": "9",
                         "selectMore": false,
                         "tab": "apis",
@@ -632,13 +659,22 @@
             "notes": "Outputs:\nMarkdown note on cases\nMarks workbook task complete"
         },
         "input_spec": null,
-        "output_spec": null,
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
         "playbook_type": "automation",
         "python_version": "3",
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-10T22:04:40.934992+00:00",
+    "create_time": "2023-04-14T16:52:38.752503+00:00",
     "draft_mode": false,
     "labels": [
         "*"

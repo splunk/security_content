@@ -12,14 +12,14 @@ from datetime import datetime, timedelta
 def on_start(container):
     phantom.debug('on_start() called')
 
-    # call 'decision_1' block
-    decision_1(container=container)
+    # call 'route_artifacts' block
+    route_artifacts(container=container)
 
     return
 
 @phantom.playbook_block()
-def decision_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("decision_1() called")
+def route_artifacts(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("route_artifacts() called")
 
     ################################################################################
     # Only dispatch playbooks against new artifacts.
@@ -34,18 +34,22 @@ def decision_1(action=None, success=None, container=None, results=None, handle=N
 
     # call connected blocks if condition 1 matched
     if found_match_1:
-        filter_1(action=action, success=success, container=container, results=results, handle=handle)
+        filter_inputs(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     # check for 'else' condition 2
-    add_comment_1(action=action, success=success, container=container, results=results, handle=handle)
+    no_artifacts(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
 
 @phantom.playbook_block()
-def filter_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_1() called")
+def filter_inputs(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("filter_inputs() called")
+
+    ################################################################################
+    # Ensure there are artifacts
+    ################################################################################
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
@@ -53,7 +57,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["artifact:*.id", "!=", None]
         ],
-        name="filter_1:condition_1")
+        name="filter_inputs:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -63,8 +67,8 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
 
 
 @phantom.playbook_block()
-def add_comment_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("add_comment_1() called")
+def no_artifacts(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("no_artifacts() called")
 
     ################################################################################
     # Comment and exit if there are no new artifacts
@@ -94,7 +98,7 @@ def dispatch_activity_analysis_playbooks(action=None, success=None, container=No
     container_artifact_header_item_0 = [item[0] for item in container_artifact_data]
 
     inputs = {
-        "playbook_repo": [],
+        "playbook_repo": [""],
         "playbook_tags": ["identifier_activity"],
         "artifact_ids_include": container_artifact_header_item_0,
         "indicator_tags_exclude": [],
@@ -112,14 +116,14 @@ def dispatch_activity_analysis_playbooks(action=None, success=None, container=No
     ################################################################################
 
     # call playbook "community/dispatch_input_playbooks", returns the playbook_run_id
-    playbook_run_id = phantom.playbook("community/dispatch_input_playbooks", container=container, name="dispatch_activity_analysis_playbooks", callback=decision_2, inputs=inputs)
+    playbook_run_id = phantom.playbook("community/dispatch_input_playbooks", container=container, name="dispatch_activity_analysis_playbooks", callback=route_outputs, inputs=inputs)
 
     return
 
 
 @phantom.playbook_block()
-def decision_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("decision_2() called")
+def route_outputs(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("route_outputs() called")
 
     ################################################################################
     # Determine if outputs exist
@@ -134,18 +138,22 @@ def decision_2(action=None, success=None, container=None, results=None, handle=N
 
     # call connected blocks if condition 1 matched
     if found_match_1:
-        filter_3(action=action, success=success, container=container, results=results, handle=handle)
+        markdown_filter(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     # check for 'else' condition 2
-    add_comment_2(action=action, success=success, container=container, results=results, handle=handle)
+    no_outputs(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
 
 @phantom.playbook_block()
-def filter_3(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_3() called")
+def markdown_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("markdown_filter() called")
+
+    ################################################################################
+    # Ensure there are outputs
+    ################################################################################
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
@@ -153,7 +161,7 @@ def filter_3(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["dispatch_activity_analysis_playbooks:playbook_output:markdown_report", "!=", None]
         ],
-        name="filter_3:condition_1")
+        name="markdown_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -163,8 +171,12 @@ def filter_3(action=None, success=None, container=None, results=None, handle=Non
 
 
 @phantom.playbook_block()
-def add_comment_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("add_comment_2() called")
+def no_outputs(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("no_outputs() called")
+
+    ################################################################################
+    # Comment and exit if there are no observables returned
+    ################################################################################
 
     ################################################################################
     ## Custom Code Start
@@ -193,7 +205,7 @@ def merge_reports(action=None, success=None, container=None, results=None, handl
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_3:condition_1:dispatch_activity_analysis_playbooks:playbook_output:{outputPath}"
+        "filtered-data:markdown_filter:condition_1:dispatch_activity_analysis_playbooks:playbook_output:{outputPath}"
     ]
 
     ################################################################################
@@ -250,6 +262,10 @@ def update_identifier_activity_analysis_task(action=None, success=None, containe
 def on_finish(container, summary):
     phantom.debug("on_finish() called")
 
+    output = {
+        "observable": [],
+    }
+
     ################################################################################
     ## Custom Code Start
     ################################################################################
@@ -259,5 +275,7 @@ def on_finish(container, summary):
     ################################################################################
     ## Custom Code End
     ################################################################################
+
+    phantom.save_playbook_output_data(output=output)
 
     return
