@@ -1,7 +1,7 @@
 name: GetWmiObject User Account with PowerShell Script Block
 id: 640b0eda-0429-11ec-accd-acde48001122
 version: 2
-date: '2022-05-02'
+date: '2023-04-05'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -25,6 +25,7 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
+  - Winter Vivern
   - Active Directory Discovery
   - Malicious PowerShell
   asset_type: Endpoint
