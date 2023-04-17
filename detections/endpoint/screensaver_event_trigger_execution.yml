@@ -1,7 +1,7 @@
 name: Screensaver Event Trigger Execution
 id: 58cea3ec-1f6d-11ec-8560-acde48001122
 version: 1
-date: '2021-09-27'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -30,10 +30,11 @@ references:
 - https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/screensaver
 tags:
   analytic_story:
-  - Windows Persistence Techniques
-  - Windows Privilege Escalation
-  - Windows Registry Abuse
   - Hermetic Wiper
+  - Windows Privilege Escalation
+  - Windows Persistence Techniques
+  - Windows Registry Abuse
+  - Data Destruction
   asset_type: Endpoint
   confidence: 90
   impact: 80

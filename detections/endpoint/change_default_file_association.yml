@@ -1,7 +1,7 @@
 name: Change Default File Association
 id: 462d17d8-1f71-11ec-ad07-acde48001122
 version: 1
-date: '2021-09-27'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,11 +29,12 @@ references:
 - https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/accessibility-features
 tags:
   analytic_story:
-  - Windows Persistence Techniques
-  - Windows Privilege Escalation
-  - Windows Registry Abuse
   - Hermetic Wiper
+  - Windows Registry Abuse
   - Prestige Ransomware
+  - Windows Privilege Escalation
+  - Windows Persistence Techniques
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 80
