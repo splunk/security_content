@@ -1,7 +1,7 @@
 name: Linux Unix Shell Enable All SysRq Functions
 id: e7a96937-3b58-4962-8dce-538e4763cf15
 version: 1
-date: '2023-02-08'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - AwfulShred
+  - Data Destruction
   asset_type: Endpoint
   confidence: 60
   impact: 60

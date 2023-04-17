@@ -1,7 +1,7 @@
 name: Executable File Written in Administrative SMB Share
 id: f63c34fe-a435-11eb-935a-acde48001122
 version: 2
-date: '2021-11-18'
+date: '2023-04-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -32,12 +32,12 @@ references:
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
 tags:
   analytic_story:
-  - Data Destruction
-  - Active Directory Lateral Movement
-  - Trickbot
-  - Hermetic Wiper
   - Industroyer2
+  - Active Directory Lateral Movement
+  - Hermetic Wiper
+  - Trickbot
   - Prestige Ransomware
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 70

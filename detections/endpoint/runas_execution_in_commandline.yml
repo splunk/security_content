@@ -1,7 +1,7 @@
 name: Runas Execution in CommandLine
 id: 4807e716-43a4-11ec-a0e7-acde48001122
 version: 1
-date: '2021-11-12'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -31,8 +31,9 @@ references:
 - https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
 tags:
   analytic_story:
-  - Windows Privilege Escalation
+  - Data Destruction
   - Hermetic Wiper
+  - Windows Privilege Escalation
   asset_type: Endpoint
   confidence: 50
   impact: 50
