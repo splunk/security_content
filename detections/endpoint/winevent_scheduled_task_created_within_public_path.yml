@@ -1,10 +1,11 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
 version: 1
-date: '2021-04-08'
+date: '2023-04-05'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+datamodel: []
 description: The following query utilizes Windows Security EventCode 4698, `A scheduled
   task was created`, to identify suspicious tasks registered on Windows either via
   schtasks.exe OR TaskService with a command to be executed from a user writeable
@@ -39,15 +40,17 @@ references:
 - https://app.any.run/tasks/e26f1b2e-befa-483b-91d2-e18636e2faf3/
 tags:
   analytic_story:
-  - Windows Persistence Techniques
   - Ransomware
-  - Ryuk Ransomware
-  - IcedID
-  - Active Directory Lateral Movement
-  - Industroyer2
-  - CISA AA22-257A
+  - Windows Persistence Techniques
+  - Winter Vivern
   - Prestige Ransomware
   - AsyncRAT
+  - Ryuk Ransomware
+  - IcedID
+  - CISA AA22-257A
+  - Industroyer2
+  - Active Directory Lateral Movement
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 70
