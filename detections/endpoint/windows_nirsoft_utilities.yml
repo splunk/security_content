@@ -1,7 +1,7 @@
 name: Windows NirSoft Utilities
 id: 5b2f4596-7d4c-11ec-88a7-acde48001122
 version: 1
-date: '2022-01-24'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -29,6 +29,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction
   - WhisperGate
   asset_type: Endpoint
   confidence: 100

@@ -1,7 +1,7 @@
 name: Suspicious Process With Discord DNS Query
 id: 4d4332ae-792c-11ec-89c1-acde48001122
 version: 2
-date: '2022-06-01'
+date: '2023-04-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -27,6 +27,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction
   - WhisperGate
   asset_type: Endpoint
   confidence: 80
