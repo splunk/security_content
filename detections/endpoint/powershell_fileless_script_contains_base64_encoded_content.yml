@@ -1,10 +1,12 @@
 name: Powershell Fileless Script Contains Base64 Encoded Content
 id: 8acbc04c-c882-11eb-b060-acde48001122
-version: 2
-date: '2022-04-26'
+version: 3
+date: '2023-04-05'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+data_source:
+- Powershell 4104
 description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify suspicious PowerShell execution. Script Block Logging captures the command
   sent to PowerShell, the full command to be executed. Upon enabling, logs will output
@@ -20,8 +22,6 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-data_source:
-- Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText
   = "*gnirtS46esaBmorF*" | stats count min(_time) as firstTime max(_time) as lastTime
   by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
@@ -39,8 +39,9 @@ tags:
   analytic_story:
   - Hermetic Wiper
   - Malicious PowerShell
+  - Winter Vivern
   - AsyncRAT
-  asset_type: Endpoint
+  - Data Destruction
   confidence: 80
   impact: 70
   message: A suspicious powershell script contains base64 command in $ScriptBlockText$
@@ -67,6 +68,7 @@ tags:
   - EventCode
   risk_score: 56
   security_domain: endpoint
+  asset_type: Endpoint
 tests:
 - name: True Positive Test
   attack_data:
