@@ -1,7 +1,7 @@
 name: WinEvent Windows Task Scheduler Event Action Started
 id: b3632472-310b-11ec-9aab-acde48001122
 version: 1
-date: '2021-10-19'
+date: '2023-04-05'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -29,15 +29,16 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IcedID
-  - Windows Persistence Techniques
-  - Industroyer2
-  - DarkCrystal RAT
-  - CISA AA22-257A
   - Qakbot
+  - Windows Persistence Techniques
+  - Winter Vivern
   - Prestige Ransomware
+  - DarkCrystal RAT
   - AsyncRAT
   - Winter Vivern
+  - IcedID
+  - CISA AA22-257A
+  - Industroyer2
   - Sandworm Tools
   - Data Destruction
   asset_type: Endpoint
