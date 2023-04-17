@@ -1,7 +1,7 @@
 name: Linux DD File Overwrite
 id: 9b6aae5e-8d85-11ec-b2ae-acde48001122
 version: 1
-date: '2022-02-14'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

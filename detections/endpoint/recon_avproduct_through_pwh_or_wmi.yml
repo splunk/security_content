@@ -1,7 +1,7 @@
 name: Recon AVProduct Through Pwh or WMI
 id: 28077620-c9f6-11eb-8785-acde48001122
 version: 2
-date: '2022-03-22'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -31,12 +31,13 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Hermetic Wiper
-  - Ransomware
-  - Malicious PowerShell
   - Qakbot
   - Windows Post-Exploitation
+  - Hermetic Wiper
+  - Ransomware
   - Prestige Ransomware
+  - Malicious PowerShell
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 70

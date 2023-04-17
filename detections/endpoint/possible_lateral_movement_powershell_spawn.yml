@@ -1,7 +1,7 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
 version: 1
-date: '2021-11-29'
+date: '2023-04-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -38,9 +38,10 @@ references:
 - https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
-  - Hermetic Wiper
   - Active Directory Lateral Movement
   - Malicious PowerShell
+  - Hermetic Wiper
+  - Data Destruction
   asset_type: Endpoint
   confidence: 50
   impact: 90

@@ -1,7 +1,7 @@
 name: Wscript Or Cscript Suspicious Child Process
 id: 1f35e1da-267b-11ec-90a9-acde48001122
 version: 1
-date: '2021-10-06'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -31,9 +31,10 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - FIN7
   - Remcos
+  - FIN7
   - Unusual Processes
+  - Data Destruction
   - WhisperGate
   asset_type: Endpoint
   confidence: 70
