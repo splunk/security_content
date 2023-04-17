@@ -1,0 +1,61 @@
+name: Windows Screen Capture Via Powershell
+id: 5e0b1936-8f99-4399-8ee2-9edc5b32e170
+version: 1
+date: '2023-04-05'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Powershell 4104
+description: The following analytic identifies a potential PowerShell script that captures screen images on compromised or targeted hosts. This technique was observed in the Winter-Vivern malware, which attempts to capture desktop screens using a PowerShell script and send the images to its C2 server as part of its exfiltration strategy. This TTP serves as a useful indicator that a PowerShell process may be gathering desktop screenshots from a host system, potentially signaling malicious activity.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" 
+  AND ScriptBlockText = "*.CopyFromScreen*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_screen_capture_via_powershell_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: unknown
+references:
+- https://twitter.com/_CERT_UA/status/1620781684257091584
+- https://cert.gov.ua/article/3761104
+tags:
+  analytic_story:
+  - Winter Vivern
+  asset_type: Endpoint
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Collection
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_exfiltration/windows-powershell-xml.log
+  impact: 70
+  message: A PowerShell script was identified possibly performing screen captures on $Computer$.
+  mitre_attack_id:
+  - T1113
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - UserID
+  - EventCode
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_exfiltration/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true
