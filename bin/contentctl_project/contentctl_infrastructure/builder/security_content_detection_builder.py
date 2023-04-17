@@ -85,9 +85,11 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                         risk_object['risk_object_field'] = entity['name']
                         risk_object['risk_score'] = self.security_content_obj.tags.risk_score
                         risk_objects.append(risk_object)
+
                     elif 'Attacker' in (entity['role']):
                         risk_object['threat_object_field'] = entity['name']
                         risk_object['threat_object_type'] = entity['type'].lower()
+                        risk_object['risk_score'] = self.security_content_obj.tags.risk_score
                         risk_objects.append(risk_object) 
                     else:
                         risk_object['risk_object_type'] = 'other'
@@ -95,7 +97,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                         risk_object['risk_score'] = self.security_content_obj.tags.risk_score
                         risk_objects.append(risk_object)
                         continue
-                        
+
             if self.security_content_obj.tags.risk_score >= 80:
                 self.security_content_obj.tags.risk_severity = 'high'
             elif (self.security_content_obj.tags.risk_score >= 50 and self.security_content_obj.tags.risk_score <= 79):
