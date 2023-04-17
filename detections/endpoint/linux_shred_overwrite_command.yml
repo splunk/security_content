@@ -1,7 +1,7 @@
 name: Linux Shred Overwrite Command
 id: c1952cf1-643c-4965-82de-11c067cbae76
 version: 1
-date: '2022-04-22'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,9 +32,10 @@ references:
 tags:
   analytic_story:
   - Industroyer2
-  - Linux Privilege Escalation
-  - Linux Persistence Techniques
   - AwfulShred
+  - Linux Privilege Escalation
+  - Data Destruction
+  - Linux Persistence Techniques
   asset_type: Endpoint
   confidence: 70
   impact: 70

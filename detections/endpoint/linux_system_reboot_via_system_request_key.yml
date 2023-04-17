@@ -1,7 +1,7 @@
 name: Linux System Reboot Via System Request Key
 id: e1912b58-ed9c-422c-bbb0-2dbc70398345
 version: 1
-date: '2023-02-08'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - AwfulShred
+  - Data Destruction
   asset_type: Endpoint
   confidence: 70
   impact: 70
