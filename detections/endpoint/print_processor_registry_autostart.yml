@@ -1,7 +1,7 @@
 name: Print Processor Registry Autostart
 id: 1f5b68aa-2037-11ec-898e-acde48001122
 version: 1
-date: '2021-09-28'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: experimental
 type: TTP
@@ -31,9 +31,10 @@ references:
 - https://www.welivesecurity.com/2020/05/21/no-game-over-winnti-group/
 tags:
   analytic_story:
-  - Windows Persistence Techniques
+  - Data Destruction
   - Windows Privilege Escalation
   - Hermetic Wiper
+  - Windows Persistence Techniques
   asset_type: Endpoint
   confidence: 100
   impact: 80

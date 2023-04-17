@@ -1,7 +1,7 @@
 name: Excessive File Deletion In WinDefender Folder
 id: b5baa09a-7a05-11ec-8da4-acde48001122
 version: 1
-date: '2022-01-20'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -27,6 +27,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction
   - WhisperGate
   asset_type: Endpoint
   confidence: 50

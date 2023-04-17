@@ -1,7 +1,7 @@
 name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
 version: 2
-date: '2021-03-03'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,12 +36,13 @@ references:
 - https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 tags:
   analytic_story:
-  - Hermetic Wiper
   - HAFNIUM Group
+  - CISA AA22-264A
+  - Hermetic Wiper
+  - ProxyNotShell
   - ProxyShell
   - CISA AA22-257A
-  - ProxyNotShell
-  - CISA AA22-264A
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   cve:
