@@ -1,7 +1,7 @@
 name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
 version: 8
-date: '2022-11-14'
+date: '2023-04-14'
 author: Steven Dick, Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -33,10 +33,11 @@ known_false_positives: Administrators may attempt to change the default executio
 references: []
 tags:
   analytic_story:
-  - Hermetic Wiper
-  - Malicious PowerShell
-  - Credential Dumping
   - HAFNIUM Group
+  - Hermetic Wiper
+  - Credential Dumping
+  - Malicious PowerShell
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 60

@@ -1,7 +1,7 @@
 name: Dump LSASS via comsvcs DLL
 id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 version: 2
-date: '2020-02-21'
+date: '2023-04-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -24,14 +24,15 @@ references:
 - https://twitter.com/SBousseaden/status/1167417096374050817
 tags:
   analytic_story:
-  - Credential Dumping
-  - Suspicious Rundll32 Activity
-  - HAFNIUM Group
-  - Living Off The Land
   - Industroyer2
-  - CISA AA22-257A
+  - HAFNIUM Group
   - CISA AA22-264A
   - Prestige Ransomware
+  - Credential Dumping
+  - CISA AA22-257A
+  - Living Off The Land
+  - Suspicious Rundll32 Activity
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 80

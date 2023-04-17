@@ -1,7 +1,7 @@
 name: Linux Java Spawning Shell
 id: 7b09db8a-5c20-11ec-9945-acde48001122
 version: 1
-date: '2021-12-13'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,9 +31,10 @@ references:
 - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
 tags:
   analytic_story:
+  - Data Destruction
+  - Spring4Shell CVE-2022-22965
   - Hermetic Wiper
   - Log4Shell CVE-2021-44228
-  - Spring4Shell CVE-2022-22965
   asset_type: Endpoint
   confidence: 50
   cve:
