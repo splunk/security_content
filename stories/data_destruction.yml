@@ -10,7 +10,7 @@ description: Leverage searches that allow you to detect and investigate unusual 
   "Hermetic Wiper", "Swift Slicer", "Whisper Gate" and many more.
 narrative: Adversaries may partially or completely overwrite the contents of a storage device rendering the data irrecoverable through 
   the storage interface or using 3rd party drivers to directly access disk content like Master Boot Record to wipe it. 
-  These several attacks were seen in geo-political war to impair the operation of targeted organizations or to interrupt network-wide services.
+  Some of these attacks were seen in geo-political war to impair the operation of targeted organizations or to interrupt network-wide services.
 references:
 - https://attack.mitre.org/techniques/T1485/
 - https://researchcenter.paloaltonetworks.com/2018/09/unit42-xbash-combines-botnet-ransomware-coinmining-worm-targets-linux-windows/
