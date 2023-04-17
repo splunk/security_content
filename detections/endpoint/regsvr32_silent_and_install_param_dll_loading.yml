@@ -1,7 +1,7 @@
 name: Regsvr32 Silent and Install Param Dll Loading
 id: f421c250-24e7-11ec-bc43-acde48001122
 version: 1
-date: '2021-10-04'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -31,12 +31,12 @@ references:
 - https://attack.mitre.org/techniques/T1218/010/
 tags:
   analytic_story:
-  - Data Destruction
-  - Suspicious Regsvr32 Activity
-  - Remcos
+  - AsyncRAT
   - Hermetic Wiper
   - Living Off The Land
-  - AsyncRAT
+  - Data Destruction
+  - Remcos
+  - Suspicious Regsvr32 Activity
   asset_type: Endpoint
   confidence: 60
   impact: 60

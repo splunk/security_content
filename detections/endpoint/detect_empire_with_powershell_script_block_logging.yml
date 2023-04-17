@@ -1,7 +1,7 @@
 name: Detect Empire with PowerShell Script Block Logging
 id: bc1dc6b8-c954-11eb-bade-acde48001122
 version: 2
-date: '2022-02-24'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -40,8 +40,9 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Hermetic Wiper
   - Malicious PowerShell
+  - Hermetic Wiper
+  - Data Destruction
   asset_type: Endpoint
   confidence: 90
   impact: 90

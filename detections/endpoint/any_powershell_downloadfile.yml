@@ -1,7 +1,7 @@
 name: Any Powershell DownloadFile
 id: 1a93b7ea-7af7-11eb-adb5-acde48001122
 version: 3
-date: '2022-04-07'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,11 +32,12 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
 tags:
   analytic_story:
+  - DarkCrystal RAT
+  - Ingress Tool Transfer
   - Hermetic Wiper
   - Malicious PowerShell
-  - Ingress Tool Transfer
+  - Data Destruction
   - Log4Shell CVE-2021-44228
-  - DarkCrystal RAT
   asset_type: Endpoint
   confidence: 70
   cve:

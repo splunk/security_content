@@ -1,7 +1,7 @@
 name: Linux Stdout Redirection To Dev Null File
 id: de62b809-a04d-46b5-9a15-8298d330f0c8
 version: 1
-date: '2022-04-05'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: experimental
 type: Anomaly
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - CyclopsBLink
+  - Data Destruction
   - Industroyer2
   asset_type: Endpoint
   confidence: 60
