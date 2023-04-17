@@ -1,10 +1,12 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
-version: 2
-date: '2022-05-02'
+version: 3
+date: '2023-04-05'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+data_source:
+- Powershell 4104
 description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify suspicious PowerShell execution. Script Block Logging captures the command
   sent to PowerShell, the full command to be executed. Upon enabling, logs will output
@@ -19,8 +21,6 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-data_source:
-- Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*[system.reflection.assembly]::load(*","*[reflection.assembly]*",
   "*reflection.assembly*") | stats count min(_time) as firstTime max(_time) as lastTime
   by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
@@ -38,10 +38,12 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper
-  - Malicious PowerShell
+  - Winter Vivern
   - AgentTesla
   - AsyncRAT
+  - Hermetic Wiper
+  - Malicious PowerShell
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 70
