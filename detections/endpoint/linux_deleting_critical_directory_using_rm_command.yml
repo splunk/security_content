@@ -1,7 +1,7 @@
 name: Linux Deleting Critical Directory Using RM Command
 id: 33f89303-cc6f-49ad-921d-2eaea38a6f7a
 version: 1
-date: '2022-04-22'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -31,9 +31,9 @@ references:
 - https://cert.gov.ua/article/39518
 tags:
   analytic_story:
-  - Industroyer2
-  - Data Destruction
   - AwfulShred
+  - Data Destruction
+  - Industroyer2
   asset_type: Endpoint
   confidence: 80
   impact: 80

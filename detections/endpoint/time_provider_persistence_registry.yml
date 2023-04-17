@@ -1,7 +1,7 @@
 name: Time Provider Persistence Registry
 id: 5ba382c4-2105-11ec-8d8f-acde48001122
 version: 3
-date: '2022-11-14'
+date: '2023-04-14'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -34,10 +34,11 @@ references:
 - https://attack.mitre.org/techniques/T1547/003/
 tags:
   analytic_story:
-  - Windows Persistence Techniques
-  - Windows Privilege Escalation
-  - Windows Registry Abuse
   - Hermetic Wiper
+  - Windows Privilege Escalation
+  - Windows Persistence Techniques
+  - Windows Registry Abuse
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 80

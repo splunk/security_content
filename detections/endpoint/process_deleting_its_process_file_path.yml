@@ -1,7 +1,7 @@
 name: Process Deleting Its Process File Path
 id: f7eda4bc-871c-11eb-b110-acde48001122
 version: 2
-date: '2022-02-18'
+date: '2023-04-14'
 author: Teoderick Contreras
 status: production
 type: TTP
@@ -31,8 +31,9 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
-  - Remcos
+  - Data Destruction
   - WhisperGate
+  - Remcos
   asset_type: Endpoint
   confidence: 100
   impact: 60

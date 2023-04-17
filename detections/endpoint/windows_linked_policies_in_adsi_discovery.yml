@@ -1,7 +1,7 @@
 name: Windows Linked Policies In ADSI Discovery
 id: 510ea428-4731-4d2f-8829-a28293e427aa
 version: 1
-date: '2022-04-25'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -25,8 +25,9 @@ references:
 - https://medium.com/@pentesttas/discover-hidden-gpo-s-on-active-directory-using-ps-adsi-a284b6814c81
 tags:
   analytic_story:
-  - Industroyer2
+  - Data Destruction
   - Active Directory Discovery
+  - Industroyer2
   asset_type: Endpoint
   confidence: 50
   impact: 50
