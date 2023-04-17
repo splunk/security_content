@@ -1,7 +1,7 @@
 name: Kerberoasting spn request with RC4 encryption
 id: 5cc67381-44fa-4111-8a37-7a230943f027
 version: 4
-date: '2022-02-09'
+date: '2023-04-14'
 author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -30,9 +30,10 @@ references:
 - https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-kerberoasting-activity
 tags:
   analytic_story:
+  - Data Destruction
+  - Hermetic Wiper
   - Windows Privilege Escalation
   - Active Directory Kerberos Attacks
-  - Hermetic Wiper
   asset_type: Endpoint
   confidence: 80
   impact: 90

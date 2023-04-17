@@ -1,7 +1,7 @@
 name: Windows Terminating Lsass Process
 id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
 version: 1
-date: '2022-03-28'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,6 +33,7 @@ references:
 - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
 tags:
   analytic_story:
+  - Data Destruction
   - Double Zero Destructor
   asset_type: Endpoint
   confidence: 80

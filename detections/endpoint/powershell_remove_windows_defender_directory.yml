@@ -1,7 +1,7 @@
 name: Powershell Remove Windows Defender Directory
 id: adf47620-79fa-11ec-b248-acde48001122
 version: 3
-date: '2022-05-02'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -24,6 +24,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - Data Destruction
   - WhisperGate
   asset_type: Endpoint
   confidence: 90
