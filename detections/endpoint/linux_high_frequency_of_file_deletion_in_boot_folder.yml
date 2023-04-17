@@ -1,7 +1,7 @@
 name: Linux High Frequency Of File Deletion In Boot Folder
 id: e27fbc5d-0445-4c4a-bc39-87f060d5c602
 version: 1
-date: '2022-04-22'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -39,8 +39,8 @@ references:
 - https://cert.gov.ua/article/39518
 tags:
   analytic_story:
-  - Industroyer2
   - Data Destruction
+  - Industroyer2
   asset_type: endpoint
   confidence: 80
   impact: 100
