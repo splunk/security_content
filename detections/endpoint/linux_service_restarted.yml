@@ -1,7 +1,7 @@
 name: Linux Service Restarted
 id: 084275ba-61b8-11ec-8d64-acde48001122
 version: 1
-date: '2021-12-20'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,10 +33,11 @@ references:
 - https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
-  - Linux Privilege Escalation
-  - Linux Persistence Techniques
-  - Linux Living Off The Land
   - AwfulShred
+  - Linux Privilege Escalation
+  - Linux Living Off The Land
+  - Data Destruction
+  - Linux Persistence Techniques
   asset_type: Endpoint
   confidence: 50
   impact: 50

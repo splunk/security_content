@@ -1,7 +1,7 @@
 name: Windows Disable Memory Crash Dump
 id: 59e54602-9680-11ec-a8a6-acde48001122
 version: 1
-date: '2022-02-25'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,10 +36,10 @@ references:
 - https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/memory-dump-file-options
 tags:
   analytic_story:
-  - Data Destruction
   - Ransomware
-  - Hermetic Wiper
+  - Data Destruction
   - Windows Registry Abuse
+  - Hermetic Wiper
   asset_type: Endpoint
   confidence: 100
   impact: 90
