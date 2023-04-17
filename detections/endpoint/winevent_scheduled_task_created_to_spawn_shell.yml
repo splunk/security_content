@@ -1,10 +1,11 @@
 name: WinEvent Scheduled Task Created to Spawn Shell
 id: 203ef0ea-9bd8-11eb-8201-acde48001122
 version: 2
-date: '2021-04-12'
+date: '2023-04-05'
 author: Michael Haag, Splunk
 status: production
 type: TTP
+datamodel: []
 description: The following query utilizes Windows Security EventCode 4698, `A scheduled
   task was created`, to identify suspicious tasks registered on Windows either via
   schtasks.exe OR TaskService with a command to be executed with a native Windows
@@ -39,8 +40,9 @@ references:
 - https://docs.microsoft.com/en-us/windows/win32/taskschd/time-trigger-example--scripting-?redirectedfrom=MSDN
 tags:
   analytic_story:
-  - Windows Persistence Techniques
   - Ransomware
+  - Windows Persistence Techniques
+  - Winter Vivern
   - Ryuk Ransomware
   - CISA AA22-257A
   asset_type: Endpoint
@@ -79,3 +81,4 @@ tests:
     source: WinEventLog:Security
     sourcetype: WinEventLog
     update_timestamp: true
+
