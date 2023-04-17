@@ -1,7 +1,7 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
 version: 1
-date: '2022-02-11'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -30,6 +30,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1016/T1016.md
 tags:
   analytic_story:
+  - Data Destruction
   - Network Discovery
   - Industroyer2
   asset_type: endpoint

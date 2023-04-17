@@ -1,7 +1,7 @@
 name: AdsiSearcher Account Discovery
 id: de7fcadc-04f3-11ec-a241-acde48001122
 version: 2
-date: '2022-11-13'
+date: '2023-04-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -25,8 +25,9 @@ references:
 - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
 tags:
   analytic_story:
-  - Industroyer2
+  - Data Destruction
   - Active Directory Discovery
+  - Industroyer2
   asset_type: Endpoint
   confidence: 50
   impact: 50
