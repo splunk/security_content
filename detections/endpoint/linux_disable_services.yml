@@ -1,7 +1,7 @@
 name: Linux Disable Services
 id: f2e08a38-6689-4df4-ad8c-b51c16262316
 version: 1
-date: '2022-04-22'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,8 +29,9 @@ references:
 - https://cert.gov.ua/article/39518
 tags:
   analytic_story:
-  - Industroyer2
   - AwfulShred
+  - Data Destruction
+  - Industroyer2
   asset_type: Endpoint
   confidence: 70
   impact: 70

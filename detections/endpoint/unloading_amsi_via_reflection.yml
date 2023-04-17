@@ -1,7 +1,7 @@
 name: Unloading AMSI via Reflection
 id: a21e3484-c94d-11eb-b55b-acde48001122
 version: 1
-date: '2021-06-09'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,8 +37,9 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper
   - Malicious PowerShell
+  - Hermetic Wiper
+  - Data Destruction
   asset_type: Endpoint
   confidence: 70
   impact: 70
