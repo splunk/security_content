@@ -1,7 +1,7 @@
 name: ETW Registry Disabled
 id: 8ed523ac-276b-11ec-ac39-acde48001122
 version: 3
-date: '2022-11-14'
+date: '2023-04-14'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -31,10 +31,11 @@ references:
 - https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
 tags:
   analytic_story:
-  - Windows Persistence Techniques
-  - Windows Privilege Escalation
-  - Windows Registry Abuse
   - Hermetic Wiper
+  - Windows Privilege Escalation
+  - Windows Persistence Techniques
+  - Windows Registry Abuse
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 90

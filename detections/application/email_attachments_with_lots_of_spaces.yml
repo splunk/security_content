@@ -1,7 +1,7 @@
 name: Email Attachments With Lots Of Spaces
 id: 56e877a6-1455-4479-ada6-0550dc1e22f8
 version: 2
-date: '2017-09-19'
+date: '2023-04-14'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -32,8 +32,9 @@ known_false_positives: None at this time
 references: []
 tags:
   analytic_story:
-  - Hermetic Wiper
+  - Data Destruction
   - 'Emotet Malware  DHS Report TA18-201A '
+  - Hermetic Wiper
   - Suspicious Emails
   asset_type: Endpoint
   confidence: 50
