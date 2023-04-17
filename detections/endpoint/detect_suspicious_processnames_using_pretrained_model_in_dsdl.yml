@@ -32,7 +32,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | rename predicted_label as is_suspicious_score
   | rename text as process_name
   | where is_suspicious_score > 0.5
-  | `detect_suspicious_processnames_using_pretrained_model_in_dsdl_filter`'
+  | `detect_suspicious_processnames_using_a_pretrained_model_in_dsdl_filter`'
 
 how_to_implement: 'Steps to deploy detect suspicious processnames model into Splunk App
     DSDL. This detection depends on the Splunk app for Data Science and Deep
