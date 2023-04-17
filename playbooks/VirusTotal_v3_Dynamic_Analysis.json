@@ -1,0 +1,599 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Dynamic Analysis",
+    "coa": {
+        "data": {
+            "customCode": null,
+            "description": "Accepts a URL or vault_id and detonates the object in VirusTotal's sandbox. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.\n\nRef: https://d3fend.mitre.org/technique/d3f:DynamicAnalysis",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_1",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_4_to_port_10",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_12_to_port_13",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_13_to_port_1",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_10_to_port_11",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_3_to_port_15",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_15_to_port_6",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_11_to_port_12",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                }
+            ],
+            "globalCustomCode": "\n\n\nfrom math import log",
+            "hash": "c62a83f2b885857ecb0ed931a92f20293e4829a0",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 180,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1220
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "file detonate filter",
+                            "customNameId": 0,
+                            "description": "Filters successful file detonation results.",
+                            "join": [],
+                            "note": "Filters successful file detonation results."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "file_detonation:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "success_vt_query",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "file_detonate_filter",
+                        "id": "10",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 506
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "normalize score file",
+                            "customNameId": 0,
+                            "description": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections.",
+                            "join": [],
+                            "note": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections."
+                        },
+                        "functionId": 3,
+                        "functionName": "normalize_score_file",
+                        "id": "11",
+                        "inputParameters": [
+                            "filtered-data:file_detonate_filter:condition_1:file_detonation:action_result.summary"
+                        ],
+                        "outputVariables": [
+                            "file_score_object",
+                            "scores"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "code",
+                    "userCode": "    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    #phantom.debug(\"filtered_result_0_summary: {}\".format(filtered_result_0_summary))\n    #phantom.debug(\"filtered_result_0_data: {}\".format(filtered_result_0_data))\n    #phantom.debug(\"filtered_result_0_data___scans: {}\".format(filtered_result_0_data___scans))\n    #phantom.debug(\"filtered_result_0_data___attributes___category: {}\".format(filtered_result_0_data___attributes___category))\n    #phantom.debug(\"vault_id_detonation_result_item_0: {}\".format(vault_id_detonation_result_item_0))\n    \n\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    file_summary_list = filtered_result_0_summary\n    normalize_score_file__file_score_object = []\n    normalize_score_file__scores = []\n    normalize_score_file__categories = []\n    \n    for summary_data in file_summary_list:\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n\n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        elif not summary_data['harmless'] and not suspect:\n            score_id = 0\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n\n            phantom.debug(\"log_result: {}\".format(log_result))\n            if score_id > 10:\n                score_id = 10\n\n        score = score_table[str(score_id)]\n\n        normalize_score_file__file_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})\n        normalize_score_file__scores.append(score)\n        #phantom.debug(\"normalize_score_file__file_score_object: {}\".format(normalize_score_file__file_score_object))\n        #phantom.debug(\"normalize_score_file__scores: {}\".format(normalize_score_file__scores))\n\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 686
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report file",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_report_file",
+                        "id": "12",
+                        "parameters": [
+                            "file_detonation:action_result.parameter.vault_id",
+                            "normalize_score_file:custom_function:scores",
+                            "filtered-data:file_detonate_filter:condition_1:file_detonation:action_result.data.*.attributes.meaningful_name",
+                            "filtered-data:file_detonate_filter:condition_1:file_detonation:action_result.data.*.attributes.magic"
+                        ],
+                        "template": "SOAR analyzed file(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| File | VT Name | VT Decription | Normalized Score  | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {2} | {3} | {1} | https://www.virustotal.com/gui/file/{0} | VirusTotal v3 |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 860
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build file output",
+                            "customNameId": 0,
+                            "description": "This block uses custom code to generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "This block uses custom code to generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 4,
+                        "functionName": "build_file_output",
+                        "id": "13",
+                        "inputParameters": [
+                            "filtered-data:file_detonate_filter:condition_1:file_detonation:action_result.parameter.vault_id",
+                            "filtered-data:file_detonate_filter:condition_1:file_detonation:action_result.data",
+                            "normalize_score_file:custom_function:file_score_object"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n    # Build file_hash\n    for file_hash, file_data, file_object in zip(filtered_result_0_parameter_vault_id, filtered_result_0_data , normalize_score_file__file_score_object):\n        observable_object = {\n            \"value\": file_hash,\n            \"type\": \"hash\",\n            \"reputation\": {\n                \"score_id\": file_object['score_id'],\n                \"score\": file_object['score'],\n                \"confidence\": file_object['confidence']\n            },\n            \"attributes\": {\n                \"type\": file_data[0]['attributes'].get('type_extension'),\n                \"name\": file_data[0]['attributes'].get('meaningful_name'),\n                \"size\": file_data[0]['attributes'].get('size'),\n                \"md5\": file_data[0]['attributes'].get('md5'),\n                \"sha1\": file_data[0]['attributes'].get('sha1'),\n                \"sha256\": file_data[0]['attributes'].get('sha256')\n            },\n            \"source\": \"VirusTotal v3\",\n            \"source_link\": f\"https://www.virustotal.com/gui/file/{file_hash}\"\n        }\n        \n        build_file_output__observable_array.append(observable_object)\n        \n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1040
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "url detonate filter",
+                            "customNameId": 0,
+                            "description": "Filters successful url reputation results.",
+                            "join": [],
+                            "note": "Filters successful url reputation results."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "url_detonation_1:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "success_url_vt_query",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 4,
+                        "functionName": "url_detonate_filter",
+                        "id": "15",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 506
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Determine branches based on provided inputs.",
+                            "join": [],
+                            "note": "Determine branches based on provided inputs."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:url",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "url_input",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "!=",
+                                        "param": "playbook_input:vault_id",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "vauld_id_input",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 220,
+                    "y": 140
+                },
+                "3": {
+                    "data": {
+                        "action": "detonate url",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "url detonation",
+                            "customNameId": 1,
+                            "description": "Queries VirusTotal for information about the provided URL(s)",
+                            "join": [],
+                            "note": "Queries VirusTotal for information about the provided URL(s)"
+                        },
+                        "connector": "VirusTotal v3",
+                        "connectorConfigs": [
+                            "virus_total"
+                        ],
+                        "connectorId": "3fe4875d-a4a7-47d3-9ef1-f9e63a6653a4",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "url_detonation_1",
+                        "id": "3",
+                        "parameters": {
+                            "url": "filtered-data:input_filter:condition_1:playbook_input:url"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "url"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "userCode": "    \n    # Write your custom code here...\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 328
+                },
+                "4": {
+                    "data": {
+                        "action": "detonate file",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "file detonation",
+                            "customNameId": 0,
+                            "description": "Queries VirusTotal for information about the provided vault_id(s)",
+                            "join": [],
+                            "note": "Queries VirusTotal for information about the provided vault_id(s)"
+                        },
+                        "connector": "VirusTotal v3",
+                        "connectorConfigs": [
+                            "virus_total"
+                        ],
+                        "connectorId": "3fe4875d-a4a7-47d3-9ef1-f9e63a6653a4",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "file_detonation",
+                        "id": "4",
+                        "parameters": {
+                            "vault_id": "filtered-data:input_filter:condition_2:playbook_input:vault_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "vault_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "userCode": "\n    # Write your custom code here...\n    \n\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 328
+                },
+                "6": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "normalize score url",
+                            "customNameId": 0,
+                            "description": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections.",
+                            "join": [],
+                            "note": "This block uses custom code for normalizing score. Adjust the logic as desired in the documented sections."
+                        },
+                        "functionId": 1,
+                        "functionName": "normalize_score_url",
+                        "id": "6",
+                        "inputParameters": [
+                            "filtered-data:url_detonate_filter:condition_1:url_detonation_1:action_result.data.*.attributes.categories",
+                            "filtered-data:url_detonate_filter:condition_1:url_detonation_1:action_result.summary"
+                        ],
+                        "outputVariables": [
+                            "url_score_object",
+                            "score",
+                            "categories"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    #phantom.debug(\"filtered_result_0_data___attributes_categories: {}\".format(filtered_result_0_data___data_attributes_results___category))\n    #phantom.debug(\"filtered_result_0_summary: {}\".format(filtered_result_0_summary))\n    #phantom.debug(\"filtered_result_1_data___scans: {}\".format(filtered_result_1_data___scans))\n    #phantom.debug(\"url_detonation_result_item_0: {}\".format(url_detonation_result_item_0))\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    url_categories_list = filtered_result_0_data___attributes_categories\n    url_summary_list = filtered_result_0_summary\n    normalize_score_url__url_score_object = []\n    normalize_score_url__score = []\n    normalize_score_url__categories = []\n\n    #for category, summary_data in zip(url_categories_list, url_summary_list):\n    for category, summary_data in zip(url_categories_list, url_summary_list):\n        \n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        #phantom.debug(\"vendors: {}\".format(vendors))\n        #phantom.debug(\"confidence: {}\".format(confidence))\n\n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n            #log_result = (suspect/vendors)  # log imported from math in global code block\n            #score_id = int(log_result * 100)\n            #phantom.debug(\"log_result: {}\".format(log_result))\n            \n            if score_id > 10:\n                score_id = 10\n        \n        if category != None:\n            categories = [cat.lower() for cat in category.values()]\n            categories = list(set(categories))\n        else:\n            categories = []\n        \n        score = score_table[str(score_id)]\n\n        # Attach final object\n        normalize_score_url__url_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence, 'categories': categories})\n        normalize_score_url__score.append(score)\n        normalize_score_url__categories.append(categories)\n        #phantom.debug(\"normalize_score_url__url_score_object: {}\".format(normalize_score_url__url_score_object))\n        #phantom.debug(\"normalize_score_url__score: {}\".format(normalize_score_url__score))\n        #phantom.debug(\"normalize_score_url__categories: {}\".format(normalize_score_url__categories))\n\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 686
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report url",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_report_url",
+                        "id": "7",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:url",
+                            "normalize_score_url:custom_function:score",
+                            "normalize_score_url:custom_function:categories",
+                            "filtered-data:url_detonate_filter:condition_1:url_detonation_1:action_result.data.*.id"
+                        ],
+                        "template": "SOAR analyzed URL(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | https://www.virustotal.com/gui/url/{3} | VirusTotal v3 |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "userCode": "\n    # Write your custom code here...\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 864
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build url output",
+                            "customNameId": 0,
+                            "description": "This block uses custom code to generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "This block uses custom code to generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 2,
+                        "functionName": "build_url_output",
+                        "id": "8",
+                        "inputParameters": [
+                            "filtered-data:url_detonate_filter:condition_1:url_detonation_1:action_result.parameter.url",
+                            "filtered-data:url_detonate_filter:condition_1:url_detonation_1:action_result.data.*.id",
+                            "normalize_score_url:custom_function:url_score_object"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "code",
+                    "userCode": "    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    \n    # Build URL\n    for url, external_id, url_object in zip(filtered_result_0_parameter_url, filtered_result_0_data___id, normalize_score_url__url_score_object):\n        parsed_url = urlparse(url)\n        phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n            \"value\": url,\n            \"type\": \"url\",\n            \"reputation\": {\n                \"score_id\": url_object['score_id'],\n                \"score\": url_object['score'],\n                \"confidence\": url_object['confidence']\n            },\n            \"attributes\": {\n                \"hostname\": parsed_url.hostname,\n                \"scheme\": parsed_url.scheme\n            },\n            \"categories\": url_object['categories'],\n            \"source\": \"VirusTotal v3\",\n            \"source_link\": f\"https://www.virustotal.com/gui/url/{external_id}\"\n        }\n        \n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n        \n        build_url_output__observable_array.append(observable_object)\n        \n        \n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1042
+                }
+            },
+            "notes": "Inputs: url,  vault_id\nInteractions: VirusTotal v3\nActions: detonate url, detonate file\nOutputs: observable, markdown_report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "url"
+                ],
+                "description": "A URL provided for reputation analysis - Virustotal",
+                "name": "url"
+            },
+            {
+                "contains": [
+                    "vault id"
+                ],
+                "description": "A file provided for reputation analysis",
+                "name": "vault_id"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_url_output:custom_function:observable_array",
+                    "build_file_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type, score, score_id, and categories.",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_report_file:formatted_data",
+                    "format_report_url:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of reports. One report per detonation type.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-04-12T11:31:47.902551+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "url",
+        "VirusTotal_v3",
+        "sandbox",
+        "D3-DA",
+        "vault_id",
+        "D3-FA"
+    ]
+}
