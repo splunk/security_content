@@ -1,7 +1,7 @@
 name: Recon Using WMI Class
 id: 018c1972-ca07-11eb-9473-acde48001122
 version: 2
-date: '2022-10-10'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -36,12 +36,13 @@ references:
 - https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
 tags:
   analytic_story:
-  - Hermetic Wiper
-  - Malicious PowerShell
-  - Industroyer2
-  - Qakbot
-  - LockBit Ransomware
   - AsyncRAT
+  - Qakbot
+  - Industroyer2
+  - Hermetic Wiper
+  - LockBit Ransomware
+  - Malicious PowerShell
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 75

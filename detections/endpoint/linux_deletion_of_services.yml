@@ -1,7 +1,7 @@
 name: Linux Deletion Of Services
 id: b509bbd3-0331-4aaa-8e4a-d2affe100af6
 version: 1
-date: '2023-02-15'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -40,8 +40,9 @@ references:
 - https://cert.gov.ua/article/3718487
 tags:
   analytic_story:
-  - AcidRain
   - AwfulShred
+  - AcidRain
+  - Data Destruction
   asset_type: endpoint
   confidence: 80
   impact: 80

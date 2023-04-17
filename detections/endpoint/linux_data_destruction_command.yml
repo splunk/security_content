@@ -1,7 +1,7 @@
 name: Linux Data Destruction Command
 id: b11d3979-b2f7-411b-bb1a-bd00e642173b
 version: 1
-date: '2023-02-08'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - AwfulShred
+  - Data Destruction
   asset_type: Endpoint
   confidence: 90
   impact: 100
