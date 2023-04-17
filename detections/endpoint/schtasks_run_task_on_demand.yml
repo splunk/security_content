@@ -1,7 +1,7 @@
 name: Schtasks Run Task On Demand
 id: bb37061e-af1f-11eb-a159-acde48001122
 version: 1
-date: '2021-05-07'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -27,10 +27,11 @@ references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
   analytic_story:
-  - XMRig
-  - Industroyer2
-  - CISA AA22-257A
   - Qakbot
+  - Industroyer2
+  - XMRig
+  - CISA AA22-257A
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 60
