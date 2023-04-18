@@ -1,0 +1,21 @@
+name: Sandworm Tools
+id: 54146850-9d26-4877-a611-2db33231e63e
+version: 1
+date: '2022-04-05'
+author: Teoderick Contreras, Splunk
+description: This analytic story features detections that enable security analysts to identify and investigate unusual activities potentially related to the destructive malware and tools employed by the "Sandworm" group. This analytic story focuses on monitoring suspicious process executions, command-line activities, Master Boot Record (MBR) wiping, data destruction, and other related indicators.
+narrative: The Sandworm group's tools are part of destructive malware operations designed to disrupt or attack Ukraine's National Information Agencies. This operation campaign consists of several malware components, including scripts, native Windows executables (LOLBINs), data wiper malware that overwrites or destroys the Master Boot Record (MBR), and file wiping using sdelete.exe on targeted hosts.
+references:
+- https://cert.gov.ua/article/3718487
+- https://attack.mitre.org/groups/G0034/
+tags:
+  analytic_story: Sandworm Tools
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
