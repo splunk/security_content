@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Windows Certificate Services
+  - Sandworm Tools
   asset_type: Endpoint
   confidence: 70
   impact: 40
