@@ -42,8 +42,8 @@ tags:
     type: Other
     role:
     - Attacker
-  - name: requestedAccountId
-    type: Other
+  - name: user
+    type: User
     role:
     - Victim
   product:
