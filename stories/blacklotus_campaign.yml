@@ -1,0 +1,20 @@
+name: BlackLotus Campaign
+id: 8eb0e418-a2b6-4327-a387-85c976662c8f
+version: 1
+date: '2023-04-14'
+author: Michael Haag, Splunk
+description: The first in-the-wild UEFI bootkit bypassing UEFI Secure Boot on fully updated UEFI systems is now a reality
+narrative: "The number of UEFI vulnerabilities discovered in recent years and the failures in patching them or revoking vulnerable binaries within a reasonable time window hasn't gone unnoticed by threat actors. As a result, the first publicly known UEFI bootkit bypassing the essential platform security feature  UEFI Secure Boot  is now a reality. present the first public analysis of this UEFI bootkit, which is capable of running on even fully-up-to-date Windows 11 systems with UEFI Secure Boot enabled. Functionality of the bootkit and its individual features leads us to believe that we are dealing with a bootkit known as BlackLotus, the UEFI bootkit being sold on hacking forums for $5,000 since at least October 2022. (ESET, 2023)
+  The following content aims to aid defenders in detecting suspicious bootloaders and understanding the diverse techniques employed in this campaign."
+references:
+  - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
+  - https://www.welivesecurity.com/2023/03/01/blacklotus-uefi-bootkit-myth-confirmed/
+tags:
+  analytic_story: BlackLotus Campaign
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
