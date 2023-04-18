@@ -10,9 +10,9 @@ description: This search allows you to identify DNS requests and compute the sta
   standard deviation to show you those queries that are unusually large for your environment.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  where NOT DNS.message_type IN("Pointer","PTR") by DNS.query | `drop_dm_object_name("DNS")`
+  where NOT DNS.message_type IN("Pointer","PTR") by DNS.query host| `drop_dm_object_name("DNS")`
   | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
-  | search tld_len<=24 | eval query_length = len(query) | table query query_length
+  | search tld_len<=24 | eval query_length = len(query) | table host query query_length
   record_type count | eventstats stdev(query_length) AS stdev avg(query_length) AS
   avg p50(query_length) AS p50| where query_length>(avg+stdev*2) | eval z_score=(query_length-avg)/stdev
   | `dns_query_length_with_high_standard_deviation_filter`'
