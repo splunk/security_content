@@ -56,10 +56,10 @@ tags:
   - src_ip
   risk_score: 54
   security_domain: threat
+  manual_test: This search needs a specific number of events in a time window for the alert to trigger and events split up in CI testing while updating timestamp.
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail
-    update_timestamp: true
