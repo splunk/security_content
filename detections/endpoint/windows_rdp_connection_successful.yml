@@ -5,10 +5,10 @@ date: '2023-04-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-data_source:  []
+data_source: []
 description: The following analytic identifies successful remote desktop connections. Utilize this analytic to hunt for successful attempts. In addition, the query may be modified for EventCode=1148 to potentially identify failed attempts. In testing, 1148 would not generate based on a failed logon attempt.
   Note this analytic requires enabling and a stanza in a inputs.conf.
-search: 'index=win source="WinEventLog:Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational" EventCode=1149
+search: '`remoteconnectionmanager` EventCode=1149
   | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName, Source_Network_Address, User, Message
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | rename ComputerName as dest | `windows_rdp_connection_successful_filter`'
