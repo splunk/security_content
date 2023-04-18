@@ -51,7 +51,7 @@ tags:
   - name: form_data
     type: Other
     role:
-    - Attacker
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

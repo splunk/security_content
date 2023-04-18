@@ -73,6 +73,7 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
             if hasattr(self.security_content_obj.tags, 'observable') and hasattr(self.security_content_obj.tags, 'risk_score'):
                 for entity in self.security_content_obj.tags.observable:
+
                     risk_object = dict()
                     if entity['type'].lower() in risk_object_user_types:
                         risk_object['risk_object_type'] = 'user'
@@ -85,9 +86,15 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
                         risk_object['risk_object_field'] = entity['name']
                         risk_object['risk_score'] = self.security_content_obj.tags.risk_score
                         risk_objects.append(risk_object)
-                    else:
+
+                    elif 'role' in entity and 'Attacker' in entity['role']:
                         risk_object['threat_object_field'] = entity['name']
                         risk_object['threat_object_type'] = entity['type'].lower()
+                        risk_objects.append(risk_object) 
+                    else:
+                        risk_object['risk_object_type'] = 'other'
+                        risk_object['risk_object_field'] = entity['name']
+                        risk_object['risk_score'] = self.security_content_obj.tags.risk_score
                         risk_objects.append(risk_object)
                         continue
 
