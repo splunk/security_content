@@ -1,10 +1,12 @@
 name: Linux Iptables Firewall Modification
 id: 309d59dc-1e1b-49b2-9800-7cf18d12f7b7
 version: 3
-date: '2022-06-03'
+date: '2023-04-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
+datamodel:
+- Endpoint
 description: This analytic looks for suspicious commandline that modify the iptables
   firewall setting of a linux machine. This technique was seen in cyclopsblink malware
   where it modifies the firewall setting of the compromised machine to allow traffic
@@ -35,6 +37,7 @@ references:
 - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
 tags:
   analytic_story:
+  - Sandworm Tools
   - CyclopsBLink
   asset_type: Endpoint
   confidence: 50

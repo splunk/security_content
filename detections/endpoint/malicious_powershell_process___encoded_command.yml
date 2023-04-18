@@ -48,6 +48,8 @@ tags:
   - DarkCrystal RAT
   - Qakbot
   - CISA AA22-320A
+  - Sandworm Tools
+  - Data Destruction
   asset_type: Endpoint
   confidence: 50
   impact: 70
