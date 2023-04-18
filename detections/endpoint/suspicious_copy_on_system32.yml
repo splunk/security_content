@@ -34,6 +34,7 @@ tags:
   - Qakbot
   - IcedID
   - AsyncRAT
+  - Sandworm Tools
   asset_type: Endpoint
   confidence: 90
   impact: 70
