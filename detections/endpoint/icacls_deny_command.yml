@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - XMRig
   - Azorult
+  - Sandworm Tools
   asset_type: Endpoint
   confidence: 80
   impact: 90

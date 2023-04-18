@@ -1,10 +1,12 @@
 name: Linux Kworker Process In Writable Process Path
 id: 1cefb270-74a5-4e27-aa0c-2b6fa7c5b4ed
 version: 2
-date: '2022-04-30'
+date: '2023-04-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
+datamodel:
+- Endpoint
 description: This analytic looks for suspicious process kworker commandline in a linux
   machine. kworker process name or thread are common names of kernel threads in linux
   process. This hunting detections can lead to investigate process contains process
@@ -32,6 +34,7 @@ references:
 - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
 tags:
   analytic_story:
+  - Sandworm Tools
   - CyclopsBLink
   asset_type: Endpoint
   confidence: 60
