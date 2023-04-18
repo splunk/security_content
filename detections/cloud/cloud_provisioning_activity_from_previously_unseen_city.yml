@@ -77,6 +77,7 @@ tags:
   - All_Changes.command
   risk_score: 18
   security_domain: threat
+  manual_test: This search needs the baseline to be run first to create a lookup
 tests:
 - name: True Positive Test
   attack_data:
