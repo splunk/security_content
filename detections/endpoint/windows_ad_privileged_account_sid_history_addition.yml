@@ -66,6 +66,7 @@ tags:
     - Logon_ID
   risk_score: 90
   security_domain: endpoint
+  manual_test: True, needs to be investigated
 tests:
   - name: True Positive Test
     attack_data:

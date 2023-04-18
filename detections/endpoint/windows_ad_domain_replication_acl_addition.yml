@@ -61,6 +61,7 @@ tags:
     - ObjectClass
   risk_score: 80
   security_domain: endpoint
+  manual_test: True, needs to be investigated!
 tests:
   - name: True Positive Test
     attack_data:

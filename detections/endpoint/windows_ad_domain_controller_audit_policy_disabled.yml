@@ -41,6 +41,7 @@ tags:
   - SubcategoryGuid
   risk_score: 60
   security_domain: endpoint
+  manual_test: True, needs to be investigated
 tests:
 - name: True Positive Test
   attack_data:
