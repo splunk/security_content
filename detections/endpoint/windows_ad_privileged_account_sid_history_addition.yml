@@ -66,7 +66,7 @@ tags:
     - Logon_ID
   risk_score: 90
   security_domain: endpoint
-  manual_test: True, needs to be investigated
+  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
 tests:
   - name: True Positive Test
     attack_data:
