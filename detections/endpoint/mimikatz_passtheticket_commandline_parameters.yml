@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   - CISA AA22-320A
+  - Sandworm Tools
   asset_type: endpoint
   confidence: 60
   impact: 60
