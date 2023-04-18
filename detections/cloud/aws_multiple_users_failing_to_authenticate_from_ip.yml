@@ -56,7 +56,7 @@ tags:
   - src_ip
   risk_score: 54
   security_domain: threat
-  manual_test: This search needs has time window and events split up in CI testing.
+  manual_test: This search needs a specific number of events in a time window for the alert to trigger and events split up in CI testing while updating timestamp.
 tests:
 - name: True Positive Test
   attack_data:
