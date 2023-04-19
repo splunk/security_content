@@ -17,8 +17,8 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("rundll32.exe", "dllhost.exe") Processes.process_name=*7z* by Processes.dest
-  Processes.user Processes.parent_process Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  Processes.user Processes.parent_process Processes.process_name Processes.parent_process_name 
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `anomalous_usage_of_7zip_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
