@@ -61,7 +61,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   OR process_file_name="sort.exe" OR process_file_name="snmptrap.exe" OR process_file_name="smss.exe"
   OR process_file_name="slui.exe" OR process_file_name="sihost.exe" OR process_file_name="sigverif.exe"
   OR process_file_name="shutdown.exe" OR process_file_name="shrpubw.exe" OR process_file_name="shadow.exe"
-  OR process_file_name="sfc.exe" OR process_file_name="setx.exe" OR process_file_name="setupugc.exe"
+  OR process_file_name="setx.exe" OR process_file_name="setupugc.exe"
   OR process_file_name="setupcl.exe" OR process_file_name="setspn.exe" OR process_file_name="sethc.exe"
   OR process_file_name="sessionmsg.exe" OR process_file_name="services.exe" OR process_file_name="secinit.exe"
   OR process_file_name="sdiagnhost.exe" OR process_file_name="sdclt.exe" OR process_file_name="sdchange.exe"
