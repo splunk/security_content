@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  - Active Directory Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.001/impacket/windows-security.log
   kill_chain_phases:
