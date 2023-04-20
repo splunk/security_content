@@ -34,3 +34,10 @@ field_mappings:
       ProcessId: Registry.process_id
       TargetObject: Registry.registry_path
       Details: Registry.registry_value_data #special_case
+  - data_model: ocsf
+    mapping:
+      Computer: registry.dest
+      ProcessGuid: registry.process_guid
+      ProcessId: registry.process_id
+      TargetObject: registry.registry_path
+      Details: registry.registry_value_data #special_case
