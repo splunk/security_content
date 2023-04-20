@@ -2,15 +2,10 @@ name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
 version: 4
 date: '2022-03-24'
-author: Jose Hernadnez, Ignacio Bermudez Corrales, Splunk
+author: Jose Hernandez, Ignacio Bermudez Corrales, Splunk
 type: Anomaly
 status: production
-description: An attacker tries might try to use different version of a system command
-  without overriding original, or they might try to avoid some detection running the
-  process from a different folder. This detection checks that a list of system processes
-  run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes
-  has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv
-  and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
+description: An attacker might try to use a different version of a system command without overriding the original, or they might try to avoid some detections by running the process from a different folder. This detection checks that a list of system processes are run inside C:\\Windows\System32 or C:\\Windows\SysWOW64. The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 data_source:
 - Windows Security 4688
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
