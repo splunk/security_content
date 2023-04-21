@@ -1,0 +1,13 @@
+name: Windows PowerView AD Access Control List Enumeration Unit Test
+tests:
+- name: Windows PowerView AD Access Control List Enumeration
+  file: endpoint/windows_powerview_ad_access_control_list_enumeration.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: -24h
+  latest_time: now
+  attack_data:
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/powerview_acl_enumeration/windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

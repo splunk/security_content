@@ -1,0 +1,63 @@
+name: Windows PowerView AD Access Control List Enumeration
+id: 39405650-c364-4e1e-a740-32a63ef042a6
+version: 1
+date: '2023-04-20'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: UPDATE_DESCRIPTION
+search: ' `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl* )
+  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_powerview_ad_access_control_list_enumeration_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
+known_false_positives: Administrators may leverage PowerView for legitimate purposes, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1078/002/
+- https://medium.com/r3d-buck3t/enumerating-access-controls-in-active-directory-c06e2efa8b89
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainObjectAcl/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/powerview_acl_enumeration/windows-powershell.log
+  impact: 40
+  kill_chain_phases:
+  - Reconnaissance
+  message: PowerView AD acccess control list enumeration detected on $Computer$
+  mitre_attack_id:
+  - T1078.002
+  - T1069
+  nist:
+  - DE.CM
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Opcode
+  - UserID
+  risk_score: 20
+  security_domain: endpoint
