@@ -5,15 +5,20 @@ date: '2023-03-28'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel: []
-description: UPDATE_DESCRIPTION
+description: The following analytic leverages Event ID 5136 to identify the modification of a default Group Policy Object. A fresh installation of an Active Directory network will typically contain
+  two default group policy objects `Default Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers policy is used to enforce and set policies to all the domain controllers within the domain environment.
+  The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 
+  policy objects to obtain further access, deploy persistence or execute malware across a large number of hosts. Security teams should monitor the modification of the default GPOs.
 search: ' `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=versionNumber (ObjectDN="CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM,DC=*" OR ObjectDN="CN={6AC1786C-016F-11D2-945F-00C04fB984F9},CN=POLICIES,CN=SYSTEM,DC=*")
   | stats min(_time) as firstTime max(_time) as lastTime by ObjectDN SubjectUserSid AttributeValue Computer DSName
   | rename AttributeValue as versionNumber
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `windows_default_group_policy_object_modified_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: To successfully implement this search, the Advanced Security Audit policy setting `Audit Directory Service Changes` within `DS Access` needs to be enabled.
+  Furthermore, the appropriate system access control lists (SACL) need to be created as the used events are not logged by default.
+  A good guide to accomplish this can be found here https://jgspiers.com/audit-group-policy-changes/.
+known_false_positives: The default Group Policy Objects within an AD network may be legitimately updated for administrative operations, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1484/
 - https://attack.mitre.org/techniques/T1484/001
