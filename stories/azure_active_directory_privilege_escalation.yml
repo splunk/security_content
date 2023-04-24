@@ -1,0 +1,20 @@
+name: Azure Active Directory Privilege Escalation
+id: ec78e872-b79c-417d-b256-8fde902522fb
+version: 1
+date: '2023-04-24'
+author: Mauricio Velazco, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: Azure Active Directory Privilege Escalation
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Cloud Security
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
