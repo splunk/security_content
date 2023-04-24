@@ -30,10 +30,18 @@ jobs:
           source .venv/bin/activate
           cd bin/docker_detection_tester  
           python detection_testing_execution.py run --branch develop --mode smoketest --config_file test_config_github_actions.json --num_containers 1
+
+      # Summarize all results in a different step so they are easy to read/jump to
+      - name: Run the Smoketesting
+        run: |
+          source .venv/bin/activate
+          cd bin/docker_detection_tester  
           python summarize_json.py  -o test_results/summary_smoketest.json -f test_results/summary.json --smoketest
 
+      # Upload Results even on failure. Results are even more important in the event of a failure
       - name: Upload Test Results Files
         uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: smoketest_results
           path: |
