@@ -3,9 +3,23 @@ id: fa34a5d8-df0a-404c-8237-11f99cba1d5f
 version: 1
 date: '2023-03-20'
 author: Mauricio Velazco, Splunk
-description: UPDATE_DESCRIPTION
-narrative: UPDATE_NARRATIVE
-references: []
+description: Monitor for activities and techniques associated with Privilege Escalation
+  attacks within Active Directory environments.
+narrative: Privilege Escalation consists of techniques that adversaries use to gain higher-level permissions on a system or network. 
+  Adversaries can often enter and explore a network with unprivileged access but require elevated permissions to follow through on their objectives. 
+  Common approaches are to take advantage of system weaknesses, misconfigurations, and vulnerabilities.\
+
+  Active Directory is a central component of most enterprise networks, providing authentication and authorization services for users, computers, and other resources.
+  It stores sensitive information such as passwords, user accounts, and security policies, and is therefore a high-value target for attackers.
+  Privilege escalation attacks in Active Directory typically involve exploiting vulnerabilities or misconfigurations across the network to gain elevated privileges,
+  such as Domain Administrator access. Once an attacker has escalated their privileges and taken full control of a domain, they can easily move laterally throughout the network, 
+  access sensitive data, and carry out further attacks. Security teams should monitor for privilege escalation attacks in Active Directory to identify a breach before attackers achieve operational success.\
+   
+  The following analytic story groups detection opportunities that seek to identify an adversary attempting to escalate privileges in an Active Directory network.
+references:
+- https://attack.mitre.org/tactics/TA0004/
+- https://adsecurity.org/?p=3658
+- https://adsecurity.org/?p=2362
 tags:
   analytic_story: Active Directory Privilege Escalation
   category: []
