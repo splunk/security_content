@@ -3,8 +3,8 @@ id: eb3e6702-8936-11ec-98fe-acde48001122
 version: 1
 date: '2022-02-08'
 author: Mauricio Velazco, Splunk
+status: production
 type: Anomaly
-datamodel: []
 description: 'The following hunting analytic leverages Kerberos Event 4769, A Kerberos
   service ticket was requested, to identify a potential kerberoasting attack against
   Active Directory networks. Kerberoasting allows an adversary to request kerberos
@@ -15,6 +15,8 @@ description: 'The following hunting analytic leverages Kerberos Event 4769, A Ke
   3-sigma statistical rule to identify an unusual number service ticket requests.
   To customize this analytic, users can try different combinations of the `bucket`
   span time and the calculation of the `upperBound` field.'
+data_source:
+- Windows Security 4769
 search: ' `wineventlog_security` EventCode=4769 Service_Name!="*$" Ticket_Encryption_Type=0x17
   | bucket span=2m _time | stats dc(Service_Name) AS unique_services values(Service_Name)
   as requested_services by _time, Client_Address | eventstats avg(unique_services)
@@ -36,14 +38,7 @@ tags:
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
   confidence: 60
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
   impact: 60
-  kill_chain_phases:
-  - Exploitation
   message: tbd
   mitre_attack_id:
   - T1558
@@ -68,3 +63,9 @@ tags:
   - Client_Address
   risk_score: 36
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

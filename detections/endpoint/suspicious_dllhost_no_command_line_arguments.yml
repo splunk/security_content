@@ -3,15 +3,16 @@ id: ff61e98c-0337-4593-a78f-72a676c56f26
 version: 4
 date: '2023-03-08'
 author: Michael Haag, Splunk
-type: Anomaly
-datamodel:
-- Endpoint
+status: production
+type: TTP
 description: The following analytic identifies DLLHost.exe with no command line arguments.
   It is unusual for DLLHost.exe to execute with no command line arguments present.
   This particular behavior is common with malicious software, including Cobalt Strike.
   During investigation, identify any network connections and parallel processes. Identify
   any suspicious module loads related to credential dumping or file writes. DLLHost.exe
   is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_dllhost` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
@@ -30,17 +31,9 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Initial Access
-  - Stage:Execution
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: Suspicious dllhost.exe process with no command line arguments executed
     on $dest$ by $user$
   mitre_attack_id:
@@ -73,6 +66,9 @@ tags:
   - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
-  supported_tas:
-  - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

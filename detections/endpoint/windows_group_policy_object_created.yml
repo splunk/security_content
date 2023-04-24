@@ -3,8 +3,9 @@ id: 23add2a8-ea22-4fd4-8bc0-8c0b822373a1
 version: 1
 date: '2023-03-27'
 author: Mauricio Velazco
+status: production
 type: TTP
-datamodel: []
+data_source : []
 description:  The following analytic leverages Event IDs 5136 and 51137 to identify the creation of a new Group Policy Object. With GPOs, system administrators can manage and configure 
   applications, software operations, and user settings throughout an entire organization. GPOs can be abused and leveraged by adversaries to escalate privileges or 
   deploy malware across an Active Directory network. As an example, the Lockbit ransomware malware will create new group policies on the domain controller that are then pushed out to every device on the network.
@@ -31,29 +32,15 @@ tags:
   - Active Directory Privilege Escalation
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_created/windows-security.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
-  - Installation
-  - Actions on Objectives
   message: A new group policy objected was created by $User$
   mitre_attack_id:
   - T1484
   - T1484.001
   - T1078.002
-  nist:
-  - DE.CM
   observable:
   - name: User
     type: User
@@ -75,3 +62,9 @@ tags:
   - Computer
   risk_score: 40
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

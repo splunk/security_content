@@ -1,0 +1,66 @@
+name: Windows Change Default File Association For No File Ext
+id: dbdf52ad-d6a1-4b68-975f-0a10939d8e38
+version: 1
+date: '2022-11-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This analytic is developed to detect suspicious process commandline to
+  change or set the default file association of a file without file extension with
+  notepad.exe. This technique was seen in some APT and ransomware Prestige where it
+  set/modify the default process to run file association, like .txt to notepad.exe.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: reg.exe
+  selection2:
+    Image|endswith: reg.exe
+  selection3:
+    CommandLine: '* add *'
+  selection4:
+    CommandLine: '* HKCR\\*'
+  selection5:
+    CommandLine: '*\\shell\\open\\command*'
+  selection6:
+    CommandLine: '*Notepad.exe*'
+  condition: (selection1 or selection2) and selection3 and selection4 and selection5
+    and selection6
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: unknown
+references:
+- https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+tags:
+  analytic_story:
+  - Prestige Ransomware
+  asset_type: Endpoint
+  confidence: 100
+  impact: 80
+  message: process with commandline $process$ set or change the file association of
+    a file with no file extension in $dest$
+  mitre_attack_id:
+  - T1546.001
+  - T1546
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

@@ -1,11 +1,10 @@
 name: WinEvent Windows Task Scheduler Event Action Started
 id: b3632472-310b-11ec-9aab-acde48001122
 version: 1
-date: '2021-10-19'
+date: '2023-04-05'
 author: Michael Haag, Splunk
+status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: The following hunting analytic assists with identifying suspicious tasks
   that have been registered and ran in Windows using EventID 200 (action run) and
   201 (action completed). It is recommended to filter based on ActionName by specifying
@@ -14,6 +13,7 @@ description: The following hunting analytic assists with identifying suspicious 
   events related to tasks being scheduled. EventID 106 will generate when a new task
   is generated, however, that does not mean it ran. Capture any files on disk and
   analyze.
+data_source: []
 search: '`wineventlog_task_scheduler` EventCode IN ("200","201") | rename ComputerName
   as dest | stats count min(_time) as firstTime max(_time) as lastTime by Message
   dest EventCode category | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -29,23 +29,21 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IcedID
-  - Windows Persistence Techniques
-  - Industroyer2
-  - DarkCrystal RAT
-  - CISA AA22-257A
   - Qakbot
+  - Windows Persistence Techniques
+  - Winter Vivern
   - Prestige Ransomware
+  - DarkCrystal RAT
   - AsyncRAT
+  - Winter Vivern
+  - IcedID
+  - CISA AA22-257A
+  - Industroyer2
+  - Sandworm Tools
+  - Data Destruction
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/windows_taskschedule/windows-taskschedule.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: A Scheduled Task was scheduled and ran on $dest$.
   mitre_attack_id:
   - T1053.005
@@ -67,4 +65,9 @@ tags:
   - ProcessID
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/windows_taskschedule/windows-taskschedule.log
+    source: WinEventLog:Microsoft-Windows-TaskScheduler/Operational
+    sourcetype: wineventlog

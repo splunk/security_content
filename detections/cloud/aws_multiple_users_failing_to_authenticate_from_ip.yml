@@ -3,12 +3,21 @@ id: 71e1fb89-dd5f-4691-8523-575420de4630
 version: 1
 date: '2022-09-27'
 author: Bhavin Patel
+status: production
 type: Anomaly
-datamodel: []
-description: The following analytic identifies one source Ip failing to authenticate into the AWS Console with 30 unique valid users within 10 minutes. This behavior could represent an adversary performing a Password Spraying attack against an AWS environment tenant to obtain initial access or elevate privileges. 
-search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip, eventName, action, user_agent |  where unique_accounts > 30 |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
-how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the tried account threshold to tune this search according to their environment.
-known_false_positives: No known false postives for this detection. Please review this alert
+description: The following analytic identifies one source Ip failing to authenticate
+  into the AWS Console with 30 unique valid users within 10 minutes. This behavior
+  could represent an adversary performing a Password Spraying attack against an AWS
+  environment tenant to obtain initial access or elevate privileges.
+data_source: []
+search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
+  | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by
+  _time, src_ip, eventName, action, user_agent |  where unique_accounts > 30 |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
+how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
+  We recommend the users to try different combinations of the bucket span time and
+  the tried account threshold to tune this search according to their environment.
+known_false_positives: No known false postives for this detection. Please review this
+  alert
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
@@ -18,28 +27,14 @@ tags:
   - AWS Identity and Access Management Account Takeover
   - Compromised User Account
   asset_type: AWS Account
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 90
-  context:
-  - Source:Cloud Data
-  - Outcome:Blocked
-  - Stage:Recon
-  - Other:Brute Force
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
   impact: 60
-  kill_chain_phases:
-  - Exploitation
-  message: Multiple failed console login attempts against users $tried_accounts$ seen from $src_ip$
+  message: Multiple failed console login attempts against users $tried_accounts$ seen
+    from $src_ip$
   mitre_attack_id:
   - T1110
   - T1110.003
   - T1110.004
-  nist:
-  - DE.CM
   observable:
   - name: src_ip
     type: IP Address
@@ -61,3 +56,10 @@ tags:
   - src_ip
   risk_score: 54
   security_domain: threat
+  manual_test: This search needs a specific number of events in a time window for the alert to trigger and events split up in CI testing while updating timestamp.
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
+    source: aws_cloudtrail
+    sourcetype: aws:cloudtrail

@@ -3,8 +3,10 @@ id: 27e600aa-77f8-4614-bc80-2662a67e2f48
 version: 1
 date: '2023-04-06'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
+data_source:
+- Windows_Security_4732.yml
 description: The following analytic leverages Event ID 4732 to identify the addition of a new member to the DnsAdmins group within Active Directory. . Members of the DnsAdmin group can manage
   the DNS service which most of the times runs on the Domain Controller. By abusing legitimate DNS management functionality, a member of the DnsAdmins group can escalate privileges by
   executing malicious code on a Domain Controller as SYSTEM. Security teams should monitor the modification of the DnsAdmins group and validate the changes are legitimate.
@@ -25,25 +27,11 @@ tags:
   analytic_story:
   - Active Directory Privilege Escalation
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/dnsadmins_member_added/windows-security.log
   impact: 80
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
   message: A new member was added to the DnsAdmins group by $SubjectUserName$
   mitre_attack_id:
   - T1098
-  nist:
-  - DE.CM
   observable:
   - name: SubjectUserName
     type: User
@@ -63,3 +51,9 @@ tags:
   - TargetUserName
   risk_score: 40
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/dnsadmins_member_added/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

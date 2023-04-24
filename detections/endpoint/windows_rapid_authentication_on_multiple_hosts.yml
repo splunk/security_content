@@ -4,12 +4,14 @@ version: 1
 date: '2023-03-23'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source:
+- Windows  Security 4624
 description: The following analytic leverages Event ID 4624 to identify a source computer authenticating to a large number of remote endpoints within an Active Directory network.
   Specifically, the logic will trigger when a source endpoint authenticates to 30 or more target computers within a 5 minute timespan. This behavior could represent an adversary who is
   moving laterally across the environment or enumerating network shares in the search for sensitive files.
   As environments differ across organizations, security teams should customize the thresholds of this detection as needed.
-search: ' EventCode=4624 LogonType=3 TargetUserName!="ANONYMOUS LOGON" TargetUserName!="*$"
+search: '  `wineventlog_security` EventCode=4624 LogonType=3 TargetUserName!="ANONYMOUS LOGON" TargetUserName!="*$"
   | bucket span=5m _time
   | stats dc(Computer) AS unique_targets values(Computer) as host_targets by _time, IpAddress, TargetUserName
   | where unique_targets > 30
@@ -28,25 +30,11 @@ tags:
   - Active Directory Privilege Escalation
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/rapid_authentication_multiple_hosts/windows-security.log
   impact: 60
-  kill_chain_phases:
-  - Exploitation
   message: The source computer with ip address $IpAddress$ authenticated to a large number of remote endpoints within 5 minutes.
   mitre_attack_id:
   - T1003.002
-  nist:
-  - DE.CM
   observable:
   - name: ComputerName
     type: Endpoint
@@ -69,3 +57,9 @@ tags:
   - IpAddress
   risk_score: 48
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/rapid_authentication_multiple_hosts/windows-security.log  
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

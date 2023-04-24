@@ -4,7 +4,8 @@ version: 1
 date: '2023-03-23'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source : []
 description: The following analytic leverages Event IDs 5140 or 5145 to identify a source computer accessing windows administrative shares (C$, Admin$ and IPC$ ) across a large number
   remote endpoints. Specifically, the logic will trigger when a source endpoint accesses administrative shares across 30 or more target computers within a 5 minute timespan. This behavior could 
   represent an adversary who is enumerating network shares across an Active Directory environment in the search for sensitive files, a common technique leveraged by red teamers and threat actors.
@@ -29,25 +30,11 @@ tags:
   - Active Directory Privilege Escalation
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/ipc_share_accessed/windows-security.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
   message: $IpAddress$ accessed the IPC share on more than 40 endpoints in a timespan of 5 minutes.
   mitre_attack_id:
   - T1135
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Endpoint
@@ -70,3 +57,9 @@ tags:
   - SubjectUserName
   risk_score: 56
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/ipc_share_accessed/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

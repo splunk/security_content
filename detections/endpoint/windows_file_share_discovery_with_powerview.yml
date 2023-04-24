@@ -4,7 +4,9 @@ version: 1
 date: '2023-03-20'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source:
+- Powershell 4104
 description: The following analytic identifies the use of the Invoke-ShareFinder PowerShell commandlet part of PowerView. This module obtains the list of all
   active domain computers and lists the active shares on each computer. Network file shares in Active Directory environments may contain sensitive information
   like backups, scripts, credentials, etc. Adversaries who have obtained a foothold in an AD network may leverage PowerView to identify secrets and leverage them 
@@ -26,25 +28,14 @@ tags:
   - Active Directory Privilege Escalation
   - Active Directory Discovery
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
   impact: 60
-  kill_chain_phases:
-  - Exploitation
-  - Actions on Objectives
   message: Invoke-ShareFinder commandlet was executed on $Computer$
   mitre_attack_id:
   - T1135
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -67,3 +58,9 @@ tags:
   - UserID
   risk_score: 48
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

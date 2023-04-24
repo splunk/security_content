@@ -1,0 +1,60 @@
+name: Zeek x509 Certificate with Punycode
+id: 029d6fe4-a5fe-43af-827e-c78c50e81d81
+version: 1
+date: '2022-11-03'
+author: Michael Haag, Splunk
+status: experimental
+type: Hunting
+description: The following analytic utilizes the Zeek x509 log. Modify the zeek_x509
+  macro with your index and sourcetype as needed. You will need to ensure the full
+  x509 is logged as the potentially malicious punycode is nested under subject alternative
+  names. In this particular analytic, it will identify punycode within the subject
+  alternative name email and other fields. Note, that OtherFields is meant to be BOOL
+  (true,false), therefore we may never see xn-- in that field. Upon identifying punycode,
+  manually copy and paste, or add CyberChef recipe to query, and decode the punycode
+  manually.
+data_source: []
+search: '`zeek_x509` | rex field=san.email{} "\@(?<domain_detected>xn--.*)" | rex
+  field=san.other_fields{} "\@(?<domain_detected>xn--.*)" | stats values(domain_detected)
+  by  basic_constraints.ca source host | `zeek_x509_certificate_with_punycode_filter`'
+how_to_implement: The following analytic requires x509 certificate data to be logged
+  entirely. In particular, for CVE-2022-3602, the punycode will be within the leaf
+  certificate. The analytic may be modified to look for all xn--, or utilize a network
+  IDS/monitoring tool like Zeek or Suricata to drill down into cert captured. Note
+  for Suricata, the certificate is base64 encoded and will need to be decoded to capture
+  the punycode (punycode will need to be decoded after).
+known_false_positives: False positives may be present if the organization works with
+  international businesses. Filter as needed.
+references:
+- https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
+- https://github.com/corelight/CVE-2022-3602/tree/master/scripts
+- https://docs.zeek.org/en/master/logs/x509.html
+- https://www.splunk.com/en_us/blog/security/nothing-puny-about-cve-2022-3602.html
+- https://www.openssl.org/blog/blog/2022/11/01/email-address-overflows/
+- https://docs.zeek.org/en/master/scripts/base/init-bare.zeek.html#type-X509::SubjectAlternativeName
+tags:
+  analytic_story:
+  - OpenSSL CVE-2022-3602
+  asset_type: Network
+  confidence: 30
+  impact: 50
+  message: A x509 certificate has been identified to have punycode in the subject
+    alternative name on $dest$.
+  mitre_attack_id:
+  - T1573
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - domain_detected
+  - basic_constraints.ca
+  - source
+  - host
+  risk_score: 15
+  security_domain: network

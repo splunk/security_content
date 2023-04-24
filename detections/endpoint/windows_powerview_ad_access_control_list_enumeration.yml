@@ -3,8 +3,10 @@ id: 39405650-c364-4e1e-a740-32a63ef042a6
 version: 1
 date: '2023-04-20'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
+data_source:
+- Powershell 4104
 description: The following analytic leverages Event ID 4104 to identify the execution of the PowerView powershell commandlets `Get-ObjectAcl` or `Get-DomainObjectAcl`. This commandlets
   are used to enumerate Access Control List permissions given to Active Directory objects. In an active directory environment, an object is an entity that represents an available resource within 
   the organizations network, such as domain controllers, users, groups, computers, shares, etc.  Maintaining Active Directory permissions is complicated and hard to manage, especially in complex 
@@ -29,25 +31,12 @@ tags:
   - Active Directory Discovery
   - Active Directory Privilege Escalation
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/powerview_acl_enumeration/windows-powershell.log
   impact: 40
-  kill_chain_phases:
-  - Reconnaissance
   message: PowerView AD acccess control list enumeration detected on $Computer$
   mitre_attack_id:
   - T1078.002
   - T1069
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -65,3 +54,9 @@ tags:
   - UserID
   risk_score: 20
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/powerview_acl_enumeration/windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

@@ -1,0 +1,54 @@
+name: Windows Exfiltration Over C2 Via Powershell UploadString
+id: 59e8bf41-7472-412a-90d3-00f3afa452e9
+version: 1
+date: '2023-04-05'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Powershell 4104
+description: The following analytic identifies potential data exfiltration using the PowerShell net.webclient command. This technique was observed in the Winter-Vivern malware, which uploads desktop screenshots and files from compromised or targeted hosts. Detecting this TTP can serve as a valuable indicator that a process is attempting to upload files to an external or internal URI link. We recommend examining the process, the files it is trying to upload, and the URL link or C2 destination where the data is being uploaded.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Net.webclient*" AND ScriptBlockText = "*.UploadString*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_exfiltration_over_c2_via_powershell_uploadstring_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: False positives should be limited. Filter as needed.
+references:
+- https://twitter.com/_CERT_UA/status/1620781684257091584
+- https://cert.gov.ua/article/3761104
+tags:
+  analytic_story:
+  - Winter Vivern
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: A PowerShell script on $Computer$ is attempting to transfer files to a remote URL.
+  mitre_attack_id:
+  - T1041
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - UserID
+  - EventCode
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_uploadstring/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

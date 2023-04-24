@@ -1,15 +1,16 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
 version: 1
-date: '2021-03-16'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This search looks for high frequency of file deletion relative to process
   name and process id. These events usually happen when the ransomware tries to encrypt
   the files with the ransomware file extensions and sysmon treat the original files
   to be deleted as soon it was replace as encrypted data.
+data_source:
+- Sysmon Event ID 23
 search: '`sysmon` EventCode=23 TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg",
   "*.jpeg", "*.db", "*.ps1", "*.doc*", "*.xls*", "*.ppt*", "*.bmp","*.zip", "*.rar",
   "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat",
@@ -28,18 +29,13 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
-  - WhisperGate
   - DarkCrystal RAT
   - Swift Slicer
+  - Data Destruction
+  - WhisperGate
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: High frequency file deletion activity detected on host $Computer$
   mitre_attack_id:
   - T1485
@@ -70,4 +66,9 @@ tags:
   - _time
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

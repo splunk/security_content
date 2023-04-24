@@ -1,0 +1,62 @@
+name: Check Elevated CMD using whoami
+id: a9079b18-1633-11ec-859c-acde48001122
+version: 1
+date: '2021-09-15'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: This search is to detect a suspicious whoami execution to check if the
+  cmd or shell instance process is with elevated privileges. This technique was seen
+  in FIN7 js implant where it execute this as part of its data collection to the infected
+  machine to check if the running shell cmd process is elevated or not. This TTP is
+  really a good alert for known attacker that recon on the targetted host. This command
+  is not so commonly executed by a normal user or even an admin to check if a process
+  is elevated.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*/group*'
+  selection2:
+    CommandLine: '*whoami*'
+  selection3:
+    CommandLine: '* find *'
+  selection4:
+    CommandLine: '*12288*'
+  condition: selection1 and selection2 and selection3 and selection4
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: unknown
+references: []
+tags:
+  analytic_story:
+  - FIN7
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: Process name $process_name$ with commandline $process$ in $dest$
+  mitre_attack_id:
+  - T1033
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

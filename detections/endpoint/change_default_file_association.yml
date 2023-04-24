@@ -1,16 +1,17 @@
 name: Change Default File Association
 id: 462d17d8-1f71-11ec-ad07-acde48001122
 version: 1
-date: '2021-09-27'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is developed to detect suspicious registry modification
   to change the default file association of windows to malicious payload. This technique
   was seen in some APT where it modify the default process to run file association,
   like .txt to notepad.exe. Instead notepad.exe it will point to a Script or other
   payload that will load malicious commands to the compromised host.
+data_source:
+- Sysmon Event ID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   ="*\\shell\\open\\command\\*" Registry.registry_path = "*HKCR\\*" by Registry.dest  Registry.user
@@ -28,20 +29,15 @@ references:
 - https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/accessibility-features
 tags:
   analytic_story:
-  - Windows Persistence Techniques
-  - Windows Privilege Escalation
-  - Windows Registry Abuse
   - Hermetic Wiper
+  - Windows Registry Abuse
   - Prestige Ransomware
+  - Windows Privilege Escalation
+  - Windows Persistence Techniques
+  - Data Destruction
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1546.001
@@ -68,4 +64,9 @@ tags:
   - Registry.registry_value_name
   risk_score: 80
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

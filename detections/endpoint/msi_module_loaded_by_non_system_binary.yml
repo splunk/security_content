@@ -1,10 +1,10 @@
 name: MSI Module Loaded by Non-System Binary
 id: ccb98a66-5851-11ec-b91c-acde48001122
 version: 1
-date: '2021-12-08'
+date: '2023-04-14'
 author: Michael Haag, Splunk
+status: production
 type: Hunting
-datamodel: []
 description: 'The following hunting analytic identifies `msi.dll` being loaded by
   a binary not located in `system32`, `syswow64`, `winsxs` or `windows` paths. This
   behavior is most recently related to InstallerFileTakeOver, or CVE-2021-41379, and
@@ -23,6 +23,8 @@ description: 'The following hunting analytic identifies `msi.dll` being loaded b
 
   In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded
   by non-system binaries.'
+data_source:
+- Sysmon Event ID 7
 search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*",
   "*\\winsxs\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by
   Image ImageLoaded process_name Computer EventCode ProcessId | `security_content_ctime(firstTime)`
@@ -38,18 +40,14 @@ references:
 - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/msi.dll%20Hijack%20(Methodology).ioc
 tags:
   analytic_story:
+  - Data Destruction
+  - Hermetic Wiper
   - Windows Privilege Escalation
-  - Hermetic Wiper 
+  asset_type: Endpoint
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
   cve:
   - CVE-2021-41379
-  dataset: []
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: The following module $ImageLoaded$ was loaded by $Image$ outside of the
     normal system paths on endpoint $Computer$, potentally related to DLL side-loading.
   mitre_attack_id:
@@ -72,6 +70,11 @@ tags:
   - Computer
   - EventCode
   - ProcessId
-  security_domain: endpoint
   risk_score: 56
-  asset_type: Endpoint
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/msi_module_load/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

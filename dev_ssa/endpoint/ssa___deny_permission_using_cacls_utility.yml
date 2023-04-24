@@ -1,0 +1,69 @@
+name: Deny Permission using Cacls Utility
+id: b76eae28-cd25-11eb-9c92-acde48001122
+version: 3
+date: '2021-11-29'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of `cacls.exe`, `icacls.exe`
+  or `xcacls.exe` placing the deny permission on a file or directory. Adversaries
+  perform this behavior to prevent responders from reviewing or gaining access to
+  adversary files on disk.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process_name:
+    - icacls.exe
+    - xcacls.exe
+    - cacls.exe
+    process|re: deny
+  condition: (selection1)
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed icacls.exe may be used.
+known_false_positives: System administrators may use cacls utilities but this is not
+  a common practice. Filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  - Information Sabotage
+  asset_type: Endpoint
+  confidence: 70
+  impact: 50
+  message: A cacls process $process_name$ with commandline $process$ try to deny
+    a permission of a file or directory in host $dest_device_id$
+  mitre_attack_id:
+  - T1222
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - process
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+    source: WinEventLog:Security

@@ -1,0 +1,58 @@
+name: Linux File Creation In Init Boot Directory
+id: 97d9cfb2-61ad-11ec-bb2d-acde48001122
+version: 1
+date: '2021-12-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This analytic looks for suspicious file creation on init system directories
+  for automatic execution of script or file upon boot up. This technique is commonly
+  abuse by adversaries, malware author and red teamer to persist on the targeted or
+  compromised host. This behavior can be executed or use by an administrator or network
+  operator to add script files or binary files as part of a task or automation. filter
+  is needed.
+data_source:
+- Sysmon Event ID 11
+search:
+  selection1:
+    TargetFilename:
+    - '*/etc/init.d/*'
+    - '*/etc/rc.d/*'
+    - '*/sbin/init.d/*'
+    - '*/etc/rc.local*'
+  condition: selection1
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the file name, file path, and process_guid executions from your endpoints.
+  If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase
+known_false_positives: Administrator or network operator can create file in this folders
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: A file $file_name$ is created in $file_path$ on $dest$
+  mitre_attack_id:
+  - T1037.004
+  - T1037
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

@@ -3,37 +3,37 @@ id: 9b1a5385-0c31-4c39-9753-dc26b8ce64c2
 version: 1
 date: '2023-02-06'
 author: Michael Haag, Splunk
+status: production
 type: Anomaly
-datamodel: []
-description:  The following analytic identifies when a new certificate is issued against the Certificate Services - AD CS. By its very nature this is not malicious, but should be tracked and correlated with other events related to certificates being issued.
-  When the CA issues the certificate, it creates EID 4887 'Certificate Services approved a certificate request and issued a certificate".
-  The event supplies the requester user context, the DNS hostname of the machine they requested the certificate from, and the time they requested the certificate. The attributes fields in these event commonly has values for CDC, RMD, and CCM which correspond to Client DC, Request Machine DNS name, and Cert Client Machine, respectively.
-search: '`wineventlog_security`  EventCode=4887 | stats count min(_time) as firstTime max(_time) as lastTime by dest, name, Requester, action, Attributes, Subject | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_steal_authentication_certificates_certificate_issued_filter`'
-how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled on AD CS and within Group Policy Management for CS server. See Page 115 of first reference.
-known_false_positives: False positives will be generated based on normal certificates issued. Leave enabled to generate Risk, as this is meant to be an anomaly analytic.
+description: The following analytic identifies when a new certificate is issued against
+  the Certificate Services - AD CS. By its very nature this is not malicious, but
+  should be tracked and correlated with other events related to certificates being
+  issued. When the CA issues the certificate, it creates EID 4887 'Certificate Services
+  approved a certificate request and issued a certificate". The event supplies the
+  requester user context, the DNS hostname of the machine they requested the certificate
+  from, and the time they requested the certificate. The attributes fields in these
+  event commonly has values for CDC, RMD, and CCM which correspond to Client DC, Request
+  Machine DNS name, and Cert Client Machine, respectively.
+data_source: []
+search: '`wineventlog_security`  EventCode=4887 | stats count min(_time) as firstTime
+  max(_time) as lastTime by dest, name, Requester, action, Attributes, Subject | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`| `windows_steal_authentication_certificates_certificate_issued_filter`'
+how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled
+  on AD CS and within Group Policy Management for CS server. See Page 115 of first
+  reference.
+known_false_positives: False positives will be generated based on normal certificates
+  issued. Leave enabled to generate Risk, as this is meant to be an anomaly analytic.
 references:
 - https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf
 tags:
   analytic_story:
   - Windows Certificate Services
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4887_windows-security.log
   impact: 10
-  kill_chain_phases:
-  - Actions on Objectives
   message: A certificate was issued to $dest$.
   mitre_attack_id:
   - T1649
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -52,3 +52,10 @@ tags:
   - Attributes
   risk_score: 8
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4887_windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

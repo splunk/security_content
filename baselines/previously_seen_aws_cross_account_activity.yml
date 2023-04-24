@@ -22,8 +22,6 @@ references: []
 tags:
   analytic_story:
   - AWS Cross Account Activity
-  deployments:
-  - Daily Cache Updates
   detections:
   - AWS Cross Account Activity From Previously Unseen Account
   product:

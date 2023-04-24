@@ -1,11 +1,10 @@
 name: Active Setup Registry Autostart
 id: f64579c0-203f-11ec-abcc-acde48001122
 version: 3
-date: '2022-11-14'
+date: '2023-04-14'
 author: Steven Dick, Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This analytic is to detect a suspicious modification of the active setup
   registry for persistence and privilege escalation. This technique was seen in several
   malware (poisonIvy), adware and APT to gain persistence to the compromised machine
@@ -13,15 +12,20 @@ description: This analytic is to detect a suspicious modification of the active 
   do the modification since modification of this registry is not commonly done. check
   the legitimacy of the file and process involve in this rules to check if it is a
   valid setup installer that creating or modifying this registry.
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | join process_guid [
-  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-  | `drop_dm_object_name(Registry)`] 
-  | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid
-  | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`| `active_setup_registry_autostart_filter`'
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
+  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
+  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
+  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active
+  Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  | `drop_dm_object_name(Registry)`] | fields firstTime lastTime dest user parent_process_name
+  parent_process process_name process_path process registry_key_name registry_path
+  registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `active_setup_registry_autostart_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -32,18 +36,13 @@ references:
 - https://attack.mitre.org/techniques/T1547/014/
 tags:
   analytic_story:
-  - Windows Persistence Techniques
+  - Data Destruction
   - Windows Privilege Escalation
   - Hermetic Wiper
+  - Windows Persistence Techniques
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1547.014
@@ -65,12 +64,12 @@ tags:
   - _time
   - Processes.user
   - Processes.dest
-  - Processes.process_id 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_path  
-  - Processes.parent_process_name 
-  - Processes.parent_process 
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
@@ -80,4 +79,9 @@ tags:
   - Registry.process_guid
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

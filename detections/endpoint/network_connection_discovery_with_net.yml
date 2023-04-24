@@ -1,0 +1,66 @@
+name: Network Connection Discovery With Net
+id: 640337e5-6e41-4b7f-af06-9d9eab5e1e2d
+version: 1
+date: '2021-09-10'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+description: This analytic looks for the execution of `net.exe` with command-line
+  arguments utilized to get a listing of network connections on a compromised system.
+  Red Teams and adversaries alike may use net.exe for situational awareness and Active
+  Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="net.exe"
+  OR Processes.process_name="net1.exe") (Processes.process=*use*) by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `network_connection_discovery_with_net_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1049/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  - Azorult
+  - Windows Post-Exploitation
+  - Prestige Ransomware
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: Network Connection discovery on $dest$ by $user$
+  mitre_attack_id:
+  - T1049
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

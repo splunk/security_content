@@ -40,8 +40,6 @@ tags:
   - Hidden Cobra Malware
   - Netsh Abuse
   - Ransomware
-  deployments:
-  - Daily Cache Updates
   detections:
   - Processes launching netsh
   - SMB Traffic Spike - MLTK

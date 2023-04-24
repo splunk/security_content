@@ -1,0 +1,65 @@
+name: Services Escalate Exe
+id: c448488c-b7ec-11eb-8253-acde48001122
+version: 1
+date: '2021-05-18'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of `svc-exe` with Cobalt Strike.
+  The behavior typically follows after an adversary has already gained initial access
+  and is escalating privileges. Using `svc-exe`, a randomly named binary will be downloaded
+  from the remote Teamserver and placed on disk within `C:\Windows\400619a.exe`. Following,
+  the binary will be added to the registry under key `HKLM\System\CurrentControlSet\Services\400619a\`
+  with multiple keys and values added to look like a legitimate service. Upon loading,
+  `services.exe` will spawn the randomly named binary from `\\127.0.0.1\ADMIN$\400619a.exe`.
+  The process lineage is completed with `400619a.exe` spawning rundll32.exe, which
+  is the default `spawnto_` value for Cobalt Strike. The `spawnto_` value is arbitrary
+  and may be any process on disk (typically system32/syswow64 binary). The `spawnto_`
+  process will also contain a network connection. During triage, review parallel procesess
+  and identify any additional file modifications.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    Processes.process_path: '*admin$*'
+    ParentImage: services.exe
+  condition: selection1
+how_to_implement: To successfully implement this search, you will need to ensure that
+  DNS data is populating the Network_Resolution data model.
+known_false_positives: False positives should be limited as `services.exe` should
+  never spawn a process from `ADMIN$`. Filter as needed.
+references:
+- https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+- https://attack.mitre.org/techniques/T1548/
+- https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1085
+tags:
+  analytic_story:
+  - Cobalt Strike
+  asset_type: Endpoint
+  confidence: 95
+  impact: 80
+  message: A service process $parent_process_name$ with process path $process_path$
+    in host $dest$
+  mitre_attack_id:
+  - T1548
+  observable:
+  - name: Processes.dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Processes.user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 76
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

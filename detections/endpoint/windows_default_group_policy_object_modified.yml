@@ -3,8 +3,9 @@ id: fe6a6cc4-9e0d-4d66-bcf4-2c7f44860876
 version: 1
 date: '2023-03-28'
 author: Mauricio Velazco, Splunk
+status: production
 type: TTP
-datamodel: []
+data_source : []
 description: The following analytic leverages Event ID 5136 to identify the modification of a default Group Policy Object. A fresh installation of an Active Directory network will typically contain
   two default group policy objects `Default Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers policy is used to enforce and set policies to all the domain controllers within the domain environment.
   The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 
@@ -29,27 +30,12 @@ tags:
   - Active Directory Privilege Escalation
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 50
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
   impact: 100
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
   message: A default group policy object was modified on $Computer$ by $SubjectUserSid$
   mitre_attack_id:
   - T1484
   - T1484.001
-  nist:
-  - DE.CM
   observable:
   - name: SubjectUserSid
     type: User
@@ -74,3 +60,9 @@ tags:
   - SubjectUserSid
   risk_score: 50
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

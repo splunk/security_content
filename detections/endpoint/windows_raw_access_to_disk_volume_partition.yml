@@ -1,16 +1,17 @@
 name: Windows Raw Access To Disk Volume Partition
 id: a85aa37e-9647-11ec-90c5-acde48001122
 version: 1
-date: '2022-02-25'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: This analytic is to look for suspicious raw access read to device disk
   partition of the host machine. This technique was seen in several attacks by adversaries
   or threat actor to wipe, encrypt or overwrite the boot sector of each partition
   as part of their impact payload for example the "hermeticwiper" malware. This detection
   is a good indicator that there is a process try to read or write on boot sector.
+data_source:
+- Sysmon Event ID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
   lastTime by Image Device ProcessGuid ProcessId EventDescription EventCode Computer
@@ -26,28 +27,17 @@ references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
 tags:
   analytic_story:
-  - Caddy Wiper
-  - Data Destruction
-  - Hermetic Wiper
   - CISA AA22-264A
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
+  - Data Destruction
+  - Caddy Wiper
+  - Hermetic Wiper
+  asset_type: Endpoint
   confidence: 100
-  context:
-  - Source:Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: Process accessing disk partition $device$ in $dest$
   mitre_attack_id:
   - T1561.002
   - T1561
-  nist:
-  - DE.CM
   observable:
   - name: ComputerName
     type: Hostname
@@ -68,4 +58,9 @@ tags:
   - EventCode
   risk_score: 90
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

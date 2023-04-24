@@ -1,0 +1,72 @@
+name: Detect AzureHound Command-Line Arguments
+id: 26f02e96-c300-11eb-b611-acde48001122
+version: 1
+date: '2021-06-01'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the common command-line argument used
+  by AzureHound `Invoke-AzureHound`. Being the script is FOSS, function names may
+  be modified, but these changes are dependent upon the operator. In most instances
+  the defaults are used. This analytic works to identify the common command-line attributes
+  used. It does not cover the entirety of every argument in order to avoid false positives.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine: '*invoke-azurehound*'
+  condition: selection1
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Unknown.
+references:
+- https://attack.mitre.org/software/S0521/
+- https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+- https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
+- https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1
+tags:
+  analytic_story:
+  - Discovery Techniques
+  asset_type: Endpoint
+  confidence: 100
+  impact: 80
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ using AzureHound to enumerate AzureAD.
+  mitre_attack_id:
+  - T1087.002
+  - T1069.001
+  - T1482
+  - T1087.001
+  - T1087
+  - T1069.002
+  - T1069
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -42,9 +42,7 @@ class FactoryOutputDto:
      deployments: list
      macros: list
      lookups: list
-     tests: list
 
-     
 
 class Factory():
      input_dto: FactoryInputDto
@@ -54,16 +52,12 @@ class Factory():
      def __init__(self, output_dto: FactoryOutputDto) -> None:
         self.output_dto = output_dto
 
-
-          
-
      def execute(self, input_dto: FactoryInputDto) -> None:
           self.input_dto = input_dto
           print("Creating Security Content - ESCU. This may take some time...")
           #Accumulate any validation errors that may occur while creating security_contnet
           validation_errors = []
           # order matters to load and enrich security content types
-          validation_errors.extend(self.createSecurityContent(SecurityContentType.unit_tests))
           validation_errors.extend(self.createSecurityContent(SecurityContentType.lookups))
           validation_errors.extend(self.createSecurityContent(SecurityContentType.macros))
           validation_errors.extend(self.createSecurityContent(SecurityContentType.deployments))
@@ -87,8 +81,8 @@ class Factory():
           objects = []
           if type == SecurityContentType.deployments:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
-          elif type == SecurityContentType.unit_tests:
-               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, 'tests'))
+          elif type == SecurityContentType.detections:
+               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, 'detections'))
           else:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           
@@ -105,7 +99,6 @@ class Factory():
           #Non threaded, production version of the construction code
           files_without_ssa = [f for f in files if not f.name.startswith('ssa___')]
           for index,file in enumerate(files_without_ssa):
-          
                #Index + 1 because we are zero indexed, not 1 indexed.  This ensures
                # that printouts end at 100%, not some other number 
                progress_percent = ((index+1)/len(files_without_ssa)) * 100
@@ -165,18 +158,11 @@ class Factory():
                          type_string = "Detections"
                          self.input_dto.director.constructDetection(self.input_dto.detection_builder, file, 
                               self.output_dto.deployments, self.output_dto.playbooks, self.output_dto.baselines,
-                              self.output_dto.tests, self.input_dto.attack_enrichment, self.output_dto.macros,
+                              self.input_dto.attack_enrichment, self.output_dto.macros,
                               self.output_dto.lookups, self.input_dto.force_cached_or_offline)
                          detection = self.input_dto.detection_builder.getObject()
                          Utils.add_id(self.ids, detection, file)
                          self.output_dto.detections.append(detection)
-               
-                    elif type == SecurityContentType.unit_tests:
-                         type_string = "Unit Tests"
-                         self.input_dto.director.constructTest(self.input_dto.basic_builder, str(file))
-                         test = self.input_dto.basic_builder.getObject()
-                         Utils.add_id(self.ids, test, file)
-                         self.output_dto.tests.append(test)
 
                     else:
                          raise Exception(f"Unsupported type: [{type}]")
@@ -188,8 +174,7 @@ class Factory():
                except ValidationError as e:
                     validation_errors.append((pathlib.Path(file), e))
                except Exception as e:
-                    print(f"Unknown exception caught while Creating Security Content: {str(e)}")
-                    sys.exit(1)
+                    validation_errors.append((pathlib.Path(file), e))
                     
                
                    

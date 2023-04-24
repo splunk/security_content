@@ -1,0 +1,31 @@
+name: Windows Security 4769
+id: aceb2eee-b060-44a4-80b0-b6015989ef8e
+date: '2022-11-28'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: WinEventLog:Security
+sourcetype: WinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4769
+raw_fields: 
+- Account_Domain
+- Account_Name
+- Client_Address
+- Client_Port
+- ComputerName
+- EventCode
+- Failure_Code
+- Logon_GUID
+- Service_ID
+- Service_Name
+- Ticket_Encryption_Time
+- Ticket_Options
+- Transited_Services
+
+

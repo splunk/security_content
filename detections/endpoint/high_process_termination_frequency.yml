@@ -3,16 +3,22 @@ id: 17cd75b2-8666-11eb-9ab4-acde48001122
 version: 2
 date: '2022-09-14'
 author: Teoderick Contreras
+status: production
 type: Anomaly
-datamodel:
-- Endpoint
-description: This analytic is designed to identify a high frequency of process
-  termination events on a computer in a short period of time, which is a common behavior of ransomware malware before encrypting files. This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
+description: This analytic is designed to identify a high frequency of process termination
+  events on a computer in a short period of time, which is a common behavior of ransomware
+  malware before encrypting files. This technique is designed to avoid an exception
+  error while accessing (docs, images, database and etc..) in the infected machine
+  for encryption.
+data_source:
+- Sysmon Event ID 5
 search: '`sysmon` EventCode=5 |bin _time span=3s |stats values(Image) as proc_terminated
-  min(_time) as firstTime max(_time) as lastTime  count by _time Computer EventCode ProcessID
-  | where count >= 15 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  min(_time) as firstTime max(_time) as lastTime  count by _time Computer EventCode
+  ProcessID | where count >= 15 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `high_process_termination_frequency_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the Image (process full path of terminated process) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the Image (process full path of terminated process) from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: admin or user tool that can terminate multiple process.
 references:
 - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
@@ -21,15 +27,9 @@ tags:
   analytic_story:
   - Clop Ransomware
   - LockBit Ransomware
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   impact: 90
-  kill_chain_phases:
-  - Exploitation
   message: High frequency process termination (more than 15 processes within 3s) detected
     on host $Computer$
   mitre_attack_id:
@@ -55,4 +55,9 @@ tags:
   - ProcessID
   risk_score: 72
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

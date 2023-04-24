@@ -1,0 +1,77 @@
+name: Windows NirSoft AdvancedRun
+id: bb4f3090-7ae4-11ec-897f-acde48001122
+version: 1
+date: '2022-01-21'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of AdvancedRun.exe. AdvancedRun.exe
+  has similar capabilities as other remote programs like psexec. AdvancedRun may also
+  ingest a configuration file with all settings defined and perform its activity.
+  The analytic is written in a way to identify a renamed binary and also the common
+  command-line arguments.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    OriginalFileName: advancedrun.exe
+  selection2:
+    Image|endswith: advancedrun.exe
+  selection3:
+    CommandLine:
+    - '*EXEFilename*'
+    - '*/cfg*'
+    - '*RunAs*'
+    - '*WindowState*'
+  condition: (selection1 or selection2) and selection3
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: False positives should be limited as it is specific to AdvancedRun.
+  Filter as needed based on legitimate usage.
+references:
+- http://www.nirsoft.net/utils/advanced_run.html
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+tags:
+  analytic_story:
+  - Unusual Processes
+  - Ransomware
+  - WhisperGate
+  asset_type: Endpoint
+  confidence: 100
+  impact: 60
+  message: An instance of advancedrun.exe, $process_name$, was spawned by $parent_process_name$
+    on $dest$ by $user$.
+  mitre_attack_id:
+  - T1588.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 60
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

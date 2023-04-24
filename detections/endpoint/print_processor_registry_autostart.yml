@@ -1,0 +1,72 @@
+name: Print Processor Registry Autostart
+id: 1f5b68aa-2037-11ec-898e-acde48001122
+version: 1
+date: '2023-04-14'
+author: Teoderick Contreras, Splunk
+status: experimental
+type: TTP
+description: This analytic is to detect a suspicious modification or new registry
+  entry regarding print processor. This registry is known to be abuse by turla or
+  other APT to gain persistence and privilege escalation to the compromised machine.
+  This is done by adding the malicious dll payload on the new created key in this
+  registry that will be executed as it restarted the spoolsv.exe process and services.
+data_source:
+- Sysmon Event ID 13
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
+  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
+  ="*\\Control\\Print\\Environments\\Windows x64\\Print Processors*" by Registry.dest  Registry.user
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name |
+  `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
+  | `print_processor_registry_autostart_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: possible new printer installation may add driver component
+  on this registry.
+references:
+- https://attack.mitre.org/techniques/T1547/012/
+- https://www.welivesecurity.com/2020/05/21/no-game-over-winnti-group/
+tags:
+  analytic_story:
+  - Data Destruction
+  - Windows Privilege Escalation
+  - Hermetic Wiper
+  - Windows Persistence Techniques
+  asset_type: Endpoint
+  confidence: 100
+  impact: 80
+  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
+  mitre_attack_id:
+  - T1547.012
+  - T1547
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/print_reg/sysmon_print.log
+    source: WinEventLog:Microsoft-Windows-PrintService/Operational
+    sourcetype: WinEventLog

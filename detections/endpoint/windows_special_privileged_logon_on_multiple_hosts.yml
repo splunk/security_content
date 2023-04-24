@@ -4,7 +4,8 @@ version: 1
 date: '2023-03-27'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel: []
+status: production
+data_source : []
 description: The following analytic leverages Event ID 4672 to identify a source user authenticating with special privileges across a large number
   remote endpoints. Specifically, the logic will trigger when a source user obtains special privileges across 30 or more target computers within a 5 minute timespan.
   Special privileges are assigned to a new logon session when sensitive privileges like SeDebugPrivilege and SeImpersonatePrivilege are assigned. This behavior could represent an 
@@ -28,28 +29,13 @@ tags:
   - Active Directory Privilege Escalation
   - Active Directory Lateral Movement
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Lateral Movement
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/special_logon_on_mulitple_hosts/windows-security.log
   impact: 80
-  kill_chain_phases:
-  - Reconnaissance
-  - Exploitation
   message: A source user $Caller_User_Name$ obtained special privileges on a large number of endpoints within 5 minutes.
   mitre_attack_id:
   - T1087
   - T1021.002
   - T1135
-  nist:
-  - DE.CM
   observable:
   - name: Computer
     type: Hostname
@@ -71,3 +57,9 @@ tags:
   - PrivilegeList
   risk_score: 64
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/special_logon_on_mulitple_hosts/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

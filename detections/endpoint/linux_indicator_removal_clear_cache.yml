@@ -1,22 +1,24 @@
 name: Linux Indicator Removal Clear Cache
 id: e0940505-0b73-4719-84e6-cb94c44a5245
 version: 1
-date: '2023-02-09'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
+status: production
 type: TTP
-datamodel:
-- Endpoint
-description: This analytic looks for processes that clear or free page cache in Linux system host. 
-  This technique was seen in Awfulshred malware wiper that tries to clear the cache using kernel system request drop_caches 
-  while wiping all files in the targeted host. This TTP detection can be a good indicator of user or process tries to clear page cache 
-  to delete tracks or might be a wiper like Awfulshred.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name IN ("dash", "sudo", "bash")  AND Processes.process  IN("* echo 3 &gt; *", "* echo 2 &gt; *","* echo 1 &gt; *") AND Processes.process = "*/proc/sys/vm/drop_caches"
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id 
-  Processes.parent_process_id Processes.process_guid 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `linux_indicator_removal_clear_cache_filter`'
+description: This analytic looks for processes that clear or free page cache in Linux
+  system host. This technique was seen in Awfulshred malware wiper that tries to clear
+  the cache using kernel system request drop_caches while wiping all files in the
+  targeted host. This TTP detection can be a good indicator of user or process tries
+  to clear page cache to delete tracks or might be a wiper like Awfulshred.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("dash",
+  "sudo", "bash")  AND Processes.process  IN("* echo 3 &gt; *", "* echo 2 &gt; *","*
+  echo 1 &gt; *") AND Processes.process = "*/proc/sys/vm/drop_caches" by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `linux_indicator_removal_clear_cache_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
@@ -28,25 +30,14 @@ references:
 tags:
   analytic_story:
   - AwfulShred
+  - Data Destruction
   asset_type: Endpoint
-  cis20:
-  - CIS 3
-  - CIS 5
-  - CIS 16
   confidence: 70
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test3/sysmon_linux.log
   impact: 70
-  kill_chain_phases:
-  - Exploitation
-  message: a $process_name$ clear cache using kernel drop cache system request in $dest$
+  message: a $process_name$ clear cache using kernel drop cache system request in
+    $dest$
   mitre_attack_id:
   - T1070
-  nist:
-  - DE.CM
   observable:
   - name: dest
     type: Hostname
@@ -71,4 +62,10 @@ tags:
   - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
-
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test3/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
+    update_timestamp: true

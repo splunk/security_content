@@ -3,27 +3,27 @@ id: 73ce70c4-146d-11ec-9184-acde48001122
 version: 4
 date: '2023-02-15'
 author: Teoderick Contreras, Michael Haag, Splunk, TheLawsOfChaos, Github
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is to detect a suspicious MS office application that drops
-  or creates executables or scripts in a Windows Operating System. This behavior is commonly seen in spear
-  phishing office attachment where it drop malicious files or script to compromised
-  the host. It might be some normal macro may drop script or tools as part of automation
-  but still this behavior is reallly suspicious and not commonly seen in normal office
-  application
+  or creates executables or scripts in a Windows Operating System. This behavior is
+  commonly seen in spear phishing office attachment where it drop malicious files
+  or script to compromised the host. It might be some normal macro may drop script
+  or tools as part of automation but still this behavior is reallly suspicious and
+  not commonly seen in normal office application
+data_source:
+- Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  Processes.process_guid | `drop_dm_object_name(Processes)` |join process_guid, _time [| tstats `security_content_summariesonly` count
-  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_name IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1")
+  Processes.process_guid | `drop_dm_object_name(Processes)` |join process_guid, _time
+  [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1")
   by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
   Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)`
-  | fields _time dest file_create_time file_name
-  file_path process_name process_path process process_guid] | dedup file_create_time
-  | table dest, process_name, process, file_create_time, file_name, file_path, process_guid
-  | `office_application_drop_executable_filter`'
+  | fields _time dest file_create_time file_name file_path process_name process_path
+  process process_guid] | dedup file_create_time | table dest, process_name, process,
+  file_create_time, file_name, file_path, process_guid | `office_application_drop_executable_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -39,15 +39,9 @@ tags:
   - FIN7
   - AgentTesla
   - CVE-2023-21716 Word RTF Heap Corruption
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Recon
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
   impact: 80
-  kill_chain_phases:
-  - Exploitation
   message: process $process_name$ drops a file $file_name$ in host $dest$
   mitre_attack_id:
   - T1566
@@ -74,4 +68,9 @@ tags:
   - user_id
   risk_score: 64
   security_domain: endpoint
-  asset_type: Endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

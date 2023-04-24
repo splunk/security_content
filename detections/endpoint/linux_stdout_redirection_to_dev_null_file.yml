@@ -1,0 +1,67 @@
+name: Linux Stdout Redirection To Dev Null File
+id: de62b809-a04d-46b5-9a15-8298d330f0c8
+version: 1
+date: '2023-04-14'
+author: Teoderick Contreras, Splunk
+status: experimental
+type: Anomaly
+description: This analytic looks for suspicious commandline that redirect the stdout
+  or possible stderror to dev/null file. This technique was seen in cyclopsblink malware
+  where it redirect the possible output or error while modify the iptables firewall
+  setting of the compromised machine to hide its action from the user. This Anomaly
+  detection is a good pivot to look further why process or user use this un common
+  approach.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where  Processes.process = "*&amp;&gt;/dev/null*"
+  by  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_guid Processes.dest Processes.user Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `linux_stdout_redirection_to_dev_null_file_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: unknown
+references:
+- https://www.ncsc.gov.uk/files/Cyclops-Blink-Malware-Analysis-Report.pdf
+- https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
+tags:
+  analytic_story:
+  - CyclopsBLink
+  - Data Destruction
+  - Industroyer2
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: a commandline $process$ that redirect stdout to dev/null in $dest$
+  mitre_attack_id:
+  - T1562.004
+  - T1562
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/cyclopsblink/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux

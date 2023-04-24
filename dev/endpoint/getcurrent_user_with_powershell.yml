@@ -1,0 +1,53 @@
+name: GetCurrent User with PowerShell
+id: 7eb9c3d5-c98c-4088-acc5-8240bad15379
+version: 1
+date: '2021-09-13'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+description: This analytic looks for the execution of `powerhsell.exe` with command-line
+  arguments that execute the `GetCurrent` method of the WindowsIdentity .NET class.
+  This method returns an object that represents the current Windows user. Red Teams
+  and adversaries may leverage this method to identify the logged user on a compromised
+  endpoint for situational awareness and Active Directory Discovery.
+data_source:
+- Sysmon Event ID 1
+search:
+  selection1:
+    CommandLine:
+    - '*GetCurrent('
+    - '*System.Security.Principal.WindowsIdentity*'
+    Image|endswith: powershell.exe
+  condition: (selection1)
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1033/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: System user discovery on $dest$
+  mitre_attack_id:
+  - T1033
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
