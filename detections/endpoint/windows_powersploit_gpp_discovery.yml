@@ -5,7 +5,6 @@ date: '2023-03-16'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-
 data_source:
 - Powershell 4104
 description: The following analytic identifies the use of the Get-GPPPassword PowerShell commandlet employed to search for unsecured credentials Group Policy Preferences (GPP).
@@ -63,5 +62,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

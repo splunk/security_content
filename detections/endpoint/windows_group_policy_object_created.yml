@@ -33,8 +33,6 @@ tags:
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 50
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_created/windows-security.log
   impact: 80
   message: A new group policy objected was created by $User$
   mitre_attack_id:
@@ -65,6 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_created/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
