@@ -44,7 +44,7 @@ tags:
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  message: UPDATE message
+  message: A default group policy object was modified on $Computer$ by $SubjectUserSid$
   mitre_attack_id:
   - T1484
   - T1484.001

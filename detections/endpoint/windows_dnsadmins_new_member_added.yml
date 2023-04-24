@@ -39,7 +39,7 @@ tags:
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  message: UPDATE message
+  message: A new member was added to the DnsAdmins group by $SubjectUserName$
   mitre_attack_id:
   - T1098
   nist:

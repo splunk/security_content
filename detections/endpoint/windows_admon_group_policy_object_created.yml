@@ -43,7 +43,7 @@ tags:
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  message: UPDATE message
+  message: A new group policy objected was created on $dcName$
   mitre_attack_id:
   - T1484
   - T1484.001

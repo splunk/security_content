@@ -43,7 +43,7 @@ tags:
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  message: UPDATE message
+  message: A default domain group policy was updated on $dcName$
   mitre_attack_id:
   - T1484
   - T1484.001

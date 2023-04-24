@@ -42,7 +42,7 @@ tags:
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: UPDATE message
+  message: The source computer with ip address $IpAddress$ authenticated to a large number of remote endpoints within 5 minutes.
   mitre_attack_id:
   - T1003.002
   nist:

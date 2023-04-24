@@ -47,7 +47,7 @@ tags:
   - Exploitation
   - Installation
   - Actions on Objectives
-  message: UPDATE message
+  message: A new group policy objected was created by $User$
   mitre_attack_id:
   - T1484
   - T1484.001

@@ -17,7 +17,7 @@ description: The following analytic leverages Event ID 4769, `A Kerberos
   the arbitrary threshold as needed.
 
 search: ' `wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
-  | bucket span=2m _time 
+  | bucket span=5m _time 
   | stats dc(ServiceName) AS unique_targets values(ServiceName) as host_targets by _time, IpAddress, TargetUserName
   | where unique_targets > 30
   | `windows_large_number_of_computer_service_tickets_requested_filter`'
@@ -48,7 +48,7 @@ tags:
   impact: 60
   kill_chain_phases:
   - Reconnaissance
-  message: UPDATE message
+  message: A large number of kerberos computer service tickets were requested by $IpAddress$ within 5 minutes.
   mitre_attack_id:
   - T1135
   - T1078

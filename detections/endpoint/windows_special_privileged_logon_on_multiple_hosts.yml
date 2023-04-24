@@ -43,7 +43,7 @@ tags:
   kill_chain_phases:
   - Reconnaissance
   - Exploitation
-  message: UPDATE message
+  message: A source user $Caller_User_Name$ obtained special privileges on a large number of endpoints within 5 minutes.
   mitre_attack_id:
   - T1087
   - T1021.002
