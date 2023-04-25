@@ -1,5 +1,4 @@
 azureadrole,isprvilegedadrole,description
-"""Application Administrator""",True,Can create and manage all aspects of app registrations and enterprise apps.
 """Authentication Administrator""",True,Can access to view, set and reset authentication method information for any non-admin user.
 """Authentication Policy Administrator""",True,Can create and manage the authentication methods policy, tenant-wide MFA settings, password protection policy, and verifiable credentials.
 """Azure AD Joined Device Local Administrator""",True,Users assigned to this role are added to the local administrators group on Azure AD-joined devices.

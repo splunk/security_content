@@ -1,0 +1,66 @@
+name: Azure AD Application Administrator Role Assigned
+id: eac4de87-7a56-4538-a21b-277897af6d8d
+version: 1
+date: '2023-04-25'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies the assignment of the Azure AD Global Administrator role to an Azure AD user
+search: ' `azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Application Administrator\"" 
+  | rename body.properties.* as * 
+  | rename targetResources{}.userPrincipalName as userPrincipalName 
+  | rename initiatedBy.user.userPrincipalName as initiatedBy
+  | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName
+  | `azure_ad_application_administrator_role_assigned_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  Specifically, this analytic leverages the AuditLogs log category.
+known_false_positives: Administrators may legitimately assign the Application Administrator
+  role to a user. Filter as needed.
+references:
+- https://dirkjanm.io/azure-ad-privilege-escalation-application-admin/
+- https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
+- https://docs.microsoft.com/en-us/azure/active-directory/roles/concept-understand-roles
+- https://attack.mitre.org/techniques/T1098/003/
+tags:
+  analytic_story:
+  - Azure Active Directory Privilege Escalation
+  asset_type: Azure Active Directory
+  atomic_guid: []
+  confidence: 50
+  impact: 70
+  message: The privileged Azure AD role Application Administrator was assigned for User $userPrincipalName$ initiated
+    by $initiatedBy$
+  mitre_attack_id:
+  - T1098
+  - T1098.003
+  observable:
+  - name: userPrincipalName
+    type: User
+    role:
+    - Victim
+  - name: initiatedBy
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - body.properties.targetResources{}.userPrincipalName
+  - body.properties.targetResources{}.type
+  - body.properties.initiatedBy.user.userPrincipalName
+  - body.properties.result
+  risk_score: 35
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
+    source: mscs:azure:eventhub
+    sourcetype: mscs:azure:eventhub
+    update_timestamp: true
