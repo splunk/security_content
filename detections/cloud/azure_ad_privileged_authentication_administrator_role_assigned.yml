@@ -6,7 +6,10 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source: []
-description: The following analytic identifies the assignment of the Azure Application Administrator role to an Azure AD user.
+description: The following analytic identifies the assignment of the Privileged Authentication Administrato role to an Azure AD user. Users in this role can set or reset authentication
+  methods for any user in Azure Active Directory, including privileged roles like Global Administrators. Users with this role can change credentials for people who may have access to sensitive
+  or private information or critical configuration inside and outside of Azure Active Directory. Changing the credentials of a user may mean the ability to assume that users identity and permissions.
+  Red teams and adversaries alike may abuse this role to escalate their privileges.
 search: ' `azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\"" 
   | rename body.properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
@@ -21,6 +24,8 @@ known_false_positives: Administrators may legitimately assign the Privileged Aut
   as part of administrative tasks. Filter as needed.
 references:
 - https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#privileged-authentication-administrator
+- https://posts.specterops.io/azure-privilege-escalation-via-azure-api-permissions-abuse-74aee1006f48
+- https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
 tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation

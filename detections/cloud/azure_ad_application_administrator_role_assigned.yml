@@ -6,7 +6,12 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source: []
-description: The following analytic identifies the assignment of the Azure Application Administrator role to an Azure AD user.
+description: The following analytic identifies the assignment of the Application Administrator role to an Azure AD user. Users in this role can create and manage all 
+  aspects of enterprise applications, application registrations, and application proxy settings. This role also grants the ability to manage application credentials.
+  Users assigned this role can add credentials to an application, and use those credentials to impersonate the applications identity. If the applications identity has 
+  been granted access to a resource, such as the ability to create or update User or other objects, then a user assigned to this role could perform those actions while
+  impersonating the application. This ability to impersonate the applications identity may be an elevation of privilege over what the user can do via their role assignments.
+  Red teams and adversaries alike may abuse this role to escalate their privileges in an Azure AD tenant.
 search: ' `azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Application Administrator\"" 
   | rename body.properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
