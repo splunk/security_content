@@ -1,7 +1,7 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
 version: 3
-date: '2022-11-14'
+date: '2023-04-25'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -38,11 +38,12 @@ references:
 - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
 tags:
   analytic_story:
-  - Windows Defense Evasion Tactics
-  - Ransomware
-  - Revil Ransomware
-  - Windows Registry Abuse
   - Azorult
+  - Windows Registry Abuse
+  - Revil Ransomware
+  - RedLine Stealer
+  - Ransomware
+  - Windows Defense Evasion Tactics
   asset_type: Endpoint
   confidence: 100
   impact: 40
