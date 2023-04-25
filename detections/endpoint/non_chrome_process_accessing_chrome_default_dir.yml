@@ -1,7 +1,7 @@
 name: Non Chrome Process Accessing Chrome Default Dir
 id: 81263de4-160a-11ec-944f-acde48001122
 version: 1
-date: '2021-09-15'
+date: '2023-04-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -11,8 +11,8 @@ description: This search is to detect an anomaly event of a non-chrome process a
   the RAT, trojan spy as well as FIN7 jssloader try to parse the those sqlite database
   to collect information on the compromised host. This SACL Event (4663) need to be
   enabled to tthe firefox profile directory to be eable to use this. Since you monitoring
-  this access to the folder,  we observed noise that needs to be filter out and hence added
-  sqlite db browser and explorer .exe to make this detection more stable.
+  this access to the folder,  we observed noise that needs to be filter out and hence
+  added sqlite db browser and explorer .exe to make this detection more stable.
 data_source:
 - Windows Security 4663
 search: '`wineventlog_security` EventCode=4663 NOT (process_name IN ("*\\chrome.exe",
@@ -28,10 +28,11 @@ known_false_positives: other browser not listed related to firefox may catch by 
 references: []
 tags:
   analytic_story:
-  - FIN7
   - Remcos
-  - AgentTesla
   - 3CX Supply Chain Attack
+  - AgentTesla
+  - RedLine Stealer
+  - FIN7
   asset_type: Endpoint
   confidence: 70
   impact: 50
