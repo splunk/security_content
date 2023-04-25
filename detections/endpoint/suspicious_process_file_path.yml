@@ -1,7 +1,7 @@
 name: Suspicious Process File Path
 id: 9be25988-ad82-11eb-a14f-acde48001122
 version: 1
-date: '2023-04-14'
+date: '2023-04-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -35,25 +35,26 @@ references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
 tags:
   analytic_story:
-  - AgentTesla
-  - Swift Slicer
-  - Prestige Ransomware
-  - Data Destruction
-  - AsyncRAT
-  - Brute Ratel C4
-  - XMRig
-  - LockBit Ransomware
-  - WhisperGate
-  - DarkCrystal RAT
-  - Qakbot
-  - Hermetic Wiper
-  - Chaos Ransomware
   - Azorult
+  - AsyncRAT
+  - XMRig
+  - Swift Slicer
+  - DarkCrystal RAT
   - Double Zero Destructor
-  - Industroyer2
-  - IcedID
   - Trickbot
+  - Data Destruction
+  - LockBit Ransomware
+  - Prestige Ransomware
+  - Industroyer2
   - Remcos
+  - RedLine Stealer
+  - WhisperGate
+  - IcedID
+  - Hermetic Wiper
+  - AgentTesla
+  - Brute Ratel C4
+  - Qakbot
+  - Chaos Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 70
