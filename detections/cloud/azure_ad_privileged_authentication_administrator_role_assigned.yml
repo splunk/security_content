@@ -1,5 +1,5 @@
-name: Azure AD Application Administrator Role Assigned
-id: eac4de87-7a56-4538-a21b-277897af6d8d
+name: Azure AD Privileged Authentication Administrator Role Assigned
+id: a7da845d-6fae-41cf-b823-6c0b8c55814a
 version: 1
 date: '2023-04-25'
 author: Mauricio Velazco, Splunk
@@ -7,36 +7,30 @@ status: production
 type: TTP
 data_source: []
 description: The following analytic identifies the assignment of the Azure Application Administrator role to an Azure AD user.
-search: ' `azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Application Administrator\"" 
+search: ' `azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\"" 
   | rename body.properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
   | rename initiatedBy.user.userPrincipalName as initiatedBy
   | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName
-  | `azure_ad_application_administrator_role_assigned_filter`'
+  | `azure_ad_privileged_authentication_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
   Specifically, this analytic leverages the AuditLogs log category.
-known_false_positives: Administrators may legitimately assign the Application Administrator
-  role to a user. Filter as needed.
+known_false_positives: Administrators may legitimately assign the Privileged Authentication Administrator role
+  as part of administrative tasks. Filter as needed.
 references:
-- https://dirkjanm.io/azure-ad-privilege-escalation-application-admin/
-- https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
-- https://docs.microsoft.com/en-us/azure/active-directory/roles/concept-understand-roles
-- https://attack.mitre.org/techniques/T1098/003/
-- https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#application-administrator
+- https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#privileged-authentication-administrator
 tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation
   asset_type: Azure Active Directory
-  atomic_guid: []
   confidence: 50
-  impact: 70
-  message: The privileged Azure AD role Application Administrator was assigned for User $userPrincipalName$ initiated
+  impact: 100
+  message: The privileged Azure AD role Privileged Authentication Administrator was assigned for User $userPrincipalName$ initiated
     by $initiatedBy$
   mitre_attack_id:
-  - T1098
-  - T1098.003
+  - T1003.002
   observable:
   - name: userPrincipalName
     type: User
@@ -56,8 +50,8 @@ tags:
   - body.properties.targetResources{}.type
   - body.properties.initiatedBy.user.userPrincipalName
   - body.properties.result
-  risk_score: 35
-  security_domain: endpoint
+  risk_score: 50
+  security_domain: identity
 tests:
 - name: True Positive Test
   attack_data:
