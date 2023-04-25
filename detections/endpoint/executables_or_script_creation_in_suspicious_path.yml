@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
 version: 1
-date: '2023-04-14'
+date: '2023-04-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -37,24 +37,25 @@ references:
 - https://twitter.com/pr0xylife/status/1590394227758104576
 tags:
   analytic_story:
-  - DarkCrystal RAT
-  - AsyncRAT
   - Azorult
-  - Brute Ratel C4
-  - Double Zero Destructor
-  - Industroyer2
-  - AgentTesla
-  - Qakbot
-  - IcedID
-  - Remcos
+  - AsyncRAT
   - XMRig
-  - Hermetic Wiper
-  - Trickbot
-  - Chaos Ransomware
   - Swift Slicer
-  - LockBit Ransomware
+  - DarkCrystal RAT
+  - Double Zero Destructor
+  - Trickbot
   - Data Destruction
+  - LockBit Ransomware
+  - Industroyer2
+  - Remcos
+  - RedLine Stealer
   - WhisperGate
+  - IcedID
+  - Hermetic Wiper
+  - AgentTesla
+  - Brute Ratel C4
+  - Qakbot
+  - Chaos Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 40
