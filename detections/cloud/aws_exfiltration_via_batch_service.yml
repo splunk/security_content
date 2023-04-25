@@ -1,0 +1,45 @@
+name: AWS Exfiltration via Batch Service
+id: 04455dd3-ced7-480f-b8e6-5469b99e98e2
+version: 1
+date: '2023-04-24'
+author: ''
+status: production
+type: TTP
+data_source:
+- UPDATE_DATA_SOURCE
+description: UPDATE_DESCRIPTION
+search: '| UPDATE_SPL | `aws_exfiltration_via_batch_service_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- REFERENCE
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  atomic_guid:
+  - UPDATE atomic_guid
+  confidence: UPDATE value between 1-100
+  drilldown_search:
+  - Add drilldown search
+  impact: UPDATE value between 1-100
+  message: UPDATE message
+  mitre_attack_id:
+  - T1003.002
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: UPDATE (impact * confidence)/100
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: UPDATE url to dataset
+    source: UPDATE source
+    sourcetype: UPDATE sourcetype
