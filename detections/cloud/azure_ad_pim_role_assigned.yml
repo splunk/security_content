@@ -1,0 +1,52 @@
+name: Azure AD PIM Role Assigned
+id: fcd6dfeb-191c-46a0-a29c-c306382145ab
+version: 1
+date: '2023-04-26'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: UPDATE_DESCRIPTION
+search: ' `azuread` completed operationName="Add eligible member to role in PIM completed*"
+  | rename properties.* as * 
+  | rename targetResources{}.userPrincipalName as userPrincipalName 
+  | stats values(userPrincipalName) values(targetResources{}.displayName) by _time, result, operationName, initiatedBy.user.displayName
+  | `azure_ad_pim_role_assigned_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  Specifically, this analytic leverages the AuditLogs log category.
+known_false_positives: As part of legitimate administrative behavior, users may be assigned PIM roles. Filter as needed
+references:
+- https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure
+- https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-how-to-activate-role
+- https://microsoft.github.io/Azure-Threat-Research-Matrix/PrivilegeEscalation/AZT401/AZT401/
+tags:
+  analytic_story:
+  - Azure Active Directory Privilege Escalation
+  asset_type: Azure Active Directory
+  confidence: 50
+  impact: 70
+  message: UPDATE message
+  mitre_attack_id:
+  - T1098
+  - T1098.003
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 35
+  required_fields:
+  - _time
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_pim_role_activated/azure-audit.log
+    source: eventhub://researchhub1.servicebus.windows.net/azureadhub;
+    sourcetype: mscs:azure:eventhub
