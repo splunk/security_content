@@ -1,15 +1,18 @@
 name: Detect RTLO In File Name
 id: 468b7e11-d362-43b8-b6ec-7a2d3b246678
-version: 1
-date: '2023-04-04'
+version: 2
+date: '2023-04-26'
 author: Steven Dick
+status: production
 type: TTP
-datamodel:
-- Endpoint
 description: This search is used to detect the abuse of the right-to-left override (RTLO or RLO)
   character (U+202E) RTLO. This technique is used by adversaries to disguise a string and/or 
   file name to make it appear benign. The RTLO character is a non-printing Unicode 
   character that causes the text that follows it to be displayed in reverse.
+data_source:
+- Sysmon 11
+- Sysmon 23
+- Sysmon 26
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
 values(Filesystem.file_create_time) as file_create_time from datamodel=Endpoint.Filesystem where 
 Filesystem.file_name!=unknown by Filesystem.dest Filesystem.user Filesystem.process_id Filesystem.file_name Filesystem.file_path
@@ -34,15 +37,10 @@ references:
 - https://www.trendmicro.com/en_us/research/17/f/following-trail-blacktech-cyber-espionage-campaigns.html
 tags:
   analytic_story:
+  - Spearphishing Attachments
+  asset_type: Endpoint
   confidence: 80
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.002/outlook_attachment/rtlo_events.log
-  impact: 50
-  kill_chain_phases:
-  - Execution
+  impact: 50  
   message: Suspicious RTLO detected in $file_name$ on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1036.002
@@ -75,4 +73,9 @@ tags:
   security_domain: endpoint
   supported_tas:
   - Splunk_TA_microsoft_sysmon
-  asset_type: Endpoint
+  tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.002/outlook_attachment/rtlo_events.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
