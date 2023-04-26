@@ -63,6 +63,7 @@ class NewContentFactory():
             if answers['detection_product'] == 'SSA':
                 self.output_dto.obj['tags']['product'] = ['Splunk Behavioral Analytics']
             self.output_dto.obj['tags']['risk_score'] = 'UPDATE (impact * confidence)/100'
+            self.output_dto.obj['tags']['required_fields'] = ['UPDATE_required_fields']
             self.output_dto.obj['tags']['security_domain'] = answers['security_domain']
             self.output_dto.obj['source'] = answers['detection_kind']
             self.output_dto.obj['tests'] = list()
