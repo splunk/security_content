@@ -108,7 +108,6 @@ search:
     - shutdown.exe
     - shrpubw.exe
     - shadow.exe
-    - sfc.exe
     - setx.exe
     - setupugc.exe
     - setupcl.exe
