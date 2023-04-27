@@ -6,8 +6,13 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source: []
-description: UPDATE_DESCRIPTION
-search: ' `azuread` completed operationName="Add eligible member to role in PIM completed*"
+description: The following analytic identifies the assignment of the Azure AD PIM role. Privileged Identity Management (PIM) is a service within Azure Azure AD 
+  that enables administrators to manage, control, and monitor access to sensitive resources. PIM provides time-based and approval-based role activation to mitigate the
+  risks of excessive, unnecessary, or misused access permissions on resources. Once a user has been made eligible for an administrative role, she must activate this role
+  assignment to perform the privileged actions. When a role is activated, Azure AD PIM temporarily adds active assignment for the role. While PIM can be leveraged as a powerful
+  security control, it may also abused by adversaries to obtain privileged access. Security teams should monitor for the assignment and activation of PIM roles and validate their
+  legitimacy.
+search: ' `azuread` operationName="Add eligible member to role in PIM completed*"
   | rename properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
   | stats values(userPrincipalName) values(targetResources{}.displayName) by _time, result, operationName, initiatedBy.user.displayName
@@ -24,18 +29,19 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation
+  - Azure Active Directory Persistence
   asset_type: Azure Active Directory
   confidence: 50
   impact: 70
-  message: UPDATE message
+  message: An Azure AD PIM role assignment was assiged to $userPrincipalName$
   mitre_attack_id:
   - T1098
   - T1098.003
   observable:
-  - name: UPDATE
-    type: UPDATE
+  - name: userPrincipalName
+    type: User
     role:
-    - UPDATE
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -43,6 +49,11 @@ tags:
   risk_score: 35
   required_fields:
   - _time
+  - properties
+  - operationName
+  - userPrincipalName
+  - initiatedBy.user.userPrincipalName 
+  - result
   security_domain: identity
 tests:
 - name: True Positive Test
