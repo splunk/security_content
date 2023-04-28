@@ -1,7 +1,7 @@
 name: Linux High Frequency Of File Deletion In Boot Folder
 id: e27fbc5d-0445-4c4a-bc39-87f060d5c602
-version: 1
-date: '2022-04-22'
+version: 2
+date: '2023-04-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -16,18 +16,10 @@ search: '| tstats `security_content_summariesonly` values(Filesystem.file_name) 
   deletedFileNames values(Filesystem.file_path) as deletedFilePath dc(Filesystem.file_path)
   as numOfDelFilePath count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
   where Filesystem.action=deleted Filesystem.file_path = "/boot/*" by _time span=1h  Filesystem.dest
-  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)` |rename
-  process_guid as proc_guid |join proc_guid, _time [ | tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes where Processes.parent_process_name != unknown
-  NOT (Processes.parent_process_name IN ("/usr/bin/dpkg", "*usr/bin/python*", "*/usr/bin/apt-*",
-  "/bin/rm", "*splunkd", "/usr/bin/mandb")) by _time span=1h Processes.process_id
-  Processes.process_name Processes.process Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_path Processes.process_guid | `drop_dm_object_name(Processes)`
-  |rename process_guid as proc_guid | fields _time dest user parent_process_name parent_process
-  process_name process_path process proc_guid registry_path registry_value_name registry_value_data
-  registry_key_name action] | table  process_name process proc_guid action _time  deletedFileNames
-  deletedFilePath numOfDelFilePath parent_process_name parent_process  process_path
-  dest user | where  numOfDelFilePath >= 200 | `linux_high_frequency_of_file_deletion_in_boot_folder_filter`'
+  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)` | where  numOfDelFilePath >= 200 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_high_frequency_of_file_deletion_in_boot_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from

@@ -1,7 +1,7 @@
 name: Windows Registry Modification for Safe Mode Persistence
 id: c6149154-c9d8-11eb-9da7-acde48001122
-version: 3
-date: '2022-03-31'
+version: 4
+date: '2023-04-27'
 author: Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
@@ -17,11 +17,10 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   where Registry.registry_path IN ("*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\*","*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\*")
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
   Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
-  `drop_dm_object_name(Registry)` | join process_guid _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.process_guid | `drop_dm_object_name(Processes)`]
-  | table _time dest user process_name process process_guid registry_path registry_value_name
-  registry_value_data registry_key_name | `windows_registry_modification_for_safe_mode_persistence_filter`'
+  `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_registry_modification_for_safe_mode_persistence_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
