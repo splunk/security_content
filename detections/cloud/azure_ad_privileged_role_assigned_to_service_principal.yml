@@ -5,7 +5,7 @@ date: '2023-04-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: UPDATE_DESCRIPTION
+description: The following analytic
 data_source: []
 search: ' `azuread` operationName="Add member to role" 
   | rename properties.* as *
