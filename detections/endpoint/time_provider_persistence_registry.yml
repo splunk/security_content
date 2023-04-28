@@ -27,10 +27,11 @@ references:
 - https://attack.mitre.org/techniques/T1547/003/
 tags:
   analytic_story:
-  - Windows Persistence Techniques
-  - Windows Privilege Escalation
-  - Windows Registry Abuse
   - Hermetic Wiper
+  - Windows Privilege Escalation
+  - Windows Persistence Techniques
+  - Windows Registry Abuse
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 80

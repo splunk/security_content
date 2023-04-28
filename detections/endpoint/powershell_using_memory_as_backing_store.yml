@@ -1,7 +1,7 @@
 name: Powershell Using memory As Backing Store
 id: c396a0c4-c9f2-11eb-b4f5-acde48001122
 version: 2
-date: '2022-03-22'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,8 +29,9 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 tags:
   analytic_story:
-  - Hermetic Wiper
   - Malicious PowerShell
+  - Hermetic Wiper
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 50

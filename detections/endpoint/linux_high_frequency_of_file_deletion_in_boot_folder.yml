@@ -31,8 +31,8 @@ references:
 - https://cert.gov.ua/article/39518
 tags:
   analytic_story:
-  - Industroyer2
   - Data Destruction
+  - Industroyer2
   asset_type: endpoint
   confidence: 80
   impact: 100

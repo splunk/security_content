@@ -31,10 +31,10 @@ references:
 - https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/memory-dump-file-options
 tags:
   analytic_story:
-  - Data Destruction
   - Ransomware
-  - Hermetic Wiper
+  - Data Destruction
   - Windows Registry Abuse
+  - Hermetic Wiper
   asset_type: Endpoint
   confidence: 100
   impact: 90

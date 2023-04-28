@@ -1,7 +1,7 @@
 name: Active Setup Registry Autostart
 id: f64579c0-203f-11ec-abcc-acde48001122
 version: 4
-date: '2023-03-29'
+date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,9 +28,10 @@ references:
 - https://attack.mitre.org/techniques/T1547/014/
 tags:
   analytic_story:
-  - Windows Persistence Techniques
+  - Data Destruction
   - Windows Privilege Escalation
   - Hermetic Wiper
+  - Windows Persistence Techniques
   asset_type: Endpoint
   confidence: 80
   impact: 80

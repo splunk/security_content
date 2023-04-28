@@ -25,10 +25,11 @@ references:
 - https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
 tags:
   analytic_story:
-  - Windows Persistence Techniques
-  - Windows Privilege Escalation
-  - Windows Registry Abuse
   - Hermetic Wiper
+  - Windows Privilege Escalation
+  - Windows Persistence Techniques
+  - Windows Registry Abuse
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 90

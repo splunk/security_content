@@ -32,11 +32,12 @@ references:
 - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
 tags:
   analytic_story:
-  - Windows Defense Evasion Tactics
-  - Ransomware
-  - Revil Ransomware
-  - Windows Registry Abuse
   - Azorult
+  - Windows Registry Abuse
+  - Revil Ransomware
+  - RedLine Stealer
+  - Ransomware
+  - Windows Defense Evasion Tactics
   asset_type: Endpoint
   confidence: 100
   impact: 40
@@ -55,15 +56,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.user
-  - Processes.dest
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_path
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
   - Registry.registry_key_name

@@ -1,7 +1,7 @@
 name: Windows Data Destruction Recursive Exec Files Deletion
 id: 3596a799-6320-4a2f-8772-a9e98ddb2960
 version: 1
-date: '2023-02-02'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Swift Slicer
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 80

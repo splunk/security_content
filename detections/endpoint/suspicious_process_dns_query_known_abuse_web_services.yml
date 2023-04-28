@@ -1,7 +1,7 @@
 name: Suspicious Process DNS Query Known Abuse Web Services
 id: 3cf0dc36-484d-11ec-a6bc-acde48001122
 version: 2
-date: '2022-01-18'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,8 +29,9 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
-  - Remcos
+  - Data Destruction
   - WhisperGate
+  - Remcos
   asset_type: Endpoint
   confidence: 80
   impact: 80

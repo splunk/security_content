@@ -33,8 +33,9 @@ references:
 - https://cert.gov.ua/article/3718487
 tags:
   analytic_story:
-  - AcidRain
   - AwfulShred
+  - AcidRain
+  - Data Destruction
   asset_type: endpoint
   confidence: 80
   impact: 80

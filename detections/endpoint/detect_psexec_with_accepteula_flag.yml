@@ -39,6 +39,7 @@ tags:
   - DarkSide Ransomware
   - Active Directory Lateral Movement
   - CISA AA22-320A
+  - Sandworm Tools
   asset_type: Endpoint
   confidence: 70
   impact: 50

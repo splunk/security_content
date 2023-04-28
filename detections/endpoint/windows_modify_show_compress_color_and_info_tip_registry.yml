@@ -31,8 +31,8 @@ tags:
   analytic_story:
   - Data Destruction
   - Windows Defense Evasion Tactics
-  - Hermetic Wiper
   - Windows Registry Abuse
+  - Hermetic Wiper
   asset_type: Endpoint
   confidence: 50
   impact: 50
