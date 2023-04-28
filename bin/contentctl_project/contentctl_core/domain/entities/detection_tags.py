@@ -13,8 +13,6 @@ class DetectionTags(BaseModel):
     automated_detection_testing: str = None
     cis20: list = None
     confidence: str
-    context: list = None
-    dataset: list = None
     impact: int
     kill_chain_phases: list = None
     message: str
@@ -22,7 +20,7 @@ class DetectionTags(BaseModel):
     nist: list = None
     observable: list
     product: list
-    required_fields: list = None
+    required_fields: list
     risk_score: int
     security_domain: str
     risk_severity: str = None
@@ -81,13 +79,6 @@ class DetectionTags(BaseModel):
         else:
             return v
 
-    @validator('context')
-    def tags_context(cls, v, values):
-        context_list = SES_CONTEXT_MAPPING.keys()
-        for value in v:
-            if value not in context_list:
-                raise ValueError('context value not valid for ' + values["name"] + '. valid options are ' + str(context_list) )
-        return v
 
     @validator('impact')
     def tags_impact(cls, v, values):
@@ -112,19 +103,19 @@ class DetectionTags(BaseModel):
                 raise ValueError('Mitre Attack ID are not following the pattern Txxxx: ' + values["name"])
         return v
 
-    # @validator('observable')
-    # def tags_observable(cls,v,values):
-    #     valid_roles = SES_OBSERVABLE_ROLE_MAPPING.keys()
-    #     valid_types = SES_OBSERVABLE_TYPE_MAPPING.keys()
+    @validator('observable')
+    def tags_observable(cls,v,values):
+        valid_roles = SES_OBSERVABLE_ROLE_MAPPING.keys()
+        valid_types = SES_OBSERVABLE_TYPE_MAPPING.keys()
         
-    #     for value in v:
-    #         if value['type'] in valid_types:
-    #             for role in value['role']:
-    #                 if role not in valid_roles:
-    #                     raise ValueError('Observable role ' + role + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_roles))
-    #         else:
-    #             raise ValueError('Observable type ' + value['type'] + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_types))
-    #     return v
+        for value in v:
+            if value['type'] in valid_types:
+                for role in value['role']:
+                    if role not in valid_roles:
+                        raise ValueError('Observable role ' + role + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_roles))
+            else:
+                raise ValueError('Observable type ' + value['type'] + ' not valid for ' + values["name"] + '. valid options are ' + str(valid_types))
+        return v
 
     @validator('product')
     def tags_product(cls, v, values):
