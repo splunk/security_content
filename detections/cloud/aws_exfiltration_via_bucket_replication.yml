@@ -10,7 +10,6 @@ description: There have been reports of malicious actors using S3 bucket replica
 
 S3 bucket replication can also be used for cross-account replication, where data is replicated from a source 
 bucket owned by one AWS account to a destination bucket owned by a different AWS account. 
-
 search: '`cloudtrail`  eventName = PutBucketReplication eventSource = s3.amazonaws.com
 |  rename requestParameters.* as * 
 | stats count values(bucketName) as source_bucket values(ReplicationConfiguration.Rule.ID) as rule_id values(ReplicationConfiguration.Rule.Destination.Bucket) as destination_bucket by _time user_arn userName user_type src_ip aws_account_id userIdentity.principalId user_agent | `aws_exfiltration_via_ec2_snapshot_filter`'
@@ -21,7 +20,7 @@ references:
 - https://hackingthe.cloud/aws/exploitation/s3-bucket-replication-exfiltration/
 tags:
   analytic_story:
-  - Suspicious Cloud Instance Activities
+  - Suspicious AWS S3 Activities
   - Data Exfiltration
   asset_type: EC2 Snapshot
   confidence: 80
