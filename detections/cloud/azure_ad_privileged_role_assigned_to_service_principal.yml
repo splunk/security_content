@@ -58,7 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_role_serviceprincipal/azure-audit.log
     source: mscs:azure:eventhub
     sourcetype: mscs:azure:eventhub
     update_timestamp: true
