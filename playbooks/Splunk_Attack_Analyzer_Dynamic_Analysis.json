@@ -156,7 +156,7 @@
                     "targetPort": "15_in"
                 }
             ],
-            "hash": "97d3aa1e96d0ec556004151086384b4841477f03",
+            "hash": "d3278e0db9a8761705897f1307e410d32a715c77",
             "nodes": {
                 "0": {
                     "data": {
@@ -246,7 +246,7 @@
                     "errors": {},
                     "id": "11",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    #phantom.debug(playbook_input_url_values)\n    # Build URL\n\n        \n    for url, external_id, url_object in zip(normalized_url_forensic_output__url, normalized_url_forensic_output__job_id, normalized_url_forensic_output__url_score_object):\n        parsed_url = urlparse(url)\n        #phantom.debug(\"url: {} jobs_id:{}\".format(url, external_id))\n        #phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n                \"value\": url,\n                \"type\": \"url\",\n                \"reputation\": {\n                    \"base_score\": url_object['base_score'],\n                    \"score\": url_object['score'],\n                    \"score_id\": url_object['score_id'],\n                    \"confidence\": url_object['score_id'] #Attack Analyzer's score has confidence baked in.\n                },\n                \"attributes\": {\n                    \"hostname\": parsed_url.hostname,\n                    \"scheme\": parsed_url.scheme\n                },\n                \"categories\": url_object['categories'],\n                \"source\": \"Splunk Attack Analyzer\",\n                \"source_link\": f\"https://app.twinwave.io/job/{external_id}\"\n            }\n\n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n\n        build_url_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
+                    "userCode": "\n    # Write your custom code here...\n    from urllib.parse import urlparse\n    build_url_output__observable_array = []\n    #phantom.debug(playbook_input_url_values)\n    # Build URL\n\n        \n    for url, external_id, url_object in zip(normalized_url_forensic_output__url, normalized_url_forensic_output__job_id, normalized_url_forensic_output__url_score_object):\n        parsed_url = urlparse(url)\n        #phantom.debug(\"url: {} jobs_id:{}\".format(url, external_id))\n        #phantom.debug(\"parsed_url: {}, url_object: {}\".format(parsed_url, url_object))\n        observable_object = {\n                \"value\": url,\n                \"type\": \"url\",\n                \"reputation\": {\n                    \"base_score\": url_object['base_score'],\n                    \"score\": url_object['score'],\n                    \"score_id\": url_object['score_id'],\n                    \"confidence\": url_object['base_score'] #Attack Analyzer's score has confidence baked in.\n                },\n                \"attributes\": {\n                    \"hostname\": parsed_url.hostname,\n                    \"scheme\": parsed_url.scheme\n                },\n                \"classifications\": url_object['categories'],\n                \"source\": \"Splunk Attack Analyzer\",\n                \"source_link\": f\"https://app.twinwave.io/job/{external_id}\"\n            }\n\n        if parsed_url.path:\n            observable_object['attributes']['path'] = parsed_url.path\n        if parsed_url.query:\n            observable_object['attributes']['query'] = parsed_url.query\n        if parsed_url.port:\n            observable_object['attributes']['port'] = parsed_url.port\n\n        build_url_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_url_output__observable_array: {}\".format(build_url_output__observable_array))\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1620
@@ -316,7 +316,7 @@
                         "functionName": "get_file_forensics_output",
                         "id": "15",
                         "parameters": {
-                            "job_id": "filtered-data:file_detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID",
+                            "job_id": "filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID",
                             "timeout": "10"
                         },
                         "requiredParameters": [
@@ -348,10 +348,10 @@
                         "functionName": "normalized_file_forensic_output",
                         "id": "17",
                         "inputParameters": [
-                            "filtered-data:file_detonation_status_filter:condition_1:file_detonation:action_result.parameter.file",
-                            "filtered-data:file_detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID",
+                            "filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.parameter.file",
+                            "filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID",
                             "filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.parameter.job_id",
-                            "filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.Score",
+                            "filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.DisplayScore",
                             "filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.Detections"
                         ],
                         "outputVariables": [
@@ -367,7 +367,7 @@
                     "errors": {},
                     "id": "17",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_file_forensic_output__file_score_object = []\n    normalized_file_forensic_output__scores = []\n    normalized_file_forensic_output__categories = []\n    normalized_file_forensic_output__score_id = []\n    normalized_file_forensic_output__file = []\n    normalized_file_forensic_output__job_id = []\n    \n    ## pair forensic job results with url detonated\n    job_file_dict = {}\n    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):\n        if orig_job == filtered_job:\n            job_file_dict[filtered_job] = orig_url\n\n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___score, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = score_num/10 if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        file = job_file_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        normalized_file_forensic_output__file_score_object.append({'value': file, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_file_forensic_output__scores.append(score)\n        normalized_file_forensic_output__categories.append(\", \".join(categories))\n        normalized_file_forensic_output__score_id.append(score_id)\n        normalized_file_forensic_output__file.append(file)\n        normalized_file_forensic_output__job_id.append(job)\n        \n",
+                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_file_forensic_output__file_score_object = []\n    normalized_file_forensic_output__scores = []\n    normalized_file_forensic_output__categories = []\n    normalized_file_forensic_output__score_id = []\n    normalized_file_forensic_output__file = []\n    normalized_file_forensic_output__job_id = []\n    \n    ## pair forensic job results with url detonated\n    job_file_dict = {}\n    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):\n        if orig_job == filtered_job:\n            job_file_dict[filtered_job] = orig_url\n\n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        file = job_file_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        normalized_file_forensic_output__file_score_object.append({'value': file, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_file_forensic_output__scores.append(score)\n        normalized_file_forensic_output__categories.append(\", \".join(categories))\n        normalized_file_forensic_output__score_id.append(score_id)\n        normalized_file_forensic_output__file.append(file)\n        normalized_file_forensic_output__job_id.append(job)\n        \n",
                     "warnings": {},
                     "x": 340,
                     "y": 1260
@@ -427,7 +427,7 @@
                     "errors": {},
                     "id": "19",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n\n    for _vault_id, external_id, file_object in zip(normalized_file_forensic_output__file, normalized_file_forensic_output__job_id, normalized_file_forensic_output__file_score_object):\n        #phantom.debug(\"vault: {} id: {}\".format(_vault_id, external_id))\n        observable_object = {\n\n                \"value\": _vault_id,\n                \"type\": \"hash\",\n                \"reputation\": {\n                    \"base_score\": file_object['base_score'],\n                    \"score\": file_object['score'],\n                    \"score_id\": file_object['score_id'],\n                    \"confidence\": file_object['confidence'],\n                    \"confidence\": file_object['score_id'] #Attack Analyzer's score has confidence baked in.\n                },\n                \"enrichment\": {\n                    \"provider\": \"Splunk Attack Analyzer\",\n                    \"type\": \"file\",\n\n                },\n                \"categories\": file_object['categories'],\n                \"source\": \"Splunk Attack Analyzer\",\n                \"source_link\":f\"https://app.twinwave.io/job/{external_id}\"\n            }\n        build_file_output__observable_array.append(observable_object)\n    \n",
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n\n    for _vault_id, external_id, file_object in zip(normalized_file_forensic_output__file, normalized_file_forensic_output__job_id, normalized_file_forensic_output__file_score_object):\n        #phantom.debug(\"vault: {} id: {}\".format(_vault_id, external_id))\n        observable_object = {\n\n                \"value\": _vault_id,\n                \"type\": \"hash\",\n                \"reputation\": {\n                    \"base_score\": file_object['base_score'],\n                    \"score\": file_object['score'],\n                    \"score_id\": file_object['score_id'],\n                    \"confidence\": file_object['base_score'] #Attack Analyzer's score has confidence baked in.\n                },\n                \"classifications\": file_object['categories'],\n                \"source\": \"Splunk Attack Analyzer\",\n                \"source_link\":f\"https://app.twinwave.io/job/{external_id}\"\n            }\n        build_file_output__observable_array.append(observable_object)\n    \n",
                     "warnings": {},
                     "x": 340,
                     "y": 1620
@@ -604,7 +604,7 @@
                 "4": {
                     "data": {
                         "advanced": {
-                            "customName": "file detonation status filter",
+                            "customName": "detonation status filter",
                             "customNameId": 0,
                             "description": "Filters successful file  detonation results.",
                             "join": [],
@@ -626,7 +626,7 @@
                             }
                         ],
                         "functionId": 2,
-                        "functionName": "file_detonation_status_filter",
+                        "functionName": "detonation_status_filter",
                         "id": "4",
                         "type": "filter"
                     },
@@ -731,7 +731,7 @@
                             "filtered-data:url_status_filter:condition_1:url_detonation:action_result.parameter.url",
                             "filtered-data:url_status_filter:condition_1:url_detonation:action_result.data.*.JobID",
                             "filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.parameter.job_id",
-                            "filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.Score",
+                            "filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.DisplayScore",
                             "filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.Detections"
                         ],
                         "outputVariables": [
@@ -747,7 +747,7 @@
                     "errors": {},
                     "id": "8",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_url_forensic_output__url_score_object = []\n    normalized_url_forensic_output__scores = []\n    normalized_url_forensic_output__categories = []\n    normalized_url_forensic_output__score_id = []\n    normalized_url_forensic_output__url = []\n    normalized_url_forensic_output__job_id = []\n\n    ## pair forensic job results with url detonated\n    job_url_dict = {}\n    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):\n        if orig_job == filtered_job:\n            job_url_dict[filtered_job] = orig_url\n    \n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___score, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = score_num/10 if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        url = job_url_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        # Attach final object\n        normalized_url_forensic_output__url_score_object.append({'value': url, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_url_forensic_output__scores.append(score)\n        normalized_url_forensic_output__categories.append(\", \".join(categories))\n        normalized_url_forensic_output__score_id.append(score_id)\n        normalized_url_forensic_output__url.append(url)\n        normalized_url_forensic_output__job_id.append(job)\n\n",
+                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_url_forensic_output__url_score_object = []\n    normalized_url_forensic_output__scores = []\n    normalized_url_forensic_output__categories = []\n    normalized_url_forensic_output__score_id = []\n    normalized_url_forensic_output__url = []\n    normalized_url_forensic_output__job_id = []\n\n    ## pair forensic job results with url detonated\n    job_url_dict = {}\n    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):\n        if orig_job == filtered_job:\n            job_url_dict[filtered_job] = orig_url\n    \n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        url = job_url_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        # Attach final object\n        normalized_url_forensic_output__url_score_object.append({'value': url, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_url_forensic_output__scores.append(score)\n        normalized_url_forensic_output__categories.append(\", \".join(categories))\n        normalized_url_forensic_output__score_id.append(score_id)\n        normalized_url_forensic_output__url.append(url)\n        normalized_url_forensic_output__job_id.append(job)\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1260
@@ -800,7 +800,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-29T01:07:14.801171+00:00",
+    "create_time": "2023-04-29T01:27:41.839151+00:00",
     "draft_mode": false,
     "labels": [
         "*"

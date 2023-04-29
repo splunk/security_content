@@ -89,8 +89,8 @@ def url_detonation(action=None, success=None, container=None, results=None, hand
 
 
 @phantom.playbook_block()
-def file_detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("file_detonation_status_filter() called")
+def detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("detonation_status_filter() called")
 
     ################################################################################
     # Filters successful file  detonation results.
@@ -102,7 +102,7 @@ def file_detonation_status_filter(action=None, success=None, container=None, res
         conditions=[
             ["file_detonation:action_result.status", "==", "success"]
         ],
-        name="file_detonation_status_filter:condition_1")
+        name="detonation_status_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -190,12 +190,12 @@ def normalized_url_forensic_output(action=None, success=None, container=None, re
     ################################################################################
 
     filtered_result_0_data_url_status_filter = phantom.collect2(container=container, datapath=["filtered-data:url_status_filter:condition_1:url_detonation:action_result.parameter.url","filtered-data:url_status_filter:condition_1:url_detonation:action_result.data.*.JobID"])
-    filtered_result_1_data_get_jobid_forensic_filter = phantom.collect2(container=container, datapath=["filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.parameter.job_id","filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.Score","filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.Detections"])
+    filtered_result_1_data_get_jobid_forensic_filter = phantom.collect2(container=container, datapath=["filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.parameter.job_id","filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.DisplayScore","filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.Detections"])
 
     filtered_result_0_parameter_url = [item[0] for item in filtered_result_0_data_url_status_filter]
     filtered_result_0_data___jobid = [item[1] for item in filtered_result_0_data_url_status_filter]
     filtered_result_1_parameter_job_id = [item[0] for item in filtered_result_1_data_get_jobid_forensic_filter]
-    filtered_result_1_data___score = [item[1] for item in filtered_result_1_data_get_jobid_forensic_filter]
+    filtered_result_1_data___displayscore = [item[1] for item in filtered_result_1_data_get_jobid_forensic_filter]
     filtered_result_1_data___detections = [item[2] for item in filtered_result_1_data_get_jobid_forensic_filter]
 
     normalized_url_forensic_output__url_score_object = None
@@ -238,10 +238,10 @@ def normalized_url_forensic_output(action=None, success=None, container=None, re
         if orig_job == filtered_job:
             job_url_dict[filtered_job] = orig_url
     
-    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___score, filtered_result_1_data___detections):
+    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):
         
         ## translate scores
-        score_id = score_num/10 if score_num > 0 else 0
+        score_id = int(score_num/10) if score_num > 0 else 0
         score = score_table[str(score_id)]
         url = job_url_dict[job]
         categories = [item.get('Description') for item in detections]
@@ -343,13 +343,13 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
                     "base_score": url_object['base_score'],
                     "score": url_object['score'],
                     "score_id": url_object['score_id'],
-                    "confidence": url_object['score_id'] #Attack Analyzer's score has confidence baked in.
+                    "confidence": url_object['base_score'] #Attack Analyzer's score has confidence baked in.
                 },
                 "attributes": {
                     "hostname": parsed_url.hostname,
                     "scheme": parsed_url.scheme
                 },
-                "categories": url_object['categories'],
+                "classifications": url_object['categories'],
                 "source": "Splunk Attack Analyzer",
                 "source_link": f"https://app.twinwave.io/job/{external_id}"
             }
@@ -403,7 +403,7 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk_attack_analyzer"], callback=file_detonation_status_filter)
+    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk_attack_analyzer"], callback=detonation_status_filter)
 
     return
 
@@ -419,15 +419,15 @@ def get_file_forensics_output(action=None, success=None, container=None, results
     # to be detonated.
     ################################################################################
 
-    filtered_result_0_data_file_detonation_status_filter = phantom.collect2(container=container, datapath=["filtered-data:file_detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID"])
+    filtered_result_0_data_detonation_status_filter = phantom.collect2(container=container, datapath=["filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID"])
 
     parameters = []
 
     # build parameters list for 'get_file_forensics_output' call
-    for filtered_result_0_item_file_detonation_status_filter in filtered_result_0_data_file_detonation_status_filter:
-        if filtered_result_0_item_file_detonation_status_filter[0] is not None:
+    for filtered_result_0_item_detonation_status_filter in filtered_result_0_data_detonation_status_filter:
+        if filtered_result_0_item_detonation_status_filter[0] is not None:
             parameters.append({
-                "job_id": filtered_result_0_item_file_detonation_status_filter[0],
+                "job_id": filtered_result_0_item_detonation_status_filter[0],
                 "timeout": 10,
             })
 
@@ -463,13 +463,13 @@ def normalized_file_forensic_output(action=None, success=None, container=None, r
     # in the documented sections.
     ################################################################################
 
-    filtered_result_0_data_file_detonation_status_filter = phantom.collect2(container=container, datapath=["filtered-data:file_detonation_status_filter:condition_1:file_detonation:action_result.parameter.file","filtered-data:file_detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID"])
-    filtered_result_1_data_file_forensics_filter = phantom.collect2(container=container, datapath=["filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.parameter.job_id","filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.Score","filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.Detections"])
+    filtered_result_0_data_detonation_status_filter = phantom.collect2(container=container, datapath=["filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.parameter.file","filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID"])
+    filtered_result_1_data_file_forensics_filter = phantom.collect2(container=container, datapath=["filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.parameter.job_id","filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.DisplayScore","filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.Detections"])
 
-    filtered_result_0_parameter_file = [item[0] for item in filtered_result_0_data_file_detonation_status_filter]
-    filtered_result_0_data___jobid = [item[1] for item in filtered_result_0_data_file_detonation_status_filter]
+    filtered_result_0_parameter_file = [item[0] for item in filtered_result_0_data_detonation_status_filter]
+    filtered_result_0_data___jobid = [item[1] for item in filtered_result_0_data_detonation_status_filter]
     filtered_result_1_parameter_job_id = [item[0] for item in filtered_result_1_data_file_forensics_filter]
-    filtered_result_1_data___score = [item[1] for item in filtered_result_1_data_file_forensics_filter]
+    filtered_result_1_data___displayscore = [item[1] for item in filtered_result_1_data_file_forensics_filter]
     filtered_result_1_data___detections = [item[2] for item in filtered_result_1_data_file_forensics_filter]
 
     normalized_file_forensic_output__file_score_object = None
@@ -512,10 +512,10 @@ def normalized_file_forensic_output(action=None, success=None, container=None, r
         if orig_job == filtered_job:
             job_file_dict[filtered_job] = orig_url
 
-    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___score, filtered_result_1_data___detections):
+    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):
         
         ## translate scores
-        score_id = score_num/10 if score_num > 0 else 0
+        score_id = int(score_num/10) if score_num > 0 else 0
         score = score_table[str(score_id)]
         file = job_file_dict[job]
         categories = [item.get('Description') for item in detections]
@@ -611,15 +611,9 @@ def build_file_output(action=None, success=None, container=None, results=None, h
                     "base_score": file_object['base_score'],
                     "score": file_object['score'],
                     "score_id": file_object['score_id'],
-                    "confidence": file_object['confidence'],
-                    "confidence": file_object['score_id'] #Attack Analyzer's score has confidence baked in.
+                    "confidence": file_object['base_score'] #Attack Analyzer's score has confidence baked in.
                 },
-                "enrichment": {
-                    "provider": "Splunk Attack Analyzer",
-                    "type": "file",
-
-                },
-                "categories": file_object['categories'],
+                "classifications": file_object['categories'],
                 "source": "Splunk Attack Analyzer",
                 "source_link":f"https://app.twinwave.io/job/{external_id}"
             }
