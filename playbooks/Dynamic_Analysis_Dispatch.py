@@ -106,7 +106,7 @@ def merge_report_1(action=None, success=None, container=None, results=None, hand
     # summary report for all sandbox detonation input playbooks.
     ################################################################################
 
-    template = """SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\n\n| Value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} |\n%%"""
+    template = """SOAR detonated indicators in connected sandboxes. The table below shows a summary of the information gathered.\n\n| Value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} |\n%%"""
 
     # parameter list for template variable replacement
     parameters = [

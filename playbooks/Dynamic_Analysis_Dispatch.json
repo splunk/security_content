@@ -182,7 +182,7 @@
                             "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.reputation.confidence",
                             "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.source"
                         ],
-                        "template": "SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\n\n| Value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} |\n%%",
+                        "template": "SOAR detonated indicators in connected sandboxes. The table below shows a summary of the information gathered.\n\n| Value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} |\n%%",
                         "type": "format"
                     },
                     "errors": {},
