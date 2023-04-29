@@ -7,61 +7,11 @@
             "description": "Accepts a URL or vault_id and does reputation analysis on the objects. Generates a global report and a per observable sub-report and normalized score. The score can be customized based on a variety of factors.",
             "edges": [
                 {
-                    "id": "port_0_to_port_2",
-                    "sourceNode": "0",
-                    "sourcePort": "0_out",
-                    "targetNode": "2",
-                    "targetPort": "2_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_2_to_port_4",
-                    "sourceNode": "2",
-                    "sourcePort": "2_out",
-                    "targetNode": "4",
-                    "targetPort": "4_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 1
-                        }
-                    ],
-                    "id": "port_2_to_port_5",
-                    "sourceNode": "2",
-                    "sourcePort": "2_out",
-                    "targetNode": "5",
-                    "targetPort": "5_in"
-                },
-                {
                     "id": "port_4_to_port_7",
                     "sourceNode": "4",
                     "sourcePort": "4_out",
                     "targetNode": "7",
                     "targetPort": "7_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_7_to_port_16",
-                    "sourceNode": "7",
-                    "sourcePort": "7_out",
-                    "targetNode": "16",
-                    "targetPort": "16_in"
-                },
-                {
-                    "id": "port_16_to_port_15",
-                    "sourceNode": "16",
-                    "sourcePort": "16_out",
-                    "targetNode": "15",
-                    "targetPort": "15_in"
                 },
                 {
                     "id": "port_15_to_port_21",
@@ -95,9 +45,64 @@
                     "sourcePort": "7_out",
                     "targetNode": "28",
                     "targetPort": "28_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_29",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "29",
+                    "targetPort": "29_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_29_to_port_15",
+                    "sourceNode": "29",
+                    "sourcePort": "29_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_0_to_port_30",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_30_to_port_4",
+                    "sourceNode": "30",
+                    "sourcePort": "30_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_30_to_port_5",
+                    "sourceNode": "30",
+                    "sourcePort": "30_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
                 }
             ],
-            "hash": "7942a01e522e5c8713bce9ebacfdd8147c988eca",
+            "hash": "358efb4c5735fbc18d68fec373c8911273683ca1",
             "nodes": {
                 "0": {
                     "data": {
@@ -112,8 +117,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 360,
-                    "y": -1.2789769243681803e-13
+                    "x": 330,
+                    "y": 0
                 },
                 "1": {
                     "data": {
@@ -128,8 +133,8 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 19.999999999999986,
-                    "y": 1360
+                    "x": 300,
+                    "y": 1340
                 },
                 "15": {
                     "data": {
@@ -140,13 +145,44 @@
                             "join": [],
                             "note": "summary report for all sandbox detonation input playbooks."
                         },
+                        "customDatapaths": {
+                            "filter_1": {
+                                "condition_1:dispatch_detonation_playbooks:outputs:observable.reputation.confidence": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_detonation_playbooks:outputs:observable.reputation.confidence",
+                                    "value": "filtered-data:filter_1:condition_1:dispatch_detonation_playbooks:playbook_output:observable.reputation.confidence"
+                                },
+                                "condition_1:dispatch_detonation_playbooks:outputs:observable.reputation.score": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_detonation_playbooks:outputs:observable.reputation.score",
+                                    "value": "filtered-data:filter_1:condition_1:dispatch_detonation_playbooks:playbook_output:observable.reputation.score"
+                                },
+                                "condition_1:dispatch_detonation_playbooks:outputs:observable.source": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_detonation_playbooks:outputs:observable.source",
+                                    "value": "filtered-data:filter_1:condition_1:dispatch_detonation_playbooks:playbook_output:observable.source"
+                                },
+                                "condition_1:dispatch_detonation_playbooks:outputs:observable.value": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_detonation_playbooks:outputs:observable.value",
+                                    "value": "filtered-data:filter_1:condition_1:dispatch_detonation_playbooks:playbook_output:observable.value"
+                                }
+                            }
+                        },
                         "functionId": 1,
                         "functionName": "merge_report_1",
                         "id": "15",
                         "parameters": [
-                            "normalized_observables_report:custom_function:sandbox_merge_report"
+                            "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.value",
+                            "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.reputation.score",
+                            "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.reputation.confidence",
+                            "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.source"
                         ],
-                        "template": "SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\\n\\n\n| value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n{0}\n%%",
+                        "template": "SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\n\n| Value | Score | Confidence | Source |\n| --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} |\n%%",
                         "type": "format"
                     },
                     "errors": {},
@@ -154,94 +190,8 @@
                     "type": "format",
                     "userCode": "\n    # Write your custom code here...\n    phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"merge_report_1\"))\n",
                     "warnings": {},
-                    "x": 0,
-                    "y": 880
-                },
-                "16": {
-                    "customCode": null,
-                    "data": {
-                        "advanced": {
-                            "customName": "normalized observables report",
-                            "customNameId": 0,
-                            "description": "This block uses custom code for normalizing observable result of input playbooks tag as sandbox. The normalized output will be used in merging 4 different types of sandbox used to detonated url or vault_id.",
-                            "join": [],
-                            "note": "This block uses custom code for normalizing observable result of input playbooks tag as sandbox. The normalized output will be used in merging 4 different types of sandbox used to detonated url or vault_id."
-                        },
-                        "functionId": 1,
-                        "functionName": "normalized_observables_report",
-                        "id": "16",
-                        "inputParameters": [
-                            "dispatch_detonation_playbooks:playbook_output:observable"
-                        ],
-                        "outputVariables": [
-                            "sandbox_merge_report",
-                            "observable_value",
-                            "observable_type"
-                        ],
-                        "type": "code"
-                    },
-                    "errors": {},
-                    "id": "16",
-                    "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    normalized_observables_report__sandbox_merge_report = []\n\n    normalized_observables_report__observable_value = []\n    normalized_observables_report__observable_type = []\n    format_observable = \"\"\n    output_observable_values =  [(i or \"\") for i in dispatch_detonation_playbooks_output_observable_values] \n    \n    for observable_item in output_observable_values:\n        if isinstance(observable_item, dict):\n            normalized_observables_report__observable_value.append(observable_item['value'])\n            normalized_observables_report__observable_type.append(observable_item['type'])\n            format_observable += \"{} | {} | {} | {} \\n\".format(observable_item['value'], observable_item['reputation']['score'], observable_item['reputation']['confidence'], observable_item['source'])\n    normalized_observables_report__sandbox_merge_report.append(format_observable)\n    \n    #phantom.debug(\"{} len:{}\".format(normalized_observables_report__sandbox_merge_report, len(normalized_observables_report__sandbox_merge_report)))\n    normalized_observables_report__observable_value = normalized_observables_report__observable_value[0]\n    normalized_observables_report__observable_type = normalized_observables_report__observable_type[0]\n\n",
-                    "warnings": {},
-                    "x": 0,
-                    "y": 680
-                },
-                "2": {
-                    "data": {
-                        "advanced": {
-                            "join": []
-                        },
-                        "conditions": [
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "artifact:*.cef.requestURL",
-                                        "value": ""
-                                    },
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "artifact:*.cef.vaultId",
-                                        "value": ""
-                                    }
-                                ],
-                                "conditionIndex": 0,
-                                "customName": "artifacts_exist",
-                                "display": "If",
-                                "logic": "or",
-                                "type": "if"
-                            },
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 1,
-                                        "op": "==",
-                                        "param": "",
-                                        "value": ""
-                                    }
-                                ],
-                                "conditionIndex": 1,
-                                "customName": "artifacts_not_exist",
-                                "display": "Else",
-                                "logic": "and",
-                                "type": "else"
-                            }
-                        ],
-                        "functionId": 1,
-                        "functionName": "decision_1",
-                        "id": "2",
-                        "type": "decision"
-                    },
-                    "errors": {},
-                    "id": "2",
-                    "type": "decision",
-                    "warnings": {},
-                    "x": 420,
-                    "y": 148
+                    "x": 280,
+                    "y": 866
                 },
                 "21": {
                     "data": {
@@ -249,6 +199,22 @@
                             "customName": "indicator tag",
                             "customNameId": 0,
                             "join": []
+                        },
+                        "customDatapaths": {
+                            "filter_dispatch_output": {
+                                "condition_1:dispatch_detonation_playbooks:outputs:observable.classifications": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_detonation_playbooks:outputs:observable.classifications",
+                                    "value": "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.classifications"
+                                },
+                                "condition_1:dispatch_detonation_playbooks:outputs:observable.value": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_detonation_playbooks:outputs:observable.value",
+                                    "value": "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.value"
+                                }
+                            }
                         },
                         "customFunction": {
                             "draftMode": false,
@@ -306,9 +272,9 @@
                         "utilityType": "custom_function",
                         "values": {
                             "indicator_tag": {
-                                "indicator": "normalized_observables_report:custom_function:observable_value",
+                                "indicator": "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.value",
                                 "overwrite": null,
-                                "tags": "normalized_observables_report:custom_function:observable_type"
+                                "tags": "filtered-data:filter_dispatch_output:condition_1:dispatch_detonation_playbooks:playbook_output:observable.classifications"
                             }
                         }
                     },
@@ -316,8 +282,8 @@
                     "id": "21",
                     "type": "utility",
                     "warnings": {},
-                    "x": 0,
-                    "y": 1060
+                    "x": 280,
+                    "y": 1040
                 },
                 "23": {
                     "data": {
@@ -433,20 +399,20 @@
                     "id": "23",
                     "type": "utility",
                     "warnings": {},
-                    "x": 0,
-                    "y": 1206
+                    "x": 280,
+                    "y": 1200
                 },
                 "28": {
                     "data": {
                         "advanced": {
-                            "customName": "detonations output check comment",
+                            "customName": "no observables comment",
                             "customNameId": 0,
-                            "description": "observable output of detonation playbooks not exits.",
+                            "description": "observable output of detonation playbooks does not exist",
                             "join": [],
                             "note": "observable output of detonation playbooks not exits."
                         },
                         "functionId": 2,
-                        "functionName": "detonations_output_check_comment",
+                        "functionName": "no_observables_comment",
                         "id": "28",
                         "selectMore": false,
                         "tab": "apis",
@@ -491,7 +457,7 @@
                                     "author",
                                     "trace"
                                 ],
-                                "comment": "observable output of detonation playbooks not exits"
+                                "comment": "No observable output found for dispatched playbooks."
                             }
                         }
                     },
@@ -499,8 +465,93 @@
                     "id": "28",
                     "type": "utility",
                     "warnings": {},
+                    "x": 0,
+                    "y": 680
+                },
+                "29": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter dispatch output",
+                            "customNameId": 0,
+                            "description": "Filter out any results that are Null.",
+                            "join": [],
+                            "note": "Filter out any results that are Null."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "dispatch_detonation_playbooks:playbook_output:observable",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "output exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "filter_dispatch_output",
+                        "id": "29",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "29",
+                    "type": "filter",
+                    "warnings": {},
                     "x": 340,
-                    "y": 686
+                    "y": 680
+                },
+                "30": {
+                    "data": {
+                        "advanced": {
+                            "customName": "new artifacts filter",
+                            "customNameId": 0,
+                            "description": "This block is used to ensure only \"new\" artifacts are utilized.",
+                            "join": [],
+                            "note": "This block is used to ensure only \"new\" artifacts are utilized."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.id",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "artifacts exist",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "artifact:*.id",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "artifacts do not exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "new_artifacts_filter",
+                        "id": "30",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "30",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 370,
+                    "y": 148
                 },
                 "4": {
                     "data": {
@@ -514,7 +565,9 @@
                         "id": "4",
                         "inputs": {
                             "artifact_ids_include": {
-                                "datapaths": [],
+                                "datapaths": [
+                                    "filtered-data:new_artifacts_filter:condition_1:artifact:*.id"
+                                ],
                                 "deduplicate": false
                             },
                             "indicator_tags_exclude": {
@@ -537,7 +590,7 @@
                             }
                         },
                         "playbookName": "dispatch_input_playbooks",
-                        "playbookRepo": 1,
+                        "playbookRepo": 3,
                         "playbookRepoName": "community",
                         "playbookType": "data",
                         "synchronous": true,
@@ -547,8 +600,8 @@
                     "id": "4",
                     "type": "playbook",
                     "warnings": {},
-                    "x": 170,
-                    "y": 334.9999999999999
+                    "x": 140,
+                    "y": 335
                 },
                 "5": {
                     "data": {
@@ -613,7 +666,7 @@
                     "id": "5",
                     "type": "utility",
                     "warnings": {},
-                    "x": 510,
+                    "x": 480,
                     "y": 328
                 },
                 "7": {
@@ -666,8 +719,8 @@
                     "id": "7",
                     "type": "decision",
                     "warnings": {},
-                    "x": 260,
-                    "y": 500
+                    "x": 220,
+                    "y": 506
                 }
             },
             "notes": "Inputs: url,  vault_id\nActions: url detonation, , file detonation\nOutputs: report, indicator tag, workbook update task"
@@ -676,10 +729,10 @@
         "output_spec": null,
         "playbook_type": "automation",
         "python_version": "3",
-        "schema": "5.0.8",
-        "version": "5.5.0.108488"
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-05T17:09:42.614480+00:00",
+    "create_time": "2023-04-29T21:39:15.147763+00:00",
     "draft_mode": false,
     "labels": [
         "*"
