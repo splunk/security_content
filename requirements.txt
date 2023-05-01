@@ -1,4 +1,4 @@
-attackcti==0.3.8
+attackcti==0.3.9
 docker==6.0.0
 GitPython==3.1.31
 Jinja2==3.1.2
