@@ -1,0 +1,28 @@
+name: Dynamic Analysis Dispatch
+id: a15da934-1f59-4672-b98c-ec1bbfd80885
+version: 1
+date: '2023-03-30'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: Automatically dispatches input playbooks with the 'sandbox' tag.
+  This will produce a merge report and indicator tag for each inputs.
+playbook: Dynamic_Analysis_Dispatch
+how_to_implement: This automatic playbook requires "sandbox" tag be present on each input playbook you want to launch.
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+  - urlscan.io
+  - VirusTotal_v3
+  - SAA
+tags:
+  platform_tags:
+    - url
+    - domain
+    - sandbox
+    - ip
+    - vault_id
+  playbook_type: Automatic
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
