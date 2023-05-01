@@ -30,13 +30,13 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 90
-  message: A process was started on a remote endpoint from $ComputerName by abusing
+  message: A process was started on a remote endpoint from $Computer$ by abusing
     WMI using PowerShell.exe
   mitre_attack_id:
   - T1021
   - T1021.003
   observable:
-  - name: ComputerName
+  - name: Computer
     type: Endpoint
     role:
     - Victim
@@ -47,9 +47,9 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - user_id
   risk_score: 63
   security_domain: endpoint
 tests:
