@@ -1,10 +1,10 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Dynamic Related Ticket Search",
+    "category": "Related Ticket Search",
     "coa": {
         "data": {
-            "description": "Detects available indicators and routes them to dynamic related ticket search playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags.",
+            "description": "Detects available indicators and routes them to dispatch related ticket search playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags.",
             "edges": [
                 {
                     "conditions": [
@@ -107,7 +107,7 @@
                     "targetPort": "10_in"
                 }
             ],
-            "hash": "a6c7d1370562fa8c2c59b56f47c3fd52f27f8b37",
+            "hash": "2cc75fd96e3876d56b54f26dbb247bb868e72852",
             "nodes": {
                 "0": {
                     "data": {
@@ -123,7 +123,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 300,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -349,7 +349,7 @@
                             "workbook_task_update": {
                                 "container": "container:id",
                                 "note_content": "merge_reports:formatted_data",
-                                "note_title": "Dynamic Related Ticket Search Report",
+                                "note_title": "Dispatch Related Ticket Search Report",
                                 "owner": null,
                                 "status": "complete",
                                 "task_name": "playbook"
@@ -726,7 +726,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-02-27T20:44:02.427087+00:00",
+    "create_time": "2023-04-06T23:24:47.745007+00:00",
     "draft_mode": false,
     "labels": [
         "*"
