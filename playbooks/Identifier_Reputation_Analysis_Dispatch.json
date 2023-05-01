@@ -142,7 +142,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 470,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -812,10 +812,10 @@
         "output_spec": null,
         "playbook_type": "automation",
         "python_version": "3",
-        "schema": "5.0.8",
-        "version": "5.5.0.108488"
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
     },
-    "create_time": "2023-01-09T22:52:13.357641+00:00",
+    "create_time": "2023-04-06T23:24:14.315536+00:00",
     "draft_mode": false,
     "labels": [
         "*"
