@@ -32,12 +32,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Recursive Delete of Directory In Batch CMD
+  message: Recursive Delete of Directory In Batch CMD by $user$ on $dest$
   mitre_attack_id:
   - T1070.004
   - T1070
   observable:
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

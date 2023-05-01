@@ -5,9 +5,9 @@ date: '2022-07-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This search is to identifies a modification in registry to disable the
-  windows denfender real time behavior monitoring. This event or technique is commonly
-  seen in RAT, bot, or Trojan to disable AV to evade detections.
+description: description: This search identifies a modification in registry to disable the
+  windows defender real time behavior monitoring. This event or technique is commonly
+  seen in RATs, bots, or Trojans to disable AV to evade detections.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -34,12 +34,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: ''
+  message: Windows Defender Real-time Behavior Monitoring disabled on $dest$ 
   mitre_attack_id:
   - T1562.001
   - T1562
   observable:
-  - name: ComputerName
+  - name: dest
     type: Hostname
     role:
     - Victim

@@ -31,13 +31,13 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Powershell Enable SMB1Protocol Feature
+  message: Powershell Enable SMB1Protocol Feature on $Computer$
   mitre_attack_id:
   - T1027
   - T1027.005
   observable:
-  - name: User
-    type: User
+    name: Computer
+    type: Hostname
     role:
     - Victim
   product:
