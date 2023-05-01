@@ -32,11 +32,11 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: $IpAddress$ accessed the IPC share on more than 40 endpoints in a timespan of 5 minutes.
+  message: $IpAddress$ accessed the IPC share on more than 30 endpoints in a timespan of 5 minutes.
   mitre_attack_id:
   - T1135
   observable:
-  - name: Computer
+  - name: host_targets
     type: Endpoint
     role:
     - Victim
