@@ -68,11 +68,11 @@ def dispatch_ticketing_playbooks(action=None, success=None, container=None, resu
     filtered_artifact_0__id = [item[0] for item in filtered_artifact_0_data_filter_new_artifacts]
 
     inputs = {
-        "playbook_tags": ["ticket"],
         "playbook_repo": [],
-        "indicator_tags_include": [],
-        "indicator_tags_exclude": [],
+        "playbook_tags": ["ticket"],
         "artifact_ids_include": filtered_artifact_0__id,
+        "indicator_tags_exclude": [],
+        "indicator_tags_include": [],
     }
 
     ################################################################################
