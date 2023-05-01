@@ -94,11 +94,11 @@ def dispatch_attribute_lookup(action=None, success=None, container=None, results
     filtered_artifact_0__id = [item[0] for item in filtered_artifact_0_data_new_artifact_filter]
 
     inputs = {
-        "playbook_tags": ["attributes"],
         "playbook_repo": [""],
-        "indicator_tags_include": [],
-        "indicator_tags_exclude": [],
+        "playbook_tags": ["attributes"],
         "artifact_ids_include": filtered_artifact_0__id,
+        "indicator_tags_exclude": [],
+        "indicator_tags_include": [],
     }
 
     ################################################################################
