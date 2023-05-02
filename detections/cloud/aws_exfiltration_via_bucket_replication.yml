@@ -8,8 +8,7 @@ type: TTP
 data_source: []
 description: There have been reports of malicious actors using S3 bucket replication as a means of data exfiltration. This search detects API calls made to an S3 bucket when bucket replication services are enabled. S3 bucket replication is a feature offered by Amazon Web Services (AWS) that allows you to automatically and asynchronously copy data from one S3 bucket to another in the same or different region.\
 
-S3 bucket replication can also be used for cross-account replication, where data is replicated from a source 
-bucket owned by one AWS account to a destination bucket owned by a different AWS account. 
+ S3 bucket replication can also be used for cross-account replication, where data is replicated from a source bucket owned by one AWS account to a destination bucket owned by a different AWS account. 
 search: '`cloudtrail`  eventName = PutBucketReplication eventSource = s3.amazonaws.com
 |  rename requestParameters.* as * 
 | stats count values(bucketName) as source_bucket values(ReplicationConfiguration.Rule.ID) as rule_id values(ReplicationConfiguration.Rule.Destination.Bucket) as destination_bucket by _time user_arn userName user_type src_ip aws_account_id userIdentity.principalId user_agent | `aws_exfiltration_via_ec2_snapshot_filter`'
@@ -61,7 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true
