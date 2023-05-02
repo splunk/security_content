@@ -47,7 +47,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 90
-  message: Suspicious command line parameters on $dest may represent a lateral movement
+  message: Suspicious command line parameters on $dest$ may represent a lateral movement
     attack with Impackets tools
   mitre_attack_id:
   - T1021

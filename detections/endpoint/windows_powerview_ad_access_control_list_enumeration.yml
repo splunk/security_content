@@ -1,0 +1,62 @@
+name: Windows PowerView AD Access Control List Enumeration
+id: 39405650-c364-4e1e-a740-32a63ef042a6
+version: 1
+date: '2023-04-20'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source:
+- Powershell 4104
+description: The following analytic leverages Event ID 4104 to identify the execution of the PowerView powershell commandlets `Get-ObjectAcl` or `Get-DomainObjectAcl`. This commandlets
+  are used to enumerate Access Control List permissions given to Active Directory objects. In an active directory environment, an object is an entity that represents an available resource within 
+  the organizations network, such as domain controllers, users, groups, computers, shares, etc.  Maintaining Active Directory permissions is complicated and hard to manage, especially in complex 
+  and large environments with multiple domains. Weak permissions may allow adversaries and red teamers to escalate their privileges in Active Directory. PowerView is a common tool leveraged
+  by attackers to identify and exploit configuration weaknesses.
+search: ' `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl* )
+  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_powerview_ad_access_control_list_enumeration_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
+known_false_positives: Administrators may leverage PowerView for legitimate purposes, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1078/002/
+- https://medium.com/r3d-buck3t/enumerating-access-controls-in-active-directory-c06e2efa8b89
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainObjectAcl/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  confidence: 50
+  impact: 40
+  message: PowerView AD acccess control list enumeration detected on $Computer$
+  mitre_attack_id:
+  - T1078.002
+  - T1069
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Opcode
+  - UserID
+  risk_score: 20
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/powerview_acl_enumeration/windows-powershell.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog
