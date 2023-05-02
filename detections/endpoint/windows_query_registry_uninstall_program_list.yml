@@ -11,7 +11,7 @@ description: The following analytic identifies a suspicious query on uninstall a
   This registry  is commonly used by legitimate software to store information about installed applications on a Windows system, such as their name, version, publisher, and installation path.
   However, malware, adversaries or even red-teamers can abuse this registry key to retrieve information stored in the "Uninstall" key to gather data about installed applications in the target host.
   This Anomaly detection can be a good pivot to detect a possible suspicious process accessing this registry which is not commonly accessed by a normal user.
-search: '`wineventlog_security` EventCode=4663 object_file_path="\\REGISTRY\\MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall" 
+search: '`wineventlog_security` EventCode=4663 object_file_path="\\REGISTRY\\MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path process_name process_path  process_id EventCode dest
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`

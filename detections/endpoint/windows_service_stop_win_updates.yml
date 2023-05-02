@@ -60,4 +60,4 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/win_update_services_stop/system.log
     source: XmlWinEventLog:System
-    sourcetype: WinEventLog
+    sourcetype: XmlWinEventLog

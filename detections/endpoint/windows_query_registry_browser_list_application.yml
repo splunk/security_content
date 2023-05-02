@@ -56,6 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/browser_ext_access/security-ext-raw.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/browser_list/ar3_4663_redline_reg.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
