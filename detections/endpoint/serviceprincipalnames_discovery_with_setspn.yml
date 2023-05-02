@@ -58,6 +58,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   - Active Directory Kerberos Attacks
+  - Active Directory Privilege Escalation
   asset_type: Endpoint
   confidence: 100
   impact: 80
