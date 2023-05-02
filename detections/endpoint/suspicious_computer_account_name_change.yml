@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - sAMAccountName Spoofing and Domain Controller Impersonation
+  - Active Directory Privilege Escalation
   asset_type: Endpoint
   confidence: 70
   cve:
