@@ -1,6 +1,5 @@
 name: detection-smoketesting
 on:
-  push:
   schedule:
     - cron: "44 4 * * *"
 jobs:
