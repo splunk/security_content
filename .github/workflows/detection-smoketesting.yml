@@ -1,0 +1,48 @@
+name: detection-smoketesting
+on:
+  schedule:
+    - cron: "44 4 * * *"
+jobs:
+  docker-detection-smoketest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        #with:
+        #  ref: develop
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9" #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified
+          cache: "pip"
+
+      - name: Install Python Dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install wheel
+          python -m pip install -r requirements.txt
+
+      - name: Run the Smoketesting
+        run: |
+          source .venv/bin/activate
+          cd bin/docker_detection_tester  
+          python detection_testing_execution.py run --branch develop --mode smoketest --config_file test_config_github_actions.json --num_containers 1
+
+      # Summarize all results in a different step so they are easy to read/jump to
+      - name: Run the Smoketesting
+        run: |
+          source .venv/bin/activate
+          cd bin/docker_detection_tester  
+          python summarize_json.py  -o test_results/summary_smoketest.json -f test_results/summary.json --smoketest
+
+      # Upload Results even on failure. Results are even more important in the event of a failure
+      - name: Upload Test Results Files
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: smoketest_results
+          path: |
+            bin/docker_detection_tester/test_results/summary.json
+            bin/docker_detection_tester/test_results/summary_smoketest.json
