@@ -1,0 +1,73 @@
+name: Windows Findstr GPP Discovery
+id: 1631ac2d-f2a9-42fa-8a59-d6e210d472f5
+version: 1
+date: '2023-03-16'
+author: Mauricio Velazco, Splunk
+type: TTP
+status: production
+data_source: []
+description: The following analytic identifies the use of the findstr command employed to search for unsecured credentials Group Policy Preferences (GPP).
+  GPP are tools that allow administrators to create domain policies with embedded credentials. These policies allow administrators to set local accounts.
+  These group policies are stored in SYSVOL on a domain controller. This means that any domain user can view the SYSVOL share and decrypt the password (using the AES key that has been made public).
+  While Microsoft released a patch that impedes Administrators to create unsecure credentials, existing Group Policy Preferences files with passwords are not removed from SYSVOL.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=findstr.exe AND Processes.process=*sysvol* AND Processes.process=*cpassword*)
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name 
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_findstr_gpp_discovery_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Administrators may leverage findstr to find passwords in GPO to validate exposure. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1552/006/
+- https://pentestlab.blog/2017/03/20/group-policy-preferences/
+- https://adsecurity.org/?p=2288 
+- https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
+- https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: Findstr was executed to discover GPP credentials on $dest$
+  mitre_attack_id:
+  - T1552
+  - T1552.006
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process_id 
+  - Processes.parent_process_id
+  - Processes.original_file_name 
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/findstr_gpp_discovery/windows-security.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
