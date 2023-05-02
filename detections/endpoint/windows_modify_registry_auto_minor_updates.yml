@@ -37,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: a registry modification in Windows auto update configuration in $dest$
+  message: A registry modification in Windows auto update configuration on $dest$
   mitre_attack_id:
   - T1112
   observable:

@@ -35,7 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: a registry modification to disable Windows Defender notification in $dest$
+  message: A registry modification to disable Windows Defender notification on $dest$
   mitre_attack_id:
   - T1112
   observable:
