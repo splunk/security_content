@@ -1,7 +1,7 @@
 name: PowerShell - Connect To Internet With Hidden Window
 id: ee18ed37-0802-4268-9435-b3b91aaa18db
 version: 8
-date: '2022-01-12'
+date: '2023-04-14'
 author: David Dorsey, Michael Haag Splunk
 status: production
 type: Hunting
@@ -37,12 +37,13 @@ references:
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 tags:
   analytic_story:
-  - Hermetic Wiper
-  - Malicious PowerShell
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - HAFNIUM Group
-  - Log4Shell CVE-2021-44228
   - AgentTesla
+  - HAFNIUM Group
+  - Hermetic Wiper
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Malicious PowerShell
+  - Data Destruction
+  - Log4Shell CVE-2021-44228
   asset_type: Endpoint
   confidence: 90
   cve:

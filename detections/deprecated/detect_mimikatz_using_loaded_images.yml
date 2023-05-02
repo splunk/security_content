@@ -1,0 +1,82 @@
+name: Detect Mimikatz Using Loaded Images
+id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
+version: 1
+date: '2019-12-03'
+author: Patrick Bareiss, Splunk
+status: production
+type: TTP
+description: This search looks for reading loaded Images unique to credential dumping
+  with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon
+  Event Code.
+data_source:
+- Sysmon Event ID 7
+search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId)
+  as ProcessId by Computer, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
+  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | rename
+  Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `detect_mimikatz_using_loaded_images_filter`'
+how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
+  includes EventCode 7 with powershell.exe. This search uses an input macro named
+  `sysmon`. We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
+  with configurations for your Splunk environment. The search also uses a post-filter
+  macro designed to filter out known false positives.
+known_false_positives: Other tools can import the same DLLs. These tools should be
+  part of a whitelist. False positives may be present with any process that authenticates
+  or uses credentials, PowerShell included. Filter based on parent process.
+references:
+- https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+tags:
+  analytic_story:
+  - Credential Dumping
+  - Detect Zerologon Attack
+  - Cloud Federated Credential Abuse
+  - DarkSide Ransomware
+  - CISA AA22-257A
+  - CISA AA22-264A
+  - CISA AA22-320A
+  - Sandworm Tools
+  asset_type: Windows
+  confidence: 80
+  impact: 80
+  message: A process, $Image$, has loaded $ImageLoaded$ that are typically related
+    to credential dumping on $Computer$. Review for further details.
+  mitre_attack_id:
+  - T1003.001
+  - T1003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: Process
+    role:
+    - Other
+  - name: Image
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ImageLoaded
+  - ProcessId
+  - Computer
+  - Image
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

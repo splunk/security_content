@@ -27,7 +27,11 @@ tags:
   - T1078
   - T1078.001
   - T1110.004
-  observable: []
+  observable:
+  - name: outcome.reason
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

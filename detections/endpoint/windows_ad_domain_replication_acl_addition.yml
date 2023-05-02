@@ -4,7 +4,7 @@ version: 1
 date: "2022-11-18"
 author: Dean Luxton
 type: TTP
-status: production
+status: experimental
 data_source: []
 description:
   This analytic detects the addition of the permissions necessary to perform a DCSync attack.
@@ -13,7 +13,7 @@ description:
   - DS-Replication-Get-Changes-All
   Certain Sync operations may require the additional permission of DS-Replication-Get-Changes-In-Filtered-Set.
   By default, adding DCSync permissions via the Powerview Add-ObjectACL operation adds all 3. This alert identifies where this trifecta has been met, and also where just the base level requirements have been met.
-search: '`wineventlog_security` | rex field=AttributeValue max_match=10000 \"OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)\"| table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid| mvexpand DSRGetChanges_user_sid| eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,\"true\",\"false\"), fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,\"true\",\"false\")| where minDCSyncPermissions=\"true\" | lookup identity_lookup_expanded objectSid as DSRGetChanges_user_sid OUTPUT sAMAccountName as user | rename DSRGetChanges_user_sid as userSid | stats min(_time) as _time values(user) as user by dest src_user userSid minDCSyncPermissions fullSet| `windows_ad_domain_replication_acl_addition_filter`'
+search: '`wineventlog_security`  | rex field=AttributeValue max_match=10000 \"OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)\"| table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid| mvexpand DSRGetChanges_user_sid| eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,\"true\",\"false\"), fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,\"true\",\"false\")| where minDCSyncPermissions=\"true\" | lookup identity_lookup_expanded  objectSid as DSRGetChanges_user_sid OUTPUT sAMAccountName as user | rename DSRGetChanges_user_sid as userSid | stats min(_time) as _time values(user) as user by dest src_user userSid minDCSyncPermissions fullSet| `windows_ad_domain_replication_acl_addition_filter`'
 how_to_implement:
   To successfully implement this search, you need to be ingesting the eventcode 5136. The Advanced Security Audit policy setting
   `Audit Directory Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody` to  `Write All Properties`
@@ -61,6 +61,7 @@ tags:
     - ObjectClass
   risk_score: 80
   security_domain: endpoint
+  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
 tests:
   - name: True Positive Test
     attack_data:

@@ -1,7 +1,7 @@
 name: MSI Module Loaded by Non-System Binary
 id: ccb98a66-5851-11ec-b91c-acde48001122
 version: 1
-date: '2021-12-08'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -40,8 +40,9 @@ references:
 - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/msi.dll%20Hijack%20(Methodology).ioc
 tags:
   analytic_story:
-  - Windows Privilege Escalation
+  - Data Destruction
   - Hermetic Wiper
+  - Windows Privilege Escalation
   asset_type: Endpoint
   confidence: 70
   cve:

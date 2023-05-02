@@ -1,7 +1,7 @@
 name: Malicious PowerShell Process With Obfuscation Techniques
 id: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 version: 5
-date: '2021-01-19'
+date: '2023-04-14'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -27,8 +27,9 @@ known_false_positives: These characters might be legitimately on the command-lin
 references: []
 tags:
   analytic_story:
-  - Hermetic Wiper
   - Malicious PowerShell
+  - Hermetic Wiper
+  - Data Destruction
   asset_type: Endpoint
   confidence: 60
   impact: 70

@@ -1,7 +1,7 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
 version: 1
-date: '2021-03-16'
+date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,9 +29,10 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
-  - WhisperGate
   - DarkCrystal RAT
   - Swift Slicer
+  - Data Destruction
+  - WhisperGate
   asset_type: Endpoint
   confidence: 80
   impact: 90

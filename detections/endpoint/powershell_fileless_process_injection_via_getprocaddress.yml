@@ -1,7 +1,7 @@
 name: Powershell Fileless Process Injection via GetProcAddress
 id: a26d9db4-c883-11eb-9d75-acde48001122
 version: 2
-date: '2022-02-25'
+date: '2023-04-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -39,8 +39,9 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Hermetic Wiper
   - Malicious PowerShell
+  - Hermetic Wiper
+  - Data Destruction
   asset_type: Endpoint
   confidence: 80
   impact: 60
@@ -53,10 +54,6 @@ tags:
   observable:
   - name: Computer
     type: Hostname
-    role:
-    - Victim
-  - name: User
-    type: User
     role:
     - Victim
   product:
