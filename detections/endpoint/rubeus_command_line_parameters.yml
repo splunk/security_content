@@ -41,6 +41,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  - Active Directory Privilege Escalation
   asset_type: Endpoint
   confidence: 60
   impact: 60
