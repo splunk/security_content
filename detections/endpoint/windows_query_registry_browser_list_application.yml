@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: a suspicious process accessing installed default browser registry in $dest$  
+  message: A suspicious process accessing installed default browser registry on $dest$  
   mitre_attack_id:
   - T1012
   observable:

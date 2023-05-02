@@ -1,4 +1,4 @@
-name: 'Windows Service Stop Win Updates'
+name: Windows Service Stop Win Updates
 id: 0dc25c24-6fcf-456f-b08b-dd55a183e4de
 version: 1
 date: '2023-04-21'
@@ -21,7 +21,7 @@ search: '`wineventlog_system` EventCode=7040
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
   from your endpoints (like Windows system.log Event ID 7040)
-known_false_positives: network administrator may disable this services as part of its audit process within the network. filter is needed.
+known_false_positives: Network administrator may disable this services as part of its audit process within the network. Filter is needed.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
 tags:
@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: windows update services $service_name$ was being disabled in $dest$
+  message: Windows update services $service_name$ was being disabled on $dest$
   mitre_attack_id:
   - T1489
   observable:
