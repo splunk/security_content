@@ -1,0 +1,59 @@
+name: Windows DnsAdmins New Member Added
+id: 27e600aa-77f8-4614-bc80-2662a67e2f48
+version: 1
+date: '2023-04-06'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source:
+- Windows_Security_4732.yml
+description: The following analytic leverages Event ID 4732 to identify the addition of a new member to the DnsAdmins group within Active Directory. . Members of the DnsAdmin group can manage
+  the DNS service which most of the times runs on the Domain Controller. By abusing legitimate DNS management functionality, a member of the DnsAdmins group can escalate privileges by
+  executing malicious code on a Domain Controller as SYSTEM. Security teams should monitor the modification of the DnsAdmins group and validate the changes are legitimate.
+search: ' `wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins
+  | stats min(_time) as firstTime max(_time) as lastTime values(SubjectUserName) values(Computer) by MemberSid, TargetUserName
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_dnsadmins_new_member_added_filter`'
+how_to_implement: To successfully implement this search, Domain Controller events need to be ingested. The Advanced Security Audit policy setting `Audit Security Group Management`
+  within `Account Management` needs to be enabled.
+known_false_positives: New members can be added to the DnsAdmins group as part of legitimate administrative tasks. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise
+- https://www.hackingarticles.in/windows-privilege-escalation-dnsadmins-to-domainadmin/
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  confidence: 50
+  impact: 80
+  message: A new member was added to the DnsAdmins group by $SubjectUserName$
+  mitre_attack_id:
+  - T1098
+  observable:
+  - name: SubjectUserName
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - TargetUserName
+  - SubjectUserName
+  - Computer
+  - MemberSid
+  - TargetUserName
+  risk_score: 40
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/dnsadmins_member_added/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
