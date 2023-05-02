@@ -52,6 +52,7 @@ tags:
   - Active Directory Discovery
   - Active Directory Kerberos Attacks
   - Malicious PowerShell
+  - Active Directory Privilege Escalation
   asset_type: Endpoint
   confidence: 100
   impact: 80
