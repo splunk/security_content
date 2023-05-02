@@ -1,0 +1,61 @@
+name: Windows Admon Default Group Policy Object Modified
+id: 83458004-db60-4170-857d-8572f16f070b
+version: 1
+date: '2023-03-29'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source : []
+description: The following analytic leverages Splunks Admon to identify the modification of a default Group Policy Object. A fresh installation of an Active Directory network will typically contain
+  two default group policy objects `Default Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers policy is used to enforce and set policies to all the domain controllers within the domain environment.
+  The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 
+  policy objects to obtain further access, deploy persistence or execute malware across a large number of hosts. Security teams should monitor the modification of the default GPOs.
+search: ' `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" (displayName="Default Domain Policy" OR displayName="Default Domain Controllers Policy")
+  | stats min(_time) as firstTime max(_time) as lastTime values(gPCFileSysPath) by dcName, displayName
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_admon_default_group_policy_object_modified_filter`'
+how_to_implement: To successfully implement this search, you need to be monitoring Active Directory logs using Admon. Details can be found here
+  https://docs.splunk.com/Documentation/SplunkCloud/8.1.2101/Data/MonitorActiveDirectory
+known_false_positives: The default Group Policy Objects within an AD network may be legitimately updated for administrative operations, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1484/
+- https://attack.mitre.org/techniques/T1484/001
+- https://www.trustedsec.com/blog/weaponizing-group-policy-objects-access/
+- https://adsecurity.org/?p=2716
+- https://docs.splunk.com/Documentation/SplunkCloud/8.1.2101/Data/MonitorActiveDirectory
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 50
+  impact: 100
+  message: A default domain group policy was updated on $dcName$
+  mitre_attack_id:
+  - T1484
+  - T1484.001
+  observable:
+  - name: dcName
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - admonEventType
+  - objectCategory
+  - displayName
+  - gPCFileSysPath
+  - dcName
+  risk_score: 50
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
+    source: ActiveDirectory
+    sourcetype: ActiveDirectory
