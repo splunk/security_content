@@ -1,0 +1,63 @@
+name: Windows Service Stop Win Updates
+id: 0dc25c24-6fcf-456f-b08b-dd55a183e4de
+version: 1
+date: '2023-04-21'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- System Event ID 7040
+description: The following analytic identifies a windows update service being disabled in Windows OS. 
+  This technique is being abused by adversaries or threat actors to add defense mechanisms to their malware implant in the targeted host. 
+  Disabling windows update will put the compromised host vulnerable in some zero day exploit or even some update features against threats. 
+  RedLine Stealer kills this service as part of its defense evasion mechanism.
+search: '`wineventlog_system` EventCode=7040 
+  (service_name IN ("Update Orchestrator Service for Windows Update", "WaaSMedicSvc", "Windows Update") OR param1 IN ("UsoSvc", "WaaSMedicSvc", "wuauserv")) AND 
+  (param3=disabled OR start_mode = disabled) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer Error_Code service_name start_mode param1 param2 param3 param4 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_service_stop_win_updates_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the Service name, Service File Name Service Start type, and Service Type
+  from your endpoints (like Windows system.log Event ID 7040)
+known_false_positives: Network administrator may disable this services as part of its audit process within the network. Filter is needed.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+tags:
+  analytic_story:
+  - RedLine Stealer
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Windows update services $service_name$ was being disabled on $dest$
+  mitre_attack_id:
+  - T1489
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Computer
+  - EventCode
+  - Error_Code 
+  - service_name 
+  - start_mode 
+  - param1 
+  - param2 
+  - param3 
+  - param4 
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/win_update_services_stop/system.log
+    source: XmlWinEventLog:System
+    sourcetype: XmlWinEventLog
