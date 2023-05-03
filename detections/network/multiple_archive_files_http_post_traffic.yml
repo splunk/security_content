@@ -45,7 +45,7 @@ tags:
   - T1048
   observable:
   - name: uri_path
-    type: URL
+    type: URL String
     role:
     - Attacker
   - name: form_data
