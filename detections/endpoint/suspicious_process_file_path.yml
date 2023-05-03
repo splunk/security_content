@@ -68,7 +68,7 @@ tags:
     role:
     - Victim
   - name: process_path
-    type: Location
+    type: Process Name
     role:
     - Attacker
   product:
