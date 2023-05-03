@@ -57,7 +57,7 @@ class SigmaConverter():
             sys.exit(1)
 
         for detection_file in detection_files:
-            #try:
+            try:
                 detection = self.read_detection(str(detection_file))
                 print("Converting detection: " + detection.name)
                 data_source = self.load_data_source(input_dto.input_path, detection.data_source[0])
@@ -203,9 +203,9 @@ class SigmaConverter():
                 
                 self.output_dto.detections.append(detection)
 
-            # except Exception as e:
-            #     print(e)
-            #     errors.append("ERROR: Converting detection " + detection.name)
+            except Exception as e:
+                print(e)
+                errors.append("ERROR: Converting detection " + detection.name)
 
         print()
         for error in errors:
