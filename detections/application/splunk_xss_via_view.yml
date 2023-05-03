@@ -11,8 +11,8 @@ description: In Splunk Enterprise versions below 8.1.13, 8.2.10, and 9.0.4, a Vi
   This hunting search shows users action, application and role used for creating views
   related to this vulnerability.
 data_source: []
-search: index = _internal sourcetype IN ("splunk_web_service", "splunk_python") message="*loadParams*"
-  | `security_content_ctime(_time)` |  table _time message fileName | `splunk_xss_via_view_filter`
+search: 'index = _internal sourcetype IN ("splunk_web_service", "splunk_python") message="*loadParams*"
+  | `security_content_ctime(_time)` |  table _time message fileName | `splunk_xss_via_view_filter`'
 how_to_implement: This data is collected by default in Splunk.  Upon first enabling
   this rule, a number of errors may be observed. Those that are due to improperly
   formatted, but non-nefarious, XML views should be be remedied in the corresponding
@@ -36,7 +36,7 @@ tags:
   - T1189
   observable:
   - name: fileName
-    type: URL
+    type: URL String
     role:
     - Target
   product:
