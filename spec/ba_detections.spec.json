@@ -2,42 +2,15 @@
     "$id": "http://example.com/example.json",
     "$schema": "http://json-schema.org/draft-07/schema",
     "additionalProperties": true,
-    "description": "schema for detections",
+    "description": "schema for ba detections",
     "properties": {
-      "author": {
-        "$id": "#/properties/author",
+      "name": {
+        "$id": "#/properties/name",
         "default": "",
-        "description": "Author of the detection",
         "examples": [
-          "Patrick Bareiss, Splunk"
+          "Anomalous usage of Archive Tools"
         ],
-        "type": "string"
-      },
-      "date": {
-        "$id": "#/properties/date",
-        "default": "",
-        "description": "date of creation or modification, format yyyy-mm-dd",
-        "examples": [
-          "2019-12-06"
-        ],
-        "type": "string"
-      },
-      "description": {
-        "$id": "#/properties/description",
-        "default": "",
-        "description": "A detailed description of the detection",
-        "examples": [
-          "dbgcore.dll is a specifc DLL for Windows core debugging. It is used to obtain a memory dump of a process. This search detects the usage of this DLL for creating a memory dump of LSASS process. Memory dumps of the LSASS process can be created with tools such as Windows Task Manager or procdump."
-        ],
-        "type": "string"
-      },
-      "how_to_implement": {
-        "$id": "#/properties/how_to_implement",
-        "default": "",
-        "description": "information about how to implement. Only needed for non standard implementations.",
-        "examples": [
-          "This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe."
-        ],
+        "title": "Name of detection",
         "type": "string"
       },
       "id": {
@@ -49,22 +22,49 @@
         ],
         "type": "string"
       },
+      "version": {
+        "$id": "#/properties/version",
+        "default": 0,
+        "description": "version of detection, e.g. 1 or 2 ...",
+        "examples": [
+          1
+        ],
+        "type": "integer"
+      },
+      "description": {
+        "$id": "#/properties/description",
+        "default": "",
+        "description": "A detailed description of the detection",
+        "examples": [
+          "The following detection identifies the usage of archive tools from the command line."
+        ],
+        "type": "string"
+      },
+      "search": {
+        "$id": "#/properties/search",
+        "default": "",
+        "description": "The Splunk search for the detection",
+        "examples": [
+          "| from read_ba_enriched_events()"
+        ],
+        "type": "string"
+      },
+      "how_to_implement": {
+        "$id": "#/properties/how_to_implement",
+        "default": "",
+        "description": "information about how to implement.",
+        "examples": [
+          "Ingest Windows Event Code 4688 with Command Line Logging enabled."
+        ],
+        "type": "string"
+      },
       "known_false_positives": {
         "$id": "#/properties/knwon_false_positives",
         "default": "",
         "description": "known false postives",
         "examples": [
-          "Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual."
+          "False positives can be ligitmate usage of archive tools from the command line."
         ],
-        "type": "string"
-      },
-      "name": {
-        "$id": "#/properties/name",
-        "default": "",
-        "examples": [
-          "Access LSASS Memory for Dump Creation"
-        ],
-        "title": "Name of detection",
         "type": "string"
       },
       "references": {
@@ -74,29 +74,79 @@
         "description": "A list of references for this detection",
         "examples": [
           [
-            "https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf"
+            "https://attack.mitre.org/techniques/T1560/001/"
           ]
         ],
         "items": {
           "$id": "#/properties/references/items",
           "default": "",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Link to reference",
           "examples": [
-            "https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf"
+            "https://attack.mitre.org/techniques/T1560/001/"
           ],
           "title": "The Items Schema",
           "type": "string"
         },
         "type": "array"
       },
-      "search": {
-        "$id": "#/properties/search",
+      "runtime": {
+        "$id": "#/properties/runtime",
         "default": "",
-        "description": "The Splunk search for the detection",
+        "description": "runtime for BA detection",
         "examples": [
-          "`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll* | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage, TargetProcessId, SourceImage, SourceProcessId | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_filter`"
+          "SPL2"
         ],
+        "items": {
+          "enum": [
+            "DSP-SPL",
+            "SPL2",
+            "Spark"
+          ],
+          "type": "string"
+        },
         "type": "string"
+      },
+      "detection_type": {
+        "$id": "#/properties/detection_type",
+        "default": "",
+        "description": "type of detection",
+        "examples": [
+          "Rule"
+        ],
+        "items": {
+          "enum": [
+            "Rule",
+            "ML"
+          ],
+          "type": "string"
+        },
+        "type": "string"
+      },
+      "job_params": {
+        "$id": "#/properties/job_params",
+        "additionalProperties": true,
+        "default": "",
+        "description": "job parameters",
+        "examples": [
+          {
+            "entrypointClassName": "com.splunk.ssa.batch.poc.BatchEntryPoint",
+            "modelsJarFileName": "batch-models.jar"
+          }
+        ],
+        "type": "object"
+      },
+      "model_params": {
+        "$id": "#/properties/model_params",
+        "additionalProperties": true,
+        "default": "",
+        "description": "model parameters",
+        "examples": [
+          {
+            "modelClassName": "com.splunk.ssa.batch.poc.models.DeviceAccessRareModel",
+            "lookBackPeriodInDays": 30
+          }
+        ],
+        "type": "object"
       },
       "tags": {
         "$id": "#/properties/tags",
@@ -105,99 +155,507 @@
         "description": "An array of key value pairs for tagging",
         "examples": [
           {
-            "analytic_story": "credential_dumping",
-            "kill_chain_phases": "Action on Objectives",
-            "mitre_attack_id": "T1078.004",
-            "cis20": "CIS 13",
-            "nist": "DE.DP",
-            "security domain": "network",
-            "asset_type": "AWS Instance",
-            "risk_object": "user",
-            "risk_object_type": "network_artifacts",
-            "risk score": "60",
-            "custom_key": "custom_value"
+            "annotations": {"analytic_story": ["NOBELIUM Group"], "cis20": ["CIS 10"], "kill_chain_phases": ["Exploitation"], "mitre_attack_id": ["T1560.001", "T1560"], "nist": ["DE.AE"]},
+            "ocsf_attributes": {"activity_id": 1, "category_uid": 2, "class_uid": 102001, "risk_level_id": 2, "risk_score": 42, "severity_id": 0, "rule": {"name": "Anomalous usage of Archive Tools", "uid": "63614a58-10e2-4c6c-ae81-ea1113681439", "type": "Streaming"}, "metadata": {"product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2"}, "type_uid": 10200101},
+            "required_fields": ["process.user.name", "device.hostname"],
+            "risk_score": 42,
+            "security_domain": "endpoint",
+            "risk_severity": "low",
+            "research_site_url": "https://research.splunk.com/endpoint/63614a58-10e2-4c6c-ae81-ea1113681439/",
+            "event_schema": "ocsf",
+            "mappings": [{"ocsf": "process.user.name", "cim": "user"},{"ocsf": "device.hostname", "cim": "dest"}]
           }
         ],
-        "minItems": 1,
         "type": "object",
-        "uniqueItems": true
-      },
-      "type": {
-        "$id": "#/properties/type",
-        "default": "",
-        "description": "type of detection",
-        "examples": [
-          "Anomaly"
+        "uniqueItems": true,
+        "required": [
+          "annotations",
+          "risk_score",
+          "security_domain",
+          "risk_severity",
+          "research_site_url",
+          "event_schema",
+          "mappings"
         ],
-        "items": {
-          "enum": [
-            "TTP",
-            "Anomaly",
-            "Hunting",
-            "Baseline",
-            "Investigation",
-            "Correlation"
-          ],
-          "type": "string"
-        },
-        "type": "string"
-      },
-      "datamodel": {
-        "$id": "#/properties/datamodel",
-        "default": "",
-        "description": "datamodel used in the search",
-        "examples": [
-          "Endpoint_Processes"
-        ],
-        "items": {
-          "enum": [
-            "Alerts",
-            "Authentication",
-            "Certificates",
-            "Data Loss Prevention",
-            "Email",
-            "Endpoint_AccountManagement",
-            "Endpoint_Filesystem",
-            "Endpoint_Processes",
-            "Endpoint_Registry",
-            "Endpoint_ResourceAccess",
-            "Intrusion_Detection",
-            "Inventory_User",
-            "Malware_Attacks",
-            "Network_Traffic",
-            "Network_Sessions",
-            "Network_Resolution",
-            "Web",
-            "Web.Proxy"
-          ],
-          "type": "string"
-        },
-        "type": "array"
-      },
-      "version": {
-        "$id": "#/properties/version",
-        "default": 0,
-        "description": "version of detection, e.g. 1 or 2 ...",
-        "examples": [
-          2
-        ],
-        "type": "integer"
+        "properties": {
+          "annotations": {
+            "$id": "#/properties/tags/annotations",
+            "additionalProperties": true,
+            "default": {},
+            "description": "An array of key value pairs for annotations",
+            "examples": [
+              {
+                "analytic_story": ["NOBELIUM Group"], 
+                "cis20": ["CIS 10"], 
+                "kill_chain_phases": ["Exploitation"], 
+                "mitre_attack_id": ["T1560.001"], 
+                "nist": ["DE.AE"]
+              }
+            ],
+            "type": "object",
+            "uniqueItems": true,
+            "required": [
+              "analytic_story",
+              "cis20",
+              "kill_chain_phases",
+              "mitre_attack_id",
+              "nist"
+            ],
+            "properties": {
+              "analytic_story": {
+                "$id": "#/properties/tags/annotations/analytic_story",
+                "additionalItems": true,
+                "default": [],
+                "description": "A list of analytic stories for this detection",
+                "examples": [
+                  [
+                    "NOBELIUM Group"
+                  ]
+                ],
+                "items": {
+                  "$id": "#/properties/tags/annotations/analytic_story/items",
+                  "default": "",
+                  "description": "analytic story name",
+                  "examples": [
+                    "NOBELIUM Group"
+                  ],
+                  "title": "The Items Schema",
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "cis20": {
+                "$id": "#/properties/tags/annotations/cis20",
+                "additionalItems": true,
+                "default": [],
+                "description": "cis tags",
+                "examples": [
+                  ["CIS 10"]
+                ],
+                "items": {
+                  "$id": "#/properties/tags/annotations/cis20/items",
+                  "default": "",
+                  "description": "cis tag",
+                  "examples": [
+                    "CIS 10"
+                  ],
+                  "title": "The Items Schema",
+                  "type": "string"
+                },
+                "type": "array"                
+              },
+              "kill_chain_phases": {
+                "$id": "#/properties/tags/annotations/kill_chain_phases",
+                "additionalItems": true,
+                "default": [],
+                "description": "kill_chain_phases",
+                "examples": [
+                  ["Exploitation"]
+                ],
+                "items": {
+                  "$id": "#/properties/tags/annotations/kill_chain_phases/items",
+                  "default": "",
+                  "description": "kill_chain_phase",
+                  "examples": [
+                    "Exploitation"
+                  ],
+                  "title": "The Items Schema",
+                  "type": "string"
+                },
+                "type": "array"                
+              },
+              "mitre_attack_id": {
+                "$id": "#/properties/tags/annotations/mitre_attack_id",
+                "additionalItems": true,
+                "default": [],
+                "description": "mitre_attack_id",
+                "examples": [
+                  ["T1560.001", "T1560"]
+                ],
+                "items": {
+                  "$id": "#/properties/tags/annotations/mitre_attack_id/items",
+                  "default": "",
+                  "description": "kill_chain_phase",
+                  "examples": [
+                    "T1560.001"
+                  ],
+                  "title": "The Items Schema",
+                  "type": "string"
+                },
+                "type": "array"                
+              },
+              "nist": {
+                "$id": "#/properties/tags/annotations/nist",
+                "additionalItems": true,
+                "default": [],
+                "description": "nist array",
+                "examples": [
+                  ["DE.AE"]
+                ],
+                "items": {
+                  "$id": "#/properties/tags/annotations/nist/items",
+                  "default": "",
+                  "description": "nist",
+                  "examples": [
+                    "DE.AE"
+                  ],
+                  "title": "The Items Schema",
+                  "type": "string"
+                },
+                "type": "array"                
+              }                            
+            }
+          },
+          "ocsf_attributes": {
+            "$id": "#/properties/tags/ocsf_attributes",
+            "additionalProperties": true,
+            "default": {},
+            "description": "An array of key value pairs for static ocsf attributes",
+            "examples": [
+              {
+                "activity_id": 1, 
+                "category_uid": 2, 
+                "class_uid": 102001, 
+                "risk_level_id": 2, 
+                "risk_score": 42, 
+                "severity_id": 0, 
+                "rule": {
+                  "name": "Anomalous usage of Archive Tools", 
+                  "uid": "63614a58-10e2-4c6c-ae81-ea1113681439", 
+                  "type": "Streaming"
+                }, 
+                "metadata": {
+                  "product": {
+                    "name": "Behavior Analytics", 
+                    "vendor_name": "Splunk"
+                  }, 
+                  "version": "1.0.0-rc.2"
+                }, 
+                "type_uid": 10200101
+              }
+            ],
+            "type": "object",
+            "uniqueItems": true,
+            "required": [
+              "activity_id",
+              "category_uid",
+              "class_uid",
+              "risk_level_id",
+              "risk_score",
+              "severity_id",
+              "rule",
+              "metadata",
+              "type_uid"
+            ],
+            "properties": {
+              "activity_id": {
+                "$id": "#/properties/tags/ocsf_attributes/activity_id",
+                "default": 1,
+                "description": "activity_id",
+                "examples": [
+                  1
+                ],
+                "type": "integer"
+              },
+              "category_uid": {
+                "$id": "#/properties/tags/ocsf_attributes/category_uid",
+                "default": 2,
+                "description": "category_uid",
+                "examples": [
+                  2
+                ],
+                "type": "integer"
+              },
+              "class_uid": {
+                "$id": "#/properties/tags/ocsf_attributes/class_uid",
+                "default": 102001,
+                "description": "class_uid",
+                "examples": [
+                  102001
+                ],
+                "type": "integer"
+              },
+              "risk_level_id": {
+                "$id": "#/properties/tags/ocsf_attributes/risk_level_id",
+                "default": 2,
+                "description": "risk_level_id",
+                "examples": [
+                  2
+                ],
+                "type": "integer"
+              },
+              "risk_score": {
+                "$id": "#/properties/tags/ocsf_attributes/risk_score",
+                "default": 42,
+                "description": "risk_score",
+                "examples": [
+                  42
+                ],
+                "type": "integer"
+              },
+              "severity_id": {
+                "$id": "#/properties/tags/ocsf_attributes/severity_id",
+                "default": 0,
+                "description": "severity_id",
+                "examples": [
+                  0
+                ],
+                "type": "integer"
+              },
+              "rule": {
+                "$id": "#/properties/tags/ocsf_attributes/rule",
+                "additionalProperties": true,
+                "default": {},
+                "description": "rule object",
+                "examples": [
+                  {
+                    "name": "Anomalous usage of Archive Tools", 
+                    "uid": "63614a58-10e2-4c6c-ae81-ea1113681439", 
+                    "type": "Streaming"
+                  }
+                ],
+                "type": "object",
+                "uniqueItems": true,
+                "required": [
+                  "name",
+                  "uid"
+                ],
+                "properties": {
+                  "name": {
+                    "$id": "#/properties/tags/ocsf_attributes/rule/name",
+                    "default": "",
+                    "description": "rule name",
+                    "examples": [
+                      "Anomalous usage of Archive Tools"
+                    ],
+                    "type": "string"
+                  },
+                  "uid": {
+                    "$id": "#/properties/tags/ocsf_attributes/rule/uid",
+                    "default": "",
+                    "description": "rule uid",
+                    "examples": [
+                      "63614a58-10e2-4c6c-ae81-ea1113681439"
+                    ],
+                    "type": "string"
+                  },
+                  "type": {
+                    "$id": "#/properties/tags/ocsf_attributes/rule/type",
+                    "default": "",
+                    "description": "rule type",
+                    "examples": [
+                      "Streaming"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "metadata": {
+                "$id": "#/properties/tags/ocsf_attributes/metadata",
+                "additionalProperties": true,
+                "default": {},
+                "description": "metadata object",
+                "examples": [
+                  {
+                    "product": {
+                      "name": "Behavior Analytics", 
+                      "vendor_name": "Splunk"
+                    }, 
+                    "version": "1.0.0-rc.2"
+                  }
+                ],
+                "type": "object",
+                "uniqueItems": true,
+                "required": [
+                  "product",
+                  "version"
+                ],
+                "properties": {
+                  "product": {
+                    "$id": "#/properties/tags/ocsf_attributes/metadata/product",
+                    "additionalProperties": true,
+                    "default": {},
+                    "description": "product object",
+                    "examples": [
+                      {
+                        "name": "Behavior Analytics", 
+                        "vendor_name": "Splunk"
+                      }
+                    ],
+                    "type": "object",
+                    "uniqueItems": true,
+                    "required": [
+                      "name",
+                      "vendor_name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "$id": "#/properties/tags/ocsf_attributes/metadata/product/name",
+                        "default": "",
+                        "description": "product name",
+                        "examples": [
+                          "Behavior Analytics"
+                        ],
+                        "type": "string"
+                      },
+                      "vendor_name": {
+                        "$id": "#/properties/tags/ocsf_attributes/metadata/product/vendor_name",
+                        "default": "",
+                        "description": "vendor product name",
+                        "examples": [
+                          "Splunk"
+                        ],
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "version": {
+                    "$id": "#/properties/tags/ocsf_attributes/metadata/version",
+                    "default": "",
+                    "description": "ocsf schema version",
+                    "examples": [
+                      "1.0.0-rc.2"
+                    ],
+                    "type": "string"
+                  }
+                }
+              },
+              "type_uid": {
+                "$id": "#/properties/tags/ocsf_attributes/type_uid",
+                "default": 10200101,
+                "description": "type_uid",
+                "examples": [
+                  10200101
+                ],
+                "type": "integer"
+              }                               
+            }
+          },
+          "required_fields": {
+            "$id": "#/properties/tags/required_fields",
+            "additionalItems": true,
+            "default": [],
+            "description": "required_fields",
+            "examples": [
+              ["process.user.name", "device.hostname"]
+            ],
+            "items": {
+              "$id": "#/properties/tags/required_fields/items",
+              "default": "",
+              "description": "required_fields name",
+              "examples": [
+                "process.user.name"
+              ],
+              "title": "The Items Schema",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "risk_score": {
+            "$id": "#/properties/tags/risk_score",
+            "default": 50,
+            "description": "risk_score",
+            "examples": [
+              42
+            ],
+            "type": "integer"
+          },
+          "security_domain": {
+            "$id": "#/properties/tags/security_domain",
+            "default": "",
+            "description": "security_domain",
+            "examples": [
+              "endpoint"
+            ],
+            "type": "string"
+          },
+          "risk_severity": {
+            "$id": "#/properties/tags/risk_severity",
+            "default": "",
+            "description": "risk_severity",
+            "examples": [
+              "low"
+            ],
+            "type": "string"
+          },
+          "research_site_url": {
+            "$id": "#/properties/tags/research_site_url",
+            "default": "",
+            "description": "research_site_url",
+            "examples": [
+              "https://research.splunk.com/endpoint/63614a58-10e2-4c6c-ae81-ea1113681439/"
+            ],
+            "type": "string"
+          },
+          "event_schema": {
+            "$id": "#/properties/tags/event_schema",
+            "default": "",
+            "description": "event_schema",
+            "examples": [
+              "ocsf"
+            ],
+            "type": "string"
+          },
+          "mappings": {
+            "$id": "#/properties/tags/mappings",
+            "default": [],
+            "description": "mappings array",
+            "examples": [
+              [{"ocsf": "process.user.name", "cim": "user"},{"ocsf": "device.hostname", "cim": "dest"}]
+            ],
+            "items": {
+              "$id": "#/properties/tags/mappings/items",
+                "default": {},
+                "description": "mappings object",
+                "examples": [
+                  {
+                    "ocsf": "process.user.name", 
+                    "cim": "user"
+                  }
+                ],
+                "type": "object",
+                "uniqueItems": true,
+                "properties": {
+                  "ocsf": {
+                    "$id": "#/properties/tags/mappings/items/ocsf",
+                    "default": "",
+                    "description": "ocsf mapping",
+                    "examples": [
+                      "process.user.name"
+                    ],
+                    "type": "string"
+                  },
+                  "cim": {
+                    "$id": "#/properties/tags/mappings/items/cim",
+                    "default": "",
+                    "description": "cim mapping",
+                    "examples": [
+                      "user"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ocsf",
+                  "cim"
+                ]
+            },
+            "type": "array"
+          }                         
+        }
       }
     },
     "required": [
       "name",
       "id",
       "version",
-      "date",
-      "datamodel",
       "description",
-      "type",
-      "author",
-      "search",
+      "how_to_implement",
       "known_false_positives",
+      "references",
       "tags"
     ],
-    "title": "Detection Schema",
+    "title": "BA Detection Schema",
     "type": "object"
-  }
+}
   
