@@ -1,0 +1,65 @@
+name: Windows Findstr GPP Discovery
+id: 73ed0f19-080e-4917-b7c6-56e1760a50d4
+version: 1
+date: '2023-05-02'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of the findstr command employed to search for unsecured credentials Group Policy Preferences (GPP).
+  GPP are tools that allow administrators to create domain policies with embedded credentials. These policies allow administrators to set local accounts.
+  These group policies are stored in SYSVOL on a domain controller. This means that any domain user can view the SYSVOL share and decrypt the password (using the AES key that has been made public).
+  While Microsoft released a patch that impedes Administrators to create unsecure credentials, existing Group Policy Preferences files with passwords are not removed from SYSVOL.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process_name:
+    - findstr.exe
+    process|contains: sysvol
+    process|contains: cpassword
+  condition: selection1 
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Administrators may leverage findstr to find passwords in GPO to validate exposure. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1552/006/
+- https://pentestlab.blog/2017/03/20/group-policy-preferences/
+- https://adsecurity.org/?p=2288 
+- https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
+- https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: Findstr was executed to discover GPP credentials on $dest$
+  mitre_attack_id:
+  - T1552
+  - T1552.006
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process_name
+  - _time
+  - dest_device_id
+  - dest_user_id
+  - process
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+    source: WinEventLog:Security

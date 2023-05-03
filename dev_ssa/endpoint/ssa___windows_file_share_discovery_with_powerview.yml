@@ -1,0 +1,66 @@
+name: Windows File Share Discovery With Powerview
+id: ec4f671e-c736-4f78-a4c0-8fe809e952e5
+version: 1
+date: '2023-05-02'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the use of the Invoke-ShareFinder PowerShell commandlet part of PowerView. This module obtains the list of all
+  active domain computers and lists the active shares on each computer. Network file shares in Active Directory environments may contain sensitive information
+  like backups, scripts, credentials, etc. Adversaries who have obtained a foothold in an AD network may leverage PowerView to identify secrets and leverage them 
+  for Privilege Escalation or Lateral Movement.
+data_source:
+- Windows Security 4104
+search:
+  selection1:
+    process|contains: '4194304'
+  selection2:
+    process|re: Invoke-ShareFinder
+  condition: selection1 and selection2 
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Unknown
+references:
+- https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerView/powerview.ps1
+- https://thedfirreport.com/2023/01/23/sharefinder-how-threat-actors-discover-file-shares/
+- https://attack.mitre.org/techniques/T1135/
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  confidence: 80
+  impact: 60
+  message: Invoke-ShareFinder commandlet was executed on $Computer$
+  mitre_attack_id:
+  - T1552
+  - T1552.006
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: UserID
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Opcode
+  - Computer
+  - UserID
+  kill_chain_phases:
+  - Exploitation
+  risk_score: 48
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+    source: WinEventLog
+    sourcetype: WinEventLog
+    update_timestamp: true

@@ -1,0 +1,72 @@
+name: Windows Default Group Policy Object Modified with GPME
+id: bcb55c13-067b-4648-98f3-627010f72520
+version: 1
+date: '2023-05-02'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the potential edition of a default Group Policy Object. A fresh installation of an Active Directory network will typically contain
+  two default group policy objects `Default Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers policy is used to enforce and set policies to all the domain controllers within the domain environment.
+  The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 
+  policy objects to obtain further access, deploy persistence or execute malware across a large number of hosts. Security teams should monitor the edition of the default GPOs.
+data_source:
+- Windows Security 4688
+search:
+  selection1:
+    process_name:
+    - mmc.exe
+    process|contains: gpme.msc
+  selection2:
+    process|contains: 31B2F340-016D-11D2-945F-00C04FB984F9
+  selection3:
+    process|contains: 6AC1786C-016F-11D2-945F-00C04fB984F9
+  condition: selection1 or selection2 or selection3
+how_to_implement:  To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: The default Group Policy Objects within an AD network may be legitimately updated for administrative operations, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1484/
+- https://attack.mitre.org/techniques/T1484/001
+- https://www.trustedsec.com/blog/weaponizing-group-policy-objects-access/
+- https://adsecurity.org/?p=2716
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn265969(v=ws.11)
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  asset_type: Endpoint
+  confidence: 50
+  impact: 100
+  message: A default group policy object was opened with Group Policy Manage Editor on $dest$
+  mitre_attack_id:
+  - T1484
+  - T1484.001
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process_name
+  - _time
+  - dest_device_id
+  - dest_user_id
+  - process
+  risk_score: 50
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+    source: WinEventLog:Security
