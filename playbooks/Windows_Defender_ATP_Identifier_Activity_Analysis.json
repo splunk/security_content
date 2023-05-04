@@ -104,7 +104,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "b09360d8f57025be3b7987bb0e945bdc0c881598",
+            "hash": "3f512c247b205931a7a6421cc52b3085a65e5430",
             "nodes": {
                 "0": {
                     "data": {
@@ -120,7 +120,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -6.394884621840902e-14
+                    "y": -1.2789769243681803e-13
                 },
                 "1": {
                     "data": {
@@ -377,11 +377,11 @@
                         "functionName": "format_report_file",
                         "id": "7",
                         "parameters": [
-                            "get_file_devices:action_result.parameter.file_hash",
-                            "get_file_devices:action_result.data.*.computerDnsName",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.parameter.file_hash",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.computerDnsName",
                             "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.lastIpAddress",
                             "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.osPlatform",
-                            "get_file_devices:action_result.data.*.id"
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Windows Defender ATP. The table below shows a summary of the information gathered.\n\n| File | Computer | Last IP Address | OS | Defender ATP ID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | Defender ATP |\n%%\n",
                         "type": "format"
@@ -405,11 +405,11 @@
                         "functionName": "format_report_domain",
                         "id": "8",
                         "parameters": [
-                            "get_domain_devices:action_result.parameter.domain",
-                            "get_domain_devices:action_result.data.*.computerDnsName",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.parameter.domain",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.computerDnsName",
                             "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.lastIpAddress",
                             "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.osPlatform",
-                            "get_domain_devices:action_result.data.*.id"
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Windows Defender ATP. The table below shows a summary of the information gathered.\n\n| Domain | Computer | Last IP Address | OS | Defender ATP ID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | Defender ATP |\n%%",
                         "type": "format"
@@ -459,14 +459,14 @@
                 "contains": [
                     "sha1"
                 ],
-                "description": "",
+                "description": "A SHA1 file hash to search for in your Windows Defender ATP protected environment.",
                 "name": "file_hash"
             },
             {
                 "contains": [
                     "domain"
                 ],
-                "description": "",
+                "description": "A domain name to search for in your Windows Defender ATP protected environment.",
                 "name": "domain"
             }
         ],
@@ -478,7 +478,7 @@
                     "build_domain_output:custom_function:observable_array"
                 ],
                 "deduplicate": false,
-                "description": "",
+                "description": "An array of observable dictionaries ",
                 "metadata": {},
                 "name": "observable"
             },
@@ -489,7 +489,7 @@
                     "format_report_domain:formatted_data"
                 ],
                 "deduplicate": false,
-                "description": "",
+                "description": "An array of markdown reports",
                 "metadata": {},
                 "name": "markdown_report"
             }
@@ -499,7 +499,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-14T14:48:13.695855+00:00",
+    "create_time": "2023-05-04T19:16:35.185480+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -508,6 +508,7 @@
         "identifier_activity",
         "file_hash",
         "domain",
-        "windows_defender_atp"
+        "windows_defender_atp",
+        "D3-IAA"
     ]
 }

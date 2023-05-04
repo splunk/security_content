@@ -162,11 +162,11 @@ def format_report_file(action=None, success=None, container=None, results=None, 
 
     # parameter list for template variable replacement
     parameters = [
-        "get_file_devices:action_result.parameter.file_hash",
-        "get_file_devices:action_result.data.*.computerDnsName",
+        "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.parameter.file_hash",
+        "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.computerDnsName",
         "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.lastIpAddress",
         "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.osPlatform",
-        "get_file_devices:action_result.data.*.id"
+        "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.id"
     ]
 
     ################################################################################
@@ -194,11 +194,11 @@ def format_report_domain(action=None, success=None, container=None, results=None
 
     # parameter list for template variable replacement
     parameters = [
-        "get_domain_devices:action_result.parameter.domain",
-        "get_domain_devices:action_result.data.*.computerDnsName",
+        "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.parameter.domain",
+        "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.computerDnsName",
         "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.lastIpAddress",
         "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.osPlatform",
-        "get_domain_devices:action_result.data.*.id"
+        "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.id"
     ]
 
     ################################################################################
