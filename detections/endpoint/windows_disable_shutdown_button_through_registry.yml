@@ -51,15 +51,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.user
-  - Processes.dest
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_path
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
   - Registry.registry_key_name
