@@ -1,0 +1,52 @@
+name: Windows Network Share Discovery With Net
+id: 4dc3951f-b3f8-4f46-b412-76a483f72277
+version: 1
+date: '2023-04-21'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share/windows-sysmon.log
+description: Network share discovery performed on Windows or MacOS. 
+search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)\
+  \ as lastTime values(Processes.user_category) as user_category values(Processes.user_bunit)\
+  \ as user_bunit  FROM datamodel=Endpoint.Processes WHERE ((Processes.process_name=\"\
+  net.exe\" OR Processes.orig_process_name=\"net.exe\") AND (Processes.process=\"\
+  *net*view*\" OR Processes.process=\"*net*share*\")) BY Processes.user Processes.dest Processes.process_exec Processes.parent_process_exec\
+  \ Processes.process Processes.parent_process \n| `drop_dm_object_name(Processes)`\
+  \ \n| regex process=\"net\\s+view|net\\s+share"\n| `security_content_ctime(firstTime)`\
+  \ \n| `security_content_ctime(lastTime)` | `network_share_discovery_filter`"
+how_to_implement: Ensure you are populating the endpoint datamodel. 
+known_false_positives: Unknown
+references:
+- https://attack.mitre.org/techniques/T1135/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  - Active Directory Privilege Escalation
+  - Network Discovery
+  asset_type: Endpoint
+  atomic_guid:
+  - ab39a04f-0c93-4540-9ff2-83f862c385ae
+  confidence: 100
+  impact: 20
+  message: Network share enumeration performed on $dest$ by $user$, executed by parent process $parent_process$
+  mitre_attack_id:
+  - T1135
+  observable:
+  - name: dest
+    type: system
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 20
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
