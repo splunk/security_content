@@ -40,6 +40,10 @@ tags:
     type: IP Address
     role:
     - Attacker
+  - name: aws_account_id
+    type: Other
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
