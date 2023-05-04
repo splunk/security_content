@@ -222,7 +222,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "c14475bb50b8d38260b3f22f4bcb9f6b7a476e63",
+            "hash": "204e4629fa3da0ab5d189b9b1a9a6709b6b7afb1",
             "nodes": {
                 "0": {
                     "data": {
@@ -237,8 +237,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 530,
-                    "y": -5.115907697472721e-13
+                    "x": 520,
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -390,7 +390,7 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 60,
-                    "y": 624
+                    "y": 620
                 },
                 "13": {
                     "data": {
@@ -510,10 +510,10 @@
                         "functionName": "format_url_report",
                         "id": "16",
                         "parameters": [
-                            "filtered-data:filter_1:condition_1:playbook_input:url",
-                            "run_url_query:action_result.data.*.src_dns",
-                            "run_url_query:action_result.data.*.src_ip",
-                            "run_url_query:action_result.data.*.src_asset_id"
+                            "filtered-data:input_filter:condition_1:playbook_input:url",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_asset_id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| URL | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
                         "type": "format"
@@ -538,10 +538,10 @@
                         "functionName": "format_file_report",
                         "id": "17",
                         "parameters": [
-                            "filtered-data:filter_1:condition_2:playbook_input:file",
-                            "run_file_query:action_result.data.*.dest_dns",
-                            "run_file_query:action_result.data.*.dest_ip",
-                            "run_file_query:action_result.data.*.dest_asset_id"
+                            "filtered-data:input_filter:condition_2:playbook_input:file",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_dns",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_ip",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_asset_id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| File | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
                         "type": "format"
@@ -566,10 +566,10 @@
                         "functionName": "format_domain_report",
                         "id": "18",
                         "parameters": [
-                            "filtered-data:filter_1:condition_3:playbook_input:domain",
-                            "run_domain_query:action_result.data.*.src_dns",
-                            "run_domain_query:action_result.data.*.src_ip",
-                            "run_domain_query:action_result.data.*.src_asset_id"
+                            "filtered-data:input_filter:condition_3:playbook_input:domain",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_asset_id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| Domain | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
                         "type": "format"
@@ -594,10 +594,10 @@
                         "functionName": "format_ip_report",
                         "id": "19",
                         "parameters": [
-                            "filtered-data:filter_1:condition_4:playbook_input:ip",
-                            "run_ip_query:action_result.data.*.src_dns",
-                            "run_ip_query:action_result.data.*.src_ip",
-                            "run_ip_query:action_result.data.*.src_asset_id"
+                            "filtered-data:input_filter:condition_4:playbook_input:ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_asset_id"
                         ],
                         "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| IP | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
                         "type": "format"
@@ -612,6 +612,8 @@
                 "2": {
                     "data": {
                         "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
                             "join": [],
                             "note": "Routing paths by indicator type"
                         },
@@ -670,7 +672,7 @@
                             }
                         ],
                         "functionId": 1,
-                        "functionName": "filter_1",
+                        "functionName": "input_filter",
                         "id": "2",
                         "type": "filter"
                     },
@@ -698,10 +700,10 @@
                         "functionName": "build_url_output",
                         "id": "20",
                         "inputParameters": [
-                            "filtered-data:filter_1:condition_1:playbook_input:url",
-                            "run_url_query:action_result.data.*.src_dns",
-                            "run_url_query:action_result.data.*.src_ip",
-                            "run_url_query:action_result.data.*.src_asset_id"
+                            "filtered-data:input_filter:condition_1:playbook_input:url",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_asset_id"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -711,7 +713,7 @@
                     "errors": {},
                     "id": "20",
                     "type": "code",
-                    "userCode": "\n    # Init variables + convenience naming\n    build_url_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_url_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_url_query_result_item_0, run_url_query_result_item_1, run_url_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"url\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_url_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    # Init variables + convenience naming\n    build_url_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_url_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"url\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_url_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 960
@@ -729,10 +731,10 @@
                         "functionName": "build_file_output",
                         "id": "21",
                         "inputParameters": [
-                            "filtered-data:filter_1:condition_2:playbook_input:file",
-                            "run_file_query:action_result.data.*.dest_dns",
-                            "run_file_query:action_result.data.*.dest_ip",
-                            "run_file_query:action_result.data.*.dest_asset_id"
+                            "filtered-data:input_filter:condition_2:playbook_input:file",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_dns",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_ip",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_asset_id"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -742,7 +744,7 @@
                     "errors": {},
                     "id": "21",
                     "type": "code",
-                    "userCode": "\n    \n    # Init variables + convenience naming\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_file_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_file_query_result_item_0, run_file_query_result_item_1, run_file_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_file_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    \n    # Init variables + convenience naming\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_file_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_datadata___dest_dns, filtered_result_0_datadata___dest_ip, filtered_result_0_datadata___dest_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_file_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 340,
                     "y": 960
@@ -760,10 +762,10 @@
                         "functionName": "build_domain_output",
                         "id": "22",
                         "inputParameters": [
-                            "filtered-data:filter_1:condition_3:playbook_input:domain",
-                            "run_domain_query:action_result.data.*.src_dns",
-                            "run_domain_query:action_result.data.*.src_ip",
-                            "run_domain_query:action_result.data.*.src_asset_id"
+                            "filtered-data:input_filter:condition_3:playbook_input:domain",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_asset_id"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -773,7 +775,7 @@
                     "errors": {},
                     "id": "22",
                     "type": "code",
-                    "userCode": "\n    # Init variables + convenience naming\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_domain_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_domain_query_result_item_0, run_domain_query_result_item_1, run_domain_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_domain_output__observable_array.append(observable_array)\n\n",
+                    "userCode": "\n    # Init variables + convenience naming\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_domain_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_domain_output__observable_array.append(observable_array)\n\n",
                     "warnings": {},
                     "x": 680,
                     "y": 960
@@ -791,10 +793,10 @@
                         "functionName": "build_ip_output",
                         "id": "23",
                         "inputParameters": [
-                            "filtered-data:filter_1:condition_4:playbook_input:ip",
-                            "run_ip_query:action_result.data.*.src_dns",
-                            "run_ip_query:action_result.data.*.src_ip",
-                            "run_ip_query:action_result.data.*.src_asset_id"
+                            "filtered-data:input_filter:condition_4:playbook_input:ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_asset_id"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -804,7 +806,7 @@
                     "errors": {},
                     "id": "23",
                     "type": "code",
-                    "userCode": "    \n    # Init variables + convenience naming\n    build_ip_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_ip_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(run_ip_query_result_item_0, run_ip_query_result_item_1, run_ip_query_result_item_2):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list    \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"ip_address\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send Output\n    build_ip_output__observable_array.append(observable_array)\n    \n",
+                    "userCode": "    \n    # Init variables + convenience naming\n    build_ip_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_ip_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list    \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"ip_address\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send Output\n    build_ip_output__observable_array.append(observable_array)\n    \n",
                     "warnings": {},
                     "x": 1020,
                     "y": 960
@@ -822,7 +824,7 @@
                         "functionName": "build_url_query",
                         "id": "3",
                         "parameters": [
-                            "filtered-data:filter_1:condition_1:playbook_input:url"
+                            "filtered-data:input_filter:condition_1:playbook_input:url"
                         ],
                         "template": "count from datamodel=Web.Web where Web.url=\"{0}\" by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\"",
                         "type": "format"
@@ -847,7 +849,7 @@
                         "functionName": "build_file_query",
                         "id": "4",
                         "parameters": [
-                            "filtered-data:filter_1:condition_2:playbook_input:file"
+                            "filtered-data:input_filter:condition_2:playbook_input:file"
                         ],
                         "template": "count from datamodel=Endpoint.Processes where (Processes.process_hash=\"{0}\" OR Processes.process_hash=\"*={0}*\") by Processes.dest | `drop_dm_object_name(\"Processes\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip | fillnull value=\"Unknown\"",
                         "type": "format"
@@ -872,7 +874,7 @@
                         "functionName": "build_domain_query",
                         "id": "5",
                         "parameters": [
-                            "filtered-data:filter_1:condition_3:playbook_input:domain"
+                            "filtered-data:input_filter:condition_3:playbook_input:domain"
                         ],
                         "template": "count from datamodel=Network_Resolution where DNS.query=\"{0}\" by DNS.src | `drop_dm_object_name(\"DNS\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\"",
                         "type": "format"
@@ -897,7 +899,7 @@
                         "functionName": "build_ip_query",
                         "id": "6",
                         "parameters": [
-                            "filtered-data:filter_1:condition_4:playbook_input:ip"
+                            "filtered-data:input_filter:condition_4:playbook_input:ip"
                         ],
                         "template": "count from datamodel=Network_Traffic where  All_Traffic.dest_ip=\"{0}\" by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\"",
                         "type": "format"
@@ -1017,31 +1019,28 @@
                 "contains": [
                     "url"
                 ],
-                "description": "",
+                "description": "A URL to look for within your events in Splunk",
                 "name": "url"
             },
             {
                 "contains": [
-                    "hash",
-                    "sha1",
-                    "sha256",
-                    "sha512"
+                    "hash"
                 ],
-                "description": "",
+                "description": "A file hash to look for within your events in Splunk",
                 "name": "file"
             },
             {
                 "contains": [
                     "domain"
                 ],
-                "description": "",
+                "description": "A domain name to look for within your events in Splunk",
                 "name": "domain"
             },
             {
                 "contains": [
                     "ip"
                 ],
-                "description": "",
+                "description": "An IP Address to look for within your events in Splunk",
                 "name": "ip"
             }
         ],
@@ -1055,7 +1054,7 @@
                     "build_file_output:custom_function:observable_array"
                 ],
                 "deduplicate": false,
-                "description": "",
+                "description": "An array of Observable objects ",
                 "metadata": {},
                 "name": "observable"
             },
@@ -1068,7 +1067,7 @@
                     "format_ip_report:formatted_data"
                 ],
                 "deduplicate": false,
-                "description": "",
+                "description": "An array of markdown reports",
                 "metadata": {},
                 "name": "markdown_report"
             }
@@ -1078,7 +1077,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-14T14:41:40.655194+00:00",
+    "create_time": "2023-05-04T19:33:28.515583+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -1089,6 +1088,7 @@
         "ip",
         "file_hash",
         "splunk",
-        "identifier_activity"
+        "identifier_activity",
+        "D3-IAA"
     ]
 }

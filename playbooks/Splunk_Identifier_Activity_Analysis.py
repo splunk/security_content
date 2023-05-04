@@ -12,14 +12,14 @@ from datetime import datetime, timedelta
 def on_start(container):
     phantom.debug('on_start() called')
 
-    # call 'filter_1' block
-    filter_1(container=container)
+    # call 'input_filter' block
+    input_filter(container=container)
 
     return
 
 @phantom.playbook_block()
-def filter_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_1() called")
+def input_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("input_filter() called")
 
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
@@ -27,7 +27,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["playbook_input:url", "!=", None]
         ],
-        name="filter_1:condition_1")
+        name="input_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -39,7 +39,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["playbook_input:file", "!=", None]
         ],
-        name="filter_1:condition_2")
+        name="input_filter:condition_2")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_2 or matched_results_2:
@@ -51,7 +51,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["playbook_input:domain", "!=", None]
         ],
-        name="filter_1:condition_3")
+        name="input_filter:condition_3")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_3 or matched_results_3:
@@ -63,7 +63,7 @@ def filter_1(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["playbook_input:ip", "!=", None]
         ],
-        name="filter_1:condition_4")
+        name="input_filter:condition_4")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_4 or matched_results_4:
@@ -84,7 +84,7 @@ def build_url_query(action=None, success=None, container=None, results=None, han
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_1:playbook_input:url"
+        "filtered-data:input_filter:condition_1:playbook_input:url"
     ]
 
     ################################################################################
@@ -116,7 +116,7 @@ def build_file_query(action=None, success=None, container=None, results=None, ha
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_2:playbook_input:file"
+        "filtered-data:input_filter:condition_2:playbook_input:file"
     ]
 
     ################################################################################
@@ -148,7 +148,7 @@ def build_domain_query(action=None, success=None, container=None, results=None, 
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_3:playbook_input:domain"
+        "filtered-data:input_filter:condition_3:playbook_input:domain"
     ]
 
     ################################################################################
@@ -180,7 +180,7 @@ def build_ip_query(action=None, success=None, container=None, results=None, hand
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_4:playbook_input:ip"
+        "filtered-data:input_filter:condition_4:playbook_input:ip"
     ]
 
     ################################################################################
@@ -433,10 +433,10 @@ def format_url_report(action=None, success=None, container=None, results=None, h
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_1:playbook_input:url",
-        "run_url_query:action_result.data.*.src_dns",
-        "run_url_query:action_result.data.*.src_ip",
-        "run_url_query:action_result.data.*.src_asset_id"
+        "filtered-data:input_filter:condition_1:playbook_input:url",
+        "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_dns",
+        "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_ip",
+        "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_asset_id"
     ]
 
     ################################################################################
@@ -468,10 +468,10 @@ def format_file_report(action=None, success=None, container=None, results=None, 
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_2:playbook_input:file",
-        "run_file_query:action_result.data.*.dest_dns",
-        "run_file_query:action_result.data.*.dest_ip",
-        "run_file_query:action_result.data.*.dest_asset_id"
+        "filtered-data:input_filter:condition_2:playbook_input:file",
+        "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_dns",
+        "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_ip",
+        "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_asset_id"
     ]
 
     ################################################################################
@@ -503,10 +503,10 @@ def format_domain_report(action=None, success=None, container=None, results=None
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_3:playbook_input:domain",
-        "run_domain_query:action_result.data.*.src_dns",
-        "run_domain_query:action_result.data.*.src_ip",
-        "run_domain_query:action_result.data.*.src_asset_id"
+        "filtered-data:input_filter:condition_3:playbook_input:domain",
+        "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_dns",
+        "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_ip",
+        "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_asset_id"
     ]
 
     ################################################################################
@@ -538,10 +538,10 @@ def format_ip_report(action=None, success=None, container=None, results=None, ha
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:filter_1:condition_4:playbook_input:ip",
-        "run_ip_query:action_result.data.*.src_dns",
-        "run_ip_query:action_result.data.*.src_ip",
-        "run_ip_query:action_result.data.*.src_asset_id"
+        "filtered-data:input_filter:condition_4:playbook_input:ip",
+        "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_dns",
+        "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_ip",
+        "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_asset_id"
     ]
 
     ################################################################################
@@ -569,13 +569,13 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     # Observable object expected by calling playbook
     ################################################################################
 
-    filtered_input_0_url = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_1:playbook_input:url"])
-    run_url_query_result_data = phantom.collect2(container=container, datapath=["run_url_query:action_result.data.*.src_dns","run_url_query:action_result.data.*.src_ip","run_url_query:action_result.data.*.src_asset_id"], action_results=results)
+    filtered_input_0_url = phantom.collect2(container=container, datapath=["filtered-data:input_filter:condition_1:playbook_input:url"])
+    filtered_result_0_data_filter_url_query = phantom.collect2(container=container, datapath=["filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_dns","filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_ip","filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_asset_id"])
 
     filtered_input_0_url_values = [item[0] for item in filtered_input_0_url]
-    run_url_query_result_item_0 = [item[0] for item in run_url_query_result_data]
-    run_url_query_result_item_1 = [item[1] for item in run_url_query_result_data]
-    run_url_query_result_item_2 = [item[2] for item in run_url_query_result_data]
+    filtered_result_0_data___src_dns = [item[0] for item in filtered_result_0_data_filter_url_query]
+    filtered_result_0_data___src_ip = [item[1] for item in filtered_result_0_data_filter_url_query]
+    filtered_result_0_data___src_asset_id = [item[2] for item in filtered_result_0_data_filter_url_query]
 
     build_url_output__observable_array = None
 
@@ -589,7 +589,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     indicator = filtered_input_0_url_values
     
     # Build device list
-    for dns, ip, asset_id in zip(run_url_query_result_item_0, run_url_query_result_item_1, run_url_query_result_item_2):
+    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):
         device = {
             "name": dns,
             "id": asset_id, 
@@ -635,13 +635,13 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     # Observable object expected by calling playbook
     ################################################################################
 
-    filtered_input_0_file = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_2:playbook_input:file"])
-    run_file_query_result_data = phantom.collect2(container=container, datapath=["run_file_query:action_result.data.*.dest_dns","run_file_query:action_result.data.*.dest_ip","run_file_query:action_result.data.*.dest_asset_id"], action_results=results)
+    filtered_input_0_file = phantom.collect2(container=container, datapath=["filtered-data:input_filter:condition_2:playbook_input:file"])
+    filtered_result_0_data_filter_file_query = phantom.collect2(container=container, datapath=["filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_dns","filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_ip","filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_asset_id"])
 
     filtered_input_0_file_values = [item[0] for item in filtered_input_0_file]
-    run_file_query_result_item_0 = [item[0] for item in run_file_query_result_data]
-    run_file_query_result_item_1 = [item[1] for item in run_file_query_result_data]
-    run_file_query_result_item_2 = [item[2] for item in run_file_query_result_data]
+    filtered_result_0_datadata___dest_dns = [item[0] for item in filtered_result_0_data_filter_file_query]
+    filtered_result_0_datadata___dest_ip = [item[1] for item in filtered_result_0_data_filter_file_query]
+    filtered_result_0_datadata___dest_asset_id = [item[2] for item in filtered_result_0_data_filter_file_query]
 
     build_file_output__observable_array = None
 
@@ -656,7 +656,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     indicator = filtered_input_0_file_values
     
     # Build device list
-    for dns, ip, asset_id in zip(run_file_query_result_item_0, run_file_query_result_item_1, run_file_query_result_item_2):
+    for dns, ip, asset_id in zip(filtered_result_0_datadata___dest_dns, filtered_result_0_datadata___dest_ip, filtered_result_0_datadata___dest_asset_id):
         device = {
             "name": dns,
             "id": asset_id, 
@@ -702,13 +702,13 @@ def build_domain_output(action=None, success=None, container=None, results=None,
     # Observable object expected by calling playbook
     ################################################################################
 
-    filtered_input_0_domain = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_3:playbook_input:domain"])
-    run_domain_query_result_data = phantom.collect2(container=container, datapath=["run_domain_query:action_result.data.*.src_dns","run_domain_query:action_result.data.*.src_ip","run_domain_query:action_result.data.*.src_asset_id"], action_results=results)
+    filtered_input_0_domain = phantom.collect2(container=container, datapath=["filtered-data:input_filter:condition_3:playbook_input:domain"])
+    filtered_result_0_data_filter_domain_query = phantom.collect2(container=container, datapath=["filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_dns","filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_ip","filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_asset_id"])
 
     filtered_input_0_domain_values = [item[0] for item in filtered_input_0_domain]
-    run_domain_query_result_item_0 = [item[0] for item in run_domain_query_result_data]
-    run_domain_query_result_item_1 = [item[1] for item in run_domain_query_result_data]
-    run_domain_query_result_item_2 = [item[2] for item in run_domain_query_result_data]
+    filtered_result_0_data___src_dns = [item[0] for item in filtered_result_0_data_filter_domain_query]
+    filtered_result_0_data___src_ip = [item[1] for item in filtered_result_0_data_filter_domain_query]
+    filtered_result_0_data___src_asset_id = [item[2] for item in filtered_result_0_data_filter_domain_query]
 
     build_domain_output__observable_array = None
 
@@ -722,7 +722,7 @@ def build_domain_output(action=None, success=None, container=None, results=None,
     indicator = filtered_input_0_domain_values
     
     # Build device list
-    for dns, ip, asset_id in zip(run_domain_query_result_item_0, run_domain_query_result_item_1, run_domain_query_result_item_2):
+    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):
         device = {
             "name": dns,
             "id": asset_id, 
@@ -768,13 +768,13 @@ def build_ip_output(action=None, success=None, container=None, results=None, han
     # Observable object expected by calling playbook
     ################################################################################
 
-    filtered_input_0_ip = phantom.collect2(container=container, datapath=["filtered-data:filter_1:condition_4:playbook_input:ip"])
-    run_ip_query_result_data = phantom.collect2(container=container, datapath=["run_ip_query:action_result.data.*.src_dns","run_ip_query:action_result.data.*.src_ip","run_ip_query:action_result.data.*.src_asset_id"], action_results=results)
+    filtered_input_0_ip = phantom.collect2(container=container, datapath=["filtered-data:input_filter:condition_4:playbook_input:ip"])
+    filtered_result_0_data_filter_ip_query = phantom.collect2(container=container, datapath=["filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_dns","filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_ip","filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_asset_id"])
 
     filtered_input_0_ip_values = [item[0] for item in filtered_input_0_ip]
-    run_ip_query_result_item_0 = [item[0] for item in run_ip_query_result_data]
-    run_ip_query_result_item_1 = [item[1] for item in run_ip_query_result_data]
-    run_ip_query_result_item_2 = [item[2] for item in run_ip_query_result_data]
+    filtered_result_0_data___src_dns = [item[0] for item in filtered_result_0_data_filter_ip_query]
+    filtered_result_0_data___src_ip = [item[1] for item in filtered_result_0_data_filter_ip_query]
+    filtered_result_0_data___src_asset_id = [item[2] for item in filtered_result_0_data_filter_ip_query]
 
     build_ip_output__observable_array = None
 
@@ -788,7 +788,7 @@ def build_ip_output(action=None, success=None, container=None, results=None, han
     indicator = filtered_input_0_ip_values
     
     # Build device list
-    for dns, ip, asset_id in zip(run_ip_query_result_item_0, run_ip_query_result_item_1, run_ip_query_result_item_2):
+    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):
         device = {
             "name": dns,
             "id": asset_id, 
