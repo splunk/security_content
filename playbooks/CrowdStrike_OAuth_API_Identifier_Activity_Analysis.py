@@ -80,7 +80,7 @@ def hunt_file(action=None, success=None, container=None, results=None, handle=No
     ## Custom Code End
     ################################################################################
 
-    phantom.act("hunt file", parameters=parameters, name="hunt_file", assets=["crowdstrike_oauth_api"], callback=filter_2)
+    phantom.act("hunt file", parameters=parameters, name="hunt_file", assets=["crowdstrike_oauth_api"], callback=file_results_filter)
 
     return
 
@@ -113,14 +113,14 @@ def hunt_domain(action=None, success=None, container=None, results=None, handle=
     ## Custom Code End
     ################################################################################
 
-    phantom.act("hunt domain", parameters=parameters, name="hunt_domain", assets=["crowdstrike_oauth_api"], callback=filter_3)
+    phantom.act("hunt domain", parameters=parameters, name="hunt_domain", assets=["crowdstrike_oauth_api"], callback=domain_results_filter)
 
     return
 
 
 @phantom.playbook_block()
-def filter_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_2() called")
+def file_results_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("file_results_filter() called")
 
     ################################################################################
     # Only proceed if there are results
@@ -132,7 +132,7 @@ def filter_2(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["hunt_file:action_result.summary.device_count", ">", 0]
         ],
-        name="filter_2:condition_1")
+        name="file_results_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -142,8 +142,8 @@ def filter_2(action=None, success=None, container=None, results=None, handle=Non
 
 
 @phantom.playbook_block()
-def filter_3(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("filter_3() called")
+def domain_results_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("domain_results_filter() called")
 
     ################################################################################
     # Only proceed if there are results
@@ -155,7 +155,7 @@ def filter_3(action=None, success=None, container=None, results=None, handle=Non
         conditions=[
             ["hunt_domain:action_result.summary.device_count", ">", 0]
         ],
-        name="filter_3:condition_1")
+        name="domain_results_filter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -367,15 +367,15 @@ def get_systems_from_file(action=None, success=None, container=None, results=Non
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
-    filtered_result_0_data_filter_2 = phantom.collect2(container=container, datapath=["filtered-data:filter_2:condition_1:hunt_file:action_result.data.*.device_id"])
+    filtered_result_0_data_file_results_filter = phantom.collect2(container=container, datapath=["filtered-data:file_results_filter:condition_1:hunt_file:action_result.data.*.device_id"])
 
     parameters = []
 
     # build parameters list for 'get_systems_from_file' call
-    for filtered_result_0_item_filter_2 in filtered_result_0_data_filter_2:
-        if filtered_result_0_item_filter_2[0] is not None:
+    for filtered_result_0_item_file_results_filter in filtered_result_0_data_file_results_filter:
+        if filtered_result_0_item_file_results_filter[0] is not None:
             parameters.append({
-                "id": filtered_result_0_item_filter_2[0],
+                "id": filtered_result_0_item_file_results_filter[0],
             })
 
     ################################################################################
@@ -399,15 +399,15 @@ def get_systems_from_domain(action=None, success=None, container=None, results=N
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
-    filtered_result_0_data_filter_3 = phantom.collect2(container=container, datapath=["filtered-data:filter_3:condition_1:hunt_domain:action_result.data.*.device_id"])
+    filtered_result_0_data_domain_results_filter = phantom.collect2(container=container, datapath=["filtered-data:domain_results_filter:condition_1:hunt_domain:action_result.data.*.device_id"])
 
     parameters = []
 
     # build parameters list for 'get_systems_from_domain' call
-    for filtered_result_0_item_filter_3 in filtered_result_0_data_filter_3:
-        if filtered_result_0_item_filter_3[0] is not None:
+    for filtered_result_0_item_domain_results_filter in filtered_result_0_data_domain_results_filter:
+        if filtered_result_0_item_domain_results_filter[0] is not None:
             parameters.append({
-                "id": filtered_result_0_item_filter_3[0],
+                "id": filtered_result_0_item_domain_results_filter[0],
             })
 
     ################################################################################

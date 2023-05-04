@@ -118,7 +118,7 @@
                     "targetPort": "8_in"
                 }
             ],
-            "hash": "6fbaceb0c56e5b4cba3c787f795f38e72a4081f9",
+            "hash": "c7b9d2b5a1844c8132fdec3f304241600cc45526",
             "nodes": {
                 "0": {
                     "data": {
@@ -134,7 +134,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 190,
-                    "y": -4.476419235288631e-13
+                    "y": -5.115907697472721e-13
                 },
                 "1": {
                     "data": {
@@ -202,7 +202,7 @@
                         "functionName": "get_systems_from_file",
                         "id": "12",
                         "parameters": {
-                            "id": "filtered-data:filter_2:condition_1:hunt_file:action_result.data.*.device_id"
+                            "id": "filtered-data:file_results_filter:condition_1:hunt_file:action_result.data.*.device_id"
                         },
                         "requiredParameters": [
                             {
@@ -239,7 +239,7 @@
                         "functionName": "get_systems_from_domain",
                         "id": "13",
                         "parameters": {
-                            "id": "filtered-data:filter_3:condition_1:hunt_domain:action_result.data.*.device_id"
+                            "id": "filtered-data:domain_results_filter:condition_1:hunt_domain:action_result.data.*.device_id"
                         },
                         "requiredParameters": [
                             {
@@ -255,7 +255,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 340,
-                    "y": 656
+                    "y": 660
                 },
                 "2": {
                     "data": {
@@ -399,6 +399,8 @@
                 "5": {
                     "data": {
                         "advanced": {
+                            "customName": "file results filter",
+                            "customNameId": 0,
                             "description": "Only proceed if there are results",
                             "join": [],
                             "note": "Only proceed if there are results"
@@ -419,7 +421,7 @@
                             }
                         ],
                         "functionId": 2,
-                        "functionName": "filter_2",
+                        "functionName": "file_results_filter",
                         "id": "5",
                         "type": "filter"
                     },
@@ -433,6 +435,8 @@
                 "6": {
                     "data": {
                         "advanced": {
+                            "customName": "domain results filter",
+                            "customNameId": 0,
                             "description": "Only proceed if there are results",
                             "join": [],
                             "note": "Only proceed if there are results"
@@ -453,7 +457,7 @@
                             }
                         ],
                         "functionId": 3,
-                        "functionName": "filter_3",
+                        "functionName": "domain_results_filter",
                         "id": "6",
                         "type": "filter"
                     },
@@ -462,7 +466,7 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 400,
-                    "y": 476
+                    "y": 480
                 },
                 "7": {
                     "data": {
@@ -558,14 +562,14 @@
                 "contains": [
                     "hash"
                 ],
-                "description": "",
+                "description": "A file hash to look for within your Crowdstrike protected environment",
                 "name": "file"
             },
             {
                 "contains": [
                     "domain"
                 ],
-                "description": "",
+                "description": "A domain to look for within your Crowdstrike protected environment",
                 "name": "domain"
             }
         ],
@@ -598,7 +602,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-11T13:28:13.131689+00:00",
+    "create_time": "2023-05-04T18:53:22.783269+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -607,6 +611,7 @@
         "identifier_activity",
         "file_hash",
         "domain",
-        "crowdstrike_oauth_api"
+        "crowdstrike_oauth_api",
+        "D3-IAA"
     ]
 }
