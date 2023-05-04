@@ -8,14 +8,8 @@ type: TTP
 data_source:
 - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share/windows-sysmon.log
 description: Network share discovery performed on Windows or MacOS. 
-search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)\
-  \ as lastTime values(Processes.user_category) as user_category values(Processes.user_bunit)\
-  \ as user_bunit  FROM datamodel=Endpoint.Processes WHERE ((Processes.process_name=\"\
-  net.exe\" OR Processes.orig_process_name=\"net.exe\") AND (Processes.process=\"\
-  *net*view*\" OR Processes.process=\"*net*share*\")) BY Processes.user Processes.dest Processes.process_exec Processes.parent_process_exec\
-  \ Processes.process Processes.parent_process \n| `drop_dm_object_name(Processes)`\
-  \ \n| regex process=\"net\\s+view|net\\s+share"\n| `security_content_ctime(firstTime)`\
-  \ \n| `security_content_ctime(lastTime)` | `network_share_discovery_filter`"
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.user_category) as user_category values(Processes.user_bunit) as user_bunit  FROM datamodel=Endpoint.Processes WHERE ((Processes.process_name="net.exe" OR Processes.orig_process_name="net.ex  e") AND (Processes.process="*net*view*" OR Processes.process="*net*share*")) BY Processes.user Processes.dest Processes.process_exec Processes.parent_process_exec
+  Processes.process Processes.parent_process| `drop_dm_object_name(Processes)`| regex process="net\\s+view|net\\s+share"| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_network_share_discovery_with_net_filter`'
 how_to_implement: Ensure you are populating the endpoint datamodel. 
 known_false_positives: Unknown
 references:
