@@ -34,7 +34,7 @@ tags:
   - T1135
   observable:
   - name: dest
-    type: system
+    type: Hostname
     role:
     - Victim
   product:
