@@ -13,7 +13,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name:
+    process.file.name:
     - wscript.exe
     - cscript.exe
     - searchprotocolhost.exe
@@ -23,7 +23,7 @@ search:
     - scrcons.exe
     - cmd.exe
     - powershell.exe
-    parent_process_name|endswith: mshta.exe
+    actor.process.file.name|endswith: mshta.exe
   condition: selection1
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -47,34 +47,10 @@ tags:
   mitre_attack_id:
   - T1218.005
   - T1218
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 80
