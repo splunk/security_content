@@ -14,26 +14,20 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   Red Teams and adversaries alike use may leverage PowerView to enumerate these accounts
   and attempt to crack their passwords offline.
 data_source:
-- Windows Security 4688
+- Powershell 4104
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
   null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  device=ucast(map_get(input_event,"device"), "map<string, any>", null) | eval device_hostname=ucast(map_get(device,"hostname"),
+  "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
+  any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
+  null) | eval process_file_path=ucast(map_get(process_file,"path"), "string", null)
+  | eval process_uid=ucast(map_get(process,"uid"), "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"),
   "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
-  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
-  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
-  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
-  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
-  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
-  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
-  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  match_regex(process_cmd_line, /(?i)preauthnotrequired/)=true AND match_regex(process_cmd_line,
-  /(?i)get-domainuser/)=true --finding_report--'
+  null) | eval actor_user=ucast(map_get(actor,"user"), "map<string, any>", null) |
+  eval actor_user_uid=ucast(map_get(actor_user,"uid"), "string", null) | where match_regex(process_cmd_line,
+  /(?i)preauthnotrequired/)=true AND match_regex(process_cmd_line, /(?i)get-domainuser/)=true
+  --finding_report--'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -53,39 +47,37 @@ tags:
   - T1558
   - T1558.004
   observable:
-  - name: process.user.name
-    type: User Name
   - name: device.hostname
     type: Hostname
+  - name: process.file.path
+    type: File
+  - name: process.uid
+    type: Other
   - name: process.cmd_line
+    type: Other
+  - name: actor.user.uid
     type: Other
   product:
   - Splunk Behavioral Analytics
   required_fields:
-  - process.user.name
   - device.hostname
+  - process.file.path
+  - process.uid
   - process.cmd_line
+  - actor.user.uid
   risk_score: 54
   security_domain: endpoint
   mappings:
-  - ocsf: process.pid
-    cim: process_id
-  - ocsf: process.file.path
-    cim: process_path
-  - ocsf: process.file.name
-    cim: process_name
-  - ocsf: process.cmd_line
-    cim: process
-  - ocsf: process.user.name
-    cim: user
-  - ocsf: actor.process.pid
-    cim: parent_process_id
-  - ocsf: actor.process.file.path
-    cim: parent_process_path
-  - ocsf: actor.process.file.name
-    cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.uid
+    cim: process_id
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: actor.user.uid
+    cim: user_id
 tests:
 - name: True Positive Test
   attack_data:

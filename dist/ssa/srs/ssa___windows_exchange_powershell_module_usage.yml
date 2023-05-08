@@ -26,23 +26,17 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
   null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
   null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
+  device=ucast(map_get(input_event,"device"), "map<string, any>", null) | eval device_hostname=ucast(map_get(device,"hostname"),
+  "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
+  any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
+  null) | eval process_file_path=ucast(map_get(process_file,"path"), "string", null)
+  | eval process_uid=ucast(map_get(process,"uid"), "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"),
   "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
-  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
-  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
-  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
-  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
-  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
-  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
-  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  match_regex(process_cmd_line, /(?i)get-recipient/)=true OR match_regex(process_cmd_line,
-  /(?i)new-mailboxsearch/)=true OR match_regex(process_cmd_line, /(?i)new-managementroleassignment/)=true
-  OR match_regex(process_cmd_line, /(?i)new-mailboxexportrequest/)=true 
+  null) | eval actor_user=ucast(map_get(actor,"user"), "map<string, any>", null) |
+  eval actor_user_uid=ucast(map_get(actor_user,"uid"), "string", null) | where match_regex(process_cmd_line,
+  /(?i)get-recipient/)=true OR match_regex(process_cmd_line, /(?i)new-mailboxsearch/)=true
+  OR match_regex(process_cmd_line, /(?i)new-managementroleassignment/)=true OR match_regex(process_cmd_line,
+  /(?i)new-mailboxexportrequest/)=true 
   | eval body=create_map(
     "devices", [
         create_map(
@@ -50,11 +44,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         )
     ],
     "time", timestamp,
-    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.cmd_line", process_cmd_line),
-    "message", concat("Windows Exchange PowerShell Module Usage has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "evidence", create_map("device.hostname", device_hostname, "process.file.path", process_file_path, "process.uid", process_uid, "process.cmd_line", process_cmd_line, "actor.user.uid", actor_user_uid),
+    "message", concat("Windows Exchange PowerShell Module Usage has been triggered on ", device_hostname, " by ", "Unknown", "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+            "name", "Unknown", "uid", ucast(map_get(actor_user,"uid"), "string", null)
         )
     ],
     "activity_id", 1,
@@ -87,33 +81,27 @@ references:
 - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
 tags:
   required_fields:
-  - process.user.name
   - device.hostname
+  - process.file.path
+  - process.uid
   - process.cmd_line
+  - actor.user.uid
   risk_score: 32
   security_domain: endpoint
   risk_severity: low
   research_site_url: https://research.splunk.com/endpoint/1118bc65-b0c7-4589-bc2f-ad6802fd0909/
   event_schema: ocsf
   mappings:
-  - ocsf: process.pid
-    cim: process_id
-  - ocsf: process.file.path
-    cim: process_path
-  - ocsf: process.file.name
-    cim: process_name
-  - ocsf: process.cmd_line
-    cim: process
-  - ocsf: process.user.name
-    cim: user
-  - ocsf: actor.process.pid
-    cim: parent_process_id
-  - ocsf: actor.process.file.path
-    cim: parent_process_path
-  - ocsf: actor.process.file.name
-    cim: parent_process_name
   - ocsf: device.hostname
     cim: dest
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.uid
+    cim: process_id
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: actor.user.uid
+    cim: user_id
   annotations:
     analytic_story:
     - ProxyShell

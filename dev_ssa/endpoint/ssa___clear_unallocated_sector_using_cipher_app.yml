@@ -12,8 +12,8 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name: cipher.exe
-    process|contains: '/W:'
+    process.file.name: cipher.exe
+    process.cmd_line|contains: '/W:'
   condition: selection1
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -35,38 +35,10 @@ tags:
   mitre_attack_id:
   - T1070.004
   - T1070
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 90
