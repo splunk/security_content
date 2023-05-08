@@ -12,10 +12,10 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name:
+    process.file.name:
     - cscript.exe
     - wscript.exe
-    parent_process_name|re:
+    actor.process.file.name|re:
     - visio.exe
     - mspub.exe
     - powerpnt.exe
@@ -41,33 +41,10 @@ tags:
   mitre_attack_id:
   - T1566
   - T1566.001
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 63

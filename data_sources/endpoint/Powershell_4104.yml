@@ -22,3 +22,20 @@ raw_fields:
   - MessageTotal
   - ScriptBlockId
   - ScriptBlockText
+  - Path
+field_mappings:
+  - data_model: cim
+    data_set: Endpoint.Processes
+    mapping:
+      Computer: Processes.dest
+      Path: Processes.process_path
+      ScriptBlockId: Processes.process_id
+      ScriptBlockText: Processes.process
+      UserID: Processes.user_id
+  - data_model: ocsf
+    mapping:
+      Computer: device.hostname
+      Path: process.file.path
+      ScriptBlockId: process.uid
+      ScriptBlockText: process.cmd_line
+      UserID: actor.user.uid
