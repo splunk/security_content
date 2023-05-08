@@ -15,7 +15,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name:
+    process.file.name:
     - xwizard.exe
     - xpsrchvw.exe
     - xcopy.exe
@@ -577,9 +577,9 @@ search:
     - adaptertroubleshooter.exe
     - arp.exe
   selection2:
-    process_path|re: \\windows\\syswow64
+    process.file.path|re: \\windows\\syswow64
   selection3:
-    process_path|re: \\windows\\system32
+    process.file.path|re: \\windows\\system32
   condition: selection1 and not selection2 and not selection3
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: None
@@ -595,23 +595,10 @@ tags:
     folder path in host $dest_device_id$
   mitre_attack_id:
   - T1036
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
+  required_fields: []
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 56

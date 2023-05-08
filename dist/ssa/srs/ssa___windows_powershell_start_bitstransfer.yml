@@ -16,17 +16,17 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
   null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
   | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
-  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
-  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
-  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
-  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
-  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
-  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
-  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
-  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  (process_file_name="powershell_ise.exe" OR process_file_name="powershell.exe" OR
-  process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe"
+  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
+  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
+  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
+  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
+  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
+  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
+  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (process_file_name="powershell_ise.exe" OR process_file_name="powershell.exe"
+  OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe"
   OR process_file_name="pwsh.exe") AND match_regex(process_cmd_line, /(?i)start-bitstransfer/)=true
   
   | eval body=create_map(
@@ -36,11 +36,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         )
     ],
     "time", timestamp,
-    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "message", concat("Windows PowerShell Start-BitsTransfer has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "evidence", create_map("process.pid", process_pid, "process.file.path", process_file_path, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line, "actor.user.name", actor_user_name, "actor.process.pid", actor_process_pid, "actor.process.file.path", actor_process_file_path, "actor.process.file.name", actor_process_file_name, "device.hostname", device_hostname),
+    "message", concat("Windows PowerShell Start-BitsTransfer has been triggered on ", device_hostname, " by ", actor_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+            "name", actor_user_name, "uid", ucast(map_get(actor_user,"uid"), "string", null)
         )
     ],
     "activity_id", 1,
@@ -67,10 +67,15 @@ references:
 - https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
 tags:
   required_fields:
-  - process.user.name
-  - device.hostname
+  - process.pid
+  - process.file.path
   - process.file.name
   - process.cmd_line
+  - actor.user.name
+  - actor.process.pid
+  - actor.process.file.path
+  - actor.process.file.name
+  - device.hostname
   risk_score: 49
   security_domain: endpoint
   risk_severity: low
@@ -85,7 +90,7 @@ tags:
     cim: process_name
   - ocsf: process.cmd_line
     cim: process
-  - ocsf: process.user.name
+  - ocsf: actor.user.name
     cim: user
   - ocsf: actor.process.pid
     cim: parent_process_id
