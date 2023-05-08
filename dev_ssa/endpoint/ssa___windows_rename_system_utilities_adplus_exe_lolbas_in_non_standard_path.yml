@@ -13,9 +13,9 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name: adplus.exe
+    process.file.name: adplus.exe
   selection2:
-    process_path|re: \\program files (x86)\\windows kits\\10\\debuggers\\x86
+    process.file.path|re: \\program files (x86)\\windows kits\\10\\debuggers\\x86
   condition: selection1 and not selection2
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
@@ -39,23 +39,10 @@ tags:
   mitre_attack_id:
   - T1036
   - T1036.003
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
+  required_fields: []
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 14
