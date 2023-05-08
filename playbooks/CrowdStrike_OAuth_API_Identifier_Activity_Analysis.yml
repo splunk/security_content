@@ -1,0 +1,22 @@
+name: CrowdStrike OAuth API Identifier Activity Analysis
+id: 5299d9dc-e9c4-42fa-b051-92ace0ff816d
+version: 1
+date: '2023-03-30'
+author: Lou Stella, Splunk
+type: Investigation
+description: "Accepts a file hash or domain name, and asks CrowdStrike for a list of device IDs that have interacted with each. The list of IDs is then sent back to Crowdstrike to get more information, and then produces a normalized output and summary table."
+playbook: CrowdStrike_OAuth_API_Identifier_Activity_Analysis
+how_to_implement: This input playbook requires the Crowdstrike OAuth API connector to be configured. It is designed to work in conjunction with the Dynamic Identifier Activity Analysis playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - identifier_activity 
+    - domain
+    - file_hash
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
