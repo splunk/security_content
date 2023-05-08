@@ -28,7 +28,6 @@ class SigmaConverterInputDto:
     detection_folder : str
     input_path: str
     log_source: str
-    cim_to_ocsf: bool
 
 
 @dataclass(frozen=True)
@@ -159,9 +158,9 @@ class SigmaConverter():
 
                         cim_to_ocsf_mapping = self.get_cim_to_ocsf_mapping(data_source_new)
 
-                    elif input_dto.cim_to_ocsf:
-                        field_mapping = self.get_cim_to_ocsf_mapping(data_source)
-                        cim_to_ocsf_mapping = field_mapping
+                    # elif input_dto.cim_to_ocsf:
+                    #     field_mapping = self.get_cim_to_ocsf_mapping(data_source)
+                    #     cim_to_ocsf_mapping = field_mapping
 
                     else:
                         field_mapping = self.find_mapping(data_source.field_mappings, 'data_model', 'ocsf')
@@ -189,7 +188,7 @@ class SigmaConverter():
                         )
                     )
 
-                    detection = self.convert_detection_fields(detection, field_mapping_underline)
+                    detection = self.convert_detection_fields(detection)
                     sigma_rule = self.get_sigma_rule(detection, data_source)
                     sigma_processing_pipeline = self.get_pipeline_from_processing_items(processing_items)
 
@@ -248,15 +247,27 @@ class SigmaConverter():
         }])
 
 
-    def convert_detection_fields(self, detection: Detection, mappings: dict) -> Detection:
+    # def convert_detection_fields(self, detection: Detection, mappings: dict) -> Detection:
+    #     for selection in detection.search.keys():
+    #         if selection != "condition":
+    #             new_selection = copy.deepcopy(detection.search[selection])
+    #             for field in detection.search[selection].keys():
+    #                 for mapping in mappings["mapping"].keys():
+    #                     if mapping == field:
+    #                         new_selection[mappings["mapping"][mapping]] =  detection.search[selection][field]
+    #                         new_selection.pop(field)
+    #             detection.search[selection] = new_selection
+
+    #     return detection
+
+    def convert_detection_fields(self, detection: Detection) -> Detection:
         for selection in detection.search.keys():
             if selection != "condition":
                 new_selection = copy.deepcopy(detection.search[selection])
                 for field in detection.search[selection].keys():
-                    for mapping in mappings["mapping"].keys():
-                        if mapping == field:
-                            new_selection[mappings["mapping"][mapping]] =  detection.search[selection][field]
-                            new_selection.pop(field)
+                    new_field_name = field.replace(".", "_")
+                    new_selection[new_field_name] = detection.search[selection][field]
+                    new_selection.pop(field)
                 detection.search[selection] = new_selection
 
         return detection

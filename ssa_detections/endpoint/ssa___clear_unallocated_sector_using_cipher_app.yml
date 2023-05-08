@@ -27,7 +27,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where like(process_cmd_line, "%/W:%") AND process_file_name="cipher.exe"
+  null) | where process_file_name="cipher.exe" AND like(process_cmd_line, "%/W:%")
   --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from

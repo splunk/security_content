@@ -31,7 +31,7 @@ data_source:
 - Powershell 4104
 search:
   selection1:
-    process|re:
+    process.cmd_line|re:
     - get-recipient
     - new-mailboxsearch
     - new-managementroleassignment
@@ -63,22 +63,10 @@ tags:
   mitre_attack_id:
   - T1059
   - T1059.001
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 32

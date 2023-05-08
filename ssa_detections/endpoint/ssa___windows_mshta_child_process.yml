@@ -28,11 +28,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where like(actor_process_file_name, "%mshta.exe") AND (process_file_name="wscript.exe"
-  OR process_file_name="cscript.exe" OR process_file_name="searchprotocolhost.exe"
-  OR process_file_name="microsoft.workflow.compiler.exe" OR process_file_name="msbuild.exe"
-  OR process_file_name="colorcpl.exe" OR process_file_name="scrcons.exe" OR process_file_name="cmd.exe"
-  OR process_file_name="powershell.exe") --finding_report--'
+  null) | where (process_file_name="wscript.exe" OR process_file_name="cscript.exe"
+  OR process_file_name="searchprotocolhost.exe" OR process_file_name="microsoft.workflow.compiler.exe"
+  OR process_file_name="msbuild.exe" OR process_file_name="colorcpl.exe" OR process_file_name="scrcons.exe"
+  OR process_file_name="cmd.exe" OR process_file_name="powershell.exe") AND like(actor_process_file_name,
+  "%mshta.exe") --finding_report--'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

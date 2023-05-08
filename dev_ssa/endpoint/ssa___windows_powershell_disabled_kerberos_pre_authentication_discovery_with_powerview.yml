@@ -17,9 +17,9 @@ data_source:
 - Powershell 4104
 search:
   selection1:
-    process|re: preauthnotrequired
+    process.cmd_line|re: preauthnotrequired
   selection2:
-    process|re: get-domainuser
+    process.cmd_line|re: get-domainuser
   condition: selection1 and selection2
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -39,22 +39,10 @@ tags:
   mitre_attack_id:
   - T1558
   - T1558.004
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 54
