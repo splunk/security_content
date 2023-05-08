@@ -7,10 +7,10 @@
     ],
     "time", timestamp,
     "evidence", {{ detection.tags.evidence_str }},
-    "message", concat("{{ detection.name }} has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "message", concat("{{ detection.name }} has been triggered on ", device_hostname, " by ", {{ actor_user_name }}, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+            "name", {{ actor_user_name }}, "uid", ucast(map_get(actor_user,"uid"), "string", null)
         )
     ],
     "activity_id", 1,

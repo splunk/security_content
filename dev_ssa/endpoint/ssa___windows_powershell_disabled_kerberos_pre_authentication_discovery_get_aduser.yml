@@ -14,7 +14,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   alike use may abuse Get-ADUSer to enumerate these accounts and attempt to crack
   their passwords offline.
 data_source:
-- Windows Security 4688
+- Powershell 4104
 search:
   selection1:
     process|contains: '4194304'

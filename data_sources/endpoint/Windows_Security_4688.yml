@@ -44,7 +44,7 @@ field_mappings:
       NewProcessName: process.file.path
       NewProcessName|endswith: process.file.name
       Process_Command_Line: process.cmd_line
-      SubjectUserSid: process.user.name
+      SubjectUserSid: actor.user.name
       ProcessId: actor.process.pid
       ParentProcessName: actor.process.file.path
       ParentProcessName|endswith: actor.process.file.name

@@ -28,7 +28,7 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
   This cmdlet returns all mail-enabled objects (for example, mailboxes, mail users,
   mail contacts, and distribution groups).'
 data_source:
-- Windows Security 4688
+- Powershell 4104
 search:
   selection1:
     process|re:

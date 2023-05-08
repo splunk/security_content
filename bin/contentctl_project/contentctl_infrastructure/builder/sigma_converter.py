@@ -171,7 +171,7 @@ class SigmaConverter():
                     for field in field_mapping_underline["mapping"].keys():
                         field_mapping_underline["mapping"][field] = field_mapping_underline["mapping"][field].replace(".", "_")     
 
-                    self.add_required_fields(field_mapping, detection)
+                    self.add_required_fields(cim_to_ocsf_mapping, detection)
                     self.add_mappings(cim_to_ocsf_mapping, detection)
 
                     self.update_observables(detection)
@@ -337,14 +337,9 @@ class SigmaConverter():
 
     def add_required_fields(self, field_mapping: dict, detection: Detection) -> None:
         required_fields = list()
-        required_fields = ["process.user.name", "device.hostname"]
+#        required_fields = ["process.user.name", "device.hostname"]
         for mapping in field_mapping["mapping"].keys():
-            for selection in detection.search.keys():
-                if selection != "condition":
-                    for detection_field in detection.search[selection]:
-                        if detection_field.startswith(mapping):
-                            if not field_mapping["mapping"][mapping] in required_fields:
-                                required_fields.append(field_mapping["mapping"][mapping])
+            required_fields.append(field_mapping["mapping"][mapping])
 
         detection.tags.required_fields = required_fields
 
@@ -361,14 +356,19 @@ class SigmaConverter():
     def update_observables(self, detection : Detection) -> None:
         mapping_field_to_type = {
             "process.user.name": "User Name",
+            "actor.user.name": "User Name",
             "device.hostname": "Hostname",
             "process.file.name": "File Name",
             "actor.process.file.name": "File Name",
             "actor.process.file.path": "File Name",
             "actor.process.cmd_line": "Process",
+            "actor.user.uid": "Other",
             "process.cmd_line": "Other",
             "process.file.path": "File",
-            "process.file.name": "File"
+            "process.file.name": "File",
+            "process.uid": "Other",
+            "process.pid": "Other",
+            "actor.process.pid": "Other"
         }
 
         observables = list()
