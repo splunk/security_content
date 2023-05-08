@@ -1,11 +1,11 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 5
-description: An attacker might try to use a different version of a system command
-  without overriding the original, or they might try to avoid some detections by running
-  the process from a different folder. This detection checks that a list of system
-  processes are run inside C:\\Windows\System32 or C:\\Windows\SysWOW64. The list
-  of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv
+version: 4
+description: An attacker tries might try to use different version of a system command
+  without overriding original, or they might try to avoid some detection running the
+  process from a different folder. This detection checks that a list of system processes
+  run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes
+  has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv
   and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
   null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
@@ -15,64 +15,64 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
   null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
   | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  process_user=ucast(map_get(process,"user"), "map<string, any>", null) | eval process_user_name=ucast(map_get(process_user,"name"),
-  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
-  null) | eval actor_process=ucast(map_get(actor,"process"), "map<string, any>", null)
-  | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string", null) | eval
-  actor_process_file=ucast(map_get(actor_process,"file"), "map<string, any>", null)
-  | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"), "string",
-  null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"), "string",
-  null) | eval device=ucast(map_get(input_event,"device"), "map<string, any>", null)
-  | eval device_hostname=ucast(map_get(device,"hostname"), "string", null) | where
-  (process_file_name="xwizard.exe" OR process_file_name="xpsrchvw.exe" OR process_file_name="xcopy.exe"
-  OR process_file_name="wusa.exe" OR process_file_name="wuauclt.exe" OR process_file_name="wuapp.exe"
-  OR process_file_name="wuapihost.exe" OR process_file_name="wsqmcons.exe" OR process_file_name="wsmprovhost.exe"
-  OR process_file_name="wscript.exe" OR process_file_name="write.exe" OR process_file_name="wpr.exe"
-  OR process_file_name="wpnpinst.exe" OR process_file_name="wowreg32.exe" OR process_file_name="wlrmdr.exe"
-  OR process_file_name="wlanext.exe" OR process_file_name="wksprt.exe" OR process_file_name="wkspbroker.exe"
-  OR process_file_name="wisptis.exe" OR process_file_name="winver.exe" OR process_file_name="winrshost.exe"
-  OR process_file_name="winrs.exe" OR process_file_name="winresume.exe" OR process_file_name="winlogon.exe"
-  OR process_file_name="winload.exe" OR process_file_name="wininit.exe" OR process_file_name="wimserv.exe"
-  OR process_file_name="wifitask.exe" OR process_file_name="wiawow64.exe" OR process_file_name="wiaacmgr.exe"
-  OR process_file_name="whoami.exe" OR process_file_name="where.exe" OR process_file_name="wextract.exe"
-  OR process_file_name="wevtutil.exe" OR process_file_name="wermgr.exe" OR process_file_name="wecutil.exe"
-  OR process_file_name="wbengine.exe" OR process_file_name="wbadmin.exe" OR process_file_name="waitfor.exe"
-  OR process_file_name="w32tm.exe" OR process_file_name="vssadmin.exe" OR process_file_name="vmicsvc.exe"
-  OR process_file_name="verifiergui.exe" OR process_file_name="verifier.exe" OR process_file_name="verclsid.exe"
-  OR process_file_name="vdsldr.exe" OR process_file_name="vds.exe" OR process_file_name="userinit.exe"
-  OR process_file_name="upnpcont.exe" OR process_file_name="unregmp2.exe" OR process_file_name="unlodctr.exe"
-  OR process_file_name="ucsvc.exe" OR process_file_name="tzutil.exe" OR process_file_name="tzsync.exe"
-  OR process_file_name="typeperf.exe" OR process_file_name="tskill.exe" OR process_file_name="tsdiscon.exe"
-  OR process_file_name="tscon.exe" OR process_file_name="tracerpt.exe" OR process_file_name="tpmvscmgrsvr.exe"
-  OR process_file_name="tpmvscmgr.exe" OR process_file_name="timeout.exe" OR process_file_name="tcmsetup.exe"
-  OR process_file_name="taskmgr.exe" OR process_file_name="tasklist.exe" OR process_file_name="taskkill.exe"
-  OR process_file_name="taskhostw.exe" OR process_file_name="taskhost.exe" OR process_file_name="taskeng.exe"
-  OR process_file_name="takeown.exe" OR process_file_name="tabcal.exe" OR process_file_name="systray.exe"
-  OR process_file_name="systemreset.exe" OR process_file_name="systeminfo.exe" OR
-  process_file_name="syskey.exe" OR process_file_name="sxstrace.exe" OR process_file_name="svchost.exe"
-  OR process_file_name="subst.exe" OR process_file_name="srdelayed.exe" OR process_file_name="spreview.exe"
-  OR process_file_name="sppsvc.exe" OR process_file_name="spoolsv.exe" OR process_file_name="spinstall.exe"
-  OR process_file_name="sort.exe" OR process_file_name="snmptrap.exe" OR process_file_name="smss.exe"
-  OR process_file_name="slui.exe" OR process_file_name="sihost.exe" OR process_file_name="sigverif.exe"
-  OR process_file_name="shutdown.exe" OR process_file_name="shrpubw.exe" OR process_file_name="shadow.exe"
-  OR process_file_name="setx.exe" OR process_file_name="setupugc.exe" OR process_file_name="setupcl.exe"
-  OR process_file_name="setspn.exe" OR process_file_name="sethc.exe" OR process_file_name="sessionmsg.exe"
-  OR process_file_name="services.exe" OR process_file_name="secinit.exe" OR process_file_name="sdiagnhost.exe"
-  OR process_file_name="sdclt.exe" OR process_file_name="sdchange.exe" OR process_file_name="sdbinst.exe"
-  OR process_file_name="schtasks.exe" OR process_file_name="sc.exe" OR process_file_name="sbunattend.exe"
-  OR process_file_name="rwinsta.exe" OR process_file_name="runonce.exe" OR process_file_name="rundll32.exe"
-  OR process_file_name="runas.exe" OR process_file_name="rstrui.exe" OR process_file_name="rrinstaller.exe"
-  OR process_file_name="rmttpmvscmgrsvr.exe" OR process_file_name="resmon.exe" OR
-  process_file_name="reset.exe" OR process_file_name="replace.exe" OR process_file_name="repair-bde.exe"
-  OR process_file_name="relog.exe" OR process_file_name="rekeywiz.exe" OR process_file_name="regsvr32.exe"
-  OR process_file_name="regini.exe" OR process_file_name="regedt32.exe" OR process_file_name="reg.exe"
-  OR process_file_name="recover.exe" OR process_file_name="recdisc.exe" OR process_file_name="rdrleakdiag.exe"
-  OR process_file_name="rdpinput.exe" OR process_file_name="rdpclip.exe" OR process_file_name="rasphone.exe"
-  OR process_file_name="raserver.exe" OR process_file_name="rasdial.exe" OR process_file_name="rasautou.exe"
-  OR process_file_name="qwinsta.exe" OR process_file_name="quser.exe" OR process_file_name="query.exe"
-  OR process_file_name="qprocess.exe" OR process_file_name="qappsrv.exe" OR process_file_name="pwlauncher.exe"
-  OR process_file_name="psr.exe" OR process_file_name="provtool.exe" OR process_file_name="proquota.exe"
-  OR process_file_name="printui.exe" OR process_file_name="printfilterpipelinesvc.exe"
+  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
+  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
+  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
+  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
+  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
+  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
+  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
+  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
+  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
+  null) | where (process_file_name="xwizard.exe" OR process_file_name="xpsrchvw.exe"
+  OR process_file_name="xcopy.exe" OR process_file_name="wusa.exe" OR process_file_name="wuauclt.exe"
+  OR process_file_name="wuapp.exe" OR process_file_name="wuapihost.exe" OR process_file_name="wsqmcons.exe"
+  OR process_file_name="wsmprovhost.exe" OR process_file_name="wscript.exe" OR process_file_name="write.exe"
+  OR process_file_name="wpr.exe" OR process_file_name="wpnpinst.exe" OR process_file_name="wowreg32.exe"
+  OR process_file_name="wlrmdr.exe" OR process_file_name="wlanext.exe" OR process_file_name="wksprt.exe"
+  OR process_file_name="wkspbroker.exe" OR process_file_name="wisptis.exe" OR process_file_name="winver.exe"
+  OR process_file_name="winrshost.exe" OR process_file_name="winrs.exe" OR process_file_name="winresume.exe"
+  OR process_file_name="winlogon.exe" OR process_file_name="winload.exe" OR process_file_name="wininit.exe"
+  OR process_file_name="wimserv.exe" OR process_file_name="wifitask.exe" OR process_file_name="wiawow64.exe"
+  OR process_file_name="wiaacmgr.exe" OR process_file_name="whoami.exe" OR process_file_name="where.exe"
+  OR process_file_name="wextract.exe" OR process_file_name="wevtutil.exe" OR process_file_name="wermgr.exe"
+  OR process_file_name="wecutil.exe" OR process_file_name="wbengine.exe" OR process_file_name="wbadmin.exe"
+  OR process_file_name="waitfor.exe" OR process_file_name="w32tm.exe" OR process_file_name="vssadmin.exe"
+  OR process_file_name="vmicsvc.exe" OR process_file_name="verifiergui.exe" OR process_file_name="verifier.exe"
+  OR process_file_name="verclsid.exe" OR process_file_name="vdsldr.exe" OR process_file_name="vds.exe"
+  OR process_file_name="userinit.exe" OR process_file_name="upnpcont.exe" OR process_file_name="unregmp2.exe"
+  OR process_file_name="unlodctr.exe" OR process_file_name="ucsvc.exe" OR process_file_name="tzutil.exe"
+  OR process_file_name="tzsync.exe" OR process_file_name="typeperf.exe" OR process_file_name="tskill.exe"
+  OR process_file_name="tsdiscon.exe" OR process_file_name="tscon.exe" OR process_file_name="tracerpt.exe"
+  OR process_file_name="tpmvscmgrsvr.exe" OR process_file_name="tpmvscmgr.exe" OR
+  process_file_name="timeout.exe" OR process_file_name="tcmsetup.exe" OR process_file_name="taskmgr.exe"
+  OR process_file_name="tasklist.exe" OR process_file_name="taskkill.exe" OR process_file_name="taskhostw.exe"
+  OR process_file_name="taskhost.exe" OR process_file_name="taskeng.exe" OR process_file_name="takeown.exe"
+  OR process_file_name="tabcal.exe" OR process_file_name="systray.exe" OR process_file_name="systemreset.exe"
+  OR process_file_name="systeminfo.exe" OR process_file_name="syskey.exe" OR process_file_name="sxstrace.exe"
+  OR process_file_name="svchost.exe" OR process_file_name="subst.exe" OR process_file_name="srdelayed.exe"
+  OR process_file_name="spreview.exe" OR process_file_name="sppsvc.exe" OR process_file_name="spoolsv.exe"
+  OR process_file_name="spinstall.exe" OR process_file_name="sort.exe" OR process_file_name="snmptrap.exe"
+  OR process_file_name="smss.exe" OR process_file_name="slui.exe" OR process_file_name="sihost.exe"
+  OR process_file_name="sigverif.exe" OR process_file_name="shutdown.exe" OR process_file_name="shrpubw.exe"
+  OR process_file_name="shadow.exe" OR process_file_name="setx.exe" OR process_file_name="setupugc.exe"
+  OR process_file_name="setupcl.exe" OR process_file_name="setspn.exe" OR process_file_name="sethc.exe"
+  OR process_file_name="sessionmsg.exe" OR process_file_name="services.exe" OR process_file_name="secinit.exe"
+  OR process_file_name="sdiagnhost.exe" OR process_file_name="sdclt.exe" OR process_file_name="sdchange.exe"
+  OR process_file_name="sdbinst.exe" OR process_file_name="schtasks.exe" OR process_file_name="sc.exe"
+  OR process_file_name="sbunattend.exe" OR process_file_name="rwinsta.exe" OR process_file_name="runonce.exe"
+  OR process_file_name="rundll32.exe" OR process_file_name="runas.exe" OR process_file_name="rstrui.exe"
+  OR process_file_name="rrinstaller.exe" OR process_file_name="rmttpmvscmgrsvr.exe"
+  OR process_file_name="resmon.exe" OR process_file_name="reset.exe" OR process_file_name="replace.exe"
+  OR process_file_name="repair-bde.exe" OR process_file_name="relog.exe" OR process_file_name="rekeywiz.exe"
+  OR process_file_name="regsvr32.exe" OR process_file_name="regini.exe" OR process_file_name="regedt32.exe"
+  OR process_file_name="reg.exe" OR process_file_name="recover.exe" OR process_file_name="recdisc.exe"
+  OR process_file_name="rdrleakdiag.exe" OR process_file_name="rdpinput.exe" OR process_file_name="rdpclip.exe"
+  OR process_file_name="rasphone.exe" OR process_file_name="raserver.exe" OR process_file_name="rasdial.exe"
+  OR process_file_name="rasautou.exe" OR process_file_name="qwinsta.exe" OR process_file_name="quser.exe"
+  OR process_file_name="query.exe" OR process_file_name="qprocess.exe" OR process_file_name="qappsrv.exe"
+  OR process_file_name="pwlauncher.exe" OR process_file_name="psr.exe" OR process_file_name="provtool.exe"
+  OR process_file_name="proquota.exe" OR process_file_name="printui.exe" OR process_file_name="printfilterpipelinesvc.exe"
   OR process_file_name="print.exe" OR process_file_name="prevhost.exe" OR process_file_name="powercfg.exe"
   OR process_file_name="poqexec.exe" OR process_file_name="plasrv.exe" OR process_file_name="phoneactivate.exe"
   OR process_file_name="perfmon.exe" OR process_file_name="pcwrun.exe" OR process_file_name="pcawrk.exe"
@@ -243,11 +243,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
         )
     ],
     "time", timestamp,
-    "evidence", create_map("process.user.name", process_user_name, "device.hostname", device_hostname, "process.file.path", process_file_path, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line),
-    "message", concat("System Process Running from Unexpected Location has been triggered on ", device_hostname, " by ", process_user_name, "."),
+    "evidence", create_map("process.pid", process_pid, "process.file.path", process_file_path, "process.file.name", process_file_name, "process.cmd_line", process_cmd_line, "actor.user.name", actor_user_name, "actor.process.pid", actor_process_pid, "actor.process.file.path", actor_process_file_path, "actor.process.file.name", actor_process_file_name, "device.hostname", device_hostname),
+    "message", concat("System Process Running from Unexpected Location has been triggered on ", device_hostname, " by ", actor_user_name, "."),
     "users", [
         create_map(
-            "name", process_user_name, "uuid", ucast(map_get(process_user,"uuid"), "string", null)
+            "name", actor_user_name, "uid", ucast(map_get(actor_user,"uid"), "string", null)
         )
     ],
     "activity_id", 1,
@@ -268,11 +268,15 @@ known_false_positives: None
 references: []
 tags:
   required_fields:
-  - process.user.name
-  - device.hostname
+  - process.pid
   - process.file.path
   - process.file.name
   - process.cmd_line
+  - actor.user.name
+  - actor.process.pid
+  - actor.process.file.path
+  - actor.process.file.name
+  - device.hostname
   risk_score: 56
   security_domain: endpoint
   risk_severity: medium
@@ -287,7 +291,7 @@ tags:
     cim: process_name
   - ocsf: process.cmd_line
     cim: process
-  - ocsf: process.user.name
+  - ocsf: actor.user.name
     cim: user
   - ocsf: actor.process.pid
     cim: parent_process_id
