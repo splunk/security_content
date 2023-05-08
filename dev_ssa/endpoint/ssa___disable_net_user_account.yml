@@ -13,11 +13,11 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process|contains: user
+    process.cmd_line|contains: user
   selection2:
-    process|contains: /active:no
+    process.cmd_line|contains: /active:no
   selection3:
-    process_name:
+    process.file.name:
     - net.exe
     - net1.exe
   condition: selection1 and selection2 and (selection3)
@@ -42,34 +42,10 @@ tags:
   mitre_attack_id:
   - T1489
   - T1078
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 49

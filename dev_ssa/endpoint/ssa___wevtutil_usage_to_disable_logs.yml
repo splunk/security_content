@@ -12,11 +12,11 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process|contains: /e:false
+    process.cmd_line|contains: /e:false
   selection2:
-    process|contains: ' sl '
+    process.cmd_line|contains: ' sl '
   selection3:
-    process_name: wevtutil.exe
+    process.file.name: wevtutil.exe
   condition: selection1 and selection2 and selection3
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
@@ -41,25 +41,10 @@ tags:
   mitre_attack_id:
   - T1070
   - T1070.001
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 63

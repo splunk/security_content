@@ -12,9 +12,9 @@ description: The following analytic identifies native living off the land binari
   regedit.exe) and DotNet binaries. It also does not include the category of OtherMSBinaries.
 data_source:
 - Windows Security 4688
-search: 
+search:
   selection1:
-    process_name:
+    process.file.name:
     - bitsadmin.exe
     - certoc.exe
     - certreq.exe
@@ -96,7 +96,7 @@ search:
     - wuauclt.exe
     - xwizard.exe
   selection2:
-    process_path|re:
+    process.file.path|re:
     - (?i)\\windows\\system32
     - (?i)\\windows\\syswow64
     - (?i)\\windows\\networkcontrolle
@@ -128,24 +128,10 @@ tags:
   - T1036.003
   - T1218
   - T1218.004
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
-  - process
+  required_fields: []
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 49

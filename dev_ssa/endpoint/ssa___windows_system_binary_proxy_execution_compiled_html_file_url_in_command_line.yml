@@ -20,10 +20,10 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process|contains:
+    process.cmd_line|contains:
     - https://
     - http://
-    process_name: hh.exe
+    process.file.name: hh.exe
   condition: (selection1)
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -50,30 +50,10 @@ tags:
   mitre_attack_id:
   - T1218.001
   - T1218
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 90
