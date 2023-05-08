@@ -1,0 +1,22 @@
+name: Windows Defender ATP Identifier Activity Analysis
+id: 5299d9dc-e9c4-46fa-da42-92ace0ff816d
+version: 1
+date: '2023-03-30'
+author: Lou Stella, Splunk
+type: Investigation
+description: "Accepts a file_hash or domain name, and asks Windows Defender ATP for a list of devices that have interacted with each. It then produces a normalized output and summary table."
+playbook: Windows_Defender_ATP_Identifier_Activity_Analysis
+how_to_implement: This input playbook requires the Windows Defender ATP connector to be configured. It is designed to work in conjunction with the Dynamic Identifier Activity Analysis playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - Windows Defender ATP
+tags:
+  platform_tags:
+    - identifier_activity 
+    - domain
+    - file_hash
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR

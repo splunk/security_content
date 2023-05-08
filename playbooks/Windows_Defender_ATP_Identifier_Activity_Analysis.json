@@ -1,0 +1,514 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Identifier Activity Analysis",
+    "coa": {
+        "data": {
+            "description": "Accepts a file_hash or domain name, and asks Windows Defender ATP for a list of devices that have interacted with each. It then produces a normalized output and summary table.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_3_to_port_5",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_4_to_port_6",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_5_to_port_7",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_6_to_port_8",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_7_to_port_9",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_8_to_port_10",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_9_to_port_1",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_10_to_port_1",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "3f512c247b205931a7a6421cc52b3085a65e5430",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 190,
+                    "y": -1.2789769243681803e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1042
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build domain output",
+                            "customNameId": 0,
+                            "description": "Iterates through the objects returned by previous actions to create a list of devices, which is then appended to the rest of the Observable object that contains the context for that list",
+                            "join": [],
+                            "note": "Observable object creation"
+                        },
+                        "functionId": 2,
+                        "functionName": "build_domain_output",
+                        "id": "10",
+                        "inputParameters": [
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.parameter.domain",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.summary.total_devices"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "code",
+                    "userCode": "\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_domain[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 864
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "routing_artifacts",
+                            "customNameId": 0,
+                            "description": "Route SHA1 file hashes and domains respectively",
+                            "join": [],
+                            "note": "Route SHA1 file hashes and domains respectively"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:file_hash",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "file_hash",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "!=",
+                                        "param": "playbook_input:domain",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "domain",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "routing_artifacts",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 230,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "action": "get file devices",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get file devices",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "\"get file devices\" action which returns a list of devices that have seen the file queried for"
+                        },
+                        "connector": "Windows Defender ATP",
+                        "connectorConfigs": [
+                            "windows_defender_atp"
+                        ],
+                        "connectorId": "e85407b7-91f0-4019-8fa4-0d29bca741d5",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_file_devices",
+                        "id": "3",
+                        "parameters": {
+                            "file_hash": "filtered-data:routing_artifacts:condition_1:playbook_input:file_hash"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "file_hash"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 320
+                },
+                "4": {
+                    "data": {
+                        "action": "get domain devices",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get domain devices",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "\"get domain devices\" action which returns a list of devices that have seen the domain queried for"
+                        },
+                        "connector": "Windows Defender ATP",
+                        "connectorConfigs": [
+                            "windows_defender_atp"
+                        ],
+                        "connectorId": "e85407b7-91f0-4019-8fa4-0d29bca741d5",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_domain_devices",
+                        "id": "4",
+                        "parameters": {
+                            "domain": "filtered-data:routing_artifacts:condition_2:playbook_input:domain"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "domain"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 320
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter_file_response",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Esnure there are results for get_file_devices"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "get_file_devices:action_result.summary.{summaryVar}",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "devices found",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_file_response",
+                        "id": "5",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 506
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter_domain_response",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Esnure there are results for get_domain_devices"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "get_domain_devices:action_result.summary.{summaryVar}",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "devices found",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "filter_domain_response",
+                        "id": "6",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 506
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report file",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Markdown Report creation"
+                        },
+                        "functionId": 1,
+                        "functionName": "format_report_file",
+                        "id": "7",
+                        "parameters": [
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.parameter.file_hash",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.computerDnsName",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.lastIpAddress",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.osPlatform",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data.*.id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Windows Defender ATP. The table below shows a summary of the information gathered.\n\n| File | Computer | Last IP Address | OS | Defender ATP ID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | Defender ATP |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 686
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report domain",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Markdown Report creation"
+                        },
+                        "functionId": 2,
+                        "functionName": "format_report_domain",
+                        "id": "8",
+                        "parameters": [
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.parameter.domain",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.computerDnsName",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.lastIpAddress",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.osPlatform",
+                            "filtered-data:filter_domain_response:condition_1:get_domain_devices:action_result.data.*.id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Windows Defender ATP. The table below shows a summary of the information gathered.\n\n| Domain | Computer | Last IP Address | OS | Defender ATP ID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | Defender ATP |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 686
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build file output",
+                            "customNameId": 0,
+                            "description": "Iterates through the objects returned by previous actions to create a list of devices, which is then appended to the rest of the Observable object that contains the context for that list",
+                            "join": [],
+                            "note": "Observable object creation"
+                        },
+                        "functionId": 1,
+                        "functionName": "build_file_output",
+                        "id": "9",
+                        "inputParameters": [
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.parameter.file_hash",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.data",
+                            "filtered-data:filter_file_response:condition_1:get_file_devices:action_result.summary.total_devices"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "code",
+                    "userCode": "\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_result_0_parameter_file_hash[0]\n    count = filtered_result_0_summary_total_devices[0]\n    \n    # Build list of device objects\n    \n    for item in filtered_result_0_data:\n        device = item[0]\n        device_filtered = {\n            \"name\": device['computerDnsName'],\n            \"id\": device['id'],\n            \"ip_address\": device['lastIpAddress'],\n            \"operating_system\": device['osPlatform']\n        }\n        device_list.append(device_filtered)\n        \n    # Build observable object\n    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": count,\n        \"source\": \"Defender ATP\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 864
+                }
+            },
+            "notes": "Inputs: file_hash, domain\nInteractions: Windows Defender ATP\nActions: get file devices, get domain devices\nOutputs: observable, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "sha1"
+                ],
+                "description": "A SHA1 file hash to search for in your Windows Defender ATP protected environment.",
+                "name": "file_hash"
+            },
+            {
+                "contains": [
+                    "domain"
+                ],
+                "description": "A domain name to search for in your Windows Defender ATP protected environment.",
+                "name": "domain"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_file_output:custom_function:observable_array",
+                    "build_domain_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries ",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_report_file:formatted_data",
+                    "format_report_domain:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of markdown reports",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-05-04T19:16:35.185480+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "identifier_activity",
+        "file_hash",
+        "domain",
+        "windows_defender_atp",
+        "D3-IAA"
+    ]
+}
