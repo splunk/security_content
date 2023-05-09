@@ -1,5 +1,0 @@
-case_sensitive_match: 'false'
-description: A list of dynammic dns providers that can be modified
-filename: dynamic_dns_providers_local.csv
-match_type: WILDCARD(dynamic_dns_domains)
-name: dynamic_dns_providers_local

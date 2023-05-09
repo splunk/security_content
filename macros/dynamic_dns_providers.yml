@@ -1,8 +1,3 @@
-definition: lookup update=true dynamic_dns_providers_default dynamic_dns_domains as
-  query OUTPUTNEW isDynDNS_default | lookup update=true dynamic_dns_providers_local
-  dynamic_dns_domains as query OUTPUTNEW isDynDNS_local| eval isDynDNS = coalesce(isDynDNS_default,
-  isDynDNS_local)|fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
+definition: search query = *
 description: This macro limits the output of the query field to dynamic dns domains.
-  It looks up the domains in a file provided by Splunk and one intended to be updated
-  by the end user.
 name: dynamic_dns_providers
