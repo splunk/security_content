@@ -19,15 +19,10 @@ search: '| tstats `security_content_summariesonly` count values(Processes.dest) 
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts and populating the `Endpoint` data
   model with the resultant dataset. The macro `filter_rare_process_allow_list` searches
-  two lookup files for allowed processes.  These consist of `rare_process_allow_list_default.csv`
-  and `rare_process_allow_list_local.csv`. To add your own processes to the allow
-  list, add them to `rare_process_allow_list_local.csv`. If you wish to remove an
-  entry from the default lookup file, you will have to modify the macro itself to
-  set the allow_list value for that process to false. You can modify the limit parameter
+  two lookup files for allowed processes. You can modify the limit parameter
   and search scheduling to better suit your environment.
 known_false_positives: Some legitimate processes may be only rarely executed in your
-  environment. As these are identified, update `rare_process_allow_list_local.csv`
-  to filter them out of your search results.
+  environment. As these are identified, update `filter_rare_process_allow_list` to filter out false positives.
 references: []
 tags:
   analytic_story:

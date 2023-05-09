@@ -1,5 +1,0 @@
-case_sensitive_match: 'false'
-description: A list of processes that are not common
-filename: uncommon_processes_default.csv
-match_type: WILDCARD(process)
-name: lookup_uncommon_processes_default
