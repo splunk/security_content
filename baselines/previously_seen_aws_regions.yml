@@ -10,7 +10,7 @@ description: This search looks for CloudTrail events where an AWS instance is st
   we've seen this region in our dataset grouped by the value awsRegion for the last
   30 days
 search: '`cloudtrail` StartInstances | stats earliest(_time) as earliest latest(_time)
-  as latest by awsRegion | outputlookup previously_seen_aws_regions.csv | stats count'
+  as latest by awsRegion | outputlookup previously_seen_aws_regions | stats count'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs.
