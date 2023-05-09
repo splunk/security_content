@@ -1,3 +1,5 @@
 description: A placeholder for a list of AWS accounts and assumed roles
-filename: previously_seen_aws_cross_account_activity.csv
+collection: previously_seen_aws_cross_account_activity
 name: previously_seen_aws_cross_account_activity
+fields_list: _key,firstTime,lastTime,requestingAccountId,requestedAccountId
+

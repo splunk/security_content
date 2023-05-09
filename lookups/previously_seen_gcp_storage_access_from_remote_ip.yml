@@ -1,5 +1,4 @@
-default_match: 'false'
 description: A place holder for a list of GCP storage access from remote IPs
-filename: previously_seen_gcp_storage_access_from_remote_ip.csv
-min_matches: 1
+collection: previously_seen_gcp_storage_access_from_remote_ip
 name: previously_seen_gcp_storage_access_from_remote_ip
+fields_list: _key, firstTime, lastTime, bucket_name, remote_ip, operation, request_uri 

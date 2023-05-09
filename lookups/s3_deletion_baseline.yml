@@ -1,3 +1,5 @@
 description: A placeholder for the baseline information for AWS S3 deletions
-filename: s3_deletion_baseline.csv
+collection: s3_deletion_baseline
 name: s3_deletion_baseline
+fields_list: _key, arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls
+
