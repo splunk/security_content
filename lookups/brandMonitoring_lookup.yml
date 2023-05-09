@@ -1,7 +1,5 @@
-default_match: 'false'
 description: A file that contains look-a-like domains for brands that you want to
   monitor
-filename: brand_monitoring.csv
-match_type: WILDCARD(domain)
-min_matches: 1
+collection: brand_monitoring
 name: brandMonitoring_lookup
+fields_list: _key, domain, domain_abuse

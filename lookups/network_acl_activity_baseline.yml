@@ -2,3 +2,5 @@ description: A lookup file that will contain the baseline information for number
   AWS Network ACL Activity
 collection: network_acl_activity_baseline
 name: network_acl_activity_baseline
+fields_list: _key, arn,latestCount,numDataPoints,avgApiCalls,stdevApiCalls
+
