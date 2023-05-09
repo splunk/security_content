@@ -1,3 +1,3 @@
-definition: (process_name=*)
+definition: search process_name=*
 description: Add rare process names to this macro that are allowed in your organization
 name: filter_rare_process_allow_list
