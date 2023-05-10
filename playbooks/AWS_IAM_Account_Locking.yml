@@ -1,0 +1,24 @@
+name: AWS IAM Account Locking
+id: f15e4ab7-b057-4225-86ae-c36ab78b50f2
+version: 1
+date: '2023-05-08'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: "Accepts user, to be disabled using AWS IAM connector. This playbook produces a normalized observables output for each user and device."
+playbook: AWS_IAM_Account_Locking
+how_to_implement: This input playbook requires the AWS IAM connector to be configured. 
+  It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - AWS IAM API
+tags:
+  platform_tags:
+    - user
+    - aws_iam
+    - D3-AL
+    - disable_account
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
