@@ -19,6 +19,7 @@ references:
 tags:
   analytic_story:
   - BlackLotus Campaign
+  - Windows BootKits
   asset_type: Endpoint
   atomic_guid: []
   confidence: 90
