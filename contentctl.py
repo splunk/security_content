@@ -312,8 +312,6 @@ def convert(args) -> None:
         data_model = SigmaConverterTarget.RAW
     elif args.data_model == 'ocsf':
         data_model = SigmaConverterTarget.OCSF
-    elif args.data_model == 'all':
-        data_model = SigmaConverterTarget.ALL
     else:
         print("ERROR: data model " + args.data_model + " not supported")
         sys.exit(1)
@@ -323,8 +321,7 @@ def convert(args) -> None:
         detection_path = args.detection_path,
         detection_folder = args.detection_folder, 
         input_path = args.path,
-        log_source = args.log_source,
-        cim_to_ocsf = args.cim_to_ocsf
+        log_source = args.log_source
     )
 
     convert_input_dto = ConvertInputDto(
@@ -414,7 +411,6 @@ def main(args):
     convert_parser.add_argument("-lo", "--log_source", required=False, type=str, help="converter log source")
     convert_parser.add_argument("-dp", "--detection_path", required=False, type=str, help="path to a single detection")
     convert_parser.add_argument("-df", "--detection_folder", required=False, type=str, help="path to a detection folder")
-    convert_parser.add_argument("-cto", "--cim_to_ocsf", action=argparse.BooleanOptionalAction, help="temp: cim to ocsf")
     convert_parser.add_argument("-o", "--output", required=True, type=str, help="output path to store the detections")
     convert_parser.set_defaults(func=convert)
 

@@ -11,11 +11,11 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name|re: mpcmdrun.exe
+    process.file.name|re: mpcmdrun.exe
   selection2:
-    process_path|re: \\windows defender
+    process.file.path|re: \\windows defender
   selection3:
-    process_path|re: \\microsoft\\windows defender\\platform
+    process.file.path|re: \\microsoft\\windows defender\\platform
   condition: selection1 and not selection2 and not selection3
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: False positives may be present and filtering may be required.
@@ -33,24 +33,10 @@ tags:
   mitre_attack_id:
   - T1036
   - T1036.003
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - dest_device_id
-  - process_name
-  - _time
-  - dest_user_id
-  - process_path
-  - process
+  required_fields: []
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 56
