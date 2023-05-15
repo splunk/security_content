@@ -327,6 +327,24 @@
 		  "`process_netsh`"
 		],
 		"description": "netsh macro"
+	  },
+
+	  "date version": {
+		"prefix": "date version",
+		"body": [
+		  "version: 4",
+		  "date: '2023-04-27'",
+		],
+		"description": "date version"
+	  },
+
+	  "time": {
+		"prefix": "time",
+		"body": [
+		  "| `security_content_ctime(firstTime)`",
+		  "| `security_content_ctime(lastTime)`",
+		],
+		"description": "time"
 	  }
 	  
 }
