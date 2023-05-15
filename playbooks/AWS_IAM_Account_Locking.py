@@ -106,16 +106,16 @@ def username_observables(action=None, success=None, container=None, results=None
     
     for access_key, usrname, creds, req_id, msg, status in zip(disable_user_account_parameter_disable_access_keys, disable_user_account_parameter_username, disable_user_account_parameter_credentials, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):
         user_acc_status = {
-            "account_type": "AWS IAM Account",
-            "user": usrname,
+            "type": "AWS IAM Account",
+            "value": usrname,
             "credentials": creds,
             "request_id": req_id,
-            "disable_message": msg,
-            "disable_status": status
+            "message": msg,
+            "status": status
         }
 
-    username_observables__observable_array.append(user_acc_status)
-    #phantom.debug(username_observables__observable_array)
+        username_observables__observable_array.append(user_acc_status)
+        #phantom.debug(username_observables__observable_array)
     ################################################################################
     ## Custom Code End
     ################################################################################

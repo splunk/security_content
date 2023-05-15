@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -1.2789769243681803e-13
+                    "y": -1.9184653865522705e-13
                 },
                 "1": {
                     "data": {
@@ -203,7 +203,7 @@
                     "errors": {},
                     "id": "6",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for access_key, usrname, creds, req_id, msg, status in zip(disable_user_account_parameter_disable_access_keys, disable_user_account_parameter_username, disable_user_account_parameter_credentials, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):\n        user_acc_status = {\n            \"account_type\": \"AWS IAM Account\",\n            \"user\": usrname,\n            \"credentials\": creds,\n            \"request_id\": req_id,\n            \"disable_message\": msg,\n            \"disable_status\": status\n        }\n\n    username_observables__observable_array.append(user_acc_status)\n    #phantom.debug(username_observables__observable_array)\n",
+                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for access_key, usrname, creds, req_id, msg, status in zip(disable_user_account_parameter_disable_access_keys, disable_user_account_parameter_username, disable_user_account_parameter_credentials, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):\n        user_acc_status = {\n            \"type\": \"AWS IAM Account\",\n            \"value\": usrname,\n            \"credentials\": creds,\n            \"request_id\": req_id,\n            \"message\": msg,\n            \"status\": status\n        }\n\n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
                     "warnings": {},
                     "x": 0,
                     "y": 680
@@ -273,7 +273,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-05-08T15:56:32.456950+00:00",
+    "create_time": "2023-05-15T10:08:37.823546+00:00",
     "draft_mode": false,
     "labels": [
         "*"
