@@ -9,7 +9,7 @@ data_source:
 - Sysmon Event ID 1
 description: The following analytic is designed to detect instances where the PaperCutNG application (pc-app.exe) spawns a Windows shell, specifically cmd.exe or PowerShell. This behavior may indicate potential malicious activity, such as an attacker attempting to gain unauthorized access or execute harmful commands on the affected system.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=pc-app.exe `process_cmd` OR `process_powershell`
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=pc-app.exe `process_cmd` OR `process_powershell` OR Processes.process_name=java.exe
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_papercutng_spawn_shell_filter`'

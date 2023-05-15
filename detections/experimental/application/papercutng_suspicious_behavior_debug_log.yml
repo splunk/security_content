@@ -3,7 +3,7 @@ id: 395163b8-689b-444b-86c7-9fe9ad624734
 version: 1
 date: '2023-05-15'
 author: Michael Haag, Splunk
-status: production
+status: experimental
 type: Hunting
 data_source: []
 description: The following hunting analytic is designed to monitor and detect potential exploitation attempts targeting a PaperCutNG server by analyzing its debug log data. By focusing on public IP addresses accessing the PaperCutNG instance, this analytic aims to identify unauthorized or suspicious access attempts. Furthermore, it searches for specific URIs that have been discovered in the proof of concept code, which are associated with known exploits or vulnerabilities. The analytic is focused on the user admin. Regex is used mainly because the log is not parsed by Splunk and there is no TA for this debug log.

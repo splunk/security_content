@@ -53,5 +53,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/papercutng-suricata.log
-    source: stash
-    sourcetype: stash
+    source: suricata
+    sourcetype: suricata
