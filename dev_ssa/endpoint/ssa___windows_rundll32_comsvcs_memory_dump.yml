@@ -12,10 +12,10 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process|re: minidump
-    process_name: 'rundll32.exe'
+    process.cmd_line|re: minidump
+    process.file.name: rundll32.exe
   selection2:
-    process|re: comsvcs.dll
+    process.cmd_line|re: comsvcs.dll
   condition: selection1 and selection2
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including Windows command line logging. You can see how we test this with [Event
@@ -37,23 +37,10 @@ tags:
   mitre_attack_id:
   - T1003.003
   - T1003
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Actor
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - process_name
-  - _tenant
-  - _time
-  - dest_device_id
-  - process
+  required_fields: []
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 40
