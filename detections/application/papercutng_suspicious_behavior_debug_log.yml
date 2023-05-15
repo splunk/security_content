@@ -54,5 +54,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/server.log
-    source: stash
-    sourcetype: stash
+    source: papercutng
+    sourcetype: papercutng
