@@ -25,7 +25,7 @@ references:
   - https://www.huntress.com/blog/critical-vulnerabilities-in-papercut-print-management-software
 tags:
   analytic_story:
-  - PaperCutNG MF NG Vulnerability
+  - PaperCut MF NG Vulnerability
   asset_type: Web Server
   atomic_guid: []
   confidence: 80

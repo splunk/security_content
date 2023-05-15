@@ -20,7 +20,7 @@ references:
   - https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
 tags:
   analytic_story:
-  - PaperCutNG MF NG Vulnerability
+  - PaperCut MF NG Vulnerability
   asset_type: Endpoint
   atomic_guid: []
   confidence: 90
