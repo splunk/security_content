@@ -54,11 +54,6 @@ setup_schema = {
                     "app_version": "1.0.4",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/add-on-for-linux-sysmon_104.tgz",
                 },
-                "SPLUNK_TA_FIX_WINDOWS": {
-                    "app_number": 9999,
-                    "app_version": "1.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/Splunk_TA_fix_windows.tgz",
-                },
                 "SPLUNK_TA_FOR_IIS": {
                     "app_number": 3185,
                     "app_version": "1.2.0",
@@ -124,11 +119,6 @@ setup_schema = {
                     "app_version": "8.1.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz",
                 },
-                "SPLUNK_COMMON_INFORMATION_MODEL": {
-                    "app_number": 1621,
-                    "app_version": "5.1.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_510.tgz",
-                },
                 "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
                     "app_number": 2890,
                     "app_version": "5.4.0",
@@ -164,6 +154,16 @@ setup_schema = {
                     "app_version": "2.4.1",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_241.tgz",
                 },
+                "SPLUNK_TA_FOR_SURICATA": {
+                    "app_number": 2760,
+                    "app_version": "2.3.3",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-suricata_234.tgz",
+                },
+                "SPLUNK_COMMON_INFORMATION_MODEL": {
+                    "app_number": 1621,
+                    "app_version": "5.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_510.tgz",
+                }
             },
         },
         "mode": {
