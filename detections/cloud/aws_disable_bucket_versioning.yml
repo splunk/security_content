@@ -6,7 +6,7 @@ author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
 data_source: []
-description: This searach looks for Cloudtrail events where bucket versioning is suspended by a user. Versioning allows the AWS Administrators to maintain different version of the S3 bucket which can be used to recover deleted data. Adversaries are seen to perform this activity during a ransomware incident in AWS. 
+description: The following analytic detects AWS cloudtrail events where bucket versioning is suspended by a user. Versioning allows the AWS Administrators to maintain different version of the S3 bucket which can be used to recover deleted data. Adversaries have leveraged this technique in the wild during a ransomware incident to disable versioning so the client cannot recover the data.
 search: '`cloudtrail` eventName= PutBucketVersioning "requestParameters.VersioningConfiguration.Status"=Suspended 
 |  stats count values(requestParameters.bucketName) as bucket_name values(resources{}.ARN) as resource_arn by src_ip aws_account_id awsRegion eventName userAgent user_arn userIdentity.principalId  errorCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `aws_disable_bucket_versioning_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This

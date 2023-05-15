@@ -6,7 +6,7 @@ author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
 data_source: []
-description: This search uses built in  Splunk command `| anomalydetection` to detect anomalies with respect to users making high number of GetObject API calls to download objects from S3 by a user within 10 minutes of time window. The field `probable_cause` is the name of the field that best explains why the event is anomalous. This command identifies anomalous events by computing a probability for each GetObject event by "count" "user_type" "user_arn" and detects anomaly based on the frequencies.  
+description: This search uses built in  Splunk command `| anomalydetection` to detect anomalies with respect to users making high number of GetObject API calls to download objects from S3 in a 10 minute time window. The field `probable_cause` is the name of the field that best explains why the event is anomalous. This command identifies anomalous events by computing a probability for each GetObject event by "count" "user_type" "user_arn" and detects anomaly based on the frequencies.  
 search: '`cloudtrail` eventName=GetObject | bin _time span=10m |  stats count values(requestParameters.bucketName) as bucketName by _time src_ip aws_account_id user_type user_arn userIdentity.principalId
 | anomalydetection "count" "user_type" "user_arn" action=annotate | search probable_cause=* |`aws_exfiltration_via_anomalous_getobject_api_activity_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
