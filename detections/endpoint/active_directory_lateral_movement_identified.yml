@@ -39,6 +39,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - All_Risk.calculated_risk_score
+  - All_Risk.annotations.mitre_attack.mitre_tactic_id
+  - All_Risk.annotations.mitre_attack.mitre_technique_id
+  - All_Risk.tag
+  - All_Risk.analyticstories
+  - All_Risk.risk_object_type
+  - All_Risk.risk_object
+  - All_Risk.annotations.mitre_attack.mitre_tactic
   risk_score: 64
   security_domain: endpoint
 tests:
