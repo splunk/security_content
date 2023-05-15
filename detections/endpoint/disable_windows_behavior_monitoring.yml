@@ -1,7 +1,7 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
-version: 3
-date: '2023-04-25'
+version: 4
+date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -10,11 +10,7 @@ description: This search is to identifies a modification in registry to disable 
   seen in RAT, bot, or Trojan to disable AV to evade detections.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
-  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
-  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
-  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time
   Protection\\DisableBehaviorMonitoring" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows
   Defender\\Real-Time Protection\\DisableOnAccessProtection" OR Registry.registry_path=
@@ -25,9 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime
   Protection\\DisableIOAVProtection" OR Registry.registry_path= "*\\Real-Time Protection\\DisableScriptScanning"
   AND Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime
-  dest user parent_process_name parent_process process_name process_path process registry_key_name
-  registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
+  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_windows_behavior_monitoring_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -62,15 +56,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.user
-  - Processes.dest
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_path
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
   - Registry.registry_key_name
