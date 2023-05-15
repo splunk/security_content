@@ -101,8 +101,8 @@ def username_observables(action=None, success=None, container=None, results=None
     
     for user_id, status, msg in zip(disable_user_account_parameter_user_id, disable_user_account_result_item_1, disable_user_account_result_message):
         user_acc_status = {
-            "account_type": "Azure AD Account",
-            "user": user_id,
+            "type": "Azure AD Account",
+            "value": user_id,
             "message": msg,
             "status": status
         }

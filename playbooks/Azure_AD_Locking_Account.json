@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "29d9b93910aa11e2067d4aba25b0bf98bbe04b63",
+            "hash": "5c2ddae1fabc493f701b82c48c16d90f0be4c732",
             "nodes": {
                 "0": {
                     "data": {
@@ -193,7 +193,7 @@
                     "errors": {},
                     "id": "4",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user_id, status, msg in zip(disable_user_account_parameter_user_id, disable_user_account_result_item_1, disable_user_account_result_message):\n        user_acc_status = {\n            \"account_type\": \"Azure AD Account\",\n            \"user\": user_id,\n            \"message\": msg,\n            \"status\": status\n        }\n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
+                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user_id, status, msg in zip(disable_user_account_parameter_user_id, disable_user_account_result_item_1, disable_user_account_result_message):\n        user_acc_status = {\n            \"type\": \"Azure AD Account\",\n            \"value\": user_id,\n            \"message\": msg,\n            \"status\": status\n        }\n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
                     "warnings": {},
                     "x": 0,
                     "y": 680
@@ -263,7 +263,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-05-15T09:45:08.733731+00:00",
+    "create_time": "2023-05-15T10:08:21.105360+00:00",
     "draft_mode": false,
     "labels": [
         "*"
