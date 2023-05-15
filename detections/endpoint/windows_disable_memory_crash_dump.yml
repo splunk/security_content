@@ -1,7 +1,7 @@
 name: Windows Disable Memory Crash Dump
 id: 59e54602-9680-11ec-a8a6-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2023-04-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -18,14 +18,9 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   AND Registry.registry_value_data="0x00000000" by _time span=1h Registry.dest Registry.user
   Registry.registry_path Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid Registry.registry_key_name  | `drop_dm_object_name(Registry)`
-  |join process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  Processes.parent_process_name Processes.parent_process Processes.process_guid |
-  `drop_dm_object_name(Processes)`  | fields _time dest user parent_process_name parent_process
-  process_name process_path process process_guid registry_path registry_value_name
-  registry_value_data registry_key_name] | table _time dest user parent_process_name
-  parent_process process_name process_path process process_guid registry_path registry_value_name
-  registry_value_data registry_key_name | `windows_disable_memory_crash_dump_filter`'
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_disable_memory_crash_dump_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` and `Registry`
@@ -70,19 +65,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Filesystem.file_create_time
-  - Filesystem.process_id
-  - Filesystem.file_name
-  - Filesystem.user
-  - Filesystem.file_path
-  - Filesystem.dest
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.dest
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_guid
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
   risk_score: 90
   security_domain: endpoint
 tests:
