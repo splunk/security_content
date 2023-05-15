@@ -103,11 +103,11 @@ def username_observables(action=None, success=None, container=None, results=None
         user_acc_status = {
             "account_type": "Azure AD Account",
             "user": user_id,
-            "disable_message": msg,
-            "disable_status": status
+            "message": msg,
+            "status": status
         }
-    username_observables__observable_array.append(user_acc_status)
-    #phantom.debug(username_observables__observable_array)
+        username_observables__observable_array.append(user_acc_status)
+        #phantom.debug(username_observables__observable_array)
     ################################################################################
     ## Custom Code End
     ################################################################################

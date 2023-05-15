@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "b96df0d674917e6a8082cd6c447eeeaaf80330a6",
+            "hash": "29d9b93910aa11e2067d4aba25b0bf98bbe04b63",
             "nodes": {
                 "0": {
                     "data": {
@@ -67,8 +67,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 20,
-                    "y": 0
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -83,7 +83,7 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 20,
+                    "x": 19.999999999999986,
                     "y": 860
                 },
                 "2": {
@@ -193,7 +193,7 @@
                     "errors": {},
                     "id": "4",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user_id, status, msg in zip(disable_user_account_parameter_user_id, disable_user_account_result_item_1, disable_user_account_result_message):\n        user_acc_status = {\n            \"account_type\": \"Azure AD Account\",\n            \"user\": user_id,\n            \"disable_message\": msg,\n            \"disable_status\": status\n        }\n    username_observables__observable_array.append(user_acc_status)\n    #phantom.debug(username_observables__observable_array)\n",
+                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user_id, status, msg in zip(disable_user_account_parameter_user_id, disable_user_account_result_item_1, disable_user_account_result_message):\n        user_acc_status = {\n            \"account_type\": \"Azure AD Account\",\n            \"user\": user_id,\n            \"message\": msg,\n            \"status\": status\n        }\n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
                     "warnings": {},
                     "x": 0,
                     "y": 680
@@ -263,7 +263,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-05-08T15:56:10.320874+00:00",
+    "create_time": "2023-05-15T09:45:08.733731+00:00",
     "draft_mode": false,
     "labels": [
         "*"
