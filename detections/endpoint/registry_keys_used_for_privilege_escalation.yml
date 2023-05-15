@@ -1,7 +1,7 @@
 name: Registry Keys Used For Privilege Escalation
 id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
-version: 6
-date: '2023-04-14'
+version: 7
+date: '2023-04-27'
 author: Steven Dick, David Dorsey, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -11,18 +11,11 @@ description: This search looks for modifications to registry keys that can be us
   to benign system binaries.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
-  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
-  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
-  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE ((Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
   Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger))
   BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`]
-  | fields firstTime lastTime dest user parent_process_name parent_process process_name
-  process_path process registry_key_name registry_path registry_value_name registry_value_data
-  process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `registry_keys_used_for_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -63,15 +56,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.user
-  - Processes.dest
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_path
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
   - Registry.registry_key_name
