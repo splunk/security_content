@@ -1,0 +1,60 @@
+name: AWS Exfiltration via Anomalous GetObject API Activity
+id: e4384bbf-5835-4831-8d85-694de6ad2cc6
+version: 1
+date: '2023-04-10'
+author: Bhavin Patel, Splunk
+status: production
+type: Anomaly
+data_source: []
+description: This search uses built in  Splunk command `| anomalydetection` to detect anomalies with respect to users making high number of GetObject API calls to download objects from S3 in a 10 minute time window. The field `probable_cause` is the name of the field that best explains why the event is anomalous. This command identifies anomalous events by computing a probability for each GetObject event by "count" "user_type" "user_arn" and detects anomaly based on the frequencies.  
+search: '`cloudtrail` eventName=GetObject | bin _time span=10m |  stats count values(requestParameters.bucketName) as bucketName by _time src_ip aws_account_id user_type user_arn userIdentity.principalId
+| anomalydetection "count" "user_type" "user_arn" action=annotate | search probable_cause=* |`aws_exfiltration_via_anomalous_getobject_api_activity_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+known_false_positives: It is possible that a user downloaded these files to use them locally and there are AWS services in configured that perform these activities for a legitimate reason. Filter is needed. 
+references:
+- https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+- https://docs.splunk.com/Documentation/Splunk/9.0.4/SearchReference/Anomalydetection
+- https://www.vectra.ai/blogpost/abusing-the-replicator-silently-exfiltrating-data-with-the-aws-s3-replication-service
+tags:
+  analytic_story:
+  - Data Exfiltration
+  asset_type: AWS Account
+  confidence: 80
+  impact: 80
+  message: Anomalous S3 activities detected by user $user_arn$ from $src_ip$
+  mitre_attack_id:
+  - T1119
+  observable:
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: aws_account_id
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - user_arn
+  - src_ip
+  - aws_account_id
+  - userAgent
+  - userIdentity.principalId
+  risk_score: 64
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true
