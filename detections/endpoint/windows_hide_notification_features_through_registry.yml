@@ -1,7 +1,7 @@
 name: Windows Hide Notification Features Through Registry
 id: cafa4bce-9f06-11ec-a7b2-acde48001122
-version: 2
-date: '2022-11-14'
+version: 3
+date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -13,19 +13,12 @@ description: This analytic is to detect a suspicious registry modification to hi
   In this scenario filter is needed.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
-  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
-  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
-  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
   Registry.registry_value_name IN ("HideClock", "HideSCAHealth", "HideSCANetwork",
   "HideSCAPower", "HideSCAVolume") Registry.registry_value_data = "0x00000001") BY
   _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`]
-  | fields firstTime lastTime dest user parent_process_name parent_process process_name
-  process_path process registry_key_name registry_path registry_value_name registry_value_data
-  process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_hide_notification_features_through_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -56,15 +49,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.user
-  - Processes.dest
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_path
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_guid
   - Registry.dest
   - Registry.registry_value_name
   - Registry.registry_key_name
