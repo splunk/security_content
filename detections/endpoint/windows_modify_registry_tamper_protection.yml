@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - RedLine Stealer
   asset_type: Endpoint
+  atomic_guid: 12e03af7-79f9-4f95-af48-d3f12f28a260
   confidence: 70
   impact: 70
   message: A registry modification to tamper Windows Defender protection on $dest$

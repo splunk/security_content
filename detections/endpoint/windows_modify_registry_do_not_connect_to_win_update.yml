@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - RedLine Stealer
   asset_type: Endpoint
+  atomic_guid: 12e03af7-79f9-4f95-af48-d3f12f28a260
   confidence: 50
   impact: 50
   message: a registry modification in Windows auto update configuration in $dest$
