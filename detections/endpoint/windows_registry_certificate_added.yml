@@ -1,10 +1,10 @@
 name: Windows Registry Certificate Added
 id: 5ee98b2f-8b9e-457a-8bdc-dd41aaba9e87
-version: 1
-date: '2022-03-31'
+version: 2
+date: '2023-04-27'
 author: Michael Haag, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: The following analytic identifies installation of a root CA certificate
   by monitoring the registry. The base paths may be found [here](https://gist.github.com/mattifestation/75d6117707bcf8c26845b3cbb6ad2b6b/raw/ae65ef15c706140ffc2e165615204e20f2903028/RootCAInstallationDetection.xml).
   In short, there are specific certificate registry paths that will be written to
@@ -20,11 +20,10 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   where Registry.registry_path IN ("*\\certificates\\*") AND Registry.registry_value_name="Blob"
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
   Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
-  `drop_dm_object_name(Registry)` | join process_guid _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes by _time span=1h Processes.process_id Processes.process_name
-  Processes.process Processes.dest Processes.process_guid | `drop_dm_object_name(Processes)`]
-  | table _time dest user process_name process process_guid registry_path registry_value_name
-  registry_value_data registry_key_name | `windows_registry_certificate_added_filter`'
+  `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_registry_certificate_added_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` node.
@@ -62,11 +61,6 @@ tags:
   - Registry.registry_key_name
   - Registry.registry_value_name
   - Registry.dest
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.dest
-  - Processes.process_guid
   risk_score: 42
   security_domain: endpoint
 tests:
