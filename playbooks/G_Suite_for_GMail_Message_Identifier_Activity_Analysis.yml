@@ -1,0 +1,22 @@
+name: G Suite for GMail Message Identifier Activity Analysis
+id: 5299d6dd-e9c4-4afa-b051-928ace0ff816d
+version: 1
+date: '2023-05-12'
+author: Lou Stella, Splunk
+type: Investigation
+description: "Accepts an internet message id, and asks Gmail for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table."
+playbook: G_Suite_for_GMail_Message_Identifier_Acitivity_Analysis
+how_to_implement: This input playbook requires the G Suite for GMail connector to be configured. It is designed to work in environments that posess a maximum of 500 mailboxes at this time, due to a limitation in the G Suite for GMail connector. 
+references: []
+app_list: 
+  - G Suite for GMail
+tags:
+  platform_tags:
+    - message_identifier_activity 
+    - internet_message_id
+    - gsuite_for_gmail
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR

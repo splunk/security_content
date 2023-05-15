@@ -1,0 +1,417 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Message Identifier Activity Analysis",
+    "coa": {
+        "data": {
+            "description": "Accepts an internet message id, and asks Gmail for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_1",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_5_to_port_9",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_9_to_port_6",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                }
+            ],
+            "hash": "8fd552239267a9cf26722affc06b22927bb5db1a",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 1240
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "artifact check",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.id",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Artifact Exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "artifact_check",
+                        "id": "2",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "decision",
+                    "warnings": {},
+                    "x": 80,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "artifact filter",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:message_id",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Input Valid",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "artifact_filter",
+                        "id": "3",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 60,
+                    "y": 328
+                },
+                "4": {
+                    "data": {
+                        "action": "list users",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get mailboxes",
+                            "customNameId": 0,
+                            "description": "Required step in order to search \"All\" of a Gsuite organization. This receives a list of mailboxes that are passed to the next action.",
+                            "join": [],
+                            "note": "Gets a list of mailboxes from GMail to search"
+                        },
+                        "connector": "G Suite for GMail",
+                        "connectorConfigs": [
+                            "g_suite_for_gmail"
+                        ],
+                        "connectorId": "9c73f233-2c4a-406a-855e-41d8d2497d0e",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_mailboxes",
+                        "id": "4",
+                        "parameters": {
+                            "max_items": "500",
+                            "page_token": ""
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 508
+                },
+                "5": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "search mailboxes",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Searches mailboxes returned by the previous action for messages with an internet message ID matching the input"
+                        },
+                        "connector": "G Suite for GMail",
+                        "connectorConfigs": [
+                            "g_suite_for_gmail"
+                        ],
+                        "connectorId": "9c73f233-2c4a-406a-855e-41d8d2497d0e",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "search_mailboxes",
+                        "id": "5",
+                        "parameters": {
+                            "email": "get_mailboxes:action_result.data.*.emails.*.address",
+                            "internet_message_id": "filtered-data:artifact_filter:condition_1:playbook_input:message_id",
+                            "label": "Inbox",
+                            "max_results": 100,
+                            "query": "is:unread"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "email"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "Inbox",
+                                "field": "label"
+                            },
+                            {
+                                "data_type": "numeric",
+                                "default": 100,
+                                "field": "max_results"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 620
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format message report",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Format the markdown table summary of this playbook execution"
+                        },
+                        "functionId": 1,
+                        "functionName": "format_message_report",
+                        "id": "6",
+                        "parameters": [
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.parameter.internet_message_id",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.delivered_to",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.to",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.subject",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.from"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using GSuite for GMail. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 920
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build message output",
+                            "customNameId": 0,
+                            "description": "Logic regarding observable construction goes here",
+                            "join": [],
+                            "note": "Format the observable output object produced by this playbook"
+                        },
+                        "functionId": 1,
+                        "functionName": "build_message_output",
+                        "id": "7",
+                        "inputParameters": [
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.parameter.internet_message_id",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.delivered_to",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.to",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.subject",
+                            "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.from"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "code",
+                    "userCode": "\n    # Variable renaming for convenince\n    messageID = filtered_result_0_parameter_internet_message_id\n    recipients = filtered_result_0_data___delivered_to\n    addressees = filtered_result_0_data___to\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___from\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    # construct iterables for records\n    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n        record = {\n            \"recipient\": recipient,\n            \"addressee\": addressee,\n            \"subject\": subject,\n            \"sender\": sender\n        }\n        recordList.append(record)\n        \n    # Create observable body\n    observable = {\n        \"value\": messageID,\n        \"type\": \"internet message ID\",\n        \"count\": len(recordList),\n        \"source\": \"GSuite for GMail\",\n        \"message_identifier_activity\": recordList\n    }\n    \n    build_message_output__observable_array.append(observable)\n    \n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1040
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "results filter",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "search_mailboxes:action_result.summary.{summaryVar}",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Results found",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "results_filter",
+                        "id": "9",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 720
+                }
+            },
+            "notes": "Inputs: internet message id\nInteractions: GSuite For GMail\nActions: get users, run query\nOutputs: observable, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "internet message id"
+                ],
+                "description": "An Internet Message ID to look for within a GMail environment",
+                "name": "message_id"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_message_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of Observable objects ",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_message_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of markdown reports",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-05-15T00:27:51.969603+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "message_identifier_activity",
+        "internet_message_id",
+        "gsuite_for_gmail"
+    ]
+}
