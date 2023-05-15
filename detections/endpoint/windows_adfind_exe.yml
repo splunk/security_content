@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, and command-line executions from your endpoints. If
   you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: ADfind is a legitimate tool for AD administration and management. Filter out legitimate admin usage using the macro.
+known_false_positives: ADfind is a command-line tool for AD administration and management that is seen to be leveraged by various adversaries. Filter out legitimate administrator usage using the filter macro.
 references:
 - https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/
 - https://www.mandiant.com/resources/a-nasty-trick-from-credential-theft-malware-to-business-disruption
