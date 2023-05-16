@@ -1,0 +1,38 @@
+name: Azure Active Directory Privilege Escalation
+id: ec78e872-b79c-417d-b256-8fde902522fb
+version: 1
+date: '2023-04-24'
+author: Mauricio Velazco, Splunk
+description: Monitor for activities and techniques associated with Privilege Escalation
+  attacks within Azure Active Directory tenants.
+narrative: Privilege Escalation consists of techniques that adversaries use to gain higher-level permissions on a system or network. 
+  Adversaries can often enter and explore a network with unprivileged access but require elevated permissions to follow through on their objectives. 
+  Common approaches are to take advantage of system weaknesses, misconfigurations or vulnerabilities.\
+
+  Azure Active Directory (Azure AD) is Microsofts enterprise cloud-based identity and access management (IAM) service. Azure AD is the backbone of most of Azure
+  services like Office 365 and Microsoft Teams. It can sync with on-premise Active Directory environments and provide authentication to other cloud-based systems via the OAuth protocol. 
+  According to Microsoft, Azure AD manages more than 1.2 billion identities and processes over 8 billion authentications per day.\
+
+  Privilege escalation attacks in Azure AD typically involve abusing  misconfigurations to gain elevated privileges,
+  such as Global Administrator access. Once an attacker has escalated their privileges and taken full control of a tenant, they may abuse every service that leverages Azure AD including
+  moving laterally to Azure virtual machines to access sensitive data and carry out further attacks. Security teams should monitor for 
+  privilege escalation attacks in Azure Active Directory to identify breaches before attackers achieve operational success.\
+   
+  The following analytic story groups detection opportunities that seek to identify an adversary attempting to escalate privileges in Azure AD tenants.
+references:
+- https://attack.mitre.org/tactics/TA0003/
+- https://cloudbrothers.info/en/azure-attack-paths/
+- https://microsoft.github.io/Azure-Threat-Research-Matrix/PrivilegeEscalation/PrivEsc/
+- https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
+tags:
+  analytic_story: Azure Active Directory Privilege Escalation
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Cloud Security
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
