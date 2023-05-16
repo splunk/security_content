@@ -3,7 +3,7 @@ id: 65615b3a-62ea-4d65-bb9f-6f07c17df4ea
 version: 1
 date: '2023-05-03'
 author: Michael Haag, Splunk
-status: production
+status: experimental
 type: Hunting
 data_source:
   - Sysmon Event ID 1
