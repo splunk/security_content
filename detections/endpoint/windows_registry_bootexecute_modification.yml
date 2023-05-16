@@ -51,6 +51,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/bootexecute-windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/bootexecute-windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
