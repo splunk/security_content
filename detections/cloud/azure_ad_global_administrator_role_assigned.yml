@@ -1,6 +1,6 @@
 name: Azure AD Global Administrator Role Assigned
 id: 825fed20-309d-4fd1-8aaf-cd49c1bb093c
-version: 1
+version: 2
 date: '2022-08-17'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
@@ -12,7 +12,7 @@ description: The following analytic identifies the assignment of the Azure AD Gl
   in an Active Directory environment. While Azure AD roles do not grant access to
   Azure services and resources, it is possible for a Global Administrator account
   to gain control of Azure resources. Adversaries and red teams alike may assign this
-  role to a compromised account to establish Persistence in an Azure AD environment.
+  role to a compromised account to establish Persistence or escalate their privileges in an Azure AD environment.
 data_source: []
 search: '`azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Global
   Administrator\"" | rename body.properties.* as * | rename targetResources{}.userPrincipalName
@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
+  - Azure Active Directory Privilege Escalation
   asset_type: Azure Active Directory
   confidence: 90
   impact: 80
