@@ -1,0 +1,56 @@
+name: Windows Registry BootExecute Modification
+id: eabbac3a-45aa-4659-920f-6b8cff383fb8
+version: 1
+date: '2023-05-03'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 13
+description: This analytic monitors the BootExecute registry key for any modifications from its default value, which could indicate potential malicious activity. The BootExecute registry key, located at HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager, manages the list of applications and services that are executed during system boot. By default, the BootExecute value is set to "autocheck autochk *". Attackers might attempt to modify this value to achieve persistence, load malicious code, or tamper with the system's boot process.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE Registry.registry_path="HKLM\\System\\CurrentControlSet\\Control\\Session Manager\\BootExecute" BY _time span=1h Registry.dest Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid, Registry.action
+  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_registry_bootexecute_modification_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on Windows Registry that include the name of the path and key responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: False positives may be present and will need to be filtered.
+references:
+  - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
+tags:
+  analytic_story:
+  - Windows BootKits
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 100
+  impact: 100
+  message: The Registry BootExecute value was modified on $dest$ and should be reviewed immediately.
+  mitre_attack_id:
+  - T1542
+  - T1547.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 100
+  required_fields:
+  - _time
+  - Registry.dest 
+  - Registry.registry_path 
+  - Registry.registry_key_name
+  - Registry.registry_value_name 
+  - Registry.registry_value_data 
+  - Registry.process_guid
+  - Registry.action
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/bootexecute-windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
