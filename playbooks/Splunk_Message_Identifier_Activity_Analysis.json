@@ -1,0 +1,406 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Message Identifier Activity Analysis",
+    "coa": {
+        "data": {
+            "description": "Accepts an internet message id, and asks Splunk \n to look for records that have a matching internet message id.  It then produces a normalized output and summary table.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_3_to_port_5",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_6",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_1",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_6_to_port_9",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_9_to_port_7",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                }
+            ],
+            "hash": "2300cf9478d779f27f57247e8fd3ad913e31d940",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 1370
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.id",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "artifact exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "decision_1",
+                        "id": "2",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "decision",
+                    "warnings": {},
+                    "x": 80,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Ensure there is an input"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:message_id",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Input Valid",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "3",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 60,
+                    "y": 328
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format message query",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "construct Splunk query with substitution of input"
+                        },
+                        "functionId": 1,
+                        "functionName": "format_message_query",
+                        "id": "5",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:message_id"
+                        ],
+                        "template": "summariesonly=false count from datamodel=Email.All_Email where All_Email.message_id=\"{0}\" by All_Email.orig_recipient, All_Email.recipient, All_Email.src_user, All_Email.subject\n| `drop_dm_object_name(\"All_Email\")`\n| rename orig_recipient as Addressee, recipient as Recipient, src_user as Sender, subject as Subject\n| fields Addressee, Recipient, Sender, Subject\n| fillnull value=\"Unknown\"",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 508
+                },
+                "6": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run message query",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Run Splunk query created in prior block"
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_message_query",
+                        "id": "6",
+                        "parameters": {
+                            "command": "tstats",
+                            "display": "Addressee,Recipient,Sender,Subject",
+                            "query": "format_message_query:formatted_data",
+                            "search_mode": "smart"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "search",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "smart",
+                                "field": "search_mode"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 656
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format message report",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Format the markdown table summary of this playbook execution"
+                        },
+                        "functionId": 2,
+                        "functionName": "format_message_report",
+                        "id": "7",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:message_id",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Recipient",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Addressee",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Subject",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Sender"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk's Email datamodel. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1014
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build message output",
+                            "customNameId": 0,
+                            "description": "Logic regarding observable construction goes here",
+                            "join": [],
+                            "note": "Format the observable output object produced by this playbook"
+                        },
+                        "functionId": 1,
+                        "functionName": "build_message_output",
+                        "id": "8",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:message_id",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Recipient",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Addressee",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Subject",
+                            "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Sender"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "code",
+                    "userCode": "\n    # Variable renames for convenience\n    message_id = filtered_input_0_message_id_values\n    recipients = filtered_result_0_data___recipient\n    addressees = filtered_result_0_data___addressee\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___sender\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    # unwind records\n    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n        record = {\n            \"recipient\": recipient,\n            \"addressee\": addressee,\n            \"subject\": subject,\n            \"sender\": sender\n        }\n        recordList.append(record)\n        \n    observable = {\n        \"value\": message_id,\n        \"type\": \"internet message ID\",\n        \"count\": len(recordList),\n        \"source\": \"Splunk\",\n        \"message_identifier_activity\": recordList\n    }\n\n    build_message_output__observable_array.append(observable)\n    \n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1192
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Results filter",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Ensure there are results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_message_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Results exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "results_filter",
+                        "id": "9",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 834
+                }
+            },
+            "notes": "Inputs: internet message id\nInteractions: Splunk\nActions: run query\nOutputs: observable, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "internet message id"
+                ],
+                "description": "An Internet Message ID to look for within message logs in Splunk",
+                "name": "message_id"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_message_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of Observable objects ",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_message_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of markdown reports",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-05-16T15:09:58.373153+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "message_identifier_activity",
+        "internet_message_id",
+        "splunk"
+    ]
+}
