@@ -16,7 +16,7 @@ description: The following analytic is designed to detect anomalous behavior ass
   This analytic monitors network connections made by Winlogon.exe and triggers an alert if it detects connections to public IP space. By identifying such anomalous behavior, security analysts can investigate further and respond swiftly to potential threats.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN (winlogon.exe)  Processes.process!=unknown
-   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
