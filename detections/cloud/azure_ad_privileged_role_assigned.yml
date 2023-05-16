@@ -10,13 +10,15 @@ description: The following analytic identifies the assignment of sensitive and p
   may assign these roles to a compromised account to establish Persistence in an Azure
   AD environment.
 data_source: []
-search: ' `azuread` "body.operationName"="Add member to role" | rename body.properties.*
-  as * | rename targetResources{}.userPrincipalName as userPrincipalName | rename
-  initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.modifiedProperties{}.newValue
-  as roles | eval role=mvindex(roles,1) | lookup privileged_azure_ad_roles azureadrole
-  AS role OUTPUT isprvilegedadrole description | search isprvilegedadrole = True |
-  stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName,
-  role, description | `azure_ad_privileged_role_assigned_filter`'
+search: ' `azuread` "body.operationName"="Add member to role" | rename body.properties.*  as * 
+  | rename targetResources{}.userPrincipalName as userPrincipalName 
+  | rename initiatedBy.user.userPrincipalName as initiatedBy 
+  | rename targetResources{}.modifiedProperties{}.newValue  as roles 
+  | eval role=mvindex(roles,1) 
+  | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
+  | search isprvilegedadrole = True
+  | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName, role, description 
+  | `azure_ad_privileged_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
