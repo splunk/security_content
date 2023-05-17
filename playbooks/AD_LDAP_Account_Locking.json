@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "9e264b4abd2e3c0730a58dd66c6ef88d9b2453af",
+            "hash": "72ad15672d3cf1771ebfdc9e96898699c0cad98a",
             "nodes": {
                 "0": {
                     "data": {
@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -6.394884621840902e-14
+                    "y": -1.2789769243681803e-13
                 },
                 "1": {
                     "data": {
@@ -199,7 +199,7 @@
                     "errors": {},
                     "id": "4",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user, sam_account, user_dn, status, msg, prev_status in zip(disable_user_account_parameter_user, disable_user_account_parameter_use_samaccountname, disable_user_account_result_item_2, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):\n        user_acc_status = {\n            \"type\": \"Microsoft AD LDAP Account\",\n            \"value\": user,\n            \"previous_status\": prev_status,\n            \"sam_account\": sam_account,\n            \"user_dn\": user_dn,\n            \"message\": msg,\n            \"status\": status\n        }\n        \n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
+                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user, sam_account, user_dn, status, msg, prev_status in zip(disable_user_account_parameter_user, disable_user_account_parameter_use_samaccountname, disable_user_account_result_item_2, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):\n        user_acc_status = {\n            \"type\": \"Microsoft AD LDAP Account\",\n            \"value\": user,\n            \"message\": msg,\n            \"status\": status\n        }\n        \n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
                     "warnings": {},
                     "x": 0,
                     "y": 686
@@ -269,7 +269,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-05-15T10:29:31.917563+00:00",
+    "create_time": "2023-05-17T08:33:58.151614+00:00",
     "draft_mode": false,
     "labels": [
         "*"

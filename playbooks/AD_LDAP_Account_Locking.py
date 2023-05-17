@@ -107,9 +107,6 @@ def username_observables(action=None, success=None, container=None, results=None
         user_acc_status = {
             "type": "Microsoft AD LDAP Account",
             "value": user,
-            "previous_status": prev_status,
-            "sam_account": sam_account,
-            "user_dn": user_dn,
             "message": msg,
             "status": status
         }
