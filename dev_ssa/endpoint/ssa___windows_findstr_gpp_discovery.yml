@@ -13,10 +13,10 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name:
+    process.file.name:
     - findstr.exe
-    process|contains: sysvol
-    process|contains: cpassword
+    process.cmd_line|contains: sysvol
+    process.cmd_line|contains: cpassword
   condition: selection1 
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -61,5 +61,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-    source: WinEventLog:Security
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/findstr_gpp_discovery/windows-4688.log
+    source: XmlWinEventLog
