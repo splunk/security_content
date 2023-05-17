@@ -14,6 +14,7 @@ how_to_implement: You must install splunk AWS add on and Splunk App for AWS. Thi
 known_false_positives: It is possible that an AWS Administrator has legitimately disabled versioning on certain buckets to avoid costs.
 references:
 - https://invictus-ir.medium.com/ransomware-in-the-cloud-7f14805bbe82
+- https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
 tags:
   analytic_story:
   - Suspicious AWS S3 Activities
