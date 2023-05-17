@@ -13,13 +13,13 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name:
+    process.file.name:
     - mmc.exe
-    process|contains: gpme.msc
+    process.cmd_line|contains: gpme.msc
   selection2:
-    process|contains: 31B2F340-016D-11D2-945F-00C04FB984F9
+    process.cmd_line|contains: 31B2F340-016D-11D2-945F-00C04FB984F9
   selection3:
-    process|contains: 6AC1786C-016F-11D2-945F-00C04fB984F9
+    process.cmd_line|contains: 6AC1786C-016F-11D2-945F-00C04fB984F9
   condition: selection1 or selection2 or selection3
 how_to_implement:  To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -68,5 +68,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-    source: WinEventLog:Security
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/security-4688.log
+    source: XmlWinEventLog

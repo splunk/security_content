@@ -10,13 +10,11 @@ description: The following analytic identifies the use of the Invoke-ShareFinder
   like backups, scripts, credentials, etc. Adversaries who have obtained a foothold in an AD network may leverage PowerView to identify secrets and leverage them 
   for Privilege Escalation or Lateral Movement.
 data_source:
-- Windows Security 4104
+- Powershell 4104
 search:
   selection1:
-    process|contains: '4194304'
-  selection2:
-    process|re: Invoke-ShareFinder
-  condition: selection1 and selection2 
+    process.cmd_line|re: 'invoke-sharefinder'
+  condition: selection1
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -60,7 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-    source: WinEventLog
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
     update_timestamp: true

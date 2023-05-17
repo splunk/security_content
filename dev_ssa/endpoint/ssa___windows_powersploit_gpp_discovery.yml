@@ -10,15 +10,11 @@ description: The following analytic identifies the use of the Get-GPPPassword Po
   These group policies are stored in SYSVOL on a domain controller. This means that any domain user can view the SYSVOL share and decrypt the password (using the AES key that has been made public).
   While Microsoft released a patch that impedes Administrators to create unsecure credentials, existing Group Policy Preferences files with passwords are not removed from SYSVOL.
 data_source:
-- Windows Security 4104
+- Powershell 4104
 search:
   selection1:
-    process|contains: '4194304'
-  selection2:
-    process|re: Get-GPPPassword
-  selection3:
-  process|re: Get-CachedGPPPassword
-  condition: selection1 and selection2 or selection3
+    process.cmd_line|re: 'get-gpppassword'
+  condition: selection1
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -65,7 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-    source: WinEventLog
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
+    source: XmlWinEventLog
+    sourcetype: XmlWinEventLog
     update_timestamp: true

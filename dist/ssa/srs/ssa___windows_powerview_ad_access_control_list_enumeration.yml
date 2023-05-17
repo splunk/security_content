@@ -1,0 +1,109 @@
+name: Windows PowerView AD Access Control List Enumeration
+id: 2b301d6c-0527-4dbd-8d2d-5345bc4be0cf
+version: 1
+description: The following analytic leverages Event ID 4104 to identify the execution
+  of the PowerView powershell commandlets `Get-ObjectAcl` or `Get-DomainObjectAcl`.
+  This commandlets are used to enumerate Access Control List permissions given to
+  Active Directory objects. In an active directory environment, an object is an entity
+  that represents an available resource within the organizations network, such as
+  domain controllers, users, groups, computers, shares, etc.  Maintaining Active Directory
+  permissions is complicated and hard to manage, especially in complex and large environments
+  with multiple domains. Weak permissions may allow adversaries and red teamers to
+  escalate their privileges in Active Directory. PowerView is a common tool leveraged
+  by attackers to identify and exploit configuration weaknesses.
+search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
+  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
+  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
+  device=ucast(map_get(input_event,"device"), "map<string, any>", null) | eval device_hostname=ucast(map_get(device,"hostname"),
+  "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
+  any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
+  null) | eval process_file_path=ucast(map_get(process_file,"path"), "string", null)
+  | eval process_uid=ucast(map_get(process,"uid"), "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"),
+  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
+  null) | eval actor_user=ucast(map_get(actor,"user"), "map<string, any>", null) |
+  eval actor_user_uid=ucast(map_get(actor_user,"uid"), "string", null) | where match_regex(process_cmd_line,
+  /(?i)get-objectacl/)=true OR match_regex(process_cmd_line, /(?i)get-domainobjectacl/)=true
+  
+  | eval body=create_map(
+    "devices", [
+        create_map(
+            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
+        )
+    ],
+    "time", timestamp,
+    "evidence", create_map("device.hostname", device_hostname, "process.file.path", process_file_path, "process.uid", process_uid, "process.cmd_line", process_cmd_line, "actor.user.uid", actor_user_uid),
+    "message", concat("Windows PowerView AD Access Control List Enumeration has been triggered on ", device_hostname, " by ", "Unknown", "."),
+    "users", [
+        create_map(
+            "name", "Unknown", "uid", ucast(map_get(actor_user,"uid"), "string", null)
+        )
+    ],
+    "activity_id", 1,
+    "category_uid", 2,
+    "class_uid", 102001,
+    "risk_level_id", 1,
+    "risk_score", 20,
+    "severity_id", 0,
+    "rule", create_map("name", "Windows PowerView AD Access Control List Enumeration", "uid", "2b301d6c-0527-4dbd-8d2d-5345bc4be0cf", "type", "Streaming"),
+    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
+    "type_uid", 10200101,
+    "start_time", timestamp,
+    "end_time", timestamp
+  )
+  | into write_ba_finding_events();'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators may leverage PowerView for legitimate purposes,
+  filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1078/002/
+- https://medium.com/r3d-buck3t/enumerating-access-controls-in-active-directory-c06e2efa8b89
+- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainObjectAcl/
+tags:
+  required_fields:
+  - device.hostname
+  - process.file.path
+  - process.uid
+  - process.cmd_line
+  - actor.user.uid
+  risk_score: 20
+  security_domain: endpoint
+  risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/2b301d6c-0527-4dbd-8d2d-5345bc4be0cf/
+  event_schema: ocsf
+  mappings:
+  - ocsf: device.hostname
+    cim: dest
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.uid
+    cim: process_id
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: actor.user.uid
+    cim: user_id
+  annotations:
+    analytic_story:
+    - Active Directory Privilege Escalation
+    cis20:
+    - CIS 10
+    kill_chain_phases:
+    - Exploitation
+    - Delivery
+    - Installation
+    mitre_attack_id:
+    - T1078.002
+    - T1069
+    nist:
+    - DE.CM
+test:
+  name: Windows PowerView AD Access Control List Enumeration Unit Test
+  tests:
+  - name: Windows PowerView AD Access Control List Enumeration
+    attack_data:
+    - file_name: windows-powershell.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/powerview_acl_enumeration/windows-powershell.log
+      source: XmlWinEventLog
+runtime: SPL-DSP
