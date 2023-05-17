@@ -108,8 +108,6 @@ def username_observables(action=None, success=None, container=None, results=None
         user_acc_status = {
             "type": "AWS IAM Account",
             "value": usrname,
-            "credentials": creds,
-            "request_id": req_id,
             "message": msg,
             "status": status
         }
