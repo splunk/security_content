@@ -201,11 +201,11 @@ def merge_reports(action=None, success=None, container=None, results=None, handl
     # Merge markdown outputs from dispatched playbooks
     ################################################################################
 
-    template = """%%\n{0}\n\n%%"""
+    template = """%%\n{0}\n\n\n%%"""
 
     # parameter list for template variable replacement
     parameters = [
-        "filtered-data:markdown_filter:condition_1:dispatch_activity_analysis_playbooks:playbook_output:{outputPath}"
+        "filtered-data:markdown_filter:condition_1:dispatch_activity_analysis_playbooks:playbook_output:markdown_report"
     ]
 
     ################################################################################

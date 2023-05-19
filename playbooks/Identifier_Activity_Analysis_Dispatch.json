@@ -107,7 +107,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "0f8bdd2e4ac47ac1e8f90ba38d41508686ba9d2e",
+            "hash": "420742e453b73f08fcf67587b7e96d27210e00df",
             "nodes": {
                 "0": {
                     "data": {
@@ -123,7 +123,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 300,
-                    "y": -3.197442310920451e-13
+                    "y": -4.476419235288631e-13
                 },
                 "1": {
                     "data": {
@@ -154,9 +154,9 @@
                         "functionName": "merge_reports",
                         "id": "10",
                         "parameters": [
-                            "filtered-data:markdown_filter:condition_1:dispatch_activity_analysis_playbooks:playbook_output:{outputPath}"
+                            "filtered-data:markdown_filter:condition_1:dispatch_activity_analysis_playbooks:playbook_output:markdown_report"
                         ],
-                        "template": "%%\n{0}\n\n%%",
+                        "template": "%%\n{0}\n\n\n%%",
                         "type": "format"
                     },
                     "errors": {},
@@ -674,7 +674,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-14T16:52:38.752503+00:00",
+    "create_time": "2023-05-19T13:56:00.984330+00:00",
     "draft_mode": false,
     "labels": [
         "*"
