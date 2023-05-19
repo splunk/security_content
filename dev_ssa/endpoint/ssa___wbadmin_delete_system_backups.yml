@@ -12,9 +12,9 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name: wbadmin.exe
+    process.file.name: wbadmin.exe
   selection2:
-    process|contains:
+    process.cmd_line|contains:
     - systemstatebackup
     - catalog
     - delete
@@ -40,34 +40,10 @@ tags:
     backups.
   mitre_attack_id:
   - T1490
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 15
