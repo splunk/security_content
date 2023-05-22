@@ -1,0 +1,19 @@
+name: URL Outbound Traffic Filtering Dispatch
+id: 83bbe505-4636-4f60-a37b-86f1234d8567
+version: 1
+date: '2023-05-22'
+author: Patrick Bareiss, Splunk
+type: Investigation
+description: Accepts a list of URLs and blocks them. Generates a global report and list of observables.
+playbook: URL_Outbound_Traffic_Filtering_Dispatch
+how_to_implement: This input playbook requires the Splunk connector to be configured. It is designed to work in conjunction with the Dynamic Related Tickets Seach playbook or other playbooks in the same style. 
+references:
+  - https://d3fend.mitre.org/technique/d3f:OutboundTrafficFiltering/
+app_list: []
+tags:
+  platform_tags: []
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
