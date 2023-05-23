@@ -1,0 +1,81 @@
+name: ASL AWS CreateAccessKey
+id: ccb3e4af-23d6-407f-9842-a26212816c9e
+version: 1
+date: '2022-05-23'
+author: Patrick Bareiss, Splunk
+status: experimental
+type: Hunting
+description: This search looks for AWS CloudTrail events where a user A who has already
+  permission to create access keys, makes an API call to create access keys for another
+  user B. Attackers have been know to use this technique for Privilege Escalation
+  in case new victim(user B) has more permissions than old victim(user B)
+data_source: []
+search: '`amazon_security_lake` operation=CreateAccessKey http_request.user_agent!=console.amazonaws.com api.response.error=null
+  | rename unmapped{}.key as unmapped_key , unmapped{}.value as unmapped_value
+  | eval keyjoin=mvzip(unmapped_key,unmapped_value)
+  | mvexpand keyjoin
+  | rex field=keyjoin "^(?<key>[^,]+),(?<value>.*)$"
+  | eval {key} = value
+  | search responseElements.accessKey.userName = *
+  | rename identity.user.name as identity_user_name, responseElements.accessKey.userName as responseElements_accessKey_userName
+  | eval match=if(identity_user_name=responseElements_accessKey_userName,1,0)
+  | search match=0
+  | rename identity_user_name as identity.user.name , responseElements_accessKey_userName as responseElements.accessKey.userName
+  | stats count min(_time) as firstTime max(_time) as lastTime by responseElements.accessKey.userName 
+  api.operation api.service.name identity.user.account_uid identity.user.credential_uid identity.user.name 
+  identity.user.type identity.user.uid identity.user.uuid http_request.user_agent src_endpoint.ip 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  |`asl_aws_createaccesskey_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with Amazon Security Lake logs.
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has legitimately created keys for another user.
+references:
+- https://bishopfox.com/blog/privilege-escalation-in-aws
+- https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+tags:
+  analytic_story:
+  - AWS IAM Privilege Escalation
+  asset_type: AWS Account
+  confidence: 90
+  impact: 70
+  message: User $responseElements.accessKey.userName$ is attempting to create access keys for $responseElements.accessKey.userName$
+    from this IP $src_endpoint.ip$
+  mitre_attack_id:
+  - T078
+  observable:
+  - name: src_endpoint.ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: identity.user.name
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.service.name
+  - api.operation
+  - identity.user.account_uid
+  - identity.user.credential_uid
+  - identity.user.name
+  - identity.user.type
+  - identity.user.uid
+  - identity.user.uuid
+  - http_request.user_agent
+  - src_endpoint.ip
+  - unmapped{}.key
+  - unmapped{}.value
+  risk_score: 63
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/amazon_security_lake.json
+    sourcetype: aws:asl
+    source: aws_asl
+    update_timestamp: true
