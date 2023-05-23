@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | where source_count >= 4 
-  | `active_directory_lateral_movement_identified_filter`'
+  | `active_directory_privilege_escalation_identified_filter`'
 how_to_implement: Splunk Enterprise Security is required to utilize this correlation. In addition, modify the source_count value to your environment. In our testing, a count of 4 or 5 was decent in a lab, but the number may need to be increased as the analytic story includes over 30 analytics. In addition, based on false positives, modify any analytics to be anomaly and lower or increase risk based on organization importance.
 known_false_positives: False positives will most likely be present based on risk scoring and how the organization handles system to system communication. Filter, or modify as needed. In addition to count by analytics, adding a risk score may be useful. In our testing, with 22 events over 30 days, the risk scores ranged from 500 to 80,000. Your organization will be different, monitor and modify as needed.
 references:
@@ -29,7 +29,7 @@ tags:
   impact: 80
   message: Activity related to privilege escalation has been identified on $risk_object$.
   mitre_attack_id:
-  - T1210
+  - T1484
   observable:
   - name: risk_object
     type: Hostname
@@ -53,6 +53,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1218/living_off_the_land/adlm_risk.log
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1484/privesc/priv_esc.log
     source: adlm
     sourcetype: stash
