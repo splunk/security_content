@@ -1,13 +1,11 @@
----
 name: Detect DNS Data Exfiltration using pretrained model in DSDL
-id: 92f65c3a-968c-11ed-a1eb-0242ac120002
+id: 92f65c3a-968c-11ed-a1eb-0242ac120012
 version: 1
-date: 2023-04-27
+date: '2023-04-27'
 status: experimental
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
-datamodel:
-  - Network_Resolution
+data_source: []
 description: The following analytic uses a pre trained deep learning model to
   detect DNS data exfiltration. The model is trained on the data we collected
   and is inferred on live data. This detection detects low throughput DNS
@@ -31,7 +29,7 @@ search: '| tstats `security_content_summariesonly` count from
   `security_content_ctime(_time)`| rename src as "Source IP" _time as "time" |
   table "Source IP","time","query","is_exfiltration_score","is_exfiltration" |
   `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl_filter`'
-how_to_implement: >-
+how_to_implement:
   Steps to deploy detect DNS data exfiltration model into Splunk
   App DSDL. This detection depends on the Splunk app for Data Science and Deep
   Learning which can be found here - https://splunkbase.splunk.com/app/4607/ and
@@ -68,25 +66,11 @@ tags:
     - Suspicious DNS Traffic
     - Command and Control
   asset_type: Endpoint
-  cis20:
-    - CIS 8
-    - CIS 12
-    - CIS 13
   confidence: 90
-  context:
-    - Source:Endpoint
-    - Stage:Command And Control
   impact: 50
-  kill_chain_phases:
-    - Command & Control
   message: A DNS data exfiltration request was sent by this host $src$ , kindly review.
   mitre_attack_id:
     - T1048.003
-  nist:
-    - PR.DS
-    - PR.PT
-    - DE.AE
-    - DE.CM
   observable:
     - name: query
       type: Other
