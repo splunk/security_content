@@ -29,6 +29,7 @@ references:
 - https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstring?view=net-5.0
 - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
+- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
   - Winter Vivern
@@ -37,6 +38,7 @@ tags:
   - Malicious PowerShell
   - HAFNIUM Group
   - Data Destruction
+  - IcedID
   asset_type: Endpoint
   confidence: 70
   impact: 80

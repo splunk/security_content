@@ -7,13 +7,13 @@ status: production
 type: TTP
 description: The following analytic identifies executable files (.exe or .dll) being
   written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents
-  suspicious behavior as its commonly used by tools like like PsExec/PaExec and others
+  suspicious behavior as its commonly used by tools like PsExec/PaExec and others
   to stage service binaries before creating and starting a Windows service on remote
   endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral
   movement and remote code execution. The Trickbot malware family also implements
   this behavior to try to infect other machines in the infected network.
 data_source:
-- Sysmon Event ID 5
+- - Windows Security 5145
 search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll")
   Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
   "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode
@@ -30,6 +30,7 @@ references:
 - https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
+- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
   - Industroyer2
@@ -38,6 +39,7 @@ tags:
   - Trickbot
   - Prestige Ransomware
   - Data Destruction
+  - IcedID
   asset_type: Endpoint
   confidence: 100
   impact: 70

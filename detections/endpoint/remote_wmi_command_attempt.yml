@@ -27,10 +27,12 @@ known_false_positives: Administrators may use this legitimately to gather info f
   remote systems. Filter as needed.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.yaml
+- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
   - Suspicious WMI Use
   - Living Off The Land
+  - IcedID
   asset_type: Endpoint
   confidence: 60
   impact: 60

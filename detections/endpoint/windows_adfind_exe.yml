@@ -26,10 +26,12 @@ references:
 - https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/
 - https://www.mandiant.com/resources/a-nasty-trick-from-credential-theft-malware-to-business-disruption
 - https://www.joeware.net/freetools/tools/adfind/index.htm
+- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
   - NOBELIUM Group
   - Domain Trust Discovery
+  - IcedID
   asset_type: Endpoint
   confidence: 50
   impact: 50

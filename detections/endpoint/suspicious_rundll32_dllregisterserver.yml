@@ -40,6 +40,7 @@ tags:
   analytic_story:
   - Suspicious Rundll32 Activity
   - Living Off The Land
+  - IcedID
   asset_type: Endpoint
   confidence: 50
   impact: 70
