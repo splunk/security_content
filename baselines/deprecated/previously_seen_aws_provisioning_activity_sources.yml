@@ -10,7 +10,7 @@ description: This search builds a table of the first and last times seen for eve
   activity. This is broadly defined as any event that runs or creates something.
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
   | stats earliest(_time) as firstTime, latest(_time) as lastTime by sourceIPAddress,
-  City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
+  City, Region, Country | outputlookup previously_seen_provisioning_activity_src
   | stats count'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail

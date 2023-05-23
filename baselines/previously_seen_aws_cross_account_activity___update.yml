@@ -20,8 +20,7 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
 how_to_implement: You must install and configure the Splunk Add-on for AWS (version
   5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
   to the Authentication data model for cloud use cases. Validate the user name entries
-  in `previously_seen_aws_cross_account_activity.csv`, a lookup file created by this
-  support search.
+  in `previously_seen_aws_cross_account_activity` kvstore
 known_false_positives: none
 references: []
 tags:

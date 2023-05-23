@@ -97,9 +97,13 @@ class ObjToConfAdapter(Adapter):
             for file in files:
                 if os.path.isfile(file):
                     shutil.copy(file, os.path.join(output_path, 'lookups'))
+                    
+            files = glob.iglob(os.path.join(self.input_path, 'lookups', '*.mlmodel'))
+            for file in files:
+                if os.path.isfile(file):
+                    shutil.copy(file, os.path.join(output_path, 'lookups'))
 
         elif type == SecurityContentType.macros:
             ConfWriter.writeConfFile('macros.j2', 
                 os.path.join(output_path, 'default/macros.conf'), 
                 objects)
-

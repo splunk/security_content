@@ -1,5 +1,4 @@
-default_match: 'false'
 description: A place holder for a list of used AWS regions
-filename: previously_seen_aws_regions.csv
-min_matches: 1
+collection: previously_seen_aws_regions
 name: previously_seen_aws_regions
+fields_list: _key,earliest,latest,awsRegion
