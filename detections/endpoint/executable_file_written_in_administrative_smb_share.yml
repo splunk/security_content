@@ -13,7 +13,7 @@ description: The following analytic identifies executable files (.exe or .dll) b
   movement and remote code execution. The Trickbot malware family also implements
   this behavior to try to infect other machines in the infected network.
 data_source:
-- - Windows Security 5145
+- Windows Security 5145
 search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll")
   Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
   "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode
