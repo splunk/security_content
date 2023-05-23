@@ -7,25 +7,6 @@
             "description": "Accepts an internet message id, and asks Gmail for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table.",
             "edges": [
                 {
-                    "id": "port_0_to_port_2",
-                    "sourceNode": "0",
-                    "sourcePort": "0_out",
-                    "targetNode": "2",
-                    "targetPort": "2_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_2_to_port_3",
-                    "sourceNode": "2",
-                    "sourcePort": "2_out",
-                    "targetNode": "3",
-                    "targetPort": "3_in"
-                },
-                {
                     "conditions": [
                         {
                             "index": 0
@@ -66,6 +47,13 @@
                     "targetPort": "9_in"
                 },
                 {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
                     "conditions": [
                         {
                             "index": 0
@@ -78,7 +66,7 @@
                     "targetPort": "6_in"
                 }
             ],
-            "hash": "8fd552239267a9cf26722affc06b22927bb5db1a",
+            "hash": "4c7de1b968ebd883893943258b5cb5d7d415341f",
             "nodes": {
                 "0": {
                     "data": {
@@ -93,8 +81,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 19.999999999999986,
-                    "y": -6.394884621840902e-14
+                    "x": 20,
+                    "y": 0
                 },
                 "1": {
                     "data": {
@@ -109,51 +97,16 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 19.999999999999986,
-                    "y": 1240
-                },
-                "2": {
-                    "data": {
-                        "advanced": {
-                            "customName": "artifact check",
-                            "customNameId": 0,
-                            "join": []
-                        },
-                        "conditions": [
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "artifact:*.id",
-                                        "value": "None"
-                                    }
-                                ],
-                                "conditionIndex": 0,
-                                "customName": "Artifact Exists",
-                                "display": "If",
-                                "logic": "and",
-                                "type": "if"
-                            }
-                        ],
-                        "functionId": 1,
-                        "functionName": "artifact_check",
-                        "id": "2",
-                        "type": "decision"
-                    },
-                    "errors": {},
-                    "id": "2",
-                    "type": "decision",
-                    "warnings": {},
-                    "x": 80,
-                    "y": 148
+                    "x": 20,
+                    "y": 1220
                 },
                 "3": {
                     "data": {
                         "advanced": {
                             "customName": "artifact filter",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "note": "Ensure we have an input"
                         },
                         "conditions": [
                             {
@@ -184,7 +137,7 @@
                         ]
                     },
                     "x": 60,
-                    "y": 328
+                    "y": 148
                 },
                 "4": {
                     "data": {
@@ -218,7 +171,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 0,
-                    "y": 508
+                    "y": 328
                 },
                 "5": {
                     "data": {
@@ -244,7 +197,7 @@
                             "internet_message_id": "filtered-data:artifact_filter:condition_1:playbook_input:message_id",
                             "label": "Inbox",
                             "max_results": 100,
-                            "query": "is:unread"
+                            "query": ""
                         },
                         "requiredParameters": [
                             {
@@ -269,7 +222,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 0,
-                    "y": 620
+                    "y": 506
                 },
                 "6": {
                     "data": {
@@ -295,9 +248,10 @@
                     "errors": {},
                     "id": "6",
                     "type": "format",
+                    "userCode": "    \n    \n",
                     "warnings": {},
                     "x": 0,
-                    "y": 920
+                    "y": 864
                 },
                 "7": {
                     "data": {
@@ -329,22 +283,30 @@
                     "userCode": "\n    # Variable renaming for convenince\n    messageID = filtered_result_0_parameter_internet_message_id\n    recipients = filtered_result_0_data___delivered_to\n    addressees = filtered_result_0_data___to\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___from\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    # construct iterables for records\n    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n        record = {\n            \"recipient\": recipient,\n            \"addressee\": addressee,\n            \"subject\": subject,\n            \"sender\": sender\n        }\n        recordList.append(record)\n        \n    # Create observable body\n    observable = {\n        \"value\": messageID,\n        \"type\": \"internet message ID\",\n        \"count\": len(recordList),\n        \"source\": \"GSuite for GMail\",\n        \"message_identifier_activity\": recordList\n    }\n    \n    build_message_output__observable_array.append(observable)\n    \n\n",
                     "warnings": {},
                     "x": 0,
-                    "y": 1040
+                    "y": 1042
                 },
                 "9": {
                     "data": {
                         "advanced": {
                             "customName": "results filter",
                             "customNameId": 0,
-                            "join": []
+                            "description": "Filter results from mailbox search",
+                            "join": [],
+                            "note": "Remove mailboxes that couldn't be searched or where no results were found"
                         },
                         "conditions": [
                             {
                                 "comparisons": [
                                     {
                                         "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "search_mailboxes:action_result.summary.{summaryVar}",
+                                        "op": "==",
+                                        "param": "search_mailboxes:action_result.status",
+                                        "value": "success"
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "search_mailboxes:action_result.summary.total_messages_returned",
                                         "value": "0"
                                     }
                                 ],
@@ -363,7 +325,7 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 60,
-                    "y": 720
+                    "y": 684
                 }
             },
             "notes": "Inputs: internet message id\nInteractions: GSuite For GMail\nActions: get users, run query\nOutputs: observable, markdown report"
@@ -404,7 +366,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-05-15T00:27:51.969603+00:00",
+    "create_time": "2023-05-23T15:05:26.081875+00:00",
     "draft_mode": false,
     "labels": [
         "*"

@@ -12,29 +12,10 @@ from datetime import datetime, timedelta
 def on_start(container):
     phantom.debug('on_start() called')
 
-    # call 'artifact_check' block
-    artifact_check(container=container)
+    # call 'artifact_filter' block
+    artifact_filter(container=container)
 
     return
-
-@phantom.playbook_block()
-def artifact_check(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("artifact_check() called")
-
-    # check for 'if' condition 1
-    found_match_1 = phantom.decision(
-        container=container,
-        conditions=[
-            ["artifact:*.id", "!=", None]
-        ])
-
-    # call connected blocks if condition 1 matched
-    if found_match_1:
-        artifact_filter(action=action, success=success, container=container, results=results, handle=handle)
-        return
-
-    return
-
 
 @phantom.playbook_block()
 def artifact_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
@@ -106,7 +87,7 @@ def search_mailboxes(action=None, success=None, container=None, results=None, ha
                 parameters.append({
                     "email": get_mailboxes_result_item[0],
                     "label": "Inbox",
-                    "query": "is:unread",
+                    "query": "",
                     "max_results": 100,
                     "internet_message_id": filtered_input_0_message_id_item[0],
                     "context": {'artifact_id': get_mailboxes_result_item[1]},
@@ -145,9 +126,8 @@ def format_message_report(action=None, success=None, container=None, results=Non
     ################################################################################
     ## Custom Code Start
     ################################################################################
-
-    # Write your custom code here...
-
+    
+    
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -226,11 +206,17 @@ def build_message_output(action=None, success=None, container=None, results=None
 def results_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("results_filter() called")
 
+    ################################################################################
+    # Filter results from mailbox search
+    ################################################################################
+
     # collect filtered artifact ids and results for 'if' condition 1
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
+        logical_operator="and",
         conditions=[
-            ["search_mailboxes:action_result.summary.{summaryVar}", "!=", 0]
+            ["search_mailboxes:action_result.status", "==", "success"],
+            ["search_mailboxes:action_result.summary.total_messages_returned", ">", 0]
         ],
         name="results_filter:condition_1")
 
