@@ -7,25 +7,6 @@
             "description": "Accepts an internet message id, and asks Splunk \n to look for records that have a matching internet message id.  It then produces a normalized output and summary table.",
             "edges": [
                 {
-                    "id": "port_0_to_port_2",
-                    "sourceNode": "0",
-                    "sourcePort": "0_out",
-                    "targetNode": "2",
-                    "targetPort": "2_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_2_to_port_3",
-                    "sourceNode": "2",
-                    "sourcePort": "2_out",
-                    "targetNode": "3",
-                    "targetPort": "3_in"
-                },
-                {
                     "conditions": [
                         {
                             "index": 0
@@ -76,6 +57,13 @@
                     "sourcePort": "9_out",
                     "targetNode": "7",
                     "targetPort": "7_in"
+                },
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
                 }
             ],
             "hash": "2300cf9478d779f27f57247e8fd3ad913e31d940",
@@ -110,41 +98,7 @@
                     "type": "end",
                     "warnings": {},
                     "x": 20,
-                    "y": 1370
-                },
-                "2": {
-                    "data": {
-                        "advanced": {
-                            "join": []
-                        },
-                        "conditions": [
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "artifact:*.id",
-                                        "value": "None"
-                                    }
-                                ],
-                                "conditionIndex": 0,
-                                "customName": "artifact exists",
-                                "display": "If",
-                                "logic": "and",
-                                "type": "if"
-                            }
-                        ],
-                        "functionId": 1,
-                        "functionName": "decision_1",
-                        "id": "2",
-                        "type": "decision"
-                    },
-                    "errors": {},
-                    "id": "2",
-                    "type": "decision",
-                    "warnings": {},
-                    "x": 80,
-                    "y": 148
+                    "y": 1220
                 },
                 "3": {
                     "data": {
@@ -183,7 +137,7 @@
                         ]
                     },
                     "x": 60,
-                    "y": 328
+                    "y": 148
                 },
                 "5": {
                     "data": {
@@ -207,7 +161,7 @@
                     "type": "format",
                     "warnings": {},
                     "x": 0,
-                    "y": 508
+                    "y": 328
                 },
                 "6": {
                     "data": {
@@ -257,7 +211,7 @@
                     "type": "action",
                     "warnings": {},
                     "x": 0,
-                    "y": 656
+                    "y": 506
                 },
                 "7": {
                     "data": {
@@ -285,7 +239,7 @@
                     "type": "format",
                     "warnings": {},
                     "x": 0,
-                    "y": 1014
+                    "y": 864
                 },
                 "8": {
                     "data": {
@@ -317,7 +271,7 @@
                     "userCode": "\n    # Variable renames for convenience\n    message_id = filtered_input_0_message_id_values\n    recipients = filtered_result_0_data___recipient\n    addressees = filtered_result_0_data___addressee\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___sender\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    # unwind records\n    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n        record = {\n            \"recipient\": recipient,\n            \"addressee\": addressee,\n            \"subject\": subject,\n            \"sender\": sender\n        }\n        recordList.append(record)\n        \n    observable = {\n        \"value\": message_id,\n        \"type\": \"internet message ID\",\n        \"count\": len(recordList),\n        \"source\": \"Splunk\",\n        \"message_identifier_activity\": recordList\n    }\n\n    build_message_output__observable_array.append(observable)\n    \n",
                     "warnings": {},
                     "x": 0,
-                    "y": 1192
+                    "y": 1042
                 },
                 "9": {
                     "data": {
@@ -352,7 +306,7 @@
                     "type": "filter",
                     "warnings": {},
                     "x": 60,
-                    "y": 834
+                    "y": 684
                 }
             },
             "notes": "Inputs: internet message id\nInteractions: Splunk\nActions: run query\nOutputs: observable, markdown report"
@@ -393,7 +347,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-05-16T15:09:58.373153+00:00",
+    "create_time": "2023-05-23T15:28:27.986655+00:00",
     "draft_mode": false,
     "labels": [
         "*"

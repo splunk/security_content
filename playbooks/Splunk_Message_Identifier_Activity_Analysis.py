@@ -12,29 +12,10 @@ from datetime import datetime, timedelta
 def on_start(container):
     phantom.debug('on_start() called')
 
-    # call 'decision_1' block
-    decision_1(container=container)
+    # call 'input_filter' block
+    input_filter(container=container)
 
     return
-
-@phantom.playbook_block()
-def decision_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("decision_1() called")
-
-    # check for 'if' condition 1
-    found_match_1 = phantom.decision(
-        container=container,
-        conditions=[
-            ["artifact:*.id", "!=", None]
-        ])
-
-    # call connected blocks if condition 1 matched
-    if found_match_1:
-        input_filter(action=action, success=success, container=container, results=results, handle=handle)
-        return
-
-    return
-
 
 @phantom.playbook_block()
 def input_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
@@ -95,10 +76,10 @@ def run_message_query(action=None, success=None, container=None, results=None, h
 
     if format_message_query is not None:
         parameters.append({
-            "command": "tstats",
-            "search_mode": "smart",
             "query": format_message_query,
+            "command": "tstats",
             "display": "Addressee,Recipient,Sender,Subject",
+            "search_mode": "smart",
         })
 
     ################################################################################
