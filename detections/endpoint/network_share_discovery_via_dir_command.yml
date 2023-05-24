@@ -62,6 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share_discovery_via_dir/smbaccess-5140-security-xml2.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share_discovery_via_dir/smb_access_security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
