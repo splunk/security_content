@@ -1,6 +1,6 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-version: 3
+version: 4
 date: '2022-03-01'
 author: Ignacio Bermudez Corrales, Splunk
 status: production
@@ -31,8 +31,9 @@ search:
     actor.process.file.name: chrome.exe
   selection5:
     process.cmd_line: chrome-extension
-  condition: selection1 or (selection2 and not selection3) or (selection4 and not
-    selection5)
+  selection6:
+    process.file.name: cmd.exe
+  condition: ((selection1) or (selection2 and not selection3) or (selection4 and not selection5)) and selection6
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
