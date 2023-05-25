@@ -14,7 +14,7 @@ description: This search looks for processes launching netsh.exe for connection 
   executed. In this search, we are looking for processes spawned by netsh.exe and
   executing commands via the command line.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_netsh` Processes.process = "* portproxy *" Processes.process = "* v4tov4 *" by Processes.parent_process_name Processes.parent_process Processes.original_file_name Processes.process_name Processes.user Processes.dest
+  where `process_netsh` Processes.process = "* portproxy *" Processes.process = "* v4tov4 *" by Processes.parent_process_name Processes.parent_process Processes.original_file_name Processes.process_name Processes.process Processes.user Processes.dest
   |`drop_dm_object_name("Processes")` 
   |`security_content_ctime(firstTime)` 
   |`security_content_ctime(lastTime)` 
