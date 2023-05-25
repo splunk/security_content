@@ -29,7 +29,7 @@ def username_filter(action=None, success=None, container=None, results=None, han
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["playbook_input:user_name", "!=", ""]
+            ["playbook_input:user", "!=", ""]
         ],
         name="username_filter:condition_1")
 
@@ -50,15 +50,15 @@ def disable_user_account(action=None, success=None, container=None, results=None
     # Disable user account from filtered playbook inputs.
     ################################################################################
 
-    playbook_input_user_name = phantom.collect2(container=container, datapath=["playbook_input:user_name"])
+    filtered_input_0_user = phantom.collect2(container=container, datapath=["filtered-data:username_filter:condition_1:playbook_input:user"])
 
     parameters = []
 
     # build parameters list for 'disable_user_account' call
-    for playbook_input_user_name_item in playbook_input_user_name:
-        if playbook_input_user_name_item[0] is not None:
+    for filtered_input_0_user_item in filtered_input_0_user:
+        if filtered_input_0_user_item[0] is not None:
             parameters.append({
-                "user": playbook_input_user_name_item[0],
+                "user": filtered_input_0_user_item[0],
                 "use_samaccountname": True,
             })
 
@@ -85,14 +85,14 @@ def username_observables(action=None, success=None, container=None, results=None
     # Format a normalized output for each user.
     ################################################################################
 
-    disable_user_account_result_data = phantom.collect2(container=container, datapath=["disable_user_account:action_result.parameter.user","disable_user_account:action_result.parameter.use_samaccountname","disable_user_account:action_result.data.*.user_dn","disable_user_account:action_result.status","disable_user_account:action_result.message","disable_user_account:action_result.data.*.starting_status"], action_results=results)
+    filtered_result_0_data_filter_disable_account = phantom.collect2(container=container, datapath=["filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.parameter.user","filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.parameter.use_samaccountname","filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.data.*.user_dn","filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.status","filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.message","filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.data.*.starting_status"])
 
-    disable_user_account_parameter_user = [item[0] for item in disable_user_account_result_data]
-    disable_user_account_parameter_use_samaccountname = [item[1] for item in disable_user_account_result_data]
-    disable_user_account_result_item_2 = [item[2] for item in disable_user_account_result_data]
-    disable_user_account_result_item_3 = [item[3] for item in disable_user_account_result_data]
-    disable_user_account_result_message = [item[4] for item in disable_user_account_result_data]
-    disable_user_account_result_item_5 = [item[5] for item in disable_user_account_result_data]
+    filtered_result_0_parameter_user = [item[0] for item in filtered_result_0_data_filter_disable_account]
+    filtered_result_0_parameter_use_samaccountname = [item[1] for item in filtered_result_0_data_filter_disable_account]
+    filtered_result_0_data___user_dn = [item[2] for item in filtered_result_0_data_filter_disable_account]
+    filtered_result_0_status = [item[3] for item in filtered_result_0_data_filter_disable_account]
+    filtered_result_0_message = [item[4] for item in filtered_result_0_data_filter_disable_account]
+    filtered_result_0_data___starting_status = [item[5] for item in filtered_result_0_data_filter_disable_account]
 
     username_observables__observable_array = None
 
@@ -103,9 +103,9 @@ def username_observables(action=None, success=None, container=None, results=None
     # Write your custom code here...
     username_observables__observable_array = []
     
-    for user, sam_account, user_dn, status, msg, prev_status in zip(disable_user_account_parameter_user, disable_user_account_parameter_use_samaccountname, disable_user_account_result_item_2, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):
+    for user, sam_account, user_dn, status, msg, prev_status in zip(filtered_result_0_parameter_user, filtered_result_0_parameter_use_samaccountname, filtered_result_0_data___user_dn, filtered_result_0_status, filtered_result_0_message, filtered_result_0_data___starting_status):
         user_acc_status = {
-            "type": "Microsoft AD LDAP Account",
+            "type": "Microsoft AD LDAP user name",
             "value": user,
             "message": msg,
             "status": status

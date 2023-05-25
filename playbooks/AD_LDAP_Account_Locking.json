@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "72ad15672d3cf1771ebfdc9e96898699c0cad98a",
+            "hash": "e2151613eb48da444660dc3d67d4f817f1f0dc67",
             "nodes": {
                 "0": {
                     "data": {
@@ -67,8 +67,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 19.999999999999986,
-                    "y": -1.2789769243681803e-13
+                    "x": 20,
+                    "y": 0
                 },
                 "1": {
                     "data": {
@@ -101,7 +101,7 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": "!=",
-                                        "param": "playbook_input:user_name",
+                                        "param": "playbook_input:user",
                                         "value": ""
                                     }
                                 ],
@@ -149,7 +149,7 @@
                         "id": "3",
                         "parameters": {
                             "use_samaccountname": true,
-                            "user": "playbook_input:user_name"
+                            "user": "filtered-data:username_filter:condition_1:playbook_input:user"
                         },
                         "requiredParameters": [
                             {
@@ -163,11 +163,7 @@
                     "errors": {},
                     "id": "3",
                     "type": "action",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 0,
                     "y": 328
                 },
@@ -184,12 +180,12 @@
                         "functionName": "username_observables",
                         "id": "4",
                         "inputParameters": [
-                            "disable_user_account:action_result.parameter.user",
-                            "disable_user_account:action_result.parameter.use_samaccountname",
-                            "disable_user_account:action_result.data.*.user_dn",
-                            "disable_user_account:action_result.status",
-                            "disable_user_account:action_result.message",
-                            "disable_user_account:action_result.data.*.starting_status"
+                            "filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.parameter.user",
+                            "filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.parameter.use_samaccountname",
+                            "filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.data.*.user_dn",
+                            "filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.status",
+                            "filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.message",
+                            "filtered-data:filter_disable_account:condition_1:disable_user_account:action_result.data.*.starting_status"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -199,10 +195,10 @@
                     "errors": {},
                     "id": "4",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user, sam_account, user_dn, status, msg, prev_status in zip(disable_user_account_parameter_user, disable_user_account_parameter_use_samaccountname, disable_user_account_result_item_2, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):\n        user_acc_status = {\n            \"type\": \"Microsoft AD LDAP Account\",\n            \"value\": user,\n            \"message\": msg,\n            \"status\": status\n        }\n        \n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
+                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user, sam_account, user_dn, status, msg, prev_status in zip(filtered_result_0_parameter_user, filtered_result_0_parameter_use_samaccountname, filtered_result_0_data___user_dn, filtered_result_0_status, filtered_result_0_message, filtered_result_0_data___starting_status):\n        user_acc_status = {\n            \"type\": \"Microsoft AD LDAP user name\",\n            \"value\": user,\n            \"message\": msg,\n            \"status\": status\n        }\n        \n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
                     "warnings": {},
                     "x": 0,
-                    "y": 686
+                    "y": 680
                 },
                 "5": {
                     "data": {
@@ -249,7 +245,7 @@
                     "user name"
                 ],
                 "description": "A user name provided to be disable - AD LDAP",
-                "name": "user_name"
+                "name": "user"
             }
         ],
         "output_spec": [
@@ -269,7 +265,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-05-17T08:33:58.151614+00:00",
+    "create_time": "2023-05-25T08:14:08.217934+00:00",
     "draft_mode": false,
     "labels": [
         "*"
