@@ -29,7 +29,7 @@ def username_filter(action=None, success=None, container=None, results=None, han
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["playbook_input:user_name", "!=", ""]
+            ["playbook_input:user", "!=", ""]
         ],
         name="username_filter:condition_1")
 
@@ -50,17 +50,16 @@ def disable_user_account(action=None, success=None, container=None, results=None
     # Disable user account from filtered playbook inputs.
     ################################################################################
 
-    playbook_input_user_name = phantom.collect2(container=container, datapath=["playbook_input:user_name"])
+    filtered_input_0_user = phantom.collect2(container=container, datapath=["filtered-data:username_filter:condition_1:playbook_input:user"])
 
     parameters = []
 
     # build parameters list for 'disable_user_account' call
-    for playbook_input_user_name_item in playbook_input_user_name:
-        if playbook_input_user_name_item[0] is not None:
+    for filtered_input_0_user_item in filtered_input_0_user:
+        if filtered_input_0_user_item[0] is not None:
             parameters.append({
-                "username": playbook_input_user_name_item[0],
-                "credentials": "",
                 "disable_access_keys": True,
+                "username": filtered_input_0_user_item[0],
             })
 
     ################################################################################
@@ -73,7 +72,7 @@ def disable_user_account(action=None, success=None, container=None, results=None
     ## Custom Code End
     ################################################################################
 
-    phantom.act("disable user", parameters=parameters, name="disable_user_account", assets=["aws iam"], callback=filter_disable_result)
+    phantom.act("disable user", parameters=parameters, name="disable_user_account", assets=["aws_iam"], callback=filter_disable_result)
 
     return
 
@@ -86,14 +85,14 @@ def username_observables(action=None, success=None, container=None, results=None
     # Format a normalized output for each user.
     ################################################################################
 
-    disable_user_account_result_data = phantom.collect2(container=container, datapath=["disable_user_account:action_result.parameter.disable_access_keys","disable_user_account:action_result.parameter.username","disable_user_account:action_result.parameter.credentials","disable_user_account:action_result.data.*.RequestId","disable_user_account:action_result.message","disable_user_account:action_result.status"], action_results=results)
+    filtered_result_0_data_filter_disable_result = phantom.collect2(container=container, datapath=["filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.parameter.disable_access_keys","filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.parameter.username","filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.parameter.credentials","filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.data.*.RequestId","filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.message","filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.status"])
 
-    disable_user_account_parameter_disable_access_keys = [item[0] for item in disable_user_account_result_data]
-    disable_user_account_parameter_username = [item[1] for item in disable_user_account_result_data]
-    disable_user_account_parameter_credentials = [item[2] for item in disable_user_account_result_data]
-    disable_user_account_result_item_3 = [item[3] for item in disable_user_account_result_data]
-    disable_user_account_result_message = [item[4] for item in disable_user_account_result_data]
-    disable_user_account_result_item_5 = [item[5] for item in disable_user_account_result_data]
+    filtered_result_0_parameter_disable_access_keys = [item[0] for item in filtered_result_0_data_filter_disable_result]
+    filtered_result_0_parameter_username = [item[1] for item in filtered_result_0_data_filter_disable_result]
+    filtered_result_0_parameter_credentials = [item[2] for item in filtered_result_0_data_filter_disable_result]
+    filtered_result_0_data___requestid = [item[3] for item in filtered_result_0_data_filter_disable_result]
+    filtered_result_0_message = [item[4] for item in filtered_result_0_data_filter_disable_result]
+    filtered_result_0_status = [item[5] for item in filtered_result_0_data_filter_disable_result]
 
     username_observables__observable_array = None
 
@@ -104,9 +103,9 @@ def username_observables(action=None, success=None, container=None, results=None
     # Write your custom code here...
     username_observables__observable_array = []
     
-    for access_key, usrname, creds, req_id, msg, status in zip(disable_user_account_parameter_disable_access_keys, disable_user_account_parameter_username, disable_user_account_parameter_credentials, disable_user_account_result_item_3, disable_user_account_result_message, disable_user_account_result_item_5):
+    for access_key, usrname, creds, req_id, msg, status in zip(filtered_result_0_parameter_disable_access_keys, filtered_result_0_parameter_username, filtered_result_0_parameter_credentials, filtered_result_0_data___requestid, filtered_result_0_message, filtered_result_0_status):
         user_acc_status = {
-            "type": "AWS IAM Account",
+            "type": "aws iam user name",
             "value": usrname,
             "message": msg,
             "status": status
