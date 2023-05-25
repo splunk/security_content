@@ -8,7 +8,7 @@ type: TTP
 data_source:
 - Sysmon Event ID 1
 description: The following analytic identifies the use of Ldifde.exe, which provides the ability to create, modify, or delete LDAP directory objects.
-  The binary is only installed on a domain controller.
+  Natively, the binary is only installed on a domain controller. However, adversaries or administrators may install the Windows Remote Server Admin Tools for ldifde.exe.
   Ldifde.exe is a Microsoft Windows command-line utility used to import or export LDAP directory entries. LDAP stands for Lightweight Directory Access Protocol, which is a protocol used for accessing and managing directory information services over an IP network. LDIF, on the other hand, stands for LDAP Data Interchange Format, a standard plain-text data interchange format for representing LDAP directory entries.
   -i This is a flag used with Ldifde.exe to denote import mode. In import mode, Ldifde.exe takes an LDIF file and imports its contents into the LDAP directory. The data in the LDIF file might include new objects to be created, or modifications or deletions to existing objects.
   -f This flag is used to specify the filename of the LDIF file that Ldifde.exe will import from (in the case of the -i flag) or export to (without the -i flag). For example, if you wanted to import data from a file called data.ldif, you would use the command ldifde -i -f data.ldif.
