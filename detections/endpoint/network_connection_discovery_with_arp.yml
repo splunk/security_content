@@ -22,12 +22,14 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1049/
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
   - Active Directory Discovery
   - Qakbot
   - Windows Post-Exploitation
   - Prestige Ransomware
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 50
   impact: 30
