@@ -29,7 +29,7 @@ def user_name_filter(action=None, success=None, container=None, results=None, ha
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["playbook_input:user_name", "!=", ""]
+            ["playbook_input:user", "!=", ""]
         ],
         name="user_name_filter:condition_1")
 
@@ -50,15 +50,15 @@ def disable_user_account(action=None, success=None, container=None, results=None
     # Disable the user attributes for filtered playbook inputs.
     ################################################################################
 
-    playbook_input_user_name = phantom.collect2(container=container, datapath=["playbook_input:user_name"])
+    filtered_input_0_user = phantom.collect2(container=container, datapath=["filtered-data:user_name_filter:condition_1:playbook_input:user"])
 
     parameters = []
 
     # build parameters list for 'disable_user_account' call
-    for playbook_input_user_name_item in playbook_input_user_name:
-        if playbook_input_user_name_item[0] is not None:
+    for filtered_input_0_user_item in filtered_input_0_user:
+        if filtered_input_0_user_item[0] is not None:
             parameters.append({
-                "user_id": playbook_input_user_name_item[0],
+                "user_id": filtered_input_0_user_item[0],
             })
 
     ################################################################################
@@ -71,7 +71,7 @@ def disable_user_account(action=None, success=None, container=None, results=None
     ## Custom Code End
     ################################################################################
 
-    phantom.act("disable user", parameters=parameters, name="disable_user_account", assets=["azure active directory"], callback=filter_disable_result)
+    phantom.act("disable user", parameters=parameters, name="disable_user_account", assets=["azure_ad_graph"], callback=filter_disable_result)
 
     return
 
@@ -84,11 +84,11 @@ def username_observables(action=None, success=None, container=None, results=None
     # Format a normalized output for each user.
     ################################################################################
 
-    disable_user_account_result_data = phantom.collect2(container=container, datapath=["disable_user_account:action_result.parameter.user_id","disable_user_account:action_result.status","disable_user_account:action_result.message"], action_results=results)
+    filtered_result_0_data_filter_disable_result = phantom.collect2(container=container, datapath=["filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.parameter.user_id","filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.status","filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.message"])
 
-    disable_user_account_parameter_user_id = [item[0] for item in disable_user_account_result_data]
-    disable_user_account_result_item_1 = [item[1] for item in disable_user_account_result_data]
-    disable_user_account_result_message = [item[2] for item in disable_user_account_result_data]
+    filtered_result_0_parameter_user_id = [item[0] for item in filtered_result_0_data_filter_disable_result]
+    filtered_result_0_status = [item[1] for item in filtered_result_0_data_filter_disable_result]
+    filtered_result_0_message = [item[2] for item in filtered_result_0_data_filter_disable_result]
 
     username_observables__observable_array = None
 
@@ -99,7 +99,7 @@ def username_observables(action=None, success=None, container=None, results=None
     # Write your custom code here...
     username_observables__observable_array = []
     
-    for user_id, status, msg in zip(disable_user_account_parameter_user_id, disable_user_account_result_item_1, disable_user_account_result_message):
+    for user_id, status, msg in zip(filtered_result_0_parameter_user_id, filtered_result_0_status, filtered_result_0_message):
         user_acc_status = {
             "type": "Azure AD Account",
             "value": user_id,
