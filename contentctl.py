@@ -350,9 +350,9 @@ def main(args):
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
     #new_parser = actions_parser.add_parser("new", help="Create new content (detection, story, baseline)")
-    #init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
-    #                                                    "This allows a user to easily add their own content and, eventually, "
-    #                                                    "build a custom application consisting of their custom content.")
+    init_parser = actions_parser.add_parser("init", help="Initialize a repo with scaffolding in place to build a custom app."
+                                                        "This allows a user to easily add their own content and, eventually, "
+                                                        "build a custom application consisting of their custom content.")
     new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
     #content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     validate_parser = actions_parser.add_parser("validate", help="Validates written content")
@@ -415,14 +415,14 @@ def main(args):
     convert_parser.set_defaults(func=convert)
 
 
-    # init_parser.add_argument("-t", "--title", type=str, required=True, help="The title of the application to be built.")
-    # init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
-    # init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
-    # init_parser.add_argument("-a", "--author_name", type=str, required=True, help="The name of the application author.")
-    # init_parser.add_argument("-e", "--author_email", type=str, required=True, help="The email of the application author.")
-    # init_parser.add_argument("-c", "--author_company", type=str, required=True, help="The company of the application author.")
-    # init_parser.add_argument("-d", "--description", type=str, required=True, help="A brief description of the app.")
-    # init_parser.set_defaults(func=initialize)
+    init_parser.add_argument("-t", "--title", type=str, required=True, help="The title of the application to be built.")
+    init_parser.add_argument("-n", "--name", type=str, required=True, help="The name of the application to be built.")
+    init_parser.add_argument("-v", "--version", type=str, required=True, help="The version of the application to be built.  It should be in MAJOR.MINOR.PATCH format.")
+    init_parser.add_argument("-a", "--author_name", type=str, required=True, help="The name of the application author.")
+    init_parser.add_argument("-e", "--author_email", type=str, required=True, help="The email of the application author.")
+    init_parser.add_argument("-c", "--author_company", type=str, required=True, help="The company of the application author.")
+    init_parser.add_argument("-d", "--description", type=str, required=True, help="A brief description of the app.")
+    init_parser.set_defaults(func=initialize)
 
     build_parser.add_argument("-o", "--output_dir", required=False, default="build", type=str, help="Directory to output the built package to (default is 'build')")
     build_parser.add_argument("-pr", "--product", required=True, type=str, help="Name of the product to build. This is the name you created during init.  To find the name of your app, look for the name of the folder created in the ./dist folder.")
