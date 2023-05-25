@@ -28,10 +28,12 @@ known_false_positives: Administrators may execute this command for testing or au
 references:
 - https://github.com/NVISOsecurity/sigma-public/blob/master/rules/windows/process_creation/win_susp_wmi_execution.yml
 - https://github.com/redcanaryco/atomic-red-team/blob/2b804d25418004a5f1ba50e9dc637946ab8733c7/atomics/T1047/T1047.md
+- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
   - Suspicious WMI Use
   - Qakbot
+  - IcedID
   asset_type: Endpoint
   confidence: 50
   impact: 50
