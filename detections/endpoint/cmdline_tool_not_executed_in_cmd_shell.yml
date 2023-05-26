@@ -38,12 +38,14 @@ known_false_positives: A network operator or systems administrator may utilize a
 references:
 - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
 - https://attack.mitre.org/groups/G0046/
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
   - FIN7
   - Qakbot
   - CISA AA22-277A
   - Qakbot
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 80
   impact: 70
