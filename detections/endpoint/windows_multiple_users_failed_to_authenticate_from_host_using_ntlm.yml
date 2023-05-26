@@ -1,49 +1,47 @@
-name: Windows Multiple Users Failed To Authenticate From Host Using NTLM
-id: 7ed272a4-9c77-11eb-af22-acde48001122
-version: 2
-date: '2021-04-13'
 author: Mauricio Velazco, Splunk
-type: TTP
-status: production
 data_source:
 - Windows Security 4776
+date: '2021-04-13'
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with 30 unique valid users using the NTLM protocol. This behavior could represent
   an adversary performing a Password Spraying attack against an Active Directory environment
-  using NTLM to obtain initial access or elevate privileges. 
-  Active Directory environments can be very different depending on the organization. Users should test this detection and customize the arbitrary threshold when needed.
-  Event 4776 is generated
-  on the computer that is authoritative for the provided credentials. For domain accounts,
+  using NTLM to obtain initial access or elevate privileges. Active Directory environments
+  can be very different depending on the organization. Users should test this detection
+  and customize the arbitrary threshold when needed. Event 4776 is generated on the
+  computer that is authoritative for the provided credentials. For domain accounts,
   the domain controller is authoritative. For local accounts, the local computer is
   authoritative. Error code 0xC000006A means: misspelled or bad password (the attempted
   user is a legitimate domain user).\
 
-  This logic can be used for real time security monitoring as well as threat hunting exercises.
-  This detection will only trigger on domain controllers, not on member servers or
-  workstations.\
+  This logic can be used for real time security monitoring as well as threat hunting
+  exercises. This detection will only trigger on domain controllers, not on member
+  servers or workstations.\
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source workstation name and attempted user accounts.'
-search: ' `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xC000006A
-  | bucket span=5m _time 
-  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, Workstation
-  | where unique_accounts > 30
-  | `windows_multiple_users_failed_to_authenticate_from_host_using_ntlm_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
   Validation` within `Account Logon` needs to be enabled.
+id: 7ed272a4-9c77-11eb-af22-acde48001122
 known_false_positives: A host failing to authenticate with multiple valid domain users
   is not a common behavior for legitimate systems. Possible false positive scenarios
   include but are not limited to vulnerability scanners and missconfigured systems.
   If this detection triggers on a host other than a Domain Controller, the behavior
   could represent a password spraying attack against the host's local accounts.
+name: Windows Multiple Users Failed To Authenticate From Host Using NTLM
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
+search: ' `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xC000006A
+  | bucket span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
+  as tried_accounts by _time, Workstation | where unique_accounts > 30 | `windows_multiple_users_failed_to_authenticate_from_host_using_ntlm_filter`'
+status: production
 tags:
   analytic_story:
   - Active Directory Password Spraying
+  - Volt Typhoon
+  asset_type: Endpoint
   confidence: 70
   impact: 70
   message: Potential NTLM based password spraying attack from $Workstation$
@@ -52,9 +50,9 @@ tags:
   - T1110
   observable:
   - name: Workstation
-    type: Endpoint
     role:
     - Attacker
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -67,10 +65,11 @@ tags:
   - Workstation
   risk_score: 49
   security_domain: endpoint
-  asset_type: Endpoint
 tests:
-- name: True Positive Test
-  attack_data:
+- attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
+  name: True Positive Test
+type: TTP
+version: 2
