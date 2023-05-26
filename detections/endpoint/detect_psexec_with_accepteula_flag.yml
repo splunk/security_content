@@ -42,6 +42,7 @@ tags:
   - CISA AA22-320A
   - Sandworm Tools
   - Volt Typhoon
+  - IcedID
   asset_type: Endpoint
   confidence: 70
   impact: 50
