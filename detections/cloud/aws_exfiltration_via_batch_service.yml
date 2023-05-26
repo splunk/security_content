@@ -13,6 +13,7 @@ how_to_implement: You must install splunk AWS add on and Splunk App for AWS. Thi
 known_false_positives: It is possible that an AWS Administrator or a user has legitimately created this job for some tasks. 
 references:
 - https://hackingthe.cloud/aws/exploitation/s3-bucket-replication-exfiltration/
+- https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
 tags:
   analytic_story:
   - Data Exfiltration
