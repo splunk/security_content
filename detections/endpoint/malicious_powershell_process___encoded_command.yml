@@ -39,6 +39,7 @@ references:
 - https://ss64.com/ps/powershell.html
 - https://twitter.com/M_haggis/status/1440758396534214658?s=20
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
   - Hermetic Wiper
@@ -50,6 +51,7 @@ tags:
   - CISA AA22-320A
   - Sandworm Tools
   - Data Destruction
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 50
   impact: 70
