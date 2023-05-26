@@ -22,7 +22,7 @@ search: "| tstats `security_content_summariesonly` count min(_time) as firstTime
 | eval file_name_with_RTLO=file_name
 | eval file_name=RTLO_file_1.RTLO_file_2
 | fields - RTLO*
-| `detect_RTLO_in_file_filter`"
+| `detect_rtlo_in_file_filter`"
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that includes the full command line of the process being launched on
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,

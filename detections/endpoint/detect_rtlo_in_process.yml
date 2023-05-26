@@ -23,7 +23,7 @@ Processes.process Processes.process_id Processes.process_guid Processes.parent_p
 | eval process_with_RTLO=process
 | eval process=RTLO_command_1.RTLO_command_2
 | fields - RTLO*
-| `detect_RTLO_in_process_filter`'
+| `detect_rtlo_in_process_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that includes the full command line of the process being launched on
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
