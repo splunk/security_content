@@ -1,6 +1,6 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-version: 3
+version: 4
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
@@ -22,13 +22,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (actor_process_file_name="winword.exe" OR actor_process_file_name="excel.exe"
+  null) | where ((actor_process_file_name="winword.exe" OR actor_process_file_name="excel.exe"
   OR actor_process_file_name="outlook.exe" OR actor_process_file_name="acrobat.exe"
   OR actor_process_file_name="acrord32.exe" OR actor_process_file_name="iexplore.exe"
   OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe"
   OR actor_process_file_name="powershell.exe") OR (actor_process_file_name="java.exe"
   AND (NOT match_regex(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe"
-  AND (NOT process_cmd_line="chrome-extension")) 
+  AND (NOT process_cmd_line="chrome-extension"))) AND process_file_name="cmd.exe"
+  
   | eval body=create_map(
     "devices", [
         create_map(
