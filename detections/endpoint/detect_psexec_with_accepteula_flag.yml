@@ -30,7 +30,8 @@ known_false_positives: Administrators can leverage PsExec for accessing remote s
   and might pass `accepteula` as an argument if they are running this tool for the
   first time. However, it is not likely that you'd see multiple occurrences of this
   event on a machine
-references: []
+references:
+- https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
 tags:
   analytic_story:
   - SamSam Ransomware
@@ -40,6 +41,7 @@ tags:
   - Active Directory Lateral Movement
   - CISA AA22-320A
   - Sandworm Tools
+  - Volt Typhoon
   - IcedID
   asset_type: Endpoint
   confidence: 70
