@@ -1,0 +1,69 @@
+name: Windows Proxy Via Registry
+id: 0270455b-1385-4579-9ac5-e77046c508ae
+version: 1
+date: '2023-05-25'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+- Sysmon EventID 14
+description: This search looks for processes launching netsh.exe for connection proxy. Netsh is a command-line
+  scripting utility that allows you to, either locally or remotely, display or modify
+  the network configuration of a computer that is currently running. Netsh can be
+  used as a persistence proxy technique to execute a helper DLL when netsh.exe is
+  executed. In this search, we are looking for processes spawned by netsh.exe and
+  executing commands via the command line.
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
+  where Registry.registry_path ="*\\System\\CurrentControlSet\\Services\\PortProxy\\v4tov4\\tcp*" 
+  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.action Registry.dest  Registry.user
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)` 
+  | `drop_dm_object_name(Registry)` 
+  | `windows_proxy_via_registry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: unknown
+references:
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+tags:
+  analytic_story:
+  - Volt Typhoon
+  asset_type: Endpoint
+  atomic_guid:
+  - b8223ea9-4be2-44a6-b50a-9657a3d4e72a
+  confidence: 70
+  impact: 70
+  message: A registry modification for port proxy in$dest$
+  mitre_attack_id:
+  - T1090.001
+  - T1090
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  - Registry.registry_value_data
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.001/netsh_portproxy/volt_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
