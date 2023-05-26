@@ -35,6 +35,7 @@ references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 - https://twitter.com/pr0xylife/status/1590394227758104576
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
   - Azorult
@@ -56,6 +57,7 @@ tags:
   - Brute Ratel C4
   - Qakbot
   - Chaos Ransomware
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 50
   impact: 40
