@@ -14,6 +14,8 @@ known_false_positives: It is possible that an AWS admin has legitimately shared 
 references:
 - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
 - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html
+- https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
+- https://stratus-red-team.cloud/attack-techniques/list/
 tags:
   analytic_story:
   - Suspicious Cloud Instance Activities
