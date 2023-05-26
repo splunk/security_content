@@ -30,9 +30,11 @@ references:
 - https://attack.mitre.org/techniques/T1069/002/
 - https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory
 - https://adsecurity.org/?p=3658
+- https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 70
   impact: 30
