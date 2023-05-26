@@ -1,10 +1,7 @@
-name: Windows Unusual Count Of Users Remotely Failed To Auth From Host
-id: cf06a0ee-ffa9-4ed3-be77-0670ed9bab52
-version: 1
-date: '2022-09-22'
 author: Mauricio Velazco, Splunk
-status: production
-type: Anomaly
+data_source:
+- Windows Security 4625
+date: '2022-09-22'
 description: 'The following analytic identifies a source host failing to authenticate
   against a remote host with multiple users. This behavior could represent an adversary
   performing a Password Spraying attack against an Active Directory environment to
@@ -24,32 +21,32 @@ description: 'The following analytic identifies a source host failing to authent
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source process name, source account and attempted user accounts.'
-data_source:
-- Windows Security 4625
-search: ' `wineventlog_security`  EventCode=4625 Logon_Type=3 IpAddress!="-"
-  | bucket span=2m _time 
-  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, IpAddress, Computer
-  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by IpAddress, Computer
-  | eval upperBound=(comp_avg+comp_std*3)
-  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
-  | search isOutlier=1 
-  | `windows_unusual_count_of_users_remotely_failed_to_auth_from_host_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Event Logs from domain controllers as as well as member servers and workstations.
   The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
   to be enabled.
+id: cf06a0ee-ffa9-4ed3-be77-0670ed9bab52
 known_false_positives: A host failing to authenticate with multiple valid users against
   a remote host is not a common behavior for legitimate systems. Possible false positive
   scenarios include but are not limited to vulnerability scanners, remote administration
   tools, missconfigyred systems, etc.
+name: Windows Unusual Count Of Users Remotely Failed To Auth From Host
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
+search: ' `wineventlog_security`  EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
+  span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
+  as tried_accounts by _time, IpAddress, Computer | eventstats avg(unique_accounts)
+  as comp_avg , stdev(unique_accounts) as comp_std by IpAddress, Computer | eval upperBound=(comp_avg+comp_std*3)
+  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+  | search isOutlier=1 | `windows_unusual_count_of_users_remotely_failed_to_auth_from_host_filter` '
+status: production
 tags:
   analytic_story:
   - Active Directory Password Spraying
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 70
   impact: 70
@@ -59,9 +56,9 @@ tags:
   - T1110
   observable:
   - name: Computer
-    type: Endpoint
     role:
     - Attacker
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -76,8 +73,10 @@ tags:
   risk_score: 49
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
+- attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
+  name: True Positive Test
+type: Anomaly
+version: 1
