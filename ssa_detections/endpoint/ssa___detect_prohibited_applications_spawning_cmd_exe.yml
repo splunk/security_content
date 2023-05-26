@@ -1,6 +1,6 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-version: 3
+version: 4
 date: '2022-03-01'
 author: Ignacio Bermudez Corrales, Splunk
 type: Anomaly
@@ -28,13 +28,14 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (actor_process_file_name="winword.exe" OR actor_process_file_name="excel.exe"
+  null) | where ((actor_process_file_name="winword.exe" OR actor_process_file_name="excel.exe"
   OR actor_process_file_name="outlook.exe" OR actor_process_file_name="acrobat.exe"
   OR actor_process_file_name="acrord32.exe" OR actor_process_file_name="iexplore.exe"
   OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe"
   OR actor_process_file_name="powershell.exe") OR (actor_process_file_name="java.exe"
   AND (NOT match_regex(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe"
-  AND (NOT process_cmd_line="chrome-extension")) --finding_report--'
+  AND (NOT process_cmd_line="chrome-extension"))) AND process_file_name="cmd.exe"
+  --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
