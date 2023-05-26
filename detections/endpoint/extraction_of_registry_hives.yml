@@ -26,11 +26,13 @@ known_false_positives: It is possible some agent based products will generate fa
 references:
 - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md
+- https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
 tags:
   analytic_story:
   - DarkSide Ransomware
   - Credential Dumping
   - CISA AA22-257A
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 70
   impact: 80
