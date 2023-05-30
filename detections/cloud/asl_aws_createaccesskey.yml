@@ -43,7 +43,7 @@ tags:
   message: User $responseElements.accessKey.userName$ is attempting to create access keys for $responseElements.accessKey.userName$
     from this IP $src_endpoint.ip$
   mitre_attack_id:
-  - T078
+  - T1078
   observable:
   - name: src_endpoint.ip
     type: IP Address
