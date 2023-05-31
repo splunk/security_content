@@ -1,0 +1,25 @@
+name: Active Directory Disable Account Dispatch
+id: 86320591-1bbd-41ab-8990-602a3968fd99
+version: 1
+date: '2023-05-23'
+author: Teoderick Contreras, Splunk
+type: Investigation
+description: Automatically dispatches input playbooks with the 'disable_account' tag.
+  This will produce a merge report and indicator tag for each inputs.
+playbook: Active_Directory_Disable_Account_Dispatch
+how_to_implement: This automatic playbook requires "disable_account" tag be present on each input playbook you want to launch.
+references: []
+app_list: 
+  - microsoft_ad_ldap
+  - azure_ad_graph
+  - aws_iam
+tags:
+  platform_tags:
+    - user
+    - D3-AL
+    - disable_account
+  playbook_type: Automatic
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
