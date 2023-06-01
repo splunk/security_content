@@ -5,7 +5,7 @@ date: '2023-04-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: Detect the usage of comsvcs.dll for dumping the lsass process.
+description: The following analytic targets a tactic often used by adversaries to dump credentials from memory. The Local Security Authority Subsystem Service (LSASS) manages system-level authentication in Windows. Exploitation of this process, particularly through the use of the comsvcs.dll, allows threat actors to obtain valuable credentials. This analytic actively searches for instances where the rundll32 process is used in conjunction with the comsvcs.dll and MiniDump—indications of potential LSASS dumping attempts. This tactic is usually a part of more extensive attack campaigns and is associated with numerous threat groups. Understanding this analytic's function and recognizing the gravity of LSASS exploitation is crucial for cybersecurity analysts, as credential theft can often lead to broader system compromise, persistence, lateral movement, and escalated privileges. It's important to note that, to the best of current knowledge, no legitimate use of this technique has been identified.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

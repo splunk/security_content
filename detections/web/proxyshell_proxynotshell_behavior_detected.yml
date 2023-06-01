@@ -49,6 +49,7 @@ tags:
   message: ProxyShell or ProxyNotShell activity has been identified on $risk_object$.
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: risk_object
     type: Hostname
