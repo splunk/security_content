@@ -8,7 +8,7 @@ type: Hunting
 data_source:
 - audittrail
 description: A low-privilege user who holds a role that has the edit_user capability assigned to it can escalate their privileges to that of the admin user by providing specially crafted web requests.
-search: 'index=_audit sourcetype="audittrail" action IN ("change_own_password","password_change","edit_password") AND info="granted" AND NOT user IN (admin, splunk-system-user) | stats earliest(_time) as event_time values(index) as index values(sourcetype) as sourcetype values(action) as action values(info) as info by user | `splunk_edit_user_privilege_escalation_filter`'
+search: '`audittrail` action IN ("change_own_password","password_change","edit_password") AND info="granted" AND NOT user IN (admin, splunk-system-user) | stats earliest(_time) as event_time values(index) as index values(sourcetype) as sourcetype values(action) as action values(info) as info by user | `splunk_edit_user_privilege_escalation_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This detection may assist in efforts to discover abuse of edit_user privilege. 
 known_false_positives: This search may produce false positives as password changing actions may be part of normal behavior. Operator will need to investigate these actions in order to discern exploitation attempts. 
 references:
@@ -21,11 +21,11 @@ tags:
   confidence: 80
   impact: 80
   cve: []
-  message: Possible attempt to abuse edit_user function by $User$ 
+  message: Possible attempt to abuse edit_user function by $user$ 
   mitre_attack_id:
   - T1548
   observable:
-  - name: User
+  - name: user
     type: User
     role:
     - Attacker
