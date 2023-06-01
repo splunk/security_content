@@ -24,19 +24,17 @@ tags:
   mitre_attack_id:
   - T1499.004
   observable:
-  - name: clientip
+  - name: host
     type: IP Address
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   risk_score: 100
   required_fields:
-  - clientip
   - host 
   - source 
-  - status 
-  - event_message 
+  - _time
   security_domain: endpoint
 tests:
 - name: True Positive Test
