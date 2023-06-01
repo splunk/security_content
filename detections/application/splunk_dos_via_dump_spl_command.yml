@@ -22,7 +22,7 @@ tags:
   impact: 100
   message: Possible denial of service attack from $clientip$
   mitre_attack_id:
-  - T0814
+  - T1499.004
   observable:
   - name: clientip
     type: IP Address
@@ -41,7 +41,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T0814/splunk/splunk_dos_via_dump_spl_command.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499.004/splunk/splunk_dos_via_dump_spl_command.log
     source: /opt/splunk/var/log/splunk/splunkd.log
     sourcetype: splunkd_crash_log
     custom_index: _internal

@@ -24,7 +24,7 @@ tags:
   - CVE-2019-8331
   message:  Attempted access to vulnerable bootstrap file by $clientip$
   mitre_attack_id:
-  - T1456
+  - T1189
   observable:
   - name: clientip
     type: IP Address
@@ -42,7 +42,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1456/splunk/splunk_persistent_xss_via_url_validation_bypass_w_dashboard.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_persistent_xss_via_url_validation_bypass_w_dashboard.log
     source: /opt/splunk/var/log/splunk/web_access.log
     sourcetype: splunk_web_access
     custom_index: _internal
