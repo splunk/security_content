@@ -1,0 +1,3 @@
+definition: (index=_internal AND sourcetype=splunkd_crash_log)
+description: Searches through the Splunk Crash Log for low-level errors and crashes
+name: splunk_crash_log
