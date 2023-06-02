@@ -1,0 +1,50 @@
+name: Splunk Path Traversal In Splunk App For Lookup File Edit
+id: 8ed58987-738d-4917-9e44-b8ef6ab948a6
+version: 1
+date: '2023-05-11'
+author: Rod Soto, Eric McGinnis
+status: production
+type: Hunting
+data_source:
+- splunkd_access 
+description: In Splunk Enterprise versions below 9.0.5, 8.2.11, and 8.1.14, a low-privilege user with access to the Splunk App for Lookup File Editing can, with a specially crafted web request, trigger a path traversal exploit that can then be used to read and write to restricted areas of the Splunk installation directory, including but not limited to the password hash file for the instance.
+search: '`splunkda` uri_query=*lookup_file* | table clientip uri_query lookup_file owner namespace  version | stats count by clientip namespace lookup_file uri_query | `splunk_path_traversal_in_splunk_app_for_lookup_file_edit_filter`'
+how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This detection is meant for on premise environments,
+  and if executed on internet facing servers without a WAF may produce a lot of results. This detection will not work against obfuscated path traversal requests.
+known_false_positives: This search may find additional path traversal exploitation attempts or malformed requests.
+references:
+- https://advisory.splunk.com/
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: endpoint 
+  atomic_guid: []
+  confidence: 80
+  impact: 50
+  message: Path traversal exploitation attempt from $clientip$
+  mitre_attack_id:
+  - T1083
+  observable:
+  - name: clientip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  risk_score: 40
+  required_fields:
+  - clientip
+  - uri_query 
+  - event_message 
+  - lookup_file 
+  - owner 
+  - method 
+  - user
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/splunk_path_traversal_in_splunk_app_for_lookup_file_edit.log
+    source: splunkd_access 
+    sourcetype: splunkd_access
+    custom_index: _internal
