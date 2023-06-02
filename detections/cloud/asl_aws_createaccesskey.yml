@@ -3,14 +3,14 @@ id: ccb3e4af-23d6-407f-9842-a26212816c9e
 version: 1
 date: '2022-05-23'
 author: Patrick Bareiss, Splunk
-status: experimental
+status: production
 type: Hunting
 description: This search looks for AWS CloudTrail events where a user A who has already
   permission to create access keys, makes an API call to create access keys for another
   user B. Attackers have been know to use this technique for Privilege Escalation
   in case new victim(user B) has more permissions than old victim(user B)
 data_source: []
-search: '`amazon_security_lake` operation=CreateAccessKey http_request.user_agent!=console.amazonaws.com api.response.error=null
+search: '`amazon_security_lake` api.operation=CreateAccessKey http_request.user_agent!=console.amazonaws.com api.response.error=null
   | rename unmapped{}.key as unmapped_key , unmapped{}.value as unmapped_value
   | eval keyjoin=mvzip(unmapped_key,unmapped_value)
   | mvexpand keyjoin

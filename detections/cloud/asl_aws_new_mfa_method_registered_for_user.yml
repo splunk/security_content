@@ -3,13 +3,13 @@ id: 33ae0931-2a03-456b-b1d7-b016c5557fbd
 version: 1
 date: '2023-05-22'
 author: Patrick Bareiss, Splunk
-status: experimental
+status: production
 type: TTP
 description: The following analytic identifies the registration of a new Multi Factor
   authentication method for an AWS account logged through Amazon Secruity Lake (ASL). Adversaries who have obtained unauthorized
   access to an AWS account may register a new MFA method to maintain persistence.
 data_source: []
-search: ' `amazon_security_lake` "api.operation"=CreateVirtualMFADevice | stats count min(_time) as firstTime max(_time) as lastTime by api.operation 
+search: ' `amazon_security_lake` api.operation=CreateVirtualMFADevice | stats count min(_time) as firstTime max(_time) as lastTime by api.operation 
   api.service.name identity.user.account_uid identity.user.credential_uid identity.user.name identity.user.type identity.user.uid identity.user.uuid 
   http_request.user_agent src_endpoint.ip cloud.region 
   | `security_content_ctime(firstTime)` 
