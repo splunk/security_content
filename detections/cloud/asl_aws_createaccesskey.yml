@@ -3,7 +3,7 @@ id: ccb3e4af-23d6-407f-9842-a26212816c9e
 version: 1
 date: '2022-05-23'
 author: Patrick Bareiss, Splunk
-status: production
+status: experimental
 type: Hunting
 description: This search looks for AWS CloudTrail events where a user A who has already
   permission to create access keys, makes an API call to create access keys for another
