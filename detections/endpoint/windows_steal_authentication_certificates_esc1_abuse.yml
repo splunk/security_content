@@ -12,7 +12,8 @@ escalation and environment compromise due to over permissive settings (AD CS ESC
 data_source:
 - Windows Security Event ID 4886,4887
 search: '`wineventlog_security` EventCode IN (4886,4887) Attributes="*SAN:*upn*" Attributes="*CertificateTemplate:*"
-| stats count min(_time) as firstTime max(_time) as lastTime values(name) as name values(status) as status values(Subject) as ssl_subject values(SubjectKeyIdentifier) as ssl_hash by Computer, EventCode, Requester, Attributes, RequestId
+| stats count min(_time) as firstTime max(_time) as lastTime values(name) as name values(status) as status values(Subject) as ssl_subject
+values(SubjectKeyIdentifier) as ssl_hash by Computer, EventCode, Requester, Attributes, RequestId
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 | rex field=Attributes "(?i)CertificateTemplate:(?<object>[^\r\n]+)"
@@ -20,7 +21,10 @@ search: '`wineventlog_security` EventCode IN (4886,4887) Attributes="*SAN:*upn*"
 | rex max_match=10 field=Attributes "(?i)(upn=(?<req_user_1>[^\r\n&]+))"
 | rex max_match=10 field=Attributes "(?i)(dns=(?<req_dest_1>[^\r\n&]+))"
 | rex field=Requester "(.+\\\\)?(?<src_user>[^\r\n]+)"
-| eval flavor_text = case(EventCode=="4886","A suspicious certificate was requested using request ID: ".'RequestId',EventCode=="4887","A suspicious certificate was issued using request ID: ".'RequestId'.". To revoke this certifacte use this request ID or the SSL fingerprint [".'ssl_hash'."]"), risk_score = case(EventCode=="4886",40,EventCode=="4887",60), user = upper(coalesce(req_user_1,req_user_2)), dest = upper(coalesce(req_dest_1,req_dest_2)), src = upper(coalesce(req_src,Computer))
+| eval flavor_text = case(EventCode=="4886","A suspicious certificate was requested using request ID: ".'RequestId',EventCode=="4887",
+"A suspicious certificate was issued using request ID: ".'RequestId'.". To revoke this certifacte use this request ID or the SSL fingerprint [".'ssl_hash'."]"),
+risk_score = case(EventCode=="4886",30,EventCode=="4887",60), user = upper(coalesce(req_user_1,req_user_2)), 
+dest = upper(coalesce(req_dest_1,req_dest_2)), src = upper(coalesce(req_src,Computer))
 | fields - req_*
 | rename Attributes as object_attrs, EventCode as signature_id, name as signature, RequestId as ssl_serial, Requester as ssl_subject_common_name
 | `windows_steal_authentication_certificates_esc1_abuse`'
@@ -38,7 +42,7 @@ tags:
   analytic_story:
   - Windows Certificate Services
   asset_type: Endpoint
-  confidence: 80
+  confidence: 60
   impact: 100
   message: Possible AD CS ESC1 activity by $src_user$ - $flavor_text$
   mitre_attack_id:
@@ -75,7 +79,7 @@ tags:
   - EventCode
   - Requester
   - RequestId
-  risk_score: 80
+  risk_score: 60
   security_domain: endpoint
 tests:
 - name: True Positive Test
