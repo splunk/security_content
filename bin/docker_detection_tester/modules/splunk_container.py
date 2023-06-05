@@ -184,6 +184,7 @@ class SplunkContainer:
             name=self.container_name,
             mounts=self.mounts,
             detach=True,
+            platform="linux/amd64"
         )
 
         return container
