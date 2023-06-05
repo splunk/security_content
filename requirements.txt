@@ -6,7 +6,7 @@ jsonschema==4.17.3
 mock==4.0.3
 psutil==5.9.5
 pycvesearch==1.2
-pydantic==1.10.7
+pydantic==1.10.8
 pysigma==0.9.8
 pysigma-backend-splunk==1.0.2
 pytest==7.3.1
