@@ -294,7 +294,7 @@ class ContainerManager:
                     "that this could take a long time depending on your "
                     "connection. It's around 2GB."%(container_name))
                 pull_start_time = timeit.default_timer()
-                client.images.pull(container_name)
+                client.images.pull(container_name,platform="linux/amd64")
                 pull_finish_time = timeit.default_timer()
                 print("Successfully pulled the docker image [%s] in %ss"%
                     (container_name,
