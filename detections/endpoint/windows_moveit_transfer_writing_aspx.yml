@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
   tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\MOVEitTransfer\\wwwroot\\*") Filesystem.file_name
-  IN("*.aspx", "*.ashx", "*.asp*") OR Filesystem.file_name IN (human2.aspx) by _time span=1h Filesystem.dest Filesystem.file_create_time
+  IN("*.aspx", "*.ashx", "*.asp*") OR Filesystem.file_name IN ("human2.aspx","_human2.aspx") by _time span=1h Filesystem.dest Filesystem.file_create_time
   Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` |
   fields _time dest file_create_time file_name file_path process_name process_path
   process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
