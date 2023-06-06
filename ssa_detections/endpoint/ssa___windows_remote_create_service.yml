@@ -4,7 +4,7 @@ version: 1
 date: '2023-05-18'
 author: Michael Haag, Splunk
 type: TTP
-status: production
+status: experimental
 description: This analytic identifies an endpoint that remotely connects to another
   endpoint to create a new service using sc.exe. On the remote endpoint, the new service
   will be created and this action will trigger the creation of EventCode 7045 along

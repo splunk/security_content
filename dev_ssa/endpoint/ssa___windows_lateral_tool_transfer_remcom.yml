@@ -3,7 +3,7 @@ id: 25c6b8ba-2a61-41ad-b80c-8e97cf501920
 version: 1
 date: '2022-02-23'
 author: Michael Haag, Splunk
-status: production
+status: experimental
 type: TTP
 description: This analytic identifies the use of RemCom.exe - The open source psexec. This utility provides the ability to move laterally and run scripts or commands remotely.
 data_source:

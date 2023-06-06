@@ -4,7 +4,7 @@ version: 1
 date: '2022-02-23'
 author: Michael Haag, Splunk
 type: TTP
-status: production
+status: experimental
 description: The following analytic detects potential RDP Hijacking attempts by monitoring
   a series of actions taken by an attacker to gain unauthorized access to a remote
   system. The attacker first runs the quser command to query the remote host for disconnected

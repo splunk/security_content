@@ -3,7 +3,7 @@ id: 6d16f079-0195-4fdc-a97d-7cfacb6b9b4d
 version: 1
 date: '2022-02-23'
 author: Michael Haag, Splunk
-status: production
+status: experimental
 type: TTP
 description: 'The following analytic detects potential RDP Hijacking attempts by monitoring a series of actions taken by an attacker to gain unauthorized access to a remote system. The attacker first runs the quser command to query the remote host for disconnected user sessions. Upon identifying a disconnected session, they use the sc.exe command to create a new Windows service with a binary path that launches tscon.exe. By specifying the disconnected session ID and a destination ID, the attacker can transfer the disconnected session to a new RDP session, effectively hijacking the user''s session. This analytic allows security teams to detect and respond to RDP Hijacking attempts, mitigating potential risks and impacts on targeted systems.'
 data_source:

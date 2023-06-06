@@ -3,7 +3,7 @@ id: 0c93bb7a-df21-477e-a623-b0c37c1c6661
 version: 1
 date: '2023-05-18'
 author: Michael Haag, Splunk
-status: production
+status: experimental
 type: anomaly
 description: The following analytic identifies the PowerShell Cmdlet export-pfxcertificate
   utilizing Script Block Logging. This particular behavior is related to an adversary
