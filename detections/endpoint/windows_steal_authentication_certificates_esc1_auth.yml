@@ -33,7 +33,7 @@ suspicious certificate was issued for it by [".'src_user'."] using certificate r
 | fields - req_* auth_*
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
-| `windows_steal_authentication_certificates_esc1_auth`'
+| `windows_steal_authentication_certificates_esc1_auth_filter`'
 how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled
   on AD CS and within Group Policy Management for CS server. See Page 115 of first
   reference. Recommend throttle correlation by RequestId/ssl_serial at minimum.
