@@ -59,6 +59,10 @@ tags:
   - Filesystem.file_name
   - Filesystem.file_hash
   - Filesystem.user
+  - Filesystem.file_create_time
+  - Processes.process_id 
+  - Processes.process_name
+  - Processes.dest
   security_domain: endpoint
 tests:
 - name: True Positive Test
