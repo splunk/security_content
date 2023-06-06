@@ -30,6 +30,7 @@ references:
   - https://www.reddit.com/r/sysadmin/comments/13wxuej/critical_vulnerability_moveit_file_transfer/
   - https://www.bleepingcomputer.com/news/security/new-moveit-transfer-zero-day-mass-exploited-in-data-theft-attacks/
   - https://www.reddit.com/r/sysadmin/comments/13wxuej/critical_vulnerability_moveit_file_transfer/
+  - https://www.mandiant.com/resources/blog/zero-day-moveit-data-theft
 tags:
   analytic_story:
   - MOVEit Transfer Critical Vulnerability
