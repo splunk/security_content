@@ -1,0 +1,72 @@
+name: Windows MOVEit Transfer Writing ASPX
+id: c0ed2aca-5666-45b3-813f-ddfac3f3eda0
+version: 1
+date: '2023-06-01'
+author: Michael Haag, Splunk
+status: experimental
+type: TTP
+data_source:
+- Sysmon Event ID 11
+description: This analytic detects the creation of new ASPX files in the MOVEit Transfer application's "wwwroot" directory. This activity is indicative of the recent critical vulnerability found in MOVEit Transfer, where threat actors have been observed exploiting a zero-day vulnerability to install a malicious ASPX file (e.g., "human2.aspx") in the wwwroot directory. The injected file could then be used to exfiltrate sensitive data, including user credentials and file metadata. The vulnerability affects the MOVEit Transfer managed file transfer software developed by Progress, a subsidiary of US-based Progress Software Corporation. This analytic requires endpoint data reflecting process and filesystem activity. The identified process must be responsible for the creation of new ASPX or ASHX files in the specified directory.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=System  by _time span=1h Processes.process_id Processes.process_name
+  Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
+  tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\MOVEitTransfer\\wwwroot\\*") Filesystem.file_name
+  IN("*.aspx", "*.ashx", "*.asp*") OR Filesystem.file_name IN ("human2.aspx","_human2.aspx") by _time span=1h Filesystem.dest Filesystem.file_create_time
+  Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` |
+  fields _time dest file_create_time file_name file_path process_name process_path
+  process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
+  process_name | `windows_moveit_transfer_writing_aspx_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
+  node.
+known_false_positives: The query is structured in a way that `action` (read, create)
+  is not defined. Review the results of this query, filter, and tune as necessary.
+  It may be necessary to generate this query specific to your endpoint product.
+references:
+  - https://community.progress.com/s/article/MOVEit-Transfer-Critical-Vulnerability-31May2023
+  - https://www.reddit.com/r/sysadmin/comments/13wxuej/critical_vulnerability_moveit_file_transfer/
+  - https://www.bleepingcomputer.com/news/security/new-moveit-transfer-zero-day-mass-exploited-in-data-theft-attacks/
+  - https://www.reddit.com/r/sysadmin/comments/13wxuej/critical_vulnerability_moveit_file_transfer/
+  - https://www.mandiant.com/resources/blog/zero-day-moveit-data-theft
+tags:
+  analytic_story:
+  - MOVEit Transfer Critical Vulnerability
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 100
+  impact: 100
+  message: The MOVEit application on $dest$ has written a new ASPX file to disk.
+  mitre_attack_id:
+  - T1190
+  - T1133
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 100
+  required_fields:
+  - _time
+  - Filesystem.file_path
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.file_hash
+  - Filesystem.user
+  - Filesystem.file_create_time
+  - Processes.process_id 
+  - Processes.process_name
+  - Processes.dest
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/moveit_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
