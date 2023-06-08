@@ -19,15 +19,15 @@ description: The following analytic uses a pre trained deep learning model to
 search: '| tstats `security_content_summariesonly` count from
   datamodel=Network_Resolution by DNS.src _time DNS.query |
   `drop_dm_object_name("DNS")` | sort - _time,src, query | streamstats count as
-  count by src query | where count < 10 | table src,query,count,_time | apply
+  rank by src query | where rank < 10 | table src,query,rank,_time | apply
   detect_dns_data_exfiltration_using_pretrained_model_in_dsdl_filter | table
   src,_time,
   query,count,pred_is_dns_data_exfiltration_proba,pred_is_dns_data_exfiltration
-  | where count == 1 | rename pred_is_dns_data_exfiltration_proba as
+  | where rank == 1 | rename pred_is_dns_data_exfiltration_proba as
   is_exfiltration_score | rename pred_is_dns_data_exfiltration as
   is_exfiltration | where is_exfiltration_score > 0.5 |
-  `security_content_ctime(_time)`| rename src as "Source IP" _time as "time" |
-  table "Source IP","time","query","is_exfiltration_score","is_exfiltration" |
+  `security_content_ctime(_time)`| table src, _time as "time" |
+  table src, _time,query,is_exfiltration_score,is_exfiltration |
   `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl_filter`'
 how_to_implement:
   Steps to deploy detect DNS data exfiltration model into Splunk
