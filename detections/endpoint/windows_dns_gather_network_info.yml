@@ -22,9 +22,11 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: network administrator can execute this command to enumerate DNS record. Filter or add other paths to the exclusion as needed.
 references:
 - https://cert.gov.ua/article/3718487
+- https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
 tags:
   analytic_story:
   - Sandworm Tools
+  - Volt Typhoon
   asset_type: Endpoint
   confidence: 50
   impact: 50

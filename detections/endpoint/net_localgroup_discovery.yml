@@ -26,6 +26,7 @@ known_false_positives: False positives may be present. Tune as needed.
 references:
 - https://attack.mitre.org/techniques/T1069/001/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md
+- https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
@@ -34,6 +35,7 @@ tags:
   - Azorult
   - Windows Post-Exploitation
   - Prestige Ransomware
+  - Volt Typhoon
   - IcedID
   asset_type: Endpoint
   confidence: 50
