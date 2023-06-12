@@ -17,8 +17,8 @@ search: "| tstats `security_content_summariesonly` count min(_time) as firstTime
 | `drop_dm_object_name(Filesystem)`
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
-| regex file_name =  '\\x{202E}'
-| rex field=file_name '(?<RTLO_file_1>.+)(?<RTLO_exist_file>\\x{202E})(?<RTLO_file_2>.+)'
+| regex file_name =  "\\x{202E}"
+| rex field=file_name "(?<RTLO_file_1>.+)(?<RTLO_exist_file>\\x{202E})(?<RTLO_file_2>.+)"
 | eval file_name_with_RTLO=file_name
 | eval file_name=RTLO_file_1.RTLO_file_2
 | fields - RTLO*
