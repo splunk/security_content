@@ -59,6 +59,24 @@ class Factory():
           validation_errors = []
           # order matters to load and enrich security content types
           validation_errors.extend(self.createSecurityContent(SecurityContentType.lookups))
+
+          lookups_directory = pathlib.Path(input_dto.input_path) / "lookups"
+          csv_lookups = [
+            l.name
+            for l in Utils.get_all_csv_files_from_directory(str(lookups_directory))
+          ]
+          try:
+              csv_lookups.remove("mitre_enrichment.csv")
+          except ValueError as e:
+              # mitre_enrichment.csv didn't exist in the lookups directory.  That's okay.
+              pass
+          for lookup in self.output_dto.lookups:
+              if lookup.filename != None and lookup.filename in csv_lookups:
+                  csv_lookups.remove(lookup.filename)
+          if len(csv_lookups) > 0:
+              print("The following lookups were unused.  Should they be removed?\n\t- ",end="")
+              print("\n\t- ".join([str(p) for p in csv_lookups]))
+
           validation_errors.extend(self.createSecurityContent(SecurityContentType.macros))
           validation_errors.extend(self.createSecurityContent(SecurityContentType.deployments))
           validation_errors.extend(self.createSecurityContent(SecurityContentType.baselines))
