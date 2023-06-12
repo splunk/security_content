@@ -10,9 +10,9 @@ description: This search is used to detect the abuse of the right-to-left overri
   file name to make it appear benign. The RTLO character is a non-printing Unicode 
   character that causes the text that follows it to be displayed in reverse.
 data_source:
-- Sysmon 11
-- Sysmon 23
-- Sysmon 26
+- Sysmon Event ID 11
+- Sysmon Event ID 23
+- Sysmon Event ID 26
 search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_create_time) as file_create_time from datamodel=Endpoint.Filesystem where Filesystem.file_name!=unknown by Filesystem.dest Filesystem.user Filesystem.process_id Filesystem.file_name Filesystem.file_path
 | `drop_dm_object_name(Filesystem)`
 | `security_content_ctime(firstTime)`
