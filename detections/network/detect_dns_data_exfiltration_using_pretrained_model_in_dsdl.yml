@@ -1,5 +1,5 @@
 name: Detect DNS Data Exfiltration using pretrained model in DSDL
-id: 92f65c3a-968c-11ed-a1eb-0242ac120012
+id: 92f65c3a-168c-11ed-a1eb-0242ac120012
 version: 1
 date: '2023-04-27'
 status: experimental
