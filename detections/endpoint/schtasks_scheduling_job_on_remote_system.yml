@@ -32,6 +32,7 @@ tags:
   - NOBELIUM Group
   - Living Off The Land
   - Prestige Ransomware
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 90
   impact: 70

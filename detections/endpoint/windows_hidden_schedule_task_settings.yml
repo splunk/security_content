@@ -29,6 +29,7 @@ tags:
   - Active Directory Discovery
   - Industroyer2
   - Data Destruction
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 80
   impact: 80

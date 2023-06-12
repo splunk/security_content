@@ -38,6 +38,7 @@ tags:
   - Trickbot
   - IcedID
   - Living Off The Land
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 100
   impact: 70

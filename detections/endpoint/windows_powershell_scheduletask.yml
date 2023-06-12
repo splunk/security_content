@@ -1,0 +1,58 @@
+name: 'Windows PowerShell ScheduleTask'
+id: ddf82fcb-e9ee-40e3-8712-a50b5bf323fc
+version: 1
+date: '2023-06-12'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+data_source:
+- UPDATE_DATA_SOURCE
+description: UPDATE_DESCRIPTION
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_powershell_scheduletask_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/?view=windowsserver2022-ps
+- https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
+tags:
+  analytic_story:
+  - Scheduled Tasks
+  asset_type: Endpoint
+  atomic_guid:
+  - af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd
+  confidence: 50
+  impact: 50
+  message: The PowerShell cmdlets related to task creation, modification and start occurred on $Computer$ by $User$. 
+  mitre_attack_id:
+  - T1053.005
+  - T1059.001
+  - T1059
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - Computer
+  - EventCode
+  security_domain: endpoint
+  risk_score: 25
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/pwsh_scheduledtask.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

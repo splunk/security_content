@@ -36,6 +36,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Living Off The Land
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 70
   impact: 60

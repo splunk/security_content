@@ -51,6 +51,7 @@ tags:
   - Industroyer2
   - Active Directory Lateral Movement
   - Data Destruction
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 100
   impact: 70

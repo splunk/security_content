@@ -42,6 +42,7 @@ tags:
   - Malicious PowerShell
   - Hermetic Wiper
   - Data Destruction
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 50
   impact: 90

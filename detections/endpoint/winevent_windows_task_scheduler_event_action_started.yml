@@ -41,6 +41,7 @@ tags:
   - Industroyer2
   - Sandworm Tools
   - Data Destruction
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 100
   impact: 80

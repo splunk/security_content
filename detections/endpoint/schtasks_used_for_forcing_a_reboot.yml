@@ -27,6 +27,7 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Ransomware
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 80
   impact: 70

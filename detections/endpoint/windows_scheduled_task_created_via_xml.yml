@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Winter Vivern
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 70
   dataset:

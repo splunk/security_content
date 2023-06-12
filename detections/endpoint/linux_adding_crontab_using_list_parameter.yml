@@ -34,6 +34,7 @@ tags:
   - Linux Living Off The Land
   - Data Destruction
   - Linux Persistence Techniques
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 50
   impact: 50

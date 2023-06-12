@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Living Off The Land
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 60
   impact: 90
