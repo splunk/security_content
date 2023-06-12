@@ -1,3 +1,4 @@
-description: A placeholder for a list of AWS API calls for each user role
-filename: previously_seen_api_calls_from_user_roles.csv
+description: A placeholder for a list of IPs that have access S3
+collection: previously_seen_api_calls_from_user_roles
 name: previously_seen_api_calls_from_user_roles
+fields_list: _key,earliest,latest,userName,eventName
