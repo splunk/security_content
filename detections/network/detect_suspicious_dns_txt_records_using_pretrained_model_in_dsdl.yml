@@ -22,10 +22,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | rename answer as text | fields firstTime, lastTime, message_type,record_type,src,dest,
   text | apply detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl |
   rename predicted_is_unknown as is_suspicious_score | where is_suspicious_score >
-  0.5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |
-  rename src as "Source IP", dest as  "Destination IP", text as "DNS Answer", record_type
-  as "DNS Record Type" | table "Source IP","Destination IP","DNS Answer","DNS Record
-  Type", firstTime, lastTime,is_suspicious_score | `detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl_filter`'
+  0.5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | table src,dest,text,record_type, firstTime, lastTime,is_suspicious_score | `detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl_filter`'
 how_to_implement: 'Steps to deploy detect suspicious DNS TXT records model into Splunk
   App DSDL. This detection depends on the Splunk app for Data Science and Deep Learning
   which can be found here - `https://splunkbase.splunk.com/app/4607/` and the Network
