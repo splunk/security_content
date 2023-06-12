@@ -1,0 +1,77 @@
+name: Detect RTLO In File Name
+id: 468b7e11-d362-43b8-b6ec-7a2d3b246678
+version: 2
+date: '2023-04-26'
+author: Steven Dick
+status: production
+type: TTP
+description: This search is used to detect the abuse of the right-to-left override (RTLO or RLO)
+  character (U+202E) RTLO. This technique is used by adversaries to disguise a string and/or 
+  file name to make it appear benign. The RTLO character is a non-printing Unicode 
+  character that causes the text that follows it to be displayed in reverse.
+data_source:
+- Sysmon Event ID 11
+- Sysmon Event ID 23
+- Sysmon Event ID 26
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_create_time) as file_create_time from datamodel=Endpoint.Filesystem where Filesystem.file_name!=unknown by Filesystem.dest Filesystem.user Filesystem.process_id Filesystem.file_name Filesystem.file_path
+| `drop_dm_object_name(Filesystem)`
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| regex file_name =  "\\x{202E}"
+| rex field=file_name "(?<RTLO_file_1>.+)(?<RTLO_exist_file>\\x{202E})(?<RTLO_file_2>.+)"
+| eval file_name_with_RTLO=file_name
+| eval file_name=RTLO_file_1.RTLO_file_2
+| fields - RTLO*
+| `detect_rtlo_in_file_name_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that includes the full command line of the process being launched on
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Implementation in regions that use right to left in native language.
+references:
+- https://attack.mitre.org/techniques/T1036/002/
+- https://resources.infosecinstitute.com/topic/spoof-using-right-to-left-override-rtlo-technique-2/
+- https://www.trendmicro.com/en_us/research/17/f/following-trail-blacktech-cyber-espionage-campaigns.html
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  asset_type: Endpoint
+  confidence: 80
+  impact: 50  
+  message: Suspicious RTLO detected in $file_name$ on endpoint $dest$ by user $user$.
+  mitre_attack_id:
+  - T1036.002
+  - T1036
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest 
+  - Filesystem.user 
+  - Filesystem.file_name 
+  - Filesystem.file_path
+  - Filesystem.process_id   
+  risk_score: 40
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.002/outlook_attachment/rtlo_events.log
+      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      sourcetype: xmlwineventlog
