@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
 version: 1
-date: '2023-04-25'
+date: '2023-06-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -38,26 +38,27 @@ references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
-  - Azorult
-  - AsyncRAT
+  - WhisperGate
   - XMRig
-  - Swift Slicer
-  - DarkCrystal RAT
-  - Double Zero Destructor
-  - Trickbot
-  - Data Destruction
-  - LockBit Ransomware
   - Industroyer2
   - Remcos
-  - RedLine Stealer
-  - WhisperGate
-  - IcedID
+  - Data Destruction
   - Hermetic Wiper
-  - AgentTesla
-  - Brute Ratel C4
+  - Azorult
+  - DarkCrystal RAT
+  - Graceful Wipe Out Attack
+  - IcedID
+  - Swift Slicer
   - Qakbot
-  - Chaos Ransomware
+  - RedLine Stealer
+  - Brute Ratel C4
+  - AsyncRAT
+  - LockBit Ransomware
+  - AgentTesla
+  - Double Zero Destructor
   - Volt Typhoon
+  - Chaos Ransomware
+  - Trickbot
   asset_type: Endpoint
   confidence: 50
   impact: 40

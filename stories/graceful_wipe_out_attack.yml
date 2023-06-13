@@ -1,0 +1,25 @@
+name: Graceful Wipe Out Attack
+id: 83b15b3c-6bda-45aa-a3b6-b05c52443f44
+version: 1
+date: '20223-06-15'
+author: Teoderick Contreras, Splunk
+description: This analytic story contains detections that allow security analysts to detect and investigate unusual activities
+  that might relate to the destructive attack or campaign found by "THE DFIR Report" that uses Truebot, FlawedGrace and MBR killer malware. 
+  This analytic story looks for suspicious dropped files, cobalt strike execution, im-packet execution, registry modification, scripts, 
+  persistence, lateral movement, impact, exfiltration and recon.
+narrative: Graceful Wipe Out Attack is a destructive malware campaign found by "The DFIR Report" targeting
+  multiple organizations to collect, exfiltrate and wipe the data of targeted networks. 
+  This malicious payload corrupts or wipes Master Boot Records by using an NSIS script after the exfiltration of sensitive information from the targeted host or system.
+references:
+- https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
+tags:
+  analytic_story: Graceful Wipe Out Attack
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
