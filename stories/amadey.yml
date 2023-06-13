@@ -1,0 +1,21 @@
+name: Amadey
+id: a919a01b-3ea5-4ed4-9cbe-11cd8b64c36c
+version: 1
+date: '2023-06-16'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Amadey malware including parent-child process anomaly, rundll32 execution, persistence, files/directory access right modification and many more.
+  Amadey is one of the active trojans that are capable of stealing sensitive information via its from the infected or targeted host machine. 
+  It can collect various types of data, including browser profile information, clipboard data, capture screenshots and system information. 
+narrative: Adversaries or threat actors may use this malware to maximize the impact of infection on the target organization in operations where data collection and exfiltration is the goal. 
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.amadey
+tags:
+  analytic_story: Amadey
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
