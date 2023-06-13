@@ -15,8 +15,7 @@ search: ' `amazon_security_lake` api.operation=CreateVirtualMFADevice | stats co
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `asl_aws_new_mfa_method_registered_for_user_filter`'
-how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
-  search works with Amazon Security Lake logs.
+how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
 known_false_positives: Newly onboarded users who are registering an MFA method for
   the first time will also trigger this detection.
 references:
