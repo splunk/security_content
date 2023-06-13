@@ -1,7 +1,7 @@
 name: Graceful Wipe Out Attack
 id: 83b15b3c-6bda-45aa-a3b6-b05c52443f44
 version: 1
-date: '20223-06-15'
+date: '2023-06-15'
 author: Teoderick Contreras, Splunk
 description: This analytic story contains detections that allow security analysts to detect and investigate unusual activities
   that might relate to the destructive attack or campaign found by "THE DFIR Report" that uses Truebot, FlawedGrace and MBR killer malware. 
