@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Living Off The Land
+  - Windows Post-Exploitation
   asset_type: Endpoint
   confidence: 50
   impact: 50
