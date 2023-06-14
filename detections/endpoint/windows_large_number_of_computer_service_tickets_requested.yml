@@ -35,6 +35,7 @@ tags:
   analytic_story:
   - Active Directory Privilege Escalation
   - Active Directory Lateral Movement
+  - Active Directory Network Share Discovery
   asset_type: Endpoint
   confidence: 50
   impact: 60

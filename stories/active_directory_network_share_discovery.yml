@@ -1,0 +1,18 @@
+name: Active Directory Network Share Discovery
+id: e8677e20-f0cd-4342-ac3a-4b3f894363ec
+version: 1
+date: '2023-06-13'
+author: Mauricio Velazco, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: Active Directory Network Share Discovery
+  category:
+  - Adversary Tactics
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
