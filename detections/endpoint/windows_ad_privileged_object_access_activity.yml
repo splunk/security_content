@@ -34,7 +34,7 @@ search: '`wineventlog_security` EventCode=4662 ObjectName IN (
 "CN=Exchange Windows Permission,*",
 "CN=Organization Management,*")
 | rex field=ObjectName "CN\=(?<object>[^,]+)" 
-| stats values(Computer) as dest, values(object) as object, dc(ObjectName) as object_count, min(_time) as firstTime, max(_time) as lastTime, count by SubjectUserName
+| stats values(Computer) as dest, values(object_name) as object_name, dc(ObjectName) as object_count, min(_time) as firstTime, max(_time) as lastTime, count by SubjectUserName
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 | eval user = SubjectUserName, risk_score = case(object_count=1,40,object_count>1,object_count*30,true(),40)
@@ -60,7 +60,7 @@ tags:
     type: username
     role:
     - Victim
-  - name: object
+  - name: object_name
     type: other
     role:
     - Attacker
