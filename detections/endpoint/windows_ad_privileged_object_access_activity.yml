@@ -33,7 +33,7 @@ search: '`wineventlog_security` EventCode=4662 ObjectName IN (
 "CN=Exchange Trusted Subsystem,*",
 "CN=Exchange Windows Permission,*",
 "CN=Organization Management,*")
-| rex field=ObjectName "CN\=(?<object>[^,]+)" 
+| rex field=ObjectName "CN\=(?<object_name>[^,]+)" 
 | stats values(Computer) as dest, values(object_name) as object_name, dc(ObjectName) as object_count, min(_time) as firstTime, max(_time) as lastTime, count by SubjectUserName
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
