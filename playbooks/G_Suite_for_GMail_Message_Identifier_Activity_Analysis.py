@@ -1,5 +1,5 @@
 """
-Accepts an internet message id, and asks Gmail for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table.
+Accepts an internet message id, and asks Gmail for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table.\n\nThis may not work in the intended fashion if your organization has more than 500 mailboxes.\n\nRef: D3-IAA: https://d3fend.mitre.org/technique/d3f:IdentifierActivityAnalysis/
 """
 
 
@@ -27,7 +27,8 @@ def artifact_filter(action=None, success=None, container=None, results=None, han
         conditions=[
             ["playbook_input:message_id", "!=", None]
         ],
-        name="artifact_filter:condition_1")
+        name="artifact_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -112,7 +113,7 @@ def search_mailboxes(action=None, success=None, container=None, results=None, ha
 def format_message_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_message_report() called")
 
-    template = """SOAR searched for occurrences of `{0}` within your environment using GSuite for GMail. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n"""
+    template = """SOAR searched for occurrences of `{0}` within your environment using GSuite for GMail. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n| --- | --- | --- | --- |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -171,26 +172,28 @@ def build_message_output(action=None, success=None, container=None, results=None
     build_message_output__observable_array = []
     recordList = []
     
-    # construct iterables for records
-    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):
-        record = {
-            "recipient": recipient,
-            "addressee": addressee,
-            "subject": subject,
-            "sender": sender
-        }
-        recordList.append(record)
-        
-    # Create observable body
-    observable = {
-        "value": messageID,
-        "type": "internet message ID",
-        "count": len(recordList),
-        "source": "GSuite for GMail",
-        "message_identifier_activity": recordList
-    }
+    for message_id in messageID:
     
-    build_message_output__observable_array.append(observable)
+        # construct iterables for records
+        for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):
+            record = {
+                "recipient": recipient,
+                "addressee": addressee,
+                "subject": subject,
+                "sender": sender
+            }
+            recordList.append(record)
+        
+        # Create observable body
+        observable = {
+            "value": message_id,
+            "type": "internet message ID",
+            "count": len(recordList),
+            "source": "GSuite for GMail",
+            "message_identifier_activity": recordList
+        }
+    
+        build_message_output__observable_array.append(observable)
     
 
     ################################################################################
@@ -218,7 +221,8 @@ def results_filter(action=None, success=None, container=None, results=None, hand
             ["search_mailboxes:action_result.status", "==", "success"],
             ["search_mailboxes:action_result.summary.total_messages_returned", ">", 0]
         ],
-        name="results_filter:condition_1")
+        name="results_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:

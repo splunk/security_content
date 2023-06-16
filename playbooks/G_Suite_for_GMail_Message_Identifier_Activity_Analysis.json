@@ -4,7 +4,7 @@
     "category": "Message Identifier Activity Analysis",
     "coa": {
         "data": {
-            "description": "Accepts an internet message id, and asks Gmail for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table.",
+            "description": "Accepts an internet message id, and asks Gmail for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table.\n\nThis may not work in the intended fashion if your organization has more than 500 mailboxes.\n\nRef: D3-IAA: https://d3fend.mitre.org/technique/d3f:IdentifierActivityAnalysis/",
             "edges": [
                 {
                     "conditions": [
@@ -66,7 +66,7 @@
                     "targetPort": "6_in"
                 }
             ],
-            "hash": "4c7de1b968ebd883893943258b5cb5d7d415341f",
+            "hash": "c253dd1339538806313a6f387f6df7a39d537dff",
             "nodes": {
                 "0": {
                     "data": {
@@ -81,8 +81,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 20,
-                    "y": 0
+                    "x": 19.999999999999986,
+                    "y": -1.2789769243681803e-13
                 },
                 "1": {
                     "data": {
@@ -97,7 +97,7 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 20,
+                    "x": 19.999999999999986,
                     "y": 1220
                 },
                 "3": {
@@ -105,6 +105,8 @@
                         "advanced": {
                             "customName": "artifact filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "join": [],
                             "note": "Ensure we have an input"
                         },
@@ -131,11 +133,7 @@
                     "errors": {},
                     "id": "3",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 60,
                     "y": 148
                 },
@@ -242,7 +240,7 @@
                             "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.subject",
                             "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.from"
                         ],
-                        "template": "SOAR searched for occurrences of `{0}` within your environment using GSuite for GMail. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n",
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using GSuite for GMail. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n| --- | --- | --- | --- |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n",
                         "type": "format"
                     },
                     "errors": {},
@@ -280,16 +278,18 @@
                     "errors": {},
                     "id": "7",
                     "type": "code",
-                    "userCode": "\n    # Variable renaming for convenince\n    messageID = filtered_result_0_parameter_internet_message_id\n    recipients = filtered_result_0_data___delivered_to\n    addressees = filtered_result_0_data___to\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___from\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    # construct iterables for records\n    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n        record = {\n            \"recipient\": recipient,\n            \"addressee\": addressee,\n            \"subject\": subject,\n            \"sender\": sender\n        }\n        recordList.append(record)\n        \n    # Create observable body\n    observable = {\n        \"value\": messageID,\n        \"type\": \"internet message ID\",\n        \"count\": len(recordList),\n        \"source\": \"GSuite for GMail\",\n        \"message_identifier_activity\": recordList\n    }\n    \n    build_message_output__observable_array.append(observable)\n    \n\n",
+                    "userCode": "\n    # Variable renaming for convenince\n    messageID = filtered_result_0_parameter_internet_message_id\n    recipients = filtered_result_0_data___delivered_to\n    addressees = filtered_result_0_data___to\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___from\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    for message_id in messageID:\n    \n        # construct iterables for records\n        for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n            record = {\n                \"recipient\": recipient,\n                \"addressee\": addressee,\n                \"subject\": subject,\n                \"sender\": sender\n            }\n            recordList.append(record)\n        \n        # Create observable body\n        observable = {\n            \"value\": message_id,\n            \"type\": \"internet message ID\",\n            \"count\": len(recordList),\n            \"source\": \"GSuite for GMail\",\n            \"message_identifier_activity\": recordList\n        }\n    \n        build_message_output__observable_array.append(observable)\n    \n\n",
                     "warnings": {},
                     "x": 0,
-                    "y": 1042
+                    "y": 1040
                 },
                 "9": {
                     "data": {
                         "advanced": {
                             "customName": "results filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filter results from mailbox search",
                             "join": [],
                             "note": "Remove mailboxes that couldn't be searched or where no results were found"
@@ -363,10 +363,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-05-23T15:05:26.081875+00:00",
+    "create_time": "2023-06-16T15:48:09.633490+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -374,6 +374,7 @@
     "tags": [
         "message_identifier_activity",
         "internet_message_id",
-        "gsuite_for_gmail"
+        "gsuite_for_gmail",
+        "D3-IAA"
     ]
 }
