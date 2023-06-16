@@ -1,5 +1,5 @@
 """
-Accepts an internet message id, and asks Splunk \n to look for records that have a matching internet message id.  It then produces a normalized output and summary table.
+Accepts an internet message id, and asks Splunk \n to look for records that have a matching internet message id.  It then produces a normalized output and summary table.\n\nRef: D3-IAA https://d3fend.mitre.org/technique/d3f:IdentifierActivityAnalysis/
 """
 
 
@@ -27,7 +27,8 @@ def input_filter(action=None, success=None, container=None, results=None, handle
         conditions=[
             ["playbook_input:message_id", "!=", None]
         ],
-        name="input_filter:condition_1")
+        name="input_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -40,7 +41,7 @@ def input_filter(action=None, success=None, container=None, results=None, handle
 def format_message_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_message_query() called")
 
-    template = """summariesonly=false count from datamodel=Email.All_Email where All_Email.message_id=\"{0}\" by All_Email.orig_recipient, All_Email.recipient, All_Email.src_user, All_Email.subject\n| `drop_dm_object_name(\"All_Email\")`\n| rename orig_recipient as Addressee, recipient as Recipient, src_user as Sender, subject as Subject\n| fields Addressee, Recipient, Sender, Subject\n| fillnull value=\"Unknown\""""
+    template = """summariesonly=false count values(All_Email.orig_recipient) from datamodel=Email.All_Email where All_Email.message_id=\"{0}\" by All_Email.recipient, All_Email.src_user, All_Email.subject\n| `drop_dm_object_name(\"All_Email\")`\n| rename \"values(All_Email.orig_recipient)\" as Addressee, recipient as Recipient, src_user as Sender, subject as Subject\n| fields Addressee, Recipient, Sender, Subject\n| fillnull value=\"Unknown\""""
 
     # parameter list for template variable replacement
     parameters = [
@@ -101,7 +102,7 @@ def run_message_query(action=None, success=None, container=None, results=None, h
 def format_message_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_message_report() called")
 
-    template = """SOAR searched for occurrences of `{0}` within your environment using Splunk's Email datamodel. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n\n"""
+    template = """SOAR searched for occurrences of `{0}` within your environment using Splunk's Email datamodel. The table below shows a summary of the information gathered.\n\n\n| Recipient | Addressed To | Subject | Sender |\n| --- | --- | --- | --- |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -163,24 +164,25 @@ def build_message_output(action=None, success=None, container=None, results=None
     recordList = []
     
     # unwind records
-    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):
-        record = {
-            "recipient": recipient,
-            "addressee": addressee,
-            "subject": subject,
-            "sender": sender
-        }
-        recordList.append(record)
+    for message_identifier in message_id:
+        for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):
+            record = {
+                "recipient": recipient,
+                "addressee": addressee,
+                "subject": subject,
+                "sender": sender
+            }
+            recordList.append(record)
         
-    observable = {
-        "value": message_id,
-        "type": "internet message ID",
-        "count": len(recordList),
-        "source": "Splunk",
-        "message_identifier_activity": recordList
-    }
+        observable = {
+            "value": message_identifier,
+            "type": "internet message ID",
+            "count": len(recordList),
+            "source": "Splunk",
+            "message_identifier_activity": recordList
+        }
 
-    build_message_output__observable_array.append(observable)
+        build_message_output__observable_array.append(observable)
     
     ################################################################################
     ## Custom Code End
@@ -201,7 +203,8 @@ def results_filter(action=None, success=None, container=None, results=None, hand
         conditions=[
             ["run_message_query:action_result.summary.total_events", ">", 0]
         ],
-        name="results_filter:condition_1")
+        name="results_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:

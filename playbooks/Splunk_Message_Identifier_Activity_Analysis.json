@@ -4,7 +4,7 @@
     "category": "Message Identifier Activity Analysis",
     "coa": {
         "data": {
-            "description": "Accepts an internet message id, and asks Splunk \n to look for records that have a matching internet message id.  It then produces a normalized output and summary table.",
+            "description": "Accepts an internet message id, and asks Splunk \n to look for records that have a matching internet message id.  It then produces a normalized output and summary table.\n\nRef: D3-IAA https://d3fend.mitre.org/technique/d3f:IdentifierActivityAnalysis/",
             "edges": [
                 {
                     "conditions": [
@@ -66,7 +66,7 @@
                     "targetPort": "3_in"
                 }
             ],
-            "hash": "2300cf9478d779f27f57247e8fd3ad913e31d940",
+            "hash": "11000a7253e79b6829db063d49078c79b7446d8d",
             "nodes": {
                 "0": {
                     "data": {
@@ -81,8 +81,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 20,
-                    "y": 0
+                    "x": 19.999999999999986,
+                    "y": -1.2789769243681803e-13
                 },
                 "1": {
                     "data": {
@@ -97,7 +97,7 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 20,
+                    "x": 19.999999999999986,
                     "y": 1220
                 },
                 "3": {
@@ -105,6 +105,8 @@
                         "advanced": {
                             "customName": "input filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "join": [],
                             "note": "Ensure there is an input"
                         },
@@ -131,11 +133,7 @@
                     "errors": {},
                     "id": "3",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 60,
                     "y": 148
                 },
@@ -153,7 +151,7 @@
                         "parameters": [
                             "filtered-data:input_filter:condition_1:playbook_input:message_id"
                         ],
-                        "template": "summariesonly=false count from datamodel=Email.All_Email where All_Email.message_id=\"{0}\" by All_Email.orig_recipient, All_Email.recipient, All_Email.src_user, All_Email.subject\n| `drop_dm_object_name(\"All_Email\")`\n| rename orig_recipient as Addressee, recipient as Recipient, src_user as Sender, subject as Subject\n| fields Addressee, Recipient, Sender, Subject\n| fillnull value=\"Unknown\"",
+                        "template": "summariesonly=false count values(All_Email.orig_recipient) from datamodel=Email.All_Email where All_Email.message_id=\"{0}\" by All_Email.recipient, All_Email.src_user, All_Email.subject\n| `drop_dm_object_name(\"All_Email\")`\n| rename \"values(All_Email.orig_recipient)\" as Addressee, recipient as Recipient, src_user as Sender, subject as Subject\n| fields Addressee, Recipient, Sender, Subject\n| fillnull value=\"Unknown\"",
                         "type": "format"
                     },
                     "errors": {},
@@ -231,7 +229,7 @@
                             "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Subject",
                             "filtered-data:results_filter:condition_1:run_message_query:action_result.data.*.Sender"
                         ],
-                        "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk's Email datamodel. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n\n",
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk's Email datamodel. The table below shows a summary of the information gathered.\n\n\n| Recipient | Addressed To | Subject | Sender |\n| --- | --- | --- | --- |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n\n",
                         "type": "format"
                     },
                     "errors": {},
@@ -268,7 +266,7 @@
                     "errors": {},
                     "id": "8",
                     "type": "code",
-                    "userCode": "\n    # Variable renames for convenience\n    message_id = filtered_input_0_message_id_values\n    recipients = filtered_result_0_data___recipient\n    addressees = filtered_result_0_data___addressee\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___sender\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    # unwind records\n    for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n        record = {\n            \"recipient\": recipient,\n            \"addressee\": addressee,\n            \"subject\": subject,\n            \"sender\": sender\n        }\n        recordList.append(record)\n        \n    observable = {\n        \"value\": message_id,\n        \"type\": \"internet message ID\",\n        \"count\": len(recordList),\n        \"source\": \"Splunk\",\n        \"message_identifier_activity\": recordList\n    }\n\n    build_message_output__observable_array.append(observable)\n    \n",
+                    "userCode": "\n    # Variable renames for convenience\n    message_id = filtered_input_0_message_id_values\n    recipients = filtered_result_0_data___recipient\n    addressees = filtered_result_0_data___addressee\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___sender\n    \n    build_message_output__observable_array = []\n    recordList = []\n    \n    # unwind records\n    for message_identifier in message_id:\n        for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):\n            record = {\n                \"recipient\": recipient,\n                \"addressee\": addressee,\n                \"subject\": subject,\n                \"sender\": sender\n            }\n            recordList.append(record)\n        \n        observable = {\n            \"value\": message_identifier,\n            \"type\": \"internet message ID\",\n            \"count\": len(recordList),\n            \"source\": \"Splunk\",\n            \"message_identifier_activity\": recordList\n        }\n\n        build_message_output__observable_array.append(observable)\n    \n",
                     "warnings": {},
                     "x": 0,
                     "y": 1042
@@ -278,6 +276,8 @@
                         "advanced": {
                             "customName": "Results filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "join": [],
                             "note": "Ensure there are results"
                         },
@@ -344,10 +344,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-05-23T15:28:27.986655+00:00",
+    "create_time": "2023-06-16T15:37:11.247885+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -355,6 +355,7 @@
     "tags": [
         "message_identifier_activity",
         "internet_message_id",
-        "splunk"
+        "splunk",
+        "D3-IAA"
     ]
 }
