@@ -15,15 +15,18 @@ description: The following analytic identifies the addition of a new owner for a
   and obtain single-factor access to an Azure AD environment. Attackers who are looking to
   escalate their privileges by leveraging a Service Principals permissions may also add a new owner.
 data_source: []
-search: ' `azuread` body.operationName="Add owner to application" | rename body.properties.*
-  as * | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.userPrincipalName
-  as newOwner | rename targetResources{}.modifiedProperties{}.newValue as displayName
-  | eval displayName = mvindex(displayName,1) | where  initiatedBy!=newOwner | stats
-  values(displayName) by _time, initiatedBy, result, body.operationName, newOwner
+search: ' `azuread` operationName="Add owner to application"
+  | rename properties.* as *
+  | rename initiatedBy.user.userPrincipalName as initiatedBy
+  | rename targetResources{}.userPrincipalName as newOwner
+  | rename targetResources{}.modifiedProperties{}.newValue as displayName
+  | eval displayName = mvindex(displayName,1) 
+  | where initiatedBy!=newOwner
+  | stats values(displayName) by _time, initiatedBy, result, operationName, newOwner
   | `azure_ad_service_principal_owner_added_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
+  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
   Specifically, this analytic leverages the AuditLogs log category.
 known_false_positives: Administrator may legitimately add new owners for Service Principals.
   Filter as needed.
@@ -54,11 +57,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.operationName
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.targetResources{}.userPrincipalName
-  - body.properties.targetResources{}.modifiedProperties{}.newValue
-  - body.propertiesresult
+  - operationName
+  - properties.initiatedBy.user.userPrincipalName
+  - properties.targetResources{}.userPrincipalName
+  - properties.targetResources{}.modifiedProperties{}.newValue
+  - properties.result
   risk_score: 54
   security_domain: audit
 tests:
