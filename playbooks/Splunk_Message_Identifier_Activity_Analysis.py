@@ -41,7 +41,7 @@ def input_filter(action=None, success=None, container=None, results=None, handle
 def format_message_query(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("format_message_query() called")
 
-    template = """summariesonly=false count values(All_Email.orig_recipient) from datamodel=Email.All_Email where All_Email.message_id=\"{0}\" by All_Email.recipient, All_Email.src_user, All_Email.subject\n| `drop_dm_object_name(\"All_Email\")`\n| rename \"values(All_Email.orig_recipient)\" as Addressee, recipient as Recipient, src_user as Sender, subject as Subject\n| fields Addressee, Recipient, Sender, Subject\n| fillnull value=\"Unknown\""""
+    template = """summariesonly=false fillnull_value=\"Unknown\" count from datamodel=Email.All_Email where All_Email.message_id=\"{0}\" by All_Email.orig_recipient, All_Email.recipient, All_Email.src_user, All_Email.subject | `drop_dm_object_name(\"All_Email\")` | rename orig_recipient as Addressee, recipient as Recipient, src_user as Sender, subject as Subject | fields Addressee, Recipient, Sender, Subject | fillnull value=\"Unknown\""""
 
     # parameter list for template variable replacement
     parameters = [
