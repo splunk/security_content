@@ -1,6 +1,6 @@
 name: Azure AD Global Administrator Role Assigned
 id: 825fed20-309d-4fd1-8aaf-cd49c1bb093c
-version: 2
+version: 3
 date: '2022-08-17'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
@@ -14,14 +14,15 @@ description: The following analytic identifies the assignment of the Azure AD Gl
   to gain control of Azure resources. Adversaries and red teams alike may assign this
   role to a compromised account to establish Persistence or escalate their privileges in an Azure AD environment.
 data_source: []
-search: '`azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Global
-  Administrator\"" | rename body.properties.* as * | rename targetResources{}.userPrincipalName
-  as userPrincipalName | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName
+search: '`azuread` operationName="Add member to role"  properties.targetResources{}.modifiedProperties{}.newValue="\"Global Administrator\""
+  | rename properties.* as *
+  | rename targetResources{}.userPrincipalName as userPrincipalName
+  | rename initiatedBy.user.userPrincipalName as initiatedBy
+  | stats values(userPrincipalName) by _time, initiatedBy, result, operationName
   | `azure_ad_global_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
+  You must be ingesting Azure Active Directory events into your Splunk environment through an Event Hub.
   Specifically, this analytic leverages the AuditLogs log category.
 known_false_positives: Administrators may legitimately assign the Global Administrator
   role to a user. Filter as needed.
@@ -58,10 +59,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.targetResources{}.userPrincipalName
-  - body.properties.targetResources{}.type
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.result
+  - properties.targetResources{}.userPrincipalName
+  - properties.targetResources{}.type
+  - properties.initiatedBy.user.userPrincipalName
+  - properties.result
   risk_score: 72
   security_domain: threat
 tests:
