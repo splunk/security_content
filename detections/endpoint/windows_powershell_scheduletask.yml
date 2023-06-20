@@ -6,14 +6,16 @@ author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
-- UPDATE_DATA_SOURCE
-description: UPDATE_DESCRIPTION
+- Powershell 4104
+description: The following analytic aims to uncover anomalies indicative of potential malicious activities related to PowerShell's task scheduling cmdlets. Specifically, it scrutinizes EventCode 4104 in PowerShell logs, a code associated with script block logging. By seeking out key task-related cmdlets such as 'New-ScheduledTask', 'Set-ScheduledTask', and others, the analytic flags unusual or suspicious use patterns that could be emblematic of suspicious behavior. Analysts should be aware that perpetrators often leverage task scheduling for persistence and remote execution of malicious code. 
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_powershell_scheduletask_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Benign administrative tasks can also trigger alerts, necessitating a firm understanding of the typical system behavior and precise tuning of the analytic to reduce false positives.
 references:
 - https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/?view=windowsserver2022-ps
 - https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
