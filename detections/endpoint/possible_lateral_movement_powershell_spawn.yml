@@ -5,15 +5,9 @@ date: '2023-04-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic assists with identifying a PowerShell process
-  spawned as a child or grand child process of commonly abused processes during lateral
-  movement techniques including `services.exe`, `wmiprsve.exe`, `svchost.exe`, `wsmprovhost.exe`
-  and `mmc.exe`. Legitimate Windows features such as the Service Control Manager,
-  Windows Management Instrumentation, Task Scheduler, Windows Remote Management and
-  the DCOM protocol can be abused to start a process on a remote endpoint. Looking
-  for PowerShell spawned out of this processes may reveal a lateral movement attack.
-  Red Teams and adversaries alike may abuse these services during a breach for lateral
-  movement and remote code execution.
+description: The following analytic is designed to identify possible lateral movement attacks that involve the spawning of a PowerShell process as a child or grandchild process of commonly abused processes. These processes include services.exe, wmiprsve.exe, svchost.exe, wsmprovhost.exe, and mmc.exe.
+
+  Such behavior is indicative of legitimate Windows features such as the Service Control Manager, Windows Management Instrumentation, Task Scheduler, Windows Remote Management, and the DCOM protocol being abused to start a process on a remote endpoint. This behavior is often seen during lateral movement techniques where adversaries or red teams abuse these services for lateral movement and remote code execution.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

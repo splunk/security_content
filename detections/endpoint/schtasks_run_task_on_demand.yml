@@ -5,10 +5,7 @@ date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies an on demand run of a Windows Schedule Task
-  through shell or command-line. This technique has been used by adversaries that
-  force to run their created Schedule Task as their persistence mechanism or for lateral
-  movement as part of their malicious attack to the compromised machine.
+description: The following analytic is designed to detect when a Windows Scheduled Task is executed on demand via shell or command line. Adversaries often force the execution of their created Scheduled Tasks for persistent access or lateral movement within a compromised machine. This analytic is driven by process-related data, specifically process name, parent process, and command-line executions, sourced from endpoint logs. The search criteria focus on 'schtasks.exe' with an associated 'run' command.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -21,8 +18,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed schtasks.exe may be used.
-known_false_positives: Administrators may use to debug Schedule Task entries. Filter
-  as needed.
+known_false_positives: Bear in mind, administrators debugging Scheduled Task entries may trigger this analytic, necessitating fine-tuning and filtering to distinguish between legitimate and potentially malicious use of 'schtasks.exe'.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:

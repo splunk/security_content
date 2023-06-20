@@ -5,20 +5,13 @@ date: '2021-04-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following query utilizes Windows Security EventCode 4698, `A scheduled
-  task was created`, to identify suspicious tasks registered on Windows either via
-  schtasks.exe OR TaskService with a command to be executed with a Rundll32. This
-  technique is common in new trickbot that uses rundll32 to load is trickbot downloader.
-  The search will return the first time and last time the task was registered, as
-  well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether
-  it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and
-  `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService
-  is launched -`taskschd.dll`. If found loaded by another process, it is possible
-  a scheduled task is being registered within that process context in memory. Upon
-  triage, identify the task scheduled source. Was it schtasks.exe or via TaskService?
-  Review the job created and the Command to be executed. Capture any artifacts on
-  disk and review. Identify any parallel processes within the same timeframe to identify
-  source.'
+description: The following analytic detects the creation of suspicious tasks in Windows, specifically tasks using the rundll32 command. It's implemented using Windows Security EventCode 4698 for A scheduled task was created, and looks for tasks executed either via schtasks.exe or TaskService. This behavior is worth identifying as it is commonly used by malware, such as TrickBot, that leverages rundll32 to execute its downloader.
+
+  If a true positive is found, it suggests an attacker is trying to persist within the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes.
+
+  To implement this analytic, ensure you are ingesting logs with task schedule information from your endpoints. Be aware of potential false positives - legitimate uses of Task Scheduler in your environment may cause benign activities to be flagged.
+
+  Upon triage, review the scheduled task's source and the command to be executed. Capture and inspect any relevant on-disk artifacts, and look for concurrent processes to identify the attack source. This approach helps analysts detect potential threats earlier and mitigate the risks.
 data_source:
 - Windows Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN

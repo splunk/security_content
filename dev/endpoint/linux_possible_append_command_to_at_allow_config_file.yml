@@ -5,14 +5,9 @@ date: '2022-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious commandline that may use to append
-  user entry to /etc/at.allow or /etc/at.deny. These 2 files are commonly abused by
-  malware, adversaries or red teamers to persist on the targeted or compromised host.
-  These config file can restrict user that can only execute at application (another
-  schedule task application in linux). attacker can create a user or add the compromised
-  username to that config file to execute at to schedule it malicious code. This anomaly
-  detection can be a good indicator to investigate further the entry in created config
-  file and who created it to verify if it is a false positive.
+description: The following analytic is designed to identify suspicious command lines that may append user entries to either /etc/at.allow or /etc/at.deny. These files can be exploited by malicious actors for persistence on a compromised Linux host by altering permissions for scheduled tasks using the at command.
+
+  In this context, an attacker can create a user or add an existing user to these configuration files to execute their malicious code through scheduled tasks. The detection of such anomalous behavior can serve as an effective indicator warranting further investigation to validate if the activity is indeed malicious or a false positive.
 data_source:
 - Sysmon Event ID 1
 search:
@@ -27,8 +22,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
   Splunkbase.
-known_false_positives: Administrator or network operator can use this commandline
-  for automation purposes. Please update the filter macros to remove false positives.
+known_false_positives: False positives may occur when administrators or network operators use similar command lines for legitimate automation purposes. Therefore, it is recommended to update filter macros to reduce such instances.
 references:
 - https://linuxize.com/post/at-command-in-linux/
 - https://attack.mitre.org/techniques/T1053/001/

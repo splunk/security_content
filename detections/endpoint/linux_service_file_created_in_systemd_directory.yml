@@ -5,13 +5,9 @@ date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious file creation in systemd timer directory
-  in linux platform. systemd is a system and service manager for Linux distributions.
-  From the Windows perspective, this process fulfills the duties of wininit.exe and
-  services.exe combined. At the risk of simplifying the functionality of systemd,
-  it initializes a Linux system and starts relevant services that are defined in service
-  unit files. Adversaries, malware and red teamers may abuse this this feature by
-  stashing systemd service file to persist on the targetted or compromised host.
+description: The following analytic is designed to detect suspicious file creation within the systemd timer directory on Linux platforms. Systemd is a system and service manager for Linux, similar to the combination of wininit.exe and services.exe on Windows. This process initializes a Linux system and starts defined services in unit files. Malicious actors, such as adversaries, malware, or red teamers, can exploit this feature by embedding a systemd service file for persistence on the targeted or compromised host.
+
+  The analytic works by monitoring logs with file name, file path, and process GUID data from your endpoints. If a .service file is created in certain systemd directories, the analytic triggers an alert. This behavior is significant for a Security Operations Center (SOC) as it may indicate a persistent threat within the network, with a potential impact of system compromise or data exfiltration.
 data_source:
 - Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -25,9 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the file name, file path, and process_guid executions from your endpoints.
   If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
-known_false_positives: Administrator or network operator can create file in systemd
-  folders for automation purposes. Please update the filter macros to remove false
-  positives.
+known_false_positives: False positives may arise when administrators or network operators create files in systemd directories for legitimate automation tasks. Therefore, it's important to adjust filter macros to account for valid activities. To implement this search successfully, it's crucial to ingest appropriate logs, preferably using the Linux Sysmon Add-on from Splunkbase for those using Sysmon.
 references:
 - https://attack.mitre.org/techniques/T1053/006/
 - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/

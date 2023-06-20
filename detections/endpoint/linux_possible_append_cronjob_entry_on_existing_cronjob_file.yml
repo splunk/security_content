@@ -5,10 +5,11 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic looks for possible suspicious commandline that may use
-  to append a code to any existing cronjob files for persistence or privilege escalation.
-  This technique is commonly abused by malware, adversaries and red teamers to automatically
-  execute their code within a existing or sometimes in normal cronjob script file.
+description: The following analytic is designed to detect potential tampering with cronjob files on a Linux system. It specifically searches for command lines that may be used to append code to existing cronjob files, a technique often employed by adversaries, malware, and red teamers for persistence or privilege escalation. Altering existing or sometimes normal cronjob script files allows malicious code to be executed automatically.
+
+  The analytic operates by monitoring logs for specific process names, parent processes, and command-line executions from your endpoints. It specifically checks for any 'echo' command which modifies files in directories commonly associated with cron jobs such as '/etc/cron*', '/var/spool/cron/', and '/etc/anacrontab'. If such activity is detected, an alert is triggered.
+
+  This behavior is worth identifying for a SOC because malicious cron jobs can lead to system compromises and unauthorized data access, impacting business operations and data integrity.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
@@ -21,8 +22,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
   Splunkbase.
-known_false_positives: Administrator or network operator can use this commandline
-  for automation purposes. Please update the filter macros to remove false positives.
+known_false_positives: False positives may arise from legitimate actions by administrators or network operators who may use these commands for automation purposes. Therefore, it's recommended to adjust filter macros to eliminate such false positives.
 references:
 - https://attack.mitre.org/techniques/T1053/003/
 - https://blog.aquasec.com/threat-alert-kinsing-malware-container-vulnerability
