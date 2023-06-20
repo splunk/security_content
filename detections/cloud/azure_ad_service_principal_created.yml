@@ -14,14 +14,16 @@ description: The following analytic identifies the creation of a Service Princip
   access may create a Service Principal to establish Persistence and obtain single-factor
   access to an Azure AD environment.
 data_source: []
-search: '`azuread` "body.operationName"="Add service principal" "body.properties.initiatedBy.user.id"=*
-  | rename body.properties.* as * | rename targetResources{}.displayName as displayName
-  | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.type
-  as type | stats values(displayName) by _time, type, initiatedBy, result, body.operationName
+search: '`azuread` operationName="Add service principal" properties.initiatedBy.user.id=*
+  | rename properties.* as * 
+  | rename targetResources{}.displayName as displayName
+  | rename initiatedBy.user.userPrincipalName as initiatedBy
+  | rename targetResources{}.type as type
+  | stats values(displayName) by _time, type, initiatedBy, result, operationName
   | `azure_ad_service_principal_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
+  You must be ingesting Azure Active Directory events into your Splunk environment thorough an EventHub.
   Specifically, this analytic leverages the AuditLogs log category.
 known_false_positives: Administrator may legitimately create Service Principal. Filter
   as needed.
@@ -55,10 +57,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.targetResources{}.displayName
-  - body.properties.targetResources{}.type
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.result
+  - properties.targetResources{}.displayName
+  - properties.targetResources{}.type
+  - properties.initiatedBy.user.userPrincipalName
+  - properties.result
   risk_score: 45
   security_domain: threat
 tests:
