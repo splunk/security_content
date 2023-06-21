@@ -1,0 +1,285 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Isolation",
+    "coa": {
+        "data": {
+            "description": "Accepts a URL or list of URLs as input. Uses Panorama to block the given URLs in Palo Alto Firewall.\n\nhttps://d3fend.mitre.org/technique/d3f:OutboundTrafficFiltering/",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_7",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_4",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                }
+            ],
+            "hash": "e8b14925141da56f75f4ff49e5805f2873bf31ab",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -1.2789769243681803e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 804
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "url input filter",
+                            "customNameId": 0,
+                            "description": "Check if input url contains a value",
+                            "join": [],
+                            "note": "Check if input url contains a value"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:input_url",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "input_url",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "url_input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 60,
+                    "y": 120
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "block url success filter",
+                            "customNameId": 0,
+                            "description": "Determine if the block url action was successful or not.",
+                            "join": [],
+                            "note": "Determine if the block url action was successful or not."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "block_url:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "success",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "block_url_success_filter",
+                        "id": "4",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 440
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build observable",
+                            "customNameId": 0,
+                            "description": "This block uses custom code to generate a normalized observable dictionary.",
+                            "join": [],
+                            "note": "This block uses custom code to generate a normalized observable dictionary."
+                        },
+                        "functionId": 1,
+                        "functionName": "build_observable",
+                        "id": "5",
+                        "inputParameters": [
+                            "filtered-data:url_input_filter:condition_1:playbook_input:input_url",
+                            "block_url:action_result.status"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "\n    build_observable__observable_array = list()\n    for status, url in zip(block_url_result_item_0, filtered_input_0_input_url_values):\n        observable = {\n            \"type\": \"url\",\n            \"value\": url,\n            \"source\": \"Panorama\",\n            \"status\": status\n        }\n            \n        build_observable__observable_array.append(observable)\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 640
+                },
+                "7": {
+                    "data": {
+                        "action": "block url",
+                        "actionType": "contain",
+                        "advanced": {
+                            "customName": "block_url",
+                            "customNameId": 0,
+                            "description": "Block urls in Panorama",
+                            "join": [],
+                            "note": "Block urls in Panorama"
+                        },
+                        "connector": "Panorama",
+                        "connectorConfigs": [
+                            "panorama"
+                        ],
+                        "connectorId": "3d88e427-0e61-4311-a613-bbddeac532e0",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "block_url",
+                        "id": "7",
+                        "parameters": {
+                            "device_group": "shared",
+                            "should_commit_changes": true,
+                            "url": "filtered-data:url_input_filter:condition_1:playbook_input:input_url"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "url"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "device_group"
+                            },
+                            {
+                                "data_type": "boolean",
+                                "default": true,
+                                "field": "should_commit_changes"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 300
+                }
+            },
+            "notes": "Inputs: url\nInteractions: Panorama\nActions: block url\nOutputs: observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "url"
+                ],
+                "description": "Accepts url and block them",
+                "name": "input_url"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [
+                    "url"
+                ],
+                "datapaths": [
+                    "build_observable:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type and information about the blocked urls.",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-06-21T09:55:36.545195+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "url",
+        "D3-OTF",
+        "denylist",
+        "Panorama"
+    ]
+}
