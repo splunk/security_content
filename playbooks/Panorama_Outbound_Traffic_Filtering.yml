@@ -3,10 +3,10 @@ id: 5e3e061f-5206-49ac-88f4-4e818a20b2a9
 version: 1
 date: '2023-05-19'
 author: Patrick Bareiss, Splunk
-type: Investigation
+type: Response
 description: Accepts a URL or list of URLs as input. Uses Panorama to block the given URLs in Palo Alto Firewall.
 playbook: Panorama_Outbound_Traffic_Filtering
-how_to_implement: This input playbook requires the Panorama connector to be configured. It is designed to work in conjunction with the Dispatch Block Known Phishing URLs or other playbooks in the same style. 
+how_to_implement: This input playbook requires the Panorama connector to be configured. It is designed to work in conjunction with the Dynamic URL Outbound Traffic Filtering Analysis playbook or other playbooks in the same style.
 references: 
 - https://d3fend.mitre.org/technique/d3f:OutboundTrafficFiltering/
 app_list: 
