@@ -223,7 +223,7 @@
                 }
             ],
             "globalCustomCode": "from math import log",
-            "hash": "47f9704059c3b3c0ba13938c86d86e45a60fe41d",
+            "hash": "a8238a3c739344494a1e62969d380c8f4791d45f",
             "nodes": {
                 "0": {
                     "data": {
@@ -239,7 +239,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 530,
-                    "y": -4.476419235288631e-13
+                    "y": -6.394884621840902e-13
                 },
                 "1": {
                     "data": {
@@ -399,7 +399,7 @@
                     "errors": {},
                     "id": "13",
                     "type": "code",
-                    "userCode": "\n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    # Assign Variables\n    domain_categories_list = filtered_result_0_data___attributes_categories\n    domain_summary_list = filtered_result_0_summary\n    normalize_score_domain__domain_score_object = []\n    normalize_score_domain__score = []\n    normalize_score_domain__categories = []\n    \n    # VirusTotal v3 URL Data\n    # Adjust logic as desired\n    for category, summary_data in zip(domain_categories_list, domain_summary_list):\n        \n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n            if score_id > 10:\n                score_id = 10\n        \n        categories = [cat.lower() for cat in category.values()]\n        categories = list(set(categories))\n        score = score_table[str(score_id)]\n        \n        # Attach final object\n        normalize_score_domain__domain_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence, 'categories': categories})\n        normalize_score_domain__score.append(score)\n        normalize_score_domain__categories.append(categories)\n\n\n",
+                    "userCode": "\n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    # Assign Variables\n    domain_categories_list = filtered_result_0_data___attributes_categories\n    domain_summary_list = filtered_result_0_summary\n    normalize_score_domain__domain_score_object = []\n    normalize_score_domain__score = []\n    normalize_score_domain__categories = []\n    \n    # VirusTotal v3 URL Data\n    # Adjust logic as desired\n    for category, summary_data in zip(domain_categories_list, domain_summary_list):\n        \n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            if suspect and vendors:\n                # customize score calculation as desired\n                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n                score_id = int(log_result * 10) + 3\n            \n                if score_id > 10:\n                    score_id = 10\n                    \n            elif suspect == 0:\n                score_id = 0\n        \n        categories = [cat.lower() for cat in category.values()]\n        categories = list(set(categories))\n        score = score_table[str(score_id)]\n        \n        # Attach final object\n        normalize_score_domain__domain_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence, 'categories': categories})\n        normalize_score_domain__score.append(score)\n        normalize_score_domain__categories.append(categories)\n\n\n",
                     "warnings": {},
                     "x": 340,
                     "y": 700
@@ -428,7 +428,7 @@
                     "errors": {},
                     "id": "15",
                     "type": "code",
-                    "userCode": "\n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    ip_summary_list = filtered_result_0_summary\n    normalize_score_ip__ip_score_object = []\n    normalize_score_ip__scores = []\n    \n    for summary_data in ip_summary_list:\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n            if score_id > 10:\n                score_id = 10\n            \n        score = score_table[str(score_id)]\n\n        normalize_score_ip__ip_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})\n        normalize_score_ip__scores.append(score)\n    \n",
+                    "userCode": "\n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    ip_summary_list = filtered_result_0_summary\n    normalize_score_ip__ip_score_object = []\n    normalize_score_ip__scores = []\n    \n    for summary_data in ip_summary_list:\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            if suspect and vendors:\n                # customize score calculation as desired\n                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n                score_id = int(log_result * 10) + 3\n            \n                if score_id > 10:\n                    score_id = 10\n                    \n            elif suspect == 0:\n                score_id = 0\n            \n        score = score_table[str(score_id)]\n\n        normalize_score_ip__ip_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})\n        normalize_score_ip__scores.append(score)\n    \n",
                     "warnings": {},
                     "x": 680,
                     "y": 700
@@ -457,7 +457,7 @@
                     "errors": {},
                     "id": "16",
                     "type": "code",
-                    "userCode": "\n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    file_summary_list = filtered_result_0_summary\n    normalize_score_file__file_score_object = []\n    normalize_score_file__scores = []\n    \n    for summary_data in file_summary_list:\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n            if score_id > 10:\n                score_id = 10\n            \n        score = score_table[str(score_id)]\n\n        normalize_score_file__file_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})\n        normalize_score_file__scores.append(score)\n",
+                    "userCode": "\n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    file_summary_list = filtered_result_0_summary\n    normalize_score_file__file_score_object = []\n    normalize_score_file__scores = []\n    \n    for summary_data in file_summary_list:\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            if suspect and vendors:\n                # customize score calculation as desired\n                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n                score_id = int(log_result * 10) + 3\n            \n                if score_id > 10:\n                    score_id = 10\n                    \n            elif suspect == 0:\n                score_id = 0\n            \n        score = score_table[str(score_id)]\n\n        normalize_score_file__file_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})\n        normalize_score_file__scores.append(score)\n",
                     "warnings": {},
                     "x": 1020,
                     "y": 680
@@ -505,7 +505,7 @@
                             "filtered-data:ip_result_filter:condition_1:ip_reputation:action_result.parameter.ip",
                             "normalize_score_ip:custom_function:scores"
                         ],
-                        "template": "SOAR analyzed IP(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| IP Address | Normalized Data | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} |  | https://www.virustotal.com/gui/ip-address/{0} | VirusTotal v3 |\n%%",
+                        "template": "SOAR analyzed IP(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| IP Address | Normalized Score | Report Link | Source |\n| --- | --- | --- | --- |\n%%\n| `{0}` | {1} | https://www.virustotal.com/gui/ip-address/{0} | VirusTotal v3 |\n%%",
                         "type": "format"
                     },
                     "errors": {},
@@ -586,6 +586,8 @@
                         "advanced": {
                             "customName": "inputs filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Determine branches based on provided inputs.",
                             "join": [],
                             "note": "Determine branches based on provided inputs."
@@ -754,6 +756,8 @@
                         "advanced": {
                             "customName": "url result filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful url reputation results.",
                             "join": [],
                             "note": "Filters successful url reputation results."
@@ -790,6 +794,8 @@
                         "advanced": {
                             "customName": "domain result filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful domain reputation results.",
                             "join": [],
                             "note": "Filters successful domain reputation results."
@@ -826,6 +832,8 @@
                         "advanced": {
                             "customName": "ip result filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful ip reputation results.",
                             "join": [],
                             "note": "Filters successful ip reputation results."
@@ -862,6 +870,8 @@
                         "advanced": {
                             "customName": "file result filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful file reputation results.",
                             "join": [],
                             "note": "Filters successful file reputation results."
@@ -977,7 +987,7 @@
                     "errors": {},
                     "id": "9",
                     "type": "code",
-                    "userCode": "    \n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    # Assign Variables\n    url_categories_list = filtered_result_0_data___attributes_categories\n    url_summary_list = filtered_result_0_summary\n    normalize_score_url__url_score_object = []\n    normalize_score_url__score = []\n    normalize_score_url__categories = []\n    \n    # VirusTotal v3 URL Data\n    # Adjust logic as desired\n    for category, summary_data in zip(url_categories_list, url_summary_list):\n\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n            if score_id > 10:\n                score_id = 10\n        \n        categories = [cat.lower() for cat in category.values()]\n        categories = list(set(categories))\n        \n        score = score_table[str(score_id)]\n        \n        # Attach final object\n        normalize_score_url__url_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence, 'categories': categories})\n        normalize_score_url__score.append(score)\n        normalize_score_url__categories.append(categories)\n\n",
+                    "userCode": "    \n    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    # Assign Variables\n    url_categories_list = filtered_result_0_data___attributes_categories\n    url_summary_list = filtered_result_0_summary\n    normalize_score_url__url_score_object = []\n    normalize_score_url__score = []\n    normalize_score_url__categories = []\n    \n    # VirusTotal v3 URL Data\n    # Adjust logic as desired\n    for category, summary_data in zip(url_categories_list, url_summary_list):\n\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            if suspect and vendors:\n                # customize score calculation as desired\n                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n                score_id = int(log_result * 10) + 3\n            \n                if score_id > 10:\n                    score_id = 10\n                    \n            elif suspect == 0:\n                score_id = 0\n        \n        categories = [cat.lower() for cat in category.values()]\n        categories = list(set(categories))\n        \n        score = score_table[str(score_id)]\n        \n        # Attach final object\n        normalize_score_url__url_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence, 'categories': categories})\n        normalize_score_url__score.append(score)\n        normalize_score_url__categories.append(categories)\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 694
@@ -1049,10 +1059,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.8",
-        "version": "5.5.0.108488"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-01-09T21:04:59.712759+00:00",
+    "create_time": "2023-06-07T18:53:28.722388+00:00",
     "draft_mode": false,
     "labels": [
         "*"
