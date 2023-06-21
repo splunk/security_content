@@ -1,7 +1,7 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Dynamic Related Ticket Search",
+    "category": "Related Tickets Search",
     "coa": {
         "data": {
             "description": "Accepts a user or device and identifies if related tickets exists in a timeframe of last 30 days. Generates a global report and list of observables.",
