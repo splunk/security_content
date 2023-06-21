@@ -120,7 +120,7 @@
                 }
             ],
             "globalCustomCode": "\n\n\nfrom math import log",
-            "hash": "c62a83f2b885857ecb0ed931a92f20293e4829a0",
+            "hash": "94337eb6a3725d1ec82b66a9f16e3f0dd4fbe956",
             "nodes": {
                 "0": {
                     "data": {
@@ -136,7 +136,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 180,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -159,6 +159,8 @@
                         "advanced": {
                             "customName": "file detonate filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful file detonation results.",
                             "join": [],
                             "note": "Filters successful file detonation results."
@@ -214,7 +216,7 @@
                     "errors": {},
                     "id": "11",
                     "type": "code",
-                    "userCode": "    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    #phantom.debug(\"filtered_result_0_summary: {}\".format(filtered_result_0_summary))\n    #phantom.debug(\"filtered_result_0_data: {}\".format(filtered_result_0_data))\n    #phantom.debug(\"filtered_result_0_data___scans: {}\".format(filtered_result_0_data___scans))\n    #phantom.debug(\"filtered_result_0_data___attributes___category: {}\".format(filtered_result_0_data___attributes___category))\n    #phantom.debug(\"vault_id_detonation_result_item_0: {}\".format(vault_id_detonation_result_item_0))\n    \n\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    file_summary_list = filtered_result_0_summary\n    normalize_score_file__file_score_object = []\n    normalize_score_file__scores = []\n    normalize_score_file__categories = []\n    \n    for summary_data in file_summary_list:\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n\n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        elif not summary_data['harmless'] and not suspect:\n            score_id = 0\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n\n            phantom.debug(\"log_result: {}\".format(log_result))\n            if score_id > 10:\n                score_id = 10\n\n        score = score_table[str(score_id)]\n\n        normalize_score_file__file_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})\n        normalize_score_file__scores.append(score)\n        #phantom.debug(\"normalize_score_file__file_score_object: {}\".format(normalize_score_file__file_score_object))\n        #phantom.debug(\"normalize_score_file__scores: {}\".format(normalize_score_file__scores))\n\n",
+                    "userCode": "    # Reference for scores: https://schema.ocsf.io/objects/reputation\n    #phantom.debug(\"filtered_result_0_summary: {}\".format(filtered_result_0_summary))\n    #phantom.debug(\"filtered_result_0_data: {}\".format(filtered_result_0_data))\n    #phantom.debug(\"filtered_result_0_data___scans: {}\".format(filtered_result_0_data___scans))\n    #phantom.debug(\"filtered_result_0_data___attributes___category: {}\".format(filtered_result_0_data___attributes___category))\n    #phantom.debug(\"vault_id_detonation_result_item_0: {}\".format(vault_id_detonation_result_item_0))\n    \n\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    file_summary_list = filtered_result_0_summary\n    normalize_score_file__file_score_object = []\n    normalize_score_file__scores = []\n    normalize_score_file__categories = []\n    \n    for summary_data in file_summary_list:\n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n\n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        elif not summary_data['harmless'] and not suspect:\n            score_id = 0\n        else:\n            if suspect and vendors:\n                # customize score calculation as desired\n                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n                score_id = int(log_result * 10) + 3\n            \n                if score_id > 10:\n                    score_id = 10\n                    \n            elif suspect == 0:\n                score_id = 0\n\n        score = score_table[str(score_id)]\n\n        normalize_score_file__file_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence})\n        normalize_score_file__scores.append(score)\n        #phantom.debug(\"normalize_score_file__file_score_object: {}\".format(normalize_score_file__file_score_object))\n        #phantom.debug(\"normalize_score_file__scores: {}\".format(normalize_score_file__scores))\n\n",
                     "warnings": {},
                     "x": 340,
                     "y": 686
@@ -282,6 +284,8 @@
                         "advanced": {
                             "customName": "url detonate filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful url reputation results.",
                             "join": [],
                             "note": "Filters successful url reputation results."
@@ -318,6 +322,8 @@
                         "advanced": {
                             "customName": "input filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Determine branches based on provided inputs.",
                             "join": [],
                             "note": "Determine branches based on provided inputs."
@@ -358,11 +364,7 @@
                     "errors": {},
                     "id": "2",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 220,
                     "y": 140
                 },
@@ -471,7 +473,7 @@
                     "errors": {},
                     "id": "6",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    #phantom.debug(\"filtered_result_0_data___attributes_categories: {}\".format(filtered_result_0_data___data_attributes_results___category))\n    #phantom.debug(\"filtered_result_0_summary: {}\".format(filtered_result_0_summary))\n    #phantom.debug(\"filtered_result_1_data___scans: {}\".format(filtered_result_1_data___scans))\n    #phantom.debug(\"url_detonation_result_item_0: {}\".format(url_detonation_result_item_0))\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    url_categories_list = filtered_result_0_data___attributes_categories\n    url_summary_list = filtered_result_0_summary\n    normalize_score_url__url_score_object = []\n    normalize_score_url__score = []\n    normalize_score_url__categories = []\n\n    #for category, summary_data in zip(url_categories_list, url_summary_list):\n    for category, summary_data in zip(url_categories_list, url_summary_list):\n        \n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        #phantom.debug(\"vendors: {}\".format(vendors))\n        #phantom.debug(\"confidence: {}\".format(confidence))\n\n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            # customize score calculation as desired\n            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n            score_id = int(log_result * 10) + 3\n            #log_result = (suspect/vendors)  # log imported from math in global code block\n            #score_id = int(log_result * 100)\n            #phantom.debug(\"log_result: {}\".format(log_result))\n            \n            if score_id > 10:\n                score_id = 10\n        \n        if category != None:\n            categories = [cat.lower() for cat in category.values()]\n            categories = list(set(categories))\n        else:\n            categories = []\n        \n        score = score_table[str(score_id)]\n\n        # Attach final object\n        normalize_score_url__url_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence, 'categories': categories})\n        normalize_score_url__score.append(score)\n        normalize_score_url__categories.append(categories)\n        #phantom.debug(\"normalize_score_url__url_score_object: {}\".format(normalize_score_url__url_score_object))\n        #phantom.debug(\"normalize_score_url__score: {}\".format(normalize_score_url__score))\n        #phantom.debug(\"normalize_score_url__categories: {}\".format(normalize_score_url__categories))\n\n\n",
+                    "userCode": "\n    # Write your custom code here...\n    #phantom.debug(\"filtered_result_0_data___attributes_categories: {}\".format(filtered_result_0_data___data_attributes_results___category))\n    #phantom.debug(\"filtered_result_0_summary: {}\".format(filtered_result_0_summary))\n    #phantom.debug(\"filtered_result_1_data___scans: {}\".format(filtered_result_1_data___scans))\n    #phantom.debug(\"url_detonation_result_item_0: {}\".format(url_detonation_result_item_0))\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    url_categories_list = filtered_result_0_data___attributes_categories\n    url_summary_list = filtered_result_0_summary\n    normalize_score_url__url_score_object = []\n    normalize_score_url__score = []\n    normalize_score_url__categories = []\n\n    #for category, summary_data in zip(url_categories_list, url_summary_list):\n    for category, summary_data in zip(url_categories_list, url_summary_list):\n        \n        # Set confidence based on percentage of vendors undetected\n        # Reduce the confidence by percentage of vendors undetected.\n        vendors = summary_data['harmless'] + summary_data['undetected'] + summary_data['malicious'] + summary_data['suspicious']\n        confidence = 100 - int((summary_data['undetected']/vendors) * 100)\n        \n        #phantom.debug(\"vendors: {}\".format(vendors))\n        #phantom.debug(\"confidence: {}\".format(confidence))\n\n        # Normalize reputation on a 10 point scale based on number of malicious and suspicious divided by harmless vendors\n        # This can be adjusted to include whatever logic is desired.\n        suspect = summary_data['malicious'] + summary_data['suspicious']\n        # If there are only harmless verdicts and no suspicious entries, set score_id to 1.\n        if summary_data['harmless'] and not suspect:\n            score_id = 1\n        else:\n            if suspect and vendors:\n                # customize score calculation as desired\n                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block\n                score_id = int(log_result * 10) + 3\n            \n                if score_id > 10:\n                    score_id = 10\n                    \n            elif suspect == 0:\n                score_id = 0\n        \n        if category != None:\n            categories = [cat.lower() for cat in category.values()]\n            categories = list(set(categories))\n        else:\n            categories = []\n        \n        score = score_table[str(score_id)]\n\n        # Attach final object\n        normalize_score_url__url_score_object.append({'score': score, 'score_id': score_id, 'confidence': confidence, 'categories': categories})\n        normalize_score_url__score.append(score)\n        normalize_score_url__categories.append(categories)\n        #phantom.debug(\"normalize_score_url__url_score_object: {}\".format(normalize_score_url__url_score_object))\n        #phantom.debug(\"normalize_score_url__score: {}\".format(normalize_score_url__score))\n        #phantom.debug(\"normalize_score_url__categories: {}\".format(normalize_score_url__categories))\n\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 686
@@ -580,10 +582,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-04-12T11:31:47.902551+00:00",
+    "create_time": "2023-06-07T18:52:45.928084+00:00",
     "draft_mode": false,
     "labels": [
         "*"
