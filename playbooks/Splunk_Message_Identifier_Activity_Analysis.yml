@@ -1,0 +1,23 @@
+name: Splunk Message Identifier Activity Analysis
+id: 5299b9dc-e8c4-46ba-d942-98dae0fa816d
+version: 1
+date: '2023-05-12'
+author: Lou Stella, Splunk
+type: Investigation
+description: "Accepts an internet message id, and asks Splunk 
+ to look for records that have a matching internet message id.  It then produces a normalized output and summary table."
+playbook: Splunk_Message_Identifier_Activity_Analysis
+how_to_implement: This input playbook requires the Splunk connector to be configured. You will also need data populating the Email.All_Email datamodel in the out-of-the-box configuration of this playbook.
+references: []
+app_list: 
+  - Splunk
+tags:
+  platform_tags:
+    - message_identifier_activity 
+    - internet_message_id
+    - splunk
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
