@@ -71,10 +71,11 @@ def build_observable(action=None, success=None, container=None, results=None, ha
     # This block uses custom code to generate a normalized observable dictionary.
     ################################################################################
 
-    block_url_result_data = phantom.collect2(container=container, datapath=["block_url:action_result.parameter.url","block_url:action_result.status"], action_results=results)
+    filtered_input_0_input_url = phantom.collect2(container=container, datapath=["filtered-data:url_input_filter:condition_1:playbook_input:input_url"])
+    block_url_result_data = phantom.collect2(container=container, datapath=["block_url:action_result.status"], action_results=results)
 
-    block_url_parameter_url = [item[0] for item in block_url_result_data]
-    block_url_result_item_1 = [item[1] for item in block_url_result_data]
+    filtered_input_0_input_url_values = [item[0] for item in filtered_input_0_input_url]
+    block_url_result_item_0 = [item[0] for item in block_url_result_data]
 
     build_observable__observable_array = None
 
@@ -83,7 +84,7 @@ def build_observable(action=None, success=None, container=None, results=None, ha
     ################################################################################
 
     build_observable__observable_array = list()
-    for status, url in zip(block_url_result_item_1, block_url_parameter_url):
+    for status, url in zip(block_url_result_item_0, filtered_input_0_input_url_values):
         observable = {
             "type": "url",
             "value": url,
