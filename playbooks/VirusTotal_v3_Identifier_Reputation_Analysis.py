@@ -215,11 +215,16 @@ def normalize_score_url(action=None, success=None, container=None, results=None,
         if summary_data['harmless'] and not suspect:
             score_id = 1
         else:
-            # customize score calculation as desired
-            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
-            score_id = int(log_result * 10) + 3
-            if score_id > 10:
-                score_id = 10
+            if suspect and vendors:
+                # customize score calculation as desired
+                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
+                score_id = int(log_result * 10) + 3
+            
+                if score_id > 10:
+                    score_id = 10
+                    
+            elif suspect == 0:
+                score_id = 0
         
         categories = [cat.lower() for cat in category.values()]
         categories = list(set(categories))
@@ -412,11 +417,16 @@ def normalize_score_domain(action=None, success=None, container=None, results=No
         if summary_data['harmless'] and not suspect:
             score_id = 1
         else:
-            # customize score calculation as desired
-            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
-            score_id = int(log_result * 10) + 3
-            if score_id > 10:
-                score_id = 10
+            if suspect and vendors:
+                # customize score calculation as desired
+                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
+                score_id = int(log_result * 10) + 3
+            
+                if score_id > 10:
+                    score_id = 10
+                    
+            elif suspect == 0:
+                score_id = 0
         
         categories = [cat.lower() for cat in category.values()]
         categories = list(set(categories))
@@ -493,11 +503,16 @@ def normalize_score_ip(action=None, success=None, container=None, results=None, 
         if summary_data['harmless'] and not suspect:
             score_id = 1
         else:
-            # customize score calculation as desired
-            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
-            score_id = int(log_result * 10) + 3
-            if score_id > 10:
-                score_id = 10
+            if suspect and vendors:
+                # customize score calculation as desired
+                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
+                score_id = int(log_result * 10) + 3
+            
+                if score_id > 10:
+                    score_id = 10
+                    
+            elif suspect == 0:
+                score_id = 0
             
         score = score_table[str(score_id)]
 
@@ -568,11 +583,16 @@ def normalize_score_file(action=None, success=None, container=None, results=None
         if summary_data['harmless'] and not suspect:
             score_id = 1
         else:
-            # customize score calculation as desired
-            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
-            score_id = int(log_result * 10) + 3
-            if score_id > 10:
-                score_id = 10
+            if suspect and vendors:
+                # customize score calculation as desired
+                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
+                score_id = int(log_result * 10) + 3
+            
+                if score_id > 10:
+                    score_id = 10
+                    
+            elif suspect == 0:
+                score_id = 0
             
         score = score_table[str(score_id)]
 
@@ -632,7 +652,7 @@ def format_report_ip(action=None, success=None, container=None, results=None, ha
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed IP(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| IP Address | Normalized Data | Report Link | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} |  | https://www.virustotal.com/gui/ip-address/{0} | VirusTotal v3 |\n%%"""
+    template = """SOAR analyzed IP(s) using VirusTotal.  The table below shows a summary of the information gathered.\n\n| IP Address | Normalized Score | Report Link | Source |\n| --- | --- | --- | --- |\n%%\n| `{0}` | {1} | https://www.virustotal.com/gui/ip-address/{0} | VirusTotal v3 |\n%%"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -706,7 +726,8 @@ def inputs_filter(action=None, success=None, container=None, results=None, handl
         conditions=[
             ["playbook_input:url", "!=", ""]
         ],
-        name="inputs_filter:condition_1")
+        name="inputs_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -718,7 +739,8 @@ def inputs_filter(action=None, success=None, container=None, results=None, handl
         conditions=[
             ["playbook_input:domain", "!=", ""]
         ],
-        name="inputs_filter:condition_2")
+        name="inputs_filter:condition_2",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_2 or matched_results_2:
@@ -730,7 +752,8 @@ def inputs_filter(action=None, success=None, container=None, results=None, handl
         conditions=[
             ["playbook_input:ip", "!=", ""]
         ],
-        name="inputs_filter:condition_3")
+        name="inputs_filter:condition_3",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_3 or matched_results_3:
@@ -742,7 +765,8 @@ def inputs_filter(action=None, success=None, container=None, results=None, handl
         conditions=[
             ["playbook_input:file_hash", "!=", ""]
         ],
-        name="inputs_filter:condition_4")
+        name="inputs_filter:condition_4",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_4 or matched_results_4:
@@ -934,7 +958,8 @@ def url_result_filter(action=None, success=None, container=None, results=None, h
         conditions=[
             ["url_reputation:action_result.status", "==", "success"]
         ],
-        name="url_result_filter:condition_1")
+        name="url_result_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -957,7 +982,8 @@ def domain_result_filter(action=None, success=None, container=None, results=None
         conditions=[
             ["domain_reputation:action_result.status", "==", "success"]
         ],
-        name="domain_result_filter:condition_1")
+        name="domain_result_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -980,7 +1006,8 @@ def ip_result_filter(action=None, success=None, container=None, results=None, ha
         conditions=[
             ["ip_reputation:action_result.status", "==", "success"]
         ],
-        name="ip_result_filter:condition_1")
+        name="ip_result_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -1003,7 +1030,8 @@ def file_result_filter(action=None, success=None, container=None, results=None, 
         conditions=[
             ["file_hash_reputation:action_result.status", "==", "success"]
         ],
-        name="file_result_filter:condition_1")
+        name="file_result_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
