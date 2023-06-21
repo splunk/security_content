@@ -31,7 +31,8 @@ def url_input_filter(action=None, success=None, container=None, results=None, ha
         conditions=[
             ["playbook_input:input_url", "!=", None]
         ],
-        name="url_input_filter:condition_1")
+        name="url_input_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -50,15 +51,15 @@ def block_url(action=None, success=None, container=None, results=None, handle=No
     # Block urls in ZScaler based on given urls. 
     ################################################################################
 
-    playbook_input_input_url = phantom.collect2(container=container, datapath=["playbook_input:input_url"])
+    filtered_input_0_input_url = phantom.collect2(container=container, datapath=["filtered-data:url_input_filter:condition_1:playbook_input:input_url"])
 
     parameters = []
 
     # build parameters list for 'block_url' call
-    for playbook_input_input_url_item in playbook_input_input_url:
-        if playbook_input_input_url_item[0] is not None:
+    for filtered_input_0_input_url_item in filtered_input_0_input_url:
+        if filtered_input_0_input_url_item[0] is not None:
             parameters.append({
-                "url": playbook_input_input_url_item[0],
+                "url": filtered_input_0_input_url_item[0],
             })
 
     ################################################################################
@@ -85,12 +86,13 @@ def build_observable(action=None, success=None, container=None, results=None, ha
     # the observables data path.
     ################################################################################
 
-    block_url_result_data = phantom.collect2(container=container, datapath=["block_url:action_result.summary","block_url:action_result.status","block_url:action_result.message","block_url:action_result.parameter.url"], action_results=results)
+    block_url_result_data = phantom.collect2(container=container, datapath=["block_url:action_result.summary","block_url:action_result.status","block_url:action_result.message"], action_results=results)
+    filtered_input_0_input_url = phantom.collect2(container=container, datapath=["filtered-data:url_input_filter:condition_1:playbook_input:input_url"])
 
     block_url_result_item_0 = [item[0] for item in block_url_result_data]
     block_url_result_item_1 = [item[1] for item in block_url_result_data]
     block_url_result_message = [item[2] for item in block_url_result_data]
-    block_url_parameter_url = [item[3] for item in block_url_result_data]
+    filtered_input_0_input_url_values = [item[0] for item in filtered_input_0_input_url]
 
     build_observable__observable_array = None
 
@@ -99,7 +101,7 @@ def build_observable(action=None, success=None, container=None, results=None, ha
     ################################################################################
 
     build_observable__observable_array = list()
-    for summary, status, message, url in zip(block_url_result_item_0, block_url_result_item_1, block_url_result_message, block_url_parameter_url):
+    for summary, status, message, url in zip(block_url_result_item_0, block_url_result_item_1, block_url_result_message, filtered_input_0_input_url_values):
         observable = {
             "type": "url",
             "value": url,
@@ -136,7 +138,8 @@ def block_url_success_filter(action=None, success=None, container=None, results=
         conditions=[
             ["block_url:action_result.status", "==", "success"]
         ],
-        name="block_url_success_filter:condition_1")
+        name="block_url_success_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:

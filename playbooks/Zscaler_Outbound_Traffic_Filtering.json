@@ -52,7 +52,7 @@
                     "targetPort": "7_in"
                 }
             ],
-            "hash": "d00eda8b809a9b54fd2a3df75a64dc1538169f7c",
+            "hash": "ddce2d54e4936120ec7acc772b88f91fab41ec55",
             "nodes": {
                 "0": {
                     "data": {
@@ -67,8 +67,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 20,
-                    "y": 0
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -91,6 +91,8 @@
                         "advanced": {
                             "customName": "url input filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Determine branches based on provided inputs.",
                             "join": [],
                             "note": "Determine branches based on provided inputs."
@@ -118,11 +120,7 @@
                     "errors": {},
                     "id": "4",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 60,
                     "y": 148
                 },
@@ -147,7 +145,7 @@
                         "functionName": "block_url",
                         "id": "6",
                         "parameters": {
-                            "url": "playbook_input:input_url"
+                            "url": "filtered-data:url_input_filter:condition_1:playbook_input:input_url"
                         },
                         "requiredParameters": [
                             {
@@ -160,11 +158,7 @@
                     "errors": {},
                     "id": "6",
                     "type": "action",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 0,
                     "y": 328
                 },
@@ -184,7 +178,7 @@
                             "block_url:action_result.summary",
                             "block_url:action_result.status",
                             "block_url:action_result.message",
-                            "block_url:action_result.parameter.url"
+                            "filtered-data:url_input_filter:condition_1:playbook_input:input_url"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -194,7 +188,7 @@
                     "errors": {},
                     "id": "7",
                     "type": "code",
-                    "userCode": "\n    build_observable__observable_array = list()\n    for summary, status, message, url in zip(block_url_result_item_0, block_url_result_item_1, block_url_result_message, block_url_parameter_url):\n        observable = {\n            \"type\": \"url\",\n            \"value\": url,\n            \"source\": \"ZScaler\"\n        }\n        if len(summary[\"ignored\"]) > 0:\n            observable[\"status\"] = \"ignored\"\n        else:\n            observable[\"status\"] = \"updated\"\n            \n        build_observable__observable_array.append(observable)\n        \n\n",
+                    "userCode": "\n    build_observable__observable_array = list()\n    for summary, status, message, url in zip(block_url_result_item_0, block_url_result_item_1, block_url_result_message, filtered_input_0_input_url_values):\n        observable = {\n            \"type\": \"url\",\n            \"value\": url,\n            \"source\": \"ZScaler\"\n        }\n        if len(summary[\"ignored\"]) > 0:\n            observable[\"status\"] = \"ignored\"\n        else:\n            observable[\"status\"] = \"updated\"\n            \n        build_observable__observable_array.append(observable)\n        \n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 700
@@ -204,6 +198,8 @@
                         "advanced": {
                             "customName": "block url success filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Determine if the block url action was successful or not.",
                             "join": [],
                             "note": "Determine if the block url action was successful or not."
@@ -263,10 +259,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-03-31T06:50:12.071333+00:00",
+    "create_time": "2023-06-21T09:27:47.392005+00:00",
     "draft_mode": false,
     "labels": [
         "*"
