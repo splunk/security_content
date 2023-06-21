@@ -42,7 +42,8 @@ def input_filter(action=None, success=None, container=None, results=None, handle
         conditions=[
             ["playbook_input:url", "!=", ""]
         ],
-        name="input_filter:condition_1")
+        name="input_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -54,7 +55,8 @@ def input_filter(action=None, success=None, container=None, results=None, handle
         conditions=[
             ["playbook_input:vault_id", "!=", ""]
         ],
-        name="input_filter:condition_2")
+        name="input_filter:condition_2",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_2 or matched_results_2:
@@ -201,15 +203,16 @@ def normalize_score_url(action=None, success=None, container=None, results=None,
         if summary_data['harmless'] and not suspect:
             score_id = 1
         else:
-            # customize score calculation as desired
-            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
-            score_id = int(log_result * 10) + 3
-            #log_result = (suspect/vendors)  # log imported from math in global code block
-            #score_id = int(log_result * 100)
-            #phantom.debug("log_result: {}".format(log_result))
+            if suspect and vendors:
+                # customize score calculation as desired
+                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
+                score_id = int(log_result * 10) + 3
             
-            if score_id > 10:
-                score_id = 10
+                if score_id > 10:
+                    score_id = 10
+                    
+            elif suspect == 0:
+                score_id = 0
         
         if category != None:
             categories = [cat.lower() for cat in category.values()]
@@ -353,7 +356,8 @@ def file_detonate_filter(action=None, success=None, container=None, results=None
         conditions=[
             ["file_detonation:action_result.status", "==", "success"]
         ],
-        name="file_detonate_filter:condition_1")
+        name="file_detonate_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -424,13 +428,16 @@ def normalize_score_file(action=None, success=None, container=None, results=None
         elif not summary_data['harmless'] and not suspect:
             score_id = 0
         else:
-            # customize score calculation as desired
-            log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
-            score_id = int(log_result * 10) + 3
-
-            phantom.debug("log_result: {}".format(log_result))
-            if score_id > 10:
-                score_id = 10
+            if suspect and vendors:
+                # customize score calculation as desired
+                log_result = log((suspect/vendors) * 100, 100) # log imported from math in global code block
+                score_id = int(log_result * 10) + 3
+            
+                if score_id > 10:
+                    score_id = 10
+                    
+            elif suspect == 0:
+                score_id = 0
 
         score = score_table[str(score_id)]
 
@@ -556,7 +563,8 @@ def url_detonate_filter(action=None, success=None, container=None, results=None,
         conditions=[
             ["url_detonation_1:action_result.status", "==", "success"]
         ],
-        name="url_detonate_filter:condition_1")
+        name="url_detonate_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
