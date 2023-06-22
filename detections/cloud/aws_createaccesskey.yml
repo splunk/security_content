@@ -5,7 +5,7 @@ date: '2022-03-03'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting
-This detection rule monitors for the creation of AWS Identity and Access Management (IAM) access keys. 
+description: This detection rule monitors for the creation of AWS Identity and Access Management (IAM) access keys. 
   An IAM access key consists of an access key ID and secret access key, which are used to sign programmatic requests to AWS services. 
   While IAM access keys can be legitimately used by developers and administrators for API access, their creation can also be indicative 
   of malicious activity. Attackers who have gained unauthorized access to an AWS environment might create access keys as a means to 
