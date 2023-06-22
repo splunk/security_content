@@ -30,6 +30,7 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1505.003
+  - T1133
   observable:
   - name: user
     type: User
