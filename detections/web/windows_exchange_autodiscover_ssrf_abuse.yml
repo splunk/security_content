@@ -54,6 +54,7 @@ tags:
     $dest$. Review events and take action accordingly.
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: dest
     type: Hostname
