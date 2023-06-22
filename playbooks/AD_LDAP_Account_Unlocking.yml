@@ -3,7 +3,7 @@ id: e6f96caf-61ac-4ced-aabc-ba9b19bd9e1f
 version: 1
 date: '2023-06-21'
 author: Lou Stella, Splunk
-type: Investigation
+type: Response
 description: "Accepts user, to be unlocked using Microsoft AD LDAP connector. This playbook produces a normalized observable output for each user."
 playbook: AD_LDAP_Account_Unlocking
 how_to_implement: This input playbook requires the Microsoft AD LDAP connector to be configured. It is designed to work in conjunction with the Active Directory Restore Accounts playbook or other playbooks in the same style. 
