@@ -1,5 +1,5 @@
-name: Azure AD Locking Account
-id: c3c0157d-7da0-46cb-8b97-327ee92f591c
+name: Azure AD Account Unlocking
+id: c3c0157d-7da0-4dcb-8ba7-327ee91f531c
 version: 1
 date: '2023-06-21'
 author: Lou Stella, Splunk
