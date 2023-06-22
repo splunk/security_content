@@ -45,6 +45,7 @@ tags:
     $dest$
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: dest
     type: Hostname
