@@ -5,15 +5,11 @@ date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for restarted or re-enable services in the linux
-  platform. This technique can be executed or performed using systemctl or service
-  tool application. Adversaries may create or modify Linux services to repeatedly
-  execute malicious payloads as part of persistence. When the linux host boots up,
-  it starts programs or applications called services that perform background system
-  functions. Administrator may also create a legitimated service for a specific tool
-  or normal application as part of task or automation, in this scenario it is suggested
-  to look for the service path of the actual script or executable that registered
-  as service and who created the service for further verification.
+description: The following analytic detects the restarting or re-enabling of services in the Linux platform. It focuses on the use of the systemctl or service tools for executing these actions. Adversaries may leverage this technique to repeatedly execute malicious payloads as a form of persistence. Linux hosts typically start services during boot to perform background system functions. However, administrators may also create legitimate services for specific tools or applications as part of task automation. In such cases, it is recommended to verify the service path of the registered script or executable and identify the creator of the service for further validation.\
+
+  It's important to be aware that this analytic may generate false positives as administrators or network operators may use the same command-line for legitimate automation purposes. Filter macros should be updated accordingly to minimize false positives.\
+
+  Identifying restarted or re-enabled services is valuable for a SOC as it can indicate potential malicious activities attempting to maintain persistence or execute unauthorized actions on Linux systems. By detecting and investigating these events, security analysts can respond promptly to mitigate risks and prevent further compromise. The impact of a true positive can range from unauthorized access to data destruction or other damaging outcomes.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -38,6 +34,7 @@ tags:
   - Linux Living Off The Land
   - Data Destruction
   - Linux Persistence Techniques
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 50
   impact: 50
