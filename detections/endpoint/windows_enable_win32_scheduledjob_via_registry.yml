@@ -22,6 +22,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 50
   impact: 50
