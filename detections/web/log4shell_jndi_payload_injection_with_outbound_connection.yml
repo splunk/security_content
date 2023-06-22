@@ -41,6 +41,7 @@ tags:
   message: CVE-2021-44228 Log4Shell triggered for host $dest$
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: user
     type: User
