@@ -1,4 +1,5 @@
 import os
+import json
 
 
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
@@ -29,6 +30,30 @@ class ObjToJsonAdapter(Adapter):
                 ))
             
             JsonWriter.writeJsonObject(os.path.join(output_path, 'detections.json'), {'detections': obj_array })
+
+            ### Code to be added to contentctl to ship filter macros to macros.json
+
+            obj_array = []    
+            for detection in objects:
+                detection_dict = detection.dict()
+                if "macros" in detection_dict:
+                    for macro in detection_dict["macros"]:
+                        obj_array.append(macro)
+
+            uniques:set[str] = set()
+            for obj in obj_array:
+                if obj.get("arguments",None) != None:
+                    uniques.add(json.dumps(obj,sort_keys=True))
+                else:
+                    obj.pop("arguments")
+                    uniques.add(json.dumps(obj, sort_keys=True))
+
+            obj_array = []
+            for item in uniques:
+                obj_array.append(json.loads(item))
+
+            JsonWriter.writeJsonObject(os.path.join(output_path, 'macros.json'), {'macros': obj_array})
+
         
         elif type == SecurityContentType.stories:
             obj_array = []
@@ -64,16 +89,12 @@ class ObjToJsonAdapter(Adapter):
         elif type == SecurityContentType.lookups:
             obj_array = []
             for lookup in objects:
+
                 obj_array.append(lookup.dict(exclude_none=True))
+
 
             JsonWriter.writeJsonObject(os.path.join(output_path, 'lookups.json'), {'lookups': obj_array })
 
-        elif type == SecurityContentType.macros:      
-            obj_array = []
-            for macro in objects:
-                obj_array.append(macro.dict(exclude_none=True))
-
-            JsonWriter.writeJsonObject(os.path.join(output_path, 'macros.json'), {'macros': obj_array })
 
         elif type == SecurityContentType.deployments:
             obj_array = []
