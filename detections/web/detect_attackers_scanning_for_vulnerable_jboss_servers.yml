@@ -29,6 +29,7 @@ tags:
   message: tbd
   mitre_attack_id:
   - T1082
+  - T1133
   observable:
   - name: dest
     type: Hostname
