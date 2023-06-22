@@ -6,6 +6,7 @@ from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Union
+import re
 
 
 from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import (
@@ -137,6 +138,15 @@ class Detection(BaseModel, SecurityContentObject):
         if "ssa_" not in values["file_path"]:
             if len(values["name"]) > 67:
                 raise ValueError("name is longer then 67 chars: " + values["name"])
+        return values
+
+
+    @root_validator
+    def description_new_line_check(cls, values):
+        # Check if there is a new line in description that is not escaped
+        pattern = r'(?<!\\)\n' 
+        if re.search(pattern, values["description"]):
+            raise ValueError("desciption key contains new line but it is not escaped using backslash. Add backslash before a new line : " + values["name"])
         return values
 
     # @validator('references')
