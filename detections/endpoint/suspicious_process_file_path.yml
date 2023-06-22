@@ -5,7 +5,7 @@ date: '2023-04-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will indentifies a suspicious processes running in file paths 
+description: This analytic identifies a suspicious processes running in file paths 
   that are not typically associated with legitimate software. Adversaries often employ this technique 
   to drop and execute malicious executables in accessible locations that do not require administrative privileges. 
   By monitoring for processes running in such unconventional file paths, we can identify potential indicators of 
