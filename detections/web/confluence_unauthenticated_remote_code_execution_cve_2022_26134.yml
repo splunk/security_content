@@ -44,6 +44,7 @@ tags:
   mitre_attack_id:
   - T1505
   - T1190
+  - T1133
   observable:
   - name: dest
     type: IP Address
