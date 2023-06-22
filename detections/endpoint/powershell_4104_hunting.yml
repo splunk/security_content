@@ -1,7 +1,7 @@
 name: PowerShell 4104 Hunting
 id: d6f2b006-0041-11ec-8885-acde48001122
-version: 3
-date: '2023-04-14'
+version: 4
+date: '2023-06-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -20,8 +20,9 @@ search: '`powershell` EventCode=4104 | eval DoIt = if(match(ScriptBlockText,"(?i
   AND match(lower(ScriptBlockText), "frombase64string") ,5,0) | eval mimikatz=if(match(lower(ScriptBlockText),"mimikatz")
   OR match(lower(ScriptBlockText), "-dumpcr") OR match(lower(ScriptBlockText), "SEKURLSA::Pth")
   OR match(lower(ScriptBlockText), "kerberos::ptt") OR match(lower(ScriptBlockText),
-  "kerberos::golden") ,5,0) | eval iex = if(match(lower(ScriptBlockText),"iex"), "2",
-  0) | eval webclient=if(match(lower(ScriptBlockText),"http") OR match(lower(ScriptBlockText),"web(client|request)")
+  "kerberos::golden") ,5,0) 
+   | eval iex=if(match(ScriptBlockText, "(?i)iex|invoke-expression"),2,0)
+   | eval webclient=if(match(lower(ScriptBlockText),"http") OR match(lower(ScriptBlockText),"web(client|request)")
   OR match(lower(ScriptBlockText),"socket") OR match(lower(ScriptBlockText),"download(file|string)")
   OR match(lower(ScriptBlockText),"bitstransfer") OR match(lower(ScriptBlockText),"internetexplorer.application")
   OR match(lower(ScriptBlockText),"xmlhttp"),5,0) | eval get = if(match(lower(ScriptBlockText),"get-"),
@@ -52,6 +53,7 @@ references:
 - https://www.mandiant.com/resources/greater-visibilityt
 - https://hurricanelabs.com/splunk-tutorials/how-to-use-powershell-transcription-logs-in-splunk/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
+- https://adlumin.com/post/powerdrop-a-new-insidious-powershell-script-for-command-and-control-attacks-targets-u-s-aerospace-defense-industry/
 tags:
   analytic_story:
   - Malicious PowerShell
