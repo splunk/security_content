@@ -1,0 +1,24 @@
+name: Active Directory Enable Account Dispatch
+id: 86320a91-1bde-41ab-8990-602a3768fd99
+version: 1
+date: '2023-05-23'
+author: Lou Stella, Splunk
+type: Investigation
+description: Automatically dispatches input playbooks with the 'enable_account' tag. This will produce a merge report and indicator tag for each inputs.
+playbook: Active_Directory_Enable_Account_Dispatch
+how_to_implement: This automatic playbook requires the "enable_account" tag be present on each input playbook you want to launch.
+references: []
+app_list: 
+  - microsoft_ad_ldap
+  - azure_ad_graph
+  - aws_iam
+tags:
+  platform_tags:
+    - user
+    - D3-AL
+    - enable_account
+  playbook_type: Automatic
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
