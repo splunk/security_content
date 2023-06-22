@@ -5,7 +5,7 @@ date: '2021-09-16'
 author: Patrick Bareiss, Rico Valdez, Splunk
 status: production
 type: TTP
-description: Attempt To Add Certificate To Untrusted Store
+description: The following analytic is designed to detect potential security threats involving the misuse of system trust. It works by detecting events where a process attempts to add a certificate to the untrusted certificate store, an action often associated with disabling security tools. The analytic uses Sysmon Event ID 1 data source, particularly focusing on process activities and command-line arguments related to 'certutil -addstore'. It's essential to ingest data that records process activity and logs containing process names and command lines for its effective operation. Be aware, sometimes administrators might legitimately perform this action. The analytic's value lies in detecting isolated or unexpected instances, indicative of potential malicious activities. Cybersecurity analysts should understand the importance of trust mechanisms and their subversion in system security.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
