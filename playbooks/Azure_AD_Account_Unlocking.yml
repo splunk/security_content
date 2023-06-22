@@ -1,0 +1,23 @@
+name: Azure AD Locking Account
+id: c3c0157d-7da0-46cb-8b97-327ee92f591c
+version: 1
+date: '2023-06-21'
+author: Lou Stella, Splunk
+type: Response
+description: "Accepts user, to be enabled using Azure AD Graph connector. This playbook produces a normalized observables output for each user."
+playbook: Azure_AD_Account_Unlocking
+how_to_implement: This input playbook requires the Azure AD Graph connector to be configured. It is designed to work in conjunction with the Active Directory Enable Account Dispatch playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - Azure AD Graph
+tags:
+  platform_tags:
+    - user
+    - D3-AL
+    - azure_ad_graph
+    - enable_account
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
