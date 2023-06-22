@@ -5,10 +5,12 @@ date: '2023-04-05'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation or deletion of a scheduled
-  task using schtasks.exe with flags - create or delete being passed on the command-line.
-  This has been associated with the Dragonfly threat actor, and the SUNBURST attack
-  against Solarwinds. This analytic replaces "Scheduled Task used in BadRabbit Ransomware".
+description: This analytic focuses on identifying the creation or deletion of scheduled tasks using the schtasks.exe utility 
+  with the corresponding command-line flags (-create or -delete). This technique has been notably associated with threat actors 
+  like Dragonfly and the SUNBURST attack against SolarWinds. The purpose of this analytic is to detect suspicious activity 
+  related to scheduled tasks that could indicate malicious intent or unauthorized system manipulation. By monitoring for these 
+  specific command-line flags, we can enhance our ability to identify potential threats and prevent attacks similar to the use of 
+  scheduled tasks in the BadRabbit Ransomware incident.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
