@@ -3,7 +3,7 @@ id: 86320a91-1bde-41ab-8990-602a3768fd99
 version: 1
 date: '2023-05-23'
 author: Lou Stella, Splunk
-type: Investigation
+type: Response
 description: Automatically dispatches input playbooks with the 'enable_account' tag. This will produce a merge report and indicator tag for each inputs.
 playbook: Active_Directory_Enable_Account_Dispatch
 how_to_implement: This automatic playbook requires the "enable_account" tag be present on each input playbook you want to launch.
