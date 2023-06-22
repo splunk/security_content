@@ -33,6 +33,7 @@ tags:
   message: Behavior related to exploitation of PaperCut NG has been identified on $host$.
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: host
     type: Hostname
