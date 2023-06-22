@@ -5,10 +5,16 @@ date: '2022-03-03'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting
-description: This search looks for AWS CloudTrail events where a user A who has already
-  permission to create access keys, makes an API call to create access keys for another
-  user B. Attackers have been know to use this technique for Privilege Escalation
-  in case new victim(user B) has more permissions than old victim(user B)
+description: This detection rule monitors for the creation of AWS Identity and Access Management (IAM) access keys. 
+  An IAM access key consists of an access key ID and secret access key, which are used to sign programmatic requests to AWS services. 
+  While IAM access keys can be legitimately used by developers and administrators for API access, their creation can also be indicative 
+  of malicious activity. Attackers who have gained unauthorized access to an AWS environment might create access keys as a means to 
+  establish persistence or to exfiltrate data through the APIs. Moreover, because access keys can be used to authenticate with AWS 
+  services without the need for further interaction, they can be particularly appealing for bad actors looking to operate under the radar. 
+  Consequently, it's important to vigilantly monitor and scrutinize access key creation events, especially if they are associated with 
+  unusual activity or are created by users who don't typically perform these actions. This hunting query identifies when a potentially compromised user 
+  creates a IAM access key for another user who may have higher privilleges, which can be a sign for privilege escalation. Hunting queries are designed to be executed 
+  manual during threat hunting.
 data_source: []
 search: '`cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com
   errorCode = success | eval match=if(match(userIdentity.userName,requestParameters.userName),1,0)
