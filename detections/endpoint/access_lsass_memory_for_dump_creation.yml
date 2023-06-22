@@ -5,7 +5,7 @@ date: '2019-12-06'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: Detect memory dumping of the LSASS process.
+description: The following analytic is designed to detect potentially malicious activities involving the Local Security Authority Subsystem Service (LSASS) process. Specifically, it identifies when the LSASS process memory is being dumped, an action often associated with credential dumping attacks. This analytic leverages Sysmon logs, particularly those with EventCode 10 related to lsass.exe. It searches for indicators of LSASS memory dumping, such as specific call traces to dbgcore.dll and dbghelp.dll. While memory dumps can be legitimate administrative tasks, LSASS memory dumps are typically unusual and warrant investigation. To implement this analytic, ensure your Sysmon setup includes EventCode 10 logging for lsass.exe and customize the provided macros (sysmon and post-filter macro) to match your specific Splunk environment configuration.
 data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
