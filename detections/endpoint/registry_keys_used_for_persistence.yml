@@ -5,8 +5,12 @@ date: '2023-06-06'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
-description: The search looks for modifications to registry keys that can be used
-  to launch an application or service at system startup.
+description: The search looks for modifications or alterations made to registry keys 
+  that have the potential to initiate the launch of an application or service during system startup. 
+  By monitoring and detecting modifications in these registry keys, we can identify suspicious or 
+  unauthorized changes that could be indicative of malicious activity. 
+  This proactive approach helps in safeguarding the system's 
+  integrity and security by promptly identifying and mitigating potential threats that aim to gain persistence or execute malicious actions during the startup process.
 data_source:
 - Sysmon Event ID 12
 - Sysmon Event ID 13
