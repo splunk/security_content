@@ -3,11 +3,11 @@ id: a919a01b-3ea5-4ed4-9cbe-11cd8b64c36c
 version: 1
 date: '2023-06-16'
 author: Teoderick Contreras, Splunk
-description: Amadey is a type of malware that primarily operates as a banking Trojan. It is designed to steal sensitive information such as login credentials, credit card details, and other financial data from infected systems. The malware typically targets Windows-based computers. 
-narrative: Amadey is one of the active trojans that are capable of stealing sensitive information via its from the infected or targeted host machine. It can collect various types of data, including browser profile information, clipboard data, capture screenshots and system information. 
-Adversaries or threat actors may use this malware to maximize the impact of infection on the target organization in operations where data collection and exfiltration is the goal. 
+description: This analytic story contains searches that aims to detect activities related to Amadey, a type of malware that primarily operates as a banking Trojan. It is designed to steal sensitive information such as login credentials, credit card details, and other financial data from infected systems. The malware typically targets Windows-based computers. 
+narrative: Amadey is one of the active trojans that are capable of stealing sensitive information via its from the infected or targeted host machine. It can collect various types of data, including browser profile information, clipboard data, capture screenshots and system information. Adversaries or threat actors may use this malware to maximize the impact of infection on the target organization in operations where data collection and exfiltration is the goal. The primary function is to steal information and further distribute malware. It aims to extract a variety of information from infected devices and attempts to evade the detection of security measures by reducing the volume of data exfiltration compared to that seen in other malicious instances.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.amadey
+- https://darktrace.com/blog/amadey-info-stealer-exploiting-n-day-vulnerabilities
 tags:
   analytic_story: Amadey
   category:
