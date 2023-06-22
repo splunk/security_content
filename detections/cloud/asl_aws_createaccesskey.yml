@@ -12,8 +12,8 @@ description: This detection rule monitors for the creation of AWS Identity and A
   establish persistence or to exfiltrate data through the APIs. Moreover, because access keys can be used to authenticate with AWS 
   services without the need for further interaction, they can be particularly appealing for bad actors looking to operate under the radar. 
   Consequently, it's important to vigilantly monitor and scrutinize access key creation events, especially if they are associated with 
-  unusual activity or are created by users who don't typically perform these actions. This hunting query while identify when a user A 
-  creates a IAM access key for a user B which can be a sign for malicious activity. Hunting queries are designed to be executed 
+  unusual activity or are created by users who don't typically perform these actions. This hunting query identifies when a potentially compromised user 
+  creates a IAM access key for another user who may have higher privilleges, which can be a sign for privilege escalation. Hunting queries are designed to be executed 
   manual during threat hunting.
 data_source: []
 search: '`amazon_security_lake` api.operation=CreateAccessKey http_request.user_agent!=console.amazonaws.com api.response.error=null
