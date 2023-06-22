@@ -5,13 +5,9 @@ date: '2021-11-11'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `at.exe` with command-line arguments
-  utilized to create a Scheduled Task on a remote endpoint. Red Teams and adversaries
-  alike may abuse the Task Scheduler for lateral movement and remote code execution.
-  The `at.exe` binary internally leverages the AT protocol which was deprecated starting
-  with Windows 8 and Windows Server 2012 but may still work on previous versions of
-  Windows. Furthermore, attackers may enable this protocol on demand by changing a
-  sytem registry key.
+description: The following analytic detects the creation of suspicious tasks on a remote Windows endpoint using the at.exe command with command-line arguments. This technique is commonly used by red teams and adversaries for lateral movement and remote code execution. The at.exe binary leverages the deprecated AT protocol, which may still work on previous versions of Windows. Attackers can enable this protocol on demand by modifying a system registry key. It is important to consider potential false positives. While administrators may create scheduled tasks on remote systems, this activity is typically limited to a small set of hosts or users.\
+
+  Identifying the creation of scheduled tasks on remote endpoints is crucial for a Security Operations Center (SOC) because it indicates potential unauthorized activity or an attacker attempting to establish persistence or execute malicious code. The impact of a true positive can be significant, leading to unauthorized access, data theft, or other damaging outcomes. During triage, investigate the source and purpose of the scheduled task, inspect relevant on-disk artifacts, and analyze concurrent processes to identify the extent of the attack and take appropriate response actions.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -32,6 +28,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Living Off The Land
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 60
   impact: 90
