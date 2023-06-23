@@ -1,7 +1,7 @@
 name: Net Localgroup Discovery
 id: 54f5201e-155b-11ec-a6e2-acde48001122
 version: 1
-date: '2021-09-14'
+date: '2023-06-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -30,13 +30,14 @@ references:
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
-  - Active Directory Discovery
-  - Windows Discovery Techniques
-  - Azorult
-  - Windows Post-Exploitation
   - Prestige Ransomware
   - Volt Typhoon
+  - Graceful Wipe Out Attack
   - IcedID
+  - Windows Discovery Techniques
+  - Windows Post-Exploitation
+  - Azorult
+  - Active Directory Discovery
   asset_type: Endpoint
   confidence: 50
   impact: 30
