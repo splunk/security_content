@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 StartW
 id: 9319dda5-73f2-4d43-a85a-67ce961bddb7
 version: 3
-date: '2021-02-04'
+date: '2023-06-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,8 +37,9 @@ references:
 - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 tags:
   analytic_story:
-  - Suspicious Rundll32 Activity
   - Cobalt Strike
+  - Suspicious Rundll32 Activity
+  - Graceful Wipe Out Attack
   - Trickbot
   asset_type: Endpoint
   confidence: 50

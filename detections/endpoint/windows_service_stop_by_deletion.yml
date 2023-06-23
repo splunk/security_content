@@ -1,7 +1,7 @@
 name: Windows Service Stop By Deletion
 id: 196ff536-58d9-4d1b-9686-b176b04e430b
 version: 1
-date: '2022-06-21'
+date: '2023-06-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Azorult
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 70
   impact: 70
