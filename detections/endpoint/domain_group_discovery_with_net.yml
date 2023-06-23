@@ -1,7 +1,7 @@
 name: Domain Group Discovery With Net
 id: f2f14ac7-fa81-471a-80d5-7eb65c3c7349
 version: 1
-date: '2021-08-25'
+date: '2023-06-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -25,9 +25,10 @@ references:
 - https://attack.mitre.org/techniques/T1069/002/
 tags:
   analytic_story:
-  - Active Directory Discovery
   - Windows Post-Exploitation
+  - Active Directory Discovery
   - Prestige Ransomware
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 50
   impact: 30

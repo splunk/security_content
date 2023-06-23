@@ -1,7 +1,7 @@
 name: SearchProtocolHost with no Command Line with Network
 id: b690df8c-a145-11eb-a38b-acde48001122
 version: 3
-date: '2022-03-15'
+date: '2023-06-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 100
   impact: 70
