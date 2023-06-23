@@ -1,7 +1,7 @@
 name: GPUpdate with no Command Line Arguments with Network
 id: 2c853856-a140-11eb-a5b5-acde48001122
 version: 2
-date: '2022-03-15'
+date: '2023-06-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,6 +34,7 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 90
   impact: 90
