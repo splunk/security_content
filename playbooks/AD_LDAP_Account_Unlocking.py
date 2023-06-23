@@ -73,7 +73,7 @@ def unlock_user_account(action=None, success=None, container=None, results=None,
     ## Custom Code End
     ################################################################################
 
-    phantom.act("unlock account", parameters=parameters, name="unlock_user_account", assets=["microsoft ad ldap"], callback=filter_unlock_account)
+    phantom.act("enable account", parameters=parameters, name="unlock_user_account", assets=["microsoft ad ldap"], callback=filter_unlock_account)
 
     return
 
