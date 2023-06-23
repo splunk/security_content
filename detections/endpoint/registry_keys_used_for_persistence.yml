@@ -1,17 +1,25 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 version: 9
-date: '2022-09-19'
+date: '2023-06-06'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
-description: The search looks for modifications to registry keys that can be used
-  to launch an application or service at system startup.
+description: The search looks for modifications or alterations made to registry keys 
+  that have the potential to initiate the launch of an application or service during system startup. 
+  By monitoring and detecting modifications in these registry keys, we can identify suspicious or 
+  unauthorized changes that could be indicative of malicious activity. 
+  This proactive approach helps in safeguarding the system's 
+  integrity and security by promptly identifying and mitigating potential threats that aim to gain persistence or execute malicious actions during the startup process.
 data_source:
+- Sysmon Event ID 12
 - Sysmon Event ID 13
+- Sysmon Event ID 14
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce
   OR Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run
+  OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\\*"
+  OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\*"
   OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet*
@@ -57,6 +65,7 @@ tags:
   - Qakbot
   - Chaos Ransomware
   - AsyncRAT
+  - Amadey
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 95
