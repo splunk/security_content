@@ -36,14 +36,14 @@ def username_filter(action=None, success=None, container=None, results=None, han
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        unlock_user_account(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+        enable_user_account(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
 
 @phantom.playbook_block()
-def unlock_user_account(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("unlock_user_account() called")
+def enable_user_account(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("enable_user_account() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -55,12 +55,12 @@ def unlock_user_account(action=None, success=None, container=None, results=None,
 
     parameters = []
 
-    # build parameters list for 'unlock_user_account' call
+    # build parameters list for 'enable_user_account' call
     for filtered_input_0_user_item in filtered_input_0_user:
         if filtered_input_0_user_item[0] is not None:
             parameters.append({
-                "use_samaccountname": True,
                 "user": filtered_input_0_user_item[0],
+                "use_samaccountname": True,
             })
 
     ################################################################################
@@ -73,7 +73,7 @@ def unlock_user_account(action=None, success=None, container=None, results=None,
     ## Custom Code End
     ################################################################################
 
-    phantom.act("enable account", parameters=parameters, name="unlock_user_account", assets=["microsoft ad ldap"], callback=filter_unlock_account)
+    phantom.act("enable account", parameters=parameters, name="enable_user_account", assets=["microsoft ad ldap"], callback=filter_unlock_account)
 
     return
 
@@ -86,7 +86,7 @@ def username_observables(action=None, success=None, container=None, results=None
     # Format a normalized output for each user.
     ################################################################################
 
-    filtered_result_0_data_filter_unlock_account = phantom.collect2(container=container, datapath=["filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.parameter.user","filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.parameter.use_samaccountname","filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.data.*.user_dn","filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.status","filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.message","filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.data.*.starting_status"])
+    filtered_result_0_data_filter_unlock_account = phantom.collect2(container=container, datapath=["filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.parameter.user","filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.parameter.use_samaccountname","filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.data.*.user_dn","filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.status","filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.message","filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.data.*.starting_status"])
 
     filtered_result_0_parameter_user = [item[0] for item in filtered_result_0_data_filter_unlock_account]
     filtered_result_0_parameter_use_samaccountname = [item[1] for item in filtered_result_0_data_filter_unlock_account]
@@ -135,7 +135,7 @@ def filter_unlock_account(action=None, success=None, container=None, results=Non
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["unlock_user_account:action_result.status", "==", "success"]
+            ["enable_user_account:action_result.status", "==", "success"]
         ],
         name="filter_unlock_account:condition_1",
         delimiter=",")

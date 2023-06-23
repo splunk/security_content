@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "85c138bc0705f11d9270fa531198bfc3d38605cd",
+            "hash": "67653916cd906cc7a34fc0082e8cdef3b8f99437",
             "nodes": {
                 "0": {
                     "data": {
@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -6.394884621840902e-14
+                    "y": -1.2789769243681803e-13
                 },
                 "1": {
                     "data": {
@@ -129,7 +129,7 @@
                         "action": "enable account",
                         "actionType": "generic",
                         "advanced": {
-                            "customName": "unlock user account",
+                            "customName": "enable user account",
                             "customNameId": 0,
                             "delayTime": 0,
                             "description": "Unlock user account from filtered playbook inputs.",
@@ -143,7 +143,7 @@
                         "connectorId": "a5730e5d-a396-4695-92c2-35ff391aaf45",
                         "connectorVersion": "v1",
                         "functionId": 1,
-                        "functionName": "unlock_user_account",
+                        "functionName": "enable_user_account",
                         "id": "3",
                         "parameters": {
                             "use_samaccountname": true,
@@ -178,12 +178,12 @@
                         "functionName": "username_observables",
                         "id": "4",
                         "inputParameters": [
-                            "filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.parameter.user",
-                            "filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.parameter.use_samaccountname",
-                            "filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.data.*.user_dn",
-                            "filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.status",
-                            "filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.message",
-                            "filtered-data:filter_unlock_account:condition_1:unlock_user_account:action_result.data.*.starting_status"
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.parameter.user",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.parameter.use_samaccountname",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.data.*.user_dn",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.status",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.message",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.data.*.starting_status"
                         ],
                         "outputVariables": [
                             "observable_array"
@@ -215,7 +215,7 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": "==",
-                                        "param": "unlock_user_account:action_result.status",
+                                        "param": "enable_user_account:action_result.status",
                                         "value": "success"
                                     }
                                 ],
@@ -265,7 +265,7 @@
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },
-    "create_time": "2023-06-23T13:36:38.402119+00:00",
+    "create_time": "2023-06-23T13:39:30.530535+00:00",
     "draft_mode": false,
     "labels": [
         "*"
