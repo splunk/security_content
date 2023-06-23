@@ -1,7 +1,7 @@
 name: SAM Database File Access Attempt
 id: 57551656-ebdb-11eb-afdf-acde48001122
 version: 1
-date: '2021-07-23'
+date: '2023-06-13'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 100
   cve:

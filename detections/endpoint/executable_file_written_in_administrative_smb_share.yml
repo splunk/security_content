@@ -1,7 +1,7 @@
 name: Executable File Written in Administrative SMB Share
 id: f63c34fe-a435-11eb-935a-acde48001122
 version: 2
-date: '2023-04-14'
+date: '2023-06-13'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -33,13 +33,14 @@ references:
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
-  - Industroyer2
   - Active Directory Lateral Movement
+  - Prestige Ransomware
+  - Graceful Wipe Out Attack
+  - Industroyer2
+  - IcedID
+  - Data Destruction
   - Hermetic Wiper
   - Trickbot
-  - Prestige Ransomware
-  - Data Destruction
-  - IcedID
   asset_type: Endpoint
   confidence: 100
   impact: 70
