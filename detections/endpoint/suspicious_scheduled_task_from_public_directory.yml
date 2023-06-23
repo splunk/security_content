@@ -5,12 +5,9 @@ date: '2021-03-01'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following detection identifies Scheduled Tasks registering (creating
-  a new task) a binary or script to run from a public directory which includes users\public,
-  \programdata\ and \windows\temp. Upon triage, review the binary or script in the
-  command line for legitimacy, whether an approved binary/script or not. In addition,
-  capture the binary or script in question and analyze for further behaviors. Identify
-  the source and contain the endpoint.
+description: The following analytic, "Suspicious Scheduled Task from Public Directory", detects the registration of scheduled tasks aimed to execute a binary or script from public directories, a behavior often associated with malware deployment. It utilizes the Sysmon Event ID 1 data source, searching for instances where schtasks.exe is connected with the directories users\public, \programdata\, or \windows\temp and involves the /create command.\
+
+  The registration of such scheduled tasks in public directories could suggest that an attacker is trying to maintain persistence or execute malicious scripts. If confirmed as a true positive, this could lead to data compromise, unauthorized access, and potential lateral movement within the network.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -23,8 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: Limited false positives may be present. Filter as needed by
-  parent process or command line argument.
+known_false_positives: The main source of false positives could be the legitimate use of scheduled tasks from these directories. Careful tuning of this search may be necessary to suit the specifics of your environment, reducing the rate of false positives.
 references:
 - https://attack.mitre.org/techniques/T1053/005/
 tags:
@@ -35,6 +31,7 @@ tags:
   - Living Off The Land
   - Azorult
   - DarkCrystal RAT
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 50
   impact: 70

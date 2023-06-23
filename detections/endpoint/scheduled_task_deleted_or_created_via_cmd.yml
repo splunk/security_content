@@ -24,8 +24,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: It is possible scripts or administrators may trigger this analytic.
-  Filter as needed based on parent process, application.
+known_false_positives: While it is possible for legitimate scripts or administrators to trigger this behavior, filtering can be applied based on the parent process and application to reduce false positives. Analysts should reference the provided references to understand the context and threat landscape associated with this activity.
 references:
 - https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/
 - https://www.joesandbox.com/analysis/691823/0/html
@@ -45,7 +44,11 @@ tags:
   - CISA AA22-257A
   - DHS Report TA18-074A
   - Azorult
+<<<<<<< HEAD
   - Amadey
+=======
+  - Scheduled Tasks
+>>>>>>> develop
   asset_type: Endpoint
   confidence: 80
   impact: 70
