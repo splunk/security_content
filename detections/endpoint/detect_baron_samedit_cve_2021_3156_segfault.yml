@@ -7,8 +7,8 @@ status: experimental
 type: TTP
 description: This search detects the heap-based buffer overflow of sudoedit
 data_source: []
-search: '`linux_hosts` | search sudoedit segfault | stats count min(_time) as firstTime
-  max(_time) as lastTime by host | search count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'
+search: '`linux_hosts` TERM(sudoedit) TERM(segfault) | stats count min(_time) as firstTime
+  max(_time) as lastTime by host | where count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'
 how_to_implement: Splunk Universal Forwarder running on Linux systems (tested on Centos
   and Ubuntu), where segfaults are being logged.  This also captures instances where
   the exploit has been compiled into a binary. The detection looks for greater than
