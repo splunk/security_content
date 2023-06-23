@@ -7,7 +7,7 @@ status: experimental
 type: TTP
 description: This search detects the heap-based buffer overflow of sudoedit
 data_source: []
-search: '`linux_hosts` | search "sudoedit -s \\" | `detect_baron_samedit_cve_2021_3156_filter`'
+search: '`linux_hosts` "sudoedit -s \\" | `detect_baron_samedit_cve_2021_3156_filter`'
 how_to_implement: Splunk Universal Forwarder running on Linux systems, capturing logs
   from the /var/log directory. The vulnerability is exposed when a non privledged
   user tries passing in a single \ character at the end of the command while using
