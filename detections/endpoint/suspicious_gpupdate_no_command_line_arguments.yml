@@ -1,7 +1,7 @@
 name: Suspicious GPUpdate no Command Line Arguments
 id: f308490a-473a-40ef-ae64-dd7a6eba284a
 version: 3
-date: '2022-03-15'
+date: '2023-06-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 70
   impact: 70
