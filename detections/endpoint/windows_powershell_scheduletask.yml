@@ -9,7 +9,8 @@ data_source:
 - Powershell 4104
 description: The following analytic detects potential malicious activities related to PowerShell's task scheduling cmdlets. It looks for anomalies in PowerShell logs, specifically EventCode 4104, associated with script block logging. The analytic flags unusual or suspicious use patterns of key task-related cmdlets such as 'New-ScheduledTask', 'Set-ScheduledTask', and others, which are often used by attackers for persistence and remote execution of malicious code. If a true positive is found, it suggests an possible attacker is attempting to persist within the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes. To implement this analytic, PowerShell Script Block Logging needs to be enabled on some or all endpoints. Analysts should be aware of benign administrative tasks that can trigger alerts and tune the analytic accordingly to reduce false positives. Upon triage, review the PowerShell
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id
+  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_powershell_scheduletask_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
@@ -27,7 +28,7 @@ tags:
   - af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd
   confidence: 50
   impact: 50
-  message: The PowerShell cmdlets related to task creation, modification and start occurred on $Computer$ by $User$. 
+  message: The PowerShell cmdlets related to task creation, modification and start occurred on $Computer$ by $user_id$. 
   mitre_attack_id:
   - T1053.005
   - T1059.001
@@ -37,7 +38,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user_id
     type: User
     role:
     - Victim
