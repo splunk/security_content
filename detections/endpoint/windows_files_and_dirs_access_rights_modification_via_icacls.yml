@@ -38,7 +38,7 @@ tags:
   message: Process name $process_name$ with access right modification argument executed by $user$ to change
     security permission of a specific file or directory on host $dest$
   mitre_attack_id:
-  - T1222.01
+  - T1222.001
   - T1222
   observable:
   - name: dest
