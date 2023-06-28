@@ -10,7 +10,7 @@ description: The following analytic identifies the assignment of sensitive and p
   may assign these roles to a compromised account to establish Persistence in an Azure
   AD environment.
 data_source: []
-search: ' `azuread` "body.operationName"="Add member to role" | rename body.properties.*  as * 
+search: ' `azuread` "operationName"="Add member to role" | rename properties.*  as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
   | rename initiatedBy.user.userPrincipalName as initiatedBy 
   | rename targetResources{}.modifiedProperties{}.newValue  as roles 
@@ -58,10 +58,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.targetResources{}.userPrincipalName
-  - body.properties.targetResources{}.type
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.result
+  - properties.targetResources{}.userPrincipalName
+  - properties.targetResources{}.type
+  - properties.initiatedBy.user.userPrincipalName
+  - properties.result
   risk_score: 63
   security_domain: audit
 tests:

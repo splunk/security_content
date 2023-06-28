@@ -12,8 +12,8 @@ description: The following analytic identifies the assignment of the Application
   been granted access to a resource, such as the ability to create or update User or other objects, then a user assigned to this role could perform those actions while
   impersonating the application. This ability to impersonate the applications identity may be an elevation of privilege over what the user can do via their role assignments.
   Red teams and adversaries alike may abuse this role to escalate their privileges in an Azure AD tenant.
-search: ' `azuread` "body.operationName"="Add member to role"  "body.properties.targetResources{}.modifiedProperties{}.newValue"="\"Application Administrator\"" 
-  | rename body.properties.* as * 
+search: ' `azuread` "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Application Administrator\"" 
+  | rename properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
   | rename initiatedBy.user.userPrincipalName as initiatedBy
   | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName
@@ -57,10 +57,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.targetResources{}.userPrincipalName
-  - body.properties.targetResources{}.type
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.result
+  - properties.targetResources{}.userPrincipalName
+  - properties.targetResources{}.type
+  - properties.initiatedBy.user.userPrincipalName
+  - properties.result
   risk_score: 35
   security_domain: endpoint
 tests:
