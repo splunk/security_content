@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Brute Ratel C4
-  asset_type: 80
+  asset_type: Endpoint
   confidence: 80
   impact: 80
   message: process $SourceImage$ create a remote thread to process $TargetImage$ on
