@@ -83,7 +83,7 @@ def url_detonation(action=None, success=None, container=None, results=None, hand
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="url_detonation", assets=["splunk_attack_analyzer"], callback=url_status_filter)
+    phantom.act("detonate url", parameters=parameters, name="url_detonation", assets=["splunk attack analyzer"], callback=url_status_filter)
 
     return
 
@@ -131,7 +131,7 @@ def get_url_forensics_output(action=None, success=None, container=None, results=
         if filtered_result_0_item_url_status_filter[0] is not None:
             parameters.append({
                 "job_id": filtered_result_0_item_url_status_filter[0],
-                "timeout": 5,
+                "timeout": 2,
             })
 
     ################################################################################
@@ -152,7 +152,7 @@ def get_url_forensics_output(action=None, success=None, container=None, results=
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="get_url_forensics_output", assets=["splunk_attack_analyzer"], callback=get_jobid_forensic_filter)
+    phantom.act("get job forensics", parameters=parameters, name="get_url_forensics_output", assets=["splunk attack analyzer"], callback=get_jobid_forensic_filter)
 
     return
 
@@ -234,10 +234,12 @@ def normalized_url_forensic_output(action=None, success=None, container=None, re
 
     ## pair forensic job results with url detonated
     job_url_dict = {}
-    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):
-        if orig_job == filtered_job:
-            job_url_dict[filtered_job] = orig_url
-    
+
+    for orig_url, orig_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid):
+        for filtered_job in filtered_result_0_data___jobid:
+            if orig_job == filtered_job:
+                job_url_dict[filtered_job] = orig_url
+                
     for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):
         
         ## translate scores
@@ -403,7 +405,7 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk_attack_analyzer"], callback=detonation_status_filter)
+    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk attack analyzer"], callback=detonation_status_filter)
 
     return
 
@@ -428,7 +430,7 @@ def get_file_forensics_output(action=None, success=None, container=None, results
         if filtered_result_0_item_detonation_status_filter[0] is not None:
             parameters.append({
                 "job_id": filtered_result_0_item_detonation_status_filter[0],
-                "timeout": 10,
+                "timeout": 3,
             })
 
     ################################################################################
@@ -449,7 +451,7 @@ def get_file_forensics_output(action=None, success=None, container=None, results
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="get_file_forensics_output", assets=["splunk_attack_analyzer"], callback=file_forensics_filter)
+    phantom.act("get job forensics", parameters=parameters, name="get_file_forensics_output", assets=["splunk attack analyzer"], callback=file_forensics_filter)
 
     return
 
@@ -508,10 +510,12 @@ def normalized_file_forensic_output(action=None, success=None, container=None, r
     
     ## pair forensic job results with url detonated
     job_file_dict = {}
-    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):
-        if orig_job == filtered_job:
-            job_file_dict[filtered_job] = orig_url
 
+    for orig_url, orig_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):
+        for filtered_job in filtered_result_0_data___jobid:
+            if orig_job == filtered_job:
+                job_file_dict[filtered_job] = orig_url
+                
     for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):
         
         ## translate scores

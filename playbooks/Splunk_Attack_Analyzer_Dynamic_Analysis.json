@@ -156,7 +156,7 @@
                     "targetPort": "15_in"
                 }
             ],
-            "hash": "d3278e0db9a8761705897f1307e410d32a715c77",
+            "hash": "13864bdc7ea935acde9ad6f1be501217c7197c4f",
             "nodes": {
                 "0": {
                     "data": {
@@ -171,8 +171,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 190,
-                    "y": -7.673861546209082e-13
+                    "x": 200,
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -265,7 +265,7 @@
                         },
                         "connector": "Splunk Attack Analyzer",
                         "connectorConfigs": [
-                            "splunk_attack_analyzer"
+                            "splunk attack analyzer"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -308,7 +308,7 @@
                         },
                         "connector": "Splunk Attack Analyzer",
                         "connectorConfigs": [
-                            "splunk_attack_analyzer"
+                            "splunk attack analyzer"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -317,7 +317,7 @@
                         "id": "15",
                         "parameters": {
                             "job_id": "filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID",
-                            "timeout": "10"
+                            "timeout": "3"
                         },
                         "requiredParameters": [
                             {
@@ -367,7 +367,7 @@
                     "errors": {},
                     "id": "17",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_file_forensic_output__file_score_object = []\n    normalized_file_forensic_output__scores = []\n    normalized_file_forensic_output__categories = []\n    normalized_file_forensic_output__score_id = []\n    normalized_file_forensic_output__file = []\n    normalized_file_forensic_output__job_id = []\n    \n    ## pair forensic job results with url detonated\n    job_file_dict = {}\n    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):\n        if orig_job == filtered_job:\n            job_file_dict[filtered_job] = orig_url\n\n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        file = job_file_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        normalized_file_forensic_output__file_score_object.append({'value': file, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_file_forensic_output__scores.append(score)\n        normalized_file_forensic_output__categories.append(\", \".join(categories))\n        normalized_file_forensic_output__score_id.append(score_id)\n        normalized_file_forensic_output__file.append(file)\n        normalized_file_forensic_output__job_id.append(job)\n        \n",
+                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_file_forensic_output__file_score_object = []\n    normalized_file_forensic_output__scores = []\n    normalized_file_forensic_output__categories = []\n    normalized_file_forensic_output__score_id = []\n    normalized_file_forensic_output__file = []\n    normalized_file_forensic_output__job_id = []\n    \n    ## pair forensic job results with url detonated\n    job_file_dict = {}\n\n    for orig_url, orig_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):\n        for filtered_job in filtered_result_0_data___jobid:\n            if orig_job == filtered_job:\n                job_file_dict[filtered_job] = orig_url\n                \n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        file = job_file_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        normalized_file_forensic_output__file_score_object.append({'value': file, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_file_forensic_output__scores.append(score)\n        normalized_file_forensic_output__categories.append(\", \".join(categories))\n        normalized_file_forensic_output__score_id.append(score_id)\n        normalized_file_forensic_output__file.append(file)\n        normalized_file_forensic_output__job_id.append(job)\n        \n",
                     "warnings": {},
                     "x": 340,
                     "y": 1260
@@ -571,7 +571,7 @@
                         },
                         "connector": "Splunk Attack Analyzer",
                         "connectorConfigs": [
-                            "splunk_attack_analyzer"
+                            "splunk attack analyzer"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -652,7 +652,7 @@
                         },
                         "connector": "Splunk Attack Analyzer",
                         "connectorConfigs": [
-                            "splunk_attack_analyzer"
+                            "splunk attack analyzer"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -661,7 +661,7 @@
                         "id": "6",
                         "parameters": {
                             "job_id": "filtered-data:url_status_filter:condition_1:url_detonation:action_result.data.*.JobID",
-                            "timeout": "5"
+                            "timeout": "2"
                         },
                         "requiredParameters": [
                             {
@@ -747,7 +747,7 @@
                     "errors": {},
                     "id": "8",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_url_forensic_output__url_score_object = []\n    normalized_url_forensic_output__scores = []\n    normalized_url_forensic_output__categories = []\n    normalized_url_forensic_output__score_id = []\n    normalized_url_forensic_output__url = []\n    normalized_url_forensic_output__job_id = []\n\n    ## pair forensic job results with url detonated\n    job_url_dict = {}\n    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):\n        if orig_job == filtered_job:\n            job_url_dict[filtered_job] = orig_url\n    \n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        url = job_url_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        # Attach final object\n        normalized_url_forensic_output__url_score_object.append({'value': url, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_url_forensic_output__scores.append(score)\n        normalized_url_forensic_output__categories.append(\", \".join(categories))\n        normalized_url_forensic_output__score_id.append(score_id)\n        normalized_url_forensic_output__url.append(url)\n        normalized_url_forensic_output__job_id.append(job)\n\n",
+                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_url_forensic_output__url_score_object = []\n    normalized_url_forensic_output__scores = []\n    normalized_url_forensic_output__categories = []\n    normalized_url_forensic_output__score_id = []\n    normalized_url_forensic_output__url = []\n    normalized_url_forensic_output__job_id = []\n\n    ## pair forensic job results with url detonated\n    job_url_dict = {}\n\n    for orig_url, orig_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid):\n        for filtered_job in filtered_result_0_data___jobid:\n            if orig_job == filtered_job:\n                job_url_dict[filtered_job] = orig_url\n                \n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        url = job_url_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        # Attach final object\n        normalized_url_forensic_output__url_score_object.append({'value': url, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_url_forensic_output__scores.append(score)\n        normalized_url_forensic_output__categories.append(\", \".join(categories))\n        normalized_url_forensic_output__score_id.append(score_id)\n        normalized_url_forensic_output__url.append(url)\n        normalized_url_forensic_output__job_id.append(job)\n\n",
                     "warnings": {},
                     "x": 0,
                     "y": 1260
@@ -800,7 +800,7 @@
         "schema": "5.0.9",
         "version": "6.0.0.114895"
     },
-    "create_time": "2023-04-29T01:27:41.839151+00:00",
+    "create_time": "2023-07-03T11:44:44.497724+00:00",
     "draft_mode": false,
     "labels": [
         "*"
