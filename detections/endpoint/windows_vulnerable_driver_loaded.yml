@@ -45,6 +45,7 @@ references:
 tags:
   analytic_story:
     - Windows Drivers
+    - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50
