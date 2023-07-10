@@ -35,7 +35,7 @@ tags:
   atomic_guid:
   - 4f4e2f9f-6209-4fcf-9b15-3b7455706f5b
   confidence: 40
-  impact: U40
+  impact: 40
   message: A registry modification in Windows LongPathEnable configuration on $dest$
   mitre_attack_id:
   - T1112
