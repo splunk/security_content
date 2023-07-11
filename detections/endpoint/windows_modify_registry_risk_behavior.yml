@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Correlation
 data_source: []
-description: The following analytic detects the triggering of a 3 or higher number of distinct analytics associated
-  with a Mitre ID T1112 which is modification of registry information, which could be a sign of multiple malicious registry modifications made on a host. Malicious actors often manipulate the Windows Registry to conceal vital configuration details within specific Registry keys. They exploit this technique to obfuscate their activities, eliminate traces of their presence during cleanup operations, and facilitate persistent access and execution of malicious code.
+description: This analytic is designed to identify instances where three or more distinct analytics associated with Mitre ID T1112 - Modification of registry information are triggered. Such occurrences could indicate the presence of multiple malicious registry modifications on a host. Malicious actors frequently manipulate the Windows Registry to hide important configuration details within specific Registry keys. This technique allows them to obscure their activities, erase any evidence during cleanup operations, and establish continuous access and execution of malicious code.
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime 
   sum(All_Risk.calculated_risk_score) as risk_score, 
   count(All_Risk.calculated_risk_score) as risk_event_count, 
