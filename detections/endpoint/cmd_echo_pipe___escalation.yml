@@ -1,7 +1,7 @@
 name: CMD Echo Pipe - Escalation
 id: eb277ba0-b96b-11eb-b00e-acde48001122
 version: 2
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -29,6 +29,7 @@ references:
 - https://github.com/rapid7/meterpreter/blob/master/source/extensions/priv/server/elevate/namedpipe.c
 tags:
   analytic_story:
+  - BlackByte Ransomware
   - Cobalt Strike
   - Graceful Wipe Out Attack
   asset_type: Endpoint

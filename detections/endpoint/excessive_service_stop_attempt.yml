@@ -31,6 +31,7 @@ tags:
   analytic_story:
   - XMRig
   - Ransomware
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 100
   impact: 80
