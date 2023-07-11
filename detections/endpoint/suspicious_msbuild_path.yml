@@ -1,7 +1,7 @@
 name: Suspicious msbuild path
 id: f5198224-551c-11eb-ae93-0242ac130002
 version: 3
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,11 +32,12 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
 tags:
   analytic_story:
-  - Masquerading - Rename System Utilities
-  - Graceful Wipe Out Attack
-  - Living Off The Land
   - Trusted Developer Utilities Proxy Execution MSBuild
+  - Masquerading - Rename System Utilities
+  - Living Off The Land
   - Cobalt Strike
+  - BlackByte Ransomware
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 70
   impact: 70
