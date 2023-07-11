@@ -33,6 +33,7 @@ tags:
   - XMRig
   - CISA AA22-320A
   - AgentTesla
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 70
