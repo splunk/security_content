@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 
 
 from bin.contentctl_project.contentctl_core.application.adapter.adapter import Adapter
@@ -25,7 +26,21 @@ class ObjToJsonAdapter(Adapter):
                         "baselines": True,
                         "mappings": True,
                         "test": True,
-                        "deployment": True
+                        "deployment": True,
+                        "type": True,
+                        "status": True,
+                        "data_source": True,
+                        "tests": True,
+                        "cve_enrichment": True,
+                        "tags": 
+                            {
+                                "file_path": True,
+                                "required_fields": True,
+                                "confidence": True,
+                                "impact": True,
+                                "product": True,
+                                "cve": True
+                            }
                     }
                 ))
             
