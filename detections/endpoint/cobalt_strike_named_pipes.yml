@@ -1,7 +1,7 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
 version: 2
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,11 +41,12 @@ references:
 - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story:
-  - LockBit Ransomware
-  - Graceful Wipe Out Attack
-  - Cobalt Strike
-  - DarkSide Ransomware
   - Trickbot
+  - DarkSide Ransomware
+  - Cobalt Strike
+  - BlackByte Ransomware
+  - Graceful Wipe Out Attack
+  - LockBit Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 80
