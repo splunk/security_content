@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Data Destruction
   - WhisperGate
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 60
   impact: 60

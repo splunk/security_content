@@ -1,7 +1,7 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
 version: 5
-date: '2022-11-21'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -51,10 +51,11 @@ references:
 - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
 tags:
   analytic_story:
-  - ProxyShell
-  - CISA AA22-264A
   - ProxyNotShell
   - CISA AA22-277A
+  - ProxyShell
+  - BlackByte Ransomware
+  - CISA AA22-264A
   asset_type: Endpoint
   confidence: 80
   impact: 40
