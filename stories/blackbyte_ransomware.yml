@@ -1,0 +1,26 @@
+name: BlackByte Ransomware
+id: b18259ac-0746-45d7-bd1f-81d65274a80b
+version: 1
+date: '2023-07-10'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the BlackByte ransomware, including looking for file writes
+  associated with BlackByte, persistence, initial access, account registry
+  modification and more.
+narrative: BlackByte ransomware campaigns targeting business operations, 
+  involve the use of ransomware payloads, infection chain to collect and exfiltrate data and drop payload on the targeted system. 
+  BlackByte Ransomware operates by infiltrating a system through various methods, such as malicious email attachments, exploit kits, 
+  or compromised websites. Once inside a system, it begins encrypting files using strong encryption algorithms, rendering them unusable. 
+  After completing the encryption process, BlackByte Ransomware typically leaves a ransom note that explains the situation to the victim 
+  and provides instructions on how to pay the ransom to obtain the decryption key.
+references:
+- https://www.microsoft.com/en-us/security/blog/2023/07/06/the-five-day-job-a-blackbyte-ransomware-intrusion-case-study/
+tags:
+  analytic_story: BlackByte Ransomware
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
