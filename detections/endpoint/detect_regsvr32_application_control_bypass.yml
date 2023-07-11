@@ -1,7 +1,7 @@
 name: Detect Regsvr32 Application Control Bypass
 id: 070e9b80-6252-11eb-ae93-0242ac130002
 version: 2
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,10 +37,11 @@ references:
 - https://support.microsoft.com/en-us/topic/how-to-use-the-regsvr32-tool-and-troubleshoot-regsvr32-error-messages-a98d960a-7392-e6fe-d90a-3f4e0cb543e5
 tags:
   analytic_story:
-  - Cobalt Strike
   - Living Off The Land
-  - Suspicious Regsvr32 Activity
+  - Cobalt Strike
+  - BlackByte Ransomware
   - Graceful Wipe Out Attack
+  - Suspicious Regsvr32 Activity
   asset_type: Endpoint
   confidence: 100
   impact: 80

@@ -1,7 +1,7 @@
 name: SearchProtocolHost with no Command Line with Network
 id: b690df8c-a145-11eb-a38b-acde48001122
 version: 3
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,6 +32,7 @@ references:
 - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/SUSPICIOUS%20EXECUTION%20OF%20SEARCHPROTOCOLHOST%20(METHODOLOGY).ioc
 tags:
   analytic_story:
+  - BlackByte Ransomware
   - Cobalt Strike
   - Graceful Wipe Out Attack
   asset_type: Endpoint

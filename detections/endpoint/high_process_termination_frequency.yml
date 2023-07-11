@@ -27,6 +27,7 @@ tags:
   analytic_story:
   - Clop Ransomware
   - LockBit Ransomware
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 90
