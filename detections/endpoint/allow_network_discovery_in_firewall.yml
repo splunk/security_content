@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50

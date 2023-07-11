@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Azorult
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50
