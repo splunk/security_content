@@ -1,7 +1,7 @@
 name: Suspicious MSBuild Rename
 id: 4006adac-5937-11eb-ae93-0242ac130002
 version: 3
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -30,11 +30,12 @@ references:
 - https://github.com/infosecn1nja/MaliciousMacroMSBuild/
 tags:
   analytic_story:
-  - Masquerading - Rename System Utilities
-  - Graceful Wipe Out Attack
-  - Living Off The Land
   - Trusted Developer Utilities Proxy Execution MSBuild
+  - Masquerading - Rename System Utilities
+  - Living Off The Land
   - Cobalt Strike
+  - BlackByte Ransomware
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 90
   impact: 70

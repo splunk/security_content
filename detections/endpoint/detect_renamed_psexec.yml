@@ -38,6 +38,7 @@ tags:
   - Active Directory Lateral Movement
   - CISA AA22-320A
   - Sandworm Tools
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 30
