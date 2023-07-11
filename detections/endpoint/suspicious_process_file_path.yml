@@ -61,6 +61,7 @@ tags:
   - Chaos Ransomware
   - Trickbot
   - Amadey
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 70
