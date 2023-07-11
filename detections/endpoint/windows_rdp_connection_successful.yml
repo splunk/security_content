@@ -20,6 +20,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - BlackByte Ransomware
   asset_type: Endpoint
   atomic_guid: []
   confidence: 50
