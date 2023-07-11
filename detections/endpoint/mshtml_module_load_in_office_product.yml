@@ -1,7 +1,7 @@
 name: MSHTML Module Load in Office Product
 id: 5f1c168e-118b-11ec-84ff-acde48001122
-version: 5
-date: '2023-02-15'
+version: 6
+date: '2023-07-11'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -13,7 +13,7 @@ description: The following detection identifies the module load of mshtml.dll in
 data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventID=7  parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
-  "msaccess.exe") ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
+  "msaccess.exe","Graph.exe","winproj.exe") ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name,
   ImageLoaded, OriginalFileName, ProcessGuid | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `mshtml_module_load_in_office_product_filter`'
@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
+  - CVE-2023-36884 - Office and Windows HTML RCE Vulnerability
   asset_type: Endpoint
   confidence: 100
   cve:
