@@ -5,10 +5,7 @@ date: '2023-06-13'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies when the Task Scheduler service "svchost.exe -k netsvcs -p -s Schedule" is the parent process 
-to common command line, scripting, or shell execution binaries. Attackers often abuse the task scheduler service with these binaries as an 
-execution and persistence mechanism in order to blend in with normal Windows operations. 
-This TTP is also commonly seen for legitimate purposes such as business scripts or application updates.
+description: The following analytic identifies when the Task Scheduler service "svchost.exe -k netsvcs -p -s Schedule" is the parent process to common command line, scripting, or shell execution binaries. Attackers often abuse the task scheduler service with these binaries as an execution and persistence mechanism in order to blend in with normal Windows operations. This TTP is also commonly seen for legitimate purposes such as business scripts or application updates.
 data_source:
 - Sysmon 1
 - Windows Security 4688
@@ -20,9 +17,7 @@ by Processes.dest Processes.user Processes.parent_process Processes.process_name
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `windows_scheduled_task_service_spawned_shell_filter`'
-how_to_implement: The following analytic requires Sysmon or Windows logging with
-command line logging enabled. Use filter to remove known environment known false 
-positives prior to full production usage.
+how_to_implement: The following analytic requires Sysmon or Windows logging with command line logging enabled. Use filter to remove known environment known false positives prior to full production usage.
 known_false_positives: Unknown, possible custom scripting.
 references:
 - https://www.mandiant.com/resources/blog/tracking-evolution-gootloader-operations
