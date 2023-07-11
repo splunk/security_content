@@ -67,6 +67,7 @@ tags:
   - AsyncRAT
   - Amadey
   - Sneaky Active Directory Persistence Tricks
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 95
   impact: 80

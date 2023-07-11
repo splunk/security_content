@@ -1,7 +1,7 @@
 name: Suspicious DLLHost no Command Line Arguments
 id: ff61e98c-0337-4593-a78f-72a676c56f26
 version: 4
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ references:
 - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
 tags:
   analytic_story:
+  - BlackByte Ransomware
   - Cobalt Strike
   - Graceful Wipe Out Attack
   asset_type: Endpoint
