@@ -6,6 +6,7 @@ from pydantic import BaseModel, validator, root_validator
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Union
+import re
 
 
 from bin.contentctl_project.contentctl_core.domain.entities.security_content_object import (
@@ -137,6 +138,23 @@ class Detection(BaseModel, SecurityContentObject):
         if "ssa_" not in values["file_path"]:
             if len(values["name"]) > 67:
                 raise ValueError("name is longer then 67 chars: " + values["name"])
+        return values
+
+
+    @root_validator
+    def new_line_check(cls, values):
+        # Check if there is a new line in description and how to implement that is not escaped
+        pattern = r'(?<!\\)\n' 
+        if re.search(pattern, values["description"]):
+            match_obj = re.search(pattern,values["description"])
+            words = values["description"][:match_obj.span()[0]].split()[-10:]
+            newline_context = ' '.join(words)
+            raise ValueError(f"Field named 'description' contains new line that is not escaped using backslash. Add backslash at the end of the line after the words: '{newline_context}' in '{values['name']}'")
+        if re.search(pattern, values["how_to_implement"]):
+            match_obj = re.search(pattern,values["how_to_implement"])
+            words = values["how_to_implement"][:match_obj.span()[0]].split()[-10:]
+            newline_context = ' '.join(words)
+            raise ValueError(f"Field named 'how_to_implement' contains new line that is not escaped using backslash. Add backslash at the end of the line after the words: '{newline_context}' in '{values['name']}'")
         return values
 
     # @validator('references')
