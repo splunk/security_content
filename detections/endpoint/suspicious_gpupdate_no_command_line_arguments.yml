@@ -1,7 +1,7 @@
 name: Suspicious GPUpdate no Command Line Arguments
 id: f308490a-473a-40ef-ae64-dd7a6eba284a
 version: 3
-date: '2023-06-13'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -29,6 +29,7 @@ references:
 - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
 tags:
   analytic_story:
+  - BlackByte Ransomware
   - Cobalt Strike
   - Graceful Wipe Out Attack
   asset_type: Endpoint
