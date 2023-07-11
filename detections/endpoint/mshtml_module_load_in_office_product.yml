@@ -30,7 +30,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  - CVE-2023-36884 - Office and Windows HTML RCE Vulnerability
+  - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
   asset_type: Endpoint
   confidence: 100
   cve:

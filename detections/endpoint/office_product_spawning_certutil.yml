@@ -39,7 +39,7 @@ tags:
   - Spearphishing Attachments
   - AgentTesla
   - Trickbot
-  - CVE-2023-36884 - Office and Windows HTML RCE Vulnerability
+  - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
   asset_type: Endpoint
   confidence: 90
   impact: 70

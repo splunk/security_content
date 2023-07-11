@@ -43,7 +43,7 @@ tags:
   - Qakbot
   - AgentTesla
   - CVE-2023-21716 Word RTF Heap Corruption
-  - CVE-2023-36884 - Office and Windows HTML RCE Vulnerability
+  - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
   asset_type: Endpoint
   confidence: 80
   impact: 70
