@@ -43,6 +43,7 @@ tags:
   - Sandworm Tools
   - Volt Typhoon
   - IcedID
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 50
