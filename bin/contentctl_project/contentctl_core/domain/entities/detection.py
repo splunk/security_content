@@ -146,10 +146,15 @@ class Detection(BaseModel, SecurityContentObject):
         # Check if there is a new line in description and how to implement that is not escaped
         pattern = r'(?<!\\)\n' 
         if re.search(pattern, values["description"]):
-            raise ValueError("desciption key contains new line but it is not escaped using backslash. Add backslash before a new line : " + values["name"])
-
+            match_obj = re.search(pattern,values["description"])
+            words = values["description"][:match_obj.span()[0]].split()[-10:]
+            newline_context = ' '.join(words)
+            raise ValueError(f"Field named 'description' contains new line that is not escaped using backslash. Add backslash at the end of the line after the words: '{newline_context}' in '{values['name']}'")
         if re.search(pattern, values["how_to_implement"]):
-            raise ValueError("how_to_implement key contains new line but it is not escaped using backslash. Add backslash before a new line : " + values["name"])
+            match_obj = re.search(pattern,values["how_to_implement"])
+            words = values["how_to_implement"][:match_obj.span()[0]].split()[-10:]
+            newline_context = ' '.join(words)
+            raise ValueError(f"Field named 'how_to_implement' contains new line that is not escaped using backslash. Add backslash at the end of the line after the words: '{newline_context}' in '{values['name']}'")
         return values
 
     # @validator('references')
