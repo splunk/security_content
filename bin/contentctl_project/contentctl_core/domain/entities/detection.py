@@ -142,11 +142,14 @@ class Detection(BaseModel, SecurityContentObject):
 
 
     @root_validator
-    def description_new_line_check(cls, values):
-        # Check if there is a new line in description that is not escaped
+    def new_line_check(cls, values):
+        # Check if there is a new line in description and how to implement that is not escaped
         pattern = r'(?<!\\)\n' 
         if re.search(pattern, values["description"]):
             raise ValueError("desciption key contains new line but it is not escaped using backslash. Add backslash before a new line : " + values["name"])
+
+        if re.search(pattern, values["how_to_implement"]):
+            raise ValueError("how_to_implement key contains new line but it is not escaped using backslash. Add backslash before a new line : " + values["name"])
         return values
 
     # @validator('references')
