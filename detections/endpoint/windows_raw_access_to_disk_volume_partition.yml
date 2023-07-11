@@ -32,6 +32,7 @@ tags:
   - Data Destruction
   - Hermetic Wiper
   - Caddy Wiper
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 100
   impact: 90

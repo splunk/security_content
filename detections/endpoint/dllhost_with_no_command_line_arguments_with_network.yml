@@ -1,7 +1,7 @@
 name: DLLHost with no Command Line Arguments with Network
 id: f1c07594-a141-11eb-8407-acde48001122
 version: 4
-date: '2023-06-13'
+date: '2023-07-10'
 author: Steven Dick, Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -33,6 +33,7 @@ references:
 - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
 tags:
   analytic_story:
+  - BlackByte Ransomware
   - Cobalt Strike
   - Graceful Wipe Out Attack
   asset_type: Endpoint
