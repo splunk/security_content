@@ -4,7 +4,7 @@ version: 4
 date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: The following analytic is to identify a modification in the Windows registry
   to prevent users from seeing all the files with hidden attributes. This event or
   techniques are known on some worm and trojan spy malware that will drop hidden files
@@ -40,6 +40,7 @@ tags:
   - T1562.001
   - T1564
   - T1562
+  - T1112
   observable:
   - name: dest
     type: Endpoint
