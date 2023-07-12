@@ -1,4 +1,4 @@
-name: 'Windows Common Abused Cmd Shell Risk Behavior'
+name: Windows Common Abused Cmd Shell Risk Behavior
 id: e99fcc4f-c6b0-4443-aa2a-e3c85126ec9a
 version: 1
 date: '2023-06-14'
@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Correlation
 data_source: []
-description: The following correlation is specific to several security content detection related to process command line that are 
-  known to be being abused by several threat actors, adversaries or red teamers. This correlation search may help to catch a possible 
-  threat attacks by monitoring a series/consecutive known command line in a compromised or targeted host.
+description: 
+The following correlation identifies instances where four or more distinct detection analytics are associated with malicious command line behavior that is known to be exploited by multiple threat actors, adversaries, or red teamers on a specific host. By leveraging the Command Line Interface (CLI), attackers can execute malicious commands, gain access to sensitive data, install backdoors, and engage in various nefarious activities. The impact of such compromise can be severe, as attackers may gain unauthorized control over the compromised system, enabling them to exfiltrate valuable information, escalate privileges, or launch further attacks within the network. If this detection is triggered, there is a high level of confidence in the occurrence of suspicious command line activities on the host.
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime 
   sum(All_Risk.calculated_risk_score) as risk_score, 
   count(All_Risk.calculated_risk_score) as risk_event_count, 
