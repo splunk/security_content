@@ -1,0 +1,69 @@
+name: Windows Modify Registry Risk Behavior
+id: 5eb479b1-a5ea-4e01-8365-780078613776
+version: 1
+date: '2023-06-15'
+author: Teoderick Contreras, Splunk
+status: production
+type: Correlation
+data_source: []
+description: This analytic is designed to identify instances where three or more distinct analytics associated with Mitre ID T1112 - Modification of registry information are triggered. Such occurrences could indicate the presence of multiple malicious registry modifications on a host. Malicious actors frequently manipulate the Windows Registry to hide important configuration details within specific Registry keys. This technique allows them to obscure their activities, erase any evidence during cleanup operations, and establish continuous access and execution of malicious code.
+search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime 
+  sum(All_Risk.calculated_risk_score) as risk_score, 
+  count(All_Risk.calculated_risk_score) as risk_event_count, 
+  values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id,
+  dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, 
+  values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, 
+  dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count, 
+  values(All_Risk.tag) as tag, values(source) as source, 
+  dc(source) as source_count from datamodel=Risk.All_Risk 
+  where source IN ("*registry*") All_Risk.annotations.mitre_attack.mitre_technique_id IN ("*T1112*") 
+  by All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic 
+  | `drop_dm_object_name(All_Risk)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | where source_count >= 3 
+  | `windows_modify_registry_risk_behavior_filter`'
+how_to_implement: Splunk Enterprise Security is required to utilize this correlation. In addition, 
+  modify the source_count value to your environment. In our testing, a count of 4 or 5 was decent in a lab, 
+  but the number may need to be increased base on internal testing. In addition, 
+  based on false positives, modify any analytics to be anomaly and lower or increase risk based on organization importance.
+known_false_positives: False positives will be present based on many factors. Tune
+  the correlation as needed to reduce too many triggers.
+references:
+- https://www.splunk.com/en_us/blog/security/do-not-cross-the-redline-stealer-detections-and-analysis.html
+- https://www.splunk.com/en_us/blog/security/asyncrat-crusade-detections-and-defense.html
+- https://www.splunk.com/en_us/blog/security/from-registry-with-love-malware-registry-abuses.html
+- https://www.splunk.com/en_us/blog/security/-applocker-rules-as-defense-evasion-complete-analysis.html
+tags:
+  analytic_story:
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: An increase of Windows Modify Registry behavior has been detected on $affected_systems$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: affected_systems
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  required_fields:
+  - _time
+  - All_Risk.analyticstories
+  - All_Risk.risk_object_type
+  - All_Risk.risk_object
+  - All_Risk.annotations.mitre_attack.mitre_tactic
+  - source
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/windows_mod_reg_risk_behavior/modify_reg_risk.log
+    source: mod_reg
+    sourcetype: stash
