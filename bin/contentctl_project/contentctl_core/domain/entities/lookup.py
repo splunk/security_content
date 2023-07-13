@@ -49,5 +49,30 @@ class Lookup(BaseModel, SecurityContentObject):
             raise ValueError(
                 f"Lookup references lookup file '{lookup_file_path}', but that file does not exist."
             )
+        
+        #Also check the format of the lookup file. It MUST be a valid CSV.  Valid CSV must have the 
+        #correct number of fields (each row has the same number of columns, even if empty, as the
+        # number of columns declared at the top of the file)
+        import csv
+        with open(lookup_file_path, "r") as csv_file_obj:
+            reader = csv.reader(csv_file_obj, delimiter=',',quoting=csv.QUOTE_ALL)
+            try:
+                reader_list = list(reader)
+            except Exception as e:
+                raise ValueError(f"Error validating lookup file '{lookup_file_path}': the follow error was encountered when parsing the csv file: {str(e)}")
+            if len(reader_list)>0:
+                csv_keys = reader_list[0]
+            else:
+                raise ValueError(f"Error validating lookup file '{lookup_file_path}': 0 rows found in file. a csv MUST contain at least one row (which contains the field names)")
 
+            row_errors=[]
+            for index,row in enumerate(reader_list[1:]):
+                if len(row) != len(csv_keys) and len(row) != 0:
+                    row_errors.append(f"Error in row {index+2}: expected {len(csv_keys)} columns but got {len(row)}.")
+            if len(row_errors) > 0:
+                condensed_string = '\n\t'.join(row_errors)
+                raise ValueError(f"Error validating lookup file '{lookup_file_path}':\n\t{condensed_string}.")
+            
         return v
+    
+
