@@ -26,9 +26,9 @@ tags:
   - T1190
   observable:
   - name: host
-    type: host
+    type: Hostname
     role:
-    - victim
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
