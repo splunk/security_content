@@ -4,7 +4,7 @@ version: 1
 date: '2022-10-21'
 author: Teoderick Contreras, Splunk
 status: production
-type: Hunting
+type: Anomaly
 description: The following analytic identifies the execution of nslookup.exe tool
   to get domain information. Nslookup.exe is a command-line tool that can display
   information to diagnose domain name systems. This Nslookup feature is being abused
@@ -33,8 +33,8 @@ tags:
   analytic_story:
   - Qakbot
   asset_type: Endpoint
-  confidence: 50
-  impact: 50
+  confidence: 10
+  impact: 10
   message: System nslookup domain discovery on $dest$
   mitre_attack_id:
   - T1033
@@ -60,7 +60,7 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  risk_score: 25
+  risk_score: 1
   security_domain: endpoint
 tests:
 - name: True Positive Test
