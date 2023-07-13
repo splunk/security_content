@@ -1,12 +1,11 @@
 name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
-version: 4
-date: 2023-2-07
+version: 5
+date: '2023-07-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: This search looks for execution of process `outlook.exe` where the process
-  is writing a `.zip` file to the disk.
+description: The following analytic searches for an instance where the `outlook.exe` process is being executed and writing a `.zip` file to the disk. The search is implemented using a Splunk query that utilizes the `Endpoint.Processes` and `Endpoint.Filesystem` datamodels. The search looks for instances where the `outlook.exe` process is being executed and writing a `.zip` file to the disk. It then joins the results with information on the file path, file name, and file hash from the `Endpoint.Filesystem` datamodel. Identifying this behavior is important for a SOC as it could indicate a potential data exfiltration attempt. If a true positive is found, it suggests that an attacker may be using the `outlook.exe` process to compress and transfer sensitive data from the victim's system. To implement this analytic, ensure that you are ingesting logs containing process and filesystem information from your endpoints. It is important to note that there may be legitimate uses of the `outlook.exe` process that involve writing `.zip` files to the disk, so be aware of potential false positives. Upon triage, review the file path and file name of the `.zip` file to determine if it contains sensitive information. Additionally, investigate the source of the `outlook.exe` process to identify any potential malicious activity.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(_time)
@@ -24,10 +23,7 @@ search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(
   malicious_id outlook_id dest file_path file_name file_hash count file_id] | table
   firstTime lastTime user malicious_id outlook_id process_name parent_process_name
   file_name  file_path | where file_name != "" | `detect_outlook_exe_writing_a_zip_file_filter` '
-how_to_implement: You must be ingesting data that records filesystem and process activity
-  from your hosts to populate the Endpoint data model. This is typically populated
-  via endpoint detection-and-response product, such as Carbon Black, or endpoint data
-  sources, such as Sysmon.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process, file name, and file path. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` and `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: It is not uncommon for outlook to write legitimate zip files
   to the disk.
 references: []

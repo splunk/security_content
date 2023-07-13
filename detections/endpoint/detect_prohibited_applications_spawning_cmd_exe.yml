@@ -5,8 +5,7 @@ date: '2020-11-10'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting
-description: This search looks for executions of cmd.exe spawned by a process that
-  is often abused by attackers and that does not typically launch cmd.exe.
+description: The following analytic searches for instances of cmd.exe execution that are spawned by a process that is commonly abused by attackers and does not usually launch cmd.exe. This behavior is worth identifying as it is often used by attackers to execute malicious commands on a compromised system. If a true positive is detected, it could indicate that an attacker is attempting to gain unauthorized access to the system or exfiltrate sensitive data. It is important to note that this search may generate false positives, as there may be legitimate use cases for cmd.exe execution by certain processes. Therefore, further investigation and analysis is necessary to determine whether the identified behavior is truly malicious. In summary, this analytic is a useful tool for identifying potentially malicious behavior on a system and can help security analysts detect and respond to threats in a timely manner.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -14,15 +13,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   where `process_cmd` by Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` |search [`prohibited_apps_launching_cmd`] | `detect_prohibited_applications_spawning_cmd_exe_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts and populates the Endpoint data model with the resultant dataset. This search
-  includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list
-  of processes that should not be spawning cmd.exe. You can modify this lookup to
-  better suit your environment. To successfully implement this search you need to
-  be ingesting information on process that include the name of the process responsible
-  for the changes from your endpoints into the `Endpoint` datamodel in the `Processes`
-  node. In addition, confirm the latest CIM App 4.20 or higher is installed and the
-  latest TA for the endpoint product.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: There are circumstances where an application may legitimately
   execute and interact with the Windows command-line interface. Investigate and modify
   the lookup file, as appropriate.
