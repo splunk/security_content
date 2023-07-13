@@ -7,54 +7,11 @@
             "description": "Accepts user name that needs to be enabled in Active Directory. Generates a report and observable output based on the status of account unlocking or enabling.",
             "edges": [
                 {
-                    "id": "port_0_to_port_5",
-                    "sourceNode": "0",
-                    "sourcePort": "0_out",
-                    "targetNode": "5",
-                    "targetPort": "5_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_5_to_port_3",
-                    "sourceNode": "5",
-                    "sourcePort": "5_out",
-                    "targetNode": "3",
-                    "targetPort": "3_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 1
-                        }
-                    ],
-                    "id": "port_5_to_port_6",
-                    "sourceNode": "5",
-                    "sourcePort": "5_out",
-                    "targetNode": "6",
-                    "targetPort": "6_in"
-                },
-                {
                     "id": "port_3_to_port_7",
                     "sourceNode": "3",
                     "sourcePort": "3_out",
                     "targetNode": "7",
                     "targetPort": "7_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_7_to_port_8",
-                    "sourceNode": "7",
-                    "sourcePort": "7_out",
-                    "targetNode": "8",
-                    "targetPort": "8_in"
                 },
                 {
                     "conditions": [
@@ -95,9 +52,40 @@
                     "sourcePort": "12_out",
                     "targetNode": "1",
                     "targetPort": "1_in"
+                },
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_13",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_13_to_port_8",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
                 }
             ],
-            "hash": "d008e2de0cc204476714e6211609a089a8cbce52",
+            "hash": "2a88fa473c3a82bc304808ab6f6f5faa7ffa9f01",
             "nodes": {
                 "0": {
                     "data": {
@@ -112,8 +100,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 360,
-                    "y": -1.2789769243681803e-13
+                    "x": 160,
+                    "y": 0
                 },
                 "1": {
                     "data": {
@@ -128,8 +116,8 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 19.999999999999986,
-                    "y": 1414
+                    "x": 300,
+                    "y": 1398
                 },
                 "10": {
                     "data": {
@@ -146,7 +134,7 @@
                         "parameters": [
                             "normalized_observable_filter:custom_function:observable_merge_report"
                         ],
-                        "template": "SOAR retrieved tickets from Splunk. The table below shows a summary of the information gathered.\\n\\n\n| Value | Type | Message | Status |\n| --- | --- | --- | --- |\n%%\n| {0}\n%%\n",
+                        "template": "SOAR attempted to unlock account(s). The table below shows a summary of the information gathered.\\n\\n\n| Value | Type | Message | Status |\n| --- | --- | --- | --- |\n%%\n| {0} \n%%\n",
                         "type": "format"
                     },
                     "errors": {},
@@ -154,8 +142,8 @@
                     "type": "format",
                     "userCode": "\n    # Write your custom code here...\n    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"merge_report\"))\n",
                     "warnings": {},
-                    "x": 0,
-                    "y": 880
+                    "x": 280,
+                    "y": 864
                 },
                 "11": {
                     "data": {
@@ -233,8 +221,8 @@
                     "id": "11",
                     "type": "utility",
                     "warnings": {},
-                    "x": 0,
-                    "y": 1058
+                    "x": 280,
+                    "y": 1042
                 },
                 "12": {
                     "data": {
@@ -360,8 +348,44 @@
                     "id": "12",
                     "type": "utility",
                     "warnings": {},
-                    "x": 0,
-                    "y": 1240
+                    "x": 280,
+                    "y": 1220
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "observable filter ",
+                            "customNameId": 0,
+                            "description": "Filter to check if observable output is successfully generated or not.",
+                            "join": [],
+                            "note": "Filter to check if observable output is successfully generated or not."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "dispatch_account_enable:playbook_output:observable",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Successful observables",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "observable_filter",
+                        "id": "13",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 480
                 },
                 "3": {
                     "data": {
@@ -408,140 +432,21 @@
                     "id": "3",
                     "type": "playbook",
                     "warnings": {},
-                    "x": 170,
-                    "y": 334.9999999999999
-                },
-                "5": {
-                    "data": {
-                        "advanced": {
-                            "customName": "username filter",
-                            "customNameId": 0,
-                            "delimiter": ",",
-                            "delimiter_enabled": true,
-                            "description": "Filter user name inputs to route inputs to appropriate actions.",
-                            "join": [],
-                            "note": "Filter user name inputs to route inputs to appropriate actions."
-                        },
-                        "conditions": [
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "artifact:*.cef.act",
-                                        "value": ""
-                                    }
-                                ],
-                                "conditionIndex": 0,
-                                "customName": "username_exist",
-                                "display": "If",
-                                "logic": "and",
-                                "type": "if"
-                            },
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 1,
-                                        "op": "==",
-                                        "param": "",
-                                        "value": ""
-                                    }
-                                ],
-                                "conditionIndex": 1,
-                                "customName": "username_not_exist",
-                                "display": "Else",
-                                "logic": "and",
-                                "type": "else"
-                            }
-                        ],
-                        "functionId": 1,
-                        "functionName": "username_filter",
-                        "id": "5",
-                        "type": "decision"
-                    },
-                    "errors": {},
-                    "id": "5",
-                    "type": "decision",
-                    "warnings": {},
-                    "x": 420,
+                    "x": 140,
                     "y": 148
-                },
-                "6": {
-                    "data": {
-                        "advanced": {
-                            "customName": "artifacts check comment",
-                            "customNameId": 0,
-                            "description": "no valid username or user principal name artifacts input",
-                            "join": [],
-                            "note": "no valid username or user principal name artifacts input"
-                        },
-                        "functionId": 1,
-                        "functionName": "artifacts_check_comment",
-                        "id": "6",
-                        "selectMore": false,
-                        "tab": "apis",
-                        "type": "utility",
-                        "utilities": {
-                            "comment": {
-                                "description": "",
-                                "fields": [
-                                    {
-                                        "description": "",
-                                        "label": "comment",
-                                        "name": "comment",
-                                        "placeholder": "Enter a comment",
-                                        "renderType": "datapath",
-                                        "required": true
-                                    },
-                                    {
-                                        "hidden": true,
-                                        "name": "container",
-                                        "required": false
-                                    },
-                                    {
-                                        "hidden": true,
-                                        "name": "author",
-                                        "required": false
-                                    },
-                                    {
-                                        "hidden": true,
-                                        "name": "trace",
-                                        "required": false
-                                    }
-                                ],
-                                "label": "add comment",
-                                "name": "comment"
-                            }
-                        },
-                        "utilityType": "api",
-                        "values": {
-                            "comment": {
-                                "_internal": [
-                                    "container",
-                                    "author",
-                                    "trace"
-                                ],
-                                "comment": "No valid username or user principal name artifacts input"
-                            }
-                        }
-                    },
-                    "errors": {},
-                    "id": "6",
-                    "type": "utility",
-                    "warnings": {},
-                    "x": 510,
-                    "y": 328
                 },
                 "7": {
                     "data": {
                         "advanced": {
-                            "customName": "observable output filter",
+                            "case_sensitive": false,
+                            "customName": "observable output decision",
                             "customNameId": 0,
                             "delimiter": ",",
-                            "delimiter_enabled": true,
-                            "description": "Filter to check if observable output is successfully generated or not.",
+                            "delimiter_enabled": false,
+                            "description": "Decision to check if observable output is successfully generated or not.",
                             "join": [],
-                            "note": "Filter to check if observable output is successfully generated or not."
+                            "notRequiredJoins": [],
+                            "note": "Decision to check if observable output is successfully generated or not."
                         },
                         "conditions": [
                             {
@@ -576,7 +481,7 @@
                             }
                         ],
                         "functionId": 2,
-                        "functionName": "observable_output_filter",
+                        "functionName": "observable_output_decision",
                         "id": "7",
                         "type": "decision"
                     },
@@ -584,8 +489,8 @@
                     "id": "7",
                     "type": "decision",
                     "warnings": {},
-                    "x": 250,
-                    "y": 506
+                    "x": 220,
+                    "y": 300
                 },
                 "8": {
                     "data": {
@@ -600,7 +505,7 @@
                         "functionName": "normalized_observable_filter",
                         "id": "8",
                         "inputParameters": [
-                            "dispatch_account_enable:playbook_output:observable"
+                            "filtered-data:observable_filter:condition_1:dispatch_account_enable:playbook_output:observable"
                         ],
                         "outputVariables": [
                             "observable_value",
@@ -612,9 +517,9 @@
                     "errors": {},
                     "id": "8",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    normalized_observable_filter__observable_message = []\n    normalized_observable_filter__observable_value = []\n    normalized_observable_filter__observable_merge_report = []\n    fmt_output = \"\"\n    output_observable_values =  [(i or \"\") for i in dispatch_account_enable_output_observable_values]\n    \n    #phantom.debug(\"output_observable_values: {}\".format(output_observable_values))\n    for observable_item in output_observable_values:\n        if observable_item['status'] == \"success\":\n            user_name = observable_item['value'].split(\"@\")[0]\n            normalized_observable_filter__observable_value.append(user_name)\n            fmt_output += \"{} | {} | {} | {} | \\n\".format(observable_item['value'], observable_item['type'], observable_item['message'], observable_item['status'])\n            normalized_observable_filter__observable_merge_report.append(fmt_output)\n    normalized_observable_filter__observable_value = normalized_observable_filter__observable_value[0]\n    normalized_observable_filter__observable_type = \"Enable Account\"\n    #phantom.debug(normalized_observable_filter__observable_merge_report)\n",
+                    "userCode": "\n    # Write your custom code here...\n    normalized_observable_filter__observable_message = []\n    normalized_observable_filter__observable_value = []\n    normalized_observable_filter__observable_merge_report = []\n    fmt_output = \"\"\n    output_observable_values =  [(i or \"\") for i in filtered_output_0_dispatch_account_enable_output_observable_values]\n    \n    phantom.debug(\"output_observable_values: {}\".format(output_observable_values))\n    for observable_item in output_observable_values:\n        if observable_item['status'] == \"success\":\n            user_name = observable_item['value'].split(\"@\")[0]\n            normalized_observable_filter__observable_value.append(user_name)\n            fmt_output += \"{} | {} | {} | {} | \\n\".format(observable_item['value'], observable_item['type'], observable_item['message'], observable_item['status'])\n            normalized_observable_filter__observable_merge_report.append(fmt_output)\n    normalized_observable_filter__observable_value = normalized_observable_filter__observable_value[0]\n    normalized_observable_filter__observable_type = \"Enable Account\"\n    phantom.debug(normalized_observable_filter__observable_merge_report)\n",
                     "warnings": {},
-                    "x": 0,
+                    "x": 280,
                     "y": 680
                 },
                 "9": {
@@ -680,8 +585,8 @@
                     "id": "9",
                     "type": "utility",
                     "warnings": {},
-                    "x": 340,
-                    "y": 686
+                    "x": -180,
+                    "y": 500
                 }
             },
             "notes": "Inputs: users\nActions: Account Ulocking/Enabling\nOutputs: reports, observables"
@@ -693,7 +598,7 @@
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },
-    "create_time": "2023-06-22T17:24:28.758007+00:00",
+    "create_time": "2023-07-13T19:23:17.674994+00:00",
     "draft_mode": false,
     "labels": [
         "*"
