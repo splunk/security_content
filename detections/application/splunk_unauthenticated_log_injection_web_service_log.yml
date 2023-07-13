@@ -1,0 +1,47 @@
+name: Splunk unauthenticated log injection web service log
+id: de3908dc-1298-446d-84b9-fa81d37e959b
+version: 1
+date: '2023-07-13'
+author: Rod Soto
+status: production
+type: Hunting
+data_source:
+- UPDATE_DATA_SOURCE
+description: UPDATE_DESCRIPTION
+search: index=_internal source="/opt/splunk/var/log/splunk/web_access.log" method=GET
+  OR method=POST OR method=PUT OR method=HEAD uri_path=*\x1B* OR *\u001b* OR *\033*
+  OR *\0x9* OR *\0x8* | stats count by uri_path method host status clientip | `splunk_unauthenticated_log_injection_web_service_log_filter`
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- REFERENCE
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  atomic_guid:
+  - UPDATE atomic_guid
+  confidence: UPDATE value between 1-100
+  impact: UPDATE value between 1-100
+  message: UPDATE message
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: UPDATE (impact * confidence)/100
+  required_fields:
+  - UPDATE_required_fields
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: UPDATE url to dataset
+    source: UPDATE source
+    sourcetype: UPDATE sourcetype
