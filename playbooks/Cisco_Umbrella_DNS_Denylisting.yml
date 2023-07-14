@@ -1,0 +1,24 @@
+name: Cisco Umbrella DNS Denylisting
+id: 3705f371-f355-46d7-979a-3bc4c26e2208
+version: 1
+date: '2023-07-14'
+author: Patrick Bareiss, Splunk
+type: Response
+description: Accepts a domain or list of domains and block them in Cisco Umbrella. Generates a list of observables with the blocked domains.
+playbook: Cisco_Umbrella_DNS_Denylisting
+how_to_implement: This input playbook requires the Cisco Umbrella connector to be configured. 
+  It is designed to work in conjunction with the DNS Denylisting Dispatch playbook or other playbooks in the same style. 
+references: []
+app_list: 
+  - Cisco Umbrella
+tags:
+  platform_tags:
+    - url
+    - D3-DNSDLL
+    - Cisco Umbrella
+    - denylist
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
