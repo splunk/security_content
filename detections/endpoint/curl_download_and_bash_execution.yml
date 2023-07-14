@@ -1,13 +1,11 @@
 name: Curl Download and Bash Execution
 id: 900bc324-59f3-11ec-9fb4-acde48001122
-version: 1
-date: '2021-12-10'
+version: 3
+date: '2023-07-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of curl on Linux or MacOS attempting
-  to download a file from a remote source and pipe it to bash. This is typically found
-  with coinminers and most recently with CVE-2021-44228, a vulnerability in Log4j.
+description: The following analytic uses a Splunk query to detect the use of the curl command on Linux or MacOS, where it attempts to download a file from a remote source and pipe it to bash. This behavior is commonly associated with coinminers and has been observed in recent attacks leveraging the CVE-2021-44228 vulnerability in Log4j. The analytic searches for this behavior by analyzing process data using the Endpoint Processes datamodel and filtering for processes with the curl command and the use of the pipe to bash. It then aggregates this data by destination, user, parent process name, process name, process ID, and parent process ID. Identifying this behavior is crucial for a SOC as it can indicate the presence of a coinminer or other malicious activity. If the analytic identifies a true positive, it suggests that an attacker is attempting to download and execute malicious code on the victim's machine. This can result in the theft of sensitive data, damage to the system, or the installation of additional malware. To mitigate the risks associated with this behavior, it is recommended to monitor and restrict the use of the curl command and to patch systems to address known vulnerabilities, such as CVE-2021-44228. It is also important to investigate any identified incidents promptly and thoroughly to prevent further damage.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -16,12 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `curl_download_and_bash_execution_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon for Linux, you will need to ensure mapping is
-  occurring correctly. If the EDR is not parsing the pipe bash in the command-line,
-  modifying the analytic will be required. Add parent process name (Processes.parent_process_name)
-  as needed to filter.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: False positives should be limited, however filtering may be
   required.
 references:
