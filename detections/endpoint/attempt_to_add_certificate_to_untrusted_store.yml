@@ -1,11 +1,11 @@
 name: Attempt To Add Certificate To Untrusted Store
 id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
-version: 7
-date: '2021-09-16'
+version: 8
+date: '2023-07-13'
 author: Patrick Bareiss, Rico Valdez, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to detect potential security threats involving the misuse of system trust. It works by detecting events where a process attempts to add a certificate to the untrusted certificate store, an action often associated with disabling security tools. The analytic uses Sysmon Event ID 1 data source, particularly focusing on process activities and command-line arguments related to 'certutil -addstore'. It's essential to ingest data that records process activity and logs containing process names and command lines for its effective operation. Be aware, sometimes administrators might legitimately perform this action. The analytic's value lies in detecting isolated or unexpected instances, indicative of potential malicious activities. Cybersecurity analysts should understand the importance of trust mechanisms and their subversion in system security.
+description: The identified behavior that this analytic detects is when a process attempts to add a certificate to the untrusted certificate store. This action is often associated with disabling security tools and is considered a potential security threat. The analytic focuses on process activities and command-line arguments related to the 'certutil -addstore' command. By monitoring and analyzing this data, the analytic can identify instances where this behavior occurs. Identifying this behavior is worth it for a Security Operations Center (SOC) because it can indicate potential malicious activities. Adding a certificate to the untrusted certificate store is often done by attackers to disable security tools and gain unauthorized access to a system. By detecting and investigating these instances, the SOC can take appropriate action to prevent further compromise and protect the organization's assets. If a true positive is detected, it suggests that an attacker is attempting to subvert the system's trust mechanisms and potentially disable security tools. The impact of such an attack can be severe, including unauthorized access, data theft, and potential compromise of the entire system or network. By identifying and responding to these threats promptly, the SOC can mitigate the risks and minimize the potential damage. It is important to note that there may be legitimate reasons for a process to add a certificate to the untrusted certificate store, such as system administration tasks. However, the value of this analytic lies in detecting isolated or unexpected instances of this behavior, which are indicative of potential malicious activities. In order to effectively implement this analytic, it is crucial to ingest data that records process activity and logs containing process names and command lines. This will provide the necessary information for the analytic to analyze and detect potential threats. Analysts should also be aware of the possibility of false positives and should conduct thorough triage and investigation before taking any action. Overall, this analytic helps cybersecurity analysts detect and respond to potential threats involving the misuse of system trust mechanisms. By understanding the importance of trust and its subversion in system security, analysts can better protect their organizations from malicious activities.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
@@ -14,11 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
   | `attempt_to_add_certificate_to_untrusted_store_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: There may be legitimate reasons for administrators to add a
   certificate to the untrusted certificate store. In such cases, this will typically
   be done on a large number of systems.

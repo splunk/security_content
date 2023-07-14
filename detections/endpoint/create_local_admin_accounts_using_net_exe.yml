@@ -1,12 +1,11 @@
 name: Create local admin accounts using net exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
-version: 6
-date: '2021-09-08'
+version: 7
+date: '2023-07-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: This search looks for the creation of local administrator accounts using
-  net.exe .
+description: The following analytic detects the creation of local administrator accounts using the net.exe command. It uses a Splunk query to search for processes with the name net.exe or net1.exe that include the "/add" parameter and have specific keywords related to administrator accounts in their process name. This behavior is worth identifying for a Security Operations Center (SOC) because the creation of unauthorized local administrator accounts can be indicative of an attacker trying to gain persistent access to a system or escalate their privileges. If this analytic identifies a true positive, it suggests that an attacker has successfully created a new administrator account, which can lead to unauthorized access, data theft, or other malicious activities. To investigate further, SOC analysts should review the details of the identified process, including the user, parent process, and parent process name. They should also examine any relevant on-disk artifacts and look for concurrent processes to determine the source of the attack. By detecting and responding to the creation of local administrator accounts, SOC analysts can mitigate the risks associated with unauthorized access and prevent further damage to the environment. It is important to note that there may be legitimate uses of the net.exe command and the creation of administrator accounts in certain circumstances, so false positives are possible. Analysts should consider the context of the activity and other indicators of compromise before taking any action. Overall, this analytic helps SOC teams detect and respond to potential threats earlier, allowing them to take appropriate actions to protect their organization's systems and data.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as
@@ -18,11 +17,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.user) 
   OR Processes.process=*administratorer*) by Processes.process Processes.process_name
   Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `create_local_admin_accounts_using_net_exe_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Administrators often leverage net.exe to create admin accounts.
 references: []
 tags:

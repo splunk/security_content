@@ -1,12 +1,11 @@
 name: Creation of Shadow Copy with wmic and powershell
 id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
-version: 3
-date: '2021-09-16'
+version: 4
+date: '2023-07-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: This search detects the use of wmic and Powershell to create a shadow
-  copy.
+description: The following analytic detects the use of two specific tools, wmic and Powershell, to create a shadow copy. It uses a Splunk query that searches for processes in the Endpoint.Processes datamodel where either the process name contains "wmic" or "Powershell" and the process command contains "shadowcopy" and "create". Identifying this behavior is important for a Security Operations Center (SOC) because the creation of shadow copies using these tools can be indicative of malicious activity. Attackers may use shadow copies to backup and exfiltrate sensitive data or to hide their tracks by restoring files to a previous state after an attack. If a true positive is detected, it suggests that an attacker is attempting to manipulate or access data in an unauthorized manner. This could lead to data theft, data manipulation, or other malicious activities. To investigate a potential true positive, SOC analysts should review the user associated with the process, the process name, the original file name, the process command, and the destination of the process. They should also examine any relevant on-disk artifacts and look for other concurrent processes to determine the source of the attack. By detecting the creation of shadow copies using wmic and Powershell, analysts can identify potential threats earlier and take appropriate actions to mitigate the risks.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -14,11 +13,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process=*shadowcopy* Processes.process=*create* by Processes.user Processes.process_name
   Processes.original_file_name Processes.process Processes.dest | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `creation_of_shadow_copy_with_wmic_and_powershell_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legtimate administrator usage of wmic to create a shadow copy.
 references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
