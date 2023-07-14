@@ -1,13 +1,11 @@
 name: Detect Rare Executables
 id: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
-version: 3
-date: '2022-11-10'
+version: 4
+date: '2023-07-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: This search will return a table of processes in the a given window, remove
-  process names which are in the allowed list and list out the top 30 rare processes
-  discovered on different hosts.
+description: The following analytic is designed to detect rare processes that are executed on different hosts within a specified time window. The analytic uses a Splunk query that returns a table of processes, removes process names that are in the allowed list, and lists out the top 30 rare processes. The analytic detects rare processes that are not commonly executed within the specified time window. The query looks for processes that are executed on different hosts and removes process names that are in the allowed list. The remaining processes are sorted by count and the top 30 rare processes are listed. Identifying rare processes can be useful for a SOC as it can indicate potential threats or suspicious activity. Malware and attackers often use rare or uncommon processes to avoid detection. By identifying these processes, the SOC can investigate further to determine if they are malicious or not. If a true positive is detected, the impact could be significant as it suggests an attacker is attempting to execute a rare process on multiple hosts. This could be an indication of a larger attack or data exfiltration attempt. It is important to note that false positives may occur, as some legitimate applications may use rare processes. Therefore, it is recommended to investigate further before taking any actions.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.dest) as
@@ -16,15 +14,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.dest) 
   as process | `filter_rare_process_allow_list` | sort count | head 30 | rex field=user
   "(?<user_domain>.*)\\\\(?<user_name>.*)" | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `detect_rare_executables_filter` '
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts and populating the `Endpoint` data
-  model with the resultant dataset. The macro `filter_rare_process_allow_list` searches
-  two lookup files for allowed processes.  These consist of `rare_process_allow_list_default.csv`
-  and `rare_process_allow_list_local.csv`. To add your own processes to the allow
-  list, add them to `rare_process_allow_list_local.csv`. If you wish to remove an
-  entry from the default lookup file, you will have to modify the macro itself to
-  set the allow_list value for that process to false. You can modify the limit parameter
-  and search scheduling to better suit your environment.
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process. The macro `filter_rare_process_allow_list` searches two lookup files for allowed processes.  These consist of `rare_process_allow_list_default.csv` and `rare_process_allow_list_local.csv`. To add your own processes to the allow list, add them to `rare_process_allow_list_local.csv`. If you wish to remove an entry from the default lookup file, you will have to modify the macro itself to set the allow_list value for that process to false. You can modify the limit parameter and search scheduling to better suit your environment.
 known_false_positives: Some legitimate processes may be only rarely executed in your
   environment. As these are identified, update `rare_process_allow_list_local.csv`
   to filter them out of your search results.
