@@ -55,7 +55,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 1000,
-                    "y": 419.9999999999999
+                    "y": 419.9999999999998
                 },
                 "1": {
                     "data": {
@@ -212,8 +212,8 @@
     ],
     "tags": [
         "url",
-        "D3-DNSDLL",
         "Cisco Umbrella",
-        "denylist"
+        "denylist",
+        "D3-DNSDL"
     ]
 }

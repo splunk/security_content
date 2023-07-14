@@ -14,7 +14,7 @@ app_list:
 tags:
   platform_tags:
     - url
-    - D3-DNSDLL
+    - D3-DNSDL
     - Cisco Umbrella
     - denylist
   playbook_type: Input
