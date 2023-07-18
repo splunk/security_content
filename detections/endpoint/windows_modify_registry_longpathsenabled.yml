@@ -15,7 +15,7 @@ description: The following analytic identifies a suspicious registry modificatio
   Enabling the LongPathsEnabled setting allows you to work with file paths longer than 260 characters.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled" Registry.registry_value_data = "0x00000001") 
-  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.dest
   | `drop_dm_object_name(Registry)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
