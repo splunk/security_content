@@ -5,7 +5,7 @@ date: '2023-06-25'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies when the attacker tool Certipy is used to enumerate an Active Directory Certificate Services (AD CS) environments. The default behavior of this toolkit drops a number of file uniquely named files or file extensions related to it's information gathering and exfiltration process.
+description: The following analytic identifies when the attacker tool Certipy is used to enumerate Active Directory Certificate Services (AD CS) environments. The default behavior of this toolkit drops a number of file uniquely named files or file extensions related to it's information gathering and exfiltration process.
 data_source:
 - Windows Security Event ID 4663
 - Sysmon Event ID 11,15,26
@@ -31,7 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 50
-  message: Suspicious files related to Certipy detected on $dest$
+  message: Suspicious files related to Certipy detected on $dest$.
   mitre_attack_id:
   - T1649
   - T1560
