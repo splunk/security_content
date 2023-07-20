@@ -7,10 +7,10 @@ status: production
 type: TTP
 description: This search detects the addition of a new Federated domain.
 data_source: []
-search: '`o365_management_activity` Workload=Exchange Operation="Add-FederatedDomain"
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Parameters{}.Value)
-  as Parameters.Value by ObjectId Operation OrganizationName OriginatingServer UserId
-  UserKey | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`o365_management_activity` Operation IN("*add*", "*new*") AND Operation="*domain*"
+  | stats count by Workload Operation Target{}.ID Actor{}.ID
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `o365_new_federated_domain_added_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity.
