@@ -1,0 +1,29 @@
+name: Citrix Netscaler ADC CVE-2023-3519
+id: 094df1fe-4345-4c01-8a0f-c65cf7b758bd
+version: 1
+date: '2023-07-20'
+author: Michael Haag, Splunk
+description: The CVE-2023-3519 vulnerability in NetScaler (formerly Citrix) Application Delivery Controller (ADC) and NetScaler Gateway has been exploited by threat actors, as detailed in a recent advisory. The unauthenticated remote code execution vulnerability was utilized as a zero-day to establish a webshell on a non-production environment NetScaler ADC appliance within a critical infrastructure organization. This facilitated the execution of discovery on the victim's active directory and the collection and exfiltration of data. The advisory offers a comprehensive examination of the threat actors' tactics, techniques, and procedures (TTPs), alongside recommended detection methods and incident response guidelines. Immediate patch application from Citrix and the use of the detection guidance in the advisory is strongly recommended for critical infrastructure organizations to mitigate system compromises.
+narrative: Recent advisories have highlighted the exploitation of CVE-2023-3519, a vulnerability in NetScaler (Citrix) Application Delivery Controller (ADC) and NetScaler Gateway. In June 2023, this vulnerability was leveraged as a zero-day by threat actors to implant a webshell on a non-production environment NetScaler ADC appliance belonging to a critical infrastructure organization. This allowed the threat actors to perform active directory discovery and data collection and exfiltration. Despite attempts to move laterally to a domain controller, network-segmentation controls hindered further movement. \
+
+  The compromised organization identified the breach and reported it to the relevant authorities, resulting in Citrix issuing a patch for this vulnerability on July 18, 2023. Multiple advisories have outlined the tactics, techniques, and procedures (TTPs) deployed by the threat actors, along with detection methods to help organizations identify potential compromises. Organizations are urged to implement the recommended incident response measures if a compromise is detected, and to promptly apply the provided patches by Citrix if no compromise is detected. \
+
+  The threat actors undertook several actions in the course of their attack. These included uploading a TGZ file containing a generic webshell, discovery script, and setuid binary on the ADC appliance, conducting SMB scanning on the subnet, and utilizing the webshell for active directory enumeration and data exfiltration. They accessed NetScaler configuration files and decryption keys, decrypted an active directory credential, and queried the active directory for various information types. Additionally, they encrypted collected data, exfiltrated it as an image file, and attempted to erase their artifacts. Efforts for further discovery and lateral movement were unsuccessful due to the network-segmentation controls of the compromised organization. \
+
+  The advisories provide a detailed mapping of the threat actors' activities to MITRE ATT&CK® tactics and techniques. These include techniques for initial access, persistence, privilege escalation, defense evasion, credential access, discovery, collection, command and control, and impact. \
+
+  Advisories suggest executing specific checks on the ADC shell interface to detect signs of compromise. These include seeking files newer than the last installation, checking http error logs for abnormalities, reviewing shell logs for unusual post-ex commands, locating dropped setuid binaries, and reviewing various types of logs for signs of unusual activity. \
+
+  If a compromise is detected, organizations should quarantine or take offline potentially affected hosts, reimage compromised hosts, provision new account credentials, collect and review artifacts, and report the compromise to the relevant authorities. To mitigate the threat, organizations are advised to install the relevant updated version of NetScaler ADC and NetScaler Gateway as soon as possible, adhere to the best cybersecurity practices, and apply robust network-segmentation controls on NetScaler appliances and other internet-facing devices. \
+references:
+  - https://attackerkb.com/topics/si09VNJhHh/cve-2023-3519
+  - https://www.cisa.gov/sites/default/files/2023-07/aa23-201a_csa_threat_actors_exploiting_citrix-cve-2023-3519_to_implant_webshells.pdf
+tags:
+  analytic_story: Citrix Netscaler ADC CVE-2023-3519
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
