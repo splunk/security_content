@@ -14,6 +14,7 @@ narrative: Recent advisories have highlighted the exploitation of CVE-2023-3519,
 references:
   - https://attackerkb.com/topics/si09VNJhHh/cve-2023-3519
   - https://www.cisa.gov/sites/default/files/2023-07/aa23-201a_csa_threat_actors_exploiting_citrix-cve-2023-3519_to_implant_webshells.pdf
+  - https://support.citrix.com/article/CTX561482/citrix-adc-and-citrix-gateway-security-bulletin-for-cve20233519-cve20233466-cve20233467
 tags:
   analytic_story: Citrix Netscaler ADC CVE-2023-3519
   category:
