@@ -1,11 +1,12 @@
 name: Attempt To Stop Security Service
 id: c8e349c6-b97c-486e-8949-bd7bcd1f3910
-version: 5
-date: '2023-07-13'
+version: 4
+date: '2023-06-13'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to stop security-related services on the endpoint. It is implemented using a Splunk query that searches for processes that involve the "sc.exe" command and include the phrase "stop" in their command. The query collects information such as the process name, process ID, parent process, user, destination, and timestamps. Identifying attempts to stop security-related services is crucial for a Security Operations Center (SOC) because it can indicate malicious activity or an attacker's attempt to disable security measures. If a true positive is found, it suggests that an attacker is actively trying to bypass or disable security controls, which can have severe consequences for the organization's security posture. The impact of such an attack can be significant, as it can lead to the compromise of the endpoint and potentially the entire network. Disabling security services can allow attackers to gain unauthorized access, exfiltrate sensitive data, or launch further attacks, such as malware installation or privilege escalation. To effectively respond to a true positive, SOC analysts should review the identified process and its associated details. They should also investigate any on-disk artifacts related to the process and look for concurrent processes to determine the source of the attack. This approach helps analysts detect and mitigate potential threats earlier, minimizing the impact on the organization's security. It's important to note that while this analytic is effective in detecting attempts to stop security services, there may be legitimate reasons for stopping these services in certain situations. Therefore, SOC analysts should exercise caution and consider the context of the activity before taking any action.
+description: This search looks for attempts to stop security-related services on the
+  endpoint.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -16,7 +17,11 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   |lookup security_services_lookup service as process OUTPUTNEW category, description
   | search category=security | `attempt_to_stop_security_service_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: None identified. Attempts to disable security-related services
   should be identified and understood.
 references:
