@@ -1,7 +1,7 @@
 name: MS Exchange Mailbox Replication service writing Active Server Pages
 id: 985f322c-57a5-11ec-b9ac-acde48001122
 version: 1
-date: '2021-12-07'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -52,6 +52,7 @@ tags:
   analytic_story:
   - ProxyShell
   - Ransomware
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 90
@@ -62,6 +63,7 @@ tags:
   - T1505
   - T1505.003
   - T1190
+  - T1133
   observable:
   - name: user
     type: User

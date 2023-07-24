@@ -1,7 +1,7 @@
 name: Remote WMI Command Attempt
 id: 272df6de-61f1-4784-877c-1fbc3e2d0838
 version: 4
-date: '2018-12-03'
+date: '2023-06-13'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -27,8 +27,13 @@ known_false_positives: Administrators may use this legitimately to gather info f
   remote systems. Filter as needed.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.yaml
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
+  - Volt Typhoon
+  - Graceful Wipe Out Attack
+  - IcedID
   - Suspicious WMI Use
   - Living Off The Land
   asset_type: Endpoint

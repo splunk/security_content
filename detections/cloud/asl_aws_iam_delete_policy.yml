@@ -1,0 +1,69 @@
+name: ASL AWS IAM Delete Policy
+id: 609ced68-d420-4ff7-8164-ae98b4b4018c
+version: 1
+date: '2023-06-02'
+author: Patrick Bareiss, Splunk
+status: experimental
+type: Hunting
+description: The following detection identifes when a policy is deleted on AWS. This
+  does not identify whether successful or failed, but the error messages tell a story
+  of suspicious attempts. There is a specific process to follow when deleting a policy.
+  First, detach the policy from all users, groups, and roles that the policy is attached
+  to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
+data_source: []
+search: '`amazon_security_lake` api.operation=DeletePolicy | stats count min(_time) as firstTime max(_time) as lastTime by api.operation 
+  api.service.name identity.user.account_uid identity.user.credential_uid identity.user.name identity.user.type identity.user.uid identity.user.uuid 
+  http_request.user_agent src_endpoint.ip cloud.region | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `asl_aws_iam_delete_policy_filter`'
+how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+known_false_positives: This detection will require tuning to provide high fidelity
+  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
+  or by groups of users. Not every user with AWS access should have permission to
+  delete policies (least privilege). In addition, this may be saved seperately and
+  tuned for failed or success attempts only.
+references:
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html
+- https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
+tags:
+  analytic_story:
+  - AWS IAM Privilege Escalation
+  asset_type: AWS Account
+  confidence: 50
+  impact: 20
+  message: User $user_arn$ has deleted AWS Policies from IP address $src$ by executing
+    the following command $eventName$
+  mitre_attack_id:
+  - T1098
+  observable:
+  - name: src_endpoint.ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: identity.user.name
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.service.name
+  - api.operation
+  - identity.user.account_uid
+  - identity.user.credential_uid
+  - identity.user.name
+  - identity.user.type
+  - identity.user.uid
+  - identity.user.uuid
+  - http_request.user_agent
+  - src_endpoint.ip
+  risk_score: 10
+  security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/amazon_security_lake.json
+    sourcetype: aws:asl
+    source: aws_asl
+    update_timestamp: true

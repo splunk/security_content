@@ -1,0 +1,67 @@
+name: Network Share Discovery Via Dir Command
+id: dc1457d0-1d9b-422e-b5a7-db46c184d9aa
+version: 1
+date: '2023-05-23'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+data_source:
+- Windows Security 5140
+description: The following analytic identifies object access on Windows administrative SMB shares (Admin$, IPC$, C$). 
+  This represents suspicious behavior as its commonly used by tools like PsExec/PaExec and others
+  to stage service binaries before creating and starting a Windows service on remote
+  endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral
+  movement and remote code execution. The IcedID malware family also implements
+  this behavior to try to infect other machines in the infected network.
+search: '`wineventlog_security` EventCode=5140 ShareName IN("\\\\*\\ADMIN$","\\\\*\\C$","*\\\\*\\IPC$") AccessMask= 0x1 
+  | stats min(_time) as firstTime max(_time) as lastTime count by ShareName IpAddress ObjectType SubjectUserName SubjectDomainName IpPort AccessMask Computer
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `network_share_discovery_via_dir_command_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows Security Event Logs with 5140 EventCode enabled. The Windows TA is also
+  required. Also enable the object Audit access success/failure in your group policy.
+known_false_positives: System Administrators may use looks like net.exe or "dir commandline" for troubleshooting
+  or administrations tasks. However, this will typically come only from certain users
+  and certain systems that can be added to an allow list.
+references:
+- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+tags:
+  analytic_story:
+  - IcedID
+  asset_type: Endpoint
+  atomic_guid:
+  - 13daa2cf-195a-43df-a8bd-7dd5ffb607b5
+  confidence: 50
+  impact: 50
+  message: $user$ list executable files or directory in known sensitive SMB share.  Share
+    name=$Share_Name$, Access mask=$Access_Mask$
+  mitre_attack_id:
+  - T1135
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  required_fields:
+  - _time
+  - ShareName 
+  - IpAddress
+  - ObjectType
+  - SubjectUserName
+  - SubjectDomainName
+  - IpPort
+  - AccessMask
+  - Computer
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share_discovery_via_dir/smb_access_security_xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

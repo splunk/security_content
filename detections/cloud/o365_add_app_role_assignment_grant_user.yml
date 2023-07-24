@@ -1,17 +1,19 @@
 name: O365 Add App Role Assignment Grant User
 id: b2c81cc6-6040-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-26'
+version: 2
+date: '2023-07-11'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: This search detects the creation of a new Federation setting by alerting
-  about an specific event related to its creation.
+description: This search is designed to detect the creation of a new Federation setting by alerting on a specific event associated with its creation. 
+  By monitoring for this event, the search can identify any instances where a Federation setting is being created within the system. 
+  This can help in detecting and monitoring any unauthorized or suspicious changes to the Federation settings, 
+  providing an additional layer of security for your environment.
 data_source: []
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app
-  role assignment grant to user." | stats count min(_time) as firstTime max(_time)
-  as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type by
-  ActorIpAddress dest ResultStatus | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user." 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type by  UserId dest ResultStatus 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `o365_add_app_role_assignment_grant_user_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
@@ -56,7 +58,7 @@ tags:
   - Operation
   - Actor{}.ID
   - Actor{}.Type
-  - ActorIpAddress
+  - UserId
   - dest
   - ResultStatus
   risk_score: 18

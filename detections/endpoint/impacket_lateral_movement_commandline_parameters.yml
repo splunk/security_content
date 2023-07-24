@@ -1,7 +1,7 @@
 name: Impacket Lateral Movement Commandline Parameters
 id: 8ce07472-496f-11ec-ab3b-3e22fbd008af
 version: 3
-date: '2023-04-14'
+date: '2023-06-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -36,14 +36,17 @@ references:
 - https://github.com/SecureAuthCorp/impacket
 - https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
-  - Industroyer2
   - Active Directory Lateral Movement
-  - Prestige Ransomware
   - CISA AA22-277A
-  - Data Destruction
   - WhisperGate
+  - Prestige Ransomware
+  - Volt Typhoon
+  - Graceful Wipe Out Attack
+  - Industroyer2
+  - Data Destruction
   asset_type: Endpoint
   confidence: 70
   impact: 90

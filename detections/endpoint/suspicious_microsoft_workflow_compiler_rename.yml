@@ -1,7 +1,7 @@
 name: Suspicious microsoft workflow compiler rename
 id: f0db4464-55d9-11eb-ae93-0242ac130002
 version: 4
-date: '2022-04-07'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -32,10 +32,12 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
 tags:
   analytic_story:
-  - Trusted Developer Utilities Proxy Execution
-  - Cobalt Strike
   - Masquerading - Rename System Utilities
   - Living Off The Land
+  - Cobalt Strike
+  - Trusted Developer Utilities Proxy Execution
+  - BlackByte Ransomware
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 90
   impact: 70

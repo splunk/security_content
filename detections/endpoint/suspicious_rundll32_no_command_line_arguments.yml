@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 no Command Line Arguments
 id: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
 version: 3
-date: '2022-03-15'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,7 +34,9 @@ tags:
   analytic_story:
   - Suspicious Rundll32 Activity
   - Cobalt Strike
+  - BlackByte Ransomware
   - PrintNightmare CVE-2021-34527
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 70
   cve:

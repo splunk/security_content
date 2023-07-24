@@ -1,14 +1,16 @@
 name: Suspicious Process File Path
 id: 9be25988-ad82-11eb-a14f-acde48001122
 version: 1
-date: '2023-04-25'
+date: '2023-06-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic will detect a suspicious process running in a
-  file path where a process is not commonly seen and is most commonly used by malicious
-  software. This behavior has been used by adversaries where they drop and run an
-  exe in a path that is accessible without admin privileges.
+description: This analytic identifies a suspicious processes running in file paths 
+  that are not typically associated with legitimate software. Adversaries often employ this technique 
+  to drop and execute malicious executables in accessible locations that do not require administrative privileges. 
+  By monitoring for processes running in such unconventional file paths, we can identify potential indicators of 
+  compromise and proactively respond to malicious activity. This analytic plays a crucial role in enhancing system 
+  security by pinpointing suspicious behaviors commonly associated with malware and unauthorized software execution.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -33,28 +35,33 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 - https://twitter.com/pr0xylife/status/1590394227758104576
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
-  - Azorult
-  - AsyncRAT
+  - WhisperGate
   - XMRig
-  - Swift Slicer
-  - DarkCrystal RAT
-  - Double Zero Destructor
-  - Trickbot
-  - Data Destruction
-  - LockBit Ransomware
-  - Prestige Ransomware
   - Industroyer2
   - Remcos
-  - RedLine Stealer
-  - WhisperGate
-  - IcedID
+  - Data Destruction
   - Hermetic Wiper
-  - AgentTesla
-  - Brute Ratel C4
+  - Azorult
+  - DarkCrystal RAT
+  - Graceful Wipe Out Attack
+  - IcedID
+  - Swift Slicer
   - Qakbot
+  - RedLine Stealer
+  - Brute Ratel C4
+  - Prestige Ransomware
+  - AsyncRAT
+  - LockBit Ransomware
+  - AgentTesla
+  - Double Zero Destructor
+  - Volt Typhoon
   - Chaos Ransomware
+  - Trickbot
+  - Amadey
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 70

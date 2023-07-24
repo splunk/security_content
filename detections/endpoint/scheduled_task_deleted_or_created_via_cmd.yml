@@ -5,10 +5,12 @@ date: '2023-04-05'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation or deletion of a scheduled
-  task using schtasks.exe with flags - create or delete being passed on the command-line.
-  This has been associated with the Dragonfly threat actor, and the SUNBURST attack
-  against Solarwinds. This analytic replaces "Scheduled Task used in BadRabbit Ransomware".
+description: This analytic focuses on identifying the creation or deletion of scheduled tasks using the schtasks.exe utility 
+  with the corresponding command-line flags (-create or -delete). This technique has been notably associated with threat actors 
+  like Dragonfly and the SUNBURST attack against SolarWinds. The purpose of this analytic is to detect suspicious activity 
+  related to scheduled tasks that could indicate malicious intent or unauthorized system manipulation. By monitoring for these 
+  specific command-line flags, we can enhance our ability to identify potential threats and prevent attacks similar to the use of 
+  scheduled tasks in the BadRabbit Ransomware incident.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -22,8 +24,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: It is possible scripts or administrators may trigger this analytic.
-  Filter as needed based on parent process, application.
+known_false_positives: While it is possible for legitimate scripts or administrators to trigger this behavior, filtering can be applied based on the parent process and application to reduce false positives. Analysts should reference the provided references to understand the context and threat landscape associated with this activity.
 references:
 - https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/
 - https://www.joesandbox.com/analysis/691823/0/html
@@ -43,6 +44,8 @@ tags:
   - CISA AA22-257A
   - DHS Report TA18-074A
   - Azorult
+  - Amadey
+  - Scheduled Tasks
   asset_type: Endpoint
   confidence: 80
   impact: 70

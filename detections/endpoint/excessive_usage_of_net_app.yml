@@ -1,7 +1,7 @@
 name: Excessive Usage Of Net App
 id: 45e52536-ae42-11eb-b5c6-acde48001122
 version: 2
-date: '2021-05-06'
+date: '2023-06-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,11 +27,12 @@ references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
   analytic_story:
-  - XMRig
-  - Ransomware
-  - Azorult
-  - Windows Post-Exploitation
   - Prestige Ransomware
+  - Graceful Wipe Out Attack
+  - XMRig
+  - Windows Post-Exploitation
+  - Azorult
+  - Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 40

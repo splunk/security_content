@@ -4,7 +4,7 @@ version: 1
 date: '2022-11-30'
 author: Teoderick Contreras, Splunk
 status: production
-type: Hunting
+type: Anomaly
 description: The following analytic identifies a process execution of Windows OS built-in
   tool FSUTIL to discover file system information. This tool is being abused or used
   by several adversaries or threat actor to query/list all drives, drive type, volume

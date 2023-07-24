@@ -1,7 +1,7 @@
 name: Impacket Lateral Movement WMIExec Commandline Parameters
 id: d6e464e4-5c6a-474e-82d2-aed616a3a492
 version: 1
-date: '2023-04-21'
+date: '2023-06-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -16,12 +16,18 @@ description: This analytic looks for the presence of suspicious commandline para
   scripts leverage administrative shares and hardcoded parameters that can be used
   as a signature to detect its use. Red Teams and adversaries alike may leverage Impackets
   tools for lateral movement and remote code execution.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wmiprvse.exe by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
-  | `drop_dm_object_name(Processes)` 
-  | where match(process, "(?i)cmd\.exe\s+\/Q\s+\/c") AND match(process, "\\\\127\.0\.0\.1\\.*") AND match(process, "__\\d{1,10}\\.\\d{1,10}")
-  | `security_content_ctime(firstTime)` 
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wmiprvse.exe
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | where match(process, "(?i)cmd\.exe\s+\/Q\s+\/c") AND match(process, "\\\\127\.0\.0\.1\\.*")
+  AND match(process, "__\\d{1,10}\\.\\d{1,10}") | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `impacket_lateral_movement_wmiexec_commandline_parameters_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: Although uncommon, Administrators may leverage Impackets tools
   to start a process on remote systems for system administration or automation use
   cases.
@@ -34,19 +40,23 @@ references:
 - https://github.com/SecureAuthCorp/impacket
 - https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
-  - Industroyer2
   - Active Directory Lateral Movement
-  - Prestige Ransomware
   - CISA AA22-277A
-  - Data Destruction
   - WhisperGate
+  - Prestige Ransomware
+  - Volt Typhoon
+  - Graceful Wipe Out Attack
+  - Industroyer2
+  - Data Destruction
   asset_type: Endpoint
   atomic_guid: []
   confidence: 70
   impact: 90
-  message: Suspicious command-line parameters on $dest$ may represent lateral movement using wmiexec.
+  message: Suspicious command-line parameters on $dest$ may represent lateral movement
+    using wmiexec.
   mitre_attack_id:
   - T1021
   - T1021.002
@@ -64,11 +74,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - Processes.process_name
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process_name 
-  - Processes.process 
-  - Processes.process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process
+  - Processes.process_id
   - Processes.parent_process_id
   risk_score: 63
   security_domain: endpoint

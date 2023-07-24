@@ -1,7 +1,7 @@
 name: Windows Service Stop Via Net  and SC Application
 id: 827af04b-0d08-479b-9b84-b7d4644e4b80
 version: 1
-date: '2022-11-30'
+date: '2023-06-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Prestige Ransomware
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 70
   impact: 70

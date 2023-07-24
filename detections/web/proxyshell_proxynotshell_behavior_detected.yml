@@ -1,7 +1,7 @@
 name: ProxyShell ProxyNotShell Behavior Detected
 id: c32fab32-6aaf-492d-bfaf-acbed8e50cdf
 version: 1
-date: '2022-10-03'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: Correlation
@@ -42,6 +42,7 @@ references:
 tags:
   analytic_story:
   - ProxyShell
+  - BlackByte Ransomware
   - ProxyNotShell
   asset_type: Web Server
   confidence: 90
@@ -49,6 +50,7 @@ tags:
   message: ProxyShell or ProxyNotShell activity has been identified on $risk_object$.
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: risk_object
     type: Hostname

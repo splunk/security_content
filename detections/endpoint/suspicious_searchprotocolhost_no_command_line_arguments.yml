@@ -1,7 +1,7 @@
 name: Suspicious SearchProtocolHost no Command Line Arguments
 id: f52d2db8-31f9-4aa7-a176-25779effe55c
 version: 3
-date: '2022-03-15'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,7 +30,9 @@ references:
 - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/SUSPICIOUS%20EXECUTION%20OF%20SEARCHPROTOCOLHOST%20(METHODOLOGY).ioc
 tags:
   analytic_story:
+  - BlackByte Ransomware
   - Cobalt Strike
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 70
   impact: 70

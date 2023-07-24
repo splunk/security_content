@@ -1,7 +1,7 @@
 name: Windows Exchange Autodiscover SSRF Abuse
 id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
 version: 1
-date: '2022-10-03'
+date: '2023-07-10'
 author: Michael Haag, Nathaniel Stearns, Splunk
 status: production
 type: TTP
@@ -40,6 +40,7 @@ references:
 tags:
   analytic_story:
   - ProxyShell
+  - BlackByte Ransomware
   - ProxyNotShell
   asset_type: Web server
   confidence: 80
@@ -54,6 +55,7 @@ tags:
     $dest$. Review events and take action accordingly.
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: dest
     type: Hostname
