@@ -1,6 +1,6 @@
 name: O365 Add App Role Assignment Grant User
 id: b2c81cc6-6040-11eb-ae93-0242ac130002
-version: 1
+version: 2
 date: '2023-07-11'
 author: Rod Soto, Splunk
 status: production
