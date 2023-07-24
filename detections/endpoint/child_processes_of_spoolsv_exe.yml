@@ -1,11 +1,14 @@
 name: Child Processes of Spoolsv exe
 id: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
-version: 4
-date: '2023-07-13'
+version: 3
+date: '2023-04-14'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects child processes of spoolsv.exe, which is the process associated with the Print Spooler service in Windows and typically runs as SYSTEM. This behavior is associated with a proof-of-concept privilege-escalation exploit linked to CVE-2018-8440. The purpose of this analytic is to identify any potential exploitation of this vulnerability in the environment. If a true positive is found, it suggests that an attacker is attempting to escalate privileges in the system, which could lead to further compromise of the system and potentially the entire network. Therefore, it is crucial for a SOC to identify this behavior as early as possible. To implement this analytic, ensure that you are ingesting endpoint process data and logs that contain information about spoolsv.exe and its child processes. Upon detection, investigate the child processes to determine their legitimacy and potential impact on the system. This approach helps analysts detect potential threats earlier and mitigate the risks associated with this vulnerability.
+description: This search looks for child processes of spoolsv.exe. This activity is
+  associated with a POC privilege-escalation exploit associated with CVE-2018-8440.
+  Spoolsv.exe is the process associated with the Print Spooler service in Windows
+  and typically runs as SYSTEM.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -14,7 +17,11 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   AND Processes.process_name!=regsvr32.exe by Processes.dest Processes.parent_process
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `child_processes_of_spoolsv_exe_filter` '
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints to populate the Endpoint
+  data model in the Processes node. The command-line arguments are mapped to the "process"
+  field in the Endpoint data model. Update the `children_of_spoolsv_filter` macro
+  to filter out legitimate child processes spawned by spoolsv.exe.
 known_false_positives: Some legitimate printer-related processes may show up as children
   of spoolsv.exe. You should confirm that any activity as legitimate and may be added
   as exclusions in the search.
