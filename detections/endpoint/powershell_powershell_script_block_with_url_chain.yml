@@ -18,7 +18,7 @@ search: '`powershell` EventCode=4104 ScriptBlockText IN ("*http:*","*https:*")
 | rename Computer as dest, EventCode as signature_id
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
-| `powershell_scriptblock_with_url_chain_filter`'
+| `powershell_script_block_with_url_chain_filter`'
 how_to_implement: The following analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
