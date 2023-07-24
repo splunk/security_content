@@ -1,11 +1,13 @@
 name: Allow File And Printing Sharing In Firewall
 id: ce27646e-d411-11eb-8a00-acde48001122
-version: 3
-date: '2023-07-13'
+version: 2
+date: '2021-06-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to detect any suspicious modification of the firewall settings that enables file and printer sharing. This behavior is commonly seen in ransomware attacks, where the attackers attempt to discover more machines connected to the compromised host in order to encrypt more files. The analytic is implemented using a Splunk query that leverages the `Endpoint.Processes` datamodel and `process_netsh` to search for any processes related to firewall settings modifications. The query specifically looks for processes that contain the keywords "*firewall*", "*group="File and Printer Sharing"*", and "*enable=Yes*". If a true positive is found, it indicates that an attacker has attempted to modify the firewall settings to enable file and printer sharing, which could lead to data theft or further damage. Therefore, it is important for a SOC to identify this behavior and take immediate action to prevent any potential threats. In conclusion, this analytic is crucial for detecting any suspicious firewall settings modifications and helps SOC analysts to identify potential threats earlier, allowing them to take necessary measures to mitigate the risks.
+description: This search is to detect a suspicious modification of firewall to allow
+  file and printer sharing. This technique was seen in ransomware to be able to discover
+  more machine connected to the compromised host to encrypt more files
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -15,7 +17,11 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
   Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `allow_file_and_printing_sharing_in_firewall_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: network admin may modify this firewall feature that may cause
   this rule to be triggered.
 references:
@@ -28,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Suspicious modification of the firewall settings that enables file and printer sharing detected on $dest$
+  message: ''
   mitre_attack_id:
   - T1562.007
   - T1562
