@@ -1,11 +1,13 @@
 name: BCDEdit Failure Recovery Modification
 id: 809b31d2-5462-11eb-ae93-0242ac130002
-version: 2
-date: '2023-07-13'
+version: 1
+date: '2020-12-21'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to detect modifications made to the built-in Windows error recovery boot configurations by searching for flags passed to bcdedit.exe. This behavior is commonly used by ransomware to prevent recovery and further damage the system. The analytic is implemented using a Splunk query that utilizes the Endpoint.Processes datamodel. It counts the occurrences of bcdedit.exe processes that include the "*recoveryenabled*" flag and exclude the "*no*" flag, and groups them by process name, parent process name, destination, and user. Identifying this behavior is important for a SOC as it can indicate the presence of ransomware or other malicious activity that aims to disrupt recovery efforts and potentially cause further damage to the system. If a true positive is detected, it suggests that an attacker has already compromised the system and is attempting to prevent recovery, which can lead to data loss or other negative outcomes. To investigate a potential true positive, analysts should review the details of the process, such as the source and the user who initiated it. They should also inspect any relevant on-disk artifacts and monitor for any concurrent processes that may indicate the source of the attack. By detecting this behavior early, analysts can take action to prevent further damage and mitigate the risks associated with ransomware attacks.
+description: This search looks for flags passed to bcdedit.exe modifications to the
+  built-in Windows error recovery boot configurations. This is typically used by ransomware
+  to prevent recovery.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -14,7 +16,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process Processes.parent_process_name Processes.dest Processes.user |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `bcdedit_failure_recovery_modification_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints to populate the Endpoint
+  data model in the Processes node. Tune based on parent process names.
 known_false_positives: Administrators may modify the boot configuration.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair
