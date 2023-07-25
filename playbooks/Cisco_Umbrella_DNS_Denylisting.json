@@ -40,6 +40,7 @@
                     "targetPort": "5_in"
                 }
             ],
+            "hash": "f8d4da70df5e5a54ebf27deb4aebb548deca61dd",
             "nodes": {
                 "0": {
                     "data": {
@@ -55,7 +56,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 1000,
-                    "y": 419.9999999999998
+                    "y": 419.99999999999966
                 },
                 "1": {
                     "data": {
@@ -143,7 +144,11 @@
                     "errors": {},
                     "id": "3",
                     "type": "action",
-                    "warnings": {},
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
                     "x": 980,
                     "y": 740
                 },
@@ -172,7 +177,11 @@
                     "id": "5",
                     "type": "code",
                     "userCode": "\n    build_observable__observable_array = list()\n    for status, domain in zip(block_domain_result_item_1, block_domain_parameter_domain):\n        if status == \"success\":\n            observable = {\n                \"type\": \"domain\",\n                \"value\": domain,\n                \"source\": \"Cisco Umbrella\",\n                \"status\": \"blocked\"\n            }\n            \n            build_observable__observable_array.append(observable)\n\n",
-                    "warnings": {},
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
                     "x": 980,
                     "y": 900
                 }
@@ -205,15 +214,15 @@
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },
-    "create_time": "2023-07-14T12:05:08.077790+00:00",
+    "create_time": "2023-07-25T11:48:03.067743+00:00",
     "draft_mode": false,
     "labels": [
         "*"
     ],
     "tags": [
-        "url",
         "Cisco Umbrella",
         "denylist",
-        "D3-DNSDL"
+        "D3-DNSDL",
+        "domain"
     ]
 }
