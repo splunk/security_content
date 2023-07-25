@@ -102,6 +102,7 @@
                     "targetPort": "11_in"
                 }
             ],
+            "hash": "0c7323b8609eddecd1ded1e9217bafb54dfe2d84",
             "nodes": {
                 "0": {
                     "data": {
@@ -117,7 +118,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 1000,
-                    "y": 280
+                    "y": 279.9999999999999
                 },
                 "1": {
                     "data": {
@@ -688,13 +689,12 @@
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },
-    "create_time": "2023-07-14T13:04:20.197481+00:00",
+    "create_time": "2023-07-25T11:44:37.361424+00:00",
     "draft_mode": false,
     "labels": [
         "*"
     ],
     "tags": [
-        "D3-DNSDLL",
-        "Possibly_Malicious"
+        "D3-DNSDLL"
     ]
 }

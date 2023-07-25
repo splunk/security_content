@@ -96,11 +96,11 @@ def dispatch_dns_denylisting_playbooks(action=None, success=None, container=None
     phantom.debug("dispatch_dns_denylisting_playbooks() called")
 
     inputs = {
-        "playbook_tags": ["denylist"],
         "playbook_repo": [],
-        "indicator_tags_include": [],
-        "indicator_tags_exclude": [],
+        "playbook_tags": ["denylist"],
         "artifact_ids_include": [],
+        "indicator_tags_exclude": [],
+        "indicator_tags_include": [],
     }
 
     ################################################################################
@@ -157,8 +157,8 @@ def tag_indicators(action=None, success=None, container=None, results=None, hand
     # build parameters list for 'tag_indicators' call
     for dispatch_dns_denylisting_playbooks_output_observable_item in dispatch_dns_denylisting_playbooks_output_observable:
         parameters.append({
-            "indicator": dispatch_dns_denylisting_playbooks_output_observable_item[0],
             "tags": "blocked",
+            "indicator": dispatch_dns_denylisting_playbooks_output_observable_item[0],
             "overwrite": None,
         })
 
@@ -221,12 +221,12 @@ def update_isolation_task(action=None, success=None, container=None, results=Non
     parameters = []
 
     parameters.append({
+        "owner": None,
+        "status": "complete",
+        "container": id_value,
         "task_name": "playbook",
         "note_title": "DNS Denylisting Dispatch Report",
         "note_content": format_note,
-        "status": "complete",
-        "owner": None,
-        "container": id_value,
     })
 
     ################################################################################
