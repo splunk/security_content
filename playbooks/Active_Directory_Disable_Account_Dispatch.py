@@ -12,8 +12,8 @@ from datetime import datetime, timedelta
 def on_start(container):
     phantom.debug('on_start() called')
 
-    # call 'username_filter' block
-    username_filter(container=container)
+    # call 'dispatch_account_disable' block
+    dispatch_account_disable(container=container)
 
     return
 
@@ -40,66 +40,17 @@ def dispatch_account_disable(action=None, success=None, container=None, results=
     ################################################################################
 
     # call playbook "community/dispatch_input_playbooks", returns the playbook_run_id
-    playbook_run_id = phantom.playbook("community/dispatch_input_playbooks", container=container, name="dispatch_account_disable", callback=observable_output_filter, inputs=inputs)
+    playbook_run_id = phantom.playbook("community/dispatch_input_playbooks", container=container, name="dispatch_account_disable", callback=observable_output_decision, inputs=inputs)
 
     return
 
 
 @phantom.playbook_block()
-def username_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("username_filter() called")
+def observable_output_decision(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("observable_output_decision() called")
 
     ################################################################################
-    # Filter user name inputs to route inputs to appropriate actions.
-    ################################################################################
-
-    # check for 'if' condition 1
-    found_match_1 = phantom.decision(
-        container=container,
-        conditions=[
-            ["artifact:*.cef.act", "!=", ""]
-        ])
-
-    # call connected blocks if condition 1 matched
-    if found_match_1:
-        dispatch_account_disable(action=action, success=success, container=container, results=results, handle=handle)
-        return
-
-    # check for 'else' condition 2
-    artifacts_check_comment(action=action, success=success, container=container, results=results, handle=handle)
-
-    return
-
-
-@phantom.playbook_block()
-def artifacts_check_comment(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("artifacts_check_comment() called")
-
-    ################################################################################
-    # no valid username or user principal name artifacts input
-    ################################################################################
-
-    ################################################################################
-    ## Custom Code Start
-    ################################################################################
-
-    # Write your custom code here...
-
-    ################################################################################
-    ## Custom Code End
-    ################################################################################
-
-    phantom.comment(container=container, comment="no valid username or user principal name artifacts input")
-
-    return
-
-
-@phantom.playbook_block()
-def observable_output_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("observable_output_filter() called")
-
-    ################################################################################
-    # Filter to check if observable output is successfully generated or not.
+    # decision to check if observable output is successfully generated or not.
     ################################################################################
 
     # check for 'if' condition 1
@@ -107,11 +58,12 @@ def observable_output_filter(action=None, success=None, container=None, results=
         container=container,
         conditions=[
             ["dispatch_account_disable:playbook_output:observable", "!=", ""]
-        ])
+        ],
+        delimiter=",")
 
     # call connected blocks if condition 1 matched
     if found_match_1:
-        normalized_observable_filter(action=action, success=success, container=container, results=results, handle=handle)
+        observable_filter(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     # check for 'else' condition 2
@@ -130,9 +82,9 @@ def normalized_observable_filter(action=None, success=None, container=None, resu
     # types of disable_account used to locked users in active directory.
     ################################################################################
 
-    dispatch_account_disable_output_observable = phantom.collect2(container=container, datapath=["dispatch_account_disable:playbook_output:observable"])
+    filtered_output_0_dispatch_account_disable_output_observable = phantom.collect2(container=container, datapath=["filtered-data:observable_filter:condition_1:dispatch_account_disable:playbook_output:observable"])
 
-    dispatch_account_disable_output_observable_values = [item[0] for item in dispatch_account_disable_output_observable]
+    filtered_output_0_dispatch_account_disable_output_observable_values = [item[0] for item in filtered_output_0_dispatch_account_disable_output_observable]
 
     normalized_observable_filter__observable_value = None
     normalized_observable_filter__observable_type = None
@@ -147,7 +99,7 @@ def normalized_observable_filter(action=None, success=None, container=None, resu
     normalized_observable_filter__observable_value = []
     normalized_observable_filter__observable_merge_report = []
     fmt_output = ""
-    output_observable_values =  [(i or "") for i in dispatch_account_disable_output_observable_values]
+    output_observable_values =  [(i or "") for i in filtered_output_0_dispatch_account_disable_output_observable_values]
     
     #phantom.debug("output_observable_values: {}".format(output_observable_values))
     for observable_item in output_observable_values:
@@ -190,7 +142,7 @@ def observable_check_comment(action=None, success=None, container=None, results=
     ## Custom Code End
     ################################################################################
 
-    phantom.comment(container=container, comment="observable output of input playbooks not exits.")
+    phantom.comment(container=container, comment="Observable output of input playbooks does not exist.")
 
     return
 
@@ -294,6 +246,30 @@ def update_workbook_task(action=None, success=None, container=None, results=None
     ################################################################################
 
     phantom.custom_function(custom_function="community/workbook_task_update", parameters=parameters, name="update_workbook_task")
+
+    return
+
+
+@phantom.playbook_block()
+def observable_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("observable_filter() called")
+
+    ################################################################################
+    # Filter to check if observable output is successfully generated or not.
+    ################################################################################
+
+    # collect filtered artifact ids and results for 'if' condition 1
+    matched_artifacts_1, matched_results_1 = phantom.condition(
+        container=container,
+        conditions=[
+            ["dispatch_account_disable:playbook_output:observable", "!=", ""]
+        ],
+        name="observable_filter:condition_1",
+        delimiter=None)
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_1 or matched_results_1:
+        normalized_observable_filter(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
