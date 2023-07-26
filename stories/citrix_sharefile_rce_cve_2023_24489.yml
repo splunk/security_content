@@ -16,7 +16,8 @@ references:
 - https://blog.assetnote.io/2023/07/04/citrix-sharefile-rce/
 tags:
   analytic_story: Citrix ShareFile RCE CVE-2023-24489
-  category: []
+  category:
+    - Adversary Tactics
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
