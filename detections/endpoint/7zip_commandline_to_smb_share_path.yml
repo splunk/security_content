@@ -44,7 +44,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: SourceImage
+  - name: process_name
     type: Process
     role:
     - Attacker

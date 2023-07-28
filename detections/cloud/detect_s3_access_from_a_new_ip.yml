@@ -35,10 +35,10 @@ tags:
   mitre_attack_id:
   - T1530
   observable:
-  - name: dest
-    type: Other
+  - name: src_ip
+    type: IP Address
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

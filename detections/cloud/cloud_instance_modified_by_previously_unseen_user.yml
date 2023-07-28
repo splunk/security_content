@@ -31,7 +31,7 @@ tags:
   asset_type: AWS Instance
   confidence: 60
   impact: 70
-  message: User $user$ is modifying an instance $dest$ for the first time.
+  message: User $user$ is modifying an instance $object_id$ for the first time.
   mitre_attack_id:
   - T1078.004
   - T1078
@@ -40,10 +40,6 @@ tags:
     type: User
     role:
     - Attacker
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
