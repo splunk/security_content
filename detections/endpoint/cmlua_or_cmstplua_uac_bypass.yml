@@ -13,7 +13,7 @@ data_source:
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll",
   "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe")) NOT(Image IN("*\\windows\\*",
   "*\\program files*")) | stats count min(_time) as firstTime max(_time) as lastTime
-  by Image ImageLoaded process_name Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)`
+  by dest Image ImageLoaded process_name Computer EventCode Signed ProcessId user| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `cmlua_or_cmstplua_uac_bypass_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
@@ -31,16 +31,12 @@ tags:
   confidence: 100
   impact: 80
   message: The following module $ImageLoaded$ was loaded by a non-standard application
-    on endpoint $Computer$ by user $user$.
+    on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1218
   - T1218.003
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
