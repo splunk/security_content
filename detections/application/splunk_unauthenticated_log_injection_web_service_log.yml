@@ -1,0 +1,54 @@
+name: Splunk Unauthenticated Log Injection Web Service Log
+id: de3908dc-1298-446d-84b9-fa81d37e959b
+version: 1
+date: '2023-07-13'
+author: Rod Soto
+status: production
+type: Hunting
+data_source: []
+description: An attacker can use a specially crafted web URL in their browser to cause log file injection, in which the attack inserts American National Standards Institute (ANSI) escape codes into specific files using a terminal program that supports those escape codes. The attack requires a terminal program that supports the translation of ANSI escape codes and requires additional user interaction to successfully execute. This following analytic detects potential log injection attempts into the Splunk server.
+search: '`splunkd_webx`  uri_path IN ("*\x1B*", "*\u001b*", "*\033*", "*\0x9*", "*\0x8*") | stats count by uri_path method host status clientip | `splunk_unauthenticated_log_injection_web_service_log_filter`'
+how_to_implement: This only affects web enabled Splunk instances. The detection does require the ability to search the _internal index.
+known_false_positives: This hunting search will produce false positives if ANSI escape characters are included in URLs either voluntarily or by accident. This search will not detect obfuscated ANSI characters. 
+references:
+- https://advisory.splunk.com/advisories/SVD-2023-0606 
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: Possible Splunk unauthenticated log injection web service log exploitation attempt against $host$ from $clientip$
+  cve: 
+  - CVE-2023-32712
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  - name: clientip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  required_fields:
+  - method
+  - uri_path
+  - host 
+  - status 
+  - clientip 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data: 
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/splunk/web_access.log
+    source: /opt/splunk/var/log/splunk/web_access.log
+    custom_index: _internal
+    sourcetype: splunk_web_access
+    
