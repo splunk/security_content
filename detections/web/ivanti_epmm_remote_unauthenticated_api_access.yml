@@ -1,0 +1,58 @@
+name: Ivanti EPMM Remote Unauthenticated API Access CVE-2023-35078
+id: 66b9c9ba-7fb2-4e80-a3a2-496e5e078167
+version: 1
+date: '2023-07-31'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic detects the exploitation of CVE-2023-35078, a remote unauthenticated API access vulnerability in Ivanti Endpoint Manager Mobile (EPMM), formerly known as MobileIron Core. This vulnerability impacts versions up to 11.4, including releases 11.10, 11.9, and 11.8, as well as older versions. The analytic identifies unauthorized remote access attempts to restricted functionalities or resources within the application without proper authentication. It's detected by monitoring specific API endpoint patterns that should not be accessible without credentials, coupled with unusual access patterns or source locations. This behavior is worth identifying for a Security Operations Center (SOC) as it reveals an active attempt to exploit a known vulnerability to access users' personally identifiable information and make changes to the server. If a true positive is found, it suggests an active exploitation of the vulnerability, potentially leading to data theft, unauthorized modifications, or further system compromise. The impact of the attack, if successfully executed, can be severe, including loss of sensitive information and unauthorized control over affected systems. Immediate action, including patching, is essential to mitigate the risks.
+search: '| tstats count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.url IN ("/mifs/aad/api/v2/authorized/users?*") Web.status=200
+  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `ivanti_epmm_remote_unauthenticated_api_access_cve_2023_35078_filter`'
+how_to_implement: To implement this analytic, a network product similar to Suricata or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work with your products.
+known_false_positives: False positives may be present if removal of the status=200, as it will alert on 301 and 404's. Hunt for behaviors, but restrict to 200 as it is required in the POC script found. 
+references:
+- https://forums.ivanti.com/s/article/CVE-2023-35078-Remote-unauthenticated-API-access-vulnerability?language=en_US
+- https://github.com/vchan-in/CVE-2023-35078-Exploit-POC/blob/main/cve_2023_35078_poc.py
+tags:
+  analytic_story:
+  - Ivanti EPMM Remote Unauthenticated Access
+  asset_type: Web Server
+  cve:
+  - CVE-2023-35078
+  atomic_guid: []
+  confidence: 80
+  impact: 80
+  message: Potential CVE-2023-35078 against an Ivanti EPMM appliance on $dest$.
+  mitre_attack_id:
+  - T1190
+  - T1133
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_CVE202335078.log
+    source: suricata
+    sourcetype: suricata
+
