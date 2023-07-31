@@ -28,6 +28,10 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: clientip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
