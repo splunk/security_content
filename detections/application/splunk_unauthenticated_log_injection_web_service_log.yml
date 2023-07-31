@@ -19,7 +19,7 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: Possible exploitation attempt against $host
+  message: Possible exploitation attempt against $host$
   cve: 
   - cve-2023-32712
   mitre_attack_id:
