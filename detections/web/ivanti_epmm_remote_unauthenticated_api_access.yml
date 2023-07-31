@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source: []
-description: The given analytic is designed to detect the exploitation of CVE-2023-35078, a vulnerability in Ivanti Endpoint Manager Mobile (EPMM) affecting versions up to 11.4. Specifically, the query searches web logs for HTTP requests to the potentially vulnerable endpoint "/mifs/aad/api/v2/authorized/users?*" with a successful status code of 200. This analytic is instrumental in detecting unauthorized remote access to restricted functionalities or resources within the application, a behavior worth identifying for a Security Operations Center (SOC). By monitoring specific patterns and successful access indicators, it reveals an active attempt to exploit the vulnerability, potentially leading to data theft, unauthorized modifications, or further system compromise. If successfully executed, the impact can be severe, necessitating immediate actions such as patching to mitigate the risks.
+description: The given analytic is designed to detect the exploitation of CVE-2023-35078, a vulnerability in Ivanti Endpoint Manager Mobile (EPMM) affecting versions up to 11.4. Specifically, the query searches web logs for HTTP requests to the potentially vulnerable endpoint "/mifs/aad/api/v2/authorized/users?*" with a successful status code of 200. This analytic is instrumental in detecting unauthorized remote access to restricted functionalities or resources within the application, a behavior worth identifying for a Security Operations Center (SOC). By monitoring specific patterns and successful access indicators, it reveals an active attempt to exploit the vulnerability, potentially leading to data theft, unauthorized modifications, or further system compromise. If successfully executed, the impact can be severe, necessitating immediate action.
 search: '| tstats count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where Web.url IN ("/mifs/aad/api/v2/authorized/users?*") Web.status=200
   by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
@@ -14,7 +14,7 @@ search: '| tstats count min(_time) as firstTime max(_time)
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` | `ivanti_epmm_remote_unauthenticated_api_access_cve_2023_35078_filter`'
 how_to_implement: To implement this analytic, a network product similar to Suricata or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work with your products.
-known_false_positives: False positives may be present if removal of the status=200, as it will alert on 301 and 404's. Hunt for behaviors, but restrict to 200 as it is required in the POC script found. 
+known_false_positives: The Proof of Concept exploit script indicates that status=200 is required for successful exploitation of the vulnerability. False positives may be present if status=200 is removed from the search.  If it is removed,then the search also alert on status=301 and status=404 which indicates unsuccessful exploitation attempts.  Analysts may find it useful to hunt for these status codes as well, but it is likely to produce a significant number of alerts as this is a widespread vulnerability.
 references:
 - https://forums.ivanti.com/s/article/CVE-2023-35078-Remote-unauthenticated-API-access-vulnerability?language=en_US
 - https://github.com/vchan-in/CVE-2023-35078-Exploit-POC/blob/main/cve_2023_35078_poc.py
