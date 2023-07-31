@@ -11,8 +11,8 @@ description: The following analytic identifies a successful authentication event
   and red teams  alike will perform enumeration and discovery techniques. One method
   of executing these techniques is leveraging the native PowerShell modules.
 data_source: []
-search: ' `azuread` body.category=SignInLogs body.properties.authenticationDetails{}.succeeded=true
-  body.properties.appDisplayName="Azure Active Directory PowerShell" | rename body.properties.*
+search: ' `azuread` category=SignInLogs properties.authenticationDetails{}.succeeded=true
+  properties.appDisplayName="Microsoft Azure PowerShell" | rename properties.*
   as * |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, userAgent
   | `azure_ad_successful_powershell_authentication_filter`'
 how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft
@@ -32,7 +32,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: Successful authentication for user $body.properties.userPrincipalName$
+  message: Successful authentication for user $properties.userPrincipalName$
     using PowerShell.
   mitre_attack_id:
   - T1586
@@ -54,12 +54,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.appDisplayName
-  - body.category
-  - body.properties.userPrincipalName
-  - body.properties.ipAddress
-  - body.properties.appDisplayName
-  - body.properties.userAgent
+  - properties.appDisplayName
+  - category
+  - properties.userPrincipalName
+  - properties.ipAddress
+  - properties.appDisplayName
+  - properties.userAgent
   risk_score: 54
   security_domain: identity
 tests:
