@@ -18,8 +18,8 @@ description: The following analytic identifies multiple failed multi-factor auth
   this technique to bypass multi-factor authentication controls as reported by Mandiant
   and others.
 data_source: []
-search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=500121
-  | rename body.properties.* as * | bucket span=10m _time | stats dc(_raw) AS mfa_prompts
+search: ' `azuread` category=SignInLogs properties.status.errorCode=500121
+  | rename properties.* as * | bucket span=10m _time | stats dc(_raw) AS mfa_prompts
   values(userPrincipalName) by userPrincipalName, status.additionalDetails, appDisplayName,
   userAgent, _time | where mfa_prompts > 10 | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
@@ -40,7 +40,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: Multiple Failed MFA requests for user $body.properties.userPrincipalName$
+  message: Multiple Failed MFA requests for user $properties.userPrincipalName$
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -62,11 +62,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.status.errorCode
-  - body.category
-  - body.properties.authenticationDetails
-  - body.properties.userPrincipalName
-  - body.properties.ipAddress
+  - properties.status.errorCode
+  - category
+  - properties.authenticationDetails
+  - properties.userPrincipalName
+  - properties.ipAddress
   risk_score: 54
   security_domain: identity
 tests:
