@@ -20,12 +20,12 @@ description: The following analytic identifies the modification of the SourceAnc
   to Azure AD impersonating any user and bypassing the requirement to have a valid
   password and/or perform MFA.
 data_source: []
-search: ' `azuread` body.operationName="Update user" body.properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
-  | rename body.properties.* as * | rename targetResources{}.userPrincipalName as
+search: ' `azuread` operationName="Update user" properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
+  | rename properties.* as * | rename targetResources{}.userPrincipalName as
   userPrincipalName | rename initiatedBy.user.userPrincipalName as initiatedBy | rename
-  body.callerIpAddress as callerIpAddress | rename targetResources{}.modifiedProperties{}.newValue
+  callerIpAddress as callerIpAddress | rename targetResources{}.modifiedProperties{}.newValue
   as modifiedProperties | stats values(userPrincipalName) values(modifiedProperties)
-  by _time, initiatedBy, callerIpAddress, result, body.operationName | `azure_ad_user_immutableid_attribute_updated_filter`'
+  by _time, initiatedBy, callerIpAddress, result, operationName | `azure_ad_user_immutableid_attribute_updated_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
