@@ -5,7 +5,7 @@ date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: this search is to identify modification in registry to disable ETW windows
+description: This search is to identify modification in registry to disable ETW windows
   feature to evade detections. This technique was seen in several ransomware, RAT
   and even APT to impaire defenses of the compromise machine and to be able to execute
   payload with minimal alert as much as possible.
@@ -32,7 +32,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Disable ETW Through Registry
+  message: Disable ETW Through Registry on $dest$
   mitre_attack_id:
   - T1562.001
   - T1562
