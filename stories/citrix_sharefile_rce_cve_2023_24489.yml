@@ -1,0 +1,25 @@
+name: Citrix ShareFile RCE CVE-2023-24489
+id: 10c7e01a-5743-4995-99df-a66f6b5db653
+version: 1
+date: '2023-07-26'
+author: Michael Haag, Splunk
+description: A critical vulnerability has been discovered in ShareFile's Storage Zones Controller software (CVE-2023-24489), used by numerous organizations for file sharing and storage. The vulnerability allows unauthenticated arbitrary file upload and remote code execution due to a cryptographic bug in the software's encryption but lack of authentication system. The risk comes from a failing encryption check, allowing potential cybercriminals to upload malicious files to the server. The bug was found in the Documentum Connector's .aspx files. The security risk has a potentially large impact due to the software's wide use and the sensitivity of the stored data. Citrix has released a security update to address this issue. 
+narrative: The ShareFile Storage Zones Controller is a .NET web application running under IIS, which manages the storage of files in ShareFile's system. It was discovered that this software has a critical vulnerability (CVE-2023-24489) in the file upload functionality provided by the Documentum Connector's .aspx files. Specifically, the security flaw lies in the encryption check in the file upload process which could be bypassed, allowing for unauthenticated arbitrary file uploads and remote code execution. \
+
+  The application sets the current principal from a session cookie, but if this is missing, the application continues without authentication. The application uses AES encryption, with CBC mode and PKCS#7 padding. A decryption check is in place which returns an error if the decryption fails, but this can be bypassed by supplying a ciphertext that results in valid padding after decryption, thereby not causing an exception. \
+
+  The Documentum Connector's upload.aspx file, when uploading a file, calls the ProcessRawPostedFile function, which allows a path traversal due to improper sanitization of the 'uploadId' parameter. It allows the 'filename' and 'uploadId' parameters to be concatenated, and while the 'filename' parameter is sanitized, the 'uploadId' is not. The 'parentid' parameter is passed in but is also not used. \
+
+  The vulnerability enables an attacker to upload a webshell or any other malicious file, by providing a properly padded encrypted string for the 'parentid' parameter, and specifying the path for the 'uploadId' and the name for the 'filename'. An attacker can achieve remote code execution by requesting the uploaded file. The issue was addressed by Citrix in a recent security update.
+references: 
+- https://www.greynoise.io/blog/introducing-cve-2023-24489-a-critical-citrix-sharefile-rce-vulnerability
+- https://blog.assetnote.io/2023/07/04/citrix-sharefile-rce/
+tags:
+  analytic_story: Citrix ShareFile RCE CVE-2023-24489
+  category:
+    - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
