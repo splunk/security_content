@@ -29,7 +29,7 @@ def domain_input_filter(action=None, success=None, container=None, results=None,
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["playbook_input:input_domain", "!=", None]
+            ["playbook_input:domain", "!=", None]
         ],
         name="domain_input_filter:condition_1",
         delimiter=None)
@@ -51,15 +51,15 @@ def block_domain(action=None, success=None, container=None, results=None, handle
     # Block domains in Cisco Umbrella based on given domains. 
     ################################################################################
 
-    filtered_input_0_input_domain = phantom.collect2(container=container, datapath=["filtered-data:domain_input_filter:condition_1:playbook_input:input_domain"])
+    playbook_input_domain = phantom.collect2(container=container, datapath=["playbook_input:domain"])
 
     parameters = []
 
     # build parameters list for 'block_domain' call
-    for filtered_input_0_input_domain_item in filtered_input_0_input_domain:
-        if filtered_input_0_input_domain_item[0] is not None:
+    for playbook_input_domain_item in playbook_input_domain:
+        if playbook_input_domain_item[0] is not None:
             parameters.append({
-                "domain": filtered_input_0_input_domain_item[0],
+                "domain": playbook_input_domain_item[0],
             })
 
     ################################################################################
@@ -72,7 +72,7 @@ def block_domain(action=None, success=None, container=None, results=None, handle
     ## Custom Code End
     ################################################################################
 
-    phantom.act("block domain", parameters=parameters, name="block_domain", assets=["cisco_umbrella"], callback=build_observable)
+    phantom.act("block domain", parameters=parameters, name="block_domain", assets=["cisco_umbrella"], callback=success_filter)
 
     return
 
@@ -86,10 +86,10 @@ def build_observable(action=None, success=None, container=None, results=None, ha
     # the observables data path.
     ################################################################################
 
-    block_domain_result_data = phantom.collect2(container=container, datapath=["block_domain:action_result.parameter.domain","block_domain:action_result.status"], action_results=results)
+    filtered_result_0_data_success_filter = phantom.collect2(container=container, datapath=["filtered-data:success_filter:condition_1:block_domain:action_result.parameter.domain","filtered-data:success_filter:condition_1:block_domain:action_result.status"])
 
-    block_domain_parameter_domain = [item[0] for item in block_domain_result_data]
-    block_domain_result_item_1 = [item[1] for item in block_domain_result_data]
+    filtered_result_0_parameter_domain = [item[0] for item in filtered_result_0_data_success_filter]
+    filtered_result_0_status = [item[1] for item in filtered_result_0_data_success_filter]
 
     build_observable__observable_array = None
 
@@ -98,7 +98,7 @@ def build_observable(action=None, success=None, container=None, results=None, ha
     ################################################################################
 
     build_observable__observable_array = list()
-    for status, domain in zip(block_domain_result_item_1, block_domain_parameter_domain):
+    for status, domain in zip(filtered_result_0_status, filtered_result_0_parameter_domain):
         if status == "success":
             observable = {
                 "type": "domain",
@@ -114,6 +114,30 @@ def build_observable(action=None, success=None, container=None, results=None, ha
     ################################################################################
 
     phantom.save_run_data(key="build_observable:observable_array", value=json.dumps(build_observable__observable_array))
+
+    return
+
+
+@phantom.playbook_block()
+def success_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("success_filter() called")
+
+    ################################################################################
+    # Determine if the block domain was successful.
+    ################################################################################
+
+    # collect filtered artifact ids and results for 'if' condition 1
+    matched_artifacts_1, matched_results_1 = phantom.condition(
+        container=container,
+        conditions=[
+            ["block_domain:action_result.status", "==", "success"]
+        ],
+        name="success_filter:condition_1",
+        delimiter=None)
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_1 or matched_results_1:
+        build_observable(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
