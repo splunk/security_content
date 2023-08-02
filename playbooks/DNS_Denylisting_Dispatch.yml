@@ -1,0 +1,20 @@
+name: DNS Denylisting Dispatch
+id: 7fd9a82f-517a-4d86-bf24-4d4158719dc1
+version: 1
+date: '2023-07-14'
+author: Patrick Bareiss, Splunk
+type: Response
+description: Accepts a list of domains and blocks them. Generates a global report and list of observables.
+playbook: DNS_Denylisting_Dispatch
+how_to_implement: This playbook looks for artifacts and then dispatches the community denylisting playbooks. This playbook takes the output of those playbooks and nicely formats them into notes and tags indicators with their results.  
+references:
+  - https://d3fend.mitre.org/technique/d3f:DNSDenylisting/
+app_list: []
+tags:
+  platform_tags: 
+  - D3-DNSDL
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
