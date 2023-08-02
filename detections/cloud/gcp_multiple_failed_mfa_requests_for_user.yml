@@ -52,7 +52,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: null
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
