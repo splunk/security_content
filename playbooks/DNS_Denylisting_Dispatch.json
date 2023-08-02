@@ -1,10 +1,10 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Isolation",
+    "category": "DNS Denylisting",
     "coa": {
         "data": {
-            "description": "Detects available indicators and routes them to dispatch DNS denylisting playbooks.  These playbooks will block the given domains. The output of the analysis will update any artifacts, tasks, and indicator tags.",
+            "description": "Detects available indicators and routes them to dispatch DNS denylisting playbooks.  These playbooks will block the given domains. The output of the analysis will update any artifacts, tasks, and indicator tags.\n\nhttps://d3fend.mitre.org/technique/d3f:DNSDenylisting/",
             "edges": [
                 {
                     "id": "port_0_to_port_2",
@@ -57,18 +57,6 @@
                     "targetPort": "7_in"
                 },
                 {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_7_to_port_8",
-                    "sourceNode": "7",
-                    "sourcePort": "7_out",
-                    "targetNode": "8",
-                    "targetPort": "8_in"
-                },
-                {
                     "id": "port_8_to_port_9",
                     "sourceNode": "8",
                     "sourcePort": "8_out",
@@ -92,6 +80,18 @@
                 {
                     "conditions": [
                         {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_12",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "conditions": [
+                        {
                             "index": 1
                         }
                     ],
@@ -100,6 +100,18 @@
                     "sourcePort": "7_out",
                     "targetNode": "11",
                     "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_12_to_port_8",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
                 }
             ],
             "hash": "0c7323b8609eddecd1ded1e9217bafb54dfe2d84",
@@ -118,7 +130,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 1000,
-                    "y": 279.9999999999999
+                    "y": 279.9999999999998
                 },
                 "1": {
                     "data": {
@@ -134,7 +146,7 @@
                     "type": "end",
                     "warnings": {},
                     "x": 1060,
-                    "y": 1320
+                    "y": 1440
                 },
                 "10": {
                     "data": {
@@ -251,7 +263,7 @@
                     "type": "utility",
                     "warnings": {},
                     "x": 1040,
-                    "y": 1200
+                    "y": 1340
                 },
                 "11": {
                     "data": {
@@ -317,6 +329,42 @@
                     "type": "utility",
                     "warnings": {},
                     "x": 680,
+                    "y": 960
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "output filter",
+                            "customNameId": 0,
+                            "description": "Determine if the observable is not None.",
+                            "join": [],
+                            "note": "Determine if the observable is not None."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "dispatch_dns_denylisting_playbooks:playbook_output:observable",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "output exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "output_filter",
+                        "id": "12",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 1100,
                     "y": 960
                 },
                 "2": {
@@ -486,7 +534,9 @@
                         "id": "6",
                         "inputs": {
                             "artifact_ids_include": {
-                                "datapaths": [],
+                                "datapaths": [
+                                    "artifact:*.id"
+                                ],
                                 "deduplicate": false
                             },
                             "indicator_tags_exclude": {
@@ -639,7 +689,7 @@
                         "utilityType": "custom_function",
                         "values": {
                             "indicator_tag": {
-                                "indicator": "dispatch_dns_denylisting_playbooks:playbook_output:observable.value",
+                                "indicator": "filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.value",
                                 "overwrite": null,
                                 "tags": "blocked"
                             }
@@ -650,7 +700,7 @@
                     "type": "utility",
                     "warnings": {},
                     "x": 1040,
-                    "y": 960
+                    "y": 1120
                 },
                 "9": {
                     "data": {
@@ -665,9 +715,9 @@
                         "functionName": "format_note",
                         "id": "9",
                         "parameters": [
-                            "dispatch_dns_denylisting_playbooks:playbook_output:observable.value",
-                            "dispatch_dns_denylisting_playbooks:playbook_output:observable.status",
-                            "dispatch_dns_denylisting_playbooks:playbook_output:observable.source"
+                            "filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.value",
+                            "filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.status",
+                            "filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.source"
                         ],
                         "template": "Splunk SOAR blocked the following domains:\n\n| domain | status | source |\n| --- | --- | --- |\n%%\n| {0} | {1} | {2} |\n%%\n",
                         "type": "format"
@@ -677,7 +727,7 @@
                     "type": "format",
                     "warnings": {},
                     "x": 1040,
-                    "y": 1060
+                    "y": 1220
                 }
             },
             "notes": "Outputs: \n- Concludes task\n- tags indicators"
@@ -687,9 +737,9 @@
         "playbook_type": "automation",
         "python_version": "3",
         "schema": "5.0.10",
-        "version": "6.0.1.123902"
+        "version": "6.1.0.131"
     },
-    "create_time": "2023-07-25T11:44:37.361424+00:00",
+    "create_time": "2023-08-02T12:03:29.640344+00:00",
     "draft_mode": false,
     "labels": [
         "*"

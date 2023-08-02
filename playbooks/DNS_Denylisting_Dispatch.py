@@ -1,5 +1,5 @@
 """
-Detects available indicators and routes them to dispatch DNS denylisting playbooks.  These playbooks will block the given domains. The output of the analysis will update any artifacts, tasks, and indicator tags.
+Detects available indicators and routes them to dispatch DNS denylisting playbooks.  These playbooks will block the given domains. The output of the analysis will update any artifacts, tasks, and indicator tags.\n\nhttps://d3fend.mitre.org/technique/d3f:DNSDenylisting/
 """
 
 
@@ -95,12 +95,16 @@ def comment_no_new_artifacts(action=None, success=None, container=None, results=
 def dispatch_dns_denylisting_playbooks(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("dispatch_dns_denylisting_playbooks() called")
 
+    container_artifact_data = phantom.collect2(container=container, datapath=["artifact:*.id"])
+
+    container_artifact_header_item_0 = [item[0] for item in container_artifact_data]
+
     inputs = {
-        "playbook_repo": [],
         "playbook_tags": ["denylist"],
-        "artifact_ids_include": [],
-        "indicator_tags_exclude": [],
+        "playbook_repo": [],
         "indicator_tags_include": [],
+        "indicator_tags_exclude": [],
+        "artifact_ids_include": container_artifact_header_item_0,
     }
 
     ################################################################################
@@ -137,7 +141,7 @@ def outputs_decision(action=None, success=None, container=None, results=None, ha
 
     # call connected blocks if condition 1 matched
     if found_match_1:
-        tag_indicators(action=action, success=success, container=container, results=results, handle=handle)
+        output_filter(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     # check for 'else' condition 2
@@ -150,15 +154,15 @@ def outputs_decision(action=None, success=None, container=None, results=None, ha
 def tag_indicators(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("tag_indicators() called")
 
-    dispatch_dns_denylisting_playbooks_output_observable = phantom.collect2(container=container, datapath=["dispatch_dns_denylisting_playbooks:playbook_output:observable.value"])
+    filtered_output_0_dispatch_dns_denylisting_playbooks_output_observable = phantom.collect2(container=container, datapath=["filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.value"])
 
     parameters = []
 
     # build parameters list for 'tag_indicators' call
-    for dispatch_dns_denylisting_playbooks_output_observable_item in dispatch_dns_denylisting_playbooks_output_observable:
+    for filtered_output_0_dispatch_dns_denylisting_playbooks_output_observable_item in filtered_output_0_dispatch_dns_denylisting_playbooks_output_observable:
         parameters.append({
             "tags": "blocked",
-            "indicator": dispatch_dns_denylisting_playbooks_output_observable_item[0],
+            "indicator": filtered_output_0_dispatch_dns_denylisting_playbooks_output_observable_item[0],
             "overwrite": None,
         })
 
@@ -189,9 +193,9 @@ def format_note(action=None, success=None, container=None, results=None, handle=
 
     # parameter list for template variable replacement
     parameters = [
-        "dispatch_dns_denylisting_playbooks:playbook_output:observable.value",
-        "dispatch_dns_denylisting_playbooks:playbook_output:observable.status",
-        "dispatch_dns_denylisting_playbooks:playbook_output:observable.source"
+        "filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.value",
+        "filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.status",
+        "filtered-data:output_filter:condition_1:dispatch_dns_denylisting_playbooks:playbook_output:observable.source"
     ]
 
     ################################################################################
@@ -263,6 +267,30 @@ def comment_no_observables(action=None, success=None, container=None, results=No
     ################################################################################
 
     phantom.comment(container=container, comment="No observable data found from dispatched playbooks.")
+
+    return
+
+
+@phantom.playbook_block()
+def output_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("output_filter() called")
+
+    ################################################################################
+    # Determine if the observable is not None.
+    ################################################################################
+
+    # collect filtered artifact ids and results for 'if' condition 1
+    matched_artifacts_1, matched_results_1 = phantom.condition(
+        container=container,
+        conditions=[
+            ["dispatch_dns_denylisting_playbooks:playbook_output:observable", "!=", None]
+        ],
+        name="output_filter:condition_1",
+        delimiter=None)
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_1 or matched_results_1:
+        tag_indicators(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
