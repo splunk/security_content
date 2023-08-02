@@ -1,18 +1,17 @@
 name: O365 Added Service Principal
 id: 1668812a-6047-11eb-ae93-0242ac130002
-version: 1
-date: '2022-02-03'
+version: 2
+date: '2023-08-02'
 author: Rod Soto, Splunk
 status: production
 type: TTP
 description: This search detects the creation of a new Federation setting by alerting
   about an specific event related to its creation.
 data_source: []
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add service
-  principal credentials." | stats min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID)
-  as Actor.ID values(ModifiedProperties{}.Name) as ModifiedProperties.Name values(ModifiedProperties{}.NewValue)
-  as ModifiedProperties.NewValue values(Target{}.ID) as Target.ID by ActorIpAddress
-  Operation | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="*Add service principal*" OR (Operation = "*principal*" AND action = "created")  
+  | stats count by src_user src_user_type action Operation authentication_service Workload
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `o365_added_service_principal_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
@@ -63,6 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_add_service_principal/o365_add_service_principal.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_added_service_principal/o365_add_service_principal.log
     sourcetype: o365:management:activity
     source: o365
