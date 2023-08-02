@@ -1,0 +1,268 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "DNS Denylisting",
+    "coa": {
+        "data": {
+            "description": "Accepts a domain or list of domains as input. Blocks the given domains in Cisco Umbrella.\n\nhttps://d3fend.mitre.org/technique/d3f:DNSDenylisting/",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_3_to_port_6",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_6_to_port_5",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                }
+            ],
+            "hash": "3ef6e0e09a728ad1f2aea6b5c89f41b9f5671f50",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 1000,
+                    "y": 419.99999999999955
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 1000,
+                    "y": 1200
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "domain input filter",
+                            "customNameId": 0,
+                            "description": "Determine branches based on provided inputs.",
+                            "join": [],
+                            "note": "Determine branches based on provided inputs."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:domain",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "input_url",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "domain_input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 1040,
+                    "y": 540
+                },
+                "3": {
+                    "data": {
+                        "action": "block domain",
+                        "actionType": "contain",
+                        "advanced": {
+                            "customName": "block domain",
+                            "customNameId": 0,
+                            "description": "Block domains in Cisco Umbrella based on given domains. ",
+                            "join": [],
+                            "note": "Block domains in Cisco Umbrella based on given domains. "
+                        },
+                        "connector": "Cisco Umbrella",
+                        "connectorConfigs": [
+                            "cisco_umbrella"
+                        ],
+                        "connectorId": "96f3e021-5396-42d0-97f4-4fab683e9adb",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "block_domain",
+                        "id": "3",
+                        "parameters": {
+                            "domain": "playbook_input:domain"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "domain"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 980,
+                    "y": 740
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build observable",
+                            "customNameId": 0,
+                            "description": "This block uses custom code to generate an observable dictionary to output into the observables data path.",
+                            "join": [],
+                            "note": "This block uses custom code to generate an observable dictionary to output into the observables data path."
+                        },
+                        "functionId": 1,
+                        "functionName": "build_observable",
+                        "id": "5",
+                        "inputParameters": [
+                            "filtered-data:success_filter:condition_1:block_domain:action_result.parameter.domain",
+                            "filtered-data:success_filter:condition_1:block_domain:action_result.status"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "\n    build_observable__observable_array = list()\n    for status, domain in zip(filtered_result_0_status, filtered_result_0_parameter_domain):\n        if status == \"success\":\n            observable = {\n                \"type\": \"domain\",\n                \"value\": domain,\n                \"source\": \"Cisco Umbrella\",\n                \"status\": \"blocked\"\n            }\n            \n            build_observable__observable_array.append(observable)\n\n",
+                    "warnings": {},
+                    "x": 980,
+                    "y": 1060
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "success filter",
+                            "customNameId": 0,
+                            "description": "Determine if the block domain was successful.",
+                            "join": [],
+                            "note": "Determine if the block domain was successful."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "block_domain:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "success",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "success_filter",
+                        "id": "6",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 1040,
+                    "y": 880
+                }
+            },
+            "notes": "Inputs: domain\nInteractions: Cisco Umbrella\nActions: block domain\nOutputs: observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "domain"
+                ],
+                "description": "Accepts domain and block them",
+                "name": "domain"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_observable:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type and information about the blocked domains.",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.10",
+        "version": "6.1.0.131"
+    },
+    "create_time": "2023-08-02T11:29:36.835550+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "Cisco Umbrella",
+        "denylist",
+        "D3-DNSDL",
+        "domain"
+    ]
+}
