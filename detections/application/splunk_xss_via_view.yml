@@ -48,3 +48,10 @@ tags:
   - fileName
   risk_score: 25
   security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_xss_via_view.log
+    source: /opt/splunk/var/log/splunk/web_service.log
+    sourcetype: splunk_web_service
+    custom_index: _internal
