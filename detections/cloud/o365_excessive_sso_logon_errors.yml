@@ -1,7 +1,7 @@
 name: O365 Excessive SSO logon errors
 id: 8158ccc4-6038-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-26'
+version: 2
+date: '2023-08-02'
 author: Rod Soto, Splunk
 status: production
 type: Anomaly
@@ -9,9 +9,11 @@ description: This search detects accounts with high number of Single Sign ON (SS
   logon errors. Excessive logon errors may indicate attempts to bruteforce of password
   or single sign on token hijack or reuse.
 data_source: []
-search: '`o365_management_activity`  Workload=AzureActiveDirectory LogonError=SsoArtifactInvalidOrExpired
-  | stats count min(_time) as firstTime max(_time) as lastTime by LogonError ActorIpAddress
-  UserAgent UserId | where count > 5 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+search: '`o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed 
+  | stats count min(_time) as firstTime max(_time) as lastTime by LogonError ActorIpAddress UserAgent UserId Operation Workload
+  | where count >= 5
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `o365_excessive_sso_logon_errors_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
@@ -55,6 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors2.json
     sourcetype: o365:management:activity
     source: o365
