@@ -1,7 +1,7 @@
 name: O365 New Federated Domain Added
 id: e155876a-6048-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-26'
+version: 2
+date: '2023-08-02'
 author: Rod Soto, Splunk
 status: production
 type: TTP
