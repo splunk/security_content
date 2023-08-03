@@ -14,9 +14,9 @@ search: ' `azuread`  category=SignInLogs properties.authenticationRequirement=si
   properties.authenticationDetails{}.succeeded=true | rename properties.*
   as * |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, authenticationRequirement
   | `azure_ad_successful_single_factor_authentication_filter`'
-how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft
-  Cloud Services from  Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events in your Splunk environment.
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
   Specifically, this analytic leverages the SignInLogs log category.
 known_false_positives: Although not recommended, certain users may be required without
   multi-factor authentication. Filter as needed
