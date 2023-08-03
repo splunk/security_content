@@ -10,8 +10,8 @@ description: The following analytic triggers on a high risk sign-in against Azur
   sign-in events using heuristics and machine learning to identify potentially malicious
   events and categorizes them in three categories high, medium and low.
 data_source: []
-search: ' `azuread` body.category=UserRiskEvents body.properties.riskLevel=high |
-  rename body.properties.* as * |  stats values(userPrincipalName) by _time, ipAddress,
+search: ' `azuread` category=UserRiskEvents properties.riskLevel=high |
+  rename properties.* as * |  stats values(userPrincipalName) by _time, ipAddress,
   activity, riskLevel, riskEventType, additionalInfo | `azure_active_directory_high_risk_sign_in_filter`'
 how_to_implement: You must install the latest version of  Splunk Add-on for Microsoft
   Cloud Services from  Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -31,7 +31,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: A high risk event was identified by Identify Protection for user $body.properties.userPrincipalName$
+  message: A high risk event was identified by Identify Protection for user $properties.userPrincipalName$
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -52,13 +52,13 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.category
-  - body.properties.riskLevel
-  - body.properties.userPrincipalName
-  - body.properties.ipAddress
-  - body.properties.activity
-  - body.properties.riskEventType
-  - body.properties.additionalInfo
+  - category
+  - properties.riskLevel
+  - properties.userPrincipalName
+  - properties.ipAddress
+  - properties.activity
+  - properties.riskEventType
+  - properties.additionalInfo
   risk_score: 54
   security_domain: identity
 tests:
