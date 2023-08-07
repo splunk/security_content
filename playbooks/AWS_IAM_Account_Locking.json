@@ -4,7 +4,7 @@
     "category": "Account Locking",
     "coa": {
         "data": {
-            "description": "Accepts user name that needs to be disabled in AWS IAM Active Directory. Generates an observable output based on the status of account locking or disabling.",
+            "description": "Accepts user name that needs to be disabled in AWS IAM Active Directory. Disabling an account involves deleting their login profile which will clear the user's password. Generates an observable output based on the status of account locking or disabling.",
             "edges": [
                 {
                     "id": "port_0_to_port_2",
