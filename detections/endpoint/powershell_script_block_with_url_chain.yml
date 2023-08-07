@@ -14,7 +14,7 @@ search: '`powershell` EventCode=4104 ScriptBlockText IN ("*http:*","*https:*")
 | regex ScriptBlockText="(\"?(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))\"?(?:,|\))?){2,}"
 | rex max_match=20 field=ScriptBlockText "(?<url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))"
 | eval Path = case(isnotnull(Path),Path,true(),"unknown")
-| stats count min(_time) as firstTime max(_time) as lastTime list(ScriptBlockText) as command values(Path) as file_name values(user) as user values(url) as url dc(url) as url_count by ActivityID, Computer, EventCode
+| stats count min(_time) as firstTime max(_time) as lastTime list(ScriptBlockText) as command values(Path) as file_name values(UserID) as user values(url) as url dc(url) as url_count by ActivityID, Computer, EventCode
 | rename Computer as dest, EventCode as signature_id
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
