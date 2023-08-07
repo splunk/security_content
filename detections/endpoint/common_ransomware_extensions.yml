@@ -53,26 +53,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: file_name
-    type: File Name
-    role:
-    - Victim
-  - name: file_count
-    type: Other
-    role:
-    - Other
-  - name: path_count
-    type: Other
-    role:
-    - Other
-  - name: file_extension
-    type: Other
-    role:
-    - Other
-  - name: Name
-    type: Other
-    role:
-    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
