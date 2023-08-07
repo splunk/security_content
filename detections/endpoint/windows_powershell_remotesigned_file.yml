@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon EventCode 1
+- Sysmon Event ID 1
 description: This analytic identifies the use of "remotesigned" execution policy for a file. 
   This security setting determines whether PowerShell scripts can be executed on a computer. 
   When the execution policy is set to "remotesigned," it allows locally created scripts to run without any restrictions, 
@@ -31,16 +31,16 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A PowerShell commandline to remotesigned a powershell script in $dest$,
+  message: A PowerShell commandline with remotesigned policy executed on $dest$
   mitre_attack_id:
   - T1059.001
   - T1059
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
