@@ -1,6 +1,6 @@
 name: O365 Added Service Principal
 id: 1668812a-6047-11eb-ae93-0242ac130002
-version: 2
+version: 3
 date: '2023-08-02'
 author: Rod Soto, Splunk
 status: production

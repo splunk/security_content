@@ -8,7 +8,7 @@ type: TTP
 description: This search detects the addition of a new Federated domain.
 data_source: []
 search: '`o365_management_activity` Operation IN("*add*", "*new*") AND Operation="*domain*"
-  | stats count by Workload Operation Target{}.ID Actor{}.ID
+  | stats count by Workload Operation Target{}.ID Actor{}.ID  | rename Actor{}.ID as user
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `o365_new_federated_domain_added_filter`'
@@ -30,17 +30,12 @@ tags:
   asset_type: Office 365
   confidence: 80
   impact: 80
-  message: User $UserId$ has added a new federated domaain $Parameters.Value$ for
-    $OrganizationName$
+  message: User $user$ has added a new federated domain $Parameters.Value$ for $OrganizationName$
   mitre_attack_id:
   - T1136.003
   - T1136
   observable:
-  - name: OrganizationName
-    type: Other
-    role:
-    - Victim
-  - name: UserId
+  - name: user
     type: User
     role:
     - Victim
