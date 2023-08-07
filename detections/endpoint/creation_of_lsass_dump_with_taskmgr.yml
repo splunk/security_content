@@ -45,18 +45,10 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: TargetFilename
-    type: File Name
-    role:
-    - Victim
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
