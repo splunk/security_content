@@ -21,7 +21,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_bitsadmin` Processes.process
-  IN ("*transfer*", "*addfile*") by Processes.dest Processes.user Processes.parent_process
+  IN ("*transfer*", "*addfile*") by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
   Processes.original_file_name Processes.process_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `bitsadmin_download_file_filter`'

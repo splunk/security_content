@@ -34,7 +34,7 @@ tags:
   - T1021.001
   - T1021
   observable:
-  - name: user
+  - name: User
     type: User
     role:
     - Victim
