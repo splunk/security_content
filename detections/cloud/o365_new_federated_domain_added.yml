@@ -5,10 +5,10 @@ date: '2023-08-02'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: This search detects the addition of a new Federated domain.
+description: The following search detects the addition of a new Federated domain in O365 environments.  If an attacker adds an unverified domain to Office 365, they may gain unauthorized access to the organization's email and other services, potentially leading to data breaches and information theft. It can be misused to set up adversary infrastruture for phishing, spoofing emails and malware distribution.
 data_source: []
-search: '`o365_management_activity` Operation IN("*add*", "*new*") AND Operation="*domain*"
-  | stats count by Workload Operation Target{}.ID Actor{}  | rename Actor{}.ID as user
+search: '`o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*"
+  | stats count values(ModifiedProperties{}.NewValue) as new_value by  user user_agent authentication_service action Workload Operation 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `o365_new_federated_domain_added_filter`'
@@ -30,7 +30,7 @@ tags:
   asset_type: Office 365
   confidence: 80
   impact: 80
-  message: User $user$ has added a new federated domain $Parameters.Value$ for $OrganizationName$
+  message: User $user$ has added a new federated domain $new_value$
   mitre_attack_id:
   - T1136.003
   - T1136
@@ -47,12 +47,11 @@ tags:
   - _time
   - Workload
   - Operation
-  - Parameters{}.Value
-  - ObjectId
-  - OrganizationName
-  - OriginatingServer
-  - UserId
-  - UserKey
+  - ModifiedProperties{}.NewValue
+  - authentication_service
+  - user
+  - user_agent
+  - action
   risk_score: 64
   security_domain: threat
 tests:
