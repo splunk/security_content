@@ -8,7 +8,7 @@ type: TTP
 description: This search detects the addition of a new Federated domain.
 data_source: []
 search: '`o365_management_activity` Operation IN("*add*", "*new*") AND Operation="*domain*"
-  | stats count by Workload Operation Target{}.ID Actor{}.ID  | rename Actor{}.ID as user
+  | stats count by Workload Operation Target{}.ID Actor{}  | rename Actor{}.ID as user
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `o365_new_federated_domain_added_filter`'
