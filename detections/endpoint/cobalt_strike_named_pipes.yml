@@ -50,23 +50,18 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 80
-  message: An instance of $process_name$ was identified on endpoint $Computer$ by
-    user $user$ accessing known suspicious named pipes related to Cobalt Strike.
+  message: An instance of $process_name$ was identified on endpoint $dest$ accessing known suspicious named pipes related to Cobalt Strike.
   mitre_attack_id:
   - T1055
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
   - name: process_name
     type: Process
     role:
-    - Parent Process
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
