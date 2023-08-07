@@ -42,11 +42,11 @@ tags:
   - _time
   - Workload
   - signature
-  - Actor{}.ID
-  - ModifiedProperties{}.Name
-  - ModifiedProperties{}.NewValue
-  - Target{}.ID
-  - ActorIpAddress
+  - src_user 
+  - src_user_type 
+  - action 
+  - Operation 
+  - authentication_service
   risk_score: 42
   security_domain: threat
 tests:
