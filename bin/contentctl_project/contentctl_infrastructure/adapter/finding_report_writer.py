@@ -35,7 +35,7 @@ class FindingReportObject():
         kill_chain_phase_str = "["
         i = 0
         for kill_chain_phase in detection.tags.kill_chain_phases_id.keys():
-            kill_chain_phase_str = '{"phase": "' + kill_chain_phase + '", "phase_id": ' + str(detection.tags.kill_chain_phases_id[kill_chain_phase]) + "}"
+            kill_chain_phase_str = kill_chain_phase_str + '{"phase": "' + kill_chain_phase + '", "phase_id": ' + str(detection.tags.kill_chain_phases_id[kill_chain_phase]) + "}"
             if not i == (len(detection.tags.kill_chain_phases_id.keys()) - 1):
                 kill_chain_phase_str = kill_chain_phase_str + ', '
             else:
