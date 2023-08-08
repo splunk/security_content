@@ -5,39 +5,66 @@ date: '2023-08-03'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source:
-- UPDATE_DATA_SOURCE
-description: UPDATE_DESCRIPTION
-search: ' `azuread`  properties.authenticationProtocol=deviceCode 
+data_source: []
+description: The following analytic identifies the execution of the Azure Device Code Phishing attack, 
+  which can lead to Azure Account Take-Over (ATO). The detection leverages Azure AD logs specifically 
+  focusing on authentication requests to identify the attack. This technique involves creating malicious 
+  infrastructure, bypassing Multi-Factor Authentication (MFA), and bypassing Conditional Access Policies (CAPs). 
+  The attack aims to compromise users by sending them phishing emails from attacker-controlled domains and trick 
+  the victims into performing OAuth 2.0 device authentication. A successful execution of this attack can result 
+  in adversaries gaining unauthorized access to Azure AD, Exchange mailboxes, and the target's Outlook Web Application (OWA). 
+  This attack technique was detailed by security researchers including Bobby Cooke, Stephan Borosh, and others. 
+  It's crucial for organizations to be aware of this threat, as it can lead to unauthorized access and potential data breaches.
+search: '`azuread` category=SignInLogs "properties.authenticationProtocol"=deviceCode 
+  | rename properties.* as * | stats values(userPrincipalName) by _time, ipAddress, 
+  status.additionalDetails, appDisplayName, userAgent
   | `azure_ad_device_code_authentication_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  Specifically, this analytic leverages the AuditLogs log category.
+known_false_positives: In most organizations, Code Based Authentication will be used
+  rarely. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1528
 - https://github.com/rvrsh3ll/TokenTactics
 - https://embracethered.com/blog/posts/2022/device-code-phishing/
 - https://0xboku.com/2021/07/12/ArtOfDeviceCodePhish.html
+- https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   asset_type: Azure AD
   confidence: 50
   impact: 70
-  message: UPDATE message
+  message: Device code requested for $userPrincipalName$ from $ipAddress$
   mitre_attack_id:
   - T1528
+  - T1566
+  - T1566.002
   observable:
   - name: userPrincipalName
     type: User
     role:
     - Victim
+  - name: ipAddress
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   risk_score: 35
   required_fields:
-  - UPDATE_required_fields
+  - _time
+  - body.category
+  - body.properties.authenticationProtocol
+  - body.properties.userPrincipalName
+  - body.properties.ipAddress
+  - body.properties.status.additionalDetails
+  - body.properties.appDisplayName
+  - body.properties.userAgent
   security_domain: identity
 tests:
 - name: True Positive Test
