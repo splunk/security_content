@@ -22,33 +22,35 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   eval actor_user_uid=ucast(map_get(actor_user,"uid"), "string", null) | where match_regex(process_cmd_line,
   /(?i)preauthnotrequired/)=true AND match_regex(process_cmd_line, /(?i)get-domainuser/)=true
   
-  | eval body=create_map(
-    "devices", [
-        create_map(
-            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
-        )
-    ],
-    "time", timestamp,
-    "evidence", create_map("device.hostname", device_hostname, "process.file.path", process_file_path, "process.uid", process_uid, "process.cmd_line", process_cmd_line, "actor.user.uid", actor_user_uid),
-    "message", concat("Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView has been triggered on ", device_hostname, " by ", "Unknown", "."),
-    "users", [
-        create_map(
-            "name", "Unknown", "uid", ucast(map_get(actor_user,"uid"), "string", null)
-        )
-    ],
-    "activity_id", 1,
-    "category_uid", 2,
-    "class_uid", 102001,
-    "risk_level_id", 2,
-    "risk_score", 54,
-    "severity_id", 0,
-    "rule", create_map("name", "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView", "uid", "dc3f2af7-ca69-47ce-a122-9f9787e19417", "type", "Streaming"),
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
+  | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
+    time = timestamp,
+    evidence = ["device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid],
+    message = "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView has been triggered on " + device_hostname + " by " + actor_user_name + ".",
+    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    activity_id = 1,
+    cis_csc = [{"control": "CIS 10", "version": 8}], 
+    analytic_stories = ["Active Directory Kerberos Attacks"],
+    class_name = "Detection Report", 
+    confidence = 90,
+    confidence_id = 3,
+    duration = 0, 
+    impact = 60,
+    impact_id = 4,
+    kill_chain = {"phase": "Exploitation", "phase_id": 4}],
+    nist = ["DE.AE"], 
+    risk_level = "Medium", 
+    category_uid = 2,
+    class_uid = 102001,
+    risk_level_id = 2,
+    risk_score = 54,
+    severity_id = 0,
+    rule = {"name": "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView", "uid": "dc3f2af7-ca69-47ce-a122-9f9787e19417", "type": "Streaming"),
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name", "Behavior Analytics", "vendor_name", "Splunk"}, "version", "1.0.0-rc.2", "logged_time", time()},
     "type_uid", 10200101,
     "start_time", timestamp,
     "end_time", timestamp
-  )
-  | into write_ba_finding_events();'
+  | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
+  | into sink; '
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -101,4 +103,5 @@ test:
     - file_name: getdomainuser.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getdomainuser.log
       source: XmlWinEventLog
-runtime: SPL-DSP
+runtime: SPL2
+internalVersion: 2

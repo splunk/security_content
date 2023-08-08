@@ -88,32 +88,29 @@ class SplunkBABackend(TextQueryBackend):
         #         fields_input_parsing = fields_input_parsing + ', '
 
         detection_str = """
-| from read_ba_enriched_events()
-| eval timestamp = ucast(map_get(input_event,"time"),"long", null)
-| eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>", null)
-| eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null)
+$main = from source 
+| eval timestamp = time 
+| eval metadata_uid = metadata.uid 
 """.replace("\n", " ")
 
         parsed_fields = [] 
 
         for field in self.field_mapping["mapping"].keys():
             mapped_field = self.field_mapping["mapping"][field]
-            parent = 'input_event'
+            parent = 'parent'
             i = 1
             values = mapped_field.split('.')
             for val in values:
-                if parent == "input_event":
-                    new_val = val
+                if parent == "parent":
+                    parent = val
+                    continue
                 else:
                     new_val = parent + '_' + val
                 if new_val in parsed_fields:
                     parent = new_val
                     i = i + 1
                     continue
-                if i == len(values):
-                    parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "string", null) ' 
-                else:
-                    parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "map<string, any>", null) ' 
+                parser_str = '| eval ' + new_val + ' = ' + parent + '.' + val + ' '
                 detection_str = detection_str + parser_str
                 parsed_fields.append(new_val)
                 parent = new_val
@@ -121,8 +118,6 @@ class SplunkBABackend(TextQueryBackend):
 
         detection_str = detection_str + "| where " + query
         detection_str = detection_str.replace("\\\\\\\\", "\\\\")
-        
-
         return detection_str
 
     def finalize_output_data_model(self, queries: List[str]) -> List[str]:
