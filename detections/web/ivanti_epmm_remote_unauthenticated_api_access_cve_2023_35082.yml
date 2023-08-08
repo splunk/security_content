@@ -1,0 +1,60 @@
+name: Ivanti EPMM Remote Unauthenticated API Access CVE-2023-35082
+id: e03edeba-4942-470c-a664-27253f3ad351
+version: 1
+date: '2023-08-08'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: 'The following analytic detects potential unauthorized access attempts exploiting CVE-2023-35082 within Ivantis software products. Initially assessed to affect only MobileIron Core versions up to 11.2, further insights revealed its influence extending to Ivanti Endpoint Manager Mobile (EPMM) versions 11.10, 11.9, 11.8, and MobileIron Core 11.7 and below. The vulnerability facilitates unauthorized API access via the specific URI path /mifs/asfV3/api/v2/. The analytic identifies this behavior by monitoring web access logs for this URI pattern coupled with a HTTP 200 response code, signifying successful unauthorized access. \
+  Such behavior is imperative for a Security Operations Center (SOC) to recognize, as it highlights potential security breaches which, if not addressed, could lead to unauthorized data access, system modifications, or further exploitation. In the event of a true positive, the implications are severe: an attacker might have gained unbridled access to sensitive organizational data or could modify systems maliciously. Be vigilant of potential false positives; benign activities might occasionally match the pattern. During triage, closely scrutinize the source of the access request and its subsequent actions. This analytic aids analysts in early threat detection, allowing for proactive risk mitigation.'
+search: '| tstats count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.url IN ("/mifs/asfV3/api/v2/*") Web.status=200
+  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `ivanti_epmm_remote_unauthenticated_api_access_cve_2023_35082_filter`'
+how_to_implement: To implement this analytic, a network product similar to Suricata or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work with your products.
+known_false_positives: Similar to CVE-2023-35078, the path for exploitation indicates that status=200 is required for successful exploitation of the vulnerability. False positives may be present if status=200 is removed from the search.  If it is removed,then the search also alert on status=301 and status=404 which indicates unsuccessful exploitation attempts.  Analysts may find it useful to hunt for these status codes as well, but it is likely to produce a significant number of alerts as this is a widespread vulnerability.
+references:
+- https://forums.ivanti.com/s/article/CVE-2023-35082-Remote-Unauthenticated-API-Access-Vulnerability-in-MobileIron-Core-11-2-and-older?language=en_US
+- https://github.com/vchan-in/CVE-2023-35078-Exploit-POC/blob/main/cve_2023_35078_poc.py
+- https://www.rapid7.com/blog/post/2023/08/02/cve-2023-35082-mobileiron-core-unauthenticated-api-access-vulnerability/
+tags:
+  analytic_story:
+  - Ivanti EPMM Remote Unauthenticated Access
+  asset_type: Web Server
+  cve:
+  - CVE-2023-35082
+  atomic_guid: []
+  confidence: 80
+  impact: 80
+  message: Potential CVE-2023-35082 against an Ivanti EPMM appliance on $dest$.
+  mitre_attack_id:
+  - T1190
+  - T1133
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_CVE202335082.log
+    source: suricata
+    sourcetype: suricata
+
