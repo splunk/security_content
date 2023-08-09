@@ -33,7 +33,7 @@ class SplunkBABackend(TextQueryBackend):
     wildcard_single : ClassVar[str] = "%"
     add_escaped : ClassVar[str] = "\\"
 
-    re_expression : ClassVar[str] = "match_regex({field}, /(?i){regex}/)=true"
+    re_expression : ClassVar[str] = "match({field}, /(?i){regex}/)=true"
     re_escape_char : ClassVar[str] = "\\"
     re_escape : ClassVar[Tuple[str]] = ('"',)
 

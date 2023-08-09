@@ -224,8 +224,8 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   OR process_file_name="axinstui.exe" OR process_file_name="autoworkplace.exe" OR
   process_file_name="authhost.exe" OR process_file_name="atbroker.exe" OR process_file_name="applicationframehost.exe"
   OR process_file_name="adaptertroubleshooter.exe" OR process_file_name="arp.exe")
-  AND (NOT match_regex(process_file_path, /(?i)\\windows\\syswow64/)=true) AND (NOT
-  match_regex(process_file_path, /(?i)\\windows\\system32/)=true) 
+  AND (NOT match(process_file_path, /(?i)\\windows\\syswow64/)=true) AND (NOT match(process_file_path,
+  /(?i)\\windows\\system32/)=true) 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},

@@ -13,7 +13,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_file_name="aspnet_compiler.exe"
-  AND (NOT match_regex(process_file_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319/)=true)
+  AND (NOT match(process_file_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319/)=true)
   
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,

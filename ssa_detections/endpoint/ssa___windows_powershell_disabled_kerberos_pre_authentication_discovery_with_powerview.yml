@@ -19,7 +19,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   eval device_hostname = device.hostname | eval process_file = process.file | eval
   process_file_path = process_file.path | eval process_uid = process.uid | eval process_cmd_line
   = process.cmd_line | eval actor_user = actor.user | eval actor_user_uid = actor_user.uid
-  | where match_regex(process_cmd_line, /(?i)preauthnotrequired/)=true AND match_regex(process_cmd_line,
+  | where match(process_cmd_line, /(?i)preauthnotrequired/)=true AND match(process_cmd_line,
   /(?i)get-domainuser/)=true --finding_report--'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here

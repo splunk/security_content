@@ -43,11 +43,11 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   OR process_file_name="verclsid.exe" OR process_file_name="wab.exe" OR process_file_name="wlrmdr.exe"
   OR process_file_name="wmic.exe" OR process_file_name="workfolders.exe" OR process_file_name="wscript.exe"
   OR process_file_name="wsreset.exe" OR process_file_name="wuauclt.exe" OR process_file_name="xwizard.exe")
-  AND (NOT (match_regex(process_file_path, /(?i)(?i)\\windows\\system32/)=true OR
-  match_regex(process_file_path, /(?i)(?i)\\windows\\syswow64/)=true OR match_regex(process_file_path,
-  /(?i)(?i)\\windows\\networkcontrolle/)=true OR match_regex(process_file_path, /(?i)(?i)\\windows\\systemapps/)=true
-  OR match_regex(process_file_path, /(?i)(?i)\\winsxs/)=true OR match_regex(process_file_path,
-  /(?i)(?i)\\microsoft.net/)=true)) 
+  AND (NOT (match(process_file_path, /(?i)(?i)\\windows\\system32/)=true OR match(process_file_path,
+  /(?i)(?i)\\windows\\syswow64/)=true OR match(process_file_path, /(?i)(?i)\\windows\\networkcontrolle/)=true
+  OR match(process_file_path, /(?i)(?i)\\windows\\systemapps/)=true OR match(process_file_path,
+  /(?i)(?i)\\winsxs/)=true OR match(process_file_path, /(?i)(?i)\\microsoft.net/)=true))
+  
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},

@@ -16,7 +16,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where match_regex(process_cmd_line, /(?i)inprocserver32/)=true
+  | eval device_hostname = device.hostname | where match(process_cmd_line, /(?i)inprocserver32/)=true
   AND process_file_name="reg.exe" 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
@@ -32,7 +32,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 80,
     impact_id = 5,
-    kill_chain = [{"phase": "Installation", "phase_id": 5}, {"phase": "Exploitation", "phase_id": 4}, ],
+    kill_chain = [{"phase": "Installation", "phase_id": 5}, {"phase": "Exploitation", "phase_id": 4}],
     nist = ["DE.AE"], 
     risk_level = "High", 
     category_uid = 2,

@@ -19,7 +19,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_file_name="appvlp.exe"
-  AND (NOT match_regex(process_file_path, /(?i)\\program files (x86)\\microsoft office\\root\\client/)=true)
+  AND (NOT match(process_file_path, /(?i)\\program files (x86)\\microsoft office\\root\\client/)=true)
   --finding_report--'
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.

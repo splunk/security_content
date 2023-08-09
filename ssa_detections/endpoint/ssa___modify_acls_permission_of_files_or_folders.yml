@@ -20,10 +20,10 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (match_regex(process_cmd_line,
-  /(?i)S-1-1-0:/)=true OR match_regex(process_cmd_line, /(?i)SYSTEM:/)=true OR match_regex(process_cmd_line,
-  /(?i)everyone:/)=true) AND (process_file_name="icacls.exe" OR process_file_name="xcacls.exe"
-  OR process_file_name="cacls.exe") --finding_report--'
+  | eval device_hostname = device.hostname | where (match(process_cmd_line, /(?i)S-1-1-0:/)=true
+  OR match(process_cmd_line, /(?i)SYSTEM:/)=true OR match(process_cmd_line, /(?i)everyone:/)=true)
+  AND (process_file_name="icacls.exe" OR process_file_name="xcacls.exe" OR process_file_name="cacls.exe")
+  --finding_report--'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

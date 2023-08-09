@@ -13,13 +13,13 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   eval device_hostname = device.hostname | eval process_file = process.file | eval
   process_file_path = process_file.path | eval process_uid = process.uid | eval process_cmd_line
   = process.cmd_line | eval actor_user = actor.user | eval actor_user_uid = actor_user.uid
-  | where match_regex(process_cmd_line, /(?i)preauthnotrequired/)=true AND match_regex(process_cmd_line,
+  | where match(process_cmd_line, /(?i)preauthnotrequired/)=true AND match(process_cmd_line,
   /(?i)get-domainuser/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid},
-    message = "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    message = "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView has been triggered on " + device_hostname + " by " + "Unknown" + ".",
+    users = [{"name": "Unknown", "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Active Directory Kerberos Attacks"],

@@ -12,10 +12,10 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where (process_file_name="cscript.exe"
-  OR process_file_name="wscript.exe") AND (match_regex(actor_process_file_name, /(?i)visio.exe/)=true
-  OR match_regex(actor_process_file_name, /(?i)mspub.exe/)=true OR match_regex(actor_process_file_name,
-  /(?i)powerpnt.exe/)=true OR match_regex(actor_process_file_name, /(?i)excel.exe/)=true
-  OR match_regex(actor_process_file_name, /(?i)winword.exe/)=true) 
+  OR process_file_name="wscript.exe") AND (match(actor_process_file_name, /(?i)visio.exe/)=true
+  OR match(actor_process_file_name, /(?i)mspub.exe/)=true OR match(actor_process_file_name,
+  /(?i)powerpnt.exe/)=true OR match(actor_process_file_name, /(?i)excel.exe/)=true
+  OR match(actor_process_file_name, /(?i)winword.exe/)=true) 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},

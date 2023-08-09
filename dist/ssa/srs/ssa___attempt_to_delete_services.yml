@@ -29,7 +29,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 60,
     impact_id = 4,
-    kill_chain = [{"phase": "Actions on Objectives", "phase_id": 7}, {"phase": "Installation", "phase_id": 5}, {"phase": "Exploitation", "phase_id": 4}, ],
+    kill_chain = [{"phase": "Actions on Objectives", "phase_id": 7}, {"phase": "Installation", "phase_id": 5}, {"phase": "Exploitation", "phase_id": 4}],
     nist = ["DE.AE"], 
     risk_level = "Low", 
     category_uid = 2,

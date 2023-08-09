@@ -16,10 +16,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where match_regex(process_file_name,
-  /(?i)mpcmdrun.exe/)=true AND (NOT match_regex(process_file_path, /(?i)\\windows
-  defender/)=true) AND (NOT match_regex(process_file_path, /(?i)\\microsoft\\windows
-  defender\\platform/)=true) --finding_report--'
+  | eval device_hostname = device.hostname | where match(process_file_name, /(?i)mpcmdrun.exe/)=true
+  AND (NOT match(process_file_path, /(?i)\\windows defender/)=true) AND (NOT match(process_file_path,
+  /(?i)\\microsoft\\windows defender\\platform/)=true) --finding_report--'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: False positives may be present and filtering may be required.
 references:

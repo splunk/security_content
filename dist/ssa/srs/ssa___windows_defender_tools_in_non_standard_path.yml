@@ -10,10 +10,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where match_regex(process_file_name,
-  /(?i)mpcmdrun.exe/)=true AND (NOT match_regex(process_file_path, /(?i)\\windows
-  defender/)=true) AND (NOT match_regex(process_file_path, /(?i)\\microsoft\\windows
-  defender\\platform/)=true) 
+  | eval device_hostname = device.hostname | where match(process_file_name, /(?i)mpcmdrun.exe/)=true
+  AND (NOT match(process_file_path, /(?i)\\windows defender/)=true) AND (NOT match(process_file_path,
+  /(?i)\\microsoft\\windows defender\\platform/)=true) 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},

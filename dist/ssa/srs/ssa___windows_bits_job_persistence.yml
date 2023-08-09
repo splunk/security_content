@@ -34,7 +34,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 70,
     impact_id = 4,
-    kill_chain = [{"phase": "Exploitation", "phase_id": 4}, {"phase": "Installation", "phase_id": 5}, ],
+    kill_chain = [{"phase": "Exploitation", "phase_id": 4}, {"phase": "Installation", "phase_id": 5}],
     nist = ["DE.AE"], 
     risk_level = "Medium", 
     category_uid = 2,

@@ -22,9 +22,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval device_hostname = device.hostname | where ((process_cmd_line LIKE "%ms-msdt:/id%"
   OR process_cmd_line LIKE "%ms-msdt:-id%" OR process_cmd_line LIKE "%ms-msdt:/id%"
   OR process_cmd_line LIKE "%ms-msdt:%" OR process_cmd_line LIKE "%msdt%") AND process_file_name="msdt.exe")
-  AND (match_regex(process_cmd_line, /(?i).xml/)=true OR match_regex(process_cmd_line,
-  /(?i)it_rebrowseforfile=/)=true OR match_regex(process_cmd_line, /(?i)it_browseforfile=/)=true)
-  AND match_regex(process_cmd_line, /(?i)pcwdiagnostic/)=true --finding_report--'
+  AND (match(process_cmd_line, /(?i).xml/)=true OR match(process_cmd_line, /(?i)it_rebrowseforfile=/)=true
+  OR match(process_cmd_line, /(?i)it_browseforfile=/)=true) AND match(process_cmd_line,
+  /(?i)pcwdiagnostic/)=true --finding_report--'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

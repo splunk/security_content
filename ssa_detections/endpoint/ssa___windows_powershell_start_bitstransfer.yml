@@ -23,7 +23,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where (process_file_name="powershell_ise.exe"
   OR process_file_name="powershell.exe" OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe"
-  OR process_file_name="pwsh.exe" OR process_file_name="pwsh.exe") AND match_regex(process_cmd_line,
+  OR process_file_name="pwsh.exe" OR process_file_name="pwsh.exe") AND match(process_cmd_line,
   /(?i)start-bitstransfer/)=true --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
