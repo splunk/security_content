@@ -17,7 +17,7 @@ description: The following analytic identifies the execution of the Azure Device
   It's crucial for organizations to be aware of this threat, as it can lead to unauthorized access and potential data breaches.
 search: '`azuread` category=SignInLogs "properties.authenticationProtocol"=deviceCode 
   | rename properties.* as * 
-  | stats values(userPrincipalName) by _time, ipAddress, appDisplayName, userAgent
+  | stats values(userPrincipalName) by _time, ipAddress, status.additionalDetails, appDisplayName, userAgent
   | `azure_ad_device_code_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -58,12 +58,13 @@ tags:
   risk_score: 35
   required_fields:
   - _time
-  - body.category
-  - body.properties.authenticationProtocol
-  - body.properties.userPrincipalName
-  - body.properties.ipAddress
-  - body.properties.appDisplayName
-  - body.properties.userAgent
+  - category
+  - properties.authenticationProtocol
+  - properties.userPrincipalName
+  - properties.ipAddress
+  - properties.status.additionalDetails
+  - properties.appDisplayName
+  - properties.userAgent
   security_domain: identity
 tests:
 - name: True Positive Test
