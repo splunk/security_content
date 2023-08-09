@@ -64,7 +64,7 @@ class SplunkBABackend(TextQueryBackend):
     deferred_separator : ClassVar[str] = " OR "
     deferred_only_query : ClassVar[str] = "*"
 
-    wildcard_match_expression : ClassVar[Optional[str]] = "like({field}, {value})"
+    wildcard_match_expression : ClassVar[Optional[str]] = "{field} LIKE {value}"
 
 
     def __init__(self, processing_pipeline: Optional["sigma.processing.pipeline.ProcessingPipeline"] = None, collect_errors: bool = False, min_time : str = "-30d", max_time : str = "now", detection : Detection = None, field_mapping: dict = None, **kwargs):

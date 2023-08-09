@@ -4,28 +4,18 @@ version: 1
 description: this search is to detect execution of `cipher.exe` to clear the unallocated
   sectors of a specific disk. This technique was seen in some ransomware to make it
   impossible to forensically recover deleted files.
-search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
-  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
-  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
-  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
-  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where process_file_name="cipher.exe" AND like(process_cmd_line, "%/W:%")
-  
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
+  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
+  | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
+  | eval actor_process_file = actor_process.file | eval actor_process_file_path =
+  actor_process_file.path | eval actor_process_file_name = actor_process_file.name
+  | eval device_hostname = device.hostname | where process_file_name="cipher.exe"
+  AND process_cmd_line LIKE "%/W:%" 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = ["process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname],
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
     message = "Clear Unallocated Sector Using Cipher App has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,
@@ -45,11 +35,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     risk_level_id = 4,
     risk_score = 90,
     severity_id = 0,
-    rule = {"name": "Clear Unallocated Sector Using Cipher App", "uid": "8f907d90-6173-11ec-9c23-acde48001122", "type": "Streaming"),
-    metadata = {"customer_uid": metadata.customer_uid, "product": {"name", "Behavior Analytics", "vendor_name", "Splunk"}, "version", "1.0.0-rc.2", "logged_time", time()},
-    "type_uid", 10200101,
-    "start_time", timestamp,
-    "end_time", timestamp
+    rule = {"name": "Clear Unallocated Sector Using Cipher App", "uid": "8f907d90-6173-11ec-9c23-acde48001122", "type": "Streaming"},
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
+    type_uid = 10200101,
+    start_time = timestamp,
+    end_time = timestamp
   | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
   | into sink; '
 how_to_implement: To successfully implement this search you need to be ingesting information

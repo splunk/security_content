@@ -21,10 +21,10 @@
     risk_level_id = {{ detection.tags.risk_level_id }},
     risk_score = {{ detection.tags.risk_score }},
     severity_id = 0,
-    rule = {"name": "{{ detection.name }}", "uid": "{{ detection.id }}", "type": "Streaming"),
-    metadata = {"customer_uid": metadata.customer_uid, "product": {"name", "Behavior Analytics", "vendor_name", "Splunk"}, "version", "1.0.0-rc.2", "logged_time", time()},
-    "type_uid", 10200101,
-    "start_time", timestamp,
-    "end_time", timestamp
+    rule = {"name": "{{ detection.name }}", "uid": "{{ detection.id }}", "type": "Streaming"},
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
+    type_uid = 10200101,
+    start_time = timestamp,
+    end_time = timestamp
   | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
   | into sink; 

@@ -6,36 +6,27 @@ description: The following analytic identifies native living off the land binari
   it to a new directory. The list of binaries was derived from the https://lolbas-project.github.io
   site, and excluded common process names (cmd.exe, explorer.exe, csc.exe, hh.exe,
   regedit.exe) and DotNet binaries. It also does not include the category of OtherMSBinaries.
-search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
-  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
-  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
-  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
-  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (process_file_name="bitsadmin.exe" OR process_file_name="certoc.exe"
-  OR process_file_name="certreq.exe" OR process_file_name="certutil.exe" OR process_file_name="cmdkey.exe"
-  OR process_file_name="cmdl32.exe" OR process_file_name="cmstp.exe" OR process_file_name="configsecuritypolicy.exe"
-  OR process_file_name="control.exe" OR process_file_name="cscript.exe" OR process_file_name="datasvcutil.exe"
-  OR process_file_name="desktopimgdownldr.exe" OR process_file_name="dfsvc.exe" OR
-  process_file_name="diantz.exe" OR process_file_name="diskshadow.exe" OR process_file_name="dllhost.exe"
-  OR process_file_name="dnscmd.exe" OR process_file_name="esentutl.exe" OR process_file_name="eventvwr.exe"
-  OR process_file_name="expand.exe" OR process_file_name="extexport.exe" OR process_file_name="extrac32.exe"
-  OR process_file_name="findstr.exe" OR process_file_name="finger.exe" OR process_file_name="fltmc.exe"
-  OR process_file_name="forfiles.exe" OR process_file_name="ftp.exe" OR process_file_name="gfxdownloadwrapper.exe"
-  OR process_file_name="gpscript.exe" OR process_file_name="imewdbld.exe" OR process_file_name="ie4uinit.exe"
-  OR process_file_name="ieexec.exe" OR process_file_name="ilasm.exe" OR process_file_name="infdefaultinstall.exe"
-  OR process_file_name="makecab.exe" OR process_file_name="mavinject.exe" OR process_file_name="microsoft.workflow.compiler.exe"
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
+  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
+  | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
+  | eval actor_process_file = actor_process.file | eval actor_process_file_path =
+  actor_process_file.path | eval actor_process_file_name = actor_process_file.name
+  | eval device_hostname = device.hostname | where (process_file_name="bitsadmin.exe"
+  OR process_file_name="certoc.exe" OR process_file_name="certreq.exe" OR process_file_name="certutil.exe"
+  OR process_file_name="cmdkey.exe" OR process_file_name="cmdl32.exe" OR process_file_name="cmstp.exe"
+  OR process_file_name="configsecuritypolicy.exe" OR process_file_name="control.exe"
+  OR process_file_name="cscript.exe" OR process_file_name="datasvcutil.exe" OR process_file_name="desktopimgdownldr.exe"
+  OR process_file_name="dfsvc.exe" OR process_file_name="diantz.exe" OR process_file_name="diskshadow.exe"
+  OR process_file_name="dllhost.exe" OR process_file_name="dnscmd.exe" OR process_file_name="esentutl.exe"
+  OR process_file_name="eventvwr.exe" OR process_file_name="expand.exe" OR process_file_name="extexport.exe"
+  OR process_file_name="extrac32.exe" OR process_file_name="findstr.exe" OR process_file_name="finger.exe"
+  OR process_file_name="fltmc.exe" OR process_file_name="forfiles.exe" OR process_file_name="ftp.exe"
+  OR process_file_name="gfxdownloadwrapper.exe" OR process_file_name="gpscript.exe"
+  OR process_file_name="imewdbld.exe" OR process_file_name="ie4uinit.exe" OR process_file_name="ieexec.exe"
+  OR process_file_name="ilasm.exe" OR process_file_name="infdefaultinstall.exe" OR
+  process_file_name="makecab.exe" OR process_file_name="mavinject.exe" OR process_file_name="microsoft.workflow.compiler.exe"
   OR process_file_name="mmc.exe" OR process_file_name="msconfig.exe" OR process_file_name="msdt.exe"
   OR process_file_name="mshta.exe" OR process_file_name="msiexec.exe" OR process_file_name="netsh.exe"
   OR process_file_name="odbcconf.exe" OR process_file_name="offlinescannershell.exe"
@@ -59,7 +50,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   /(?i)(?i)\\microsoft.net/)=true)) 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = ["process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname],
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
     message = "Windows LOLBin Binary in Non Standard Path has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,
@@ -79,11 +70,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     risk_level_id = 2,
     risk_score = 49,
     severity_id = 0,
-    rule = {"name": "Windows LOLBin Binary in Non Standard Path", "uid": "25689101-012a-324a-94d3-08301e6c065a", "type": "Streaming"),
-    metadata = {"customer_uid": metadata.customer_uid, "product": {"name", "Behavior Analytics", "vendor_name", "Splunk"}, "version", "1.0.0-rc.2", "logged_time", time()},
-    "type_uid", 10200101,
-    "start_time", timestamp,
-    "end_time", timestamp
+    rule = {"name": "Windows LOLBin Binary in Non Standard Path", "uid": "25689101-012a-324a-94d3-08301e6c065a", "type": "Streaming"},
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
+    type_uid = 10200101,
+    start_time = timestamp,
+    end_time = timestamp
   | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
   | into sink; '
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.

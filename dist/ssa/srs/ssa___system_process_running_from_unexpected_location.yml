@@ -7,45 +7,35 @@ description: An attacker tries might try to use different version of a system co
   run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes
   has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv
   and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
-search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
-  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
-  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
-  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
-  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (process_file_name="xwizard.exe" OR process_file_name="xpsrchvw.exe"
-  OR process_file_name="xcopy.exe" OR process_file_name="wusa.exe" OR process_file_name="wuauclt.exe"
-  OR process_file_name="wuapp.exe" OR process_file_name="wuapihost.exe" OR process_file_name="wsqmcons.exe"
-  OR process_file_name="wsmprovhost.exe" OR process_file_name="wscript.exe" OR process_file_name="write.exe"
-  OR process_file_name="wpr.exe" OR process_file_name="wpnpinst.exe" OR process_file_name="wowreg32.exe"
-  OR process_file_name="wlrmdr.exe" OR process_file_name="wlanext.exe" OR process_file_name="wksprt.exe"
-  OR process_file_name="wkspbroker.exe" OR process_file_name="wisptis.exe" OR process_file_name="winver.exe"
-  OR process_file_name="winrshost.exe" OR process_file_name="winrs.exe" OR process_file_name="winresume.exe"
-  OR process_file_name="winlogon.exe" OR process_file_name="winload.exe" OR process_file_name="wininit.exe"
-  OR process_file_name="wimserv.exe" OR process_file_name="wifitask.exe" OR process_file_name="wiawow64.exe"
-  OR process_file_name="wiaacmgr.exe" OR process_file_name="whoami.exe" OR process_file_name="where.exe"
-  OR process_file_name="wextract.exe" OR process_file_name="wevtutil.exe" OR process_file_name="wermgr.exe"
-  OR process_file_name="wecutil.exe" OR process_file_name="wbengine.exe" OR process_file_name="wbadmin.exe"
-  OR process_file_name="waitfor.exe" OR process_file_name="w32tm.exe" OR process_file_name="vssadmin.exe"
-  OR process_file_name="vmicsvc.exe" OR process_file_name="verifiergui.exe" OR process_file_name="verifier.exe"
-  OR process_file_name="verclsid.exe" OR process_file_name="vdsldr.exe" OR process_file_name="vds.exe"
-  OR process_file_name="userinit.exe" OR process_file_name="upnpcont.exe" OR process_file_name="unregmp2.exe"
-  OR process_file_name="unlodctr.exe" OR process_file_name="ucsvc.exe" OR process_file_name="tzutil.exe"
-  OR process_file_name="tzsync.exe" OR process_file_name="typeperf.exe" OR process_file_name="tskill.exe"
-  OR process_file_name="tsdiscon.exe" OR process_file_name="tscon.exe" OR process_file_name="tracerpt.exe"
-  OR process_file_name="tpmvscmgrsvr.exe" OR process_file_name="tpmvscmgr.exe" OR
-  process_file_name="timeout.exe" OR process_file_name="tcmsetup.exe" OR process_file_name="taskmgr.exe"
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
+  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
+  | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
+  | eval actor_process_file = actor_process.file | eval actor_process_file_path =
+  actor_process_file.path | eval actor_process_file_name = actor_process_file.name
+  | eval device_hostname = device.hostname | where (process_file_name="xwizard.exe"
+  OR process_file_name="xpsrchvw.exe" OR process_file_name="xcopy.exe" OR process_file_name="wusa.exe"
+  OR process_file_name="wuauclt.exe" OR process_file_name="wuapp.exe" OR process_file_name="wuapihost.exe"
+  OR process_file_name="wsqmcons.exe" OR process_file_name="wsmprovhost.exe" OR process_file_name="wscript.exe"
+  OR process_file_name="write.exe" OR process_file_name="wpr.exe" OR process_file_name="wpnpinst.exe"
+  OR process_file_name="wowreg32.exe" OR process_file_name="wlrmdr.exe" OR process_file_name="wlanext.exe"
+  OR process_file_name="wksprt.exe" OR process_file_name="wkspbroker.exe" OR process_file_name="wisptis.exe"
+  OR process_file_name="winver.exe" OR process_file_name="winrshost.exe" OR process_file_name="winrs.exe"
+  OR process_file_name="winresume.exe" OR process_file_name="winlogon.exe" OR process_file_name="winload.exe"
+  OR process_file_name="wininit.exe" OR process_file_name="wimserv.exe" OR process_file_name="wifitask.exe"
+  OR process_file_name="wiawow64.exe" OR process_file_name="wiaacmgr.exe" OR process_file_name="whoami.exe"
+  OR process_file_name="where.exe" OR process_file_name="wextract.exe" OR process_file_name="wevtutil.exe"
+  OR process_file_name="wermgr.exe" OR process_file_name="wecutil.exe" OR process_file_name="wbengine.exe"
+  OR process_file_name="wbadmin.exe" OR process_file_name="waitfor.exe" OR process_file_name="w32tm.exe"
+  OR process_file_name="vssadmin.exe" OR process_file_name="vmicsvc.exe" OR process_file_name="verifiergui.exe"
+  OR process_file_name="verifier.exe" OR process_file_name="verclsid.exe" OR process_file_name="vdsldr.exe"
+  OR process_file_name="vds.exe" OR process_file_name="userinit.exe" OR process_file_name="upnpcont.exe"
+  OR process_file_name="unregmp2.exe" OR process_file_name="unlodctr.exe" OR process_file_name="ucsvc.exe"
+  OR process_file_name="tzutil.exe" OR process_file_name="tzsync.exe" OR process_file_name="typeperf.exe"
+  OR process_file_name="tskill.exe" OR process_file_name="tsdiscon.exe" OR process_file_name="tscon.exe"
+  OR process_file_name="tracerpt.exe" OR process_file_name="tpmvscmgrsvr.exe" OR process_file_name="tpmvscmgr.exe"
+  OR process_file_name="timeout.exe" OR process_file_name="tcmsetup.exe" OR process_file_name="taskmgr.exe"
   OR process_file_name="tasklist.exe" OR process_file_name="taskkill.exe" OR process_file_name="taskhostw.exe"
   OR process_file_name="taskhost.exe" OR process_file_name="taskeng.exe" OR process_file_name="takeown.exe"
   OR process_file_name="tabcal.exe" OR process_file_name="systray.exe" OR process_file_name="systemreset.exe"
@@ -238,7 +228,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   match_regex(process_file_path, /(?i)\\windows\\system32/)=true) 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = ["process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname],
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
     message = "System Process Running from Unexpected Location has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,
@@ -258,11 +248,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     risk_level_id = 2,
     risk_score = 56,
     severity_id = 0,
-    rule = {"name": "System Process Running from Unexpected Location", "uid": "28179107-099a-464a-94d3-08301e6c055f", "type": "Streaming"),
-    metadata = {"customer_uid": metadata.customer_uid, "product": {"name", "Behavior Analytics", "vendor_name", "Splunk"}, "version", "1.0.0-rc.2", "logged_time", time()},
-    "type_uid", 10200101,
-    "start_time", timestamp,
-    "end_time", timestamp
+    rule = {"name": "System Process Running from Unexpected Location", "uid": "28179107-099a-464a-94d3-08301e6c055f", "type": "Streaming"},
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
+    type_uid = 10200101,
+    start_time = timestamp,
+    end_time = timestamp
   | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
   | into sink; '
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.

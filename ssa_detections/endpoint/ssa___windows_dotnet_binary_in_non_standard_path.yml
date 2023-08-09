@@ -13,48 +13,39 @@ description: The following analytic identifies native .net binaries within the W
   captured in the list. Lookup - https://github.com/splunk/security_content/blob/develop/lookups/is_net_windows_file.csv.
 data_source:
 - Windows Security 4688
-search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
-  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
-  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
-  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
-  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (match_regex(process_file_name, /(?i)MSBuild.exe/)=true OR match_regex(process_file_name,
-  /(?i)comsvcconfig.exe/)=true OR match_regex(process_file_name, /(?i)dfsradmin.exe/)=true
-  OR match_regex(process_file_name, /(?i)dfsvc.exe/)=true OR match_regex(process_file_name,
-  /(?i)microsoft.workflow.compiler.exe/)=true OR match_regex(process_file_name, /(?i)smsvchost.exe/)=true
-  OR match_regex(process_file_name, /(?i)wsatconfig.exe/)=true OR match_regex(process_file_name,
-  /(?i)addinprocess.exe/)=true OR match_regex(process_file_name, /(?i)addinprocess32.exe/)=true
-  OR match_regex(process_file_name, /(?i)addinutil.exe/)=true OR match_regex(process_file_name,
-  /(?i)aspnet_compiler.exe/)=true OR match_regex(process_file_name, /(?i)aspnet_regbrowsers.exe/)=true
-  OR match_regex(process_file_name, /(?i)aspnet_regsql.exe/)=true OR match_regex(process_file_name,
-  /(?i)caspol.exe/)=true OR match_regex(process_file_name, /(?i)datasvcutil.exe/)=true
-  OR match_regex(process_file_name, /(?i)edmgen.exe/)=true OR match_regex(process_file_name,
-  /(?i)installutil.exe/)=true OR match_regex(process_file_name, /(?i)jsc.exe/)=true
-  OR match_regex(process_file_name, /(?i)ngentask.exe/)=true OR match_regex(process_file_name,
-  /(?i)regasm.exe/)=true OR match_regex(process_file_name, /(?i)regsvcs.exe/)=true
-  OR match_regex(process_file_name, /(?i)sdnbr.exe/)=true OR match_regex(process_file_name,
-  /(?i)acu.exe/)=true OR match_regex(process_file_name, /(?i)appvstreamingux.exe/)=true
-  OR match_regex(process_file_name, /(?i)dsac.exe/)=true OR match_regex(process_file_name,
-  /(?i)lbfoadmin.exe/)=true OR match_regex(process_file_name, /(?i)microsoft.uev.synccontroller.exe/)=true
-  OR match_regex(process_file_name, /(?i)mtedit.exe/)=true OR match_regex(process_file_name,
-  /(?i)scriptrunner.exe/)=true OR match_regex(process_file_name, /(?i)servermanager.exe/)=true
-  OR match_regex(process_file_name, /(?i)stordiag.exe/)=true OR match_regex(process_file_name,
-  /(?i)tzsync.exe/)=true OR match_regex(process_file_name, /(?i)uevagentpolicygenerator.exe/)=true
-  OR match_regex(process_file_name, /(?i)uevappmonitor.exe/)=true OR match_regex(process_file_name,
-  /(?i)uevtemplatebaselinegenerator.exe/)=true OR match_regex(process_file_name, /(?i)uevtemplateconfigitemgenerator.exe/)=true
-  OR match_regex(process_file_name, /(?i)powershell_ise.exe/)=true OR match_regex(process_file_name,
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
+  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
+  | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
+  | eval actor_process_file = actor_process.file | eval actor_process_file_path =
+  actor_process_file.path | eval actor_process_file_name = actor_process_file.name
+  | eval device_hostname = device.hostname | where (match_regex(process_file_name,
+  /(?i)MSBuild.exe/)=true OR match_regex(process_file_name, /(?i)comsvcconfig.exe/)=true
+  OR match_regex(process_file_name, /(?i)dfsradmin.exe/)=true OR match_regex(process_file_name,
+  /(?i)dfsvc.exe/)=true OR match_regex(process_file_name, /(?i)microsoft.workflow.compiler.exe/)=true
+  OR match_regex(process_file_name, /(?i)smsvchost.exe/)=true OR match_regex(process_file_name,
+  /(?i)wsatconfig.exe/)=true OR match_regex(process_file_name, /(?i)addinprocess.exe/)=true
+  OR match_regex(process_file_name, /(?i)addinprocess32.exe/)=true OR match_regex(process_file_name,
+  /(?i)addinutil.exe/)=true OR match_regex(process_file_name, /(?i)aspnet_compiler.exe/)=true
+  OR match_regex(process_file_name, /(?i)aspnet_regbrowsers.exe/)=true OR match_regex(process_file_name,
+  /(?i)aspnet_regsql.exe/)=true OR match_regex(process_file_name, /(?i)caspol.exe/)=true
+  OR match_regex(process_file_name, /(?i)datasvcutil.exe/)=true OR match_regex(process_file_name,
+  /(?i)edmgen.exe/)=true OR match_regex(process_file_name, /(?i)installutil.exe/)=true
+  OR match_regex(process_file_name, /(?i)jsc.exe/)=true OR match_regex(process_file_name,
+  /(?i)ngentask.exe/)=true OR match_regex(process_file_name, /(?i)regasm.exe/)=true
+  OR match_regex(process_file_name, /(?i)regsvcs.exe/)=true OR match_regex(process_file_name,
+  /(?i)sdnbr.exe/)=true OR match_regex(process_file_name, /(?i)acu.exe/)=true OR match_regex(process_file_name,
+  /(?i)appvstreamingux.exe/)=true OR match_regex(process_file_name, /(?i)dsac.exe/)=true
+  OR match_regex(process_file_name, /(?i)lbfoadmin.exe/)=true OR match_regex(process_file_name,
+  /(?i)microsoft.uev.synccontroller.exe/)=true OR match_regex(process_file_name, /(?i)mtedit.exe/)=true
+  OR match_regex(process_file_name, /(?i)scriptrunner.exe/)=true OR match_regex(process_file_name,
+  /(?i)servermanager.exe/)=true OR match_regex(process_file_name, /(?i)stordiag.exe/)=true
+  OR match_regex(process_file_name, /(?i)tzsync.exe/)=true OR match_regex(process_file_name,
+  /(?i)uevagentpolicygenerator.exe/)=true OR match_regex(process_file_name, /(?i)uevappmonitor.exe/)=true
+  OR match_regex(process_file_name, /(?i)uevtemplatebaselinegenerator.exe/)=true OR
+  match_regex(process_file_name, /(?i)uevtemplateconfigitemgenerator.exe/)=true OR
+  match_regex(process_file_name, /(?i)powershell_ise.exe/)=true OR match_regex(process_file_name,
   /(?i)iediagcmd.exe/)=true OR match_regex(process_file_name, /(?i)xbox.tcui.exe/)=true
   OR match_regex(process_file_name, /(?i)microsoft.activedirectory.webservices.exe/)=true
   OR match_regex(process_file_name, /(?i)iisual.exe/)=true OR match_regex(process_file_name,

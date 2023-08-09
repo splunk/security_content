@@ -8,21 +8,14 @@ description: The following analytic identifies the use of the Invoke-ShareFinder
   credentials, etc. Adversaries who have obtained a foothold in an AD network may
   leverage PowerView to identify secrets and leverage them for Privilege Escalation
   or Lateral Movement.
-search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
-  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  device=ucast(map_get(input_event,"device"), "map<string, any>", null) | eval device_hostname=ucast(map_get(device,"hostname"),
-  "string", null) | eval process=ucast(map_get(input_event,"process"), "map<string,
-  any>", null) | eval process_file=ucast(map_get(process,"file"), "map<string, any>",
-  null) | eval process_file_path=ucast(map_get(process_file,"path"), "string", null)
-  | eval process_uid=ucast(map_get(process,"uid"), "string", null) | eval process_cmd_line=ucast(map_get(process,"cmd_line"),
-  "string", null) | eval actor=ucast(map_get(input_event,"actor"), "map<string, any>",
-  null) | eval actor_user=ucast(map_get(actor,"user"), "map<string, any>", null) |
-  eval actor_user_uid=ucast(map_get(actor_user,"uid"), "string", null) | where match_regex(process_cmd_line,
-  /(?i)invoke-sharefinder/)=true 
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval device_hostname = device.hostname | eval process_file = process.file | eval
+  process_file_path = process_file.path | eval process_uid = process.uid | eval process_cmd_line
+  = process.cmd_line | eval actor_user = actor.user | eval actor_user_uid = actor_user.uid
+  | where match_regex(process_cmd_line, /(?i)invoke-sharefinder/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = ["device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid],
+    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid},
     message = "Windows File Share Discovery With Powerview has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,
@@ -42,11 +35,11 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
     risk_level_id = 2,
     risk_score = 48,
     severity_id = 0,
-    rule = {"name": "Windows File Share Discovery With Powerview", "uid": "ec4f671e-c736-4f78-a4c0-8fe809e952e5", "type": "Streaming"),
-    metadata = {"customer_uid": metadata.customer_uid, "product": {"name", "Behavior Analytics", "vendor_name", "Splunk"}, "version", "1.0.0-rc.2", "logged_time", time()},
-    "type_uid", 10200101,
-    "start_time", timestamp,
-    "end_time", timestamp
+    rule = {"name": "Windows File Share Discovery With Powerview", "uid": "ec4f671e-c736-4f78-a4c0-8fe809e952e5", "type": "Streaming"},
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
+    type_uid = 10200101,
+    start_time = timestamp,
+    end_time = timestamp
   | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
   | into sink; '
 how_to_implement: To successfully implement this analytic, you will need to enable
