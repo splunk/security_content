@@ -2,7 +2,7 @@ name: Azure AD Device Code Authentication
 id: d68d8732-6f7e-4ee5-a6eb-737f2b990b91
 version: 1
 date: '2023-08-03'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran,  Splunk
 status: production
 type: TTP
 data_source: []
