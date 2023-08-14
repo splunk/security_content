@@ -1,5 +1,5 @@
 """
-Accepts user name that needs to be enabled in AWS IAM. Generates an observable output based on the status of account unlocking or enabling.
+Accepts user name that needs to be enabled in AWS IAM. Enabling an account involves reattaching their login profile which will require setting a new password. Generates an observable output based on the status of account unlocking or enabling.
 """
 
 
@@ -59,9 +59,9 @@ def enable_user_account(action=None, success=None, container=None, results=None,
     for filtered_input_0_user_item in filtered_input_0_user:
         if filtered_input_0_user_item[0] is not None:
             parameters.append({
-                "enable_access_keys": True,
-                "username": filtered_input_0_user_item[0],
                 "password": "Ch@ng3M3!123",
+                "username": filtered_input_0_user_item[0],
+                "enable_access_keys": True,
             })
 
     ################################################################################

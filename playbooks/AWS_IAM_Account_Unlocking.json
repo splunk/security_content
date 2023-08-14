@@ -4,7 +4,7 @@
     "category": "Account Unlocking",
     "coa": {
         "data": {
-            "description": "Accepts user name that needs to be enabled in AWS IAM. Generates an observable output based on the status of account unlocking or enabling.",
+            "description": "Accepts user name that needs to be enabled in AWS IAM. Enabling an account involves reattaching their login profile which will require setting a new password. Generates an observable output based on the status of account unlocking or enabling.",
             "edges": [
                 {
                     "id": "port_0_to_port_2",
@@ -52,7 +52,7 @@
                     "targetPort": "6_in"
                 }
             ],
-            "hash": "5cd799e95d456dc116881e04c82ec7bd2e783edc",
+            "hash": "b2fe53c9f23ab72c164e6ad04defb56936a35804",
             "nodes": {
                 "0": {
                     "data": {
@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -5.115907697472721e-13
+                    "y": -5.755396159656812e-13
                 },
                 "1": {
                     "data": {
@@ -270,7 +270,7 @@
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },
-    "create_time": "2023-06-22T15:26:52.262157+00:00",
+    "create_time": "2023-08-14T15:09:52.076731+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -278,7 +278,7 @@
     "tags": [
         "user",
         "aws_iam",
-        "D3-AL",
-        "enable_account"
+        "enable_account",
+        "D3-RUAA"
     ]
 }
