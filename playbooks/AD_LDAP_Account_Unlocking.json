@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -1.2789769243681803e-13
+                    "y": -1.9184653865522705e-13
                 },
                 "1": {
                     "data": {
@@ -273,7 +273,8 @@
     "tags": [
         "user",
         "microsoft_ad_ldap",
-        "D3-AL",
-        "enable_account"
+        "enable_account",
+        "D3-RUAA",
+        "active_directory"
     ]
 }

@@ -14,7 +14,8 @@ tags:
   platform_tags:
     - user
     - microsoft_ad_ldap
-    - D3-AL
+    - D3-RUAA
+    - active_directory
     - enable_account
   playbook_type: Input
   vpe_type: Modern
