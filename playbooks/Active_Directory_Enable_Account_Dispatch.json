@@ -85,7 +85,7 @@
                     "targetPort": "8_in"
                 }
             ],
-            "hash": "2a88fa473c3a82bc304808ab6f6f5faa7ffa9f01",
+            "hash": "fa3bf5509d648eac79a36ba25378f72cbb49a684",
             "nodes": {
                 "0": {
                     "data": {
@@ -101,7 +101,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 160,
-                    "y": 0
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -416,7 +416,8 @@
                             },
                             "playbook_tags": {
                                 "datapaths": [
-                                    "enable_account"
+                                    "enable_account",
+                                    "active_directory"
                                 ],
                                 "deduplicate": false
                             }
@@ -433,7 +434,7 @@
                     "type": "playbook",
                     "warnings": {},
                     "x": 140,
-                    "y": 148
+                    "y": 140
                 },
                 "7": {
                     "data": {
@@ -598,17 +599,17 @@
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },
-    "create_time": "2023-07-13T19:23:17.674994+00:00",
+    "create_time": "2023-08-14T15:39:14.219920+00:00",
     "draft_mode": false,
     "labels": [
         "*"
     ],
     "tags": [
         "user",
-        "D3-AL",
         "azure_ad_graph",
         "microsoft_ad_ldap",
-        "aws_iam",
-        "enable_account"
+        "enable_account",
+        "D3-RUAA",
+        "active_directory"
     ]
 }
