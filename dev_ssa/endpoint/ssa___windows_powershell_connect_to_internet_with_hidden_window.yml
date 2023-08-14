@@ -26,7 +26,7 @@ search:
     - pwsh.exe
     - pwsh.exe
   selection2:
-    process.cmd_line|re: (?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]
+    process.cmd_line|re: '[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+'
   condition: selection1 and selection2
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
