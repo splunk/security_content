@@ -48,7 +48,7 @@ def enable_user_account(action=None, success=None, container=None, results=None,
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
     ################################################################################
-    # Enable the user attributes for filtered playbook inputs.
+    # Enables the user accounts provided by the filtered playbook inputs
     ################################################################################
 
     filtered_input_0_user = phantom.collect2(container=container, datapath=["filtered-data:user_name_filter:condition_1:playbook_input:user"])

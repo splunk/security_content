@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "eaf631e718924fe74de5a59c815787a9944f44df",
+            "hash": "28807b4b67e7fd29b25e171fedb8e0b3461b08f4",
             "nodes": {
                 "0": {
                     "data": {
@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -3.836930773104541e-13
+                    "y": -4.476419235288631e-13
                 },
                 "1": {
                     "data": {
@@ -83,7 +83,7 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 20,
+                    "x": 19.999999999999986,
                     "y": 860
                 },
                 "2": {
@@ -131,9 +131,9 @@
                         "advanced": {
                             "customName": "enable user account",
                             "customNameId": 0,
-                            "description": "Enable the user attributes for filtered playbook inputs.",
+                            "description": "Enables the user accounts provided by the filtered playbook inputs",
                             "join": [],
-                            "note": "Enable the user attributes for filtered playbook inputs."
+                            "note": "Enables the user accounts provided by the filtered playbook inputs"
                         },
                         "connector": "Azure AD Graph",
                         "connectorConfigs": [
@@ -214,7 +214,7 @@
                                     }
                                 ],
                                 "conditionIndex": 0,
-                                "customName": "disabled_success",
+                                "customName": "enabled_success",
                                 "logic": "and"
                             }
                         ],
@@ -260,7 +260,7 @@
         "schema": "5.0.10",
         "version": "6.0.1.123902"
     },
-    "create_time": "2023-06-22T17:05:33.507245+00:00",
+    "create_time": "2023-08-14T15:28:43.647352+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -268,7 +268,7 @@
     "tags": [
         "user",
         "azure_ad_graph",
-        "D3-AL",
-        "enable_account"
+        "enable_account",
+        "D3-RUAA"
     ]
 }
