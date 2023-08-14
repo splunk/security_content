@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -4.476419235288631e-13
+                    "y": -5.115907697472721e-13
                 },
                 "1": {
                     "data": {
@@ -269,6 +269,7 @@
         "user",
         "azure_ad_graph",
         "enable_account",
-        "D3-RUAA"
+        "D3-RUAA",
+        "active_directory"
     ]
 }
