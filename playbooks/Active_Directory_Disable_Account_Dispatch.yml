@@ -23,3 +23,7 @@ tags:
   playbook_fields: []
   product:
   - Splunk SOAR
+  use_cases:
+  - Phishing
+  - Endpoint
+  defend_technique_id: D3-Al
