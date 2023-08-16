@@ -31,7 +31,8 @@ def saa_input_filter(action=None, success=None, container=None, results=None, ha
         conditions=[
             ["playbook_input:url", "!=", ""]
         ],
-        name="saa_input_filter:condition_1")
+        name="saa_input_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -43,7 +44,8 @@ def saa_input_filter(action=None, success=None, container=None, results=None, ha
         conditions=[
             ["playbook_input:vault_id", "!=", ""]
         ],
-        name="saa_input_filter:condition_2")
+        name="saa_input_filter:condition_2",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_2 or matched_results_2:
@@ -62,15 +64,15 @@ def url_detonation(action=None, success=None, container=None, results=None, hand
     # Queries SAA for information about the provided URL(s)
     ################################################################################
 
-    playbook_input_url = phantom.collect2(container=container, datapath=["playbook_input:url"])
+    filtered_input_0_url = phantom.collect2(container=container, datapath=["filtered-data:saa_input_filter:condition_1:playbook_input:url"])
 
     parameters = []
 
     # build parameters list for 'url_detonation' call
-    for playbook_input_url_item in playbook_input_url:
-        if playbook_input_url_item[0] is not None:
+    for filtered_input_0_url_item in filtered_input_0_url:
+        if filtered_input_0_url_item[0] is not None:
             parameters.append({
-                "url": playbook_input_url_item[0],
+                "url": filtered_input_0_url_item[0],
             })
 
     ################################################################################
@@ -83,7 +85,7 @@ def url_detonation(action=None, success=None, container=None, results=None, hand
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="url_detonation", assets=["splunk attack analyzer"], callback=url_status_filter)
+    phantom.act("detonate url", parameters=parameters, name="url_detonation", assets=["splunk attack analyzer app"], callback=url_status_filter)
 
     return
 
@@ -102,7 +104,8 @@ def detonation_status_filter(action=None, success=None, container=None, results=
         conditions=[
             ["file_detonation:action_result.status", "==", "success"]
         ],
-        name="detonation_status_filter:condition_1")
+        name="detonation_status_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -152,7 +155,7 @@ def get_url_forensics_output(action=None, success=None, container=None, results=
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="get_url_forensics_output", assets=["splunk attack analyzer"], callback=get_jobid_forensic_filter)
+    phantom.act("get job forensics", parameters=parameters, name="get_url_forensics_output", assets=["splunk attack analyzer app"], callback=get_jobid_forensic_filter)
 
     return
 
@@ -171,7 +174,8 @@ def get_jobid_forensic_filter(action=None, success=None, container=None, results
         conditions=[
             ["get_url_forensics_output:action_result.status", "==", "success"]
         ],
-        name="get_jobid_forensic_filter:condition_1")
+        name="get_jobid_forensic_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -384,15 +388,15 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     # Queries SAA for information about the provided vault_id(s)
     ################################################################################
 
-    playbook_input_vault_id = phantom.collect2(container=container, datapath=["playbook_input:vault_id"])
+    filtered_input_0_vault_id = phantom.collect2(container=container, datapath=["filtered-data:saa_input_filter:condition_2:playbook_input:vault_id"])
 
     parameters = []
 
     # build parameters list for 'file_detonation' call
-    for playbook_input_vault_id_item in playbook_input_vault_id:
-        if playbook_input_vault_id_item[0] is not None:
+    for filtered_input_0_vault_id_item in filtered_input_0_vault_id:
+        if filtered_input_0_vault_id_item[0] is not None:
             parameters.append({
-                "file": playbook_input_vault_id_item[0],
+                "file": filtered_input_0_vault_id_item[0],
             })
 
     ################################################################################
@@ -405,7 +409,7 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk attack analyzer"], callback=detonation_status_filter)
+    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk attack analyzer app"], callback=detonation_status_filter)
 
     return
 
@@ -430,7 +434,7 @@ def get_file_forensics_output(action=None, success=None, container=None, results
         if filtered_result_0_item_detonation_status_filter[0] is not None:
             parameters.append({
                 "job_id": filtered_result_0_item_detonation_status_filter[0],
-                "timeout": 3,
+                "timeout": 2,
             })
 
     ################################################################################
@@ -451,7 +455,7 @@ def get_file_forensics_output(action=None, success=None, container=None, results
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="get_file_forensics_output", assets=["splunk attack analyzer"], callback=file_forensics_filter)
+    phantom.act("get job forensics", parameters=parameters, name="get_file_forensics_output", assets=["splunk attack analyzer app"], callback=file_forensics_filter)
 
     return
 
@@ -511,10 +515,10 @@ def normalized_file_forensic_output(action=None, success=None, container=None, r
     ## pair forensic job results with url detonated
     job_file_dict = {}
 
-    for orig_url, orig_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):
+    for orig_file, orig_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):
         for filtered_job in filtered_result_0_data___jobid:
             if orig_job == filtered_job:
-                job_file_dict[filtered_job] = orig_url
+                job_file_dict[filtered_job] = orig_file
                 
     for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):
         
@@ -622,7 +626,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
                 "source_link":f"https://app.twinwave.io/job/{external_id}"
             }
         build_file_output__observable_array.append(observable_object)
-    
+        #phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -646,7 +650,8 @@ def url_status_filter(action=None, success=None, container=None, results=None, h
         conditions=[
             ["url_detonation:action_result.status", "==", "success"]
         ],
-        name="url_status_filter:condition_1")
+        name="url_status_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -669,7 +674,8 @@ def file_forensics_filter(action=None, success=None, container=None, results=Non
         conditions=[
             ["get_file_forensics_output:action_result.status", "==", "success"]
         ],
-        name="file_forensics_filter:condition_1")
+        name="file_forensics_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:

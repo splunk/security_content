@@ -156,7 +156,7 @@
                     "targetPort": "15_in"
                 }
             ],
-            "hash": "13864bdc7ea935acde9ad6f1be501217c7197c4f",
+            "hash": "cb5ebab4cfc30aa2e25d82bca5228e99b9153608",
             "nodes": {
                 "0": {
                     "data": {
@@ -172,7 +172,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 200,
-                    "y": -6.394884621840902e-14
+                    "y": -1.2789769243681803e-13
                 },
                 "1": {
                     "data": {
@@ -263,9 +263,9 @@
                             "join": [],
                             "note": "Queries SAA for information about the provided vault_id(s)"
                         },
-                        "connector": "Splunk Attack Analyzer",
+                        "connector": "Splunk Attack Analyzer Connector for Splunk SOAR",
                         "connectorConfigs": [
-                            "splunk attack analyzer"
+                            "splunk attack analyzer app"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -273,7 +273,7 @@
                         "functionName": "file_detonation",
                         "id": "12",
                         "parameters": {
-                            "file": "playbook_input:vault_id"
+                            "file": "filtered-data:saa_input_filter:condition_2:playbook_input:vault_id"
                         },
                         "requiredParameters": [
                             {
@@ -286,11 +286,7 @@
                     "errors": {},
                     "id": "12",
                     "type": "action",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 340,
                     "y": 320
                 },
@@ -306,9 +302,9 @@
                             "join": [],
                             "note": "Queries SAA Forensics data relative to the JobID of URL(s) or File(s) needs to be detonated."
                         },
-                        "connector": "Splunk Attack Analyzer",
+                        "connector": "Splunk Attack Analyzer Connector for Splunk SOAR",
                         "connectorConfigs": [
-                            "splunk attack analyzer"
+                            "splunk attack analyzer app"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -317,7 +313,7 @@
                         "id": "15",
                         "parameters": {
                             "job_id": "filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID",
-                            "timeout": "3"
+                            "timeout": "2"
                         },
                         "requiredParameters": [
                             {
@@ -367,7 +363,7 @@
                     "errors": {},
                     "id": "17",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_file_forensic_output__file_score_object = []\n    normalized_file_forensic_output__scores = []\n    normalized_file_forensic_output__categories = []\n    normalized_file_forensic_output__score_id = []\n    normalized_file_forensic_output__file = []\n    normalized_file_forensic_output__job_id = []\n    \n    ## pair forensic job results with url detonated\n    job_file_dict = {}\n\n    for orig_url, orig_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):\n        for filtered_job in filtered_result_0_data___jobid:\n            if orig_job == filtered_job:\n                job_file_dict[filtered_job] = orig_url\n                \n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        file = job_file_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        normalized_file_forensic_output__file_score_object.append({'value': file, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_file_forensic_output__scores.append(score)\n        normalized_file_forensic_output__categories.append(\", \".join(categories))\n        normalized_file_forensic_output__score_id.append(score_id)\n        normalized_file_forensic_output__file.append(file)\n        normalized_file_forensic_output__job_id.append(job)\n        \n",
+                    "userCode": "\n    # Write your custom code here...\n    score_id =0\n    score_table = {\n        \"0\":\"Unknown\",\n        \"1\":\"Very_Safe\",\n        \"2\":\"Safe\",\n        \"3\":\"Probably_Safe\",\n        \"4\":\"Leans_Safe\",\n        \"5\":\"May_not_be_Safe\",\n        \"6\":\"Exercise_Caution\",\n        \"7\":\"Suspicious_or_Risky\",\n        \"8\":\"Possibly_Malicious\",\n        \"9\":\"Probably_Malicious\",\n        \"10\":\"Malicious\"\n    }\n    \n    normalized_file_forensic_output__file_score_object = []\n    normalized_file_forensic_output__scores = []\n    normalized_file_forensic_output__categories = []\n    normalized_file_forensic_output__score_id = []\n    normalized_file_forensic_output__file = []\n    normalized_file_forensic_output__job_id = []\n    \n    ## pair forensic job results with url detonated\n    job_file_dict = {}\n\n    for orig_file, orig_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):\n        for filtered_job in filtered_result_0_data___jobid:\n            if orig_job == filtered_job:\n                job_file_dict[filtered_job] = orig_file\n                \n    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):\n        \n        ## translate scores\n        score_id = int(score_num/10) if score_num > 0 else 0\n        score = score_table[str(score_id)]\n        file = job_file_dict[job]\n        categories = [item.get('Description') for item in detections]\n        \n        normalized_file_forensic_output__file_score_object.append({'value': file, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})\n        normalized_file_forensic_output__scores.append(score)\n        normalized_file_forensic_output__categories.append(\", \".join(categories))\n        normalized_file_forensic_output__score_id.append(score_id)\n        normalized_file_forensic_output__file.append(file)\n        normalized_file_forensic_output__job_id.append(job)\n        \n",
                     "warnings": {},
                     "x": 340,
                     "y": 1260
@@ -427,7 +423,7 @@
                     "errors": {},
                     "id": "19",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n\n    for _vault_id, external_id, file_object in zip(normalized_file_forensic_output__file, normalized_file_forensic_output__job_id, normalized_file_forensic_output__file_score_object):\n        #phantom.debug(\"vault: {} id: {}\".format(_vault_id, external_id))\n        observable_object = {\n\n                \"value\": _vault_id,\n                \"type\": \"hash\",\n                \"reputation\": {\n                    \"base_score\": file_object['base_score'],\n                    \"score\": file_object['score'],\n                    \"score_id\": file_object['score_id'],\n                    \"confidence\": file_object['base_score'] #Attack Analyzer's score has confidence baked in.\n                },\n                \"classifications\": file_object['categories'],\n                \"source\": \"Splunk Attack Analyzer\",\n                \"source_link\":f\"https://app.twinwave.io/job/{external_id}\"\n            }\n        build_file_output__observable_array.append(observable_object)\n    \n",
+                    "userCode": "\n    # Write your custom code here...\n    build_file_output__observable_array = []\n\n    for _vault_id, external_id, file_object in zip(normalized_file_forensic_output__file, normalized_file_forensic_output__job_id, normalized_file_forensic_output__file_score_object):\n        #phantom.debug(\"vault: {} id: {}\".format(_vault_id, external_id))\n        observable_object = {\n\n                \"value\": _vault_id,\n                \"type\": \"hash\",\n                \"reputation\": {\n                    \"base_score\": file_object['base_score'],\n                    \"score\": file_object['score'],\n                    \"score_id\": file_object['score_id'],\n                    \"confidence\": file_object['base_score'] #Attack Analyzer's score has confidence baked in.\n                },\n                \"classifications\": file_object['categories'],\n                \"source\": \"Splunk Attack Analyzer\",\n                \"source_link\":f\"https://app.twinwave.io/job/{external_id}\"\n            }\n        build_file_output__observable_array.append(observable_object)\n        #phantom.debug(\"build_file_output__observable_array: {}\".format(build_file_output__observable_array))\n",
                     "warnings": {},
                     "x": 340,
                     "y": 1620
@@ -437,6 +433,8 @@
                         "advanced": {
                             "customName": "saa input filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Determine branches based on provided inputs.",
                             "join": [],
                             "note": "Determine branches based on provided inputs."
@@ -477,11 +475,7 @@
                     "errors": {},
                     "id": "2",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 230,
                     "y": 148
                 },
@@ -490,6 +484,8 @@
                         "advanced": {
                             "customName": "url status filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters url detonation results.",
                             "join": [],
                             "note": "Filters  url detonation results."
@@ -526,6 +522,8 @@
                         "advanced": {
                             "customName": "file forensics filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful file detonation job forensic results.",
                             "join": [],
                             "note": "Filters successful file detonation job forensic results."
@@ -569,9 +567,9 @@
                             "join": [],
                             "note": "Queries SAA for information about the provided URL(s)"
                         },
-                        "connector": "Splunk Attack Analyzer",
+                        "connector": "Splunk Attack Analyzer Connector for Splunk SOAR",
                         "connectorConfigs": [
-                            "splunk attack analyzer"
+                            "splunk attack analyzer app"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -579,7 +577,7 @@
                         "functionName": "url_detonation",
                         "id": "3",
                         "parameters": {
-                            "url": "playbook_input:url"
+                            "url": "filtered-data:saa_input_filter:condition_1:playbook_input:url"
                         },
                         "requiredParameters": [
                             {
@@ -593,11 +591,7 @@
                     "id": "3",
                     "type": "action",
                     "userCode": "\n    # Write your custom code here...\n\n",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 0,
                     "y": 320
                 },
@@ -606,6 +600,8 @@
                         "advanced": {
                             "customName": "detonation status filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful file  detonation results.",
                             "join": [],
                             "note": "Filters successful file detonation results."
@@ -650,9 +646,9 @@
                             "note": "Queries SAA Forensics data relative to the JobID of URL(s) or File(s) needs to be detonated.",
                             "reviewer": ""
                         },
-                        "connector": "Splunk Attack Analyzer",
+                        "connector": "Splunk Attack Analyzer Connector for Splunk SOAR",
                         "connectorConfigs": [
-                            "splunk attack analyzer"
+                            "splunk attack analyzer app"
                         ],
                         "connectorId": "de681fee-c552-45bf-9212-827b1c7529f8",
                         "connectorVersion": "v1",
@@ -684,6 +680,8 @@
                         "advanced": {
                             "customName": "get jobid forensic filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filters successful url detonation job forensic results.",
                             "join": [],
                             "note": "Filters successful url detonation job forensic results."
@@ -797,10 +795,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.1.0.131"
     },
-    "create_time": "2023-07-03T11:44:44.497724+00:00",
+    "create_time": "2023-08-16T15:27:27.772206+00:00",
     "draft_mode": false,
     "labels": [
         "*"
