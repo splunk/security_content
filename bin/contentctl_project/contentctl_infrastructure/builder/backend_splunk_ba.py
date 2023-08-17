@@ -34,7 +34,7 @@ class SplunkBABackend(TextQueryBackend):
     add_escaped : ClassVar[str] = "\\"
 
     re_expression : ClassVar[str] = "match_regex({field}, /(?i){regex}/)=true"
-    re_escape_char : ClassVar[str] = "\\"
+    re_escape_char : ClassVar[str] = ""
     re_escape : ClassVar[Tuple[str]] = ('"',)
 
     cidr_expression : ClassVar[str] = "{value}"
