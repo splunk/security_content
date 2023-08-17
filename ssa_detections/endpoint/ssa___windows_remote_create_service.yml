@@ -29,7 +29,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
   null) | where (match_regex(process_cmd_line, /(?i)create/)=true OR match_regex(process_cmd_line,
-  /(?i)\\\\/)=true) AND process_file_name="sc.exe" --finding_report--'
+  /(?i)\\/)=true) AND process_file_name="sc.exe" --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
