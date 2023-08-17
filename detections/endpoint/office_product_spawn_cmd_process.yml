@@ -44,6 +44,7 @@ tags:
   - AgentTesla
   - CVE-2023-21716 Word RTF Heap Corruption
   - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
+  - Warzone RAT
   asset_type: Endpoint
   confidence: 80
   impact: 70
