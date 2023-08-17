@@ -1,6 +1,6 @@
 name: Windows Powershell Connect to Internet With Hidden Window
 id: 477e068e-8b6d-11ec-b6c1-81af21670352
-version: 1
+version: 2
 description: The following hunting analytic identifies PowerShell commands utilizing
   the WindowStyle parameter to hide the window on the compromised endpoint. This combination
   of command-line options is suspicious because it is overriding the default PowerShell
@@ -28,8 +28,8 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
   null) | where (process_file_name="powershell_ise.exe" OR process_file_name="powershell.exe"
-  OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe"
-  OR process_file_name="pwsh.exe") AND match_regex(process_cmd_line, /(?i)(?i)[\\-|\\/]w(in*d*o*w*s*t*y*l*e*)*\\s+[^-]/)=true
+  OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe")
+  AND match_regex(process_cmd_line, /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+/)=true
   
   | eval body=create_map(
     "devices", [
