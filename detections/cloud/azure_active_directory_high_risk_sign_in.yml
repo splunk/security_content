@@ -11,7 +11,7 @@ description: The following analytic triggers on a high risk sign-in against Azur
   events and categorizes them in three categories high, medium and low.
 data_source: []
 search: ' `azuread` category=UserRiskEvents properties.riskLevel=high |
-  rename properties.* as * |  stats values(userPrincipalName) by _time, ipAddress,
+  rename properties.* as * |  stats values(userPrincipalName) as userPrincipalName by _time, ipAddress,
   activity, riskLevel, riskEventType, additionalInfo | `azure_active_directory_high_risk_sign_in_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
