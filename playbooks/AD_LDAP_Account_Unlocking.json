@@ -1,0 +1,280 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Account Unlocking",
+    "coa": {
+        "data": {
+            "description": "Accepts user name that needs to be unlocked in Microsoft LDAP Active Directory. Generates an observable output based on the status of account unlocking or enabling.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_4_to_port_1",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_3_to_port_5",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_5_to_port_4",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                }
+            ],
+            "hash": "67653916cd906cc7a34fc0082e8cdef3b8f99437",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -1.9184653865522705e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 864
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "username filter",
+                            "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
+                            "description": "Filter user name inputs to route inputs to appropriate actions.",
+                            "join": [],
+                            "note": "Filter user name inputs to route inputs to appropriate actions."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:user",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "filter_username_check",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "username_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 140
+                },
+                "3": {
+                    "data": {
+                        "action": "enable account",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "enable user account",
+                            "customNameId": 0,
+                            "delayTime": 0,
+                            "description": "Unlock user account from filtered playbook inputs.",
+                            "join": [],
+                            "note": "Unlock user account from filtered playbook inputs."
+                        },
+                        "connector": "AD LDAP",
+                        "connectorConfigs": [
+                            "microsoft ad ldap"
+                        ],
+                        "connectorId": "a5730e5d-a396-4695-92c2-35ff391aaf45",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "enable_user_account",
+                        "id": "3",
+                        "parameters": {
+                            "use_samaccountname": true,
+                            "user": "filtered-data:username_filter:condition_1:playbook_input:user"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "default": false,
+                                "field": "user"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 328
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "username observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each user.",
+                            "join": [],
+                            "note": "Format a normalized output for each user."
+                        },
+                        "functionId": 1,
+                        "functionName": "username_observables",
+                        "id": "4",
+                        "inputParameters": [
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.parameter.user",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.parameter.use_samaccountname",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.data.*.user_dn",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.status",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.message",
+                            "filtered-data:filter_unlock_account:condition_1:enable_user_account:action_result.data.*.starting_status"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user, sam_account, user_dn, status, msg, prev_status in zip(filtered_result_0_parameter_user, filtered_result_0_parameter_use_samaccountname, filtered_result_0_data___user_dn, filtered_result_0_status, filtered_result_0_message, filtered_result_0_data___starting_status):\n        user_acc_status = {\n            \"type\": \"Microsoft AD LDAP user name\",\n            \"value\": user,\n            \"message\": msg,\n            \"status\": status\n        }\n        \n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 680
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter unlock account",
+                            "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
+                            "description": "filter check if the user is unlocked successfully.",
+                            "join": [],
+                            "note": "filter check if the user is unlocked successfully."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "enable_user_account:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "unlock_success",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_unlock_account",
+                        "id": "5",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 500
+                }
+            },
+            "notes": "Inputs: users\nInteractions: Microsoft AD LDAP\nActions: Unlock Account\nOutputs: observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name"
+                ],
+                "description": "A user name provided to be enabled - AD LDAP",
+                "name": "user"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "username_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries ",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
+    },
+    "create_time": "2023-06-23T13:39:30.530535+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "user",
+        "microsoft_ad_ldap",
+        "enable_account",
+        "D3-RUAA",
+        "active_directory"
+    ]
+}
