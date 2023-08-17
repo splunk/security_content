@@ -30,7 +30,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: A high risk event was identified by Identify Protection for user $properties.userPrincipalName$
+  message: A high risk event was identified by Identify Protection for user $userPrincipalName$
   mitre_attack_id:
   - T1586
   - T1586.003
