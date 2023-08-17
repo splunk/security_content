@@ -2,7 +2,7 @@ name: Azure AD Privileged Authentication Administrator Role Assigned
 id: a7da845d-6fae-41cf-b823-6c0b8c55814a
 version: 1
 date: '2023-04-25'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 data_source: []

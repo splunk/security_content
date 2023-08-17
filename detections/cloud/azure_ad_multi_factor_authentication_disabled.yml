@@ -2,7 +2,7 @@ name: Azure AD Multi-Factor Authentication Disabled
 id: 482dd42a-acfa-486b-a0bb-d6fcda27318e
 version: 1
 date: '2022-08-10'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies an attempt to disable multi-factor

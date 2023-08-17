@@ -2,7 +2,7 @@ name: Azure AD New Federated Domain Added
 id: a87cd633-076d-4ab2-9047-977751a3c1a0
 version: 1
 date: '2022-09-02'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the addition of a new federated domain

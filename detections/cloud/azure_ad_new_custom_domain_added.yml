@@ -2,7 +2,7 @@ name: Azure AD New Custom Domain Added
 id: 30c47f45-dd6a-4720-9963-0bca6c8686ef
 version: 1
 date: '2022-09-02'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the addition of a new custom domain

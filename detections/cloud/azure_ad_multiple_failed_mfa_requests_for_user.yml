@@ -2,7 +2,7 @@ name: Azure AD Multiple Failed MFA Requests For User
 id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
 version: 1
 date: '2022-08-25'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies multiple failed multi-factor authentication

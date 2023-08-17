@@ -2,7 +2,7 @@ name: Azure AD User ImmutableId Attribute Updated
 id: 0c0badad-4536-4a84-a561-5ff760f3c00e
 version: 1
 date: '2022-09-02'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the modification of the SourceAnchor

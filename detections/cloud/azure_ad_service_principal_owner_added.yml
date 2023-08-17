@@ -2,7 +2,7 @@ name: Azure AD Service Principal Owner Added
 id: 7ddf2084-6cf3-4a44-be83-474f7b73c701
 version: 2
 date: '2022-08-30'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the addition of a new owner for a Service

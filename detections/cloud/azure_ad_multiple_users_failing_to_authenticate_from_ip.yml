@@ -2,7 +2,7 @@ name: Azure AD Multiple Users Failing To Authenticate From Ip
 id: 94481a6a-8f59-4c86-957f-55a71e3612a6
 version: 1
 date: '2022-07-12'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
 description: 'The following analytic identifies one source Ip failing to authenticate

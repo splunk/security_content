@@ -2,7 +2,7 @@ name: Azure AD Successful PowerShell Authentication
 id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
 version: 1
 date: '2022-07-13'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies a successful authentication event against
