@@ -24,7 +24,7 @@ references:
 - https://attack.mitre.org/techniques/T1556/006/
 - https://twitter.com/jhencinski/status/1618660062352007174
 tags:
-   analytic_story:
+  analytic_story:
   - AWS Identity and Access Management Account Takeover
   asset_type: AWS Account
   confidence: 80
