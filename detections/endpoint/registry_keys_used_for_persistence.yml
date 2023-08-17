@@ -68,6 +68,7 @@ tags:
   - Amadey
   - Sneaky Active Directory Persistence Tricks
   - BlackByte Ransomware
+  - Warzone RAT
   asset_type: Endpoint
   confidence: 95
   impact: 80
