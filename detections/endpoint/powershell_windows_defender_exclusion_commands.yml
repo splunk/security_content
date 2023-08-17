@@ -34,6 +34,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Data Destruction
   - WhisperGate
+  - Warzone RAT
   asset_type: Endpoint
   confidence: 80
   impact: 80
