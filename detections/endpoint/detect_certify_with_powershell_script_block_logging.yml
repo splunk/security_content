@@ -35,15 +35,15 @@ tags:
   - T1059.001
   observable:
   - name: dest
-    type: hostname
+    type: Hostname
     role:
     - Victim
   - name: user
-    type: username
+    type: User Name
     role:
     - Victim
   - name: command
-    type: process
+    type: Process
     role:
     - Attacker
   product:

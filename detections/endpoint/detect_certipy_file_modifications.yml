@@ -37,19 +37,19 @@ tags:
   - T1560
   observable:
   - name: dest
-    type: hostname
+    type: Hostname
     role:
     - Victim
   - name: user
-    type: username
+    type: User Name
     role:
     - Victim
   - name: file_name
-    type: file_name
+    type: File Name
     role:
     - Attacker
   - name: process_name
-    type: process_name
+    type: Process Name
     role:
     - Attacker
   product:
