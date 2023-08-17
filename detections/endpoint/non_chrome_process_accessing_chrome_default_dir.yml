@@ -33,6 +33,7 @@ tags:
   - AgentTesla
   - RedLine Stealer
   - FIN7
+  - Warzone RAT
   asset_type: Endpoint
   confidence: 70
   impact: 50
