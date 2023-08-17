@@ -30,7 +30,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 80
   impact: 80
-  message: A new virtual device $virtualMFADeviceName$ is added to user  $user_arn$
+  message: A new virtual device $virtualMFADeviceName$ is added to user $user_arn$
   mitre_attack_id:
   - T1556
   - T1556.006

@@ -12,7 +12,7 @@ description: The following analytic identifies a successful authentication event
 data_source: []
 search: ' `azuread`  category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication
   properties.authenticationDetails{}.succeeded=true | rename properties.*
-  as * |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, authenticationRequirement
+  as * |  stats values(userPrincipalName) as userPrincipalName by _time, ipAddress, appDisplayName, authenticationRequirement
   | `azure_ad_successful_single_factor_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -30,7 +30,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 50
-  message: Successful authentication for user $properties.userPrincipalName$
+  message: Successful authentication for user $userPrincipalName$
     without MFA
   mitre_attack_id:
   - T1586

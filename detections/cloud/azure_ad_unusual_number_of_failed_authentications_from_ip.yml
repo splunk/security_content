@@ -47,7 +47,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: Possible Password Spraying attack against Azure AD from source ip $body.properties.ipAddress$
+  message: Possible Password Spraying attack against Azure AD from source ip $ipAddress$
   mitre_attack_id:
   - T1586
   - T1586.003

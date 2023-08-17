@@ -20,7 +20,7 @@ description: The following analytic identifies multiple failed multi-factor auth
 data_source: []
 search: ' `azuread` category=SignInLogs properties.status.errorCode=500121
   | rename properties.* as * | bucket span=10m _time | stats dc(_raw) AS mfa_prompts
-  values(userPrincipalName) by userPrincipalName, status.additionalDetails, appDisplayName,
+  values(userPrincipalName) as userPrincipalName by userPrincipalName, status.additionalDetails, appDisplayName,
   userAgent, _time | where mfa_prompts > 10 | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -40,7 +40,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: Multiple Failed MFA requests for user $properties.userPrincipalName$
+  message: Multiple Failed MFA requests for user $userPrincipalName$
   mitre_attack_id:
   - T1586
   - T1586.003

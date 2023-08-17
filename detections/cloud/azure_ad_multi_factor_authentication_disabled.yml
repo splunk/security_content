@@ -14,7 +14,7 @@ data_source: []
 search: '`azuread` category=AuditLogs operationName="Disable Strong Authentication"
   | rename properties.* as * | rename targetResources{}.userPrincipalName as
   userPrincipalName | rename targetResources{}.type as type | rename initiatedBy.user.userPrincipalName
-  as initiatedBy | stats values(userPrincipalName) by _time, type, operationName,
+  as initiatedBy | stats values(userPrincipalName) as userPrincipalName by _time, type, operationName,
   initiatedBy, result | `azure_ad_multi_factor_authentication_disabled_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).

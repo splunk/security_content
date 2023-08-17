@@ -12,7 +12,7 @@ description: 'The following analytic identifies an authentication attempt event 
   credentials for an account that has multi-factor authentication enabled. '
 data_source: []
 search: ' `azuread` category=SignInLogs properties.status.errorCode=500121
-  | rename properties.* as * | stats values(userPrincipalName) by _time, ipAddress,
+  | rename properties.* as * | stats values(userPrincipalName) as userPrincipalName by _time, ipAddress,
   status.additionalDetails, appDisplayName, userAgent | `azure_ad_authentication_failed_during_mfa_challenge_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -30,7 +30,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: User $properties.userPrincipalName$ failed to pass MFA challenge
+  message: User $userPrincipalName$ failed to pass MFA challenge
   mitre_attack_id:
   - T1586
   - T1586.003

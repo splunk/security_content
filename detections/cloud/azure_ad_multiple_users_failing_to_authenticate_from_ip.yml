@@ -38,7 +38,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 70
-  message: Source Ip $body.properties.ipAddress$ failed to authenticate with 30 users
+  message: Source Ip $ipAddress$ failed to authenticate with 30 users
     within 5 minutes.
   mitre_attack_id:
   - T1586

@@ -13,7 +13,7 @@ description: The following analytic identifies a successful authentication event
 data_source: []
 search: ' `azuread` category=SignInLogs properties.authenticationDetails{}.succeeded=true
   properties.appDisplayName="Microsoft Azure PowerShell" | rename properties.*
-  as * |  stats values(userPrincipalName) by _time, ipAddress, appDisplayName, userAgent
+  as * |  stats values(userPrincipalName) as userPrincipalName by _time, ipAddress, appDisplayName, userAgent
   | `azure_ad_successful_powershell_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -32,7 +32,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: Successful authentication for user $properties.userPrincipalName$
+  message: Successful authentication for user $userPrincipalName$
     using PowerShell.
   mitre_attack_id:
   - T1586
