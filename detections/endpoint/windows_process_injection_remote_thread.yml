@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Qakbot
   - Graceful Wipe Out Attack
+  - Warzone RAT
   asset_type: 80
   confidence: 80
   impact: 80

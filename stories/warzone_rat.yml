@@ -1,0 +1,28 @@
+name: Warzone RAT
+id: 8dc84752-f4da-4285-931c-bddd5c4d440b
+version: 1
+date: '2023-07-26'
+author: Teoderick Contreras, Splunk
+description: This analytic story contains detections that allow security analysts to detect and investigate unusual activities
+  that might related to warzone (ve maria) RAT. This analytic story looks for suspicious process execution, command-line activity, downloads, persistence, defense evasion and more.
+narrative: Warzone RAT, also known as Ave Maria, is a sophisticated remote access trojan (RAT) that surfaced in January 2019. 
+  Originally offered as malware-as-a-service (MaaS), it rapidly gained notoriety and became one of the most prominent malware strains by 2020. 
+  Its exceptional capabilities in stealth and anti-analysis techniques make it a formidable threat in various campaigns, including those targeting sensitive geopolitical entities.
+  The malware's impact is particularly concerning as it has been associated with attacks aimed at compromising government employees and military personnel, 
+  notably within India's National Informatics Centre (NIC). Its deployment by several advanced persistent threat (APT) groups further underlines its potency and adaptability in the hands of skilled threat actors.
+  Warzone RAT's capabilities enable attackers to gain unauthorized access to targeted systems, facilitating data theft, surveillance, 
+  and the potential to wreak havoc on critical infrastructures. As the threat landscape continues to evolve, vigilance and robust cybersecurity measures are crucial in defending against such malicious tools."
+  This version provides more context and elaborates on the malware's capabilities and potential impact. Additionally, it emphasizes the importance of cybersecurity measures to combat such threats effectively.
+references:
+- https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
+- https://tccontre.blogspot.com/2020/02/2-birds-in-one-stone-ave-maria-wshrat.html
+tags:
+  analytic_story: Warzone RAT
+  category:
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
