@@ -29,7 +29,7 @@ search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(inpu
   any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
   null) | where (process_file_name="powershell_ise.exe" OR process_file_name="powershell.exe"
   OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe" OR process_file_name="pwsh.exe")
-  AND match_regex(process_cmd_line, /(?i)[\\-|\\/]w(in*d*o*w*s*t*y*l*e*)*\\s+h(i*d*d*e*n*)\\s+/)=true
+  AND match_regex(process_cmd_line, /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+/)=true
   
   | eval body=create_map(
     "devices", [
