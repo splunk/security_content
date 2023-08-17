@@ -21,9 +21,11 @@ def on_start(container):
 def dispatch_account_disable(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("dispatch_account_disable() called")
 
+    playbook_tags_combined_value = phantom.concatenate("disable_account", "active_directory")
+
     inputs = {
         "playbook_repo": [],
-        "playbook_tags": ["disable_account"],
+        "playbook_tags": playbook_tags_combined_value,
         "artifact_ids_include": [],
         "indicator_tags_exclude": [],
         "indicator_tags_include": [],
