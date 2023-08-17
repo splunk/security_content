@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic identifies when the attacker tool  Certify is used through an in-memory PowerShell function to enumerate Active Directory Certificate Services (AD CS) environments. The default command line arguments for the binary version of this tools are similar to PowerShell calls and perform near identical enumeration or exploitation functions.
 data_source:
-- PowerShell Event ID 4104
+- Powershell 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*")) OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","* -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND ScriptBlockText IN ("* /ca:*"))
 | stats count min(_time) as firstTime max(_time) as lastTime list(ScriptBlockText) as command Values(OpCode) as reason values(Path) as file_name values(UserID) as user by _time Computer EventCode 
 | `security_content_ctime(firstTime)`
