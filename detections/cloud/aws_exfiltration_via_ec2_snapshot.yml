@@ -23,11 +23,11 @@ tags:
   asset_type: EC2 Snapshot
   confidence: 80
   impact: 80
-  message: Potential AWS EC2 Exfiltration detected on account id - $aws_account_id$ by user $user_arn$ from src_ip $src_ip$
+  message: Potential AWS EC2 Exfiltration detected on account id - $aws_account_id$ by user $userName$ from src_ip $src_ip$
   mitre_attack_id:
   - T1537
   observable:
-  - name: user_arn
+  - name: userName
     type: User
     role:
     - Attacker

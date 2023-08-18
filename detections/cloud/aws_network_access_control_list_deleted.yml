@@ -12,7 +12,7 @@ description: Enforcing network-access controls is one of the defensive mechanism
   will query the AWS CloudTrail logs to detect users deleting network ACLs.
 data_source: []
 search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by userName
+  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by user_arn
   userIdentity.principalId eventName requestParameters.egress src userAgent | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)

@@ -32,14 +32,14 @@ tags:
   asset_type: GSuite
   confidence: 50
   impact: 50
-  message: tbd
+  message: Gsuite suspicious calendar invite sent by $email$
   mitre_attack_id:
   - T1566
   observable:
-  - name: dest
-    type: Other
+  - name: email
+    type: Email Address
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
