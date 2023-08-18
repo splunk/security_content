@@ -22,7 +22,8 @@ references:
 - https://adsecurity.org/?p=2362
 tags:
   analytic_story: Active Directory Privilege Escalation
-  category: []
+  category:
+  - Adversary Tactics
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
