@@ -13,8 +13,8 @@ description: The following detection identifes when a policy is deleted on AWS. 
 data_source: []
 search: '`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com) | stats
   count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
-  as policyArn by src eventName eventSource aws_account_id errorCode errorMessage
-  userAgent eventID awsRegion userIdentity.principalId userIdentity.arn | `security_content_ctime(firstTime)`
+  as policyArn by src user_arn eventName eventSource aws_account_id errorCode errorMessage
+  userAgent eventID awsRegion userIdentity.principalId | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_iam_delete_policy_filter`'
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
   this data. The search requires AWS Cloudtrail logs.
