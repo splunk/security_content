@@ -12,7 +12,7 @@ description: The following analytic identifies a suspicious process that delete 
   security restrictions within the Windows Operating System, particularly pertaining to files downloaded from the internet. 
   An example of this scenario is demonstrated by Ave Maria RAT, which attempts to delete this data stream as a means to evade such restrictions.
 search: '`sysmon` EventCode=23 TargetFilename = "*:Zone.Identifier" 
-  | stats  min(_time) as firstTime max(_time) as lastTime count by user EventCode Image TargetFilename ProcessID Computer 
+  | stats  min(_time) as firstTime max(_time) as lastTime count by user EventCode Image TargetFilename ProcessID Computer | rename Computer as dest
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `windows_mark_of_the_web_bypass_filter`'
@@ -28,7 +28,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: a mark-of-the-web data stream is deleted in $dest$
+  message: A mark-of-the-web data stream is deleted on $dest$
   mitre_attack_id:
   - T1553.005
   observable:
@@ -36,14 +36,10 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
-  - name: deleted_files
-    type: File Name
-    role:
-    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
