@@ -61,6 +61,7 @@ tags:
   - Trickbot
   - Amadey
   - BlackByte Ransomware
+  - Warzone RAT
   asset_type: Endpoint
   confidence: 50
   impact: 40

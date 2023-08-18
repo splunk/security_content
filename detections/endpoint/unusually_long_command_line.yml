@@ -32,13 +32,13 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 70
-  message: Unusually long command line $Processes.process_name$ on $dest$
+  message: Unusually long command line $process_name$ on $dest$
   observable:
   - name: dest
     type: Endpoint
     role:
     - Victim
-  - name: Processes.process_name
+  - name: process_name
     type: Process
     role:
     - Attacker

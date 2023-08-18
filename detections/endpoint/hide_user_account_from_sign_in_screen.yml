@@ -30,6 +30,7 @@ tags:
   - XMRig
   - Windows Registry Abuse
   - Azorult
+  - Warzone RAT
   asset_type: Endpoint
   confidence: 80
   impact: 90

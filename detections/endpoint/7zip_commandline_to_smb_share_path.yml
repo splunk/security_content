@@ -41,13 +41,13 @@ tags:
   - T1560
   observable:
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
-  - name: process_name
-    type: Process
+  - name: user
+    type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
