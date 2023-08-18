@@ -22,7 +22,7 @@ search: >-
   | rename app as process
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `windows_suspect_process_with_auth_traffic_filter`
+  | `windows_suspect_process_with_authentication_traffic_filter`
 how_to_implement: >-
   To implement this analytic, Sysmon should be installed in the environment and generating network events for 
   userland and/or known public writable locations.
@@ -81,6 +81,6 @@ tests:
   - name: True Positive Test
     attack_data:
       - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
-        source: XmlWinEventLog:Security
-        sourcetype: XmlWinEventLog
+        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        sourcetype: xmlwineventlog
         update_timestamp: true

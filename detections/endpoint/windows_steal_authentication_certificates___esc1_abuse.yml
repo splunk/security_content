@@ -11,7 +11,8 @@ data_source:
   - Windows Security 4886
   - Windows Security 4887
 search: >-
-  `wineventlog_security` EventCode IN (4886,4887) Attributes="*SAN:*upn*" Attributes="*CertificateTemplate:*"| stats count min(_time) as firstTime max(_time) as lastTime values(name) as name values(status) as status values(Subject) as ssl_subject values(SubjectKeyIdentifier) as ssl_hash by Computer, EventCode, Requester, Attributes, RequestId| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| rex field=Attributes "(?i)CertificateTemplate:(?<object>[^\r\n]+)"| rex field=Attributes "(?i)ccm:(?<req_src>[^\r\n]+)"| rex max_match=10 field=Attributes "(?i)(upn=(?<req_user_1>[^\r\n&]+))"| rex max_match=10 field=Attributes "(?i)(dns=(?<req_dest_1>[^\r\n&]+))"| rex field=Requester "(.+\\\\)?(?<src_user>[^\r\n]+)"| eval flavor_text = case(EventCode=="4886","A suspicious certificate was requested using request ID: \\'RequestId\\',EventCode=="4887","A suspicious certificate was issued using request ID: \\'RequestId\\'.". To revoke this certifacte use this request ID or the SSL fingerprint [".\\'ssl_hash\\'."])",risk_score = case(EventCode=="4886",30,EventCode=="4887",60), user = upper(coalesce(req_user_1,req_user_2)), dest = upper(coalesce(req_dest_1,req_dest_2)), src = upper(coalesce(req_src,Computer))| fields - req_* | rename Attributes as object_attrs, EventCode as signature_id, name as signature, RequestId as ssl_serial, Requester as ssl_subject_common_name | `windows_steal_authentication_certificates_esc1_abuse_filter`
+  ``wineventlog_security` EventCode IN (4886,4887) Attributes="*SAN:*upn*" Attributes="*CertificateTemplate:*" | stats count min(_time) as firstTime max(_time) as lastTime values(name) as name values(status) as status values(Subject) as ssl_subject values(SubjectKeyIdentifier) as ssl_hash by Computer, EventCode, Requester, Attributes, RequestId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rex field=Attributes "(?i)CertificateTemplate:(?<object>[^\r\n]+)" | rex field=Attributes "(?i)ccm:(?<req_src>[^\r\n]+)" | rex max_match=10 field=Attributes "(?i)(upn=(?<req_user_1>[^\r\n&]+))" | rex max_match=10 field=Attributes "(?i)(dns=(?<req_dest_1>[^\r\n&]+))" | rex field=Requester "(.+\\\\)?(?<src_user>[^\r\n]+)" | eval flavor_text = case(EventCode=="4886","A suspicious certificate was requested using request ID: 'RequestId'. To revoke this certificate, use this request ID or the SSL fingerprint ['ssl_hash'].",EventCode=="4887",
+    "A suspicious certificate was issued using request ID: 'RequestId'. To revoke this certificate, use this request ID or the SSL fingerprint ['ssl_hash']."),risk_score = case(EventCode=="4886", 30,EventCode=="4887", 60),user = upper(coalesce(req_user_1, req_user_2)),dest = upper(coalesce(req_dest_1, req_dest_2)),src = upper(coalesce(req_src, Computer))| fields - req_* | rename Attributes as object_attrs, EventCode as signature_id, name as signature, RequestId as ssl_serial, Requester as ssl_subject_common_name, Computer as dest| table firstTime lastTime  src_user user dest src signature_id signature ssl_serial ssl_subject_common_name flavor_text | `windows_steal_authentication_certificates___esc1_abuse_filter`
 how_to_implement: >-
   To implement this analytic, enhanced Audit Logging must be enabled on AD CS and within Group Policy Management for CS server. See Page 115 of first reference. Recommend throttle correlation by RequestId/ssl_serial at minimum.
 known_false_positives: >-
@@ -34,20 +35,12 @@ tags:
       type: Hostname
       role:
         - Victim
-    - name: src_user
-      type: User Name
-      role:
-        - Victim
     - name: user
       type: User Name
       role:
         - Victim
-    - name: ssl_hash
-      type: Other
-      role:
-        - Attacker
-    - name: ssl_serial
-      type: Other
+    - name: src_user
+      type: User Name
       role:
         - Attacker
   product:
