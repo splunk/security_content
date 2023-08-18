@@ -24,7 +24,7 @@ data_source: []
 search: ' `azuread` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
   | rename properties.* as *
   | bucket span=5m _time
-  | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName)  as tried_accounts by _time, ipAddress
+  | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName) as userPrincipalName by _time, ipAddress
   | eventstats  avg(unique_accounts) as ip_avg, stdev(unique_accounts) as ip_std by ipAddress
   | eval  upperBound=(ip_avg+ip_std*3)
   | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1,0)
