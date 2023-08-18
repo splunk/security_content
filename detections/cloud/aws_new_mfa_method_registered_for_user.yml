@@ -34,7 +34,7 @@ tags:
   - T1556
   - T1556.006
   observable:
-  - name: user_name
+  - name: user_arn
     type: User
     role:
     - Victim
