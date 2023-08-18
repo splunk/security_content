@@ -2,7 +2,7 @@ name: Azure AD Multiple Failed MFA Requests For User
 id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
 version: 1
 date: '2022-08-25'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies multiple failed multi-factor authentication
@@ -18,13 +18,13 @@ description: The following analytic identifies multiple failed multi-factor auth
   this technique to bypass multi-factor authentication controls as reported by Mandiant
   and others.
 data_source: []
-search: ' `azuread` body.category=SignInLogs body.properties.status.errorCode=500121
-  | rename body.properties.* as * | bucket span=10m _time | stats dc(_raw) AS mfa_prompts
-  values(userPrincipalName) by userPrincipalName, status.additionalDetails, appDisplayName,
+search: ' `azuread` category=SignInLogs properties.status.errorCode=500121
+  | rename properties.* as * | bucket span=10m _time | stats dc(_raw) AS mfa_prompts
+  values(ipAddress) as ipAddress by userPrincipalName, status.additionalDetails, appDisplayName,
   userAgent, _time | where mfa_prompts > 10 | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
+  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
   Specifically, this analytic leverages the SignInLogs log category.
 known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
   or application issues. Filter as needed.
@@ -40,7 +40,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: Multiple Failed MFA requests for user $body.properties.userPrincipalName$
+  message: Multiple Failed MFA requests for user $userPrincipalName$
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -62,11 +62,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.status.errorCode
-  - body.category
-  - body.properties.authenticationDetails
-  - body.properties.userPrincipalName
-  - body.properties.ipAddress
+  - properties.status.errorCode
+  - category
+  - properties.authenticationDetails
+  - properties.userPrincipalName
+  - properties.ipAddress
   risk_score: 54
   security_domain: identity
 tests:

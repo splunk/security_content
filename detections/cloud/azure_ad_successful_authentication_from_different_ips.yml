@@ -14,11 +14,11 @@ description: The following analytic identifies an Azure AD account successfully 
 data_source: []
 search: ' `azuread` properties.authenticationDetails{}.succeeded=true category=SignInLogs
   | rename properties.* as * | bucket span=5m _time | stats  dc(ipAddress) AS unique_ips
-  values(ipAddress) values(appDisplayName) by _time, userPrincipalName | where unique_ips
+  values(ipAddress) as ipAddress values(appDisplayName) by _time, userPrincipalName | where unique_ips
   > 1 | `azure_ad_successful_authentication_from_different_ips_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
+  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
   Specifically, this analytic leverages the SignInLogs log category.
 known_false_positives: A user with successful authentication events from different
   Ips may also represent the legitimate use of more than one device. Filter as needed
