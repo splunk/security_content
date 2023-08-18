@@ -2,7 +2,7 @@ name: Azure AD Privileged Role Assigned
 id: a28f0bc3-3400-4a6e-a2da-89b9e95f0d2a
 version: 1
 date: '2022-08-29'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the assignment of sensitive and privileged
@@ -10,14 +10,14 @@ description: The following analytic identifies the assignment of sensitive and p
   may assign these roles to a compromised account to establish Persistence in an Azure
   AD environment.
 data_source: []
-search: ' `azuread` "body.operationName"="Add member to role" | rename body.properties.*  as * 
+search: ' `azuread` "operationName"="Add member to role" | rename properties.*  as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
   | rename initiatedBy.user.userPrincipalName as initiatedBy 
   | rename targetResources{}.modifiedProperties{}.newValue  as roles 
   | eval role=mvindex(roles,1) 
   | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
   | search isprvilegedadrole = True
-  | stats values(userPrincipalName) by _time, initiatedBy, result, body.operationName, role, description 
+  | stats values(userPrincipalName) as userPrincipalName by _time, initiatedBy, result, operationName, role, description 
   | `azure_ad_privileged_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -58,10 +58,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.targetResources{}.userPrincipalName
-  - body.properties.targetResources{}.type
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.result
+  - properties.targetResources{}.userPrincipalName
+  - properties.targetResources{}.type
+  - properties.initiatedBy.user.userPrincipalName
+  - properties.result
   risk_score: 63
   security_domain: audit
 tests:

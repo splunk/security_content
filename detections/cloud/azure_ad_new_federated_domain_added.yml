@@ -2,7 +2,7 @@ name: Azure AD New Federated Domain Added
 id: a87cd633-076d-4ab2-9047-977751a3c1a0
 version: 1
 date: '2022-09-02'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the addition of a new federated domain
@@ -19,10 +19,10 @@ description: The following analytic identifies the addition of a new federated d
   persistence and be able to authenticate to Azure AD impersonating any user and bypassing
   the requirement to have a valid password and/or perform MFA.
 data_source: []
-search: ' `azuread` body.operationName="Set domain authentication" "body.properties.result"=success
-  | rename body.properties.* as * | rename body.callerIpAddress as callerIpAddress
+search: ' `azuread` operationName="Set domain authentication" "properties.result"=success
+  | rename properties.* as * | rename callerIpAddress as callerIpAddress
   | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.displayName
-  as domain | stats values(domain) by _time, initiatedBy, result, body.operationName,
+  as domain | stats values(domain) by _time, initiatedBy, result, operationName,
   callerIpAddress | `azure_ad_new_federated_domain_added_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -57,11 +57,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.operationName
-  - body.properties.result
-  - body.callerIpAddress
-  - body.properties.targetResources{}.displayName
-  - body.properties.initiatedBy.user.userPrincipalName
+  - operationName
+  - properties.result
+  - callerIpAddress
+  - properties.targetResources{}.displayName
+  - properties.initiatedBy.user.userPrincipalName
   risk_score: 81
   security_domain: threat
 tests:

@@ -29,12 +29,12 @@ tags:
   asset_type: AWS Account
   confidence: 80
   impact: 80
-  message: A new virtual device $virtualMFADeviceName$ is added to user  $user_arn$
+  message: A new virtual device $virtualMFADeviceName$ is added to user $user_arn$
   mitre_attack_id:
   - T1556
   - T1556.006
   observable:
-  - name: user_name
+  - name: user_arn
     type: User
     role:
     - Victim
