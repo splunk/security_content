@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "76828347e693a60201c3b9342e6f493ee5253566",
+            "hash": "6c58fabb2330bc8e95deed79637e55071609c19c",
             "nodes": {
                 "0": {
                     "data": {
@@ -68,7 +68,7 @@
                     "type": "start",
                     "warnings": {},
                     "x": 19.999999999999986,
-                    "y": -3.197442310920451e-13
+                    "y": -3.836930773104541e-13
                 },
                 "1": {
                     "data": {
@@ -91,6 +91,8 @@
                         "advanced": {
                             "customName": "user name filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filter user name inputs to route inputs to appropriate actions.",
                             "join": [],
                             "note": "Filter user name inputs to route inputs to appropriate actions."
@@ -118,11 +120,7 @@
                     "errors": {},
                     "id": "2",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 60,
                     "y": 140
                 },
@@ -199,6 +197,8 @@
                         "advanced": {
                             "customName": "filter disable result",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "filter check if the user is disabled successfully.",
                             "join": [],
                             "note": "filter check if the user is disabled successfully."
@@ -257,10 +257,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-05-25T07:40:09.337037+00:00",
+    "create_time": "2023-08-17T18:47:08.503246+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -269,6 +269,7 @@
         "user",
         "azure_ad_graph",
         "disable_account",
-        "D3-AL"
+        "D3-AL",
+        "active_directory"
     ]
 }
