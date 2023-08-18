@@ -59,7 +59,7 @@ tags:
     type: IP Address
     role:
     - Attacker
-  - name: dest
+  - name: object
     type: Endpoint
     role:
     - Victim

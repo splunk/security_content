@@ -30,7 +30,7 @@ tags:
   mitre_attack_id:
     - T1189
   observable:
-    - name: User
+    - name: user
       type: User
       role:
         - Victim
