@@ -7,54 +7,11 @@
             "description": "Accepts user name that needs to be disabled in Active Directory. Generates a report and observable output based on the status of account locking or disabling.",
             "edges": [
                 {
-                    "id": "port_0_to_port_5",
-                    "sourceNode": "0",
-                    "sourcePort": "0_out",
-                    "targetNode": "5",
-                    "targetPort": "5_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_5_to_port_3",
-                    "sourceNode": "5",
-                    "sourcePort": "5_out",
-                    "targetNode": "3",
-                    "targetPort": "3_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 1
-                        }
-                    ],
-                    "id": "port_5_to_port_6",
-                    "sourceNode": "5",
-                    "sourcePort": "5_out",
-                    "targetNode": "6",
-                    "targetPort": "6_in"
-                },
-                {
                     "id": "port_3_to_port_7",
                     "sourceNode": "3",
                     "sourcePort": "3_out",
                     "targetNode": "7",
                     "targetPort": "7_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_7_to_port_8",
-                    "sourceNode": "7",
-                    "sourcePort": "7_out",
-                    "targetNode": "8",
-                    "targetPort": "8_in"
                 },
                 {
                     "conditions": [
@@ -95,9 +52,40 @@
                     "sourcePort": "12_out",
                     "targetNode": "1",
                     "targetPort": "1_in"
+                },
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_13_to_port_8",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_13",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
                 }
             ],
-            "hash": "cebfbea38189615536f82a870827b8ef1ede2890",
+            "hash": "3268ee70fd0ab575e5b7d055b3420d043f661155",
             "nodes": {
                 "0": {
                     "data": {
@@ -112,7 +100,7 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 360,
+                    "x": 160,
                     "y": -6.394884621840902e-14
                 },
                 "1": {
@@ -128,7 +116,7 @@
                     "id": "1",
                     "type": "end",
                     "warnings": {},
-                    "x": 19.999999999999986,
+                    "x": 300,
                     "y": 1414
                 },
                 "10": {
@@ -154,7 +142,7 @@
                     "type": "format",
                     "userCode": "\n    # Write your custom code here...\n    #phantom.debug(phantom.format(container=container, template=template, parameters=parameters, name=\"merge_report\"))\n",
                     "warnings": {},
-                    "x": 0,
+                    "x": 280,
                     "y": 880
                 },
                 "11": {
@@ -233,7 +221,7 @@
                     "id": "11",
                     "type": "utility",
                     "warnings": {},
-                    "x": 0,
+                    "x": 280,
                     "y": 1058
                 },
                 "12": {
@@ -352,8 +340,44 @@
                     "id": "12",
                     "type": "utility",
                     "warnings": {},
-                    "x": 0,
-                    "y": 1240
+                    "x": 280,
+                    "y": 1236
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "observable filter",
+                            "customNameId": 0,
+                            "description": "Filter to check if observable output is successfully generated or not.",
+                            "join": [],
+                            "note": "Filter to check if observable output is successfully generated or not."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "dispatch_account_disable:playbook_output:observable",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "observable_exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "observable_filter",
+                        "id": "13",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 499
                 },
                 "3": {
                     "data": {
@@ -384,7 +408,8 @@
                             },
                             "playbook_tags": {
                                 "datapaths": [
-                                    "disable_account"
+                                    "disable_account",
+                                    "active_directory"
                                 ],
                                 "deduplicate": false
                             }
@@ -400,136 +425,19 @@
                     "id": "3",
                     "type": "playbook",
                     "warnings": {},
-                    "x": 170,
-                    "y": 334.99999999999994
-                },
-                "5": {
-                    "data": {
-                        "advanced": {
-                            "customName": "username filter",
-                            "customNameId": 0,
-                            "description": "Filter user name inputs to route inputs to appropriate actions.",
-                            "join": [],
-                            "note": "Filter user name inputs to route inputs to appropriate actions."
-                        },
-                        "conditions": [
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "artifact:*.cef.act",
-                                        "value": ""
-                                    }
-                                ],
-                                "conditionIndex": 0,
-                                "customName": "username_exist",
-                                "display": "If",
-                                "logic": "and",
-                                "type": "if"
-                            },
-                            {
-                                "comparisons": [
-                                    {
-                                        "conditionIndex": 1,
-                                        "op": "==",
-                                        "param": "",
-                                        "value": ""
-                                    }
-                                ],
-                                "conditionIndex": 1,
-                                "customName": "username_not_exist",
-                                "display": "Else",
-                                "logic": "and",
-                                "type": "else"
-                            }
-                        ],
-                        "functionId": 1,
-                        "functionName": "username_filter",
-                        "id": "5",
-                        "type": "decision"
-                    },
-                    "errors": {},
-                    "id": "5",
-                    "type": "decision",
-                    "warnings": {},
-                    "x": 420,
-                    "y": 148
-                },
-                "6": {
-                    "data": {
-                        "advanced": {
-                            "customName": "artifacts check comment",
-                            "customNameId": 0,
-                            "description": "no valid username or user principal name artifacts input",
-                            "join": [],
-                            "note": "no valid username or user principal name artifacts input"
-                        },
-                        "functionId": 1,
-                        "functionName": "artifacts_check_comment",
-                        "id": "6",
-                        "selectMore": false,
-                        "tab": "apis",
-                        "type": "utility",
-                        "utilities": {
-                            "comment": {
-                                "description": "",
-                                "fields": [
-                                    {
-                                        "description": "",
-                                        "label": "comment",
-                                        "name": "comment",
-                                        "placeholder": "Enter a comment",
-                                        "renderType": "datapath",
-                                        "required": true
-                                    },
-                                    {
-                                        "hidden": true,
-                                        "name": "container",
-                                        "required": false
-                                    },
-                                    {
-                                        "hidden": true,
-                                        "name": "author",
-                                        "required": false
-                                    },
-                                    {
-                                        "hidden": true,
-                                        "name": "trace",
-                                        "required": false
-                                    }
-                                ],
-                                "label": "add comment",
-                                "name": "comment"
-                            }
-                        },
-                        "utilityType": "api",
-                        "values": {
-                            "comment": {
-                                "_internal": [
-                                    "container",
-                                    "author",
-                                    "trace"
-                                ],
-                                "comment": "no valid username or user principal name artifacts input"
-                            }
-                        }
-                    },
-                    "errors": {},
-                    "id": "6",
-                    "type": "utility",
-                    "warnings": {},
-                    "x": 510,
-                    "y": 328
+                    "x": 140,
+                    "y": 147.99999999999997
                 },
                 "7": {
                     "data": {
                         "advanced": {
-                            "customName": "observable output filter",
+                            "customName": "observable output decision",
                             "customNameId": 0,
-                            "description": "Filter to check if observable output is successfully generated or not.",
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
+                            "description": "decision to check if observable output is successfully generated or not.",
                             "join": [],
-                            "note": "Filter to check if observable output is successfully generated or not."
+                            "note": "decision to check if observable output is successfully generated or not."
                         },
                         "conditions": [
                             {
@@ -564,7 +472,7 @@
                             }
                         ],
                         "functionId": 2,
-                        "functionName": "observable_output_filter",
+                        "functionName": "observable_output_decision",
                         "id": "7",
                         "type": "decision"
                     },
@@ -572,8 +480,8 @@
                     "id": "7",
                     "type": "decision",
                     "warnings": {},
-                    "x": 250,
-                    "y": 506
+                    "x": 220,
+                    "y": 312
                 },
                 "8": {
                     "data": {
@@ -588,7 +496,7 @@
                         "functionName": "normalized_observable_filter",
                         "id": "8",
                         "inputParameters": [
-                            "dispatch_account_disable:playbook_output:observable"
+                            "filtered-data:observable_filter:condition_1:dispatch_account_disable:playbook_output:observable"
                         ],
                         "outputVariables": [
                             "observable_value",
@@ -600,10 +508,10 @@
                     "errors": {},
                     "id": "8",
                     "type": "code",
-                    "userCode": "\n    # Write your custom code here...\n    normalized_observable_filter__observable_message = []\n    normalized_observable_filter__observable_value = []\n    normalized_observable_filter__observable_merge_report = []\n    fmt_output = \"\"\n    output_observable_values =  [(i or \"\") for i in dispatch_account_disable_output_observable_values]\n    \n    #phantom.debug(\"output_observable_values: {}\".format(output_observable_values))\n    for observable_item in output_observable_values:\n        if observable_item['status'] == \"success\":\n            user_name = observable_item['value'].split(\"@\")[0]\n            normalized_observable_filter__observable_value.append(user_name)\n            fmt_output += \"{} | {} | {} | {} | \\n\".format(observable_item['value'], observable_item['type'], observable_item['message'], observable_item['status'])\n            normalized_observable_filter__observable_merge_report.append(fmt_output)\n    normalized_observable_filter__observable_value = normalized_observable_filter__observable_value[0]\n    normalized_observable_filter__observable_type = \"Disable Account\"\n    #phantom.debug(normalized_observable_filter__observable_merge_report)\n",
+                    "userCode": "\n    # Write your custom code here...\n    normalized_observable_filter__observable_message = []\n    normalized_observable_filter__observable_value = []\n    normalized_observable_filter__observable_merge_report = []\n    fmt_output = \"\"\n    output_observable_values =  [(i or \"\") for i in filtered_output_0_dispatch_account_disable_output_observable_values]\n    \n    #phantom.debug(\"output_observable_values: {}\".format(output_observable_values))\n    for observable_item in output_observable_values:\n        if observable_item['status'] == \"success\":\n            user_name = observable_item['value'].split(\"@\")[0]\n            normalized_observable_filter__observable_value.append(user_name)\n            fmt_output += \"{} | {} | {} | {} | \\n\".format(observable_item['value'], observable_item['type'], observable_item['message'], observable_item['status'])\n            normalized_observable_filter__observable_merge_report.append(fmt_output)\n    normalized_observable_filter__observable_value = normalized_observable_filter__observable_value[0]\n    normalized_observable_filter__observable_type = \"Disable Account\"\n    #phantom.debug(normalized_observable_filter__observable_merge_report)\n",
                     "warnings": {},
-                    "x": 0,
-                    "y": 680
+                    "x": 280,
+                    "y": 686
                 },
                 "9": {
                     "data": {
@@ -660,7 +568,7 @@
                                     "author",
                                     "trace"
                                 ],
-                                "comment": "observable output of input playbooks not exits."
+                                "comment": "Observable output of input playbooks does not exist."
                             }
                         }
                     },
@@ -668,8 +576,8 @@
                     "id": "9",
                     "type": "utility",
                     "warnings": {},
-                    "x": 340,
-                    "y": 686
+                    "x": 0,
+                    "y": 492
                 }
             },
             "notes": "Inputs: users\nActions: Account Locking/Disabling\nOutputs: reports, observables"
@@ -678,10 +586,10 @@
         "output_spec": null,
         "playbook_type": "automation",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-05-22T11:02:19.665263+00:00",
+    "create_time": "2023-08-17T18:44:17.675610+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -692,6 +600,6 @@
         "disable_account",
         "azure_ad_graph",
         "microsoft_ad_ldap",
-        "aws_iam"
+        "active_directory"
     ]
 }

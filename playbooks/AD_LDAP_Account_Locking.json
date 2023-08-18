@@ -52,7 +52,7 @@
                     "targetPort": "4_in"
                 }
             ],
-            "hash": "e2151613eb48da444660dc3d67d4f817f1f0dc67",
+            "hash": "732595dc155a58ef5d12b3104904aa7b3237d745",
             "nodes": {
                 "0": {
                     "data": {
@@ -67,8 +67,8 @@
                     "id": "0",
                     "type": "start",
                     "warnings": {},
-                    "x": 20,
-                    "y": 0
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
                 },
                 "1": {
                     "data": {
@@ -91,6 +91,8 @@
                         "advanced": {
                             "customName": "username filter",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "Filter user name inputs to route inputs to appropriate actions.",
                             "join": [],
                             "note": "Filter user name inputs to route inputs to appropriate actions."
@@ -118,11 +120,7 @@
                     "errors": {},
                     "id": "2",
                     "type": "filter",
-                    "warnings": {
-                        "config": [
-                            "Reconfigure invalid datapath."
-                        ]
-                    },
+                    "warnings": {},
                     "x": 60,
                     "y": 140
                 },
@@ -205,6 +203,8 @@
                         "advanced": {
                             "customName": "filter disable account",
                             "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
                             "description": "filter check if the user is disabled successfully.",
                             "join": [],
                             "note": "filter check if the user is disabled successfully."
@@ -262,10 +262,10 @@
         ],
         "playbook_type": "data",
         "python_version": "3",
-        "schema": "5.0.9",
-        "version": "6.0.0.114895"
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
     },
-    "create_time": "2023-05-25T08:14:08.217934+00:00",
+    "create_time": "2023-08-17T18:46:35.895213+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -274,6 +274,7 @@
         "user",
         "microsoft_ad_ldap",
         "disable_account",
-        "D3-AL"
+        "D3-AL",
+        "active_directory"
     ]
 }

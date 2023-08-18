@@ -31,7 +31,8 @@ def username_filter(action=None, success=None, container=None, results=None, han
         conditions=[
             ["playbook_input:user", "!=", ""]
         ],
-        name="username_filter:condition_1")
+        name="username_filter:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
@@ -136,7 +137,8 @@ def filter_disable_account(action=None, success=None, container=None, results=No
         conditions=[
             ["disable_user_account:action_result.status", "==", "success"]
         ],
-        name="filter_disable_account:condition_1")
+        name="filter_disable_account:condition_1",
+        delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
