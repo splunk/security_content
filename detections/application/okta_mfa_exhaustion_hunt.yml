@@ -39,11 +39,11 @@ tags:
   asset_type: Infrastructure
   confidence: 60
   impact: 30
-  message: $src_user$ account has rejected multiple Okta pushes.
+  message: $user$ account has rejected multiple Okta pushes.
   mitre_attack_id:
   - T1110
   observable:
-  - name: src_user
+  - name: user
     type: User
     role:
     - Attacker
@@ -53,7 +53,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - src_user
+  - user
   - src_ip
   - eventType
   - status
