@@ -11,7 +11,7 @@ description: The following analytic identifies the registration of a new Multi F
 data_source: []
 search: ' `azuread` category=AuditLogs operationName="User registered security info"
   properties.operationType=Add | rename properties.* as * | rename targetResources{}.*
-  as * | stats  values(userPrincipalName) by _time, resultDescription, result, callerIpAddress
+  as * | stats  values(userPrincipalName) as userPrincipalName by _time, resultDescription, result, callerIpAddress
   | `azure_ad_new_mfa_method_registered_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).

@@ -22,7 +22,7 @@ search: ' `azuread` operationName="Add owner to application"
   | rename targetResources{}.modifiedProperties{}.newValue as displayName
   | eval displayName = mvindex(displayName,1) 
   | where initiatedBy!=newOwner
-  | stats values(displayName) by _time, initiatedBy, result, operationName, newOwner
+  | stats values(displayName) as displayName by _time, initiatedBy, result, operationName, newOwner
   | `azure_ad_service_principal_owner_added_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).

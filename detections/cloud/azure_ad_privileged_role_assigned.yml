@@ -17,7 +17,7 @@ search: ' `azuread` "operationName"="Add member to role" | rename properties.*  
   | eval role=mvindex(roles,1) 
   | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
   | search isprvilegedadrole = True
-  | stats values(userPrincipalName) by _time, initiatedBy, result, operationName, role, description 
+  | stats values(userPrincipalName) as userPrincipalName by _time, initiatedBy, result, operationName, role, description 
   | `azure_ad_privileged_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).

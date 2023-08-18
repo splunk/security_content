@@ -24,7 +24,7 @@ search: ' `azuread` operationName="Update user" properties.targetResources{}.mod
   | rename properties.* as * | rename targetResources{}.userPrincipalName as
   userPrincipalName | rename initiatedBy.user.userPrincipalName as initiatedBy | rename
   callerIpAddress as callerIpAddress | rename targetResources{}.modifiedProperties{}.newValue
-  as modifiedProperties | stats values(userPrincipalName) values(modifiedProperties)
+  as modifiedProperties | stats values(userPrincipalName) as userPrincipalName values(modifiedProperties)
   by _time, initiatedBy, callerIpAddress, result, operationName | `azure_ad_user_immutableid_attribute_updated_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).

@@ -19,7 +19,7 @@ search: '`azuread` operationName="Add service principal" properties.initiatedBy.
   | rename targetResources{}.displayName as displayName
   | rename initiatedBy.user.userPrincipalName as initiatedBy
   | rename targetResources{}.type as type
-  | stats values(displayName) by _time, type, initiatedBy, result, operationName
+  | stats values(displayName) as displayName by _time, type, initiatedBy, result, operationName
   | `azure_ad_service_principal_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).

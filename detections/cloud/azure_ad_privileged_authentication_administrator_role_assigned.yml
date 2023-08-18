@@ -14,7 +14,7 @@ search: ' `azuread` "operationName"="Add member to role"  "properties.targetReso
   | rename properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName 
   | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | stats values(userPrincipalName) by _time, initiatedBy, result, operationName
+  | stats values(userPrincipalName) as userPrincipalName by _time, initiatedBy, result, operationName
   | `azure_ad_privileged_authentication_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
