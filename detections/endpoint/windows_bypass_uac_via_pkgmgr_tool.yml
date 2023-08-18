@@ -37,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: a pkgmgr.exe executed with package manager xml input file in $dest$
+  message: A pkgmgr.exe executed with package manager xml input file in $dest$
   mitre_attack_id:
   - T1548.002
   observable:
@@ -52,7 +52,6 @@ tags:
   - name: file_name
     type: File Name
     role:
-    - Other
     - Attacker
   product:
   - Splunk Enterprise
