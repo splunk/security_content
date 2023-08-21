@@ -67,3 +67,9 @@ tests:
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
+- name: True Positive Test 2
+  attack_data:
+  - data: data/runshellscript.txt
+    source: audittrail
+    sourcetype: audittrail
+    custom_index: _audit

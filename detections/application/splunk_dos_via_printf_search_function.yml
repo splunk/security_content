@@ -7,7 +7,7 @@ status: production
 type: Hunting
 data_source: []
 description: This hunting search provides information on detecting a vulnerability In Splunk Enterprise versions lower than 8.2.12, 9.0.6, and 9.1.1, an attacker can use the printf SPL function to perform a denial of service against the Splunk Enterprise instance.
-search: '| `audit_searches` sourcetype=audittrail search=*printf* search="| makeresults
+search: '`audit_searches` sourcetype=audittrail search=*printf* search="| makeresults
   count=* | eval x=\"q\" | fieldformat x=printf(\"x %.1000000000000A\",1)" | stats count by user splunk_server host search | `splunk_dos_via_printf_search_function_filter`'
 how_to_implement: This search requires the ability to search internal indexes. 
 known_false_positives: This search may produces false positives, analyst most focuse in the use of printf conversion function of eval to craft an expression that splunkd cannot interpret correctly causing it to crash. 

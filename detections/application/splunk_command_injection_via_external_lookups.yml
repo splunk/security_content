@@ -1,4 +1,4 @@
-name: Splunk Command Injection via external lookups
+name: Splunk Interactive Use of runshellscript Command
 id: 854e39a9-1c7d-4129-b189-ff6335d80c3c
 version: 1
 date: '2023-08-21'
@@ -7,7 +7,7 @@ status: production
 type: Hunting
 data_source: []
 description: This hunting search provides data on finding exploit attempts in Splunk Enterprise versions below 8.2.12, 9.0.6, and 9.1.1, an attacker can create an external lookup that calls a legacy internal function. The attacker can use this internal function to insert code into the Splunk platform installation directory. From there, a user can execute arbitrary code on the Splunk platform Instance.
-search: '| `splunkd_ui` method=POST uri_path="/en-US/splunkd/__raw/servicesNS/*/search/configs*" | stats count by host method uri_path clientip | `splunk_command_injection_via_external_lookups_filter`'
+search: '`audit_searches` search = "| *runshellscript* \"\""    | stats count by search user splunk_server | `splunk_interactive_use_of_runshellscript_command`'
 how_to_implement: This search requires web enabled interface and ability to search internal indexes. 
 known_false_positives: ???
 references:
@@ -40,7 +40,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: data/SPL-230071.txt
-    source: splunkd_ui_access.log
-    sourcetype: splunkd_ui_access
-    custom_index: _internal
+  - data: data/runshellscript.txt
+    source: audittrail
+    sourcetype: audittrail
+    custom_index: _audit
