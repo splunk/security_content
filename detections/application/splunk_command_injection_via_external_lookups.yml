@@ -7,7 +7,7 @@ status: production
 type: Hunting
 data_source: []
 description: This hunting search provides data on finding exploit attempts in Splunk Enterprise versions below 8.2.12, 9.0.6, and 9.1.1, an attacker can create an external lookup that calls a legacy internal function. The attacker can use this internal function to insert code into the Splunk platform installation directory. From there, a user can execute arbitrary code on the Splunk platform Instance.
-search: '`audit_searches` search = "| *runshellscript* \"\""    | stats count by search user splunk_server | `splunk_interactive_use_of_runshellscript_command`'
+search: '`audit_searches` search = "| *runshellscript* \"\""    | stats count by search user splunk_server | `splunk_interactive_use_of_runshellscript_command_filter`'
 how_to_implement: This search requires web enabled interface and ability to search internal indexes. 
 known_false_positives: ???
 references:
@@ -18,7 +18,7 @@ tags:
   asset_type: endpoint
   confidence: 50
   impact: 50
-  message: Possible command injection attack against $host$
+  message: Possible command injection attack by $user$ against $splunk_server$
   mitre_attack_id:
   - T1202
   observable:
@@ -26,6 +26,10 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: user
+    type: User Name
+    role:
+      - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
