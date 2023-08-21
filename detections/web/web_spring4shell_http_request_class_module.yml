@@ -11,7 +11,7 @@ description: The following analytic identifies the payload related to Spring4She
   commonality with the payloads being passed used the same fields "class.module.classLoader.resources.context.parent.pipeline.first".
 data_source: []
 search: '`stream_http` http_method IN ("POST") | stats values(form_data) as http_request_body
-  min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent
+  min(_time) as firstTime max(_time) as lastTime count by src dest http_method http_user_agent
   uri_path url bytes_in bytes_out | search http_request_body IN ("*class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat=_*",
   "*class.module.classLoader.resources.context.parent.pipeline.first.pattern*","*suffix=.jsp*")
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `web_spring4shell_http_request_class_module_filter`'

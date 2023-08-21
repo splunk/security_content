@@ -9,7 +9,7 @@ data_source:
 - Powershell 4104
 description: The following analytic detects the use of the PowerShell script block logging mechanism to detect the use of the Win32_ScheduledJob WMI class. This class allows the creation and management of scheduled tasks on Windows systems. However, due to security concerns, the class has been disabled by default in Windows systems, and its use must be explicitly enabled by modifying the registry. As a result, the detection of the use of this class may indicate malicious activity, especially if the class was enabled on the system by the attacker. Therefore, it is recommended to monitor the use of Win32_ScheduledJob through PowerShell script block logging and to investigate any suspicious activity. 
 search: '`powershell` EventCode=4104 ScriptBlockText="*win32_scheduledjob*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_powershell_wmi_win32_scheduledjob_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
