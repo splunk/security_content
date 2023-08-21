@@ -13,7 +13,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` Processes.process IN ("*\\appdata\\*", "*\\programdata\\*","*\\windows\\temp\\*") NOT (Processes.process IN ("*.dll*", "*.ax*", "*.ocx*"))
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.original_file_name
+  by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.original_file_name
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `suspicious_regsvr32_register_suspicious_path_filter`'
 how_to_implement: You must be ingesting endpoint data that tracks process activity,

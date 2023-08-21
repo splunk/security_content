@@ -13,7 +13,7 @@ data_source:
 search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe"
   NOT(Image IN("*\\windows\\*", "*\\program files*")) | stats count min(_time) as
   firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode
-  Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Signed ProcessId user | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `uac_bypass_with_colorui_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -39,7 +39,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
