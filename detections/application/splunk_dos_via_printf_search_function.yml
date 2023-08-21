@@ -1,0 +1,47 @@
+name: Splunk DOS via printf search function
+id: 78b48d08-075c-4eac-bd07-e364c3780867
+version: 1
+date: '2023-08-21'
+author: Rod Soto
+status: production
+type: Hunting
+data_source: []
+description: This hunting search provides information on detecting a vulnerability In Splunk Enterprise versions lower than 8.2.12, 9.0.6, and 9.1.1, an attacker can use the printf SPL function to perform a denial of service against the Splunk Enterprise instance.
+search: '| `audit_searches` sourcetype=audittrail search=*printf* search="| makeresults
+  count=* | eval x=\"q\" | fieldformat x=printf(\"x %.1000000000000A\",1)" | stats count by user splunk_server host search | `splunk_dos_via_printf_search_function_filter`'
+how_to_implement: This search requires the ability to search internal indexes. 
+known_false_positives: This search may produces false positives, analyst most focuse in the use of printf conversion function of eval to craft an expression that splunkd cannot interpret correctly causing it to crash. 
+references:
+- https://advisory.splunk.com/
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: endpoint
+  confidence: 100
+  impact: 100
+  message: Possible denial of service attack against $host$
+  mitre_attack_id:
+  - T0814
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 100
+  required_fields:
+  - user 
+  - splunk_server
+  - host
+  - search 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: data/SPL-235294.txt
+    source: audittrail
+    sourcetype: audittrail
+    custom_index: _audit
