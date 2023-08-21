@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime FROM datamodel=Endpoint.Processes where `process_installutil` NOT (Processes.process_path
   IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",
   "*\\Windows\\SystemApps\\*", "*\\WinSxS\\*", "*\\Windows\\Microsoft.NET\\*")) by
-  Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process
   Processes.original_file_name Processes.process_id Processes.parent_process_id Processes.process_hash
   | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_installutil_in_non_standard_path_filter`'
