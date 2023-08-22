@@ -469,6 +469,7 @@
                             "customName": "combine reports",
                             "customNameId": 0,
                             "description": "Combines reports from success path and error path.",
+                            "drop_none": true,
                             "join": [],
                             "note": "Combines reports from success path and error path."
                         },
@@ -529,7 +530,7 @@
         "schema": "5.0.10",
         "version": "6.1.0.131"
     },
-    "create_time": "2023-08-09T23:38:55.771523+00:00",
+    "create_time": "2023-08-22T22:24:26.619154+00:00",
     "draft_mode": false,
     "labels": [
         "*"

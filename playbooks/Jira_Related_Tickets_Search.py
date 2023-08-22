@@ -596,7 +596,7 @@ def combine_reports(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.format(container=container, template=template, parameters=parameters, name="combine_reports")
+    phantom.format(container=container, template=template, parameters=parameters, name="combine_reports", drop_none=True)
 
     return
 
