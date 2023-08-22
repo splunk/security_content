@@ -10,7 +10,7 @@ how_to_implement: This input playbook requires the Virustotal V3 API connector t
   It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
 references: []
 app_list: 
-  - virustotal v3
+  - VirusTotal v3
 tags:
   platform_tags:
     - url

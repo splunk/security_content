@@ -11,7 +11,7 @@ references: []
 app_list:
 - "Splunk"
 - "Reversing Labs"
-- "CarbonBlack Response"
+- "Carbon Black Response"
 - "Threat Grid"
 - "Falcon Host API"
 tags:

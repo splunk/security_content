@@ -6,11 +6,10 @@ author: Kelby Shelton, Splunk
 type: Investigation
 description: This playbook collects the available Indicator data types within the event as well as available investigative playbooks. It will launch any playbooks that meet the filtered criteria.
 playbook: risk_notable_enrich
-how_to_implement: tbd
+how_to_implement: For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Call_child_playbooks_with_the_dynamic_playbook_system
-app_list: 
-  - "None"
+app_list: []
 tags:
   labels:
   - risk_notable

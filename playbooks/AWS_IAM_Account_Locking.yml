@@ -10,7 +10,7 @@ how_to_implement: This input playbook requires the AWS IAM connector to be confi
   It is designed to work in conjunction with the Dynamic Attribute Lookup playbook or other playbooks in the same style. 
 references: []
 app_list: 
-  - AWS IAM API
+  - AWS IAM
 tags:
   platform_tags:
     - user
