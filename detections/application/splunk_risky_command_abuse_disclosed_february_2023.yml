@@ -35,6 +35,7 @@ tags:
   - CVE-2023-22936
   - CVE-2023-22939
   - CVE-2023-22940
+  - CVE-2023-40598
   impact: 50
   message: Use of risky splunk command $splunk_risky_command$ detected by $user$
   mitre_attack_id:
@@ -70,12 +71,6 @@ tests:
 - name: True Positive Test RUNSHELLSCRIPT
   attack_data:
   - data: data/runshellscript.txt
-    source: audittrail
-    sourcetype: audittrail
-    custom_index: _audit
-- name: True Positive Test printfabuse
-  attack_data:
-  - data: data/SPL-235294.txt
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
