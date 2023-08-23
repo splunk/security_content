@@ -262,7 +262,11 @@ def build_output(action=None, success=None, container=None, results=None, handle
             ticket['description'] = json.dumps(value['description'])  # eliminate new line issues
             ticket['create_time'] = value['fields'].get('created')
             ticket['updated_time'] = value['fields'].get('updated')
-            ticket['assignee'] = value['fields'].get('assignee', {}).get('displayName', '')
+            asignee_dict = value['fields'].get('assignee')
+            if asignee_dict is not None:
+                ticket['assignee'] = asignee_dict.get('displayName', '')
+            else:
+                ticket['assignee'] = ''
             ticket['reporter'] = value.get('reporter')
             ticket['status'] = value.get('status')
             ticket['ticket_type'] = value.get('issue_type')
@@ -280,7 +284,20 @@ def build_output(action=None, success=None, container=None, results=None, handle
             # Construct observable object
             observable_object = {
                 "value": key,
-                "ticket": ticket,
+                "ticket": {
+                    'name': markdown_escape(ticket['summary']),
+                    'number': markdown_escape(ticket['name']),
+                    'message': markdown_escape(ticket['description']),
+                    'start_time': markdown_escape(ticket['create_time']),
+                    'updated_time': markdown_escape(ticket['updated_time']),
+                    'end_time': '',
+                    'assignee': markdown_escape(ticket['assignee']),
+                    'creator_name': markdown_escape(ticket['reporter']),
+                    'state': markdown_escape(ticket['status']),
+                    'ticket_type': markdown_escape(ticket['ticket_type']),
+                    'priority': markdown_escape(ticket['priority']),
+                    'resolution': markdown_escape(ticket['resolution']),
+                },
                 "matched_fields": value['matched_fields'],
                 "source": ticket['source'],
                 "source_link": ticket['source_link']
