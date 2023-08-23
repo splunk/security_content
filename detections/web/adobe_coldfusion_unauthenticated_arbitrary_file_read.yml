@@ -37,7 +37,7 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 90
-  message: Possible expliotation of CVE-2023-26360 against $dest$. 
+  message: Possible exploitation of CVE-2023-26360 against $dest$. 
   mitre_attack_id:
   - T1190
   observable:
