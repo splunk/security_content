@@ -5,13 +5,9 @@ date: '2023-02-14'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
-description: In February 2023, Splunk disclosed several vulnerabilities affecting
-  Splunk Enterprise commands deemed risky. The following hunting search includes the
-  following commands and versions. Command 'createrss' (versions 8.1.13, 8.2.10),
-  pivot (8.1.13,8.2.10,9.0.4), display.page.search.patterns.sensitivity(versions below
-  8.1.13,8.2.10,9.0.4), search_listener, map, collect (8.1.13,8.2.10,9.0.4). For more
-  information please review Splunk Vulnerabilities Disclosure, February 2023. Link
-  can be found in reference.
+description: This search looks for a variety of high-risk commands throughout
+  a number of different Splunk Vulnerability Disclosures.  Please refer to the
+  following URL for additional information on these disclosures - https://advisory.splunk.com
 data_source: []
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity
   where Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
