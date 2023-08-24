@@ -22,6 +22,8 @@ references:
 tags:
   analytic_story:
   - Ivanti Sentry Authentication Bypass CVE-2023-38035
+  cve:
+  - CVE-2023-38035
   asset_type: Network
   atomic_guid: []
   confidence: 50
