@@ -56,4 +56,3 @@ tags:
   - Processes.original_file_name
   - Processes.parent_process_id
   security_domain: endpoint
-tests: []
