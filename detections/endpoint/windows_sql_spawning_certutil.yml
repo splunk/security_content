@@ -3,7 +3,7 @@ id: dfc18a5a-946e-44ee-a373-c0f60d06e676
 version: 1
 date: '2023-08-25'
 author: Michael Haag, Splunk
-status: Experimental
+status: experimental
 type: TTP
 data_source:
 - Sysmon Event ID 1
