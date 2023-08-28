@@ -31,6 +31,7 @@ tags:
   - Data Destruction
   - Hermetic Wiper
   - Windows Privilege Escalation
+  - Flax Typhoon
   asset_type: Endpoint
   confidence: 90
   impact: 80
