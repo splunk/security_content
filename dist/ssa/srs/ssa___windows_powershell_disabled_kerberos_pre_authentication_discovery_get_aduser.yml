@@ -1,6 +1,7 @@
 name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery Get-ADUser
 id: d57b4d91-fc91-4482-a325-47693cced1eb
 version: 1
+status: production
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-ADUser` commandlet with specific parameters.
   `Get-ADUser` is part of the Active Directory PowerShell module used to manage Windows
