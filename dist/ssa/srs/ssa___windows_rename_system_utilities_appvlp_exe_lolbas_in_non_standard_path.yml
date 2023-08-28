@@ -1,6 +1,7 @@
 name: Windows Rename System Utilities Appvlp exe LOLBAS in Non Standard Path
 id: 93862a89-abe0-4094-909a-08ec390aa5e3
 version: 1
+status: production
 description: The following analytic identifies Appvlp.exe which is a native living
   off the land binary or script (LOLBAS) within the Windows operating system that
   may be abused by adversaries by moving it to a new directory. The list of binaries
