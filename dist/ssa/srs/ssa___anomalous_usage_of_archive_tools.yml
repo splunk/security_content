@@ -1,6 +1,7 @@
 name: Anomalous usage of Archive Tools
 id: 63614a58-10e2-4c6c-ae81-ea1113681439
 version: 1
+status: production
 description: The following detection identifies the usage of archive tools from the
   command line.
 search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
