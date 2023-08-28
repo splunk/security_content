@@ -1,6 +1,7 @@
 name: Windows Default Group Policy Object Modified with GPME
 id: bcb55c13-067b-4648-98f3-627010f72520
 version: 1
+status: production
 description: The following analytic identifies the potential edition of a default
   Group Policy Object. A fresh installation of an Active Directory network will typically
   contain two default group policy objects `Default Domain Controllers Policy` and
