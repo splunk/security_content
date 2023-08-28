@@ -1,6 +1,7 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 version: 4
+status: production
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
