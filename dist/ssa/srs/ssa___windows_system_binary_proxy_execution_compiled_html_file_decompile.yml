@@ -1,6 +1,7 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Decompile
 id: 11c32b19-05a6-48a8-ab28-18dbd9ec5d50
 version: 1
+status: production
 description: The following analytic identifies the decompile parameter with the HTML
   Help application, HH.exe. This is a uncommon command to see ran and behavior. Most
   recently this was seen in a APT41 campaign where a CHM file was delivered and a

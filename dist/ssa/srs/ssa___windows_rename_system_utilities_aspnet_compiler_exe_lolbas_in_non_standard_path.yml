@@ -1,6 +1,7 @@
 name: Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard Path
 id: d75cc561-3828-4d0a-92c4-0eb93bfe0929
 version: 1
+status: production
 description: The following analytic identifies Aspnet_Compiler.exe which is a native
   living off the land binary or script (LOLBAS) within the Windows operating system
   that may be abused by adversaries by moving it to a new directory. The list of binaries
