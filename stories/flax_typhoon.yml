@@ -1,0 +1,18 @@
+name: Flax Typhoon
+id: 78fadce9-a07f-4508-8d14-9b20052a62cc
+version: 1
+date: '2023-08-25'
+author: Michael Haag, Splunk
+description: Microsoft has identified a nation-state activity group, Flax Typhoon, based in China, targeting Taiwanese organizations for espionage. The group maintains long-term access to networks with minimal use of malware, relying on built-in OS tools and benign software. The group's activities are primarily focused on Taiwan, but the techniques used could be easily reused in other operations outside the region. Microsoft has not observed Flax Typhoon using this access to conduct additional actions.
+narrative: Flax Typhoon has been active since mid-2021, targeting government agencies, education, critical manufacturing, and IT organizations in Taiwan. The group uses the China Chopper web shell, Metasploit, Juicy Potato privilege escalation tool, Mimikatz, and SoftEther VPN client. However, they primarily rely on living-off-the-land techniques and hands-on-keyboard activity. Initial access is achieved by exploiting known vulnerabilities in public-facing servers and deploying web shells. Following initial access, Flax Typhoon uses command-line tools to establish persistent access over the remote desktop protocol, deploy a VPN connection to actor-controlled network infrastructure, and collect credentials from compromised systems. The group also uses this VPN access to scan for vulnerabilities on targeted systems and organizations from the compromised systems.
+references: 
+- https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/
+tags:
+  analytic_story: Flax Typhoon
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
