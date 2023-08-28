@@ -1,6 +1,7 @@
 name: Windows Rename System Utilities Atbroker exe LOLBAS in Non Standard Path
 id: b8da7ea5-8c16-4eff-9787-54ec271159e0
 version: 1
+status: production
 description: The following analytic identifies Atbroker.exe which is a native living
   off the land binary or script (LOLBAS) within the Windows operating system that
   may be abused by adversaries by moving it to a new directory. The list of binaries
