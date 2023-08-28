@@ -1,6 +1,7 @@
 name: Windows System Binary Proxy Execution MSIExec Unregister DLL
 id: df76a8d1-92e1-4ec9-b8f7-695b5838703e
 version: 1
+status: production
 description: The following analytic identifies the usage of msiexec.exe using the
   /z switch parameter, which grants the ability for msiexec to unload DLLRegisterServer.
   Upon triage, review parent process and capture any artifacts for further review.
