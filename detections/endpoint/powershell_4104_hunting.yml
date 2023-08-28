@@ -59,6 +59,7 @@ tags:
   - Malicious PowerShell
   - Hermetic Wiper
   - Data Destruction
+  - Flax Typhoon
   asset_type: Endpoint
   confidence: 100
   impact: 80

@@ -38,6 +38,7 @@ tags:
   - CISA AA22-320A
   - Sandworm Tools
   - Volt Typhoon
+  - Flax Typhoon
   asset_type: Endpoint
   confidence: 100
   impact: 100
