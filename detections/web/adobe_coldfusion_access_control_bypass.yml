@@ -1,0 +1,64 @@
+name: Adobe ColdFusion Access Control Bypass
+id: d6821c0b-fcdc-4c95-a77f-e10752fae41a
+version: 1
+date: '2023-08-23'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic detects potential exploitation attempts against Adobe ColdFusion vulnerabilities CVE-2023-29298 and CVE-2023-26360. These vulnerabilities pertain to an access control bypass and an arbitrary file read due to deserialization, respectively. By monitoring for requests to specific ColdFusion Administrator endpoints, especially those with an unexpected additional forward slash, the analytic identifies attempts to bypass access controls. Such behavior is crucial for a Security Operations Center (SOC) to identify, as exploitation can grant unauthorized access to ColdFusion administration endpoints, potentially leading to information leakage, brute force attacks, or further exploitation of other vulnerabilities. If a true positive is detected, it indicates a serious security breach where an attacker might have gained privileged access to the ColdFusion environment, potentially leading to data theft or other malicious activities. SOCs must be vigilant in monitoring for these patterns, ensuring timely detection and response to such threats, thus safeguarding the integrity and security of their ColdFusion deployments.
+search: '| tstats count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.url IN ("//restplay*", "//CFIDE/restplay*", "//CFIDE/administrator*", "//CFIDE/adminapi*", "//CFIDE/main*", "//CFIDE/componentutils*", "//CFIDE/wizards*", "//CFIDE/servermanager*","/restplay*", "/CFIDE/restplay*", "/CFIDE/administrator*", "/CFIDE/adminapi*", "/CFIDE/main*", "/CFIDE/componentutils*", "/CFIDE/wizards*", "/CFIDE/servermanager*") Web.status=200
+  by Web.http_user_agent, Web.status, Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `adobe_coldfusion_access_control_bypass_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk
+  for Palo Alto.
+known_false_positives: This analytic is limited to HTTP Status 200; adjust as necessary. False positives may occur if the URI path is IP-restricted or externally blocked. It's recommended to review the context of the alerts and adjust the analytic parameters to better fit the specific environment.
+references:
+- https://www.rapid7.com/blog/post/2023/07/11/cve-2023-29298-adobe-coldfusion-access-control-bypass/
+tags:
+  cve:
+  - CVE-2023-29298
+  analytic_story:
+  - Adobe ColdFusion Arbitrary Code Execution CVE-2023-29298 CVE-2023-26360
+  asset_type: Network
+  atomic_guid: []
+  confidence: 50
+  impact: 90
+  message: Possible exploitation of CVE-2023-29298 against $dest$. 
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 45
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - Web.status
+  - sourcetype
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/adobe/coldfusion_cve_2023_29298.log
+    source: suricata
+    sourcetype: suricata
