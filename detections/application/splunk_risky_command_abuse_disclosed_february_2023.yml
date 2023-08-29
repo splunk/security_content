@@ -1,7 +1,7 @@
 name: Splunk risky Command Abuse disclosed february 2023
 id: ee69374a-d27e-4136-adac-956a96ff60fd
 version: 2
-date: '2023-02-14'
+date: '2023-08-30'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
@@ -64,9 +64,9 @@ tests:
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
-- name: True Positive Test RUNSHELLSCRIPT
+- name: True Positive Test runshellscript abuse
   attack_data:
-  - data: data/runshellscript.txt
+  - data: data/splunk_runshellscript_abuse.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

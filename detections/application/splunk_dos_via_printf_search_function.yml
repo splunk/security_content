@@ -1,8 +1,8 @@
 name: Splunk DOS via printf search function
 id: 78b48d08-075c-4eac-bd07-e364c3780867
 version: 1
-date: '2023-08-21'
-author: Rod Soto
+date: '2023-08-30'
+author: Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
 data_source: []
@@ -44,7 +44,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: data/SPL-235294.txt
+  - data: data/splunk_printf_abuse.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
