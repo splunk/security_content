@@ -36,11 +36,7 @@ tags:
   - T1136.003
   - T1136
   observable:
-  - name: ActorIpAddress
-    type: IP Address
-    role:
-    - Attacker
-  - name: Actor.ID
+  - name: UserId
     type: User
     role:
     - Attacker

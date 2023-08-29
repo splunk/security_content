@@ -1,0 +1,65 @@
+name: Windows Modify Registry MaxConnectionPerServer
+id: 064cd09f-1ff4-4823-97e0-45c2f5b087ec
+version: 1
+date: '2023-07-26'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+- Sysmon EventID 14
+description: The following analytic identifies a suspicious registry modification of Windows max connection per server configuration. 
+  This particular technique has been observed in various threat actors, adversaries, and even in malware such as the Warzone (Ave Maria) RAT.
+  By altering the max connection per server setting in the Windows registry, attackers can potentially increase the number of concurrent connections 
+  allowed to a remote server. This modification could be exploited for various malicious purposes, including facilitating distributed denial-of-service (DDoS) attacks or enabling more effective lateral movement within a compromised network.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
+  where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\MaxConnectionsPerServer*" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\MaxConnectionsPer1_0Server*")  Registry.registry_value_data = "0x0000000a" by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_maxconnectionperserver_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: Administrators may enable or disable this feature that may
+  cause some false positive.
+references:
+- https://asec.ahnlab.com/en/17692/
+- https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
+tags:
+  analytic_story:
+  - Warzone RAT
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: A registry modification in max connection per server configuration in $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  - Registry.registry_value_data
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/maxconnectionperserver/registry_event.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

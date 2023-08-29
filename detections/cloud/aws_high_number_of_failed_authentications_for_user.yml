@@ -32,11 +32,7 @@ tags:
   mitre_attack_id:
   - T1201
   observable:
-  - name: src_ip
-    type: IP Address
-    role:
-    - Attacker
-  - name: user_arn
+  - name: user_name
     type: User
     role:
     - Attacker

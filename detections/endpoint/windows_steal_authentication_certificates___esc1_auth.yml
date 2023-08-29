@@ -1,0 +1,97 @@
+name: Windows Steal Authentication Certificates - ESC1 Authentication
+id: f0306acf-a6ab-437a-bbc6-8628f8d5c97e
+version: 1
+date: '2023-05-25'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies when a suspicious certificate is granted using Active Directory Certificate Services (AD CS) with a Subject Alternative Name (SAN) and then immediately used for authentication. This action alone may not be malicious, however improperly configured certificate templates can be abused to permit privilege escalation and environment compromise due to over permissive settings (AD CS ESC1).
+data_source:
+  - Windows Security 4887
+  - Windows Security 4768
+search: >-
+  `wineventlog_security` EventCode IN (4887) Attributes="*SAN:*upn*" Attributes="*CertificateTemplate:*"
+  | stats count min(_time) as firstTime max(_time) as lastTime values(name) as name values(status) as status values(Subject) as ssl_subject values(SubjectKeyIdentifier) as ssl_hash by Computer, EventCode, Requester, Attributes, RequestId
+  | rex field=Attributes "(?i)CertificateTemplate:(?<object>[^\r\n]+)"
+  | rex field=Attributes "(?i)ccm:(?<req_src>[^\r\n]+)"
+  | rex max_match=10 field=Attributes "(?i)(upn=(?<req_user_1>[^\r\n&]+))"
+  | rex max_match=10 field=Attributes "(?i)(dns=(?<req_dest_1>[^\r\n&]+))"
+  | rex field=Requester "(.+\\\\)?(?<src_user>[^\r\n]+)"
+  | rename Attributes as object_attrs, EventCode as signature_id, name as signature, RequestId as ssl_serial, Requester as ssl_subject_common_name
+  | eval user = lower(coalesce(req_user_1,req_user_2)) 
+  | join user
+  [
+  | search `wineventlog_security` EventCode=4768 CertThumbprint=*
+  | rename TargetUserName as user, Computer as auth_dest, IpAddress as auth_src
+  | fields auth_src,auth_dest,user
+  ]
+  | eval src = upper(coalesce(auth_src,req_src)), dest = upper(coalesce(auth_dest,req_dest_1,req_dest_2)), risk_score = 90
+  | eval flavor_text = case(signature_id=="4887", "User account [".'user'."] authenticated after a suspicious certificate was issued for it by [".'src_user'."] using certificate request ID: ".'ssl_serial')
+  | fields - req_* auth_*
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_steal_authentication_certificates___esc1_authentication_filter`
+how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled on AD CS and within Group Policy Management for CS server. See Page 115 of first reference. Recommend throttle correlation by RequestId/ssl_serial at minimum.
+known_false_positives: False positives may be generated in environments where administrative users or processes are allowed to generate certificates with Subject Alternative Names for authentication. Sources or templates used in these processes may need to be tuned out for accurate function.
+references:
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf
+  - https://github.com/ly4k/Certipy#esc1
+  - https://pentestlaboratories.com/2021/11/08/threat-hunting-certificate-account-persistence/
+tags:
+  analytic_story:
+    - Windows Certificate Services
+  asset_type: Endpoint
+  confidence: 90
+  impact: 100
+  message: Possible AD CS ESC1 authentication on $dest$
+  mitre_attack_id:
+    - T1649
+    - T1550
+  observable:
+    - name: src
+      type: Hostname
+      role:
+        - Victim
+    - name: dest
+      type: Hostname
+      role:
+        - Victim
+    - name: src_user
+      type: User Name
+      role:
+        - Victim
+    - name: user
+      type: User Name
+      role:
+        - Victim
+    - name: ssl_hash
+      type: Other
+      role:
+        - Attacker
+    - name: ssl_serial
+      type: Other
+      role:
+        - Attacker
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  required_fields:
+    - _time
+    - Attributes
+    - Computer
+    - EventCode
+    - Requester
+    - RequestId
+    - TargetUserName
+    - Computer
+    - IpAddress
+  risk_score: 90
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_winsecurity.log
+        source: XmlWinEventLog:Security
+        sourcetype: XmlWinEventLog
+        update_timestamp: true
