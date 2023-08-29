@@ -36,6 +36,10 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
