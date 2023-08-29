@@ -29,7 +29,7 @@ tags:
   atomic_guid: []
   confidence: 70
   impact: 100
-  message: An instance of parent_process_name$ spawning process_name$ was identified on endpoint Computer$ by user user$ attempting to decode a file.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to decode a file.
   mitre_attack_id:
   - T1105
   observable:
@@ -37,7 +37,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
