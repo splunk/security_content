@@ -23,20 +23,15 @@ references:
 tags:
   analytic_story:
   - WinRAR Spoofing Attack CVE-2023-38831
+  cve:
+  - CVE-2023-38831
   asset_type: endpoint
   atomic_guid: []
   confidence: 70
   impact: 100
   message: An instance of parent_process_name$ spawning process_name$ was identified on endpoint Computer$ by user user$ attempting to decode a file.
   mitre_attack_id:
-  - T1193
-  - T1222
-  - T1204
-  - T1059
-  - T1086
   - T1105
-  - T1021
-  - T1064
   observable:
   - name: user
     type: User
