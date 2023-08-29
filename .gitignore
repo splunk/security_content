@@ -127,3 +127,4 @@ bin/docker_detection_tester/test_results/
 lookups/APP_ENRICHMENT_CACHE.db.db
 lookups/CVE_CACHE.db.db
 lookups/REFERENCE_CACHE.db.db	
+*.code-workspace
