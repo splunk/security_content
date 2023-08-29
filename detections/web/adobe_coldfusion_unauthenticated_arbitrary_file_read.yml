@@ -1,0 +1,73 @@
+name: Adobe ColdFusion Unauthenticated Arbitrary File Read
+id: 695aceae-21db-4e7f-93ac-a52e39d02b93
+version: 1
+date: '2023-08-23'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic detects potential exploitation of the critical Adobe ColdFusion vulnerability, CVE-2023-26360. This flaw, rooted in the deserialization of untrusted data, enables Unauthenticated Arbitrary File Read. Exploitation often targets specific ColdFusion paths, especially related to CKEditor's file manager. \
+
+  Our analytic pinpoints exploitation by monitoring web requests to the "/cf_scripts/scripts/ajax/ckeditor/*" path. This focus helps differentiate malicious activity from standard ColdFusion traffic. For SOCs, detecting such attempts is vital given the vulnerability's CVSS score of 9.8, signaling its severity. Successful exploitation can lead to unauthorized data access, further attacks, or severe operational disruptions. \
+
+  If a true positive arises, it indicates an active breach attempt, potentially causing data theft, operational disruption, or reputational damage. In essence, this analytic provides a targeted approach to identify attempts exploiting a high-risk ColdFusion vulnerability. While false positives may occur from legitimate accesses, any alerts should be treated as high-priority, warranting immediate investigation to ensure security.
+search: '| tstats count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.url IN ("/cf_scripts/scripts/ajax/ckeditor/*") Web.status=200
+  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `adobe_coldfusion_unauthenticated_arbitrary_file_read_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk
+  for Palo Alto.
+known_false_positives: 'In the wild, we have observed three different types of attempts that could potentially trigger false positives if the HTTP status code is not in the query. These include-\ 
+  1. Requests to the path "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/iedit.cfc?method=wizardHash&_cfclient=true&returnFormat=wddx&inPassword=foo" \
+  2. Requests to the path "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/uploadedFiles/2U9UyvvwP4PGaZpjARz5VJGfpCk.jsp" \
+  3. Requests to the path "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/upload.cfm" \
+  These could be legitimate requests depending on the context of your organization. Therefore, it is recommended to modify the analytic as needed to suit your specific environment.'
+references:
+- https://www.rapid7.com/db/modules/auxiliary/gather/adobe_coldfusion_fileread_cve_2023_26360/
+- https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2023/CVE-2023-26360.yaml
+tags:
+  cve:
+  - CVE-2023-26360
+  analytic_story:
+  - Adobe ColdFusion Arbitrary Code Execution CVE-2023-29298 CVE-2023-26360
+  asset_type: Network
+  atomic_guid: []
+  confidence: 50
+  impact: 90
+  message: Possible exploitation of CVE-2023-26360 against $dest$. 
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 45
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - Web.status
+  - sourcetype
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/adobe/cve_2023_29360_coldfusion.log
+    source: suricata
+    sourcetype: suricata
