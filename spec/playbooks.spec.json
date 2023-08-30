@@ -108,7 +108,8 @@
                     "detections": "Conti Common Exec parameter",
                     "platform_tags": "Investigate",
                     "playbook_fields": "Username",
-                    "product": "Splunk SOAR"
+                    "product": "Splunk SOAR",
+                    "defend_technique_id": "D3-DA"
                 }
             ],
             "minItems": 1,
