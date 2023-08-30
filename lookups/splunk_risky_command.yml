@@ -1,5 +1,5 @@
 description: A list of Risky Splunk Command that are candidates for abuse
-filename: splunk_risky_command.csv
+filename: splunk_risky_command_20230830.csv
 name: splunk_risky_command
 default_match: 'false'
 match_type: WILDCARD(splunk_risky_command)
