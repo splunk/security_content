@@ -66,7 +66,7 @@ tests:
     custom_index: _audit
 - name: True Positive Test runshellscript abuse
   attack_data:
-  - data: data/splunk_runshellscript_abuse.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_runshellscript_abuse.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

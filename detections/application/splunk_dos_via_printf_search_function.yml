@@ -24,7 +24,7 @@ tags:
   cve:
   - CVE-2023-40594
   mitre_attack_id:
-  - T0814
+  - T1499.004
   observable:
   - name: host
     type: Hostname
@@ -44,7 +44,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: data/splunk_printf_abuse.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499.004/splunk/splunk_printf_abuse.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
