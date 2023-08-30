@@ -9,3 +9,4 @@
 "*|""*sumindex*""","collect command SPL alias could potentially allow for the exposing of data to a summary index that unprivileged users could access","8.1.13, 8.2.10, 9.0.4","CVE-2023-22940",""
 "*|""*stash*""","collect command SPL alias could potentially allow for the exposing of data to a summary index that unprivileged users could access","8.1.13, 8.2.10, 9.0.4","CVE-2023-22940",""
 "*| sendalert *","display.page.search.patterns.sensitivity search parameter allows a search to bypass SPL safeguards for risky commands using obfuscation","8.1.13, 8.2.10, 9.0.4","CVE-2023-22935",""
+"*| *runshellscript* """"*","runshellscript searches should not be run interactively via User Interface or REST API and may be used to bypass safeguards","<8.1.14, <8.2.12, <9.0.6, <9.1.1","CVE-2023-40598",""
