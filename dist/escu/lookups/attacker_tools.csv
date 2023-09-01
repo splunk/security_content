@@ -27,3 +27,5 @@ SilverBullet.exe,Malware was discovered in our monitoring of honey pots that abu
 kportscan3.exe, KPortScan 3.0 is a widely used port scanning tool on Hacking Forums to perform network scanning on the internal networks.
 advanced_port_scanner.exe,Advanced Port Scanner is a free network scanner allowing you to quickly find open ports on network computers and retrieve versions of programs running on the detected ports.
 mimikatz.exe,utility Mimikatz is an open-source application that allows users to view and save authentication credentials such as Kerberos tickets.
+certify.exe,A tool used to enumerate and abuse misconfigurations in Active Directory Certificate Services (AD CS)
+certipy.exe,A tool used to enumerate and abuse misconfigurations in Active Directory Certificate Services (AD CS)
