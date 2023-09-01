@@ -1,0 +1,60 @@
+name: Get ForestDomain with PowerShell Script Block
+id: a14803b2-4bd9-4c08-8b57-c37980edebe8
+version: 1
+date: '2023-08-31'
+author: Gowthamaraj Rajendran, Splunk
+status: production
+type: TTP
+data_source:
+- Powershell 4104
+description: This analytic utilizes PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Get-ForestDomain` commandlet. 
+  `Get-ForestDomain` is a component of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Detecting the use of `Get-ForestDomain` 
+  is essential as adversaries and Red Teams might employ it to gain insights into the forest and domain configurations of an Active Directory environment. 
+  Such information can provide attackers with a broader understanding of the domain structure and potential avenues for lateral movement or privilege escalation.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `get_forestdomain_with_powershell_script_block_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
+references:
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestDomain/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: Suspicious PowerShell Get-ForestDomain was identified on endpoint $Computer$
+    by user $UserID$.
+  mitre_attack_id:
+  - T1087.002
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: UserID
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: <>
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

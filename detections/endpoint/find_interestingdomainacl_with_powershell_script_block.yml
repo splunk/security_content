@@ -1,0 +1,61 @@
+name: Find InterestingDomainAcl with PowerShell Script Block
+id: e4a96dfd-667a-4487-b942-ccef5a1e81e8
+version: 1
+date: '2023-08-31'
+author: Gowthamaraj Rajendran, Splunk
+status: production
+type: TTP
+data_source:
+- Powershell 4104
+description: This analytic leverages PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Find-InterestingDomainAcl` commandlet. 
+  `Find-InterestingDomainAcl` is part of PowerView, a PowerShell toolkit designed for Windows domain enumeration. 
+  Detecting the use of `Find-InterestingDomainAcl` is crucial as adversaries and Red Teams might employ it to identify unusual or misconfigured Access Control Lists 
+  (ACLs) within the domain. Such ACLs can provide attackers with insights into potential privilege escalation opportunities or weak security postures within 
+  Active Directory.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-InterestingDomainAcl*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `find_interestingdomainacl_with_powershell_script_block_filter`' 
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Red Teamers may use this command for Recon.
+references:
+- https://powersploit.readthedocs.io/en/latest/Recon/Find-InterestingDomainAcl/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: Suspicious PowerShell Find-InterestingDomainAcl was identified on endpoint $Computer$
+    by user $UserID$.
+  mitre_attack_id:
+  - T1087.002
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: UserID
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: <>
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

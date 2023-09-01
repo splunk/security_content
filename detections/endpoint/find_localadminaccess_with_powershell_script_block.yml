@@ -1,0 +1,61 @@
+name: Find LocalAdminAccess with PowerShell Script Block
+id: d2988160-3ce9-4310-b59d-905334920cdd
+version: 1
+date: '2023-08-31'
+author: Gowthamaraj Rajendran, Splunk
+status: production
+type: TTP
+data_source:
+- Powershell 4104
+description: This analytic leverages PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Find-LocalAdminAccess` commandlet. 
+  `Find-LocalAdminAccess` is part of PowerView, a PowerShell toolkit designed for Windows domain enumeration. 
+  Detecting the use of `Find-LocalAdminAccess` is vital as adversaries and Red Teams might employ it to identify machines where the current user context 
+  has local administrator access. Such information can provide attackers with potential targets for lateral movement or privilege escalation within the network.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID  
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `find_localadminaccess_with_powershell_script_block_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Red Teamers may use this command for Recon.
+references:
+- https://powersploit.readthedocs.io/en/latest/Recon/Find-LocalAdminAccess/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: Suspicious PowerShell Find-LocalAdminAccess was identified on endpoint $Computer$
+    by user $UserID$.
+  mitre_attack_id:
+  - T1087.002
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: UserID
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: <>
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
