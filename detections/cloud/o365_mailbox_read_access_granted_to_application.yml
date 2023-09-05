@@ -5,37 +5,50 @@ date: '2023-09-01'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source:
-- UPDATE_DATA_SOURCE
-description: UPDATE_DESCRIPTION
-search: '| UPDATE_SPL | `o365_mailbox_read_access_granted_to_application_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+data_source: []
+description: The following analytic identifies instances where Mail.Read Graph API permissions are granted to an application registration within an Office 365
+ tenant. This behavior could be indicative of an attacker who has gained privileged access to the tenant and is attempting to read mailboxes by exploiting 
+ a new or existing application registration. Cyber defenders should investigate each occurrence of this sensitive permission being granted, as it
+ could allow attackers to gain access to the email accounts of the entire organization.
+search: ' `o365_management_activity` Operation="Update application."
+  | eval json_data=mvindex('ModifiedProperties{}.NewValue', 0)
+  | eval json_data=replace(json_data, "^\[\s*", "")
+  | eval json_data=replace(json_data, "\s*\]$", "")
+  | spath input=json_data path=RequiredAppPermissions{}.EntitlementId output=EntitlementIds
+  | eval match_found=mvfind(EntitlementIds, "810c84a8-4a9e-49e6-bf7d-12d183f40d01")
+  | where isnotnull(match_found)
+  | stats max(_time) as lastTime values(EntitlementIds) as EntitlementIds by Operation, UserId, object
+  | `security_content_ctime(lastTime)`
+  | `o365_mailbox_read_access_granted_to_application_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on.
+known_false_positives: There are legitimate scenarios in wich an Application registrations requires Mailbox read access. Filter as needed.
 references:
 - REFERENCE
+- https://learn.microsoft.com/en-us/graph/permissions-reference
 tags:
   analytic_story:
   - UPDATE_STORY_NAME
-  asset_type: UPDATE asset_type
-  atomic_guid:
-  - UPDATE atomic_guid
-  confidence: UPDATE value between 1-100
-  impact: UPDATE value between 1-100
-  message: UPDATE message
+  asset_type: Office 365 tenant
+  confidence: 50
+  impact: 90
+  message: Application registration $object$ was grandes mailbox read access by $UserId$
   mitre_attack_id:
-  - T1003.002
+  - T1114.002
+  - T1114
   observable:
-  - name: UPDATE
-    type: UPDATE
+  - name: UserId
+    type: User
     role:
-    - UPDATE
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: UPDATE (impact * confidence)/100
+  risk_score: 45
   required_fields:
-  - UPDATE_required_fields
+  - Operation
+  - _time
+  - ModifiedProperties{}.NewValue
   security_domain: access
 tests:
 - name: True Positive Test
