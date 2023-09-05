@@ -10,7 +10,7 @@ description: The following analytic identifies instances where Mail.Read Graph A
  tenant. This behavior could be indicative of an attacker who has gained privileged access to the tenant and is attempting to read mailboxes by exploiting 
  a new or existing application registration. Cyber defenders should investigate each occurrence of this sensitive permission being granted, as it
  could allow attackers to gain access to the email accounts of the entire organization.
-search: ' `o365_management_activity` Operation="Update application."
+search: '`o365_management_activity` Operation="Update application."
   | eval json_data=mvindex('ModifiedProperties{}.NewValue', 0)
   | eval json_data=replace(json_data, "^\[\s*", "")
   | eval json_data=replace(json_data, "\s*\]$", "")
