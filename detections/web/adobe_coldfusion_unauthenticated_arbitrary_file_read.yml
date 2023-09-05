@@ -20,11 +20,7 @@ search: '| tstats count min(_time) as firstTime max(_time)
 how_to_implement: This detection requires the Web datamodel to be populated from a
   supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk
   for Palo Alto.
-known_false_positives: 'In the wild, we have observed three different types of attempts that could potentially trigger false positives if the HTTP status code is not in the query. These include-\ 
-  1. Requests to the path "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/iedit.cfc?method=wizardHash&_cfclient=true&returnFormat=wddx&inPassword=foo" \
-  2. Requests to the path "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/uploadedFiles/2U9UyvvwP4PGaZpjARz5VJGfpCk.jsp" \
-  3. Requests to the path "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/upload.cfm" \
-  These could be legitimate requests depending on the context of your organization. Therefore, it is recommended to modify the analytic as needed to suit your specific environment.'
+known_false_positives: 'In the wild, we have observed three different types of attempts that could potentially trigger false positives if the HTTP status code is not in the query. Please check this github gist for the specific URIs : https://gist.github.com/patel-bhavin/d10830f3f375a2397233f6a4fe38d5c9 . These could be legitimate requests depending on the context of your organization. Therefore, it is recommended to modify the analytic as needed to suit your specific environment.'
 references:
 - https://www.rapid7.com/db/modules/auxiliary/gather/adobe_coldfusion_fileread_cve_2023_26360/
 - https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2023/CVE-2023-26360.yaml
