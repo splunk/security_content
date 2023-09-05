@@ -18,9 +18,11 @@ search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*"
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Administrators or power users may use this command for troubleshooting.
+known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
 references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestDomain/
+- https://attack.mitre.org/techniques/T1087/002/
+- https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters/powerview
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -30,6 +32,7 @@ tags:
   message: Suspicious PowerShell Get-ForestDomain was identified on endpoint $Computer$
     by user $UserID$.
   mitre_attack_id:
+  - T1087
   - T1087.002
   observable:
   - name: Computer
@@ -55,6 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: <>
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-ForestDomain-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
