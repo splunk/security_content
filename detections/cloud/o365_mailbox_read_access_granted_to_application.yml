@@ -10,7 +10,8 @@ description: The following analytic identifies instances where Mail.Read Graph A
  tenant. This behavior could be indicative of an attacker who has gained privileged access to the tenant and is attempting to read mailboxes by exploiting 
  a new or existing application registration. Cyber defenders should investigate each occurrence of this sensitive permission being granted, as it
  could allow attackers to gain access to the email accounts of the entire organization.
-search: '`o365_management_activity` Operation="Update application."
+search: >
+  `o365_management_activity` Operation="Update application."
   | eval json_data=mvindex('ModifiedProperties{}.NewValue', 0)
   | eval json_data=replace(json_data, "^\[\s*", "")
   | eval json_data=replace(json_data, "\s*\]$", "")
@@ -19,12 +20,16 @@ search: '`o365_management_activity` Operation="Update application."
   | where isnotnull(match_found)
   | stats max(_time) as lastTime values(EntitlementIds) as EntitlementIds by Operation, UserId, object
   | `security_content_ctime(lastTime)`
-  | `o365_mailbox_read_access_granted_to_application_filter`'
+  | `o365_mailbox_read_access_granted_to_application_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on.
 known_false_positives: There are legitimate scenarios in wich an Application registrations requires Mailbox read access. Filter as needed.
 references:
-- REFERENCE
+- https://attack.mitre.org/techniques/T1098/003/
+- https://attack.mitre.org/techniques/T1114/002/
+- https://www.mandiant.com/sites/default/files/2022-08/remediation-hardening-strategies-for-m365-defend-against-apt29-white-paper.pdf
+- https://www.cisa.gov/sites/default/files/publications/Supply_Chain_Compromise_Detecting_APT_Activity_from_known_TTPs.pdf
 - https://learn.microsoft.com/en-us/graph/permissions-reference
+- https://graphpermissions.merill.net/permission/Mail.Read
 tags:
   analytic_story:
   - UPDATE_STORY_NAME
@@ -35,6 +40,8 @@ tags:
   mitre_attack_id:
   - T1114.002
   - T1114
+  - T1098
+  - T1098.003
   observable:
   - name: UserId
     type: User
@@ -53,6 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: UPDATE url to dataset
-    source: UPDATE source
-    sourcetype: UPDATE sourcetype
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_grant_mail_read/o365_grant_mail_read.log
+    source: o365
+    sourcetype: o365:management:activity
