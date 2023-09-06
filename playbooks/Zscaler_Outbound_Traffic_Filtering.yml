@@ -10,15 +10,19 @@ how_to_implement: This input playbook requires the ZScaler connector to be confi
 references:
   - https://d3fend.mitre.org/technique/d3f:OutboundTrafficFiltering/
 app_list: 
-  - ZScaler
+  - Zscaler
 tags:
   platform_tags:
     - denylist
     - url
     - D3-OTF
-    - ZScaler
+    - Zscaler
   playbook_type: Input
   vpe_type: Modern
   playbook_fields: []
   product:
   - Splunk SOAR
+  use_cases:
+  - Phishing
+  - Endpoint
+  defend_technique_id: D3-OTF
