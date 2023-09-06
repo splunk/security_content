@@ -10,7 +10,7 @@ how_to_implement: "This playbook works with the community playbook aws_find_inac
 references: 
 - https://www.splunk.com/en_us/blog/security/splunk-soar-playbooks-finding-and-disabling-inactive-users-on-aws.html
 app_list:
-- "AWS IAM"
+- AWS IAM
 tags:
   platform_tags:
   - Cloud

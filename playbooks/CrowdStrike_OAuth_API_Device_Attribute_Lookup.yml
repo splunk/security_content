@@ -23,3 +23,6 @@ tags:
   playbook_fields: []
   product:
   - Splunk SOAR
+  use_cases:
+  - Enrichment
+  - Endpoint
