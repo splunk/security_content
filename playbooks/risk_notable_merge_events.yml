@@ -6,11 +6,10 @@ author: Kelby Shelton, Splunk
 type: Investigation
 description: This playbook finds related events based on key fields in a risk notable and allows the user to process the results and decide which events to merge into the current investigation.
 playbook: risk_notable_merge_events
-how_to_implement: Combining the list_merge utility within the playbook with the find_related_containers utility allows for fine-tuning of related event criteria. For example, the default filtering criteria uses description, risk_object, and threat_object as the important fields and requires at least three matches before an event is considered related. There are several options to customize the associated criteria, including adding more fields in list_merge, reducing or increasing the minimum match count, or utilizing the wildcard feature of find_related_containers.
+how_to_implement: For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
-app_list:
-  - "None"
+app_list: []
 tags:
   labels:
   - risk_notable
