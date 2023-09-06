@@ -20,3 +20,7 @@ tags:
   playbook_fields: []
   product:
   - Splunk SOAR
+  use_cases:
+  - Enrichment
+  - Endpoint
+  defend_technique_id: D3-IAA
