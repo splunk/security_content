@@ -21,3 +21,6 @@ tags:
   playbook_fields: []
   product:
   - Splunk SOAR
+  use_cases:
+  - Phishing
+  defend_technique_id: D3-IAA

@@ -10,8 +10,8 @@ how_to_implement: "This playbook is meant to run on a Timer, such as once per we
 references: 
 - https://www.splunk.com/en_us/blog/security/splunk-soar-playbooks-finding-and-disabling-inactive-users-on-aws.html
 app_list:
-- "AWS IAM"
-- "Phantom"
+- AWS IAM
+- Phantom
 tags:
   platform_tags:
   - Cloud
