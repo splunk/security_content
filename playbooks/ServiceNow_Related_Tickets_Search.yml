@@ -10,7 +10,7 @@ how_to_implement: This input playbook requires the ServiceNow connector to be co
 references:
   - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
 app_list: 
-  - Splunk
+  - ServiceNow
 tags:
   platform_tags:
     - user
@@ -22,3 +22,5 @@ tags:
   playbook_fields: []
   product:
   - Splunk SOAR
+  use_cases:
+  - Enrichment
