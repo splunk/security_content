@@ -1,0 +1,52 @@
+name: O365 Application Registration Owner Added
+id: c068d53f-6aaa-4558-8011-3734df878266
+version: 1
+date: '2023-09-07'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: UPDATE_DESCRIPTION
+search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation="Add owner to application."
+  | stats max(_time) as lastTime values(ModifiedProperties{}.NewValue) by Operation, UserId, object
+  | `security_content_ctime(lastTime)`
+  | `o365_application_registration_owner_added_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Application owners may be added for legitimate reasons, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/
+- https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/overview-assign-app-owners
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  atomic_guid:
+  - UPDATE atomic_guid
+  confidence: 50
+  impact: 60
+  message: UPDATE message
+  mitre_attack_id:
+  - T1098
+  observable:
+  - name: UserId
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - time
+  - Workload
+  - Operation
+  - ModifiedProperties{}.NewValue
+  - UserId
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_add_app_registration_owner/o365_add_app_registration_owner.log
+    source: o365
+    sourcetype: o365:management:activity
