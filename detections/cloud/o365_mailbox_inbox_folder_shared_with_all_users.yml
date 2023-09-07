@@ -1,0 +1,54 @@
+name: O365 Mailbox Inbox Folder Shared with All Users
+id: 21421896-a692-4594-9888-5faeb8a53106
+version: 1
+date: '2023-09-07'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: UPDATE_DESCRIPTION
+search: ' `o365_management_activity` Operation=ModifyFolderPermissions Workload=Exchange object=Inbox Item.ParentFolder.MemberUpn=Everyone Item.ParentFolder.MemberRights!=None
+  | stats max(_time) as lastTime by Operation, UserId, object, MailboxOwnerUPN, Item.ParentFolder.MemberUpn, Item.ParentFolder.MemberRights
+  | `security_content_ctime(lastTime)`
+  | `o365_mailbox_inbox_folder_shared_with_all_users_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://attack.mitre.org/techniques/T1114/002/
+- https://www.mandiant.com/sites/default/files/2022-08/remediation-hardening-strategies-for-m365-defend-against-apt29-white-paper.pdf
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: Office 365 Tenant
+  confidence: 70
+  impact: 80
+  message: UPDATE message
+  mitre_attack_id:
+  - T1114
+  - T1114.002
+  observable:
+  - name: MailboxOwnerUPN
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  required_fields:
+  - _time
+  - Operation
+  - Workload
+  - object
+  - Item.ParentFolder.MemberUpn
+  - Item.ParentFolder.MemberRights
+  - UserId
+  - MailboxOwnerUPN
+  security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_inbox_shared_with_all_users/o365_inbox_shared_with_all_users.log
+    source: o365
+    sourcetype: o365:management:activity
