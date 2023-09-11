@@ -1,4 +1,4 @@
-name: Get DomainOU with PowerShell Script Block
+name: Windows Find Domain Organizational Units with GetDomainOU
 id: 0ada2f82-b7af-40cc-b1d7-1e5985afcb4e
 version: 1
 date: '2023-08-31'

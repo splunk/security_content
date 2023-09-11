@@ -1,4 +1,4 @@
-name: Find LocalAdminAccess with PowerShell Script Block
+name: Windows Get Local Admin with FindLocalAdminAccess
 id: d2988160-3ce9-4310-b59d-905334920cdd
 version: 1
 date: '2023-08-31'
