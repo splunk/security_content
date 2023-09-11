@@ -14,7 +14,7 @@ description: This analytic leverages PowerShell Script Block Logging (EventCode=
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | `get_domainou_with_powershell_script_block_filter`'
+  | `windows_find_domain_organizational_units_with_getdomainou_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.

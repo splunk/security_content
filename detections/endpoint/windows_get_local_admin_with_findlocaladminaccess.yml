@@ -15,7 +15,7 @@ search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*"
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID  
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `find_localadminaccess_with_powershell_script_block_filter`'
+  | `windows_get_local_admin_with_findlocaladminaccess_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
