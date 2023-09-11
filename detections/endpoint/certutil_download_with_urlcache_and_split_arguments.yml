@@ -39,6 +39,7 @@ tags:
   - ProxyNotShell
   - CISA AA22-277A
   - Flax Typhoon
+  - Forest Blizzard
   asset_type: Endpoint
   confidence: 100
   impact: 90
