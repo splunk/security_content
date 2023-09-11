@@ -2,7 +2,7 @@ name: Windows Find Interesting ACL with FindInterestingDomainAcl
 id: e4a96dfd-667a-4487-b942-ccef5a1e81e8
 version: 1
 date: '2023-08-31'
-author: Gowthamaraj Rajendran, Splunk
+author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
