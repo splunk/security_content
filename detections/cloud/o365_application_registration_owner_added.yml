@@ -6,11 +6,14 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source: []
-description: UPDATE_DESCRIPTION
-search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation="Add owner to application."
-  | stats max(_time) as lastTime values(ModifiedProperties{}.NewValue) by Operation, UserId, object
+description: The following analytic identifies instances where a new owner is assigned to an application registration within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to changes in owner assignments within the AzureActiveDirectory workload for application registrations. Assigning a new owner to an application registration can grant significant control over the application's configuration, permissions, and behavior. An unauthorized or inadvertent change in ownership can lead to misuse of the application, potentially affecting data access, user permissions, or the application's interactions within the tenant. Monitoring for such changes ensures that only legitimate and authorized personnel have control over application registrations. If an attacker successfully assigns themselves or a compromised account as an owner to an application registration, they can modify the application's settings, permissions, and behavior. This can lead to unauthorized data access, escalation of privileges, or the introduction of malicious behavior within the application's operations
+search: >
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Add owner to application."
+  | eval app_id=mvindex('ModifiedProperties{}.NewValue', 0)
+  | eval app_displayName=mvindex('ModifiedProperties{}.NewValue', 1)
+  | stats max(_time) as lastTime values(ModifiedProperties{}.NewValue) by Operation, UserId, app_displayName, object
   | `security_content_ctime(lastTime)`
-  | `o365_application_registration_owner_added_filter`'
+  | `o365_application_registration_owner_added_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Application owners may be added for legitimate reasons, filter as needed.
 references:
@@ -19,12 +22,12 @@ references:
 tags:
   analytic_story:
   - UPDATE_STORY_NAME
-  asset_type: UPDATE asset_type
+  asset_type: Office 365
   atomic_guid:
   - UPDATE atomic_guid
   confidence: 50
   impact: 60
-  message: UPDATE message
+  message: Application registration $app_displayName$ was assigned a new owner $object$
   mitre_attack_id:
   - T1098
   observable:
