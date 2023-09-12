@@ -14,7 +14,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\CurrentVersion\\Policies\\System*" Registry.registry_value_name="LocalAccountTokenFilterPolicy"
-  Registry.registry_value_data="0x00000001"  ) BY _time span=1h Registry.registry_path
+  Registry.registry_value_data="0x00000001"  ) BY _time span=1h Registry.user Registry.dest Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_uac_remote_restriction_filter`'
@@ -33,7 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
+  message: Modified/added/deleted registry entry $registry_path$ in $dest$
   mitre_attack_id:
   - T1548.002
   - T1548
