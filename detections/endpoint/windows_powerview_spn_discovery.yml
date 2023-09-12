@@ -18,7 +18,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText =*Get-NetUser* OR ScriptBlockText=*Get-DomainUser*)
   ScriptBlockText= *-SPN* | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode ScriptBlockText Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `windows_powerview_spn_discovery_filter`'
 how_to_implement: The following analytic requires PowerShell operational logs to be
   imported. Modify the powershell macro as needed to match the sourcetype or add index.
@@ -36,13 +36,13 @@ tags:
   asset_type: endpoint
   confidence: 90
   impact: 30
-  message: PowerView commandlets used for SPN discovery executed on $Computer$
+  message: PowerView commandlets used for SPN discovery executed on $dest$
   mitre_attack_id:
   - T1558
   - T1558.003
   observable:
-  - name: Client_Address
-    type: Endpoint
+  - name: dest
+    type: Hostname
     role:
     - Victim
   product:

@@ -9,11 +9,7 @@ description: Automatically dispatches input playbooks with the 'sandbox' tag.
 playbook: Dynamic_Analysis_Dispatch
 how_to_implement: This automatic playbook requires "sandbox" tag be present on each input playbook you want to launch.
 references: []
-app_list: 
-  - CrowdStrike OAuth API
-  - urlscan.io
-  - VirusTotal_v3
-  - SAA
+app_list: []
 tags:
   platform_tags:
     - url
@@ -26,3 +22,8 @@ tags:
   playbook_fields: []
   product:
   - Splunk SOAR
+  use_cases:
+  - Enrichment
+  - Phishing
+  - Endpoint
+  defend_technique_id: D3-DA
