@@ -1,0 +1,3 @@
+definition: rename Computer as dest, UserID as user 
+description: rename windows fields to CIM
+name: windows_rename_to_cim

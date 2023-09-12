@@ -12,6 +12,7 @@ description: This analytic utilizes PowerShell Script Block Logging (EventCode=4
   is essential as adversaries and Red Teams might employ it to gain insights into the forest and domain configurations of an Active Directory environment. 
   Such information can provide attackers with a broader understanding of the domain structure and potential avenues for lateral movement or privilege escalation.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*" 
+  | `windows_rename_to_cim`
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
   | `windows_forest_discovery_with_getforestdomain_filter`'
@@ -29,17 +30,17 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Suspicious PowerShell Get-ForestDomain was identified on endpoint $Computer$
-    by user $UserID$.
+  message: Suspicious PowerShell Get-ForestDomain was identified on endpoint $dest$
+    by user $user$.
   mitre_attack_id:
   - T1087
   - T1087.002
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: UserID
+  - name: user
     type: User
     role:
     - Victim
@@ -51,8 +52,8 @@ tags:
   - _time
   - EventCode
   - Message
-  - ComputerName
-  - User
+  - Computer
+  - UserID
   risk_score: 25
   security_domain: endpoint
 tests:

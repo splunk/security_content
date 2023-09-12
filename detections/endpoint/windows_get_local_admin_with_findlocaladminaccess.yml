@@ -12,6 +12,7 @@ description: This analytic leverages PowerShell Script Block Logging (EventCode=
   Detecting the use of `Find-LocalAdminAccess` is vital as adversaries and Red Teams might employ it to identify machines where the current user context 
   has local administrator access. Such information can provide attackers with potential targets for lateral movement or privilege escalation within the network.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*" 
+  | `windows_rename_to_cim`
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID  
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
@@ -30,17 +31,17 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Suspicious PowerShell Find-LocalAdminAccess was identified on endpoint $Computer$
-    by user $UserID$.
+  message: Suspicious PowerShell Find-LocalAdminAccess was identified on endpoint $dest$
+    by user $user$.
   mitre_attack_id:
   - T1087
   - T1087.002
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: UserID
+  - name: user
     type: User
     role:
     - Victim
@@ -52,8 +53,8 @@ tags:
   - _time
   - EventCode
   - Message
-  - ComputerName
-  - User
+  - Computer
+  - UserID
   risk_score: 25
   security_domain: endpoint
 tests:
