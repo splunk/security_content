@@ -32,7 +32,7 @@ tags:
   - T1087.002
   observable:
   - name: user
-    type: User Name
+    type: User
     role:
     - Victim
   product:
