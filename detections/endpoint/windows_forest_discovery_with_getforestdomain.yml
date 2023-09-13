@@ -13,7 +13,7 @@ description: This analytic utilizes PowerShell Script Block Logging (EventCode=4
   Such information can provide attackers with a broader understanding of the domain structure and potential avenues for lateral movement or privilege escalation.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*" 
   | `windows_rename_to_cim`
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText dest user 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
   | `windows_forest_discovery_with_getforestdomain_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
