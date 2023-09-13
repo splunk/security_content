@@ -1,0 +1,48 @@
+name: Splunk cmd injection using external lookups
+id: 901ae2e2-b47b-4adc-b296-a151a8fccdca
+version: 1
+date: '2023-09-05'
+author: Rod Soto
+status: production
+type: Hunting
+data_source:
+- audittrial
+description: In Splunk Enterprise versions below 8.2.12, 9.0.6, and 9.1.1, an attacker can create an external lookup that calls a legacy internal function. The attacker can use this internal function to insert code into the Splunk platform installation directory. From there, a user can execute arbitrary code on the Splunk platform Instance.
+search: '|`audit_searches` search = \"| *runshellscript*\  \ \\\"\\\"\"    \n| stats earliest(_time) as event_time count by search user splunk_server\n\ | convert ctime(event_time) | `splunk_cmd_injection_using_external_lookups`'
+how_to_implement: Must have access to internal audit index. 
+known_false_positives: The command runshellscript can be used for benign purposes. Analyst will have to review the searches and determined maliciousness specially by looking at targeted script. 
+references:
+- https://advisory.splunk.com/advisories 
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities 
+  asset_type: endpoint
+  confidence: 50
+  impact: 30
+  message: Possible exploitation attempt against $host$
+  mitre_attack_id:
+  - T1202
+  cve:
+  - CVE-2023-40598
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  required_fields:
+  - search
+  - user 
+  - splunk_server
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: UPDATE url to dataset
+    source: audittrail
+    sourcetype: audittrail
+    custom_index: _audit

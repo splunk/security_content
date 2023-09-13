@@ -1,0 +1,46 @@
+name: Splunk Absolute Path Traversal Using runshellscript
+id: 356bd3fe-f59b-4f64-baa1-51495411b7ad
+version: 1
+date: '2023-09-05'
+author: Rod Soto
+status: production
+type: Hunting
+data_source:
+- python.log
+description: In Splunk Enterprise versions lower than 8.2.12, 9.0.6, and 9.1.1, an attacker can exploit an absolute path traversal to execute arbitrary code that is located on a separate disk.
+search: '|`splunk_python` *runshellscript* | `splunk_absolute_path_traversal_using_runshellscript_filter`'
+how_to_implement: Must have access to internal indexes. Only applies to Splunk on Windows versions. 
+known_false_positives: The command runshellscript can be used for benign purposes. Analyst will have to review the searches and determined maliciousness specially by looking at targeted script.
+references:
+- https://advisory.splunk.com/advisories/SVD-2023-0806
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities 
+  asset_type: endpoint
+  confidence: 70
+  impact: 50
+  message: Possible attack abusing runshellscript
+  mitre_attack_id:
+  - T1083
+  cve:
+  - CVE-2023-40597
+  observable:
+  - name: other
+    type: Unknown
+    role:
+    - Unknown
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 35
+  required_fields:
+  - search
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: UPDATE url to dataset
+    source: python.log 
+    sourcetype: splunk_python
+    custom_index: _internal 

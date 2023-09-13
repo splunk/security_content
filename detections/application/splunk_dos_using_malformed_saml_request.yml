@@ -1,0 +1,47 @@
+name: Splunk DoS Using Malformed SAML Request
+id: 8e8a86d5-f323-4567-95be-8e817e2baee6
+version: 1
+date: '2023-09-05'
+author: Rod Soto
+status: production
+type: Hunting
+data_source:
+- splunkd.log 
+description: In Splunk Enterprise versions lower than 9.0.6, and 8.2.12, an attacker can send a malformed security assertion markup language SAML request to the /saml/acs REST endpoint which can cause a denial of service through a crash or hang of the Splunk daemon.The SAML extensible markup language (XML) parser does not fail SAML signature validation when the attacker modifies the URI in the SAML request. Instead it attempts to access the modified URI, which causes the Splunk daemon to crash or hang.
+search: '`splunkd` message=*error* expr=*xpointer* | stats count by component expr host event_message | `splunk_dos_using_malformed_saml_request_filter`'
+how_to_implement: Must have access to internal indexes. 
+known_false_positives: This search will show false positives. The analyst must look for errors and a pointer indicating a malicious file. 
+references:
+- https://advisory.splunk.com/advisories/SVD-2023-0802
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities 
+  asset_type: endpoint
+  confidence: 30
+  impact: 50
+  message: Possible DoS attack against $host$
+  mitre_attack_id:
+  - T1498
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  required_fields:
+  - component
+  - expr 
+  - host 
+  - event_message 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: UPDATE url to dataset
+    source: splunkd.log
+    sourcetype: splunkd
+    custom_index: _internal
