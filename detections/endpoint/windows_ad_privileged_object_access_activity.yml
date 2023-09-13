@@ -54,7 +54,7 @@ tags:
   - T1087.002
   observable:
   - name: user
-    type: User Name
+    type: User
     role:
     - Victim
   - name: object_name
@@ -70,7 +70,8 @@ tags:
   - EventCode
   - ObjectName 
   - EventCode
-  - Caller_User_Name
+  - Computer
+  - SubjectUserName
   risk_score: 25
   security_domain: endpoint
 tests:
