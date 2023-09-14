@@ -16,7 +16,7 @@ search: >
   | `security_content_ctime(lastTime)`
   | `o365_tenant_wide_admin_consent_granted_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: Legitimate applications may be granted tenant wide consent, filder as needed.
+known_false_positives: Legitimate applications may be granted tenant wide consent, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/003/
 - https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
