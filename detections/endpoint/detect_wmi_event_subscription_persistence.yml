@@ -28,7 +28,7 @@ description: 'The following analytic identifies the use of WMI Event Subscriptio
 data_source:
 - Sysmon Event ID 20
 search: '`sysmon` EventID=20 | stats count min(_time) as firstTime max(_time) as lastTime
-  by Computer User Destination | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  by Computer User Destination | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_wmi_event_subscription_persistence_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with that provide WMI Event Subscription from your endpoints. If you are using

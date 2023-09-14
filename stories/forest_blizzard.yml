@@ -1,0 +1,20 @@
+name: Forest Blizzard
+id: 2c1aceda-f0a5-4c83-8543-e23ec1466958
+version: 1
+date: '2023-09-11'
+author: Michael Haag, Splunk
+description: CERT-UA has unveiled a cyberattack on Ukraine's energy infrastructure, orchestrated via deceptive emails. These emails, once accessed, lead to a multi-stage cyber operation downloading and executing malicious payloads. Concurrently, Zscaler's "Steal-It" campaign detection revealed striking similarities, hinting at a shared origin - APT28 or Fancy Bear. This notorious group, linked to Russia's GRU, utilizes legitimate platforms like Mockbin, making detection challenging. Their operations underline the evolving cyber threat landscape and stress the importance of advanced defenses.
+narrative: APT28, also known as Fancy Bear, blends stealth and expertise in its cyber operations. Affiliated with Russia's GRU, their signature move involves spear-phishing emails, leading to multi-tiered cyberattacks. In Ukraine's recent breach, a ZIP archive's execution triggered a series of actions, culminating in information flow redirection via the TOR network. Simultaneously, Zscaler's "Steal-It" campaign pinpointed similar tactics, specifically targeting NTLMv2 hashes. This campaign used ZIP archives containing LNK files to exfiltrate data via Mockbin. APT28's hallmark is their "Living Off The Land" strategy, manipulating legitimate tools and services to blend in, evading detection. Their innovative tactics, coupled with a geofencing focus on specific regions, make them a formidable cyber threat, highlighting the urgent need for advanced defense strategies.
+references:
+- https://cert.gov.ua/article/5702579
+- https://www.zscaler.com/blogs/security-research/steal-it-campaign
+- https://attack.mitre.org/groups/G0007/
+tags:
+  analytic_story: Forest Blizzard
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
