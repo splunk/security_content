@@ -44,7 +44,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: UPDATE url to dataset
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_reflected_xss_on_app_search_table_endpoint_splunk_web_access.log
     source: web_access.log 
     sourcetype: splunk_web_access
     custom_index: _internal

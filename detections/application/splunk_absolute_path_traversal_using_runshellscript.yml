@@ -40,7 +40,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: UPDATE url to dataset
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/splunk_absolute_path_traversal_using_runshellscript_splunk_python.log
     source: python.log 
     sourcetype: splunk_python
     custom_index: _internal 
