@@ -1,0 +1,61 @@
+name: Windows Get Local Admin with FindLocalAdminAccess
+id: d2988160-3ce9-4310-b59d-905334920cdd
+version: 1
+date: '2023-08-31'
+author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source:
+- Powershell 4104
+description: This analytic leverages PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Find-LocalAdminAccess` commandlet. `Find-LocalAdminAccess` is part of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Detecting the use of `Find-LocalAdminAccess` is vital as adversaries and Red Teams might employ it to identify machines where the current user context has local administrator access. Such information can provide attackers with potential targets for lateral movement or privilege escalation within the network.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_get_local_admin_with_findlocaladminaccess_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
+references:
+- https://powersploit.readthedocs.io/en/latest/Recon/Find-LocalAdminAccess/
+- https://attack.mitre.org/techniques/T1087/002/
+- https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters/powerview
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: Suspicious PowerShell Find-LocalAdminAccess was identified on endpoint $dest$
+    by user $user$.
+  mitre_attack_id:
+  - T1087
+  - T1087.002
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - Computer
+  - UserID
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-LocalAdminAccess-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
