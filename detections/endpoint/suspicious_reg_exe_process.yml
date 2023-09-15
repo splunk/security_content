@@ -20,11 +20,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.dest Processes.process_name | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | rename parent_process_id as process_id |dedup
   process_id| table process_id dest] | `suspicious_reg_exe_process_filter` '
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: It's possible for system administrators to write scripts that
   exhibit this behavior. If this is the case, the search will need to be modified
   to filter them out.
@@ -38,7 +42,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 70
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to add a registry entry.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to add a registry entry.
   mitre_attack_id:
   - T1112
   observable:
