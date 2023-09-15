@@ -5,11 +5,22 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic is designed to detect potential tampering with cronjob files on a Linux system. It specifically searches for command lines that may be used to append code to existing cronjob files, a technique often employed by adversaries, malware, and red teamers for persistence or privilege escalation. Altering existing or sometimes normal cronjob script files allows malicious code to be executed automatically.\
+description: 'The following analytic is designed to detect potential tampering with
+  cronjob files on a Linux system. It specifically searches for command lines that
+  may be used to append code to existing cronjob files, a technique often employed
+  by adversaries, malware, and red teamers for persistence or privilege escalation.
+  Altering existing or sometimes normal cronjob script files allows malicious code
+  to be executed automatically.\
 
-  The analytic operates by monitoring logs for specific process names, parent processes, and command-line executions from your endpoints. It specifically checks for any 'echo' command which modifies files in directories commonly associated with cron jobs such as '/etc/cron*', '/var/spool/cron/', and '/etc/anacrontab'. If such activity is detected, an alert is triggered.\
+  The analytic operates by monitoring logs for specific process names, parent processes,
+  and command-line executions from your endpoints. It specifically checks for any
+  ''echo'' command which modifies files in directories commonly associated with cron
+  jobs such as ''/etc/cron*'', ''/var/spool/cron/'', and ''/etc/anacrontab''. If such
+  activity is detected, an alert is triggered.\
 
-  This behavior is worth identifying for a SOC because malicious cron jobs can lead to system compromises and unauthorized data access, impacting business operations and data integrity.
+  This behavior is worth identifying for a SOC because malicious cron jobs can lead
+  to system compromises and unauthorized data access, impacting business operations
+  and data integrity.'
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
@@ -18,11 +29,18 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `linux_possible_append_cronjob_entry_on_existing_cronjob_file_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
-  Splunkbase.
-known_false_positives: False positives may arise from legitimate actions by administrators or network operators who may use these commands for automation purposes. Therefore, it's recommended to adjust filter macros to eliminate such false positives.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: False positives may arise from legitimate actions by administrators
+  or network operators who may use these commands for automation purposes. Therefore,
+  it's recommended to adjust filter macros to eliminate such false positives.
 references:
 - https://attack.mitre.org/techniques/T1053/003/
 - https://blog.aquasec.com/threat-alert-kinsing-malware-container-vulnerability

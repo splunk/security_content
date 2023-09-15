@@ -20,15 +20,19 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe", "onenote.exe","onenotem.exe",
-  "msaccess.exe","Graph.exe","winproj.exe") `process_mshta` by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `office_product_spawning_mshta_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+  "msaccess.exe","Graph.exe","winproj.exe") `process_mshta` by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.original_file_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `office_product_spawning_mshta_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: No false positives known. Filter as needed.
 references:
 - https://redcanary.com/threat-detection-report/threats/TA551/

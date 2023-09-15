@@ -15,11 +15,15 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `macos___re_opened_applications_filter`'
-how_to_implement: In order to properly run this search, Splunk needs to ingest process
-  data from your osquery deployed agents with the [splunk.conf](https://github.com/splunk/TA-osquery/blob/master/config/splunk.conf)
-  pack enabled. Also the [TA-OSquery](https://github.com/splunk/TA-osquery) must be
-  deployed across your indexers and universal forwarders in order to have the data
-  populate the Endpoint data model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: At this stage, there are no known false positives. During testing,
   no process events refering the com.apple.loginwindow.plist files were observed during
   normal operation of re-opening applications on reboot. Therefore, it can be asumed

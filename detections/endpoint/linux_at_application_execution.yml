@@ -5,11 +5,29 @@ date: '2022-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of the "At" application in Linux, which can be used by attackers to create persistence entries on a compromised host. The "At" application can be used for automation purposes by administrators or network operators, so the filter macros should be updated to remove false positives. If a true positive is found, it suggests an attacker is trying to maintain access to the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes. To implement this analytic, ensure you are ingesting logs with the required fields from your endpoints into the Endpoint datamodel. When a true positive is detected, it suggests that an attacker is attempting to establish persistence or deliver additional malicious payloads by leveraging the "At" application. This behavior can lead to data theft, ransomware attacks, or other damaging outcomes.\
+description: 'The following analytic detects the execution of the "At" application
+  in Linux, which can be used by attackers to create persistence entries on a compromised
+  host. The "At" application can be used for automation purposes by administrators
+  or network operators, so the filter macros should be updated to remove false positives.
+  If a true positive is found, it suggests an attacker is trying to maintain access
+  to the environment or potentially deliver additional malicious payloads, leading
+  to data theft, ransomware, or other damaging outcomes. To implement this analytic,
+  ensure you are ingesting logs with the required fields from your endpoints into
+  the Endpoint datamodel. When a true positive is detected, it suggests that an attacker
+  is attempting to establish persistence or deliver additional malicious payloads
+  by leveraging the "At" application. This behavior can lead to data theft, ransomware
+  attacks, or other damaging outcomes.\
 
-  During triage, the SOC analyst should review the context surrounding the execution of the "At" application. This includes identifying the user, the parent process responsible for invoking the application, and the specific command-line arguments used. It is important to consider whether the execution is expected behavior by an administrator or network operator for legitimate automation purposes.\
+  During triage, the SOC analyst should review the context surrounding the execution
+  of the "At" application. This includes identifying the user, the parent process
+  responsible for invoking the application, and the specific command-line arguments
+  used. It is important to consider whether the execution is expected behavior by
+  an administrator or network operator for legitimate automation purposes.\
 
-  The presence of "At" application execution may indicate an attacker's attempt to maintain unauthorized access to the environment. Immediate investigation and response are necessary to mitigate further risks, identify the attacker's intentions, and prevent potential harm to the organization.
+  The presence of "At" application execution may indicate an attacker''s attempt to
+  maintain unauthorized access to the environment. Immediate investigation and response
+  are necessary to mitigate further risks, identify the attacker''s intentions, and
+  prevent potential harm to the organization.'
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
@@ -18,10 +36,15 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `linux_at_application_execution_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints into the Endpoint datamodel. If you are using Sysmon, you can use the
-  Add-on for Linux Sysmon from Splunkbase.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Administrator or network operator can use this application
   for automation purposes. Please update the filter macros to remove false positives.
 references:
