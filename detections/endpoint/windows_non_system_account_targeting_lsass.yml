@@ -13,9 +13,9 @@ description: The following analytic identifies non SYSTEM accounts requesting ac
 data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe NOT (SourceUser="NT AUTHORITY\\*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage,
-  GrantedAccess, SourceImage, SourceProcessId, SourceUser, TargetUser | rename Computer
-  as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name, parent_process_path ,parent_process_id, TargetImage,
+  GrantedAccess, SourceUser, TargetUser | rename TargetUser
+  as user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `windows_non_system_account_targeting_lsass_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -35,7 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A process, $SourceImage$, has loaded $ImageLoaded$ that are typically related
+  message: A process, $parent_process_path$, has loaded $ImageLoaded$ that are typically related
     to credential dumping on $dest$. Review for further details.
   mitre_attack_id:
   - T1003.001
@@ -49,14 +49,10 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: ImageLoaded
+  - name: parent_process_path
     type: Process
     role:
-    - Other
-  - name: SourceImage
-    type: Process
-    role:
-    - Child Process
+    - Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

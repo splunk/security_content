@@ -13,10 +13,7 @@ description: The following analytic identifies regasm.exe with no command line a
   and `C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe`.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_regasm` by _time span=1h  Processes.process_id Processes.process_name
-  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_regasm` by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process  Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | regex process="(?i)(regasm\.exe.{0,4}$)" | `detect_regasm_with_no_command_line_arguments_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related

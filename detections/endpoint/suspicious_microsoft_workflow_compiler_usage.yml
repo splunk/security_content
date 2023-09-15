@@ -45,7 +45,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

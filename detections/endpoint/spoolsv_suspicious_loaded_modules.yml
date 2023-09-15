@@ -13,7 +13,7 @@ data_source:
 search: '`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*"
   ImageLoaded = "*.dll" | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded)
   as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer
-  ProcessId EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)`
+  ProcessId EventCode | rename Computer as dest | where countImgloaded >= 3 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `spoolsv_suspicious_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
@@ -29,25 +29,16 @@ tags:
   cve:
   - CVE-2021-34527
   impact: 80
-  message: $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$
-    on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare.
+  message: $Image$ with process id $ProcessId$ has loaded a driver from $ImageLoaded$
+    on endpoint $dest$. This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:
   - T1547.012
   - T1547
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
-  - name: process_id
-    type: Process Name
-    role:
-    - Parent Process
-    - Attacker
-  - name: ImageLoaded
-    type: File
-    role:
-    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

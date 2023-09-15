@@ -43,12 +43,12 @@ tags:
   - CVE-2021-36934
   impact: 80
   message: PowerShell was identified running a script to capture the SAM hive on endpoint
-    $ComputerName$ by user $user$.
+    $ComputerName$ by user $User$.
   mitre_attack_id:
   - T1003.002
   - T1003
   observable:
-  - name: user
+  - name: User
     type: User
     role:
     - Victim

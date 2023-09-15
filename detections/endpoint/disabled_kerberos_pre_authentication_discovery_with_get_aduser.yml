@@ -17,7 +17,7 @@ data_source:
 - Powershell 4104
 search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
   | stats count min(_time)  as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
+  UserID EventCode ScriptBlockText | rename Computer as dest | `security_content_ctime(firstTime)` | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.

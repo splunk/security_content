@@ -42,6 +42,7 @@ tags:
   analytic_story:
   - Deobfuscate-Decode Files or Information
   - Living Off The Land
+  - Forest Blizzard
   asset_type: Endpoint
   confidence: 80
   impact: 50

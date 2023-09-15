@@ -28,7 +28,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | `security_content_ctime(lastTime)` | join  process_id [| tstats `security_content_summariesonly`
   count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port !=
   0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)`
-  | rename dest as C2 ] | table _time dest parent_process_name process_name process_path
+  | rename dest as C2 ] | table _time user dest parent_process_name process_name process_path
   process process_id dest_port C2 | `windows_installutil_remote_network_connection_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related

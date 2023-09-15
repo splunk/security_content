@@ -35,7 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: process $process_name$ with cmdline $process$ in host $dest$
+  message: Process $process_name$ with cmdline $process$ in host $dest$
   mitre_attack_id:
   - T1218
   - T1218.011
@@ -44,7 +44,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: SourceImage
+  - name: process_name
     type: Process Name
     role:
     - Attacker

@@ -49,7 +49,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 70
-  message: rundll32.exe running with suspicious parameters on $dest$
+  message: rundll32.exe running with suspicious StartW parameters on $dest$
   mitre_attack_id:
   - T1218
   - T1218.011
@@ -58,7 +58,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
