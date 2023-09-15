@@ -34,16 +34,12 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: ''
+  message: Unknown process $process_name$ using the kerberos protocol detected on host $dest$
   mitre_attack_id:
   - T1550
   observable:
-  - name: src_ip
-    type: IP Address
-    role:
-    - Attacker
-  - name: dest_ip
-    type: IP Address
+  - name: dest
+    type: Hostname
     role:
     - Victim
   product:

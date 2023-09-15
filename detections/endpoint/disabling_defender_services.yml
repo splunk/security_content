@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   WHERE (Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*" AND
   (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*","*WinDefend*",
   "*SecurityHealthService*")) AND Registry.registry_value_name = Start Registry.registry_value_data
-  = 0x00000004) BY _time span=1h Registry.registry_path Registry.registry_key_name
+  = 0x00000004) BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.registry_value_data Registry.process_guid
   | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_defender_services_filter`'

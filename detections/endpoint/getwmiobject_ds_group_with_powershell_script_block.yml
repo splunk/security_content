@@ -14,8 +14,8 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace
   root\\directory\\ldap*" AND ScriptBlockText="*class ds_group*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText
-  | `security_content_ctime(firstTime)` | `getwmiobject_ds_group_with_powershell_script_block_filter`'
+  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`getwmiobject_ds_group_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 30
-  message: Domain group discovery enumeration using PowerShell on $Computer$ by $UserID$
+  message: Domain group discovery enumeration using PowerShell on $dest$ by $user$
   mitre_attack_id:
   - T1069
   - T1069.002

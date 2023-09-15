@@ -44,7 +44,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: execution of copy exe to copy file from $process$ in $dest$
+  message: Execution of copy exe to copy file from $process$ in $dest$
   mitre_attack_id:
   - T1036.003
   - T1036
@@ -53,7 +53,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

@@ -45,7 +45,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: An instance of $parent_proces_name$ spawning $process_name$ was identified
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ contacting a remote destination to potentally
     download a malicious payload.
   mitre_attack_id:
