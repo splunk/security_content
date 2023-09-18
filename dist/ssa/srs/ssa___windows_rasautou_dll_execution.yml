@@ -1,6 +1,7 @@
 name: Windows Rasautou DLL Execution
 id: 6f42b8ce-1e15-11ec-ad5a-acde48001122
 version: 1
+status: production
 description: The following analytic identifies the Windows Windows Remote Auto Dialer,
   rasautou.exe executing an arbitrary DLL. This technique is used to execute arbitrary
   shellcode or DLLs via the rasautou.exe LOLBin capability. During triage, review

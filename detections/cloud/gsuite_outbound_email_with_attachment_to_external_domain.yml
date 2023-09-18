@@ -38,14 +38,10 @@ tags:
   - T1048.003
   - T1048
   observable:
-  - name: source.address
-    type: User
+  - name: dest_domain
+    type: IP Address
     role:
     - Attacker
-  - name: destination{}.address
-    type: User
-    role:
-    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

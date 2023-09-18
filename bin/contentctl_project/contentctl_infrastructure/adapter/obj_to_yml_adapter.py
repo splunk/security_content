@@ -78,6 +78,7 @@ class ObjToYmlAdapter(Adapter):
                         "id": True,
                         "eventSchema": True,
                         "version": True,
+                        "status": True,
                         "description": True,
                         "search": True,
                         "how_to_implement": True,

@@ -1,6 +1,7 @@
 name: Windows Odbcconf Load Response File
 id: 7b6c3fac-0c37-4efc-a85e-de88f42b6763
 version: 1
+status: production
 description: The following analytic identifies the odbcconf.exe, Windows Open Database
   Connectivity utility, loading up a resource file. The file extension is arbitrary
   and may be named anything. The resource file itself may have different commands

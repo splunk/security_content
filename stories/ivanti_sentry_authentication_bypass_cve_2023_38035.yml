@@ -1,0 +1,24 @@
+name: Ivanti Sentry Authentication Bypass CVE-2023-38035
+id: da229be2-4637-47a5-b551-1d4b64f411c6
+version: 1
+date: '2023-08-24'
+author: Michael Haag, Splunk
+description: A critical vulnerability, designated as CVE-2023-38035, has been identified in Ivanti Sentry (formerly MobileIron Sentry). It affects all supported versions, including 9.18, 9.17, and 9.16, as well as older versions. The vulnerability allows an unauthenticated attacker to access the System Manager Portal (typically hosted on port 8443) and make configuration changes, potentially executing OS commands as root. However, the risk is low for users who haven't exposed port 8443 online. This flaw is distinct from other Ivanti products. It's imperative for organizations to check for unrecognized HTTP requests to /services/* as a potential indicator of compromise.
+narrative: CVE-2023-38035 presents a significant security risk in the Ivanti Sentry administration interface. The vulnerability was identified shortly after another notable vulnerability in Ivanti EPMM (CVE-2023-35078) was discovered being exploited in the wild. The current vulnerability allows a malicious actor, without requiring authentication, to access the System Manager Portal, typically hosted on port 8443. Upon successful exploitation, the attacker can make configuration alterations to both the Sentry system and its underlying OS. The potential damage is significant, enabling the attacker to execute commands on the system with root privileges. \
+
+  While this vulnerability scored high on the CVSS scale, its risk is relatively mitigated for clients who have not exposed port 8443 to the internet. The primary exploitation vector is the System Manager Portal, an administrative interface for Sentry. \
+
+  As of now, definitive indicators of compromise (IoCs) are elusive. However, any unexpected HTTP requests to the endpoint /services/* could be a red flag. It's worth noting that the exploited endpoint might not be the sole vulnerable point, suggesting other potential gateways for attackers. Ivanti Sentry's system doesn't provide a typical Unix shell, but in the event of a known system breach, the /var/log/tomcat2/ directory contains access logs that may reveal accessed endpoints. Additionally, web interface logs may provide insights into suspicious activities and should be monitored closely.
+references: 
+- https://github.com/horizon3ai/CVE-2023-38035/blob/main/CVE-2023-38035.py
+- https://www.horizon3.ai/ivanti-sentry-authentication-bypass-cve-2023-38035-deep-dive/
+- https://forums.ivanti.com/s/article/KB-API-Authentication-Bypass-on-Sentry-Administrator-Interface-CVE-2023-38035?language=en_US
+tags:
+  analytic_story: Ivanti Sentry Authentication Bypass CVE-2023-38035
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

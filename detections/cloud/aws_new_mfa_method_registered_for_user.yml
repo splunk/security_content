@@ -25,17 +25,16 @@ references:
 - https://twitter.com/jhencinski/status/1618660062352007174
 tags:
   analytic_story:
-  - Compromised User Account
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Active Directory
+  - AWS Identity and Access Management Account Takeover
+  asset_type: AWS Account
   confidence: 80
   impact: 80
-  message: A new virtual device $virtualMFADeviceName$ is added to user  $user_arn$
+  message: A new virtual device $virtualMFADeviceName$ is added to user $user_arn$
   mitre_attack_id:
   - T1556
   - T1556.006
   observable:
-  - name: user_name
+  - name: user_arn
     type: User
     role:
     - Victim

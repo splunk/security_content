@@ -1,6 +1,7 @@
 name: Resize Shadowstorage Volume
 id: dbc30554-d27e-11eb-9e5e-acde48001122
 version: 3
+status: production
 description: The following analytic identifies the resizing of shadowstorage using
   vssadmin.exe to avoid the shadow volumes being made again. This technique is typically
   found used by adversaries during a ransomware event and a precursor to deleting

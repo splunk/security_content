@@ -6,11 +6,10 @@ author: Kelby Shelton, Splunk
 type: Investigation
 description: This playbook checks for the presence of the Risk Investigation workbook and updates tasks or leaves generic notes.
 playbook: risk_notable_investigate
-how_to_implement: Set this playbook to run in Active mode on the Risk Notable label in Splunk SOAR.
+how_to_implement: For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
-app_list:
-  - "None"
+app_list: []
 tags:
   labels:
   - risk_notable

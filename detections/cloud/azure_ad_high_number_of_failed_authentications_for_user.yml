@@ -15,7 +15,7 @@ search: ' `azuread` category= SignInLogs properties.status.errorCode=50126 prope
   by userPrincipalName, _time | where failed_attempts > 20 | `azure_ad_high_number_of_failed_authentications_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
+  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
   Specifically, this analytic leverages the SignInLogs log category.
 known_false_positives: A user with more than 20 failed authentication attempts in
   the span of 5 minutes may also be triggered by a broken application.

@@ -1,6 +1,7 @@
 name: Windows Rename System Utilities Advpack dll LOLBAS in Non Standard Path
 id: 3284e4f4-67f7-49b6-ad5e-a8fcead2eef8
 version: 1
+status: production
 description: The following analytic identifies Advpack.dll which is a native living
   off the land binary or script (LOLBAS) within the Windows operating system that
   may be abused by adversaries by moving it to a new directory. The list of binaries

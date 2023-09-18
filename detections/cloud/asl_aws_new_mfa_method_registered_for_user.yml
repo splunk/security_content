@@ -25,9 +25,8 @@ references:
 - https://twitter.com/jhencinski/status/1618660062352007174
 tags:
   analytic_story:
-  - Compromised User Account
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Active Directory
+  - AWS Identity and Access Management Account Takeover
+  asset_type: AWS Account
   confidence: 80
   impact: 80
   message: A new virtual device is added to user $identity.user.name$

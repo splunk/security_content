@@ -1,6 +1,7 @@
 name: WevtUtil Usage To Clear Logs
 id: 5438113c-cdd9-11eb-93b8-acde48001122
 version: 2
+status: production
 description: The wevtutil.exe application is the windows event log utility. This searches
   for wevtutil.exe with parameters for clearing the application, security, setup,
   powershell, sysmon, or system event logs.

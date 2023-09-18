@@ -1,6 +1,7 @@
 name: Detect RClone Command-Line Usage
 id: e8b74268-5454-11ec-a799-acde48001122
 version: 1
+status: production
 description: This analytic identifies commonly used command-line arguments used by
   `rclone.exe` to initiate a file transfer. Some arguments were negated as they are
   specific to the configuration used by adversaries. In particular, an adversary may
