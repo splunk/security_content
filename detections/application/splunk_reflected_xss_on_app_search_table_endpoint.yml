@@ -1,4 +1,4 @@
-name: Splunk Reflected XSS on app search table endpoint
+name: Splunk Reflected XSS on App Search Table Endpoint
 id: 182f9080-4137-4629-94ac-cb1083ac981a
 version: 1
 date: '2023-09-05'
