@@ -41,7 +41,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: datasets/attack_techniques/T1498/splunk/splunk_dos_using_malformed_saml_request_splunkd.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1498/splunk/splunk_dos_using_malformed_saml_request_splunkd.log
     source: splunkd.log
     sourcetype: splunkd
     custom_index: _internal

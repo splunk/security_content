@@ -42,7 +42,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1202/splunk/splunk_cmd_injection_using_external_lookups_audittrail.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/splunk/splunk_cmd_injection_using_external_lookups_audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
