@@ -17,7 +17,7 @@ data_source:
 search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegram*",
   "*t.me*") process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe",
   "cscript.exe") | stats count min(_time) as firstTime max(_time) as lastTime by Image
-  QueryName QueryStatus process_name QueryResults dest | `security_content_ctime(firstTime)`
+  QueryName QueryStatus process_name QueryResults Computer | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `suspicious_process_dns_query_known_abuse_web_services_filter`'
 how_to_implement: This detection relies on sysmon logs with the Event ID 22, DNS Query.
   We suggest you run this detection at least once a day over the last 14 days.

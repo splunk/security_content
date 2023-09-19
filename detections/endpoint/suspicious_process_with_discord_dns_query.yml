@@ -15,7 +15,7 @@ data_source:
 search: '`sysmon` EventCode=22 QueryName IN ("*discord*") Image != "*\\AppData\\Local\\Discord\\*"
   AND Image != "*\\Program Files*" AND Image != "discord.exe" | stats count min(_time)
   as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name
-  QueryResults dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  QueryResults Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_process_with_discord_dns_query_filter`'
 how_to_implement: his detection relies on sysmon logs with the Event ID 22, DNS Query.
 known_false_positives: Noise and false positive can be seen if the following instant

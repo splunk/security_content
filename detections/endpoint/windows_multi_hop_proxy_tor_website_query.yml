@@ -14,7 +14,7 @@ data_source:
 - Sysmon Event ID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
   | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName
-  QueryStatus ProcessId  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  QueryStatus ProcessId  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_multi_hop_proxy_tor_website_query_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and sysmon eventcode = 22 dns query events from your

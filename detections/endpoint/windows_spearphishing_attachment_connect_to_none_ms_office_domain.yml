@@ -17,7 +17,7 @@ search: '`sysmon` EventCode=22 Image IN ("*\\winword.exe","*\\excel.exe","*\\pow
   "*\\onenotem.exe","*\\onenoteviewer.exe","*\\onenoteim.exe", "*\\msaccess.exe")
   AND NOT(QueryName IN ("*.office.com", "*.office.net")) | stats count min(_time)
   as firstTime max(_time) as lastTime by Image QueryName QueryResults QueryStatus
-  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_spearphishing_attachment_connect_to_none_ms_office_domain_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
