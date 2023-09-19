@@ -1,0 +1,55 @@
+name: O365 Advanced Audit Disabled
+id: 49862dd4-9cb2-4c48-a542-8c8a588d9361
+version: 1
+date: '2023-09-19'
+author: Mauricio Velazco, Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: UPDATE_DESCRIPTION
+search: >
+  `o365_management_activity` Operation="Change user license." 
+  | eval property_name = mvindex ('ExtendedProperties{}.Name', 1)
+  | search property_name = "extendedAuditEventCategory"
+  | eval additionalDetails = mvindex('ExtendedProperties{}.Value',0)
+  | eval split_value=split(additionalDetails, "NewValue")
+  | eval possible_plan=mvindex(split_value, 1) 
+  | rex field="possible_plan" "DisabledPlans=\[(?P<DisabledPlans>[^\]]+)\]"
+  | search DisabledPlans IN ("*M365_ADVANCED_AUDITING*")
+  | stats min(_time) as firstTime max(_time) as lastTime by Operation UserId object DisabledPlans
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_advanced_audit_disabled_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://attack.mitre.org/techniques/T1562/008/
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: Office 365
+  confidence: 80
+  impact: 40
+  message: Advanced auditing for user $object$ was disabled by $UserId$
+  mitre_attack_id:
+  - T1562
+  - T1562.008
+  observable:
+  - name: UserId
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 32
+  required_fields:
+  - _time
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/o365_advanced_audit_disabled/o365_advanced_audit_disabled.log
+    source: o365
+    sourcetype: o365:management:activity
