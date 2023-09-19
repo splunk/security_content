@@ -20,11 +20,14 @@ for dirpath, dirnames, filenames in os.walk(directory_path):
 
                 pattern1 = r'\bComputer\b'
                 pattern2 = r'$Computer\$'
+                pattern3 = r'\| rename dest as dest'
                 r1 = 'dest'
                 r2 = '$dest$'
+                r3 = ''
 
                 content = re.sub(pattern1, r1, content)
                 content = re.sub(pattern2, r2, content)
+                content = re.sub(pattern3, r3, content)
 
                 # # Add `| windows_rename_to_cim` before `| stats`
                 # content = content.replace('Computer ', 'dest')
