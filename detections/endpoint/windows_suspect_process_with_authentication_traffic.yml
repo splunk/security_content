@@ -55,7 +55,7 @@ tags:
       role:
         - Victim
     - name: user
-      type: User Name
+      type: User
       role:
         - Victim
     - name: process_name
