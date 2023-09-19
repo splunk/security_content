@@ -17,7 +17,7 @@ data_source:
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
   IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" ,
   "*\\wmiutils.dll", "*\\wbemcomn.dll") | stats min(_time) as firstTime max(_time)
-  as lastTime count by Image EventCode process_name ProcessId ProcessGuid Computer
+  as lastTime count by Image EventCode process_name ProcessId ProcessGuid dest
   ImageLoaded | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `ms_scripting_process_loading_wmi_module_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -55,7 +55,7 @@ tags:
   - process_name
   - ProcessId
   - ProcessGuid
-  - Computer
+  - dest
   - ImageLoaded
   risk_score: 9
   security_domain: endpoint

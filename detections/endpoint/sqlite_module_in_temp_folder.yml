@@ -29,11 +29,11 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  message: process $SourceImage$ create a file $TargetImage$ in host $dest$
   mitre_attack_id:
   - T1005
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

@@ -14,7 +14,7 @@ data_source:
 - Sysmon Event ID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
-  lastTime by Image Device ProcessGuid ProcessId EventDescription EventCode Computer
+  lastTime by Image Device ProcessGuid ProcessId EventDescription EventCode dest
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the raw access read event (like sysmon eventcode 9), process name and
@@ -51,7 +51,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Computer
+  - dest
   - Image
   - Device
   - ProcessGuid

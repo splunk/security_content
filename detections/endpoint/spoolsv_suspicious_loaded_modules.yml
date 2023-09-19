@@ -12,7 +12,7 @@ data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*"
   ImageLoaded = "*.dll" | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded)
-  as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer
+  as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image dest
   ProcessId EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `spoolsv_suspicious_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -30,12 +30,12 @@ tags:
   - CVE-2021-34527
   impact: 80
   message: $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$
-    on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare.
+    on endpoint $dest$. This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:
   - T1547.012
   - T1547
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -55,7 +55,7 @@ tags:
   required_fields:
   - _time
   - Image
-  - Computer
+  - dest
   - EventCode
   - ImageLoaded
   risk_score: 72

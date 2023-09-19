@@ -17,7 +17,7 @@ search: '`sysmon` EventCode=7 Image = "*\calc.exe" AND NOT (Image IN ("*:\\windo
   "*:\\windows\\sysWow64\\*")) AND NOT(ImageLoaded IN("*:\\windows\\system32\\*",
   "*:\\windows\\sysWow64\\*", "*:\\windows\\WinSXS\\*")) | stats count min(_time)
   as firstTime max(_time) as lastTime by Image ImageLoaded OriginalFileName Product
-  process_name Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)`
+  process_name dest EventCode Signed ProcessId | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_dll_side_loading_in_calc_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on processes that include the name of the process responsible for the changes from
@@ -34,12 +34,12 @@ tags:
   confidence: 100
   impact: 90
   message: a dll modules is loaded by calc.exe in $ImageLoaded$ that are not in common
-    windows OS installation folder in $Computer$
+    windows OS installation folder in $dest$
   mitre_attack_id:
   - T1574.002
   - T1574
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -54,7 +54,7 @@ tags:
   - OriginalFileName
   - Product
   - process_name
-  - Computer
+  - dest
   - EventCode
   - Signed
   - ProcessId

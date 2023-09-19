@@ -12,7 +12,7 @@ data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe"
   NOT(Image IN("*\\windows\\*", "*\\program files*")) | stats count min(_time) as
-  firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode
+  firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode
   Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `uac_bypass_with_colorui_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -30,7 +30,7 @@ tags:
   confidence: 80
   impact: 60
   message: The following module $ImageLoaded$ was loaded by a non-standard application
-    on endpoint $Computer$ by user $user$.
+    on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1218
   - T1218.003
@@ -39,7 +39,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -56,7 +56,7 @@ tags:
   - Image
   - ImageLoaded
   - process_name
-  - Computer
+  - dest
   - EventCode
   - Signed
   - ProcessId

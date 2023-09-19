@@ -36,12 +36,12 @@ tags:
   confidence: 70
   impact: 70
   message: a process $SourceImage$ is duplicating the handle token of winlogon.exe
-    in $Computer$
+    in $dest$
   mitre_attack_id:
   - T1134.001
   - T1134
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -63,7 +63,7 @@ tags:
   - TargetProcessId
   - GrantedAccess
   - CallTrace
-  - Computer
+  - dest
   - user_id
   risk_score: 49
   security_domain: endpoint
