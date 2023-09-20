@@ -14,8 +14,7 @@ data_source:
 - Sysmon Event ID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
-  lastTime by Image Device ProcessGuid ProcessId EventDescription EventCode Computer
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'
+  lastTime by dest signature signature_id process_guid process_name process_path Device | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the raw access read event (like sysmon eventcode 9), process name and
   process guid from your endpoints. If you are using Sysmon, you must have at least
@@ -36,12 +35,12 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: Process accessing disk partition $device$ in $dest$
+  message: Process accessing disk partition $Device$ in $dest$
   mitre_attack_id:
   - T1561.002
   - T1561
   observable:
-  - name: ComputerName
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -51,13 +50,15 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Computer
-  - Image
+  - dest 
+  - signature
+  - signature_id
+  - process_guid
+  - process_name
+  - process_path 
   - Device
-  - ProcessGuid
-  - ProcessId
-  - EventDescription
   - EventCode
+  - Image
   risk_score: 90
   security_domain: endpoint
 tests:

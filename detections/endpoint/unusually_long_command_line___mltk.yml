@@ -17,16 +17,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | apply cmdline_pdfmodel threshold=0.01 | rename "IsOutlier(processlen)" as isOutlier
   | search isOutlier > 0 | table firstTime lastTime user dest process_name process
   processlen count | `unusually_long_command_line___mltk_filter`'
-how_to_implement: You must be ingesting endpoint data that monitors command lines
-  and populates the Endpoint data model in the Processes node. The command-line arguments
-  are mapped to the "process" field in the Endpoint data model. In addition, MLTK
-  version >= 4.2 must be installed on your search heads, along with any required dependencies.
-  Finally, the support search "Baseline of Command Line Length - MLTK" must be executed
-  before this detection search, as it builds an ML model over the historical data
-  used by this search. It is important that this search is run in the same app context
-  as the associated support search, so that the model created by the support search
-  is available for use. You should periodically re-run the support search to rebuild
-  the model with the latest data available in your environment.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Some legitimate applications use long command lines for installs
   or updates. You should review identified command lines for legitimacy. You may modify
   the first part of the search to omit legitimate command lines from consideration.

@@ -5,7 +5,14 @@ date: '2022-05-23'
 author: David Dorsey, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to detect suspicious command-line arguments executed through 'schtasks.exe' to create a scheduled task on a remote endpoint. The analytic scans process data, checking for instances where 'schtasks.exe' has been used with specific command-line flags that suggest an attempt at lateral movement or remote code execution, common techniques employed by adversaries and red teams. Key data points include the process name, the specific command line used, the parent process name, the target destination, and the user involved. Also, timestamp data gives context to when these activities occurred. 
+description: The following analytic is designed to detect suspicious command-line
+  arguments executed through 'schtasks.exe' to create a scheduled task on a remote
+  endpoint. The analytic scans process data, checking for instances where 'schtasks.exe'
+  has been used with specific command-line flags that suggest an attempt at lateral
+  movement or remote code execution, common techniques employed by adversaries and
+  red teams. Key data points include the process name, the specific command line used,
+  the parent process name, the target destination, and the user involved. Also, timestamp
+  data gives context to when these activities occurred.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -14,12 +21,18 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process="*/s*") by Processes.process_name Processes.process Processes.parent_process_name
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `schtasks_scheduling_job_on_remote_system_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-known_false_positives: While it is possible to have false positives, due to legitimate administrative tasks, these are usually limited and should still be validated and investigated as appropriate.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: While it is possible to have false positives, due to legitimate
+  administrative tasks, these are usually limited and should still be validated and
+  investigated as appropriate.
 references: []
 tags:
   analytic_story:

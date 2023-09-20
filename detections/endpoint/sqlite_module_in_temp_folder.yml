@@ -12,9 +12,9 @@ description: This search is to detect a suspicious file creation of sqlite3.dll 
 data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename
-  = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") |stats count min(_time) as
-  firstTime max(_time) as lastTime by process_name TargetFilename EventCode ProcessId
-  Image | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") 
+| stats count min(_time) as
+    firstTime max(_time) as lastTime by dest signature signature_id process_name file_name file_path action process_guid| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `sqlite_module_in_temp_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -29,15 +29,15 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  message: Process $process_name$ create a file $file_name$ in host $dest$
   mitre_attack_id:
   - T1005
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: SourceImage
+  - name: process_name
     type: Process
     role:
     - Attacker

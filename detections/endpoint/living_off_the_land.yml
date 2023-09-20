@@ -39,14 +39,14 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 90
-  message: An increase of Living Off The Land behavior has been detected on $affected_systems$
+  message: An increase of Living Off The Land behavior has been detected on $risk_object$
   mitre_attack_id:
   - T1105
   - T1190
   - T1059
   - T1133
   observable:
-  - name: affected_systems
+  - name: risk_object
     type: Hostname
     role:
     - Victim

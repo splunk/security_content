@@ -24,11 +24,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   process=orig_process | fields - unusual_cmdline* predicted(unusual_cmdline_logits)
   orig_process | where score > 0.5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `potentially_malicious_code_on_commandline_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.  You will also need to install the Machine Learning Toolkit version 5.3
-  or above to apply the pretrained model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: This model is an anomaly detector that identifies usage of
   APIs and scripting constructs that are correllated with malicious activity.  These
   APIs and scripting constructs are part of the programming langauge and advanced

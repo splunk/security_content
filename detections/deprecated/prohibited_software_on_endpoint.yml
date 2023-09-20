@@ -1,52 +1,48 @@
 name: Prohibited Software On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-b6ae50145893
 version: 2
-date: "2019-10-11"
+date: '2019-10-11'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting
-description:
-  This search looks for applications on the endpoint that you have marked
+description: This search looks for applications on the endpoint that you have marked
   as prohibited.
 data_source:
-  - Sysmon Event ID 1
-search:
-  "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process_name
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`
-  | `prohibited_processes` | `prohibited_software_on_endpoint_filter`"
-how_to_implement:
-  To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is usually generated via logs that report process tracking
-  in your Windows audit settings. In addition, you must also have only the `process_name`
-  (not the entire process path) marked as "prohibited" in the Enterprise Security
-  `interesting processes` table. To include the process names marked as "prohibited",
-  which is included with ES Content Updates, run the included search <code>Add Prohibited
-  Processes to Enterprise Security</code>.
+  | `prohibited_processes` | `prohibited_software_on_endpoint_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: None identified
 references: []
 tags:
   analytic_story:
-    - Monitor for Unauthorized Software
-    - "Emotet Malware  DHS Report TA18-201A "
-    - SamSam Ransomware
+  - Monitor for Unauthorized Software
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - SamSam Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50
   message: tbd
   observable:
-    - name: field
-      type: Unknown
-      role:
-        - Unknown
+  - name: field
+    type: Unknown
+    role:
+    - Unknown
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   required_fields:
-    - _times
+  - _times
   risk_score: 25
   security_domain: endpoint

@@ -7,28 +7,31 @@ type: TTP
 status: production
 data_source:
 - Sysmon Event ID 13
-description: Aside from being used to promote genuine domain controllers, the DSRM (Directory Services Restore Mode)
-  account can be used to persist within a Domain. A DC can be configured to allow the DSRM account to logon & be
- used in the same way as a local administrator account. This detection is looking for alterations to the behaviour 
- of the account via registry.  
+description: Aside from being used to promote genuine domain controllers, the DSRM
+  (Directory Services Restore Mode) account can be used to persist within a Domain.
+  A DC can be configured to allow the DSRM account to logon & be used in the same
+  way as a local administrator account. This detection is looking for alterations
+  to the behaviour of the account via registry.
 search: '| tstats `security_content_summariesonly` min(_time) as _time from datamodel=Endpoint.Registry
   where Registry.registry_path= "*\\System\\CurrentControlSet\\Control\\Lsa\\DSRMAdminLogonBehavior"
   Registry.registry_value_data IN ("*1","*2") by Registry.action Registry.registry_path
   Registry.registry_value_data Registry.registry_value_type Registry.process_guid
-  | `drop_dm_object_name(Registry)`
-  | join type=outer process_guid [| tstats `security_content_summariesonly` count
-  FROM datamodel=Endpoint.Processes by Processes.user Processes.process_name Processes.process
-  Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
-  | `drop_dm_object_name(Processes)`]
-  | table _time action dest user parent_process_name parent_process process_name process
-  process_guid registry_path registry_value_data registry_value_type | `windows_ad_dsrm_account_changes_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
-known_false_positives: Disaster recovery events. 
+  | `drop_dm_object_name(Registry)` | join type=outer process_guid [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes by Processes.user Processes.process_name
+  Processes.process Processes.dest Processes.parent_process_name Processes.parent_process
+  Processes.process_guid | `drop_dm_object_name(Processes)`] | table _time action
+  dest user parent_process_name parent_process process_name process process_guid registry_path
+  registry_value_data registry_value_type | `windows_ad_dsrm_account_changes_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Disaster recovery events.
 references:
 - https://adsecurity.org/?p=1714
 tags:

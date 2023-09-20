@@ -17,12 +17,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   |`unload_sysmon_filter_driver_filter`| table firstTime lastTime dest user count
   process_name process_id parent_process_name process'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
-  update this macro to filter out false positives.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Unknown at the moment
 references:
 - https://www.ired.team/offensive-security/defense-evasion/unloading-sysmon-driver
