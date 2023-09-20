@@ -26,7 +26,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText="*KerberosRequestorSecurityToken*"
   | stats count min(_time) as firstTime max(_time) as lastTime by ScriptBlockText
-  Opcode Computer UserID EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Opcode Computer UserID EventCode | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `serviceprincipalnames_discovery_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -56,28 +56,19 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $Computer$ by user $UserID$ attempting to identify service principle
+  message: An instance of attempting to identify service principle detected on $dest$
     names.
   mitre_attack_id:
   - T1558.003
   observable:
-  - name: UserID
+  - name: user
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

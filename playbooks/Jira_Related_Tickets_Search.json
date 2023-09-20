@@ -1,0 +1,545 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Related Tickets Search",
+    "coa": {
+        "data": {
+            "description": "Accepts a user or device and identifies if related tickets exists in a timeframe of last 30 days. Generates a global report and list of observables.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_10",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_16_to_port_25",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "25",
+                    "targetPort": "25_in"
+                },
+                {
+                    "id": "port_14_to_port_16",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "id": "port_27_to_port_19",
+                    "sourceNode": "27",
+                    "sourcePort": "27_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_10_to_port_26",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "26",
+                    "targetPort": "26_in"
+                },
+                {
+                    "id": "port_26_to_port_27",
+                    "sourceNode": "26",
+                    "sourcePort": "26_out",
+                    "targetNode": "27",
+                    "targetPort": "27_in"
+                },
+                {
+                    "id": "port_19_to_port_29",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "29",
+                    "targetPort": "29_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_29_to_port_14",
+                    "sourceNode": "29",
+                    "sourcePort": "29_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_29_to_port_28",
+                    "sourceNode": "29",
+                    "sourcePort": "29_out",
+                    "targetNode": "28",
+                    "targetPort": "28_in"
+                },
+                {
+                    "id": "port_25_to_port_30",
+                    "sourceNode": "25",
+                    "sourcePort": "25_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_28_to_port_30",
+                    "sourceNode": "28",
+                    "sourcePort": "28_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_30_to_port_1",
+                    "sourceNode": "30",
+                    "sourcePort": "30_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "globalCustomCode": null,
+            "hash": "de0bf40b98d18d786250e8ea9d0c2e46c3017c61",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1754
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
+                            "description": "Creates a dataset without None values.",
+                            "join": [],
+                            "note": "Creates a dataset without None values."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:search_term",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "search term exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "10",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 230,
+                    "y": 148
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process results",
+                            "customNameId": 0,
+                            "description": "Iterates through the results of the run ticket query to link playbook input search term to their associated tickets.",
+                            "join": [],
+                            "note": "Iterates through the results of the run ticket query to link playbook input search term to their associated tickets."
+                        },
+                        "functionId": 3,
+                        "functionName": "process_results",
+                        "id": "14",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:search_term",
+                            "run_ticket_query:action_result.data"
+                        ],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "code",
+                    "userCode": "\n    import re\n    from collections import Counter\n\n    def traverse_string_in_structure(data):\n        \"\"\"\n        Return all strings in a Python data structure.\n\n        Input: a Python data structure.\n            If the input is a string, it is returned.\n            If the input is a dictionary, all its values are traversed recursively.\n            If the input is a list or tuple, all its items are traversed recursively.\n            For other input types, they are not traversed.\n        \"\"\"\n        if type(data) == str:\n            yield data\n        elif type(data) == dict:\n            for i in data.values():\n                yield from traverse_string_in_structure(i)\n        elif type(data) in [list, tuple]:\n            for i in data:\n                yield from traverse_string_in_structure(i)\n        else:\n            pass\n\n    def match_string_in_structure(search_term, data):\n        \"\"\"\n        Look for exact match of a search term in a Python data structure.\n\n        Input:\n            search_term: text to be searched, case insensitive.\n            data: a Python data structure to be searched, see traverse_string_in_structure().\n\n        Output: A boolean value indicating whether search_term is found in data.\n        \"\"\"\n        for i in traverse_string_in_structure(data):\n            if search_term.lower() in i.lower():\n                return True\n        return False\n\n    def match_string_in_jira_ticket(search_term, ticket):\n        \"\"\"\n        Look for exact match of a search term in a Jira ticket.\n\n        Input:\n            search_term: text to be searched, case insensitive.\n            ticket: a dictionary returned from the \"list tickets\" Jira action. Example:\n            {\n                \"id\": \"1234567\",\n                \"name\": \"JIRA-890\",\n                \"fields\": {\n                    \"votes\": {...},\n                    \"security\": null,\n                    \"customfield_1234\": \"Please fix JIRA-890\",\n                    \"customfield_1235\": null,\n                    \"customfield_1236\": null,\n                    ...\n                },\n                ...\n            }\n\n        Output: A list of field names in which the search term is found. e.g. ['name', 'votes', 'customfield_1234']\n            Most field names can be accessed in ticket['fields'][field_name], with the exception that 'name' can be found in ticket['name'].\n        \"\"\"\n\n        found_fields = []\n\n        # Handle the exception ticket['name']\n        if match_string_in_structure(search_term, ticket['name']):\n            found_fields.append('name')\n\n        # Handle ticket['fields'][field_name]\n        for key, value in ticket['fields'].items():\n            if match_string_in_structure(search_term, ticket['fields'][key]):\n                found_fields.append(key)\n\n        return found_fields\n\n    def guess_jira_ticket_link(ticket):\n        \"\"\"\n        Guess the link to Jira ticket.\n\n        This function searches the ticket data structure for Jira host name. Then it constructs the link using the /browse/ endpoint.\n\n        Input: a dictionary returned from the \"list tickets\" Jira action. Example:\n            {\n                \"id\": \"1234567\",\n                \"name\": \"JIRA-890\",\n                \"fields\": {...},\n                ...\n            }\n        Output: a URL that points to the ticket, e.g. \"https://jira.example.com/browse/JIRA-890\"\n        \"\"\"\n\n        origins = Counter()\n        for i in traverse_string_in_structure(ticket):\n            matched = re.match('https?:\\/\\/[^\\/]+/', i)\n            if matched is not None:\n                origins[matched.group()] += 1\n        try:\n            origin = origins.most_common()[0][0]\n            return f'{origin}browse/{ticket[\"name\"]}'\n        except (KeyError, IndexError):\n            return None\n\n    # Group tickets based on search term.\n    process_results__output = {}\n    for search_term in filtered_input_0_search_term_values:\n        process_results__output[search_term] = []\n        for ticket_list in run_ticket_query_result_item_0:\n            for ticket in ticket_list:\n                matched_fields = match_string_in_jira_ticket(search_term, ticket)\n                if matched_fields:\n                    process_results__output[search_term].append({\n                        **ticket,\n                        \"matched_fields\": matched_fields,\n                        \"source_link\": guess_jira_ticket_link(ticket),\n                    })\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1042
+                },
+                "16": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "build output",
+                            "customNameId": 0,
+                            "description": "Extracts relevant data and add them to an observable array.",
+                            "join": [],
+                            "note": "Extracts relevant data and add them to an observable array."
+                        },
+                        "functionId": 5,
+                        "functionName": "build_output",
+                        "id": "16",
+                        "inputParameters": [
+                            "process_results:custom_function:output"
+                        ],
+                        "outputVariables": [
+                            "observable_array",
+                            "summary",
+                            "name",
+                            "description",
+                            "create_time",
+                            "updated_time",
+                            "assignee",
+                            "reporter",
+                            "status",
+                            "ticket_type",
+                            "priority",
+                            "resolution",
+                            "matched_fields",
+                            "source_link",
+                            "source"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "code",
+                    "userCode": "\n    def markdown_escape(string):\n        \"\"\"\n        Escape a string in Markdown.\n\n        Input: a string or an object that can be converted to string using str(). e.g. \"index=* | top\"\n        Output: escaped string. e.g. \"index=\\* \\| top\"\n        \"\"\"\n\n        # Must keep '\\\\' in the first, because it is used to escape other characters\n        special_chars = ['\\\\', '`', '*', '_', '{', '}', '[', ']', '<', '>', '(', ')', '#', '+', '-', '.', '!', '|']\n        ans = str(string)\n        for i in special_chars:\n            ans = ans.replace(i, '\\\\' + i)\n        return ans\n\n    build_output__observable_array = []\n    build_output__summary = []\n    build_output__name = []\n    build_output__description = []\n    build_output__create_time = []\n    build_output__updated_time = []\n    build_output__assignee = []\n    build_output__reporter = []\n    build_output__status = []\n    build_output__ticket_type = []\n    build_output__priority = []\n    build_output__resolution = []\n    build_output__matched_fields = []\n    build_output__source_link = []\n    build_output__source = []\n\n    for key in process_results__output.keys():\n        \n        for value in process_results__output[key]:\n            # Extract fields from ticket object.\n            ticket = {}\n            ticket['summary'] = value.get('summary')\n            ticket['name'] = value.get('name')\n            ticket['description'] = json.dumps(value['description'])  # eliminate new line issues\n            ticket['create_time'] = value['fields'].get('created')\n            ticket['updated_time'] = value['fields'].get('updated')\n            asignee_dict = value['fields'].get('assignee')\n            if asignee_dict is not None:\n                ticket['assignee'] = asignee_dict.get('displayName', '')\n            else:\n                ticket['assignee'] = ''\n            ticket['reporter'] = value.get('reporter')\n            ticket['status'] = value.get('status')\n            ticket['ticket_type'] = value.get('issue_type')\n            ticket['priority'] = value.get('priority')\n            ticket['resolution'] = value.get('resolution')\n            ticket['matched_fields'] = value.get('matched_fields')\n            ticket['source_link'] = value.get('source_link')\n            ticket['source'] = 'Jira'\n\n            # Extract comments (only included in the observable object, not in other output variables).\n            ticket['comments'] = []\n            for comment in value['fields']['comment']['comments']:\n                ticket['comments'].append(comment['body'])\n            \n            # Construct observable object\n            observable_object = {\n                \"value\": key,\n                \"ticket\": {\n                    'name': markdown_escape(ticket['summary']),\n                    'number': markdown_escape(ticket['name']),\n                    'message': markdown_escape(ticket['description']),\n                    'start_time': markdown_escape(ticket['create_time']),\n                    'updated_time': markdown_escape(ticket['updated_time']),\n                    'end_time': '',\n                    'assignee': markdown_escape(ticket['assignee']),\n                    'creator_name': markdown_escape(ticket['reporter']),\n                    'state': markdown_escape(ticket['status']),\n                    'ticket_type': markdown_escape(ticket['ticket_type']),\n                    'priority': markdown_escape(ticket['priority']),\n                    'resolution': markdown_escape(ticket['resolution']),\n                },\n                \"matched_fields\": value['matched_fields'],\n                \"source\": ticket['source'],\n                \"source_link\": ticket['source_link']\n            }\n\n            # Add results to VPE code output\n            build_output__observable_array.append(observable_object)\n            build_output__summary.append(markdown_escape(ticket['summary']))\n            build_output__name.append(markdown_escape(ticket['name']))\n            build_output__description.append(markdown_escape(ticket['description']))\n            build_output__create_time.append(markdown_escape(ticket['create_time']))\n            build_output__updated_time.append(markdown_escape(ticket['updated_time']))\n            build_output__assignee.append(markdown_escape(ticket['assignee']))\n            build_output__reporter.append(markdown_escape(ticket['reporter']))\n            build_output__status.append(markdown_escape(ticket['status']))\n            build_output__ticket_type.append(markdown_escape(ticket['ticket_type']))\n            build_output__priority.append(markdown_escape(ticket['priority']))\n            build_output__resolution.append(markdown_escape(ticket['resolution']))\n            build_output__matched_fields.append(markdown_escape(ticket['matched_fields']))\n            build_output__source_link.append(markdown_escape(ticket['source_link']))\n            build_output__source.append(markdown_escape(ticket['source']))\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1220
+                },
+                "19": {
+                    "data": {
+                        "action": "list tickets",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run ticket query",
+                            "customNameId": 0,
+                            "description": "Performs a text search match within Jira.",
+                            "join": [],
+                            "note": "Performs a text search match within Jira."
+                        },
+                        "connector": "Jira",
+                        "connectorConfigs": [
+                            "jira"
+                        ],
+                        "connectorId": "1e1618e7-2f70-4fc0-916a-f96facc2d2e1",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_ticket_query",
+                        "id": "19",
+                        "parameters": {
+                            "max_results": 1000,
+                            "query": "build_query:formatted_data",
+                            "start_index": "0"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 1000,
+                                "field": "max_results"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 684
+                },
+                "25": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format success report",
+                            "customNameId": 0,
+                            "description": "Formats a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Formats a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 3,
+                        "functionName": "format_success_report",
+                        "id": "25",
+                        "parameters": [
+                            "build_output:custom_function:summary",
+                            "build_output:custom_function:name",
+                            "build_output:custom_function:description",
+                            "build_output:custom_function:create_time",
+                            "build_output:custom_function:updated_time",
+                            "build_output:custom_function:assignee",
+                            "build_output:custom_function:reporter",
+                            "build_output:custom_function:status",
+                            "build_output:custom_function:ticket_type",
+                            "build_output:custom_function:priority",
+                            "build_output:custom_function:resolution",
+                            "build_output:custom_function:matched_fields",
+                            "build_output:custom_function:source",
+                            "build_output:custom_function:source_link"
+                        ],
+                        "template": "SOAR retrieved tickets from Jira. The table below shows a summary of the information gathered.\n\n| Summary | Name | Description | Create Time | Update Time | Assignee | Reporter | Status | Type | Priority | Resolution | Matched Fields | Source | Source Link |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10} | {11} | {12} | {13} |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "25",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1398
+                },
+                "26": {
+                    "data": {
+                        "advanced": {
+                            "customName": "escape input",
+                            "customNameId": 0,
+                            "description": "Escapes the input strings to be added to JQL.",
+                            "join": [],
+                            "note": "Escapes the input strings to be added to JQL."
+                        },
+                        "functionId": 1,
+                        "functionName": "escape_input",
+                        "id": "26",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:search_term"
+                        ],
+                        "outputVariables": [
+                            "search_term"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "26",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n\n    def escape_search_term(search_term):\n        \"\"\"\n        Escape a string to allow it to be passed as part of JQL.\n\n        This function escapes the following characters: \"'\", '\"', '\\t', '\\n', '\\r', and '\\\\'.\n\n        Example:\n            Function input: search_term=\"abc'def\"\n            Function return value: r\"abc\\\\\\'def\"\n            Intended JQL snippet: r'''text ~ \"\\\"abc\\\\\\'def\\\"\"'''\n        \"\"\"\n        ans = search_term\n        # Note: escape backslash ('\\\\') at the beginning, since other escapes generate backslash.\n        ans = ans.replace('\\\\', r\"\\\\\\\\\")\n        ans = ans.replace('\\t', r'\\\\\\t')\n        ans = ans.replace('\\n', r'\\\\\\n')\n        ans = ans.replace('\\r', r'\\\\\\r')\n        ans = ans.replace('\\\"', r'\\\\\\\"')\n        ans = ans.replace(\"\\'\", r\"\\\\\\'\")\n        return ans\n\n    escape_input__search_term = []\n    for i in filtered_input_0_search_term_values:\n        escape_input__search_term.append(escape_search_term(i))\n\n",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 328
+                },
+                "27": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build query",
+                            "customNameId": 0,
+                            "description": "Converts playbook input into a JQL query. The query searches for issues created less than 30 days ago that match at least one playbook input keyword.\n\nThe delimiter is set to '\\\"\" OR text ~ \"\\\"', so when multiple inputs are provided to the playbook, the request queries all keywords using OR in JQL.",
+                            "drop_none": true,
+                            "join": [],
+                            "note": "Converts playbook input into a JQL query. The query searches for issues created less than 30 days ago that match at least one playbook input keyword.\n\nThe delimiter is set to '\\\"\" OR text ~ \"\\\"', so when multiple inputs are provided to the playbook, the request queries all keywords using OR in JQL.",
+                            "separator": "\\\"\" OR text ~ \"\\\""
+                        },
+                        "functionId": 1,
+                        "functionName": "build_query",
+                        "id": "27",
+                        "parameters": [
+                            "escape_input:custom_function:search_term"
+                        ],
+                        "template": "(text ~ \"\\\"{0}\\\"\") AND created > -30d",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "27",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 506
+                },
+                "28": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format error report",
+                            "customNameId": 0,
+                            "description": "Formats a report that contains error message from the run ticket query action.",
+                            "join": [],
+                            "note": "Formats a report that contains error message from the run ticket query action."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_error_report",
+                        "id": "28",
+                        "parameters": [
+                            "run_ticket_query:action_result.message"
+                        ],
+                        "template": "SOAR is unable to retrieve tickets from Jira. Error message from Jira:\n```\n{0}\n```",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "28",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1398
+                },
+                "29": {
+                    "data": {
+                        "advanced": {
+                            "customName": "handle query error",
+                            "customNameId": 0,
+                            "description": "Checks whether the run ticket query action returns an error.",
+                            "join": [],
+                            "note": "Checks whether the run ticket query action returns an error."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "run_ticket_query:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "query succeeded",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "query failed",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "handle_query_error",
+                        "id": "29",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "29",
+                    "type": "decision",
+                    "warnings": {},
+                    "x": 250,
+                    "y": 862
+                },
+                "30": {
+                    "data": {
+                        "advanced": {
+                            "customName": "combine reports",
+                            "customNameId": 0,
+                            "description": "Combines reports from success path and error path.",
+                            "drop_none": true,
+                            "join": [],
+                            "note": "Combines reports from success path and error path."
+                        },
+                        "functionId": 4,
+                        "functionName": "combine_reports",
+                        "id": "30",
+                        "parameters": [
+                            "format_success_report:formatted_data",
+                            "format_error_report:formatted_data"
+                        ],
+                        "template": "{0}{1}",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "30",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 1576
+                }
+            },
+            "notes": "Inputs: user, device\nInteractions: Jira\nActions: run query\nOutputs: report, observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name",
+                    "host name"
+                ],
+                "description": "Find tickets in Jira that have mentioned this search term..",
+                "name": "search_term"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries with value, type, score, score_id, and categories.",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "combine_reports:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of reports. One report per reputation category.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.10",
+        "version": "6.1.0.131"
+    },
+    "create_time": "2023-08-23T21:18:18.801634+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "user",
+        "device",
+        "host name",
+        "ticket",
+        "Jira"
+    ]
+}

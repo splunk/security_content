@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip",
   "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json",
   "*-azapplicationadmins.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
-  Filesystem.file_path Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
+  Filesystem.file_path Filesystem.dest Filesystem.user | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_azurehound_file_modifications_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on file modifications that include the name of the process, and file, responsible

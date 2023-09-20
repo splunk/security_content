@@ -5,16 +5,30 @@ date: '2023-06-13'
 author: Steven Dick
 status: production
 type: TTP
-description: This analytic identifies a suspicious process spawned by another process from within common container/archive file types. This technique was a common technique used by adversaries and malware to execute scripts or evade defenses. This TTP may detect some normal software installation or user behaviors where opening archive files is common.
+description: This analytic identifies a suspicious process spawned by another process
+  from within common container/archive file types. This technique was a common technique
+  used by adversaries and malware to execute scripts or evade defenses. This TTP may
+  detect some normal software installation or user behaviors where opening archive
+  files is common.
 data_source:
 - Sysmon 1
 - Windows Security 4688
-search: '| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*.ZIP\\*","*.ISO\\*","*.IMG\\*","*.CAB\\*","*.TAR\\*","*.GZ\\*","*.RAR\\*","*.7Z\\*") AND Processes.action="allowed" by Processes.dest Processes.parent_process Processes.process Processes.user| `drop_dm_object_name(Processes)`| regex process="(?i).*(ZIP|ISO|IMG|CAB|TAR|GZ|RAR|7Z)\\\\.+\.(BAT|BIN|CAB|CMD|COM|CPL|EX_|EXE|GADGET|INF1|INS|INX||HTM|HTML|ISU|JAR|JOB|JS|JSE|LNK|MSC|MSI|MSP|MST|PAF|PIF|PS1|REG|RGS|SCR|SCT|SHB|SHS|U3P|VB|VBE|VBS|VBSCRIPT|WS|WSF|WSH)\"?$" | rex field=process "(?i).+\\\\(?<file_name>[^\\\]+\.(ZIP|ISO|IMG|CAB|TAR|GZ|RAR|7Z))\\\\((.+\\\\)+)?(?<process_name>.+\.(BAT|BIN|CAB|CMD|COM|CPL|EX_|EXE|GADGET|INF1|INS|INX||HTM|HTML|ISU|JAR|JOB|JS|JSE|LNK|MSC|MSI|MSP|MST|PAF|PIF|PS1|REG|RGS|SCR|SCT|SHB|SHS|U3P|VB|VBE|VBS|VBSCRIPT|WS|WSF|WSH))\"?$"| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_process_executed_from_container_file_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
+  as process_name min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where Processes.process IN ("*.ZIP\\*","*.ISO\\*","*.IMG\\*","*.CAB\\*","*.TAR\\*","*.GZ\\*","*.RAR\\*","*.7Z\\*")
+  AND Processes.action="allowed" by Processes.dest Processes.parent_process Processes.process
+  Processes.user| `drop_dm_object_name(Processes)`| regex process="(?i).*(ZIP|ISO|IMG|CAB|TAR|GZ|RAR|7Z)\\\\.+\.(BAT|BIN|CAB|CMD|COM|CPL|EX_|EXE|GADGET|INF1|INS|INX||HTM|HTML|ISU|JAR|JOB|JS|JSE|LNK|MSC|MSI|MSP|MST|PAF|PIF|PS1|REG|RGS|SCR|SCT|SHB|SHS|U3P|VB|VBE|VBS|VBSCRIPT|WS|WSF|WSH)\"?$"
+  | rex field=process "(?i).+\\\\(?<file_name>[^\\\]+\.(ZIP|ISO|IMG|CAB|TAR|GZ|RAR|7Z))\\\\((.+\\\\)+)?(?<process_name>.+\.(BAT|BIN|CAB|CMD|COM|CPL|EX_|EXE|GADGET|INF1|INS|INX||HTM|HTML|ISU|JAR|JOB|JS|JSE|LNK|MSC|MSI|MSP|MST|PAF|PIF|PS1|REG|RGS|SCR|SCT|SHB|SHS|U3P|VB|VBE|VBS|VBSCRIPT|WS|WSF|WSH))\"?$"|
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_process_executed_from_container_file_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Various business process or userland applications and behavior.
 references:
 - https://www.mandiant.com/resources/blog/tracking-evolution-gootloader-operations
@@ -24,12 +38,12 @@ tags:
   analytic_story:
   - Unusual Processes
   asset_type: Endpoint
-  confidence: 20 
+  confidence: 20
   impact: 80
   message: A suspicious process $process_name$ was launched from $file_name$ on $dest$.
   mitre_attack_id:
-  - T1204.002  
-  - T1036.008 
+  - T1204.002
+  - T1036.008
   observable:
   - name: dest
     type: Endpoint
@@ -49,9 +63,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.parent_process 
-  - Processes.process 
+  - Processes.dest
+  - Processes.parent_process
+  - Processes.process
   - Processes.user
   risk_score: 16
   security_domain: endpoint
