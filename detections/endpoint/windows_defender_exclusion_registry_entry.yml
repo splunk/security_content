@@ -15,7 +15,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*")
-  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
   Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_defender_exclusion_registry_entry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -37,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: exclusion registry $registry_path$  modified or added on $dest$
+  message: Exclusion registry $registry_path$ modified or added on $dest$ for Windows Defender
   mitre_attack_id:
   - T1562.001
   - T1562

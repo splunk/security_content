@@ -5,30 +5,38 @@ date: '2023-06-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This detection rule is designed to identify the execution of the Windows shutdown command via command line interface. 
-  The shutdown command can be utilized by system administrators to properly halt, power off, or reboot a computer. 
-  However, in a security context, attackers who have gained unauthorized access to a system may also use this command in an effort to erase tracks, 
-  or to cause disruption and denial of service. In some instances, they might execute the shutdown command after installing a backdoor, 
-  to force the system to restart, ensuring that changes take effect or evading detection by security tools. 
-  Monitoring for the use of the Windows shutdown command, especially in conjunction with other unusual or unauthorized activities, 
-  can be an important part of identifying malicious behavior within a network. 
-  It is advised that security professionals analyze the context in which the shutdown command is being executed to differentiate between 
-  legitimate administrative functions and potentially malicious activity.
+description: This detection rule is designed to identify the execution of the Windows
+  shutdown command via command line interface. The shutdown command can be utilized
+  by system administrators to properly halt, power off, or reboot a computer. However,
+  in a security context, attackers who have gained unauthorized access to a system
+  may also use this command in an effort to erase tracks, or to cause disruption and
+  denial of service. In some instances, they might execute the shutdown command after
+  installing a backdoor, to force the system to restart, ensuring that changes take
+  effect or evading detection by security tools. Monitoring for the use of the Windows
+  shutdown command, especially in conjunction with other unusual or unauthorized activities,
+  can be an important part of identifying malicious behavior within a network. It
+  is advised that security professionals analyze the context in which the shutdown
+  command is being executed to differentiate between legitimate administrative functions
+  and potentially malicious activity.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where (Processes.process_name = shutdown.exe OR Processes.original_file_name = shutdown.exe)
-  Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*", "* /r*", "* -r*") AND Processes.process="* /t*"
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_system_shutdown_commandline_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+  Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*", "* /r*",
+  "* -r*") AND Processes.process="* /t*" by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_system_shutdown_commandline_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Administrator may execute this commandline to trigger shutdown
   or restart the host machine.
 references:

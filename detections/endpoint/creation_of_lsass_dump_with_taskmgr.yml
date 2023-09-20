@@ -41,10 +41,6 @@ tags:
   - T1003.001
   - T1003
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
   - name: dest
     type: Hostname
     role:

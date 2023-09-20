@@ -36,7 +36,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
 search: ' `wineventlog_security` EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
   span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, IpAddress, Computer | where unique_accounts > 30 | `windows_multiple_users_remotely_failed_to_authenticate_from_host_filter` '
+  as tried_accounts by _time, IpAddress, Computer | rename Computer as dest| where unique_accounts > 30 | `windows_multiple_users_remotely_failed_to_authenticate_from_host_filter` '
 status: production
 tags:
   analytic_story:
@@ -45,12 +45,12 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Potential password spraying attack on $ComputerName$
+  message: Potential password spraying attack on $dest$
   mitre_attack_id:
   - T1110.003
   - T1110
   observable:
-  - name: ComputerName
+  - name: dest
     role:
     - Victim
     type: Endpoint

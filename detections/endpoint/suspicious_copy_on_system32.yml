@@ -12,23 +12,25 @@ description: This analytic is to detect a suspicious copy of file from systemroo
   but this is really a anomaly that needs to be check within the network.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.parent_process_name IN("cmd.exe", "powershell*","pwsh.exe", "sqlps.exe", "sqltoolsps.exe", "powershell_ise.exe")
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
+  IN("cmd.exe", "powershell*","pwsh.exe", "sqlps.exe", "sqltoolsps.exe", "powershell_ise.exe")
   AND `process_copy` AND Processes.process IN("*\\Windows\\System32\\*", "*\\Windows\\SysWow64\\*")
-  AND Processes.process = "*copy*" 
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id temp
-  | `drop_dm_object_name(Processes)` 
-  | eval splitted_commandline=split(process," ")
-  | eval first_cmdline=lower(mvindex(splitted_commandline,0))
-  | where NOT LIKE(first_cmdline,"%\\windows\\system32\\%") AND NOT LIKE(first_cmdline,"%\\windows\\syswow64\\%")
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  |`suspicious_copy_on_system32_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+  AND Processes.process = "*copy*" by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  temp | `drop_dm_object_name(Processes)` | eval splitted_commandline=split(process,"
+  ") | eval first_cmdline=lower(mvindex(splitted_commandline,0)) | where NOT LIKE(first_cmdline,"%\\windows\\system32\\%")
+  AND NOT LIKE(first_cmdline,"%\\windows\\syswow64\\%") | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` |`suspicious_copy_on_system32_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: every user may do this event but very un-ussual.
 references:
 - https://www.hybrid-analysis.com/sample/8da5b75b6380a41eee3a399c43dfe0d99eeefaa1fd21027a07b1ecaa4cd96fdd?environmentId=120
@@ -44,7 +46,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: execution of copy exe to copy file from $process$ in $dest$
+  message: Execution of copy exe to copy file from $process$ in $dest$
   mitre_attack_id:
   - T1036.003
   - T1036
@@ -53,7 +55,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

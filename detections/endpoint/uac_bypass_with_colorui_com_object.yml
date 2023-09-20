@@ -12,7 +12,7 @@ data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe"
   NOT(Image IN("*\\windows\\*", "*\\program files*")) | stats count min(_time) as
-  firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode
+  firstTime max(_time) as lastTime by Image ImageLoaded process_name dest user EventCode
   Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `uac_bypass_with_colorui_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting

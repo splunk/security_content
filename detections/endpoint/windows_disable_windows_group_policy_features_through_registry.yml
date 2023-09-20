@@ -14,7 +14,7 @@ description: This analytic is to detect a suspicious registry modification to di
   allowed doing this is needed.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\*" Registry.registry_value_name IN ("NoDesktop", "NoFind", "NoControlPanel", "NoFileMenu", "NoSetTaskbar", "NoTrayContextMenu", "TaskbarLockAll", "NoThemesTab","NoPropertiesMyDocuments","NoVisualStyleChoice","NoColorChoice","NoPropertiesMyDocuments") Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\*" Registry.registry_value_name IN ("NoDesktop", "NoFind", "NoControlPanel", "NoFileMenu", "NoSetTaskbar", "NoTrayContextMenu", "TaskbarLockAll", "NoThemesTab","NoPropertiesMyDocuments","NoVisualStyleChoice","NoColorChoice","NoPropertiesMyDocuments") Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
   | `drop_dm_object_name(Registry)`
   | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` 
@@ -38,7 +38,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Registry modification to disable windows features on $dest$
+  message: Registry modification to disable windows group policy features on $dest$
   mitre_attack_id:
   - T1112
   observable:
