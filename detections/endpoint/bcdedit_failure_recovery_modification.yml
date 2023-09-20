@@ -16,9 +16,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process Processes.parent_process_name Processes.dest Processes.user |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `bcdedit_failure_recovery_modification_filter`'
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
-  data model in the Processes node. Tune based on parent process names.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Administrators may modify the boot configuration.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair

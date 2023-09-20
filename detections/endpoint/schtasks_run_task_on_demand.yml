@@ -5,7 +5,12 @@ date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to detect when a Windows Scheduled Task is executed on demand via shell or command line. Adversaries often force the execution of their created Scheduled Tasks for persistent access or lateral movement within a compromised machine. This analytic is driven by process-related data, specifically process name, parent process, and command-line executions, sourced from endpoint logs. The search criteria focus on 'schtasks.exe' with an associated 'run' command.
+description: The following analytic is designed to detect when a Windows Scheduled
+  Task is executed on demand via shell or command line. Adversaries often force the
+  execution of their created Scheduled Tasks for persistent access or lateral movement
+  within a compromised machine. This analytic is driven by process-related data, specifically
+  process name, parent process, and command-line executions, sourced from endpoint
+  logs. The search criteria focus on 'schtasks.exe' with an associated 'run' command.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -14,11 +19,18 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   Processes.process = "*/run*" by Processes.process_name Processes.parent_process_name
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `schtasks_run_task_on_demand_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed schtasks.exe may be used.
-known_false_positives: Bear in mind, administrators debugging Scheduled Task entries may trigger this analytic, necessitating fine-tuning and filtering to distinguish between legitimate and potentially malicious use of 'schtasks.exe'.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Bear in mind, administrators debugging Scheduled Task entries
+  may trigger this analytic, necessitating fine-tuning and filtering to distinguish
+  between legitimate and potentially malicious use of 'schtasks.exe'.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:

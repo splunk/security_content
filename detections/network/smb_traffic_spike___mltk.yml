@@ -16,8 +16,8 @@ search: '| tstats `security_content_summariesonly` count values(All_Traffic.dest
   | rename "IsOutlier(count)" as isOutlier | search isOutlier > 0 | sort -count |
   table _time src dest port count | `smb_traffic_spike___mltk_filter` '
 how_to_implement: 'To successfully implement this search, you will need to ensure
-  that DNS data is populating the Network_Resolution data model. In addition, the
-  Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your
+  that DNS data is populating the Network_Traffic data model. In addition, the latest version of
+  Machine Learning Toolkit (MLTK) must be installed on your
   search heads, along with any required dependencies. Finally, the support search
   "Baseline of SMB Traffic - MLTK" must be executed before this detection search,
   because it builds a machine-learning (ML) model over the historical data used by

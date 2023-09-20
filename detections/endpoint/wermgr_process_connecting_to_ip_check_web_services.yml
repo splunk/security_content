@@ -5,7 +5,7 @@ date: '2022-06-01'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: this search is designed to detect suspicious wermgr.exe process that
+description: This search is designed to detect suspicious wermgr.exe process that
   tries to connect to known IP web services. This technique is know for trickbot and
   other trojan spy malware to recon the infected machine and look for its ip address
   without so much finger print on the commandline process. Since wermgr.exe is designed
@@ -19,7 +19,7 @@ search: '`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfism
   "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org",
   "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net")
   |  stats  min(_time) as firstTime max(_time) as lastTime count by Image process_name
-  ProcessId QueryName QueryStatus QueryResults Computer EventCode | `security_content_ctime(firstTime)`
+  ProcessId QueryName QueryStatus QueryResults Computer EventCode | rename Computer as dest| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wermgr_process_connecting_to_ip_check_web_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, dns query name process path , and query ststus from
@@ -35,12 +35,12 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: Wermgr.exe process connecting IP location web services on $ComputerName$
+  message: Wermgr.exe process connecting IP location web services on $dest$
   mitre_attack_id:
   - T1590
   - T1590.005
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim
