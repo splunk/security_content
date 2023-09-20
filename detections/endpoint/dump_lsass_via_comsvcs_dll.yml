@@ -5,19 +5,44 @@ date: '2023-04-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the behavior of dumping credentials from memory, a tactic commonly used by adversaries. Specifically, it targets the exploitation of the Local Security Authority Subsystem Service (LSASS) in Windows, which manages system-level authentication. Threat actors can use the comsvcs.dll to exploit this process and obtain valuable credentials. The analytic identifies instances where the rundll32 process is used in conjunction with the comsvcs.dll and MiniDump, indicating potential LSASS dumping attempts. This tactic is often part of more extensive attack campaigns and is associated with numerous threat groups. Identifying this behavior is crucial for security operations center (SOC) analysts, as credential theft can lead to broader system compromise, persistence, lateral movement, and escalated privileges. It is important to note that no legitimate use of this technique has been identified so far. The impact of the attack, if a true positive is found, can be severe. Attackers can use the stolen credentials to access sensitive information or systems, leading to data theft, ransomware attacks, or other damaging outcomes. To implement this analytic, ensure that logs with process information are ingested from your endpoints. However, be aware of potential false positives, as legitimate uses of the LSASS process may cause benign activities to be flagged. Upon triage, review the processes involved in the LSASS dumping attempt, capture and inspect any relevant on-disk artifacts, and look for concurrent processes to identify the attack source. By identifying and mitigating LSASS exploitation attempts early on, SOC analysts can better protect their organization''s assets and prevent potential breaches.'
+description: The following analytic detects the behavior of dumping credentials from
+  memory, a tactic commonly used by adversaries. Specifically, it targets the exploitation
+  of the Local Security Authority Subsystem Service (LSASS) in Windows, which manages
+  system-level authentication. Threat actors can use the comsvcs.dll to exploit this
+  process and obtain valuable credentials. The analytic identifies instances where
+  the rundll32 process is used in conjunction with the comsvcs.dll and MiniDump, indicating
+  potential LSASS dumping attempts. This tactic is often part of more extensive attack
+  campaigns and is associated with numerous threat groups. Identifying this behavior
+  is crucial for security operations center (SOC) analysts, as credential theft can
+  lead to broader system compromise, persistence, lateral movement, and escalated
+  privileges. It is important to note that no legitimate use of this technique has
+  been identified so far. The impact of the attack, if a true positive is found, can
+  be severe. Attackers can use the stolen credentials to access sensitive information
+  or systems, leading to data theft, ransomware attacks, or other damaging outcomes.
+  To implement this analytic, ensure that logs with process information are ingested
+  from your endpoints. However, be aware of potential false positives, as legitimate
+  uses of the LSASS process may cause benign activities to be flagged. Upon triage,
+  review the processes involved in the LSASS dumping attempt, capture and inspect
+  any relevant on-disk artifacts, and look for concurrent processes to identify the
+  attack source. By identifying and mitigating LSASS exploitation attempts early on,
+  SOC analysts can better protect their organization's assets and prevent potential
+  breaches.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*comsvcs.dll*
-  Processes.process=*MiniDump* by Processes.user Processes.process_name Processes.original_file_name
+  Processes.process=*MiniDump* by Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.process Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `dump_lsass_via_comsvcs_dll_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: None identified.
 references:
 - https://modexp.wordpress.com/2019/08/30/minidumpwritedump-via-com-services-dll/

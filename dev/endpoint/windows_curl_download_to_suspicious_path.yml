@@ -45,6 +45,7 @@ tags:
   analytic_story:
   - IcedID
   - Ingress Tool Transfer
+  - Forest Blizzard
   asset_type: Endpoint
   confidence: 100
   impact: 80

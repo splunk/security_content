@@ -17,8 +17,8 @@ description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain 
 data_source:
 - Windows Security 4769
 search: ' `wineventlog_security` EventCode=4769 | eval isSuspicious = if(lower(Service_Name)
-  = lower(mvindex(split(Account_Name,"@"),0)+"$"),1,0) | where isSuspicious = 1 |
-  table _time, Client_Address, Account_Name, Service_Name, Failure_Code, isSuspicious
+  = lower(mvindex(split(Account_Name,"@"),0)+"$"),1,0) | where isSuspicious = 1 | rename ComputerName as dest| rename Account_Name as user  |
+  table _time, dest, Client_Address, Account_Name, Service_Name, Failure_Code, isSuspicious
   | `suspicious_kerberos_service_ticket_request_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
@@ -42,12 +42,12 @@ tags:
   - CVE-2021-42287
   - CVE-2021-42278
   impact: 100
-  message: A suspicious Kerberos Service Ticket was requested by $Account_Name$
+  message: A suspicious Kerberos Service Ticket was requested by $user$ on host $dest$
   mitre_attack_id:
   - T1078
   - T1078.002
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim

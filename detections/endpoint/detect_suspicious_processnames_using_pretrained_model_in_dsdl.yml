@@ -1,71 +1,43 @@
 name: Detect suspicious processnames using pretrained model in DSDL
 id: a15f8977-ad7d-4669-92ef-b59b97219bf5
 version: 1
-date: "2023-01-23"
+date: '2023-01-23'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 status: experimental
 data_source:
 - Sysmon Event Code 1
-description: The following analytic uses a pre-trained Deep Learning model to
-  predict whether a processname is suspicious or not. Malwares and malicious
-  programs such as ransomware often use tactics, techniques, and procedures
-  (TTPs) such as copying malicious files to the local machine to propagate
-  themselves across the network. A key indicator of compromise is that after
-  a successful execution of the malware, it copies itself as an executable file
-  with a randomly generated filename and places this file in one of the
-  directories. Such techniques are seen in several malwares such as TrickBot.
-  We develop machine learning model that uses a Recurrent Neural Network (RNN)
-  to distinguish between malicious and benign processnames. The model is trained
-  independently and is then made available for download. We use a character level
-  RNN to classify malicious vs. benign processnames. The higher is_malicious_prob,
+description: The following analytic uses a pre-trained Deep Learning model to predict
+  whether a processname is suspicious or not. Malwares and malicious programs such
+  as ransomware often use tactics, techniques, and procedures (TTPs) such as copying
+  malicious files to the local machine to propagate themselves across the network.
+  A key indicator of compromise is that after a successful execution of the malware,
+  it copies itself as an executable file with a randomly generated filename and places
+  this file in one of the directories. Such techniques are seen in several malwares
+  such as TrickBot. We develop machine learning model that uses a Recurrent Neural
+  Network (RNN) to distinguish between malicious and benign processnames. The model
+  is trained independently and is then made available for download. We use a character
+  level RNN to classify malicious vs. benign processnames. The higher is_malicious_prob,
   the more likely is the processname to be suspicious (between [0,1]). The threshold
   for flagging a processname as suspicious is set as 0.5.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes
-  by Processes.process_name Processes.parent_process_name Processes.process
-  Processes.user Processes.dest
-  | `drop_dm_object_name(Processes)`
-  | rename process_name as text
-  | fields text, parent_process_name, process, user, dest
-  | apply detect_suspicious_processnames_using_pretrained_model_in_dsdl
-  | rename predicted_label as is_suspicious_score
-  | rename text as process_name
-  | where is_suspicious_score > 0.5
-  | `detect_suspicious_processnames_using_pretrained_model_in_dsdl_filter`'
-
-how_to_implement: 'Steps to deploy detect suspicious processnames model into Splunk App
-    DSDL. This detection depends on the Splunk app for Data Science and Deep
-    Learning which can be found here - `https://splunkbase.splunk.com/app/4607/`
-    and the Endpoint datamodel. The detection uses a pre-trained
-    deep learning model that needs to be deployed in the DSDL app. Follow the steps
-    for deployment here - `https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU`.\
-
-  * Download the `artifacts .tar.gz` file from the link - `https://seal.splunkresearch.com/detect_suspicious_processnames_using_pretrained_model_in_dsdl.tar.gz`.\
-
-  * Download the `detect_suspicious_processnames_using_pretrained_model_in_dsdl.ipynb`
-    Jupyter notebook from the link - `https://github.com/splunk/security_content/notebooks`.\
-
-  * Login to the Jupyter Lab assigned for `detect_suspicious_processnames_using_pretrained_model_in_dsdl`
-    container. This container should be listed on Containers page for DSDL app.\
-
-  * Follow the steps below inside Jupyter Notebook:\
-
-    * Upload the `detect_suspicious_processnames_using_pretrained_model_in_dsdl.tar.gz` file
-      into `app/model/data/detect_suspicious_processnames_using_pretrained_model_in_dsdl/` path using the upload option in the Jupyter Notebook.\
-
-    * Untar the artifact `detect_suspicious_processnames_using_pretrained_model_in_dsdl.tar.gz` using
-      `tar -xf app/model/data/detect_suspicious_processnames_using_pretrained_model_in_dsdl.tar.gz -C app/model/data/detect_suspicious_processnames_using_pretrained_model_in_dsdl/`.\
-
-    * Upload `detect_suspicious_processnames_using_pretrained_model_in_dsdl.ipynb` into the Jupyter Notebooks
-      folder using the upload option in Jupyter Notebook.\
-
-    * Save the notebook using the save option in Jupyter Notebook.\
-
-    * Upload `detect_suspicious_processnames_using_pretrained_model_in_dsdl.json` into `notebooks/data`
-      folder.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes by Processes.process_name Processes.parent_process_name
+  Processes.process Processes.user Processes.dest | `drop_dm_object_name(Processes)`
+  | rename process_name as text | fields text, parent_process_name, process, user,
+  dest | apply detect_suspicious_processnames_using_pretrained_model_in_dsdl | rename
+  predicted_label as is_suspicious_score | rename text as process_name | where is_suspicious_score
+  > 0.5 | `detect_suspicious_processnames_using_pretrained_model_in_dsdl_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: False positives may be present if a suspicious processname
- is similar to a benign processname.
+  is similar to a benign processname.
 references:
 - https://www.cisa.gov/uscert/ncas/alerts/aa20-302a
 - https://www.splunk.com/en_us/blog/security/random-words-on-entropy-and-dns.html
@@ -78,19 +50,19 @@ tags:
   - Source:Endpoint
   - Stage:Execution
   impact: 50
-  message: The process $process$ is running from an unusual place by $user$ on $dest$ with a processname
-    that appears to be randomly generated.
+  message: The process $process$ is running from an unusual place by $user$ on $dest$
+    with a processname that appears to be randomly generated.
   mitre_attack_id:
   - T1059
   observable:
   - name: dest
     type: Hostname
     role:
-      - Victim
+    - Victim
   - name: user
     type: User
     role:
-      - Victim
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
