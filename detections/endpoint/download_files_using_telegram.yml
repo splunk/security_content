@@ -14,7 +14,7 @@ data_source:
 - Sysmon Event ID 15
 search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
   |stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode
-  Image process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Image process_id TargetFilename Hash | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `download_files_using_telegram_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and TargetFilename from your endpoints or Events that
@@ -32,15 +32,10 @@ tags:
   confidence: 70
   impact: 70
   message: Suspicious files were downloaded with the Telegram application on $dest$
-    by $user$.
   mitre_attack_id:
   - T1105
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

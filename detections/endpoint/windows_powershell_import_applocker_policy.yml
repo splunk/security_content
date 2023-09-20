@@ -13,7 +13,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy
   *" ScriptBlockText="* -XMLPolicy *" | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_powershell_import_applocker_policy_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -29,18 +29,18 @@ tags:
   confidence: 70
   impact: 70
   message: A PowerShell script contains Import Applocker Policy command $ScriptBlockText$
-    with EventCode $EventCode$ in host $Computer$
+    with EventCode $EventCode$ on host $dest$
   mitre_attack_id:
   - T1059.001
   - T1059
   - T1562.001
   - T1562
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

@@ -22,9 +22,15 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   by _time span=5m Processes.user Processes.dest | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| where
   distinct_commands > 40 AND distinct_process_names > 3| `suspicious_linux_discovery_commands_filter`'
-how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.(https://splunkbase.splunk.com/app/6176/).
-  Please install this add-on to parse fields correctly and execute detection search.
-  Consider customizing the time window and threshold values according to your environment.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Unless an administrator is using these commands to troubleshoot
   or audit a system, the execution of these commands should be monitored.
 references:

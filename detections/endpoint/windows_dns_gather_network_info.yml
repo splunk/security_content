@@ -7,19 +7,32 @@ type: Anomaly
 status: production
 data_source:
 - Sysmon Event ID 1
-description: The following analytic identifies a process command line used to enumerate DNS records. Adversaries, threat actors, or red teamers may employ this technique to gather information about a victim's DNS, which can be utilized during targeting. This method was also observed as part of a tool used by the Sandworm APT group in a geopolitical cyber warfare attack. By using the dnscmd.exe Windows application, an attacker can enumerate DNS records for specific domains within the targeted network, potentially aiding in further attacks. This anomaly detection can serve as a valuable starting point for identifying users and hostnames that may be compromised or targeted by adversaries seeking to collect data information.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name = "dnscmd.exe" Processes.process = "* /enumrecords *"
-  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
-  | `drop_dm_object_name("Processes")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies a process command line used to enumerate
+  DNS records. Adversaries, threat actors, or red teamers may employ this technique
+  to gather information about a victim's DNS, which can be utilized during targeting.
+  This method was also observed as part of a tool used by the Sandworm APT group in
+  a geopolitical cyber warfare attack. By using the dnscmd.exe Windows application,
+  an attacker can enumerate DNS records for specific domains within the targeted network,
+  potentially aiding in further attacks. This anomaly detection can serve as a valuable
+  starting point for identifying users and hostnames that may be compromised or targeted
+  by adversaries seeking to collect data information.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "dnscmd.exe"
+  Processes.process = "* /enumrecords *" by Processes.parent_process Processes.process_name
+  Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
+  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_dns_gather_network_info_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process 
-  that include the name of the process responsible for the changes from your endpoints into the `Endpoint` 
-  datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and 
-  the latest TA for the endpoint product.
-known_false_positives: network administrator can execute this command to enumerate DNS record. Filter or add other paths to the exclusion as needed.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: network administrator can execute this command to enumerate
+  DNS record. Filter or add other paths to the exclusion as needed.
 references:
 - https://cert.gov.ua/article/3718487
 - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
