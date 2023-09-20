@@ -7,14 +7,42 @@ status: experimental
 type: TTP
 data_source:
 - Sysmon Event ID 1
-description: 'The following analytic detects the use of certutil to download software, a behavior exhibited by the threat actor Flax Typhoon. This actor deploys a VPN connection by downloading an executable file for SoftEther VPN from their network infrastructure using one of several LOLBins, including certutil. The actor then uses the Service Control Manager (SCM) to create a Windows service that launches the VPN connection automatically when the system starts. This behavior allows the actor to monitor the availability of the compromised system and establish an RDP connection. This analytic identifies this behavior by monitoring for the use of certutil in conjunction with the downloading of software. This behavior is worth identifying for a SOC as it indicates a potential compromise of the system and the establishment of a persistent threat. If a true positive is found, it suggests an attacker has gained access to the environment and is attempting to maintain that access, potentially leading to further malicious activities such as data theft or ransomware attacks. Be aware of potential false positives - legitimate uses of certutil in your environment may cause benign activities to be flagged. Upon triage, review the command executed and look for concurrent processes to identify the attack source. This approach helps analysts detect potential threats earlier and mitigate the risks.'
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("sqlservr.exe", "sqlagent.exe", "sqlps.exe", "launchpad.exe", "sqldumper.exe") `process_certutil` (Processes.process=*urlcache* Processes.process=*split*) OR Processes.process=*urlcache* by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.original_file_name Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_sql_spawning_certutil_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: The occurrence of false positives should be minimal, given that the SQL agent does not typically download software using CertUtil.
+description: The following analytic detects the use of certutil to download software,
+  a behavior exhibited by the threat actor Flax Typhoon. This actor deploys a VPN
+  connection by downloading an executable file for SoftEther VPN from their network
+  infrastructure using one of several LOLBins, including certutil. The actor then
+  uses the Service Control Manager (SCM) to create a Windows service that launches
+  the VPN connection automatically when the system starts. This behavior allows the
+  actor to monitor the availability of the compromised system and establish an RDP
+  connection. This analytic identifies this behavior by monitoring for the use of
+  certutil in conjunction with the downloading of software. This behavior is worth
+  identifying for a SOC as it indicates a potential compromise of the system and the
+  establishment of a persistent threat. If a true positive is found, it suggests an
+  attacker has gained access to the environment and is attempting to maintain that
+  access, potentially leading to further malicious activities such as data theft or
+  ransomware attacks. Be aware of potential false positives - legitimate uses of certutil
+  in your environment may cause benign activities to be flagged. Upon triage, review
+  the command executed and look for concurrent processes to identify the attack source.
+  This approach helps analysts detect potential threats earlier and mitigate the risks.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
+  IN ("sqlservr.exe", "sqlagent.exe", "sqlps.exe", "launchpad.exe", "sqldumper.exe")
+  `process_certutil` (Processes.process=*urlcache* Processes.process=*split*) OR Processes.process=*urlcache*
+  by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.original_file_name
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_sql_spawning_certutil_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: The occurrence of false positives should be minimal, given
+  that the SQL agent does not typically download software using CertUtil.
 references:
 - https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/
 tags:
@@ -24,7 +52,8 @@ tags:
   atomic_guid: []
   confidence: 100
   impact: 90
-  message: '$process_name$ was launched on $dest$ by $user$. This behavior is uncommon with the SQL process identified.'
+  message: $process_name$ was launched on $dest$ by $user$. This behavior is uncommon
+    with the SQL process identified.
   mitre_attack_id:
   - T1105
   observable:

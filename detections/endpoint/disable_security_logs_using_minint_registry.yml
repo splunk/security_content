@@ -12,7 +12,7 @@ description: This analytic is to detect a suspicious registry modification to di
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path="*\\Control\\MiniNt\\*") BY _time span=1h Registry.registry_path
+  WHERE (Registry.registry_path="*\\Control\\MiniNt\\*") BY _time span=1h  Registry.user Registry.dest Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_security_logs_using_minint_registry_filter`'
@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
+  message: Modified/added/deleted registry entry $registry_path$ in $dest$
   mitre_attack_id:
   - T1112
   observable:
