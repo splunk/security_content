@@ -5,7 +5,7 @@ date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: this search is to identify modification in registry to disable cmd prompt
+description: This search is to identify modification in registry to disable cmd prompt
   application. This technique is commonly seen in RAT, Trojan or WORM to prevent triaging
   or deleting there samples through cmd application which is one of the tool of analyst
   to traverse on directory and files.
@@ -13,7 +13,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD"
-  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.registry_path
+  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_cmd_application_filter`'

@@ -19,7 +19,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Set-ADAccountControl*" AND
   ScriptBlockText="*DoesNotRequirePreAuth:$true*") | stats count min(_time) as firstTime
-  max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `kerberos_pre_authentication_flag_disabled_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -51,6 +51,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  - user_id
   risk_score: 45
   security_domain: endpoint
 tests:

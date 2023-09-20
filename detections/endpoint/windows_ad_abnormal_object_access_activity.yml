@@ -1,0 +1,57 @@
+name: Windows AD Abnormal Object Access Activity
+id: 71b289db-5f2c-4c43-8256-8bf26ae7324a
+version: 1
+date: '2023-06-01'
+author: Steven Dick
+status: production
+type: Anomaly
+description: Windows Active Directory contains numerous objects. A statistically significant increase in access to these objects may be evidence of attacker enumeration of Active Directory.
+data_source:
+- Windows Security 4662
+search: '`wineventlog_security` EventCode=4662  
+| stats min(_time) AS firstTime, max(_time) AS lastTime, dc(ObjectName) AS ObjectName_count, values(ObjectType) AS ObjectType, latest(Computer) AS dest count BY SubjectUserName
+| eventstats avg(ObjectName_count) AS average stdev(ObjectName_count) AS standarddev
+| eval limit = round((average+(standarddev*3)),0), user = SubjectUserName 
+| where ObjectName_count > limit
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`| `windows_ad_abnormal_object_access_activity_filter`'
+how_to_implement: Enable Audit Directory Service Access via GPO and collect event code 4662. The required SACLs need to be created for the relevant objects. Be aware Splunk filters this event by default on the Windows TA. Recommend pre-filtering any known service accounts that frequently query AD to make detection more accurate. Setting wide search window of 48~72hr may smooth out misfires.
+known_false_positives: Service accounts or applications that routinely query Active Directory for information. 
+references:
+- https://medium.com/securonix-tech-blog/detecting-ldap-enumeration-and-bloodhound-s-sharphound-collector-using-active-directory-decoys-dfc840f2f644
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4662
+- https://attack.mitre.org/tactics/TA0007/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: The account $user$ accessed an abnormal amount ($ObjectName_count$) of [$ObjectType$] AD object(s) between $firstTime$ and $lastTime$.
+  mitre_attack_id:
+  - T1087
+  - T1087.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ObjectName 
+  - EventCode
+  - SubjectUserName
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/4662_ad_enum/4662_priv_events.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

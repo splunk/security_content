@@ -14,7 +14,7 @@ description: The following analytic identifies the addition of a Service Princip
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
   | transaction ObjectDN AttributeValue startswith=(EventCode=5136 OperationType="%%14674") endswith=(EventCode=5136 OperationType="%%14675")
   | eval short_lived=case((duration<300),"TRUE") 
-  | search short_lived = TRUE
+  | search short_lived = TRUE | rename ObjectDN as user
   | `windows_ad_short_lived_domain_account_serviceprincipalname_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
@@ -32,15 +32,11 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 50
-  message: A Servince Principal Name for $ObjectDN$ was set and shortly deleted
+  message: A Servince Principal Name for $user$ was set and shortly deleted
   mitre_attack_id:
   - T1098
   observable:
-  - name: SubjectUserName
-    type: User
-    role:
-    - Attacker
-  - name: ObjectDN
+  - name: user
     type: User
     role:
     - Victim

@@ -16,8 +16,8 @@ data_source:
 - Windows Security 4698
 search: ' `wineventlog_security` EventCode=4698 OR EventCode=4699 | xmlkv Message
   | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699) |
-  eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | table
-  _time, ComputerName, Account_Name, Command, Task_Name, short_lived | `short_lived_scheduled_task_filter` '
+  eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | rename ComputerName as dest| table
+  _time, dest, Account_Name, Command, Task_Name, short_lived | `short_lived_scheduled_task_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
   required.
@@ -34,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: A windows scheduled task was created and deleted in 30 seconds on $ComputerName$
+  message: A windows scheduled task was created and deleted in 30 seconds on $dest$
   mitre_attack_id:
   - T1053.005
   observable:

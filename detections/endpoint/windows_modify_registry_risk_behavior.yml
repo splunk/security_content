@@ -40,11 +40,11 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: An increase of Windows Modify Registry behavior has been detected on $affected_systems$
+  message: An increase of Windows Modify Registry behavior has been detected on $risk_object$
   mitre_attack_id:
   - T1112
   observable:
-  - name: affected_systems
+  - name: risk_object
     type: Hostname
     role:
     - Victim

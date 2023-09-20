@@ -14,7 +14,7 @@ description:
 data_source:
   - Sysmon Event ID 7
 search: '`wineventlog_system` EventCode=7045 ServiceType="kernel mode driver" NOT (ImagePath IN ("*\\Windows\\*", "*\\Program File*", "*\\systemroot\\*","%SystemRoot%*", "system32\*"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ImagePath ServiceName ServiceType
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ImagePath ServiceName ServiceType | rename Computer as dest
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_driver_load_non_standard_path_filter`'
@@ -38,12 +38,12 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: A kernel mode driver was loaded from a non-standard path on $ComputerName$.
+  message: A kernel mode driver was loaded from a non-standard path on $dest$.
   mitre_attack_id:
     - T1014
     - T1068
   observable:
-    - name: ComputerName
+    - name: dest
       type: Endpoint
       role:
         - Victim
