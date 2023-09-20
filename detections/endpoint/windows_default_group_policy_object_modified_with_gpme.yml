@@ -5,18 +5,35 @@ date: '2023-04-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source : []
-description: The following analytic leverages the Endpoint datamodel to identify the potential edition of a default Group Policy Object. A fresh installation of an Active Directory network will typically contain
-  two default group policy objects `Default Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers policy is used to enforce and set policies to all the domain controllers within the domain environment.
-  The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 
-  policy objects to obtain further access, deploy persistence or execute malware across a large number of hosts. Security teams should monitor the edition of the default GPOs.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=mmc.exe (Processes.process =*gpme.msc*) AND (Processes.process = "*31B2F340-016D-11D2-945F-00C04FB984F9*" OR Processes.process = "*6AC1786C-016F-11D2-945F-00C04fB984F9*"  ) by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_default_group_policy_object_modified_with_gpme_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: The default Group Policy Objects within an AD network may be legitimately updated for administrative operations, filter as needed.
+data_source: []
+description: The following analytic leverages the Endpoint datamodel to identify the
+  potential edition of a default Group Policy Object. A fresh installation of an Active
+  Directory network will typically contain two default group policy objects `Default
+  Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers
+  policy is used to enforce and set policies to all the domain controllers within
+  the domain environment. The default domain policy is linked to all users and computers
+  by default. An adversary who has obtained privileged access to an Active Directory
+  network may modify the default group policy objects to obtain further access, deploy
+  persistence or execute malware across a large number of hosts. Security teams should
+  monitor the edition of the default GPOs.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=mmc.exe
+  (Processes.process =*gpme.msc*) AND (Processes.process = "*31B2F340-016D-11D2-945F-00C04FB984F9*"
+  OR Processes.process = "*6AC1786C-016F-11D2-945F-00C04fB984F9*"  ) by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_default_group_policy_object_modified_with_gpme_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: The default Group Policy Objects within an AD network may be
+  legitimately updated for administrative operations, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1484/
 - https://attack.mitre.org/techniques/T1484/001
@@ -30,7 +47,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 100
-  message: A default group policy object was opened with Group Policy Manage Editor on $dest$
+  message: A default group policy object was opened with Group Policy Manage Editor
+    on $dest$
   mitre_attack_id:
   - T1484
   - T1484.001
@@ -55,11 +73,11 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path

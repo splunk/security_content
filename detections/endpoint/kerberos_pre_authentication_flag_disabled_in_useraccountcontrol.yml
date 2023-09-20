@@ -15,7 +15,7 @@ description: The following analytic leverages Windows Security Event 4738, `A us
 data_source:
 - Windows Security 4738
 search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
-  Preauth'' - Enabled*" | table EventCode, Account_Name, Security_ID, MSADChangedAttributes
+  Preauth'' - Enabled*" |rename Account_Name as user | table EventCode, user, dest, Security_ID, MSADChangedAttributes
   | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `User Account
@@ -31,13 +31,13 @@ tags:
   asset_type: endpoint
   confidence: 90
   impact: 50
-  message: Kerberos Pre Authentication was Disabled for $Account_Name$
+  message: Kerberos Pre Authentication was Disabled for $user$
   mitre_attack_id:
   - T1558
   - T1558.004
   observable:
-  - name: dest
-    type: Endpoint
+  - name: user
+    type: User Name
     role:
     - Victim
   product:

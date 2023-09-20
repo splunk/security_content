@@ -15,7 +15,7 @@ search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365Mail
   "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
   "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*")
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `mailsniper_invoke_functions_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
@@ -29,13 +29,13 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: mailsniper.ps1 functions $ScriptBlockText$ executed on a $Computer$ by
+  message: mailsniper.ps1 functions $ScriptBlockText$ executed on a $dest$ by
     user $user$.
   mitre_attack_id:
   - T1114
   - T1114.001
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim

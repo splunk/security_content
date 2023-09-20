@@ -16,7 +16,7 @@ data_source:
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*SELECT*" OR ScriptBlockText
   = "*WMIC*") AND (ScriptBlockText = "*AntiVirusProduct*" OR ScriptBlockText = "*AntiSpywareProduct*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `recon_avproduct_through_pwh_or_wmi_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -42,15 +42,15 @@ tags:
   confidence: 80
   impact: 70
   message: A suspicious powershell script contains AV recon command in $ScriptBlockText$
-    with EventCode $EventCode$ in host $Computer$
+    with EventCode $EventCode$ in host $dest$
   mitre_attack_id:
   - T1592
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

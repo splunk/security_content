@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   WHERE ((Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden"
   OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt"
   Registry.registry_value_data = "0x00000001") OR (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden"
-  Registry.registry_value_data = "0x00000000")) BY _time span=1h Registry.registry_path
+  Registry.registry_value_data = "0x00000000")) BY _time span=1h Registry.user Registry.dest Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_show_hidden_files_filter`'

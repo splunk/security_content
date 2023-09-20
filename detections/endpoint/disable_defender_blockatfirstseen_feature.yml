@@ -11,7 +11,7 @@ description: This analytic is intended to detect a suspicious modification of th
   a Windows Defender feature. This technique is intended to bypass or evade detection from
   Windows Defender AV, specifically the BlockAtFirstSeen feature where it blocks
   suspicious files the first time seen on the host.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name = DisableBlockAtFirstSeen Registry.registry_value_data = 0x00000001) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name = DisableBlockAtFirstSeen Registry.registry_value_data = 0x00000001) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.user Registry.dest 
   | `drop_dm_object_name(Registry)`
   | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` 

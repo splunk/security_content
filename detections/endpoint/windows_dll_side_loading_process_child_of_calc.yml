@@ -7,21 +7,28 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon Event ID 1
-description: The following analytic identifies the suspicious child process of calc.exe due to dll side loading technique to execute another executable. 
-  This technique was seen in qakbot malware that uses dll side loading technique to calc applications to load its malicious dll code. The malicious dll that abuses 
-  dll side loading technique will load the actual qakbot loader dll using regsvr32.exe application. 
-  This TTP is a good indicator of qakbot since the calc.exe will not load other child processes aside from win32calc.exe.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where (Processes.parent_process_name = "calc.exe")  AND Processes.process_name != "win32calc.exe"
-  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
-  | `drop_dm_object_name("Processes")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_dll_side_loading_process_child_of_calc_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process 
-  that include the name of the process responsible for the changes from your endpoints into the `Endpoint` 
-  datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and 
-  the latest TA for the endpoint product.
+description: The following analytic identifies the suspicious child process of calc.exe
+  due to dll side loading technique to execute another executable. This technique
+  was seen in qakbot malware that uses dll side loading technique to calc applications
+  to load its malicious dll code. The malicious dll that abuses dll side loading technique
+  will load the actual qakbot loader dll using regsvr32.exe application. This TTP
+  is a good indicator of qakbot since the calc.exe will not load other child processes
+  aside from win32calc.exe.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
+  = "calc.exe")  AND Processes.process_name != "win32calc.exe" by Processes.parent_process
+  Processes.process_name Processes.process_id Processes.process_guid Processes.process
+  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_dll_side_loading_process_child_of_calc_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: unknown
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.qakbot
