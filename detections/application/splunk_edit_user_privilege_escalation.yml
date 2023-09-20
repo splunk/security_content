@@ -20,7 +20,8 @@ tags:
   atomic_guid: []
   confidence: 80
   impact: 80
-  cve: []
+  cve:
+  - CVE-2023-32707
   message: Possible attempt to abuse edit_user function by $user$ 
   mitre_attack_id:
   - T1548

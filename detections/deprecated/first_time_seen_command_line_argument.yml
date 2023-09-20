@@ -21,15 +21,15 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   previously_seen_cmd_line_arguments | eval newCmdLineArgument=if(firstTime >= relative_time(now(),
   "-70m@m"), 1, 0) | where newCmdLineArgument=1 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | table process] | `first_time_seen_command_line_argument_filter` '
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must be ingesting
-  logs with both the process name and command line from your endpoints. The complete
-  process name with command-line arguments are mapped to the "process" field in the
-  Endpoint data model. Please make sure you run the support search "Previously seen
-  command line arguments,"&#151;which creates a lookup file called `previously_seen_cmd_line_arguments.csv`&#151;a
-  historical baseline of all command-line arguments. You must also validate this list.
-  For the search to do accurate calculation, ensure the search scheduling is the same
-  value as the `relative_time` evaluation function.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Legitimate programs can also use command-line arguments to
   execute. Please verify the command-line arguments to check what command/program
   is being executed. We recommend customizing the `first_time_seen_cmd_line_filter`

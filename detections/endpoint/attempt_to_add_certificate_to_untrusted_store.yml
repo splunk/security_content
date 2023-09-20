@@ -5,19 +5,34 @@ date: '2021-09-16'
 author: Patrick Bareiss, Rico Valdez, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to detect potential security threats involving the misuse of system trust. It works by detecting events where a process attempts to add a certificate to the untrusted certificate store, an action often associated with disabling security tools. The analytic uses Sysmon Event ID 1 data source, particularly focusing on process activities and command-line arguments related to 'certutil -addstore'. It's essential to ingest data that records process activity and logs containing process names and command lines for its effective operation. Be aware, sometimes administrators might legitimately perform this action. The analytic's value lies in detecting isolated or unexpected instances, indicative of potential malicious activities. Cybersecurity analysts should understand the importance of trust mechanisms and their subversion in system security.
+description: The following analytic is designed to detect potential security threats
+  involving the misuse of system trust. It works by detecting events where a process
+  attempts to add a certificate to the untrusted certificate store, an action often
+  associated with disabling security tools. The analytic uses Sysmon Event ID 1 data
+  source, particularly focusing on process activities and command-line arguments related
+  to 'certutil -addstore'. It's essential to ingest data that records process activity
+  and logs containing process names and command lines for its effective operation.
+  Be aware, sometimes administrators might legitimately perform this action. The analytic's
+  value lies in detecting isolated or unexpected instances, indicative of potential
+  malicious activities. Cybersecurity analysts should understand the importance of
+  trust mechanisms and their subversion in system security.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
   as process max(_time) as lastTime from datamodel=Endpoint.Processes where `process_certutil`
-  (Processes.process=*-addstore*) by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
-  | `attempt_to_add_certificate_to_untrusted_store_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
+  (Processes.process=*-addstore*) by Processes.dest Processes.user Processes.parent_process
+  Processes.parent_process_name Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `attempt_to_add_certificate_to_untrusted_store_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: There may be legitimate reasons for administrators to add a
   certificate to the untrusted certificate store. In such cases, this will typically
   be done on a large number of systems.

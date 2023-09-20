@@ -5,14 +5,35 @@ date: '2023-06-15'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies when suspiciouly long data is written to the registry. This behavior is often associated with certain fileless malware threats or persistence techniques used by threat actors. Data stored in the registy is considered fileless since it does not get written to disk and is traditionally not well defended since normal users can modify thier own registry. 
+description: The following analytic identifies when suspiciouly long data is written
+  to the registry. This behavior is often associated with certain fileless malware
+  threats or persistence techniques used by threat actors. Data stored in the registy
+  is considered fileless since it does not get written to disk and is traditionally
+  not well defended since normal users can modify thier own registry.
 data_source:
 - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid| `drop_dm_object_name(Processes)` | join max=0 dest process_guid [| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry where Registry.registry_value_data=* by _time span=1h Registry.dest Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_value_data Registry.registry_key_name 
-	| `drop_dm_object_name(Registry)`
-	| eval reg_data_len = len(registry_value_data)
-    | where reg_data_len > 512] | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_registry_payload_injection_filter`'
-how_to_implement: The following analytic requires Sysmon or Windows logging with command line and registry modification logging enabled. Use filter to remove known environment known false positives prior to full production usage.
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
+  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
+  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid| `drop_dm_object_name(Processes)`
+  | join max=0 dest process_guid [| tstats `security_content_summariesonly` count
+  from datamodel=Endpoint.Registry where Registry.registry_value_data=* by _time span=1h
+  Registry.dest Registry.registry_path Registry.registry_value_name Registry.process_guid
+  Registry.registry_value_data Registry.registry_key_name | `drop_dm_object_name(Registry)`
+  | eval reg_data_len = len(registry_value_data) | where reg_data_len > 512] | fields
+  firstTime lastTime dest user parent_process_name parent_process process_name process_path
+  process registry_key_name registry_path registry_value_name registry_value_data
+  process_guid | where isnotnull(registry_value_data)| `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`| `windows_registry_payload_injection_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Unknown, possible custom scripting.
 references:
 - https://www.mandiant.com/resources/blog/tracking-evolution-gootloader-operations
@@ -24,7 +45,8 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 100
-  message: The process $process_name$ added a suspicious length of registry data on $dest$.
+  message: The process $process_name$ added a suspicious length of registry data on
+    $dest$.
   mitre_attack_id:
   - T1027
   - T1027.011
@@ -51,21 +73,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - user 
-  - dest   
-  - process_id 
-  - process_name 
-  - process 
-  - process_path 
-  - parent_process_name 
-  - parent_process 
+  - user
+  - dest
+  - process_id
+  - process_name
+  - process
+  - process_path
+  - parent_process_name
+  - parent_process
   - process_guid
-  - registry_path 
-  - registry_value_name 
-  - registry_value_data 
+  - registry_path
+  - registry_value_name
+  - registry_value_data
   - registry_key_name
   risk_score: 60
-  security_domain: endpoint  
+  security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:

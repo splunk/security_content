@@ -1,5 +1,5 @@
 """
-Moves the status to open and then launches the Dynamic playbooks for Reputation Analysis, Attribute Lookup, and Related Tickets.
+Moves the status to open and then launches the Dispatch playbooks for Reputation Analysis, Attribute Lookup, and Related Tickets.
 """
 
 
@@ -18,8 +18,8 @@ def on_start(container):
     return
 
 @phantom.playbook_block()
-def dynamic_identifier_reputation_analysis(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("dynamic_identifier_reputation_analysis() called")
+def identifier_reputation_analysis_dispatch(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("identifier_reputation_analysis_dispatch() called")
 
     ################################################################################
     ## Custom Code Start
@@ -31,17 +31,15 @@ def dynamic_identifier_reputation_analysis(action=None, success=None, container=
     ## Custom Code End
     ################################################################################
 
-    # call playbook "local/Dynamic_Identifier_Reputation_Analysis", returns the playbook_run_id
-    playbook_run_id = phantom.playbook("local/Dynamic_Identifier_Reputation_Analysis", container=container)
-
-    dynamic_attribute_lookup(container=container)
+    # call playbook "local/Identifier_Activity_Analysis_Dispatch", returns the playbook_run_id
+    playbook_run_id = phantom.playbook("local/Identifier_Activity_Analysis_Dispatch", container=container, name="identifier_reputation_analysis_dispatch", callback=attribute_lookup_dispatch)
 
     return
 
 
 @phantom.playbook_block()
-def dynamic_attribute_lookup(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("dynamic_attribute_lookup() called")
+def attribute_lookup_dispatch(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("attribute_lookup_dispatch() called")
 
     ################################################################################
     ## Custom Code Start
@@ -53,17 +51,17 @@ def dynamic_attribute_lookup(action=None, success=None, container=None, results=
     ## Custom Code End
     ################################################################################
 
-    # call playbook "local/Dynamic_Attribute_Lookup", returns the playbook_run_id
-    playbook_run_id = phantom.playbook("local/Dynamic_Attribute_Lookup", container=container)
+    # call playbook "local/Attribute_Lookup_Dispatch", returns the playbook_run_id
+    playbook_run_id = phantom.playbook("local/Attribute_Lookup_Dispatch", container=container)
 
-    dynamic_related_ticket_search(container=container)
+    related_ticket_search_dispatch(container=container)
 
     return
 
 
 @phantom.playbook_block()
-def dynamic_related_ticket_search(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("dynamic_related_ticket_search() called")
+def related_ticket_search_dispatch(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("related_ticket_search_dispatch() called")
 
     ################################################################################
     ## Custom Code Start
@@ -75,8 +73,8 @@ def dynamic_related_ticket_search(action=None, success=None, container=None, res
     ## Custom Code End
     ################################################################################
 
-    # call playbook "local/Dynamic_Related_Tickets_Search", returns the playbook_run_id
-    playbook_run_id = phantom.playbook("local/Dynamic_Related_Tickets_Search", container=container)
+    # call playbook "local/Related_Tickets_Search_Dispatch", returns the playbook_run_id
+    playbook_run_id = phantom.playbook("local/Related_Tickets_Search_Dispatch", container=container)
 
     return
 
@@ -103,7 +101,7 @@ def set_open_status(action=None, success=None, container=None, results=None, han
 
     container = phantom.get_container(container.get('id', None))
 
-    dynamic_identifier_reputation_analysis(container=container)
+    identifier_reputation_analysis_dispatch(container=container)
 
     return
 
