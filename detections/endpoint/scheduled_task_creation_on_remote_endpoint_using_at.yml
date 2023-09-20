@@ -5,9 +5,22 @@ date: '2021-11-11'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of suspicious tasks on a remote Windows endpoint using the at.exe command with command-line arguments. This technique is commonly used by red teams and adversaries for lateral movement and remote code execution. The at.exe binary leverages the deprecated AT protocol, which may still work on previous versions of Windows. Attackers can enable this protocol on demand by modifying a system registry key. It is important to consider potential false positives. While administrators may create scheduled tasks on remote systems, this activity is typically limited to a small set of hosts or users.\
+description: 'The following analytic detects the creation of suspicious tasks on a
+  remote Windows endpoint using the at.exe command with command-line arguments. This
+  technique is commonly used by red teams and adversaries for lateral movement and
+  remote code execution. The at.exe binary leverages the deprecated AT protocol, which
+  may still work on previous versions of Windows. Attackers can enable this protocol
+  on demand by modifying a system registry key. It is important to consider potential
+  false positives. While administrators may create scheduled tasks on remote systems,
+  this activity is typically limited to a small set of hosts or users.\
 
-  Identifying the creation of scheduled tasks on remote endpoints is crucial for a Security Operations Center (SOC) because it indicates potential unauthorized activity or an attacker attempting to establish persistence or execute malicious code. The impact of a true positive can be significant, leading to unauthorized access, data theft, or other damaging outcomes. During triage, investigate the source and purpose of the scheduled task, inspect relevant on-disk artifacts, and analyze concurrent processes to identify the extent of the attack and take appropriate response actions.
+  Identifying the creation of scheduled tasks on remote endpoints is crucial for a
+  Security Operations Center (SOC) because it indicates potential unauthorized activity
+  or an attacker attempting to establish persistence or execute malicious code. The
+  impact of a true positive can be significant, leading to unauthorized access, data
+  theft, or other damaging outcomes. During triage, investigate the source and purpose
+  of the scheduled task, inspect relevant on-disk artifacts, and analyze concurrent
+  processes to identify the extent of the attack and take appropriate response actions.'
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -16,9 +29,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.user Processes.parent_process_name Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `scheduled_task_creation_on_remote_endpoint_using_at_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Administrators may create scheduled tasks on remote systems,
   but this activity is usually limited to a small set of hosts or users.
 references:

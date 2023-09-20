@@ -7,37 +7,41 @@ status: production
 type: TTP
 data_source:
 - Sysmon Event ID 13
-description: This detection looks for the deletion of registry keys which disable LSA protection and MS Defender Device Guard. 
+description: This detection looks for the deletion of registry keys which disable
+  LSA protection and MS Defender Device Guard.
 search: '| tstats `security_content_summariesonly` min(_time) as _time from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\LsaCfgFlags",
   "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard\\*", "*\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\RunAsPPL")
   Registry.action IN (deleted, unknown) by Registry.action Registry.registry_path
-  Registry.process_guid
-  | `drop_dm_object_name(Registry)`
-  | join type=outer process_guid [| tstats `security_content_summariesonly` count
-  FROM datamodel=Endpoint.Processes by Processes.user Processes.process_name Processes.process
-  Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid
-  | `drop_dm_object_name(Processes)`]
+  Registry.process_guid | `drop_dm_object_name(Registry)` | join type=outer process_guid
+  [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  by Processes.user Processes.process_name Processes.process Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`]
   | table _time action dest user parent_process_name parent_process process_name process
   process_guid registry_path | `disabling_windows_local_security_authority_defences_via_registry_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry. 
-known_false_positives: Potential to be triggered by an administrator disabling protections for troubleshooting purposes.  
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Potential to be triggered by an administrator disabling protections
+  for troubleshooting purposes.
 references:
 - https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection
 - https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage
 tags:
   analytic_story:
   - Windows Defence Evasion Tactics
-  - Windows Registry Abuse 
+  - Windows Registry Abuse
   asset_type: Endpoint
   confidence: 100
   impact: 60
-  message: An attempt to disable Windows LSA defences was detected on $dest$. The reg key $registry_path$ was deleted by $user$. 
+  message: An attempt to disable Windows LSA defences was detected on $dest$. The
+    reg key $registry_path$ was deleted by $user$.
   mitre_attack_id:
   - T1556
   observable:

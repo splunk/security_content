@@ -38,8 +38,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: A process $process_name$ was identified attempting to disable memory crash
-    dumps on $dest$.
+  message: A process was identified attempting to disable memory crash dumps on $dest$.
   mitre_attack_id:
   - T1485
   observable:
@@ -51,14 +50,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

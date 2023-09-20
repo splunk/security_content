@@ -31,6 +31,15 @@
         ],
         "type": "integer"
       },
+      "status": {
+        "$id": "#/properties/status",
+        "default": "production",
+        "description": "status of detection: production or validation",
+        "examples": [
+          1
+        ],
+        "type": "string"
+      },
       "description": {
         "$id": "#/properties/description",
         "default": "",

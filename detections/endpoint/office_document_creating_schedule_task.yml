@@ -24,7 +24,7 @@ search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE"
   "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
   "msaccess.exe") ImageLoaded = "*\\taskschd.dll" | stats min(_time) as firstTime
   max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode
-  Image parent_process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)`
+  Image parent_process_name ProcessId ProcessGuid | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `office_document_creating_schedule_task_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.

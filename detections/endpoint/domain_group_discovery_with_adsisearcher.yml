@@ -13,7 +13,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*(objectcategory=group)*"
   AND Message = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  lastTime by EventCode Message ComputerName User | rename ComputerName as dest |rename User as user | `security_content_ctime(firstTime)`
   | `domain_group_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
