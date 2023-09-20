@@ -5,9 +5,17 @@ date: '2021-03-01'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic, "Suspicious Scheduled Task from Public Directory", detects the registration of scheduled tasks aimed to execute a binary or script from public directories, a behavior often associated with malware deployment. It utilizes the Sysmon Event ID 1 data source, searching for instances where schtasks.exe is connected with the directories users\public, \programdata\, or \windows\temp and involves the /create command.\
+description: 'The following analytic, "Suspicious Scheduled Task from Public Directory",
+  detects the registration of scheduled tasks aimed to execute a binary or script
+  from public directories, a behavior often associated with malware deployment. It
+  utilizes the Sysmon Event ID 1 data source, searching for instances where schtasks.exe
+  is connected with the directories users\public, \programdata\, or \windows\temp
+  and involves the /create command.\
 
-  The registration of such scheduled tasks in public directories could suggest that an attacker is trying to maintain persistence or execute malicious scripts. If confirmed as a true positive, this could lead to data compromise, unauthorized access, and potential lateral movement within the network.
+  The registration of such scheduled tasks in public directories could suggest that
+  an attacker is trying to maintain persistence or execute malicious scripts. If confirmed
+  as a true positive, this could lead to data compromise, unauthorized access, and
+  potential lateral movement within the network.'
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -17,10 +25,19 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.user Processes.parent_process Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `suspicious_scheduled_task_from_public_directory_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: The main source of false positives could be the legitimate use of scheduled tasks from these directories. Careful tuning of this search may be necessary to suit the specifics of your environment, reducing the rate of false positives.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: The main source of false positives could be the legitimate
+  use of scheduled tasks from these directories. Careful tuning of this search may
+  be necessary to suit the specifics of your environment, reducing the rate of false
+  positives.
 references:
 - https://attack.mitre.org/techniques/T1053/005/
 tags:
@@ -35,7 +52,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 70
-  message: Suspicious scheduled task registered on $dest$
+  message: Suspicious scheduled task registered on $dest$ from Public Directory
   mitre_attack_id:
   - T1053.005
   - T1053
@@ -44,7 +61,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

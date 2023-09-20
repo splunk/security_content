@@ -24,10 +24,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime
   dest user parent_process_name parent_process process_name process_path process registry_key_name
   registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `eventvwr_uac_bypass_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Some false positives may be present and will need to be filtered.
 references:
 - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/

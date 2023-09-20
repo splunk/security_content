@@ -11,21 +11,23 @@ description: The following analytic identifies MSIExec with any network connecti
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_msiexec` by _time Processes.process_id Processes.process_name Processes.dest
+  where `process_msiexec` by _time Processes.user Processes.process_id Processes.process_name Processes.dest
   Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id
   [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
   where All_Traffic.dest_port IN ("80","443") by All_Traffic.process_id All_Traffic.dest
   All_Traffic.dest_port All_Traffic.dest_ip | `drop_dm_object_name(All_Traffic)` ]
-  | table _time dest parent_process_name process_name process_path process process_id
+  | table _time user dest parent_process_name process_name process_path process process_id
   dest_port dest_ip | `windows_msiexec_with_network_connections_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product. Add parent process as a filter, filter known good processes. This
-  may be voluminous due to the join on process_id. All_Traffic does not have process_guid,
-  yet.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: False positives will be present and filtering is required.
 references:
 - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
@@ -37,7 +39,7 @@ tags:
   confidence: 50
   impact: 70
   message: An instance of $process_name$ was identified on endpoint $dest$ contacting
-    a remote destination.
+    a remote destination $dest_ip$
   mitre_attack_id:
   - T1218.007
   observable:

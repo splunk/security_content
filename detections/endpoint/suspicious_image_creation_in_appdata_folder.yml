@@ -38,11 +38,11 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: process $process_name$ creating image file $file_path$ in $dest$
+  message: Process $process_name$ creating image file $file_path$ in $dest$
   mitre_attack_id:
   - T1113
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
