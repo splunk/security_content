@@ -12,7 +12,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*" Registry.registry_value_name
-  = ETWEnabled Registry.registry_value_data=0x00000000) BY _time span=1h Registry.registry_path
+  = ETWEnabled Registry.registry_value_data=0x00000000) BY _time span=1h Registry.dest Registry.user Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `etw_registry_disabled_filter`'
@@ -33,7 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
+  message: Modified/added/deleted registry entry $registry_path$ in $dest$
   mitre_attack_id:
   - T1562.006
   - T1127

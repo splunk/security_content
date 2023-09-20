@@ -5,13 +5,25 @@ date: '2021-12-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the suspicious editing of cron jobs in Linux via the crontab command-line parameter. This tactic could be used by adversaries or malware to schedule execution of their malicious code, potentially leading to system compromise or unauthorized persistent access. It pinpoints this activity by monitoring command-line executions involving 'crontab' and the edit parameter (-e).\
+description: 'The following analytic detects the suspicious editing of cron jobs in
+  Linux via the crontab command-line parameter. This tactic could be used by adversaries
+  or malware to schedule execution of their malicious code, potentially leading to
+  system compromise or unauthorized persistent access. It pinpoints this activity
+  by monitoring command-line executions involving ''crontab'' and the edit parameter
+  (-e).\
 
-  Recognizing such activity is vital for a SOC as cron job manipulations might signal unauthorized persistence attempts or scheduled malicious actions, potentially resulting in substantial harm. A true positive signifies an active threat, with implications ranging from unauthorized access to broader network compromise.\
+  Recognizing such activity is vital for a SOC as cron job manipulations might signal
+  unauthorized persistence attempts or scheduled malicious actions, potentially resulting
+  in substantial harm. A true positive signifies an active threat, with implications
+  ranging from unauthorized access to broader network compromise.\
 
-  To implement this analytic, logs capturing process name, parent process, and command-line executions from your endpoints must be ingested.\
+  To implement this analytic, logs capturing process name, parent process, and command-line
+  executions from your endpoints must be ingested.\
 
-  Known false positives could stem from valid administrative tasks or automation processes using crontab. To reduce these, fine-tune the filter macros according to the benign activities within your environment. These adjustments ensure legitimate actions aren't mistaken for threats, allowing analysts to focus on genuine potential risks.\
+  Known false positives could stem from valid administrative tasks or automation processes
+  using crontab. To reduce these, fine-tune the filter macros according to the benign
+  activities within your environment. These adjustments ensure legitimate actions
+  aren''t mistaken for threats, allowing analysts to focus on genuine potential risks.\'
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -20,10 +32,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.parent_process_name Processes.process_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `linux_edit_cron_table_parameter_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
-  Splunkbase.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Administrator or network operator can use this application
   for automation purposes. Please update the filter macros to remove false positives.
 references:

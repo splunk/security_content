@@ -15,10 +15,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) values(Proce
   /stext *" OR Processes.process="* /scomma *" ) by Processes.parent_process Processes.process_name
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `detection_of_tools_built_by_nirsoft_filter`'
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the "process"
-  field in the Endpoint data model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: While legitimate, these NirSoft tools are prone to abuse. You
   should verfiy that the tool was used for a legitimate purpose.
 references: []

@@ -35,7 +35,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
 search: ' `wineventlog_security` EventCode=4625 Logon_Type=2 ProcessName!="-" | bucket
   span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, ProcessName, SubjectUserName, Computer | where unique_accounts
+  as tried_accounts by _time, ProcessName, SubjectUserName, Computer | rename Computer as dest | where unique_accounts
   > 30 | `windows_multiple_users_failed_to_authenticate_from_process_filter`'
 status: production
 tags:
@@ -46,12 +46,12 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Potential password spraying attack from $Computer$
+  message: Potential password spraying attack from $dest$
   mitre_attack_id:
   - T1110.003
   - T1110
   observable:
-  - name: ComputerName
+  - name: dest
     role:
     - Victim
     type: Endpoint

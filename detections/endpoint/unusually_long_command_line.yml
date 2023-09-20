@@ -17,10 +17,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process
   | `unusually_long_command_line_filter` |eval threshold = 3 | where maxlen > ((threshold*stdevperhost)
   + avgperhost)'
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships, from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the process
-  field in the Endpoint data model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Some legitimate applications start with long command lines.
 references: []
 tags:
