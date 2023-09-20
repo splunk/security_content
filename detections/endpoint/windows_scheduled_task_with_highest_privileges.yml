@@ -5,9 +5,18 @@ date: '2023-01-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of a new task with the highest execution privilege via Schtasks.exe. This tactic is often observed in AsyncRAT attacks, where the scheduled task is used for persistence and privilege escalation. AsyncRAT sets up a scheduled task with parameters '/rl' and 'highest', triggering this technique. It's a strong indicator of potential malware or adversaries seeking to establish persistence and escalate privileges through scheduled tasks. This is crucial for a Security Operations Center (SOC) as it can prevent unauthorized system access and potential data breaches.\
+description: 'The following analytic detects the creation of a new task with the highest
+  execution privilege via Schtasks.exe. This tactic is often observed in AsyncRAT
+  attacks, where the scheduled task is used for persistence and privilege escalation.
+  AsyncRAT sets up a scheduled task with parameters ''/rl'' and ''highest'', triggering
+  this technique. It''s a strong indicator of potential malware or adversaries seeking
+  to establish persistence and escalate privileges through scheduled tasks. This is
+  crucial for a Security Operations Center (SOC) as it can prevent unauthorized system
+  access and potential data breaches.\
 
-  The analytic works by monitoring logs for process name, parent process, and command-line executions. In the presence of the '*/rl ' and ' highest *' commands in a schtasks.exe process, an alert is triggered.
+  The analytic works by monitoring logs for process name, parent process, and command-line
+  executions. In the presence of the ''*/rl '' and '' highest *'' commands in a schtasks.exe
+  process, an alert is triggered.'
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -16,11 +25,18 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.parent_process_name Processes.parent_process Processes.process Processes.process_guid
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_scheduled_task_with_highest_privileges_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
-known_false_positives: False positives may arise from legitimate applications that create tasks to run as SYSTEM. Therefore, it's recommended to adjust filters based on parent process or modify the query to include world writable paths for restriction.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: False positives may arise from legitimate applications that
+  create tasks to run as SYSTEM. Therefore, it's recommended to adjust filters based
+  on parent process or modify the query to include world writable paths for restriction.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
 tags:

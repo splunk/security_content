@@ -42,7 +42,7 @@ tags:
   mitre_attack_id:
   - T1113
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

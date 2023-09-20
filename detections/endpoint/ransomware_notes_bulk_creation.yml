@@ -15,7 +15,7 @@ data_source:
 search: '`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") |bin _time
   span=10s | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename)
   as unique_readme_path_count values(TargetFilename) as list_of_readme_path by Computer
-  Image file_name | where unique_readme_path_count >= 15 | `security_content_ctime(firstTime)`
+  Image file_name | rename Computer as dest | where unique_readme_path_count >= 15 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `ransomware_notes_bulk_creation_filter`'
 how_to_implement: You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint file-system data model node. If you are
@@ -36,16 +36,12 @@ tags:
   confidence: 90
   impact: 90
   message: A high frequency file creation of $file_name$ in different file path in
-    host $Computer$
+    host $dest$
   mitre_attack_id:
   - T1486
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: User
     role:
     - Victim
   product:

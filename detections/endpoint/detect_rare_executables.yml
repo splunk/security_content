@@ -16,15 +16,15 @@ search: '| tstats `security_content_summariesonly` count values(Processes.dest) 
   as process | `filter_rare_process_allow_list` | sort count | head 30 | rex field=user
   "(?<user_domain>.*)\\\\(?<user_name>.*)" | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `detect_rare_executables_filter` '
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts and populating the `Endpoint` data
-  model with the resultant dataset. The macro `filter_rare_process_allow_list` searches
-  two lookup files for allowed processes.  These consist of `rare_process_allow_list_default.csv`
-  and `rare_process_allow_list_local.csv`. To add your own processes to the allow
-  list, add them to `rare_process_allow_list_local.csv`. If you wish to remove an
-  entry from the default lookup file, you will have to modify the macro itself to
-  set the allow_list value for that process to false. You can modify the limit parameter
-  and search scheduling to better suit your environment.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Some legitimate processes may be only rarely executed in your
   environment. As these are identified, update `rare_process_allow_list_local.csv`
   to filter them out of your search results.

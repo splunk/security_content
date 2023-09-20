@@ -32,10 +32,6 @@ tags:
   - T1055
   - T1055.002
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
   - name: dest
     type: Hostname
     role:
