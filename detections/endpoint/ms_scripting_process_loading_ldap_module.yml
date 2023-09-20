@@ -17,7 +17,7 @@ data_source:
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
   IN ("*\\Wldap32.dll", "*\\adsldp.dll", "*\\adsldpc.dll") | stats min(_time) as firstTime
   max(_time) as lastTime count by Image EventCode process_name ProcessId ProcessGuid
-  Computer ImageLoaded | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer ImageLoaded | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `ms_scripting_process_loading_ldap_module_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your

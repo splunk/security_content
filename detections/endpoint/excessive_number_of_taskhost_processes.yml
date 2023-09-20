@@ -23,9 +23,15 @@ search: '| tstats `security_content_summariesonly` values(Processes.process_id) 
   as taskhostex_count by _time, dest, firstTime, lastTime | where taskhost_count >
   10 and taskhostex_count > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `excessive_number_of_taskhost_processes_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting events
-  related to processes on the endpoints that include the name of the process and process
-  id into the `Endpoint` datamodel in the `Processes` node.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Administrators, administrative actions or certain applications
   may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
 references:
