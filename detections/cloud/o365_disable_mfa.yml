@@ -25,8 +25,7 @@ tags:
   asset_type: Office 365
   confidence: 80
   impact: 80
-  message: User $user$ has executed an operation $Operation$ for this destination
-    $dest$
+  message: User $src_user$ has executed an operation $action$ for user $user$
   mitre_attack_id:
   - T1556
   observable:
