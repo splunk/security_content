@@ -35,7 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A process, $parent_process_path$, has loaded $ImageLoaded$ that are typically related
+  message: A process, $parent_process_path$, has loaded $TargetImage$ that are typically related
     to credential dumping on $dest$. Review for further details.
   mitre_attack_id:
   - T1003.001

@@ -34,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: possible RMS admin tool named pipe was created in $dest$
+  message: possible RMS admin tool named pipe was created in $Computer$
   mitre_attack_id:
   - T1071
   observable:

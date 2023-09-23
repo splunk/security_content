@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: powershell process having commandline $Message$ for user enumeration
+  message: powershell process having commandline $ScriptBlockText$ for user enumeration on $Computer$
   mitre_attack_id:
   - T1087.002
   - T1087

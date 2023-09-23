@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Windows update services $service_name$ was being disabled on $dest$
+  message: Windows update services $service_name$ was being disabled on $Computer$
   mitre_attack_id:
   - T1489
   observable:

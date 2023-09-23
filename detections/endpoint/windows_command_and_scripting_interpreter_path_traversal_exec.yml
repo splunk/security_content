@@ -16,7 +16,7 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where  Processes.process="*\/..\/..\/..\/*"
   OR Processes.process="*\\..\\..\\..\\*" OR Processes.process="*\/\/..\/\/..\/\/..\/\/*"
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.original_file_name Processes.process_id Processes.parent_process_id
   Processes.process_hash | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_command_and_scripting_interpreter_path_traversal_exec_filter`'

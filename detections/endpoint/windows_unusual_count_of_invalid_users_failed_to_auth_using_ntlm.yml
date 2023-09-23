@@ -52,7 +52,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Potential NTLM based password spraying attack from $Source_Workstation$
+  message: Potential NTLM based password spraying attack from $Workstation$
   mitre_attack_id:
   - T1110.003
   - T1110

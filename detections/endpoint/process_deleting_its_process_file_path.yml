@@ -37,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 60
-  message: A process $Image$ tries to delete its process path in commandline $cmdline$
+  message: A process $Image$ tries to delete its process path in commandline $CommandLine$
     as part of defense evasion in host $Computer$
   mitre_attack_id:
   - T1070

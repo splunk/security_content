@@ -39,7 +39,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: process accessing MBR $device$ in $dest$
+  message: process accessing MBR $device$ on $Computer$
   mitre_attack_id:
   - T1561.002
   - T1561

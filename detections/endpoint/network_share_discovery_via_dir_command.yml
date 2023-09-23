@@ -35,7 +35,7 @@ tags:
   confidence: 50
   impact: 50
   message: $user$ list executable files or directory in known sensitive SMB share.  Share
-    name=$Share_Name$, Access mask=$Access_Mask$
+    name=$ShareName$, Access mask=$AccessMask$
   mitre_attack_id:
   - T1135
   observable:

@@ -33,7 +33,7 @@ tags:
   confidence: 90
   impact: 70
   message: Suspicious modification of registry $registry_path$ with possible payload
-    path $registry_value_name$ in $dest$
+    path $registry_path$ and key $registry_key_name$ in $dest$
   mitre_attack_id:
   - T1548.002
   - T1548

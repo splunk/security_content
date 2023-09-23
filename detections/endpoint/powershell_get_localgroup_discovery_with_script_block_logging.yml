@@ -41,16 +41,16 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 30
-  message: Local group discovery on $dest$ by $user$.
+  message: Local group discovery on $Computer$ by $UserID$.
   mitre_attack_id:
   - T1069
   - T1069.001
   observable:
-  - name: dest
+  - name: Computer
     type: Endpoint
     role:
     - Victim
-  - name: user
+  - name: UserID
     type: User
     role:
     - Victim
