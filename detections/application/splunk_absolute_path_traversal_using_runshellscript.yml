@@ -8,8 +8,7 @@ type: Hunting
 data_source:
 - python.log
 description: In Splunk Enterprise versions lower than 8.2.12, 9.0.6, and 9.1.1, an attacker can exploit an absolute path traversal to execute arbitrary code that is located on a separate disk.
-search: '`splunk_python` *runshellscript* | stats count min(_time)
-  as firstTime max(_time) as lastTime | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `splunk_absolute_path_traversal_using_runshellscript_filter`'
+search: '`splunk_python` *runshellscript* | stats count min(_time) as firstTime max(_time) as lastTime by splunk_server |  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `splunk_absolute_path_traversal_using_runshellscript_filter`'
 how_to_implement: Must have access to internal indexes. Only applies to Splunk on Windows versions. 
 known_false_positives: The command runshellscript can be used for benign purposes. Analyst will have to review the searches and determined maliciousness specially by looking at targeted script.
 references:
@@ -20,16 +19,16 @@ tags:
   asset_type: endpoint
   confidence: 70
   impact: 50
-  message: Possible attack abusing runshellscript
+  message: Possible attack against splunk_server $splunk_server$ through abuse of runshellscript SPL command
   mitre_attack_id:
   - T1083
   cve:
   - CVE-2023-40597
   observable:
-  - name: other
-    type: Unknown
+  - name: splunk_server
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
