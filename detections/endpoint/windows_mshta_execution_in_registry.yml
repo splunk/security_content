@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_value_data
   = "*mshta*" OR Registry.registry_value_data IN ("*javascript:*", "*vbscript:*","*WScript.Shell*")
   by Registry.registry_key_name Registry.registry_path Registry.registry_value_data
-  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  Registry.action Registry.dest Registry.user| `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_mshta_execution_in_registry_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
@@ -37,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 80
-  message: a registry $registry_path$ contains mshta $registry_value_data$ in $dest$
+  message: A registry $registry_path$ contains mshta $registry_value_data$ in $dest$
   mitre_attack_id:
   - T1218.005
   observable:

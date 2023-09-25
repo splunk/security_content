@@ -5,7 +5,18 @@ date: '2020-03-16'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to detect the potential misuse of Windows Management Instrumentation (WMI) for malicious purposes. WMI can be utilized by adversaries to execute scripts, a method often employed for maintaining stealth while carrying out malicious activities. The process 'scrcons.exe', integral to executing WMI scripts, is primarily monitored by this analytic. The underlying threat lies in the fact that successful execution of a malicious script can lead to numerous negative outcomes, including system compromise, data exfiltration, or the establishment of persistence. It's essential for cybersecurity analysts to remain vigilant towards unexpected or isolated script executions via WMI, as such instances often signal suspicious activities or potential security breaches. Although uncommon, administrators may occasionally use WMI to launch scripts for legitimate purposes. Therefore, discerning malicious activities from benign ones is crucial in this context.
+description: The following analytic is designed to detect the potential misuse of
+  Windows Management Instrumentation (WMI) for malicious purposes. WMI can be utilized
+  by adversaries to execute scripts, a method often employed for maintaining stealth
+  while carrying out malicious activities. The process 'scrcons.exe', integral to
+  executing WMI scripts, is primarily monitored by this analytic. The underlying threat
+  lies in the fact that successful execution of a malicious script can lead to numerous
+  negative outcomes, including system compromise, data exfiltration, or the establishment
+  of persistence. It's essential for cybersecurity analysts to remain vigilant towards
+  unexpected or isolated script executions via WMI, as such instances often signal
+  suspicious activities or potential security breaches. Although uncommon, administrators
+  may occasionally use WMI to launch scripts for legitimate purposes. Therefore, discerning
+  malicious activities from benign ones is crucial in this context.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -13,10 +24,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `script_execution_via_wmi_filter` '
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the "process"
-  field in the Endpoint data model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Although unlikely, administrators may use wmi to launch scripts
   for legitimate purposes. Filter as needed.
 references:

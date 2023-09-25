@@ -14,7 +14,7 @@ data_source:
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal
   Server\\WinStations\\RDP-Tcp*" Registry.registry_value_name = "PortNumber") BY _time
-  span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
   Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `enable_rdp_in_other_port_number_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting

@@ -7,25 +7,38 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon Event ID 1
-description: This analytic identifies an endpoint that remotely connects to another endpoint to create a new service using sc.exe. On the remote endpoint, the new service will be created and this action will trigger the creation of EventCode 7045 along with all the resulting service information.
+description: This analytic identifies an endpoint that remotely connects to another
+  endpoint to create a new service using sc.exe. On the remote endpoint, the new service
+  will be created and this action will trigger the creation of EventCode 7045 along
+  with all the resulting service information.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sc.exe Processes.process IN ("*create*")  Processes.process="*\\\\*"
-   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_remote_create_service_filter`'
-how_to_implement: To implement this search, it is necessary to ingest information on processes that include the name of the process responsible for the changes from your endpoints into the Endpoint data model within the Processes node. Additionally, it is recommended to confirm that the latest version of CIM App (4.20 or higher) and the latest TA for the endpoint product are installed.
-known_false_positives: Note that false positives may occur, and filtering may be necessary, especially when it comes to remote service creation by administrators or software management utilities.
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sc.exe
+  Processes.process IN ("*create*")  Processes.process="*\\\\*" by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_remote_create_service_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Note that false positives may occur, and filtering may be necessary,
+  especially when it comes to remote service creation by administrators or software
+  management utilities.
 references:
-  - https://attack.mitre.org/techniques/T1543/003/
+- https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to create a remote service.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to create a remote service.
   mitre_attack_id:
   - T1543
   - T1543.003
@@ -34,7 +47,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -54,11 +67,11 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path

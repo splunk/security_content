@@ -43,7 +43,7 @@ tags:
   - CVE-2022-22965
   impact: 60
   message: An instance of $process_name$ was identified on endpoint $dest$ writing
-    a jsp file to disk, potentially indicative of exploitation.
+    a jsp file $file_name$ to disk, potentially indicative of exploitation.
   mitre_attack_id:
   - T1190
   - T1133
@@ -52,10 +52,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
   - name: process_name
     type: Process
     role:

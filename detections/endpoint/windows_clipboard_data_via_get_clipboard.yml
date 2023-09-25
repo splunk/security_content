@@ -14,7 +14,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-Clipboard*" | stats count
   min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
-  user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_clipboard_data_via_get_clipboard_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -31,16 +31,15 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: powershell script $ScriptBlockText$ execute Get-Clipboard commandlet in
-    $dest$
+  message: Powershell script $ScriptBlockText$ execute Get-Clipboard commandlet on $dest$
   mitre_attack_id:
   - T1115
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: UserID
+  - name: user
     type: User
     role:
     - Victim
