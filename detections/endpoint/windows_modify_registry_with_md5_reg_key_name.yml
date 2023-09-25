@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly`  count min(_time) as firstTim
   | `drop_dm_object_name(Registry)` 
   | eval dropped_reg_path = split(registry_path, "\\") 
   | eval dropped_reg_path_split_count = mvcount(dropped_reg_path) 
-  | eval validation_result= if(match(registry_value_name,"^[0-9a-fA-F]{32}$"),"good","bad")
+  | eval validation_result= if(match(registry_value_name,"^[0-9a-fA-F]{32}$"),"md5","nonmd5")
   | where validation_result = "good" AND dropped_reg_path_split_count <= 5
   | table dest user registry_path registry_value_name registry_value_data registry_key_name reg_key_name dropped_reg_path_split_count validation_result
   | `security_content_ctime(lastTime)` 
