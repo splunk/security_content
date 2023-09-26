@@ -66,7 +66,8 @@ class ObjToYmlAdapter(Adapter):
                 "nist": obj.tags.nist
             }
 
-            obj.runtime = "SPL-DSP"
+            obj.runtime = "SPL2"
+            obj.internalVersion = 2
 
             # remove unncessary fields
             YmlWriter.writeYmlFile(file_path, obj.dict(
@@ -84,6 +85,7 @@ class ObjToYmlAdapter(Adapter):
                         "known_false_positives": True,
                         "references": True,
                         "runtime": True,
+                        "internalVersion": True,
                         "tags": 
                             {
                                 #"analytic_story": True,
