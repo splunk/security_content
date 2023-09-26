@@ -75,6 +75,7 @@ class Detection(BaseModel, SecurityContentObject):
     nes_fields: str = None
     providing_technologies: list = None
     runtime: str = None
+    internalVersion: str = None
 
     # @validator('name')v
     # def name_max_length(cls, v, values):
