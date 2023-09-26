@@ -57,11 +57,11 @@ tags:
       role:
         - Victim
     - name: src_user
-      type: User Name
+      type: User
       role:
         - Victim
     - name: user
-      type: User Name
+      type: User
       role:
         - Victim
     - name: ssl_hash
