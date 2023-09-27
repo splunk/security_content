@@ -13,8 +13,8 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name: attrib.exe
-    process|re: ''
+    process.file.name: attrib.exe
+    process.cmd_line|re: ''
   condition: selection1
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
@@ -38,24 +38,10 @@ tags:
   mitre_attack_id:
   - T1222.001
   - T1222
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: parent_process
-    type: Other
-    role:
-    - Attacker
-    - Parent Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 72

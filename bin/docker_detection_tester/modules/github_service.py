@@ -36,7 +36,6 @@ class GithubService:
         PR_number: Union[int, None] = None,
         persist_security_content: bool = False,
     ):
-
         self.security_content_branch = security_content_branch
         if persist_security_content:
             print("Getting handle on existing security_content repo!")
@@ -118,7 +117,6 @@ class GithubService:
         self.commit_hash = commit_hash
 
     def update_and_commit_passed_tests(self, results: list[dict]) -> bool:
-
         changed_file_paths = []
         for result in results:
             detection_obj_path = os.path.join(
@@ -192,11 +190,9 @@ class GithubService:
         types_to_test: list[str],
         exclude_ssa: bool = True,
     ) -> list[str]:
-
         pruned_tests = []
 
         for detection in detection_files:
-
             if os.path.basename(detection).startswith(SSA_PREFIX) and exclude_ssa:
                 continue
             with open(detection, "r") as d:
@@ -214,7 +210,6 @@ class GithubService:
                         and description["tags"].get("manual_test", False)
                     )
                 ):
-
                     if len(description.get("tests", [])) == 0:
                         print(
                             Exception(
@@ -361,7 +356,6 @@ class GithubService:
         types: list[str],
         detections_list: Union[list[str], None],
     ) -> list[str]:
-
         if mode == "changes":
             tests = self.get_changed_detection_files(folders, types)
         elif mode == "selected":
@@ -387,6 +381,8 @@ class GithubService:
 
         elif mode == "all":
             tests = self.get_all_tests_and_detections(folders, types)
+        elif mode == "smoketest":
+            tests = self.get_everything_including_experimental_and_deprecated(types)
         else:
             print(
                 "Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr
@@ -400,8 +396,39 @@ class GithubService:
         detection_file_list: list[str],
         types_to_test: list[str] = ["Anomaly", "Hunting", "TTP"],
     ) -> list[str]:
-
         return self.prune_detections(detection_file_list, types_to_test)
+
+    def get_everything_including_experimental_and_deprecated(
+        self,
+        types_to_test: list[str] = ["Anomaly", "Hunting", "TTP"],
+        exclude_ssa: bool = True,
+    ) -> list[str]:
+        all_detections = glob.glob(
+            os.path.join(DETECTION_ROOT_PATH, "**", f"*{DETECTION_FILE_EXTENSION}"),
+            recursive=True,
+        )
+        only_selected_detection_types: list[str] = []
+        for detection in all_detections:
+            if os.path.basename(detection).startswith(SSA_PREFIX) and exclude_ssa:
+                continue
+            with open(detection, "r") as d:
+                description: dict = yaml.safe_load(d)
+
+                detection_filepath_without_security_content = str(
+                    pathlib.Path(*pathlib.Path(detection).parts[1:])
+                )
+
+                if description.get("type", None) not in types_to_test:
+                    continue
+                only_selected_detection_types.append(
+                    detection_filepath_without_security_content
+                )
+
+        print(
+            f"Number of non-ssa tests including experimental and deprecated: {len(only_selected_detection_types)}"
+        )
+
+        return only_selected_detection_types
 
     def get_all_tests_and_detections(
         self,
@@ -428,7 +455,6 @@ class GithubService:
         folders=["endpoint", "cloud", "network"],
         types_to_test=["Anomaly", "Hunting", "TTP"],
     ) -> list[str]:
-
         branch1 = self.security_content_branch
         branch2 = "develop"
         g = git.Git("security_content")

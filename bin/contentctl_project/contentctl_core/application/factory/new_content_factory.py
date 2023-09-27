@@ -51,7 +51,7 @@ class NewContentFactory():
             self.output_dto.obj['tags']['asset_type'] = 'UPDATE asset_type'
             self.output_dto.obj['tags']['atomic_guid'] = ['UPDATE atomic_guid']
             self.output_dto.obj['tags']['confidence'] = 'UPDATE value between 1-100'
-            self.output_dto.obj['tags']['drilldown_search'] = ['Add drilldown search']
+            #self.output_dto.obj['tags']['drilldown_search'] = ['Add drilldown search']
             self.output_dto.obj['tags']['impact'] = 'UPDATE value between 1-100'
             self.output_dto.obj['tags']['message'] = 'UPDATE message'
             self.output_dto.obj['tags']['mitre_attack_id'] = [x.strip() for x in answers['mitre_attack_ids'].split(',')]
@@ -63,6 +63,7 @@ class NewContentFactory():
             if answers['detection_product'] == 'SSA':
                 self.output_dto.obj['tags']['product'] = ['Splunk Behavioral Analytics']
             self.output_dto.obj['tags']['risk_score'] = 'UPDATE (impact * confidence)/100'
+            self.output_dto.obj['tags']['required_fields'] = ['UPDATE_required_fields']
             self.output_dto.obj['tags']['security_domain'] = answers['security_domain']
             self.output_dto.obj['source'] = answers['detection_kind']
             self.output_dto.obj['tests'] = list()

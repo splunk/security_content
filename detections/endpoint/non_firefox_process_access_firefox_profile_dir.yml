@@ -1,18 +1,18 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
 version: 1
-date: '2021-09-15'
+date: '2023-04-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: This search is to detect an anomaly event of a non-firefox process accessing
-  the files in the profile folder. This folder contains all the sqlite database of the
-  firefox browser related to users login, history, cookies and etc. Most of the RAT,
-  trojan spy as well as FIN7 jssloader try to parse the those sqlite database to collect
-  information on the compromised host. This SACL Event (4663) needs to be enabled to
-  the firefox profile directory to use this. Since this is monitoring the
-  access to the folder, we have obsevered noise and hence added `sqlite
-  db browser` and `explorer.exe` to make this detection more stable.
+  the files in the profile folder. This folder contains all the sqlite database of
+  the firefox browser related to users login, history, cookies and etc. Most of the
+  RAT, trojan spy as well as FIN7 jssloader try to parse the those sqlite database
+  to collect information on the compromised host. This SACL Event (4663) needs to
+  be enabled to the firefox profile directory to use this. Since this is monitoring
+  the access to the folder, we have obsevered noise and hence added `sqlite db browser`
+  and `explorer.exe` to make this detection more stable.
 data_source:
 - Windows Security 4663
 search: '`wineventlog_security` EventCode=4663 NOT (process_name IN ("*\\firefox.exe",
@@ -28,11 +28,12 @@ known_false_positives: other browser not listed related to firefox may catch by 
 references: []
 tags:
   analytic_story:
-  - FIN7
-  - Remcos
   - Azorult
-  - AgentTesla
+  - Remcos
   - 3CX Supply Chain Attack
+  - AgentTesla
+  - RedLine Stealer
+  - FIN7
   asset_type: Endpoint
   confidence: 70
   impact: 50

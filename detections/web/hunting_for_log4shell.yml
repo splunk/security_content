@@ -82,6 +82,7 @@ tags:
   message: Hunting for Log4Shell exploitation has occurred.
   mitre_attack_id:
   - T1190
+  - T1133
   observable:
   - name: dest
     type: Hostname
@@ -99,6 +100,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - _raw
   risk_score: 40
   security_domain: network
 tests:

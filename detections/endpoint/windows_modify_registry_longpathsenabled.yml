@@ -1,0 +1,67 @@
+name: Windows Modify Registry LongPathsEnabled
+id: 36f9626c-4272-4808-aadd-267acce681c0
+version: 1
+date: '2023-07-10'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+- Sysmon EventID 14
+description: The following analytic identifies a suspicious registry modification of Windows long path enable configuration. 
+  This technique was being abused by several adversaries, malware like BlackByte to enable long file path support in the operating system. 
+  By default, Windows has a limitation on the maximum length of a file path, which is set to 260 characters. 
+  Enabling the LongPathsEnabled setting allows you to work with file paths longer than 260 characters.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
+  WHERE (Registry.registry_path= "*\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled" Registry.registry_value_data = "0x00000001") 
+  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.dest
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_longpathsenabled_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: Administrators may enable or disable this feature that may
+  cause some false positive.
+references:
+- https://www.microsoft.com/en-us/security/blog/2023/07/06/the-five-day-job-a-blackbyte-ransomware-intrusion-case-study/
+tags:
+  analytic_story:
+  - BlackByte Ransomware
+  asset_type: endpoint
+  atomic_guid:
+  - 4f4e2f9f-6209-4fcf-9b15-3b7455706f5b
+  confidence: 40
+  impact: 40
+  message: A registry modification in Windows LongPathEnable configuration on $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 16
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  - Registry.registry_value_data
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/blackbyte/longpathsenabled/longpath_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,826 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Identifier Reputation Analysis",
+    "coa": {
+        "data": {
+            "description": "Detects available indicators and routes them to indicator reputation analysis playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags.\n\nRef: https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/",
+            "edges": [
+                {
+                    "id": "port_9_to_port_1",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_12_to_port_17",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_11_to_port_18",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "id": "port_18_to_port_5",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_11_to_port_9",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_17_to_port_19",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_19_to_port_11",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_19_to_port_20",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_0_to_port_21",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "21",
+                    "targetPort": "21_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_21_to_port_12",
+                    "sourceNode": "21",
+                    "sourcePort": "21_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_21_to_port_22",
+                    "sourceNode": "21",
+                    "sourcePort": "21_out",
+                    "targetNode": "22",
+                    "targetPort": "22_in"
+                }
+            ],
+            "hash": "b43182bac2c18df81288ffb1cbafde3091b65a6e",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 470,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1358
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "outputs filter",
+                            "customNameId": 0,
+                            "description": "Routes outputs based on reputation score and report availability.",
+                            "join": [],
+                            "note": "Routes outputs based on reputation score and report availability."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">=",
+                                        "param": "dispatch_reputation_playbooks_1:playbook_output:observable.reputation.score_id",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "reputation tags",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "outputs_filter",
+                        "id": "11",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath configuration."
+                        ]
+                    },
+                    "x": 230,
+                    "y": 852
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter new artifacts",
+                            "customNameId": 0,
+                            "description": "Only dispatch reputation playbooks against new artifacts.",
+                            "join": [],
+                            "note": "Only dispatch reputation playbooks against new artifacts."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.id",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "artifacts",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_new_artifacts",
+                        "id": "12",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 370,
+                    "y": 328
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Dispatch Reputation Playbooks",
+                            "customNameId": 1,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "dispatch_reputation_playbooks_1",
+                        "id": "17",
+                        "inputs": {
+                            "artifact_ids_include": {
+                                "datapaths": [
+                                    "filtered-data:filter_new_artifacts:condition_1:artifact:*.id"
+                                ],
+                                "deduplicate": false
+                            },
+                            "indicator_tags_exclude": {
+                                "datapaths": [],
+                                "deduplicate": false
+                            },
+                            "indicator_tags_include": {
+                                "datapaths": [],
+                                "deduplicate": false
+                            },
+                            "playbook_repo": {
+                                "datapaths": [],
+                                "deduplicate": false
+                            },
+                            "playbook_tags": {
+                                "datapaths": [
+                                    "reputation"
+                                ],
+                                "deduplicate": false
+                            }
+                        },
+                        "playbookName": "dispatch_input_playbooks",
+                        "playbookRepo": 3,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "playbook",
+                    "warnings": {},
+                    "x": 310,
+                    "y": 508
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "merge reports",
+                            "customNameId": 0,
+                            "description": "Format a note that merges together normalized data. The data will come from the playbooks launched by the Dispatch Reputation Playbooks block.",
+                            "join": [],
+                            "note": "Format a note that merges together normalized data. The data will come from the playbooks launched by the Dispatch Reputation Playbooks block."
+                        },
+                        "customDatapaths": {
+                            "dispatch_reputation_playbooks_1": {
+                                "outputs:observable.type": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "outputs:observable.type",
+                                    "value": "dispatch_reputation_playbooks_1:playbook_output:observable.type"
+                                },
+                                "outputs:observable.value": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "outputs:observable.value",
+                                    "value": "dispatch_reputation_playbooks_1:playbook_output:observable.value"
+                                }
+                            },
+                            "outputs_filter": {
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.categories": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.categories",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.categories"
+                                },
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.reputation": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.reputation",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.reputation"
+                                },
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.reputation.score": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.reputation.score",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.reputation.score"
+                                },
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.reputation.score_id": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.reputation.score_id",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.reputation.score_id"
+                                },
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.source": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.source",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.source"
+                                },
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.source_link": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.source_link",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.source_link"
+                                },
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.type": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.type",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.type"
+                                },
+                                "condition_1:dispatch_reputation_playbooks_1:outputs:observable.value": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "condition_1:dispatch_reputation_playbooks_1:outputs:observable.value",
+                                    "value": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.value"
+                                }
+                            }
+                        },
+                        "functionId": 1,
+                        "functionName": "merge_reports",
+                        "id": "18",
+                        "parameters": [
+                            "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.type",
+                            "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.value",
+                            "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.reputation.score",
+                            "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.categories",
+                            "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.source",
+                            "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.source_link"
+                        ],
+                        "template": "SOAR performed Reputation Analysis based on available indicators and playbooks. The following table shows a summary of the information gathered.\n\n| Type | Value | Normalized Score | Categories | Source | Source Link |\n| --- | --- | --- | --- | --- | --- |\n%%\n| {0} | `{1}` | {2} | {3} | {4} | {5} |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1032
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "outputs decision",
+                            "customNameId": 0,
+                            "description": "Determine if outputs exist.",
+                            "join": [],
+                            "note": "Determine if outputs exist."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "dispatch_reputation_playbooks_1:playbook_output:observable",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "outputs exist",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "outputs do not exist",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "outputs_decision",
+                        "id": "19",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "decision",
+                    "warnings": {},
+                    "x": 390,
+                    "y": 672
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "add_comment_1",
+                        "id": "20",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "comment": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "description": "",
+                                        "label": "comment",
+                                        "name": "comment",
+                                        "placeholder": "Enter a comment",
+                                        "renderType": "datapath",
+                                        "required": true
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "author",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "add comment",
+                                "name": "comment"
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "comment": {
+                                "_internal": [
+                                    "container",
+                                    "author",
+                                    "trace"
+                                ],
+                                "comment": "No observable data found from playbook."
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 450,
+                    "y": 868
+                },
+                "21": {
+                    "data": {
+                        "advanced": {
+                            "customName": "artifact decision",
+                            "customNameId": 0,
+                            "description": "Determine if artifacts exist to run through the playbook.",
+                            "join": [],
+                            "note": "Determine if artifacts exist to run through the playbook."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.id",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "artifacts exist",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "artifacts do not exist",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "artifact_decision",
+                        "id": "21",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "21",
+                    "type": "decision",
+                    "warnings": {},
+                    "x": 530,
+                    "y": 148
+                },
+                "22": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 2,
+                        "functionName": "add_comment_2",
+                        "id": "22",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "comment": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "description": "",
+                                        "label": "comment",
+                                        "name": "comment",
+                                        "placeholder": "Enter a comment",
+                                        "renderType": "datapath",
+                                        "required": true
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "author",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "add comment",
+                                "name": "comment"
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "comment": {
+                                "_internal": [
+                                    "container",
+                                    "author",
+                                    "trace"
+                                ],
+                                "comment": "No new artifacts found to perform Dynamic Identifier Reputation Analysis."
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "22",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 590,
+                    "y": 344
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "update reputation task",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "workbook_task_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "update_reputation_task",
+                        "id": "5",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "workbook_task_update": {
+                                "description": "Update a workbook task by task name",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Name of a workbook task (Required)",
+                                        "inputType": "item",
+                                        "label": "task_name",
+                                        "name": "task_name",
+                                        "placeholder": "my_task",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Note title goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_title",
+                                        "name": "note_title",
+                                        "placeholder": "My Title",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Body of note goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_content",
+                                        "name": "note_content",
+                                        "placeholder": "My notes",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "One of: incomplete, in_progress, complete (Optional)",
+                                        "inputType": "item",
+                                        "label": "status",
+                                        "name": "status",
+                                        "placeholder": "in_progress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Assigns task to provided owner. Accepts keyword 'current\" to assign task to currently running playbook user. (Optional)",
+                                        "inputType": "item",
+                                        "label": "owner",
+                                        "name": "owner",
+                                        "placeholder": "username",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "ID of Phantom Container (Required)",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "workbook_task_update",
+                                "name": "workbook_task_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "workbook_task_update": {
+                                "container": "container:id",
+                                "note_content": "merge_reports:formatted_data",
+                                "note_title": "Identifier Reputation Analysis Report",
+                                "owner": null,
+                                "status": "complete",
+                                "task_name": "playbook"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1210
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "tag indicators",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 6,
+                        "functionName": "tag_indicators",
+                        "id": "9",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_tag": {
+                                "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.",
+                                        "inputType": "item",
+                                        "label": "indicator",
+                                        "name": "indicator",
+                                        "placeholder": "my_indicator",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,...,tagk",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Either True or False with default as False. If set to True, existing tags on the indicator record will be replaced by the provided input. If set to False, the new tags will be appended to the existing indicator tags.",
+                                        "inputType": "item",
+                                        "label": "overwrite",
+                                        "name": "overwrite",
+                                        "placeholder": "False",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_tag",
+                                "name": "indicator_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_tag": {
+                                "indicator": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.value",
+                                "overwrite": null,
+                                "tags": "filtered-data:outputs_filter:condition_1:dispatch_reputation_playbooks_1:playbook_output:observable.reputation.score"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1210
+                }
+            },
+            "notes": "Outputs: \n- Tags indicators based on reputation score. \n- Concludes reputation task."
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-04-06T23:24:14.315536+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "D3-IRA"
+    ]
+}

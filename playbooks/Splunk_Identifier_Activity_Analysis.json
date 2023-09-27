@@ -1,0 +1,1094 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Identifier Activity Analysis",
+    "coa": {
+        "data": {
+            "description": "Accepts a file_hash, domain name, URL, or IP Address, and asks Splunk for a list of devices that have interacted with each. It then produces a normalized output and summary table.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 2
+                        }
+                    ],
+                    "id": "port_2_to_port_5",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 3
+                        }
+                    ],
+                    "id": "port_2_to_port_6",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_3_to_port_8",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_4_to_port_9",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_5_to_port_10",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_6_to_port_11",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_8_to_port_12",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_9_to_port_13",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_10_to_port_14",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_11_to_port_15",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_12_to_port_16",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_13_to_port_17",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_14_to_port_18",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_15_to_port_19",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_16_to_port_20",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_17_to_port_21",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "21",
+                    "targetPort": "21_in"
+                },
+                {
+                    "id": "port_18_to_port_22",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "22",
+                    "targetPort": "22_in"
+                },
+                {
+                    "id": "port_19_to_port_23",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                },
+                {
+                    "id": "port_20_to_port_1",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_21_to_port_1",
+                    "sourceNode": "21",
+                    "sourcePort": "21_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_22_to_port_1",
+                    "sourceNode": "22",
+                    "sourcePort": "22_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_23_to_port_1",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "204e4629fa3da0ab5d189b9b1a9a6709b6b7afb1",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 520,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 540,
+                    "y": 1100
+                },
+                "10": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run domain query",
+                            "customNameId": 0,
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 3,
+                        "functionName": "run_domain_query",
+                        "id": "10",
+                        "parameters": {
+                            "command": "tstats",
+                            "query": "build_domain_query:formatted_data",
+                            "search_mode": "smart"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "search",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "smart",
+                                "field": "search_mode"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 680,
+                    "y": 480
+                },
+                "11": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run IP query",
+                            "customNameId": 0,
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 4,
+                        "functionName": "run_ip_query",
+                        "id": "11",
+                        "parameters": {
+                            "command": "tstats",
+                            "display": "src, src_asset_id, src_dns, src_ip",
+                            "query": "build_ip_query:formatted_data",
+                            "search_mode": "smart"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "search",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "smart",
+                                "field": "search_mode"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1020,
+                    "y": 480
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter URL query",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "only proceed when there are results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_url_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Results",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_url_query",
+                        "id": "12",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 620
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter file query",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "only proceed when there are results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_file_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Results",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "filter_file_query",
+                        "id": "13",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 624
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter domain query",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "only proceed when there are results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_domain_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Results",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 4,
+                        "functionName": "filter_domain_query",
+                        "id": "14",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 740,
+                    "y": 620
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter IP query",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "only proceed when there are results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_ip_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Results",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 5,
+                        "functionName": "filter_ip_query",
+                        "id": "15",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 1080,
+                    "y": 620
+                },
+                "16": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format URL report",
+                            "customNameId": 0,
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
+                        },
+                        "functionId": 5,
+                        "functionName": "format_url_report",
+                        "id": "16",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:url",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_asset_id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| URL | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 800
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format file report",
+                            "customNameId": 0,
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
+                        },
+                        "functionId": 6,
+                        "functionName": "format_file_report",
+                        "id": "17",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_2:playbook_input:file",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_dns",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_ip",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_asset_id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| File | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 800
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format domain report",
+                            "customNameId": 0,
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
+                        },
+                        "functionId": 7,
+                        "functionName": "format_domain_report",
+                        "id": "18",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_3:playbook_input:domain",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_asset_id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| Domain | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 680,
+                    "y": 800
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format ip report",
+                            "customNameId": 0,
+                            "description": "Markdown report used in calling playbook",
+                            "join": [],
+                            "note": "Markdown report output"
+                        },
+                        "functionId": 8,
+                        "functionName": "format_ip_report",
+                        "id": "19",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_4:playbook_input:ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_asset_id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using Splunk. The table below shows a summary of the information gathered.\n\n| IP | Computer | IP Address | Asset ID | Source |\n| --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | Splunk |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1020,
+                    "y": 800
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Routing paths by indicator type"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:url",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "url",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "!=",
+                                        "param": "playbook_input:file",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "file",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 2,
+                                        "op": "!=",
+                                        "param": "playbook_input:domain",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 2,
+                                "customName": "domain",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 3,
+                                        "op": "!=",
+                                        "param": "playbook_input:ip",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 3,
+                                "customName": "ip",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 570,
+                    "y": 148
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build URL output",
+                            "customNameId": 0,
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
+                        },
+                        "functionId": 1,
+                        "functionName": "build_url_output",
+                        "id": "20",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:url",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_url_query:condition_1:run_url_query:action_result.data.*.src_asset_id"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "code",
+                    "userCode": "\n    # Init variables + convenience naming\n    build_url_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_url_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"url\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_url_output__observable_array.append(observable_array)\n\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 960
+                },
+                "21": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build file output",
+                            "customNameId": 0,
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
+                        },
+                        "functionId": 2,
+                        "functionName": "build_file_output",
+                        "id": "21",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_2:playbook_input:file",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_dns",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_ip",
+                            "filtered-data:filter_file_query:condition_1:run_file_query:action_result.datadata.*.dest_asset_id"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "21",
+                    "type": "code",
+                    "userCode": "\n    \n    # Init variables + convenience naming\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_file_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_datadata___dest_dns, filtered_result_0_datadata___dest_ip, filtered_result_0_datadata___dest_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file_hash\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_file_output__observable_array.append(observable_array)\n\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 960
+                },
+                "22": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build domain output",
+                            "customNameId": 0,
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
+                        },
+                        "functionId": 3,
+                        "functionName": "build_domain_output",
+                        "id": "22",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_3:playbook_input:domain",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_domain_query:condition_1:run_domain_query:action_result.data.*.src_asset_id"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "22",
+                    "type": "code",
+                    "userCode": "\n    # Init variables + convenience naming\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_domain_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send output\n    build_domain_output__observable_array.append(observable_array)\n\n",
+                    "warnings": {},
+                    "x": 680,
+                    "y": 960
+                },
+                "23": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build ip output",
+                            "customNameId": 0,
+                            "description": "Observable object expected by calling playbook",
+                            "join": [],
+                            "note": "Observable output"
+                        },
+                        "functionId": 4,
+                        "functionName": "build_ip_output",
+                        "id": "23",
+                        "inputParameters": [
+                            "filtered-data:input_filter:condition_4:playbook_input:ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_dns",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_ip",
+                            "filtered-data:filter_ip_query:condition_1:run_ip_query:action_result.data.*.src_asset_id"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "23",
+                    "type": "code",
+                    "userCode": "    \n    # Init variables + convenience naming\n    build_ip_output__observable_array = []\n    device_list = []\n    indicator = filtered_input_0_ip_values\n    \n    # Build device list\n    for dns, ip, asset_id in zip(filtered_result_0_data___src_dns, filtered_result_0_data___src_ip, filtered_result_0_data___src_asset_id):\n        device = {\n            \"name\": dns,\n            \"id\": asset_id, \n            \"ip_address\": ip,\n            \"operating_system\": \"Unknown\" \n        }\n        \n        # Drop devices from list if we don't know anything about them\n        if device.get(\"name\") == \"Unknown\":\n            if device.get(\"id\") == \"Unknown\":\n                if device.get(\"ip_address\") == \"Unknown\":\n                    continue\n        \n        # Add devices to list    \n        device_list.append(device)\n    \n    # Build observable object    \n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"ip_address\",\n        \"total_count\": len(device_list),\n        \"source\": \"Splunk\",\n        \"identifier_activity\": device_list\n    }\n    \n    # Send Output\n    build_ip_output__observable_array.append(observable_array)\n    \n",
+                    "warnings": {},
+                    "x": 1020,
+                    "y": 960
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build URL query",
+                            "customNameId": 0,
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
+                        },
+                        "functionId": 1,
+                        "functionName": "build_url_query",
+                        "id": "3",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_1:playbook_input:url"
+                        ],
+                        "template": "count from datamodel=Web.Web where Web.url=\"{0}\" by Web.src | `drop_dm_object_name(\"Web\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\"",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 320
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build file query",
+                            "customNameId": 0,
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
+                        },
+                        "functionId": 2,
+                        "functionName": "build_file_query",
+                        "id": "4",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_2:playbook_input:file"
+                        ],
+                        "template": "count from datamodel=Endpoint.Processes where (Processes.process_hash=\"{0}\" OR Processes.process_hash=\"*={0}*\") by Processes.dest | `drop_dm_object_name(\"Processes\")` | `get_asset(dest)` | fields dest, dest_asset_id, dest_dns, dest_ip | fillnull value=\"Unknown\"",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 320
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build domain query",
+                            "customNameId": 0,
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
+                        },
+                        "functionId": 3,
+                        "functionName": "build_domain_query",
+                        "id": "5",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_3:playbook_input:domain"
+                        ],
+                        "template": "count from datamodel=Network_Resolution where DNS.query=\"{0}\" by DNS.src | `drop_dm_object_name(\"DNS\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\"",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 680,
+                    "y": 320
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build IP query",
+                            "customNameId": 0,
+                            "description": "Query may need editing to reflect your splunk environment",
+                            "join": [],
+                            "note": "Splunk query template"
+                        },
+                        "functionId": 4,
+                        "functionName": "build_ip_query",
+                        "id": "6",
+                        "parameters": [
+                            "filtered-data:input_filter:condition_4:playbook_input:ip"
+                        ],
+                        "template": "count from datamodel=Network_Traffic where  All_Traffic.dest_ip=\"{0}\" by All_Traffic.src | `drop_dm_object_name(\"All_Traffic\")` | `get_asset(src)` | fields src, src_asset_id, src_dns, src_ip | fillnull value=\"Unknown\"",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1020,
+                    "y": 320
+                },
+                "8": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run URL query",
+                            "customNameId": 0,
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_url_query",
+                        "id": "8",
+                        "parameters": {
+                            "command": "tstats",
+                            "query": "build_url_query:formatted_data",
+                            "search_mode": "smart"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "search",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "smart",
+                                "field": "search_mode"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 480
+                },
+                "9": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run file query",
+                            "customNameId": 0,
+                            "description": "May need to change search command dependent on your format block",
+                            "join": [],
+                            "note": "Splunk query execution"
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": "91883aa8-9c81-470b-97a1-5d8f7995f560",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "run_file_query",
+                        "id": "9",
+                        "parameters": {
+                            "command": "tstats",
+                            "query": "build_file_query:formatted_data",
+                            "search_mode": "smart"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "query"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "search",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "smart",
+                                "field": "search_mode"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 480
+                }
+            },
+            "notes": "Inputs: file_hash, domain, url, ip_address\nInteractions: Splunk\nActions: run_query\nOutputs: observable, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "url"
+                ],
+                "description": "A URL to look for within your events in Splunk",
+                "name": "url"
+            },
+            {
+                "contains": [
+                    "hash"
+                ],
+                "description": "A file hash to look for within your events in Splunk",
+                "name": "file"
+            },
+            {
+                "contains": [
+                    "domain"
+                ],
+                "description": "A domain name to look for within your events in Splunk",
+                "name": "domain"
+            },
+            {
+                "contains": [
+                    "ip"
+                ],
+                "description": "An IP Address to look for within your events in Splunk",
+                "name": "ip"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_url_output:custom_function:observable_array",
+                    "build_domain_output:custom_function:observable_array",
+                    "build_ip_output:custom_function:observable_array",
+                    "build_file_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of Observable objects ",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_url_report:formatted_data",
+                    "format_file_report:formatted_data",
+                    "format_domain_report:formatted_data",
+                    "format_ip_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "An array of markdown reports",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-05-04T19:33:28.515583+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "domain",
+        "url",
+        "ip",
+        "file_hash",
+        "splunk",
+        "identifier_activity",
+        "D3-IAA"
+    ]
+}

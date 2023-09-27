@@ -1,7 +1,7 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
 version: 1
-date: '2022-11-10'
+date: '2023-06-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ data_source:
 - Sysmon Event ID 8
 search: '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe",
   "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe",
-  "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe") | stats count
+  "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe","*\\cmd.exe", "*\\powershell.exe") | stats count
   min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode
   StartAddress SourceImage Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_process_injection_remote_thread_filter`'
@@ -27,9 +27,12 @@ how_to_implement: To successfully implement this search, you must be ingesting d
 known_false_positives: unknown
 references:
 - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
+- https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
 tags:
   analytic_story:
   - Qakbot
+  - Graceful Wipe Out Attack
+  - Warzone RAT
   asset_type: 80
   confidence: 80
   impact: 80

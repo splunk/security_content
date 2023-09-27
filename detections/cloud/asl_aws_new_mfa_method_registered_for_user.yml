@@ -1,0 +1,68 @@
+name: ASL AWS New MFA Method Registered For User
+id: 33ae0931-2a03-456b-b1d7-b016c5557fbd
+version: 1
+date: '2023-05-22'
+author: Patrick Bareiss, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the registration of a new Multi Factor
+  authentication method for an AWS account logged through Amazon Secruity Lake (ASL). Adversaries who have obtained unauthorized
+  access to an AWS account may register a new MFA method to maintain persistence.
+data_source: []
+search: ' `amazon_security_lake` api.operation=CreateVirtualMFADevice | stats count min(_time) as firstTime max(_time) as lastTime by api.operation 
+  api.service.name identity.user.account_uid identity.user.credential_uid identity.user.name identity.user.type identity.user.uid identity.user.uuid 
+  http_request.user_agent src_endpoint.ip cloud.region 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `asl_aws_new_mfa_method_registered_for_user_filter`'
+how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+known_false_positives: Newly onboarded users who are registering an MFA method for
+  the first time will also trigger this detection.
+references:
+- https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
+- https://attack.mitre.org/techniques/T1556/
+- https://attack.mitre.org/techniques/T1556/006/
+- https://twitter.com/jhencinski/status/1618660062352007174
+tags:
+  analytic_story:
+  - AWS Identity and Access Management Account Takeover
+  asset_type: AWS Account
+  confidence: 80
+  impact: 80
+  message: A new virtual device is added to user $identity.user.name$
+  mitre_attack_id:
+  - T1556
+  - T1556.006
+  observable:
+  - name: identity.user.name
+    type: User
+    role:
+    - Victim
+  - name: src_endpoint.ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.service.name
+  - api.operation
+  - identity.user.account_uid
+  - identity.user.credential_uid
+  - identity.user.name
+  - identity.user.type
+  - identity.user.uid
+  - identity.user.uuid
+  - http_request.user_agent
+  - src_endpoint.ip
+  risk_score: 64
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/amazon_security_lake.json
+    sourcetype: aws:asl
+    source: aws_asl
+    update_timestamp: true

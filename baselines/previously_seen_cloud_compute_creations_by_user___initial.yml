@@ -33,7 +33,7 @@ tags:
   security_domain: network
 deployment:
   scheduling:
-    cron_schedule: 55 * * * *
-    earliest_time: -70m@m
-    latest_time: -10m@m
+    cron_schedule: 0 2 * * 0
+    earliest_time: -90d@d
+    latest_time: -1d@d
     schedule_window: auto

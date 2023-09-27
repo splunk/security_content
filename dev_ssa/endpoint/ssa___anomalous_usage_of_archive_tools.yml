@@ -11,13 +11,13 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process_name: WinRAR.exe
+    process.file.name: WinRAR.exe
   selection2:
-    process_name|startswith: 7z
+    process.file.name|startswith: 7z
   selection3:
-    process_name|startswith: winzip
+    process.file.name|startswith: winzip
   selection4:
-    parent_process_name|endswith:
+    actor.process.file.name|endswith:
     - powershell.exe
     - cmd.exe
   condition: (selection1 or selection2 or selection3) and selection4
@@ -42,33 +42,10 @@ tags:
   mitre_attack_id:
   - T1560.001
   - T1560
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - Processes.process_name
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 42

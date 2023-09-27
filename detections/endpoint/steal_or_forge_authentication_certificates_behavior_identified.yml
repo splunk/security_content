@@ -1,0 +1,55 @@
+name: Steal or Forge Authentication Certificates Behavior Identified
+id: 87ac670e-bbfd-44ca-b566-44e9f835518d
+version: 1
+date: '2023-05-01'
+author: Michael Haag, Splunk
+status: production
+type: Correlation
+data_source: []
+description: This correlation rule focuses on detecting potential threats associated with MITRE ATT&CK T1649 (Steal or Forge Authentication Certificates). The rule is designed to identify instances where 5 or more analytics related to Windows Certificate Services analytic story that are triggered within a specified time frame, which may indicate a potential attack in progress. By aggregating these analytics, security teams can swiftly respond to and investigate any suspicious activities, enhancing their ability to protect critical assets and prevent unauthorized access to sensitive information.
+search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score) as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source, dc(source) as source_count from datamodel=Risk.All_Risk where All_Risk.analyticstories="Windows Certificate Services" All_Risk.risk_object_type="system" by All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic 
+  | `drop_dm_object_name(All_Risk)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | where source_count >= 5 | `steal_or_forge_authentication_certificates_behavior_identified_filter`'
+how_to_implement: The Windows Certificate Services analytic story must have 5 or more analytics enabled. In addition, ensure data is being logged that is required. Modify the correlation as needed based on volume of noise related to the other analytics.
+known_false_positives: False positives may be present based on automated tooling or system administrators. Filter as needed.
+references:
+- https://research.splunk.com/stories/windows_certificate_services/
+- https://attack.mitre.org/techniques/T1649/
+tags:
+  analytic_story:
+  - Windows Certificate Services
+  asset_type: Endpoint
+  atomic_guid:
+  - 290df60e-4b5d-4a5e-b0c7-dc5348ea0c86
+  - 78b274f8-acb0-428b-b1f7-7b0d0e73330a
+  - 7617f689-bbd8-44bc-adcd-6f8968897848
+  confidence: 90
+  impact: 80
+  message: Steal or Forge Authentication Certificates Behavior Identified on $risk_object$.
+  mitre_attack_id:
+  - T1649
+  observable:
+  - name: risk_object
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  required_fields:
+  - All_Risk.analyticstories
+  - All_Risk.risk_object_type
+  - All_Risk.risk_object
+  - All_Risk.annotations.mitre_attack.mitre_tactic
+  - source
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/risk_certificate_services.log
+    source: certs
+    sourcetype: stash

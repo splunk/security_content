@@ -1,0 +1,86 @@
+name: ASL AWS CreateAccessKey
+id: ccb3e4af-23d6-407f-9842-a26212816c9e
+version: 1
+date: '2022-05-23'
+author: Patrick Bareiss, Splunk
+status: experimental
+type: Hunting
+description: This detection rule monitors for the creation of AWS Identity and Access Management (IAM) access keys. 
+  An IAM access key consists of an access key ID and secret access key, which are used to sign programmatic requests to AWS services. 
+  While IAM access keys can be legitimately used by developers and administrators for API access, their creation can also be indicative 
+  of malicious activity. Attackers who have gained unauthorized access to an AWS environment might create access keys as a means to 
+  establish persistence or to exfiltrate data through the APIs. Moreover, because access keys can be used to authenticate with AWS 
+  services without the need for further interaction, they can be particularly appealing for bad actors looking to operate under the radar. 
+  Consequently, it's important to vigilantly monitor and scrutinize access key creation events, especially if they are associated with 
+  unusual activity or are created by users who don't typically perform these actions. This hunting query identifies when a potentially compromised user 
+  creates a IAM access key for another user who may have higher privilleges, which can be a sign for privilege escalation. Hunting queries are designed to be executed 
+  manual during threat hunting.
+data_source: []
+search: '`amazon_security_lake` api.operation=CreateAccessKey http_request.user_agent!=console.amazonaws.com api.response.error=null
+  | rename unmapped{}.key as unmapped_key , unmapped{}.value as unmapped_value
+  | eval keyjoin=mvzip(unmapped_key,unmapped_value)
+  | mvexpand keyjoin
+  | rex field=keyjoin "^(?<key>[^,]+),(?<value>.*)$"
+  | eval {key} = value
+  | search responseElements.accessKey.userName = *
+  | rename identity.user.name as identity_user_name, responseElements.accessKey.userName as responseElements_accessKey_userName
+  | eval match=if(identity_user_name=responseElements_accessKey_userName,1,0)
+  | search match=0
+  | rename identity_user_name as identity.user.name , responseElements_accessKey_userName as responseElements.accessKey.userName
+  | stats count min(_time) as firstTime max(_time) as lastTime by responseElements.accessKey.userName 
+  api.operation api.service.name identity.user.account_uid identity.user.credential_uid identity.user.name 
+  identity.user.type identity.user.uid identity.user.uuid http_request.user_agent src_endpoint.ip 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  |`asl_aws_createaccesskey_filter`'
+how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has legitimately created keys for another user.
+references:
+- https://bishopfox.com/blog/privilege-escalation-in-aws
+- https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+tags:
+  analytic_story:
+  - AWS IAM Privilege Escalation
+  asset_type: AWS Account
+  confidence: 90
+  impact: 70
+  message: User $responseElements.accessKey.userName$ is attempting to create access keys for $responseElements.accessKey.userName$
+    from this IP $src_endpoint.ip$
+  mitre_attack_id:
+  - T1078
+  observable:
+  - name: src_endpoint.ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: identity.user.name
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.service.name
+  - api.operation
+  - identity.user.account_uid
+  - identity.user.credential_uid
+  - identity.user.name
+  - identity.user.type
+  - identity.user.uid
+  - identity.user.uuid
+  - http_request.user_agent
+  - src_endpoint.ip
+  - unmapped{}.key
+  - unmapped{}.value
+  risk_score: 63
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/amazon_security_lake.json
+    sourcetype: aws:asl
+    source: aws_asl
+    update_timestamp: true

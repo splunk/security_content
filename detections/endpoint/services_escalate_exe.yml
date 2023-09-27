@@ -1,7 +1,7 @@
 name: Services Escalate Exe
 id: c448488c-b7ec-11eb-8253-acde48001122
 version: 1
-date: '2021-05-18'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -25,8 +25,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `services_escalate_exe_filter`'
-how_to_implement: To successfully implement this search, you will need to ensure that
-  DNS data is populating the Network_Resolution data model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: False positives should be limited as `services.exe` should
   never spawn a process from `ADMIN$`. Filter as needed.
 references:
@@ -35,7 +42,9 @@ references:
 - https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/index.htm#cshid=1085
 tags:
   analytic_story:
+  - BlackByte Ransomware
   - Cobalt Strike
+  - Graceful Wipe Out Attack
   asset_type: Endpoint
   confidence: 95
   impact: 80

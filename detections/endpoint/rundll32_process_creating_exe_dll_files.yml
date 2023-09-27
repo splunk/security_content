@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: This search is to detect a suspicious rundll32 process that drops executable
-  (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries
+  (.exe or .dll) files. This behavior seen in rundll32 process of IcedID that tries
   to drop copy of itself in temp folder or download executable drop it either appdata
   or programdata as part of its execution.
 data_source:
@@ -34,7 +34,7 @@ tags:
   - T1218
   - T1218.011
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

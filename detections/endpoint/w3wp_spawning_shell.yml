@@ -1,7 +1,7 @@
 name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
 version: 2
-date: '2023-04-14'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -21,11 +21,15 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   AND `process_cmd` OR `process_powershell` by Processes.dest Processes.parent_process
   Processes.original_file_name Processes.user | `drop_dm_object_name(Processes)` |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `w3wp_spawning_shell_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Baseline your environment before production. It is possible
   build systems using IIS will spawn cmd.exe to perform a software build. Filter as
   needed.
@@ -36,13 +40,15 @@ references:
 - https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 tags:
   analytic_story:
-  - HAFNIUM Group
-  - CISA AA22-264A
-  - Hermetic Wiper
   - ProxyNotShell
-  - ProxyShell
-  - CISA AA22-257A
   - Data Destruction
+  - ProxyShell
+  - Hermetic Wiper
+  - CISA AA22-257A
+  - HAFNIUM Group
+  - BlackByte Ransomware
+  - CISA AA22-264A
+  - Flax Typhoon
   asset_type: Endpoint
   confidence: 80
   cve:

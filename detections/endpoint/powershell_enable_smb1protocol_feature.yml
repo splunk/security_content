@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: This search is to detect a suspicious enabling of smb1protocol through
-  "powershell.exe". This technique was seen in some ransomware (like reddot) where
+  `powershell.exe`. This technique was seen in some ransomware (like reddot) where
   it enable smb share to do the lateral movement and encrypt other files within the
   compromise network system.
 data_source:
@@ -31,13 +31,13 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Powershell Enable SMB1Protocol Feature
+  message: Powershell Enable SMB1Protocol Feature on $Computer$
   mitre_attack_id:
   - T1027
   - T1027.005
   observable:
-  - name: User
-    type: User
+  - name: Computer
+    type: Hostname
     role:
     - Victim
   product:

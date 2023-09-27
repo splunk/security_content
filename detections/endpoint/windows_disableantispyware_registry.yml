@@ -1,7 +1,7 @@
 name: Windows DisableAntiSpyware Registry
 id: 23150a40-9301-4195-b802-5bb4f43067fb
 version: 2
-date: '2021-03-02'
+date: '2023-04-25'
 author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -29,11 +29,12 @@ references:
 - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 tags:
   analytic_story:
-  - Ryuk Ransomware
-  - Windows Defense Evasion Tactics
-  - Windows Registry Abuse
   - Azorult
+  - Windows Registry Abuse
   - CISA AA22-264A
+  - RedLine Stealer
+  - Windows Defense Evasion Tactics
+  - Ryuk Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 30

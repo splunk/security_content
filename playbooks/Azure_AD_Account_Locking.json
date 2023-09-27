@@ -1,0 +1,275 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Account Locking",
+    "coa": {
+        "data": {
+            "description": "Accepts user name that needs to be disabled in Azure Active Directory. Generates an observable output based on the status of account locking or disabling.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_4_to_port_1",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_3_to_port_5",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_5_to_port_4",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                }
+            ],
+            "hash": "6c58fabb2330bc8e95deed79637e55071609c19c",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -3.836930773104541e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 860
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "user name filter",
+                            "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
+                            "description": "Filter user name inputs to route inputs to appropriate actions.",
+                            "join": [],
+                            "note": "Filter user name inputs to route inputs to appropriate actions."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:user",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user_name_check",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "user_name_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 140
+                },
+                "3": {
+                    "data": {
+                        "action": "disable user",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "disable user account",
+                            "customNameId": 0,
+                            "description": "Disable the user attributes for filtered playbook inputs.",
+                            "join": [],
+                            "note": "Disable the user attributes for filtered playbook inputs."
+                        },
+                        "connector": "Azure AD Graph",
+                        "connectorConfigs": [
+                            "azure_ad_graph"
+                        ],
+                        "connectorId": "c6d3b801-5c26-4abd-9e89-6d8007e2778f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "disable_user_account",
+                        "id": "3",
+                        "parameters": {
+                            "user_id": "filtered-data:user_name_filter:condition_1:playbook_input:user"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "user_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 320
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "username observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each user.",
+                            "join": [],
+                            "note": "Format a normalized output for each user."
+                        },
+                        "functionId": 1,
+                        "functionName": "username_observables",
+                        "id": "4",
+                        "inputParameters": [
+                            "filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.parameter.user_id",
+                            "filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.status",
+                            "filtered-data:filter_disable_result:condition_1:disable_user_account:action_result.message"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "code",
+                    "userCode": "\n    # Write your custom code here...\n    username_observables__observable_array = []\n    \n    for user_id, status, msg in zip(filtered_result_0_parameter_user_id, filtered_result_0_status, filtered_result_0_message):\n        user_acc_status = {\n            \"type\": \"Azure AD Account\",\n            \"value\": user_id,\n            \"message\": msg,\n            \"status\": status\n        }\n        username_observables__observable_array.append(user_acc_status)\n        #phantom.debug(username_observables__observable_array)\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 680
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter disable result",
+                            "customNameId": 0,
+                            "delimiter": ",",
+                            "delimiter_enabled": true,
+                            "description": "filter check if the user is disabled successfully.",
+                            "join": [],
+                            "note": "filter check if the user is disabled successfully."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "disable_user_account:action_result.status",
+                                        "value": "success"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "disabled_success",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_disable_result",
+                        "id": "5",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 500
+                }
+            },
+            "notes": "Inputs: users\nInteractions: Azure AD Graph\nActions: Account Locking/Disabling\nOutputs: observables"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "user name",
+                    "azure user principal name"
+                ],
+                "description": "A user name provided to be disable - Azure AD",
+                "name": "user"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "username_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries ",
+                "metadata": {},
+                "name": "observable"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.10",
+        "version": "6.0.1.123902"
+    },
+    "create_time": "2023-08-17T18:47:08.503246+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "user",
+        "azure_ad_graph",
+        "disable_account",
+        "D3-AL",
+        "active_directory"
+    ]
+}

@@ -1,0 +1,89 @@
+name: Windows Bypass UAC via Pkgmgr Tool
+id: cce58e2c-988a-4319-9390-0daa9eefa3cd
+version: 1
+date: '2023-07-26'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- Sysmon Event ID 1
+description: The following analytic identifies a potentially suspicious execution
+  of the 'pkgmgr' process involving the use of an XML input file for package management.
+  The 'pkgmgr' process, though deprecated in modern Windows systems, was historically
+  used for managing packages. The presence of an XML input file raises concerns about
+  the nature of the executed command and its potential impact on the system. Due to
+  the deprecated status of 'pkgmgr' and the involvement of an XML file, this activity
+  warrants careful investigation. XML files are commonly used for configuration and
+  data exchange, making it crucial to ascertain the intentions and legitimacy of the
+  command. To ensure system security, it is recommended to use up-to-date package
+  management utilities, such as DISM or PowerShell's PackageManagement module, and
+  exercise caution when executing commands involving potentially sensitive operations
+  or files.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where  Processes.process_name = pkgmgr.exe
+  Processes.process = "*.xml*" NOT(Processes.parent_process_path IN("*:\\windows\\system32\\*",
+  "*:\\windows\\syswow64\\*", "*:\\Program Files*")) by Processes.dest Processes.user
+  Processes.parent_process_name Processes.parent_process_path Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_bypass_uac_via_pkgmgr_tool_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: False positives may be present on recent Windows Operating
+  Systems. Filtering may be required based on process_name. In addition, look for
+  non-standard, unsigned, module loads into LSASS. If query is too noisy, modify by
+  adding Endpoint.processes process_name to query to identify the process making the
+  modification.
+references:
+- https://asec.ahnlab.com/en/17692/
+- https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
+tags:
+  analytic_story:
+  - Warzone RAT
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: A pkgmgr.exe executed with package manager xml input file on $dest$
+  mitre_attack_id:
+  - T1548.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 9
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/pkgmgr_uac_bypass/pkgmgr_create_file.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

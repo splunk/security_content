@@ -1,0 +1,20 @@
+name: Attribute Lookup Dispatch
+id: fc0edc96-ff2b-68d0-9a4d-63da6783fd64
+version: 1
+date: '2023-03-06'
+author: Lou Stella, Splunk
+type: Investigation
+description: "Detects available entities and routes them to attribute lookup playbooks. The output of the playbooks will create new artifacts for any technologies that returned information."
+playbook: Attribute_Lookup_Dispatch
+how_to_implement: This playbook looks for artifacts and then dispatches the community Attribute Lookup playbooks. This playbook takes the output of those playbooks and nicely formats them into new artifacts with their results.  
+references: []
+app_list: []
+tags:
+  platform_tags: []
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Enrichment

@@ -1,0 +1,78 @@
+name: ASL AWS Multi-Factor Authentication Disabled
+id: 4d2df5e0-1092-4817-88a8-79c7fa054668
+version: 1
+date: '2023-06-02'
+author: Patrick Bareiss, Splunk
+status: experimental
+type: TTP
+description: The following analytic identifies an attempt to disable multi-factor
+  authentication for an AWS IAM user. An adversary who has obtained access to an AWS
+  tenant may disable multi-factor authentication as a way to plant a backdoor and
+  maintain persistence using a valid account. This way the attackers can keep persistance
+  in the environment without adding new users.
+data_source: []
+search: '`amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation 
+    api.service.name identity.user.account_uid identity.user.credential_uid identity.user.name identity.user.type 
+    identity.user.uid identity.user.uuid
+    http_request.user_agent src_endpoint.ip cloud.region
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `asl_aws_multi_factor_authentication_disabled_filter`'
+how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+known_false_positives: AWS Administrators may disable MFA but it is highly unlikely
+  for this event to occur without prior notice to the company
+references:
+- https://attack.mitre.org/techniques/T1621/
+- https://aws.amazon.com/what-is/mfa/
+tags:
+  analytic_story:
+  - AWS Identity and Access Management Account Takeover
+  asset_type: AWS Account
+  confidence: 80
+  impact: 80
+  message: User $user_name$ has disabled Multi-Factor authentication for AWS account
+    $aws_account_id$
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1621
+  - T1556
+  - T1556.006
+  observable:
+  - name: identity.user.account_uid
+    type: Other
+    role:
+    - Victim
+  - name: identity.user.name
+    type: User
+    role:
+    - Victim
+  - name: src_endpoint.ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.service.name
+  - api.operation
+  - identity.user.account_uid
+  - identity.user.credential_uid
+  - identity.user.name
+  - identity.user.type
+  - identity.user.uid
+  - identity.user.uuid
+  - http_request.user_agent
+  - src_endpoint.ip
+  risk_score: 64
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/amazon_security_lake.json
+    sourcetype: aws:asl
+    source: aws_asl
+    update_timestamp: true

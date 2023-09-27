@@ -1,0 +1,85 @@
+name: Detect RTLO In Process
+id: 22ac27b4-7189-4a4f-9375-b9017c9620d7
+version: 2
+date: '2023-04-26'
+author: Steven Dick
+status: production
+type: TTP
+description: This search is used to detect the abuse of the right-to-left override
+  (RTLO or RLO) character (U+202E) RTLO. This technique is used by adversaries to
+  disguise a string and/or file name to make it appear benign. The RTLO character
+  is a non-printing Unicode character that causes the text that follows it to be displayed
+  in reverse.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process!=unknown AND
+  Processes.action=allowed by Processes.dest Processes.user Processes.original_file_name
+  Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.process_guid Processes.parent_process_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | regex
+  process="\\x{202E}" | rex field=process "(?<RTLO_command_1>.+)(?<RTLO_exist_process>\\x{202E})(?<RTLO_command_2>.+)"
+  | eval process_with_RTLO=process | eval process=RTLO_command_1.RTLO_command_2 |
+  fields - RTLO* | `detect_rtlo_in_process_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Implementation in regions that use right to left in native
+  language.
+references:
+- https://attack.mitre.org/techniques/T1036/002/
+- https://resources.infosecinstitute.com/topic/spoof-using-right-to-left-override-rtlo-technique-2/
+- https://www.trendmicro.com/en_us/research/17/f/following-trail-blacktech-cyber-espionage-campaigns.html
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  asset_type: Endpoint
+  confidence: 80
+  impact: 50
+  message: Suspicious RTLO detected in $process_name$ on endpoint $dest$ by user $user$.
+  mitre_attack_id:
+  - T1036.002
+  - T1036
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_name
+    type: Process Name
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.process_guid
+  - Processes.parent_process_id
+  - Processes.parent_process_name
+  - Processes.parent_process
+  risk_score: 40
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.002/outlook_attachment/rtlo_events.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

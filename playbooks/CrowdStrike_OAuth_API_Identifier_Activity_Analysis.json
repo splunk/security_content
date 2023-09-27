@@ -1,0 +1,617 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Identifier Activity Analysis",
+    "coa": {
+        "data": {
+            "description": "Accepts a file_hash or domain name, and asks CrowdStrike for a list of device IDs that have interacted with each. The list of IDs is then sent back to Crowdstrike to get more information, and then produces a normalized output and summary table.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_3_to_port_5",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_4_to_port_6",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_7_to_port_9",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_8_to_port_10",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_9_to_port_1",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_10_to_port_1",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_5_to_port_12",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_6_to_port_13",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_12_to_port_7",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_13_to_port_8",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                }
+            ],
+            "hash": "c7b9d2b5a1844c8132fdec3f304241600cc45526",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 190,
+                    "y": -5.115907697472721e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 190,
+                    "y": 1100
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build domain output",
+                            "customNameId": 0,
+                            "description": "First constructs a list of devices based upon details returned in previous actions, and then appends that list to the observable object which includes the context in which that list makes any sense",
+                            "join": [],
+                            "note": "Create Observable output for parent playbook"
+                        },
+                        "functionId": 2,
+                        "functionName": "build_domain_output",
+                        "id": "10",
+                        "inputParameters": [
+                            "hunt_domain:action_result.parameter.domain",
+                            "get_systems_from_domain:action_result.data",
+                            "hunt_domain:action_result.summary.device_count"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "code",
+                    "userCode": "\n\n    build_domain_output__observable_array = []\n    device_list = []\n    indicator = hunt_domain_parameter_domain[0]\n    count = hunt_domain_summary_device_count[0]\n    \n    # Build devices list\n    for item in get_systems_from_domain_result_item_0:\n        \n        # if AIDs that no longer exist saw the artifact, they can still \n        # be included in the middle of the hunt response, but will return\n        # empty-ish objects from the `get system info` action, so we need\n        # to length check them\n        \n        if len(item) > 0:\n            device = item[0]\n            device_filtered = {\n                \"name\": device['hostname'],\n                \"id\": device['device_id'],\n                \"ip_address\": device['local_ip'],\n                \"operating_system\": device['os_version']\n            }\n            device_list.append(device_filtered)\n            \n    \n    # Build observable object\n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"domain\",\n        \"total_count\": len(device_list),\n        \"source\": \"Crowdstrike OAuth\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_domain_output__observable_array.append(observable_array)\n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 960
+                },
+                "12": {
+                    "data": {
+                        "action": "get system info",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get systems from file",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Queries Crowdstrike for details about each of the agent IDs returned by the original query"
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_systems_from_file",
+                        "id": "12",
+                        "parameters": {
+                            "id": "filtered-data:file_results_filter:condition_1:hunt_file:action_result.data.*.device_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 660
+                },
+                "13": {
+                    "data": {
+                        "action": "get system info",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get systems from domain",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Queries Crowdstrike for details about each of the agent IDs returned by the original query"
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "get_systems_from_domain",
+                        "id": "13",
+                        "parameters": {
+                            "id": "filtered-data:domain_results_filter:condition_1:hunt_domain:action_result.data.*.device_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 660
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Routing by indicator type",
+                            "join": [],
+                            "note": "Routing by indicator type"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:file",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "file hash",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "!=",
+                                        "param": "playbook_input:domain",
+                                        "value": "None"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "domain",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {
+                        "config": [
+                            "Reconfigure invalid datapath."
+                        ]
+                    },
+                    "x": 230,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "action": "hunt file",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "hunt file",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Queries Crowdstrike for presence of hash within last 30 days"
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "hunt_file",
+                        "id": "3",
+                        "parameters": {
+                            "hash": "filtered-data:input_filter:condition_1:playbook_input:file",
+                            "limit": "1000"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "hash"
+                            },
+                            {
+                                "data_type": "numeric",
+                                "default": 100,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 320
+                },
+                "4": {
+                    "data": {
+                        "action": "hunt domain",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "hunt domain",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Queries Crowdstrike for presence of domain within last 30 days"
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "hunt_domain",
+                        "id": "4",
+                        "parameters": {
+                            "domain": "filtered-data:input_filter:condition_2:playbook_input:domain",
+                            "limit": "1000"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 100,
+                                "field": "limit"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "domain"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 320
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "file results filter",
+                            "customNameId": 0,
+                            "description": "Only proceed if there are results",
+                            "join": [],
+                            "note": "Only proceed if there are results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "hunt_file:action_result.summary.device_count",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "devices found",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "file_results_filter",
+                        "id": "5",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 476
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "domain results filter",
+                            "customNameId": 0,
+                            "description": "Only proceed if there are results",
+                            "join": [],
+                            "note": "Only proceed if there are results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "hunt_domain:action_result.summary.device_count",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "devices found",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "domain_results_filter",
+                        "id": "6",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 480
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report file",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Create Markdown report for parent playbook to output"
+                        },
+                        "functionId": 1,
+                        "functionName": "format_report_file",
+                        "id": "7",
+                        "parameters": [
+                            "hunt_file:action_result.parameter.hash",
+                            "get_systems_from_file:action_result.data.*.hostname",
+                            "get_systems_from_file:action_result.data.*.local_ip",
+                            "get_systems_from_file:action_result.data.*.os_version",
+                            "get_systems_from_file:action_result.parameter.id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using CrowdStrike. The table below shows a summary of the information gathered.\n\n| File | Computer | Last IP Address | OS | CrowdStrike AID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | CrowdStrike OAuth API |\n%%\n\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 800
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format report domain",
+                            "customNameId": 0,
+                            "join": [],
+                            "note": "Create Markdown report for parent playbook to output"
+                        },
+                        "functionId": 2,
+                        "functionName": "format_report_domain",
+                        "id": "8",
+                        "parameters": [
+                            "hunt_domain:action_result.parameter.domain",
+                            "get_systems_from_domain:action_result.data.*.hostname",
+                            "get_systems_from_domain:action_result.data.*.local_ip",
+                            "get_systems_from_domain:action_result.data.*.os_version",
+                            "get_systems_from_domain:action_result.parameter.id"
+                        ],
+                        "template": "SOAR searched for occurrences of `{0}` within your environment using CrowdStrike. The table below shows a summary of the information gathered.\n\n| Domain | Computer | Last IP Address | OS | CrowdStrike AID | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | {4} | CrowdStrike OAuth API |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 804
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "build file output",
+                            "customNameId": 0,
+                            "description": "First constructs a list of devices based upon details returned in previous actions, and then appends that list to the observable object which includes the context in which that list makes any sense",
+                            "join": [],
+                            "note": "Create Observable output for parent playbook"
+                        },
+                        "functionId": 1,
+                        "functionName": "build_file_output",
+                        "id": "9",
+                        "inputParameters": [
+                            "hunt_file:action_result.parameter.hash",
+                            "get_systems_from_file:action_result.data",
+                            "hunt_file:action_result.summary.device_count"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "code",
+                    "userCode": "\n\n    build_file_output__observable_array = []\n    device_list = []\n    indicator = hunt_file_parameter_hash[0]\n    count = hunt_file_summary_device_count[0]\n    \n    # if AIDs that no longer exist saw the artifact, they can still \n    # be included in the middle of the hunt response, but will return\n    # empty-ish objects from the `get system info` action, so we need\n    # to length check them\n        \n    # Build devices list\n    for item in get_systems_from_file_result_item_0:\n        if len(item) > 0:\n            device = item[0]\n            device_filtered = {\n                \"name\": device['hostname'],\n                \"id\": device['device_id'],\n                \"ip_address\": device['local_ip'],\n                \"operating_system\": device['os_version']\n            }\n            device_list.append(device_filtered)\n            \n    \n    # Build observable object\n    observable_array = {\n        \"value\": indicator,\n        \"type\": \"file\",\n        \"total_count\": len(device_list),\n        \"source\": \"Crowdstrike OAuth\",\n        \"identifier_activity\": device_list\n    }\n    \n    build_file_output__observable_array.append(observable_array)\n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 960
+                }
+            },
+            "notes": "Inputs: file, domain\nInteractions: CrowdStrike OAuth API\nActions: hunt file, hunt domain, get system info\nOutputs: observable, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "hash"
+                ],
+                "description": "A file hash to look for within your Crowdstrike protected environment",
+                "name": "file"
+            },
+            {
+                "contains": [
+                    "domain"
+                ],
+                "description": "A domain to look for within your Crowdstrike protected environment",
+                "name": "domain"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "build_file_output:custom_function:observable_array",
+                    "build_domain_output:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_report_file:formatted_data",
+                    "format_report_domain:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.9",
+        "version": "6.0.0.114895"
+    },
+    "create_time": "2023-05-04T18:53:22.783269+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "identifier_activity",
+        "file_hash",
+        "domain",
+        "crowdstrike_oauth_api",
+        "D3-IAA"
+    ]
+}

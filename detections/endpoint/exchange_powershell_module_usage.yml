@@ -1,7 +1,7 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
 version: 5
-date: '2022-11-21'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,7 +32,7 @@ data_source:
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*",
   "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "Search-Mailbox")
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  UserID EventCode ScriptBlockText | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `exchange_powershell_module_usage_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -51,10 +51,11 @@ references:
 - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
 tags:
   analytic_story:
-  - ProxyShell
-  - CISA AA22-264A
   - ProxyNotShell
   - CISA AA22-277A
+  - ProxyShell
+  - BlackByte Ransomware
+  - CISA AA22-264A
   asset_type: Endpoint
   confidence: 80
   impact: 40

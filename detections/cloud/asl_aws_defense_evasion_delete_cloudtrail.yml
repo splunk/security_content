@@ -1,0 +1,64 @@
+name: ASL AWS Defense Evasion Delete Cloudtrail
+id: 1f0b47e5-0134-43eb-851c-e3258638945e
+version: 1
+date: '2023-05-31'
+author: Patrick Bareiss, Splunk
+status: experimental
+type: TTP
+description: This analytic identifies AWS `DeleteTrail` events within CloudTrail logs.
+  Adversaries often try to impair their target's defenses by stopping their malicious
+  activity from being logged, so that they may operate with stealth and avoid detection.
+  When the adversary has the right type of permissions in the compromised AWS environment,
+  they may delete the the entire cloudtrail that is logging activities in the environment.
+data_source: []
+search: '`amazon_security_lake` api.operation=DeleteTrail 
+  | stats count min(_time) as firstTime max(_time) as lastTime by identity.user.account_uid identity.user.credential_uid identity.user.name 
+  identity.user.type identity.user.uid identity.user.uuid http_request.user_agent src_endpoint.ip cloud.region | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| `asl_aws_defense_evasion_delete_cloudtrail_filter`'
+how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has stopped cloudTrail logging. Please investigate this activity.
+references:
+- https://attack.mitre.org/techniques/T1562/008/
+tags:
+  analytic_story:
+  - AWS Defense Evasion
+  asset_type: AWS Account
+  confidence: 90
+  impact: 100
+  message: User $identity.user.name$ has delete a CloudTrail logging for account id $identity.user.account_uid$
+  mitre_attack_id:
+  - T1562.008
+  - T1562
+  observable:
+  - name: src_endpoint.ip 
+    type: IP Address
+    role:
+    - Attacker
+  - name: identity.user.name
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.service.name
+  - api.operation
+  - identity.user.account_uid
+  - identity.user.credential_uid
+  - identity.user.name
+  - identity.user.type
+  - identity.user.uid
+  - identity.user.uuid
+  - http_request.user_agent
+  - src_endpoint.ip
+  risk_score: 90
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/amazon_security_lake.json
+    sourcetype: aws:asl
+    source: aws_asl

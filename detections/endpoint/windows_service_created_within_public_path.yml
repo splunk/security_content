@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - Snake Malware
   asset_type: Endpoint
   confidence: 60
   impact: 90

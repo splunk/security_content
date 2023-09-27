@@ -3,7 +3,7 @@
     <a href="https://github.com/splunk/security_content/releases">
         <img src="https://img.shields.io/github/v/release/splunk/security_content" /></a>
     <a href="https://github.com/splunk/security_content/actions/workflows/build-and-validate.yml/badge.svg?branch=develop">
-        <img src="https://img.shields.io/github/workflow/status/splunk/security_content/build-and-validate/develop" /></a>
+        <img src="https://img.shields.io/github/actions/workflow/status/splunk/security_content/build-and-validate.yml?branch=develop" /></a>
     <a href="https://github.com/splunk/security_content">
         <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_count.svg" /></a>
     <a href="https://github.com/splunk/security_content">
@@ -54,6 +54,7 @@ The Content Control tool allows you to manipulate Splunk Security Content via th
 5. **inspect** - Uses a local version of appinspect to ensure that the app you built meets basic quality standards.
 6. **cloud_deploy** - Using ACS, deploy your custom app to a running Splunk Cloud Instance.
 7. **convert** - Convert a detection rule with sigma syntax to a Splunk SPL detection
+8. **content_changer** - Perform changes on security content
 
 ### pre-requisites
 Make sure you use python version 3.9.
@@ -89,6 +90,11 @@ Detection rule using raw:
 
 Detection rule converted to Windows Security Event Code 4688:
 `python contentctl.py -p . convert -dm raw -lo "Windows Security 4688" -o detections/endpoint/ -dp dev/endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml`
+
+### perform changes on security content
+Content changer will perform a change function defined in [here](https://github.com/splunk/security_content/blob/add_content_changer/bin/contentctl_project/contentctl_core/application/use_cases/content_changer.py) on all content or the content defined through the filter condition:
+`python contentctl.py -p detections/endpoint content_changer --change_function update_description --filter_key name --filter_value "3CX Supply Chain Attack Network Indicators" "Hello World"`
+
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage

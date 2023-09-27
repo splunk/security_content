@@ -28,10 +28,10 @@ description: 'The following analytic identifies the usage of Exchange PowerShell
   This cmdlet returns all mail-enabled objects (for example, mailboxes, mail users,
   mail contacts, and distribution groups).'
 data_source:
-- Windows Security 4688
+- Powershell 4104
 search:
   selection1:
-    process|re:
+    process.cmd_line|re:
     - get-recipient
     - new-mailboxsearch
     - new-managementroleassignment
@@ -63,22 +63,10 @@ tags:
   mitre_attack_id:
   - T1059
   - T1059.001
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Actions on Objectives
   risk_score: 32

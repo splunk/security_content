@@ -1,0 +1,90 @@
+name: Windows WinLogon with Public Network Connection
+id: 65615b3a-62ea-4d65-bb9f-6f07c17df4ea
+version: 1
+date: '2023-05-03'
+author: Michael Haag, Splunk
+status: experimental
+type: Hunting
+data_source:
+- Sysmon Event ID 1
+- Sysmon Event ID 3
+description: 'The following analytic is designed to detect anomalous behavior associated
+  with the BlackLotus Campaign, a sophisticated bootkit attack reported by ESET and
+  further investigated in a blog by Microsoft, which provided hunting queries for
+  security analysts. The primary focus of this analytic is to identify instances of
+  Winlogon.exe, a critical Windows process, connecting to public IP space, which is
+  indicative of potential malicious activity.\ The BlackLotus Campaign is a bootkit-based
+  attack that compromises system integrity by infecting the Master Boot Record (MBR)
+  and Volume Boot Record (VBR). This malware variant can bypass traditional security
+  measures, load before the operating system, and maintain persistence on the target
+  system.\
+
+  Winlogon.exe is a critical Windows process responsible for managing user logon and
+  logoff processes. Under normal circumstances, Winlogon.exe should not be connecting
+  to public IP addresses. However, if it does, it may indicate that the process has
+  been compromised as part of the BlackLotus Campaign or another malicious operation.\
+
+  This analytic monitors network connections made by Winlogon.exe and triggers an
+  alert if it detects connections to public IP space. By identifying such anomalous
+  behavior, security analysts can investigate further and respond swiftly to potential
+  threats.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN (winlogon.exe)  Processes.process!=unknown
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id
+  [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
+  where All_Traffic.dest_port != 0 NOT (All_Traffic.dest IN (127.0.0.1,10.0.0.0/12,172.16.0.0/12,
+  192.168.0.0/16, 0:0:0:0:0:0:0:1)) by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
+  | `drop_dm_object_name(All_Traffic)` | rename dest as publicIp ] | table dest parent_process_name
+  process_name process_path process process_id dest_port publicIp | `windows_winlogon_with_public_network_connection_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: False positives will be present and filtering will be required.
+  Legitimate IPs will be present and need to be filtered.
+references:
+- https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
+tags:
+  analytic_story:
+  - BlackLotus Campaign
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 50
+  impact: 50
+  message: Winlogon.exe has generated a network connection to a remote destination
+    on endpoint $dest$.
+  mitre_attack_id:
+  - T1542.003
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  required_fields:
+  - dest
+  - parent_process_name
+  - process_name
+  - process_path
+  - process
+  - process_id
+  - dest_port
+  - publicIp
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1542.003/bootkits/network-winlogon-windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,101 @@
+name: WinRAR Spawning Shell Application
+id: d2f36034-37fa-4bd4-8801-26807c15540f
+version: 1
+date: '2023-08-29'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 1
+description: The following analytic detects the execution of Windows shell processes
+  initiated by WinRAR, specifically looking for instances where WinRAR spawns processes
+  like "cmd.exe", "powershell.exe", "certutil.exe", "mshta.exe", or "bitsadmin.exe".
+  This behavior is worth identifying for a Security Operations Center (SOC) because
+  it is indicative of a spoofing attack exploit, such as the one associated with WinRAR
+  CVE-2023-38831. Cybercriminals exploited this vulnerability to craft ZIP archives
+  with spoofed extensions, hiding the launch of malicious scripts within an archive.
+  When a victim opened the specially crafted archive, it executed the malware, leading
+  to unauthorized access to their broker accounts and enabling the cybercriminals
+  to perform illicit financial transactions and withdraw funds. If a true positive
+  is found, it suggests that an attacker has successfully exploited the vulnerability
+  to execute malicious scripts, leading to unauthorized access, financial loss, and
+  potentially the delivery of additional malicious payloads. The impact of the attack
+  could be severe, involving financial loss, unauthorized access to sensitive accounts,
+  and the potential for further malicious activity such as data theft or ransomware
+  attacks.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=winrar.exe
+  `windows_shells` OR Processes.process_name IN ("certutil.exe","mshta.exe","bitsadmin.exe")
+  by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `winrar_spawning_shell_application_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Be aware of potential false positives - legitimate uses of
+  WinRAR and the listed processes in your environment may cause benign activities
+  to be flagged. Upon triage, review the destination, user, parent process, and process
+  name involved in the flagged activity. Capture and inspect any relevant on-disk
+  artifacts, and look for concurrent processes to identify the attack source. This
+  approach helps analysts detect potential threats earlier and mitigate the risks.
+references:
+- https://www.group-ib.com/blog/cve-2023-38831-winrar-zero-day/
+- https://github.com/BoredHackerBlog/winrar_CVE-2023-38831_lazy_poc
+- https://github.com/b1tg/CVE-2023-38831-winrar-exploit
+tags:
+  analytic_story:
+  - WinRAR Spoofing Attack CVE-2023-38831
+  cve:
+  - CVE-2023-38831
+  asset_type: endpoint
+  atomic_guid: []
+  confidence: 70
+  impact: 100
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to decode a file.
+  mitre_attack_id:
+  - T1105
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 70
+  required_fields:
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/winrar.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

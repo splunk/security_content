@@ -1,7 +1,7 @@
 name: Detect Exchange Web Shell
 id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
 version: 4
-date: '2022-09-30'
+date: '2023-07-10'
 author: Michael Haag, Shannon Davis, David Dorsey, Splunk
 status: production
 type: TTP
@@ -33,7 +33,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*",
   "*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name
-  IN( "*.aspx", "*.ashx") by _time span=1h Filesystem.dest Filesystem.file_create_time
+  IN( "*.aspx", "*.ashx") by _time span=1h Filesystem.user Filesystem.dest Filesystem.file_create_time
   Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` |
   fields _time dest file_create_time file_name file_path process_name process_path
   process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
@@ -52,10 +52,11 @@ references:
 - https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 tags:
   analytic_story:
-  - HAFNIUM Group
+  - ProxyNotShell
   - ProxyShell
   - CISA AA22-257A
-  - ProxyNotShell
+  - HAFNIUM Group
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 90
@@ -66,6 +67,7 @@ tags:
   - T1505
   - T1505.003
   - T1190
+  - T1133
   observable:
   - name: user
     type: User

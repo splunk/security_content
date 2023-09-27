@@ -1,0 +1,97 @@
+name: Impacket Lateral Movement smbexec CommandLine Parameters
+id: bb3c1bac-6bdf-4aa0-8dc9-068b8b712a76
+version: 1
+date: '2023-06-13'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 1
+- Windows Security 4688
+description: This analytic focuses on identifying suspicious command-line parameters
+  commonly associated with the use of Impacket wmiexec.py. Impacket is a set of Python
+  classes designed for working with Microsoft network protocols, and it includes several
+  scripts like wmiexec.py, smbexec.py, dcomexec.py, and atexec.py that enable command
+  execution on remote endpoints. These scripts typically utilize administrative shares
+  and hardcoded parameters, which can serve as signatures to detect their usage. Both
+  Red Teams and adversaries may employ Impacket tools for lateral movement and remote
+  code execution purposes. By monitoring for these specific command-line indicators,
+  the analytic aims to detect potentially malicious activities related to Impacket
+  tool usage.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | where match(process, "(?i)cmd\.exe\s+\/Q\s+\/c") AND match(process,"(?i)echo\s+cd")
+  AND match(process, "(?i)\\__output") AND  match(process, "(?i)C:\\\\Windows\\\\[a-zA-Z]{1,8}\\.bat")  AND
+  match(process, "\\\\127\.0\.0\.1\\.*") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `impacket_lateral_movement_smbexec_commandline_parameters_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Although uncommon, Administrators may leverage Impackets tools
+  to start a process on remote systems for system administration or automation use
+  cases.
+references:
+- https://attack.mitre.org/techniques/T1021/002/
+- https://attack.mitre.org/techniques/T1021/003/
+- https://attack.mitre.org/techniques/T1047/
+- https://attack.mitre.org/techniques/T1053/
+- https://attack.mitre.org/techniques/T1053/005/
+- https://github.com/SecureAuthCorp/impacket
+- https://vk9-sec.com/impacket-remote-code-execution-rce-on-windows-from-linux/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  - CISA AA22-277A
+  - WhisperGate
+  - Prestige Ransomware
+  - Volt Typhoon
+  - Graceful Wipe Out Attack
+  - Industroyer2
+  - Data Destruction
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 70
+  impact: 90
+  message: Suspicious command-line parameters on $dest$ may represent lateral movement
+    using smbexec.
+  mitre_attack_id:
+  - T1021
+  - T1021.002
+  - T1021.003
+  - T1047
+  - T1543.003
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 63
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/smbexec_windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -32,6 +32,8 @@ tags:
   - Active Directory Lateral Movement
   - Brute Ratel C4
   - Qakbot
+  - Snake Malware
+  - Flax Typhoon
   asset_type: Endpoint
   confidence: 80
   impact: 70

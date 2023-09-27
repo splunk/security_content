@@ -19,14 +19,15 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime value
   OR firstTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_window`")
   | `security_content_ctime(firstTime)` | table firstTime dest, process_id, process_name,
   parent_process_id, parent_process_name |`first_time_seen_child_process_of_zoom_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You should run
-  the baseline search `Previously Seen Zoom Child Processes - Initial` to build the
-  initial table of child processes and hostnames for this search to work. You should
-  also schedule at the same interval as this search the second baseline search `Previously
-  Seen Zoom Child Processes - Update` to keep this table up to date and to age out
-  old child processes. Please update the `previously_seen_zoom_child_processes_window`
-  macro to adjust the time window.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: A new child process of zoom isn't malicious by that fact alone.
   Further investigation of the actions of the child process is needed to verify any
   malicious behavior is taken.

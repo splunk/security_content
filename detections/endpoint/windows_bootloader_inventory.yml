@@ -19,6 +19,7 @@ references:
 tags:
   analytic_story:
   - BlackLotus Campaign
+  - Windows BootKits
   asset_type: Endpoint
   atomic_guid: []
   confidence: 90
@@ -36,5 +37,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - _raw
   risk_score: 81
   security_domain: endpoint

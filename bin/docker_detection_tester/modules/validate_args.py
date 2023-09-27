@@ -47,17 +47,12 @@ setup_schema = {
                 "Splunk Add-on for CrowdStrike FDR": {
                     "app_number": 5579,
                     "app_version": "1.3.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-crowdstrike-fdr_130.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-crowdstrike-fdr_140.tgz",
                 },
                 "ADD_ON_FOR_LINUX_SYSMON": {
                     "app_number": 6176,
                     "app_version": "1.0.4",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/add-on-for-linux-sysmon_104.tgz",
-                },
-                "SPLUNK_TA_FIX_WINDOWS": {
-                    "app_number": 9999,
-                    "app_version": "1.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/Splunk_TA_fix_windows.tgz",
                 },
                 "SPLUNK_TA_FOR_IIS": {
                     "app_number": 3185,
@@ -72,7 +67,7 @@ setup_schema = {
                 "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
                     "app_number": 2757,
                     "app_version": "8.0.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/palo-alto-networks-add-on-for-splunk_801.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/palo-alto-networks-add-on-for-splunk_802.tgz",
                 },
                 "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
                     "app_number": 2882,
@@ -87,12 +82,12 @@ setup_schema = {
                 "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
                     "app_number": 4055,
                     "app_version": "4.2.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_421.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_430.tgz",
                 },
                 "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
                     "app_number": 742,
                     "app_version": "8.5.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_850.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_870.tgz",
                 },
                 "SPLUNK_ADD_ON_FOR_NGINX": {
                     "app_number": 3258,
@@ -117,17 +112,12 @@ setup_schema = {
                 "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
                     "app_number": 833,
                     "app_version": "8.8.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_880.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_890.tgz",
                 },
                 "SPLUNK_APP_FOR_STREAM": {
                     "app_number": 1809,
                     "app_version": "8.1.0",
                     "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz",
-                },
-                "SPLUNK_COMMON_INFORMATION_MODEL": {
-                    "app_number": 1621,
-                    "app_version": "5.1.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_510.tgz",
                 },
                 "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
                     "app_number": 2890,
@@ -142,17 +132,17 @@ setup_schema = {
                 "URL_TOOLBOX": {
                     "app_number": 2734,
                     "app_version": "1.9.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz"
-                  },
-                   "SPLUNK_TA_FIX_WINDOWS":{
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz",
+                },
+                "SPLUNK_TA_FIX_WINDOWS": {
                     "app_number": 9999,
                     "app_version": "1.0.0",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/Splunk_TA_fix_windows.tgz"
-                  },
-                  "SPLUNK_TA_MICROSOFT_CLOUD_SERVICES": {
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/Splunk_TA_fix_windows.tgz",
+                },
+                "SPLUNK_TA_MICROSOFT_CLOUD_SERVICES": {
                     "app_number": 3110,
                     "app_version": "4.5.2",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_452.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_510.tgz",
                 },
                 "SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM": {
                     "app_number": 3088,
@@ -162,13 +152,23 @@ setup_schema = {
                 "SPLUNK_ADD_ON_FOR_GOOGLE_WORKSPACE": {
                     "app_number": 3110,
                     "app_version": "2.4.1",
-                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_241.tgz",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_251.tgz",
                 },
+                "SPLUNK_TA_FOR_SURICATA": {
+                    "app_number": 2760,
+                    "app_version": "2.3.3",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-suricata_234.tgz",
+                },
+                "SPLUNK_COMMON_INFORMATION_MODEL": {
+                    "app_number": 1621,
+                    "app_version": "5.1.0",
+                    "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_511.tgz",
+                }
             },
         },
         "mode": {
             "type": "string",
-            "enum": ["changes", "selected", "all"],
+            "enum": ["changes", "selected", "all", "smoketest"],
             "default": "changes",
         },
         "num_containers": {"type": "integer", "minimum": 1, "default": 1},
@@ -318,7 +318,6 @@ def validate(
     # v = jsonschema.Draft201909Validator(argument_schema)
 
     try:
-
         validation_errors, validated_json = jsonschema_errorprinter.check_json(
             configuration, setup_schema
         )

@@ -1,27 +1,21 @@
 name: Suspicious AWS S3 Activities
 id: 66732346-8fb0-407b-9633-da16756567d6
-version: 2
-date: '2018-07-24'
+version: 3
+date: '2023-04-24'
 author: Bhavin Patel, Splunk
-description: Use the searches in this Analytic Story to monitor your AWS S3 buckets
+description: Use the searches in this Analytic Story using Cloudtrail logs to to monitor your AWS S3 buckets
   for evidence of anomalous activity and suspicious behaviors, such as detecting open
-  S3 buckets and buckets being accessed from a new IP. The contextual and investigative
-  searches will give you more information, when required.
-narrative: 'As cloud computing has exploded, so has the number of creative attacks
-  on virtual environments. And as the number-two cloud-service provider, Amazon Web
-  Services (AWS) has certainly had its share.\
+  S3 buckets and buckets being accessed from a new IP, permission and policy updates to the bucket, potential misuse of other services leading to data being leaked.  
 
-  Amazon''s "shared responsibility" model dictates that the company has responsibility
-  for the environment outside of the VM and the customer is responsible for the security
-  inside of the S3 container. As such, it''s important to stay vigilant for activities
-  that may belie suspicious behavior inside of your environment.\
+narrative: 'One of the most common ways that attackers attempt to steal data from S3 is by gaining unauthorized access to S3 buckets and copying or exfiltrating data to external locations.\
 
-  Among things to look out for are S3 access from unfamiliar locations and by unfamiliar
-  users. Some of the searches in this Analytic Story help you detect suspicious behavior
-  and others help you investigate more deeply, when the situation warrants.   '
+  However, suspicious S3 activities can refer to any unusual behavior detected within an Amazon Web Services (AWS) Simple Storage Service (S3) bucket, including unauthorized access, unusual data transfer patterns, and access attempts from unknown IP addresses. \
+
+ It is important for organizations to regularly monitor S3 activities for suspicious behavior and implement security best practices, such as using access controls, encryption, and strong authentication mechanisms, to protect sensitive data stored within S3 buckets. By staying vigilant and taking proactive measures, organizations can help prevent potential security breaches and minimize the impact of attacks if they do occur.'
 references:
-- https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+- https://github.com/nagwww/s3-leaks
 - https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
+- 
 tags:
   analytic_story: Suspicious AWS S3 Activities
   category:

@@ -1,0 +1,73 @@
+name: Windows Special Privileged Logon On Multiple Hosts
+id: 4c461f5a-c2cc-4e86-b132-c262fc9edca7
+version: 1
+date: '2023-03-27'
+author: Mauricio Velazco, Splunk
+type: TTP
+status: production
+data_source:
+- Windows Security 4672
+description: The following analytic leverages Event ID 4672 to identify a source user
+  authenticating with special privileges across a large number remote endpoints. Specifically,
+  the logic will trigger when a source user obtains special privileges across 30 or
+  more target computers within a 5 minute timespan. Special privileges are assigned
+  to a new logon session when sensitive privileges like SeDebugPrivilege and SeImpersonatePrivilege
+  are assigned. This behavior could represent an adversary who is moving laterally
+  and executing remote code across the network. It can also be triggered by other
+  behavior like an adversary enumerating network shares. As environments differ across
+  organizations, security teams should customize the thresholds of this detection
+  as needed.
+search: ' `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL
+  SERVICE","NETWORK SERVICE","SYSTEM","*$")) | bucket span=5m _time | stats dc(Computer)
+  AS unique_targets values(Computer) as host_targets values(PrivilegeList) as privileges
+  by _time, Caller_User_Name | where unique_targets > 30 | `windows_special_privileged_logon_on_multiple_hosts_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  special logon events. The Advanced Security Audit policy setting `Audit Special
+  Logon` within `Logon/Logoff` need to be enabled.
+known_false_positives: Vulnerability scanners or system administration tools may also
+  trigger this detection. Filter as needed.
+references:
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319113(v=ws.11)
+- https://thedfirreport.com/2023/01/23/sharefinder-how-threat-actors-discover-file-shares/
+- https://attack.mitre.org/tactics/TA0008/
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A source user $Caller_User_Name$ obtained special privileges on a large
+    number of endpoints within 5 minutes.
+  mitre_attack_id:
+  - T1087
+  - T1021.002
+  - T1135
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: Caller_User_Name
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Caller_User_Name
+  - Computer
+  - PrivilegeList
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/special_logon_on_mulitple_hosts/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

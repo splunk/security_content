@@ -16,7 +16,7 @@ data_source:
 - Windows Security 4688
 search:
   selection1:
-    process|contains:
+    process.cmd_line|contains:
     - resume
     - setcustomheaders
     - setminretrydelay
@@ -24,7 +24,7 @@ search:
     - setnotifyflags
     - addfile
     - create
-    process_name: bitsadmin.exe
+    process.file.name: bitsadmin.exe
   condition: (selection1)
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -50,34 +50,10 @@ tags:
     on endpoint $dest$ by user $dest_user_id$ attempting to persist using BITS.
   mitre_attack_id:
   - T1197
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  observable: []
   product:
   - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - process
+  required_fields: []
   kill_chain_phases:
   - Exploitation
   risk_score: 56

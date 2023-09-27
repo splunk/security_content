@@ -1,0 +1,70 @@
+name: Windows Modify Registry Auto Update Notif
+id: 4d1409df-40c7-4b11-aec4-bd0e709dfc12
+version: 1
+date: '2023-04-21'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+- Sysmon EventID 14
+description: The following analytic identifies a suspicious registry modification of Windows auto update notification. 
+  This technique was being abused by several adversaries, malware authors and also red-teamers to bypass detection or 
+  to be able to compromise the target host with zero day exploit or as an additional defense evasion technique.
+  RedLine Stealer is one of the malware we've seen that uses this technique to evade detection and add more payload on the target host.
+  This detection looks for registry modification that will switch the automatic windows update to "Notify before download".
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\AUOptions"
+  AND Registry.registry_value_data="0x00000002" 
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_key_name 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` 
+  | `windows_modify_registry_auto_update_notif_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: administrators may enable or disable this feature that may
+  cause some false positive.
+references:
+- https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
+tags:
+  analytic_story:
+  - RedLine Stealer
+  asset_type: Endpoint
+  atomic_guid: 
+  - 12e03af7-79f9-4f95-af48-d3f12f28a260
+  confidence: 50
+  impact: 50
+  message: A registry modification in Windows auto update notification on $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  - Registry.registry_value_data
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,67 @@
+name: Windows Large Number of Computer Service Tickets Requested
+id: 386ad394-c9a7-4b4f-b66f-586252de20f0
+version: 1
+date: '2023-03-20'
+author: Mauricio Velazco, Splunk
+type: Anomaly
+status: production
+data_source:
+- Windows Security 4769
+description: The following analytic leverages Event ID 4769, `A Kerberos
+  service ticket was requested`, to identify more than 30 computer service
+  ticket requests from one source. When a domain joined endpoint connects to other remote
+  endpoint, it will first request a Kerberos Service Ticket with the computer name as the
+  Service Name. A user requesting a large number of computer service tickets
+  for different endpoints could represent malicious behavior like lateral movement,
+  malware staging, reconnaissance, etc.\
+
+  Active Directory environments can be very different depending on the organization. Users should test this detection and customize 
+  the arbitrary threshold as needed.
+
+search: ' `wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
+  | bucket span=5m _time 
+  | stats dc(ServiceName) AS unique_targets values(ServiceName) as host_targets by _time, IpAddress, TargetUserName
+  | where unique_targets > 30
+  | `windows_large_number_of_computer_service_tickets_requested_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. 
+  The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: An single endpoint requesting a large number of kerberos service tickets is not common behavior.
+  Possible false positive scenarios include but are not limited to vulnerability scanners, administration systems and missconfigured systems.
+references:
+- https://thedfirreport.com/2023/01/23/sharefinder-how-threat-actors-discover-file-shares/
+- https://attack.mitre.org/techniques/T1135/
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4769
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 50
+  impact: 60
+  message: A large number of kerberos computer service tickets were requested by $IpAddress$ within 5 minutes.
+  mitre_attack_id:
+  - T1135
+  - T1078
+  observable:
+  - name: IpAddress
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ServiceName
+  - TargetUserName
+  - IpAddress
+  risk_score: 30
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/large_number_computer_service_tickets/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

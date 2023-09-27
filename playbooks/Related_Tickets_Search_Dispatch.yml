@@ -1,0 +1,21 @@
+name: Related Tickets Search Dispatch
+id: fc0edc96-ab1f-48b9-9b4d-63da61bafe74
+version: 1
+date: '2023-02-28'
+author: Patrick Bareiss, Splunk
+type: Investigation
+description: "Detects available indicators and routes them to dispatch related ticket search playbooks. The output of the analysis will update any artifacts, tasks, and indicator tags."
+playbook: Related_Tickets_Search_Dispatch
+how_to_implement: This playbook looks for artifacts and then dispatches the community Related Tickets playbooks. This playbook takes the output of those playbooks and nicely formats them into notes and tags indicators with their results.   
+references:
+  - https://d3fend.mitre.org/technique/d3f:IdentifierReputationAnalysis/
+app_list: []
+tags:
+  platform_tags: []
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Enrichment

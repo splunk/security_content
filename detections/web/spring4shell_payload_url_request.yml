@@ -36,6 +36,7 @@ tags:
   - T1505.003
   - T1505
   - T1190
+  - T1133
   observable:
   - name: dest
     type: IP Address

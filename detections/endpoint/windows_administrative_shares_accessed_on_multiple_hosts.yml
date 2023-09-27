@@ -1,0 +1,76 @@
+name: Windows Administrative Shares Accessed On Multiple Hosts
+id: d92f2d95-05fb-48a7-910f-4d3d61ab8655
+version: 1
+date: '2023-03-23'
+author: Mauricio Velazco, Splunk
+type: TTP
+status: production
+data_source:
+- Windows Security 5140
+- Windows Security 5145
+description: The following analytic leverages Event IDs 5140 or 5145 to identify a
+  source computer accessing windows administrative shares (C$, Admin$ and IPC$ ) across
+  a large number remote endpoints. Specifically, the logic will trigger when a source
+  endpoint accesses administrative shares across 30 or more target computers within
+  a 5 minute timespan. This behavior could represent an adversary who is enumerating
+  network shares across an Active Directory environment in the search for sensitive
+  files, a common technique leveraged by red teamers and threat actors. As environments
+  differ across organizations, security teams should customize the thresholds of this
+  detection as needed.
+search: ' `wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$"
+  OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$") | bucket span=5m _time | stats
+  dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName)
+  as shares by _time, IpAddress, SubjectUserName, EventCode | where unique_targets
+  > 30 | `windows_administrative_shares_accessed_on_multiple_hosts_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  file share events. The Advanced Security Audit policy setting `Audit Detailed File
+  Share` or `Audit File Share` within `Object Access` need to be enabled.
+known_false_positives: An single endpoint accessing windows administrative shares
+  across a large number of endpoints is not common behavior. Possible false positive
+  scenarios include but are not limited to vulnerability scanners, administration
+  systems and missconfigured systems.
+references:
+- https://attack.mitre.org/techniques/T1135/
+- https://en.wikipedia.org/wiki/Administrative_share
+- https://thedfirreport.com/2023/01/23/sharefinder-how-threat-actors-discover-file-shares/
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5140
+- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5145
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  - Active Directory Lateral Movement
+  asset_type: Endpoint
+  confidence: 80
+  impact: 70
+  message: $IpAddress$ accessed the IPC share on more than 30 endpoints in a timespan
+    of 5 minutes.
+  mitre_attack_id:
+  - T1135
+  observable:
+  - name: host_targets
+    type: Endpoint
+    role:
+    - Victim
+  - name: IpAddress
+    type: Endpoint
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ShareName
+  - Computer
+  - IpAddress
+  - SubjectUserName
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/ipc_share_accessed/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

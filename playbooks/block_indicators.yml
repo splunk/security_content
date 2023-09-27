@@ -10,8 +10,8 @@ how_to_implement: "This playbook uses the following custom lists:  ip_address_bl
 references: []
 app_list:
 - "Palo Alto Networks Firewall"
-- "CarbonBlack Response"
-- "OpenDNS Umbrella"
+- "Carbon Black Response"
+- "Cisco Umbrella"
 tags:
   platform_tags: []
   playbook_type: Automation

@@ -13,10 +13,10 @@ description: The following analytic identifies the invitation of an external gue
   2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking
   Azure AD Accounts by Abusing External Identities`
 data_source: []
-search: '`azuread` "body.operationName"="Invite external user" | rename body.properties.*
+search: '`azuread` "operationName"="Invite external user" | rename properties.*
   as * | rename targetResources{}.userPrincipalName as userPrincipalName | rename
   initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.type
-  as type | stats values(userPrincipalName) by _time, type, initiatedBy, result, body.operationName
+  as type | stats values(userPrincipalName) as userPrincipalName by _time, type, initiatedBy, result, operationName
   | `azure_ad_external_guest_user_invited_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
@@ -53,10 +53,10 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - body.properties.targetResources{}.userPrincipalName
-  - body.properties.targetResources{}.type
-  - body.properties.initiatedBy.user.userPrincipalName
-  - body.properties.result
+  - properties.targetResources{}.userPrincipalName
+  - properties.targetResources{}.type
+  - properties.initiatedBy.user.userPrincipalName
+  - properties.result
   risk_score: 45
   security_domain: threat
 tests:

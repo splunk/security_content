@@ -84,7 +84,10 @@ def content_changer(args) -> None:
     input_dto = ContentChangerInputDto(
         ObjToYmlAdapter(args.path),
         factory_input_dto,
-        args.change_function
+        args.change_function,
+        args.filter_key,
+        args.filter_value,
+        args.variables
     )
 
     content_changer = ContentChanger()
@@ -312,8 +315,6 @@ def convert(args) -> None:
         data_model = SigmaConverterTarget.RAW
     elif args.data_model == 'ocsf':
         data_model = SigmaConverterTarget.OCSF
-    elif args.data_model == 'all':
-        data_model = SigmaConverterTarget.ALL
     else:
         print("ERROR: data model " + args.data_model + " not supported")
         sys.exit(1)
@@ -323,8 +324,7 @@ def convert(args) -> None:
         detection_path = args.detection_path,
         detection_folder = args.detection_folder, 
         input_path = args.path,
-        log_source = args.log_source,
-        cim_to_ocsf = args.cim_to_ocsf
+        log_source = args.log_source
     )
 
     convert_input_dto = ConvertInputDto(
@@ -357,7 +357,7 @@ def main(args):
     #                                                    "This allows a user to easily add their own content and, eventually, "
     #                                                    "build a custom application consisting of their custom content.")
     new_content_parser = actions_parser.add_parser("new_content", help="Create new security content object")
-    #content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
+    content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
     validate_parser = actions_parser.add_parser("validate", help="Validates written content")
     generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
     #docgen_parser = actions_parser.add_parser("docgen", help="Generates documentation")
@@ -394,11 +394,17 @@ def main(args):
         help="Type of package to create, choose between `ESCU`, `SSA` or `API`.")
     generate_parser.set_defaults(func=generate)
 
-    # content_changer_choices = ContentChanger.enumerate_content_changer_functions()
-    # content_changer_parser.add_argument("-cf", "--change_function", required=True, metavar='{ ' + ', '.join(content_changer_choices) +' }' , type=str, choices=content_changer_choices,
-    #                                     help= "Choose from the functions above defined in \nbin/contentctl_core/contentctl/application/use_cases/content_changer.py")
+    content_changer_choices = ContentChanger.enumerate_content_changer_functions()
+    content_changer_parser.add_argument("-cf", "--change_function", required=True, metavar='{ ' + ', '.join(content_changer_choices) +' }' , type=str, choices=content_changer_choices,
+                                        help= "Choose from the functions above defined in \nbin/contentctl_core/contentctl/application/use_cases/content_changer.py")
+    content_changer_parser.add_argument("-fk", "--filter_key", required=False, type=str,
+                                        help= "Limit the chnage only on objects which contains the given key and value")
+    content_changer_parser.add_argument("-fv", "--filter_value", required=False, type=str,
+                                        help= "Limit the chnage only on objects which contains the given key and value")    
+    content_changer_parser.add_argument("variables", metavar="N", type=str, nargs='*',
+                                        help= "List of input variables for content changer function")    
 
-    # content_changer_parser.set_defaults(func=content_changer)
+    content_changer_parser.set_defaults(func=content_changer)
 
     # docgen_parser.add_argument("-o", "--output", required=True, type=str,
     #     help="Path where to store the documentation")
@@ -414,7 +420,6 @@ def main(args):
     convert_parser.add_argument("-lo", "--log_source", required=False, type=str, help="converter log source")
     convert_parser.add_argument("-dp", "--detection_path", required=False, type=str, help="path to a single detection")
     convert_parser.add_argument("-df", "--detection_folder", required=False, type=str, help="path to a detection folder")
-    convert_parser.add_argument("-cto", "--cim_to_ocsf", action=argparse.BooleanOptionalAction, help="temp: cim to ocsf")
     convert_parser.add_argument("-o", "--output", required=True, type=str, help="output path to store the detections")
     convert_parser.set_defaults(func=convert)
 

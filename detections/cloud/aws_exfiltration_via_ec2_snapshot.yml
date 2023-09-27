@@ -1,0 +1,65 @@
+name: AWS Exfiltration via EC2 Snapshot
+id: ac90b339-13fc-4f29-a18c-4abbba1f2171
+version: 1
+date: '2023-03-22'
+author: Bhavin Patel, Splunk
+status: production
+type: TTP
+data_source: []
+description: This search detects a series of AWS API calls, made in a short time window, related to EC2 snapshots that can detect a potential exfiltration via EC2 Snapshot modifications. In this attack, the attacker typically proceeds by listing and creating EC2 snapshots of the available EC2 instances followed by modifying snapshot attributes such that it can be shared externally. Once this is done, the attacker can then load that EC2 snapshot and access all the sensitive information. 
+search: '`cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com" |  bin _time span=5m |  stats count dc(eventName) as distinct_api_calls values(eventName)  values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(userAgent) as userAgent by _time userName src_ip aws_account_id | where distinct_api_calls >= 2 | `aws_exfiltration_via_ec2_snapshot_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs. We have intentionally removed `guardduty.amazonaws.com` from src_ip to remove false positives caused by guard duty. We recommend you adjust the time window as per your environment. 
+known_false_positives: It is possible that an AWS admin has legitimately shared a snapshot with an other account for a specific purpose. Please check any recent change requests filed in your organization. 
+references:
+- https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+- https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html
+- https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
+- https://stratus-red-team.cloud/attack-techniques/list/
+tags:
+  analytic_story:
+  - Suspicious Cloud Instance Activities
+  - Data Exfiltration
+  asset_type: EC2 Snapshot
+  confidence: 80
+  impact: 80
+  message: Potential AWS EC2 Exfiltration detected on account id - $aws_account_id$ by user $userName$ from src_ip $src_ip$
+  mitre_attack_id:
+  - T1537
+  observable:
+  - name: userName
+    type: User
+    role:
+    - Attacker
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: aws_account_id
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - user_arn
+  - src_ip
+  - requestParameters.attributeType
+  - aws_account_id
+  - vendor_region
+  - user_agent
+  - userIdentity.principalId
+  - requestParameters.createVolumePermission.add.items{}.userId
+  risk_score: 64
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: true

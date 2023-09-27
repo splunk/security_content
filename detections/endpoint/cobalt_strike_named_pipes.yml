@@ -1,7 +1,7 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
 version: 2
-date: '2022-05-16'
+date: '2023-07-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,30 +41,27 @@ references:
 - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
   analytic_story:
-  - Cobalt Strike
   - Trickbot
   - DarkSide Ransomware
+  - Cobalt Strike
+  - BlackByte Ransomware
+  - Graceful Wipe Out Attack
   - LockBit Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 80
-  message: An instance of $process_name$ was identified on endpoint $Computer$ by
-    user $user$ accessing known suspicious named pipes related to Cobalt Strike.
+  message: An instance of $process_name$ was identified on endpoint $dest$ accessing known suspicious named pipes related to Cobalt Strike.
   mitre_attack_id:
   - T1055
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
   - name: process_name
     type: Process
     role:
-    - Parent Process
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

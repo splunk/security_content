@@ -1,0 +1,25 @@
+name: RedLine Stealer
+id: 12e31e8b-671b-4d6e-b362-a682812a71eb
+version: 1
+date: '2023-04-24'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Redline Stealer trojan, including looking for file writes associated
+  with its payload, screencapture, registry modification, persistence
+  and data collection..
+narrative: RedLine Stealer is a malware available on underground forum and subscription basis that are compiled or written in C#. 
+  This malware is capable of harvesting sensitive information from browsers such as saved credentials, auto file data, browser cookies 
+  and credit card information. It also gathers system information of the targeted or compromised host like username, location IP, RAM size available, hardware configuration and software installed. 
+  The current version of this malware contains features to steal wallet and crypto currency information. 
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+- https://blogs.blackberry.com/en/2021/10/threat-thursday-redline-infostealer-update
+tags:
+  analytic_story: RedLine Stealer
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
