@@ -29,6 +29,7 @@ tags:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Windows Registry Abuse
   - Azorult
+  - NjRAT
   asset_type: Endpoint
   confidence: 50
   impact: 50

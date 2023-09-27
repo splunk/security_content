@@ -23,11 +23,11 @@ data_source:
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where (Processes.process_name = shutdown.exe OR Processes.original_file_name = shutdown.exe)
-  Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*", "* /r*",
-  "* -r*") AND Processes.process="* /t*" by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_system_shutdown_commandline_filter`'
+  Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*") AND Processes.process IN ("* /t*","* -t*","* /f*","* -f*")
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_system_shutdown_commandline_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -46,6 +46,7 @@ tags:
   analytic_story:
   - DarkCrystal RAT
   - Sandworm Tools
+  - NjRAT
   asset_type: Endpoint
   confidence: 70
   impact: 70
