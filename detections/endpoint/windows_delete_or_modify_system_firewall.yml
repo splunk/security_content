@@ -31,7 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: a $process_name$ delete firewall configuration in $dest$
+  message: A $process_name$ deleted a firewall configuration on $dest$
   mitre_attack_id:
   - T1562
   - T1562.004
