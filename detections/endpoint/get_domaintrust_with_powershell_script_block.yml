@@ -21,7 +21,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-domaintrust*" | stats
   count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
-  ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `get_domaintrust_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -40,23 +40,19 @@ tags:
   asset_type: Endpoint
   confidence: 40
   impact: 30
-  message: Suspicious PowerShell Get-DomainTrust was identified on endpoint $Computer$
-    by user $UserID$.
+  message: Suspicious PowerShell Get-DomainTrust was identified on endpoint $dest$
+    by user $user$.
   mitre_attack_id:
   - T1482
   observable:
-  - name: UserID
+  - name: user
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

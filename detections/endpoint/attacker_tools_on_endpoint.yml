@@ -5,7 +5,17 @@ date: '2021-11-04'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic aims to identify the use of tools commonly exploited by cybercriminals. The use of these tools often signals nefarious activities like unauthorized access, network scanning, or data exfiltration, representing a significant threat to an organization's security infrastructure. By examining process activity on the host, particularly those processes corresponding to known attacker tool names, this analytic serves as an early warning system for potential security incidents. However, its precision must be balanced with the understanding that some administrative activities might also trigger alerts, resulting in false positives. This underlines the importance of cyber analysts having a clear understanding of typical endpoint activities and behaviors within their organization, enabling them to accurately interpret and respond to these alerts.
+description: The following analytic aims to identify the use of tools commonly exploited
+  by cybercriminals. The use of these tools often signals nefarious activities like
+  unauthorized access, network scanning, or data exfiltration, representing a significant
+  threat to an organization's security infrastructure. By examining process activity
+  on the host, particularly those processes corresponding to known attacker tool names,
+  this analytic serves as an early warning system for potential security incidents.
+  However, its precision must be balanced with the understanding that some administrative
+  activities might also trigger alerts, resulting in false positives. This underlines
+  the importance of cyber analysts having a clear understanding of typical endpoint
+  activities and behaviors within their organization, enabling them to accurately
+  interpret and respond to these alerts.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -15,12 +25,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | lookup attacker_tools attacker_tool_names AS
   process_name OUTPUT description | search description !=false| `attacker_tools_on_endpoint_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is usually generated via logs that report process tracking
-  in your Windows audit settings.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: Some administrator activity can be potentially triggered, please
   add those users to the filter macro.
 references: []
