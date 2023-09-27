@@ -31,7 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: a taskkill process to terminate process is executed in $dest$
+  message: A taskkill process to terminate process is executed on host- $dest$
   mitre_attack_id:
   - T1562
   - T1562.001
