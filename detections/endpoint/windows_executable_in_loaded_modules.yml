@@ -1,4 +1,4 @@
-name: Windows Shared Module Executable in loaded Modules
+name: Windows Executable in Loaded Modules
 id: 3e27af56-fcf0-4113-988d-24969b062be7
 version: 1
 date: '2023-09-12'
@@ -18,7 +18,7 @@ search: '`sysmon` EventCode=7 ImageLoaded= *.exe
   | rename Computer as dest 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `windows_shared_module_executable_in_loaded_modules_filter`'
+  | `windows_executable_in_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. 
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown.
@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: an executable as Imageloaded by $Image$ in $dest$
+  message: An executable $Imageloaded$ loaded by $Image$ on $dest$
   mitre_attack_id:
   - T1129
   observable:
