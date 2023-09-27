@@ -16,7 +16,7 @@ description: This analytic is developed to identify suspicious file creation in 
   similar techniques to assess the privileges of their running malware instances, without using token privilege API calls or PowerShell commandlets.
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem 
   where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe", "*.js", "*.bat", "*.cmd", "*.pif", "*.lnk", "*.dat") 
-  by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.user 
+  by Filesystem.dest Filesystem.file_create_time Filesystem.process_id Filesystem.process_guiid Filesystem.file_name Filesystem.file_path Filesystem.user 
   | `drop_dm_object_name(Filesystem)` 
   | eval dropped_file_path = split(file_path, "\\") 
   | eval dropped_file_path_split_count = mvcount(dropped_file_path) 
@@ -35,7 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: a file was created in root drive c in $dest$
+  message: A file was created in root drive C:/ on host - $dest$
   mitre_attack_id:
   - T1069.001
   observable:
