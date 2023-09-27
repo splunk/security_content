@@ -1,4 +1,4 @@
-name: 'Windows Modify Registry With MD5 Reg Key Name'
+name: Windows Modify Registry With MD5 Reg Key Name
 id: 4662c6b1-0754-455e-b9ff-3ee730af3ba8
 version: 1
 date: '2023-09-25'
@@ -36,7 +36,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: a md5 registry value name is created in $dest$
+  message: A md5 registry value name $registry_value_name$ is created on $dest$
   mitre_attack_id:
   - T1112
   observable:
