@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon Event ID 7
-description: This analysis focuses on detecting potentially malicious unsigned DLLs created in either the c:\windows\system32 or c:\windows\syswow64 folders. 
+description: This analytic focuses on detecting potentially malicious unsigned DLLs created in either the c:\windows\system32 or c:\windows\syswow64 folders. 
   This particular technique was observed in the context of the Warzone (Ave Maria) RAT, where it employed a method known as DLL hijacking (dll-side-loading) 
   by dropping the "dismcore.dll" to achieve privilege escalation.
   DLL hijacking is a stealthy attack technique used by cybercriminals to exploit the way Windows searches and loads DLLs. By placing a malicious DLL with the 
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Warzone RAT
+  - NjRAT
   asset_type: Endpoint
   confidence: 70
   impact: 70
