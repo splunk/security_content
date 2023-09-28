@@ -27,7 +27,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: process $SourceImage$ create a file $TargetImage$ in host $dest$
+  message: A process $process_name$ created a file $TargetFilename$ on host $dest$
   mitre_attack_id:
   - T1204
   - T1204.002
@@ -36,7 +36,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: SourceImage
+  - name: process_name
     type: Process
     role:
     - Attacker
