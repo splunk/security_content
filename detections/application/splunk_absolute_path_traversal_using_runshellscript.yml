@@ -17,6 +17,7 @@ search: >
   | where runshellscript_args_count = 10
   | eval interpreter=mvindex(array_indices,0)
   | eval targetScript=mvindex(array_indices,1)
+  | eval targetScript != "*C:*"
   | stats count min(_time) as firstTime max(_time) as lastTime by splunk_server interpreter targetScript
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `splunk_absolute_path_traversal_using_runshellscript_filter`
