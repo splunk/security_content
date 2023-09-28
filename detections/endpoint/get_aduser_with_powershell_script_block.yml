@@ -14,7 +14,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-aduser*" ScriptBlockText
   = "*-filter*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
-  ScriptBlockText Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  ScriptBlockText Computer UserID | rename Computer as dest, UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `get_aduser_with_powershell_script_block_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
@@ -30,16 +30,16 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: powershell process having commandline $Message$ for user enumeration
+  message: Powershell process having commandline "get-aduser" for user enumeration on $dest$
   mitre_attack_id:
   - T1087.002
   - T1087
   observable:
-  - name: ComputerName
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

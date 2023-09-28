@@ -29,7 +29,7 @@ tags:
   asset_type: AWS Account
   confidence: 60
   impact: 50
-  message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an
+  message: From IP address $src$, user agent $userAgent$ has trigged an
     event $eventName$ for updating the existing login profile, potentially giving
     user $user_arn$ more access privilleges
   mitre_attack_id:

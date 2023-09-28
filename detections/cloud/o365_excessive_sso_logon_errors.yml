@@ -6,10 +6,9 @@ author: Rod Soto, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects accounts with high number of Single Sign ON (SSO)
-  logon errors. Excessive logon errors may indicate attempts to bruteforce of password
-  or single sign on token hijack or reuse.
+  logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.
 data_source: []
-search: '`o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed | stats count min(_time) as firstTime max(_time) as lastTime by user src_ip LogonError user_agent UserId Operation Workload  authentication_method authentication_service| where count >= 5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_excessive_sso_logon_errors_filter`'
+search: '`o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by  src_ip signature user_agent authentication_service action| where count >= 5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_excessive_sso_logon_errors_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
 known_false_positives: Logon errors may not be malicious in nature however it may
@@ -23,8 +22,7 @@ tags:
   asset_type: Office 365
   confidence: 80
   impact: 80
-  message: User $user$ has caused excessive number of SSO logon errors from $src_ip$
-    using UserAgent $UserAgent$.
+  message: Excessive number of SSO logon errors from $src_ip$ using UserAgent $user_agent$.
   mitre_attack_id:
   - T1556
   observable:
