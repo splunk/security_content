@@ -32,10 +32,12 @@ tags:
   - CVE-2023-22939
   - CVE-2023-22940
   - CVE-2023-40598
+  - CVE-2023-40598
   impact: 50
   message: Use of risky splunk command $splunk_risky_command$ detected by $user$
   mitre_attack_id:
   - T1548
+  - T1202
   observable:
   - name: user
     type: User
@@ -67,6 +69,12 @@ tests:
 - name: True Positive Test runshellscript abuse
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_runshellscript_abuse.log
+    source: audittrail
+    sourcetype: audittrail
+    custom_index: _audit
+- name: True Positive Test Additional runshellscript abuse
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/splunk/splunk_cmd_injection_using_external_lookups_audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
