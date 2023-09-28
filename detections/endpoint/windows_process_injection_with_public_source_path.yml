@@ -14,7 +14,7 @@ data_source:
 search: '`sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*",
   "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time)
   as lastTime by SourceImage TargetImage signature TargetProcessGuid SourceProcessGuid
-  TargetProcessId SourceProcessId StartAddress EventCode Computer | `security_content_ctime(firstTime)`
+  TargetProcessId SourceProcessId StartAddress EventCode dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_process_injection_with_public_source_path_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
@@ -31,12 +31,12 @@ tags:
   confidence: 80
   impact: 80
   message: process $SourceImage$ create a remote thread to process $TargetImage$ on
-    host $Computer$
+    host $dest$
   mitre_attack_id:
   - T1055
   - T1055.002
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -60,7 +60,7 @@ tags:
   - SourceProcessId
   - StartAddress
   - EventCode
-  - Computer
+  - dest
   - signature
   - TargetProcessGuid
   - SourceProcessGuid

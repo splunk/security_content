@@ -14,8 +14,8 @@ description: This search is to detect potential DNS exfiltration using nslookup 
 data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" | bucket _time span=1m
-  | stats count as numNsLookup by Computer, _time | eventstats avg(numNsLookup) as
-  avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by Computer |
+  | stats count as numNsLookup by dest, _time | eventstats avg(numNsLookup) as
+  avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by dest |
   eval upperThreshold=(avgNsLookup + stdNsLookup *3) | eval isOutlier=if(numNsLookup
   > 20 and numNsLookup >= upperThreshold, 1, 0) | search isOutlier=1 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `excessive_usage_of_nslookup_app_filter`'
@@ -37,12 +37,12 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 40
-  message: Excessive usage of nslookup.exe has been detected on $Computer$. This detection
+  message: Excessive usage of nslookup.exe has been detected on $dest$. This detection
     is triggered as as it violates the dynamic threshold
   mitre_attack_id:
   - T1048
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -52,7 +52,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Computer
+  - dest
   - process_name
   - EventCode
   risk_score: 28

@@ -17,7 +17,7 @@ data_source:
 - Sysmon Event ID 6
 search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
   "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) |  stats  min(_time) as
-  firstTime max(_time) as lastTime count by Computer ImageLoaded Hashes IMPHASH Signature
+  firstTime max(_time) as lastTime count by dest ImageLoaded Hashes IMPHASH Signature
   Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_driver_loaded_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -37,12 +37,12 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: Suspicious driver $ImageLoaded$ on $Computer$
+  message: Suspicious driver $ImageLoaded$ on $dest$
   mitre_attack_id:
   - T1543.003
   - T1543
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -56,7 +56,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Computer
+  - dest
   - ImageLoaded
   - Hashes
   - IMPHASH

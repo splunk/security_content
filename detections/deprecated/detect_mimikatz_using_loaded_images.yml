@@ -10,9 +10,8 @@ description: This search looks for reading loaded Images unique to credential du
 data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId)
-  as ProcessId by Computer, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
-  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | rename
-  Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  as ProcessId by dest, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
+  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_mimikatz_using_loaded_images_filter`'
 how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
   includes EventCode 7 with powershell.exe. This search uses an input macro named
@@ -61,7 +60,7 @@ tags:
   - EventCode
   - ImageLoaded
   - ProcessId
-  - Computer
+  - dest
   - Image
   risk_score: 64
   security_domain: endpoint

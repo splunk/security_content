@@ -53,7 +53,7 @@ tags:
   - file_name
   - _time
   - TargetFilename
-  - Computer
+  - dest
   - Image
   - user
   risk_score: 81

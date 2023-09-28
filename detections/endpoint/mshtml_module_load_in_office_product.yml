@@ -14,8 +14,8 @@ data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventID=7  parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
   "msaccess.exe","Graph.exe","winproj.exe") ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name,
-  ImageLoaded, OriginalFileName, ProcessGuid | rename Computer as dest | `security_content_ctime(firstTime)`
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, process_name,
+  ImageLoaded, OriginalFileName, ProcessGuid  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `mshtml_module_load_in_office_product_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process names and image loads from your endpoints. If you are using

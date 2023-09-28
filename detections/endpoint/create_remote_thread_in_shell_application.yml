@@ -13,7 +13,7 @@ data_source:
 - Sysmon Event ID 8
 search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") | stats
   count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId
-  SourceProcessId  EventCode StartAddress SourceImage Computer | `security_content_ctime(firstTime)`
+  SourceProcessId  EventCode StartAddress SourceImage dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `create_remote_thread_in_shell_application_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -31,11 +31,11 @@ tags:
   confidence: 100
   impact: 70
   message: process $SourceImage$ create a remote thread to shell app process $TargetImage$
-    in host $Computer$
+    in host $dest$
   mitre_attack_id:
   - T1055
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -55,7 +55,7 @@ tags:
   - SourceProcessId
   - StartAddress
   - EventCode
-  - Computer
+  - dest
   risk_score: 70
   security_domain: endpoint
 tests:

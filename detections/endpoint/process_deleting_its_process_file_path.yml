@@ -14,7 +14,7 @@ data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image
   = "*\\cmd.exe" | eval result = if(like(process,"%".parent_process."%"), "Found",
-  "Not Found") | stats min(_time) as firstTime max(_time) as lastTime count by Computer
+  "Not Found") | stats min(_time) as firstTime max(_time) as lastTime count by dest
   user ParentImage ParentCommandLine Image CommandLine EventCode ProcessID result
   | where result = "Found" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `process_deleting_its_process_file_path_filter`'
@@ -38,11 +38,11 @@ tags:
   confidence: 100
   impact: 60
   message: A process $Image$ tries to delete its process path in commandline $cmdline$
-    as part of defense evasion in host $Computer$
+    as part of defense evasion in host $dest$
   mitre_attack_id:
   - T1070
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -56,7 +56,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - EventCode
-  - Computer
+  - dest
   - user
   - ParentImage
   - ParentCommandLine
