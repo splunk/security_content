@@ -57,7 +57,7 @@ tags:
   required_fields:
   - ImageLoaded
   - AllImageLoaded
-  - Computer
+  - dest
   - EventCode
   - Image
   - process_name
