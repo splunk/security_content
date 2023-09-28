@@ -31,7 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Powershell process having commandline $ScriptBlockText$ used for user enumeration on $dest$
+  message: Powershell process having commandline "AdsiSearcher" used for user enumeration on $dest$
   mitre_attack_id:
   - T1087.002
   - T1087
