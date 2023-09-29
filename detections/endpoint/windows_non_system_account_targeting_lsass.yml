@@ -14,8 +14,9 @@ data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe NOT (SourceUser="NT AUTHORITY\\*")
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name, parent_process_path ,parent_process_id, TargetImage,
-  GrantedAccess, SourceUser, TargetUser | rename TargetUser
-  as user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  GrantedAccess, SourceUser, TargetUser 
+  | rename TargetUser as user 
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `windows_non_system_account_targeting_lsass_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -46,7 +47,7 @@ tags:
     role:
     - Victim
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   - name: parent_process_path

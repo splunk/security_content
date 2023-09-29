@@ -50,7 +50,7 @@ tags:
   - T1059
   observable:
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   product:

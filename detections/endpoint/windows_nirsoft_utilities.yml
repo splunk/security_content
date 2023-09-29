@@ -48,7 +48,7 @@ tags:
     role:
     - Victim
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   - name: parent_process_name

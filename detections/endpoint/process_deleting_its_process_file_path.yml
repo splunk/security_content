@@ -42,12 +42,12 @@ tags:
   confidence: 100
   impact: 60
   message: A process $Image$ tries to delete its process path in commandline $CommandLine$
-    as part of defense evasion in host $dest$
+    as part of defense evasion in host $dest$ by user $user$
   mitre_attack_id:
   - T1070
   observable:
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   - name: user

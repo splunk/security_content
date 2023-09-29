@@ -39,7 +39,7 @@ tags:
   - T1548
   observable:
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   product:

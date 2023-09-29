@@ -35,12 +35,12 @@ tags:
   confidence: 50
   impact: 50
   message: wmiprvse.exe process having a duplicate or full Granted Access $GrantedAccess$
-    to $TargetImage$ process in $Computer$
+    to $TargetImage$ process in $dest$
   mitre_attack_id:
   - T1047
   observable:
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   product:

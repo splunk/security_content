@@ -15,6 +15,7 @@ description: The following analytic identifies object access on Windows administ
   this behavior to try to infect other machines in the infected network.
 search: '`wineventlog_security` EventCode=5140 ShareName IN("\\\\*\\ADMIN$","\\\\*\\C$","*\\\\*\\IPC$") AccessMask= 0x1 
   | stats min(_time) as firstTime max(_time) as lastTime count by ShareName IpAddress ObjectType SubjectUserName SubjectDomainName IpPort AccessMask Computer
+  | rename Computer as dest
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `network_share_discovery_via_dir_command_filter`'
@@ -39,7 +40,7 @@ tags:
   mitre_attack_id:
   - T1135
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
