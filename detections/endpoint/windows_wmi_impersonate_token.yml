@@ -40,7 +40,7 @@ tags:
   - T1047
   observable:
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   product:
