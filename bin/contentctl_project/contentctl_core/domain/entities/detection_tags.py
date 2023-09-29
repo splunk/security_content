@@ -40,7 +40,9 @@ class DetectionTags(BaseModel):
     risk_level: str = None
     observable_str: str = None
     evidence_str: str = None
+    analytics_story_str: str = None
     kill_chain_phases_id: list = None
+    kill_chain_phases_str: str = None
     research_site_url: str = None
     event_schema: str = None
     mappings: list = None

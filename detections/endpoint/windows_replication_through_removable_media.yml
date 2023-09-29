@@ -1,7 +1,7 @@
 name: Windows Replication Through Removable Media
 id: 60df805d-4605-41c8-bbba-57baa6a4eb97
 version: 1
-date: '2023-01-17'
+date: '2023-09-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -41,6 +41,7 @@ references:
 tags:
   analytic_story:
   - Chaos Ransomware
+  - NjRAT
   asset_type: Endpoint
   confidence: 80
   impact: 80

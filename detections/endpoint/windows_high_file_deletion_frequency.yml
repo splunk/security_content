@@ -15,7 +15,7 @@ search: '`sysmon` EventCode=23 TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.j
   "*.jpeg", "*.db", "*.ps1", "*.doc*", "*.xls*", "*.ppt*", "*.bmp","*.zip", "*.rar",
   "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat",
   "*.bkf" , "*.backup*", "*.dsk", "*.win") | stats values(TargetFilename) as deleted_files
-  min(_time) as firstTime max(_time) as lastTime count by Computer user EventCode
+  min(_time) as firstTime max(_time) as lastTime count by dest user EventCode
   Image ProcessID |where count >=100 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_high_file_deletion_frequency_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -37,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: High frequency file deletion activity detected on host $Computer$
+  message: High frequency file deletion activity detected on host $dest$
   mitre_attack_id:
   - T1485
   observable:
@@ -45,7 +45,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -60,7 +60,7 @@ tags:
   required_fields:
   - EventCode
   - TargetFilename
-  - Computer
+  - dest
   - user
   - Image
   - ProcessID

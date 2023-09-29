@@ -10,7 +10,9 @@ description: This search is to detect a possible uac bypass using the colorui.dl
   where it make use of the colorui.dll COM CLSID to bypass UAC.
 data_source:
 - Sysmon Event ID 7
-search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe" NOT(Image IN("*\\windows\\*", "*\\program files*")) | stats count min(_time) as firstTime max(_time) as lastTime by dest parent_process_name process_name ImageLoaded signature_id signature Signed user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe"
+  NOT(Image IN("*\\windows\\*", "*\\program files*")) | stats count min(_time) as
+  firstTime max(_time) as lastTime by Image ImageLoaded process_name dest user_id EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `uac_bypass_with_colorui_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -26,8 +28,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 60
-  message: The following module $ImageLoaded$ was loaded by a non-standard application $parent_process_name$
-    on endpoint $dest$ by user $user_id$.
+  message: The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $dest$.
   mitre_attack_id:
   - T1218
   - T1218.003
@@ -49,7 +50,7 @@ tags:
   - Image
   - ImageLoaded
   - process_name
-  - Computer
+  - dest
   - EventCode
   - Signed
   - ProcessId

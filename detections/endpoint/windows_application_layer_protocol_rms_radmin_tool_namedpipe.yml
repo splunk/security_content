@@ -17,7 +17,7 @@ data_source: []
 search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe")
   PipeName IN ("\\RManFUSServerNotify32", "\\RManFUSCallbackNotify32", "\\RMSPrint*")
   | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType
-  ProcessId PipeName Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  ProcessId PipeName dest UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_application_layer_protocol_rms_radmin_tool_namedpipe_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -38,7 +38,7 @@ tags:
   mitre_attack_id:
   - T1071
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -52,7 +52,7 @@ tags:
   - EventType
   - ProcessId
   - PipeName
-  - Computer
+  - dest
   - UserID
   risk_score: 81
   security_domain: endpoint
