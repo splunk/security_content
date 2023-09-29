@@ -35,11 +35,11 @@ tags:
   - CVE-2022-32151
   - CVE-2022-32152
   impact: 60
-  message: The following $dest$ is using the self signed Splunk certificate.
+  message: The following $host$ is using the self signed Splunk certificate.
   mitre_attack_id:
   - T1040
   observable:
-  - name: dest
+  - name: host
     type: Hostname
     role:
     - Victim
