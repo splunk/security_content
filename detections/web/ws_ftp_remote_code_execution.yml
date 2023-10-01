@@ -32,7 +32,7 @@ tags:
   - T1190
   observable:
   - name: url
-    type: string
+    type: URL String
     role:
     - Uniform Resource Locator
     - name: dest
