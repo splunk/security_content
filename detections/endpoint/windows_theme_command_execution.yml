@@ -5,9 +5,7 @@ date: '2023-09-25'
 author: Michael Haag, Gowthamaraj Rajendran, Splunk
 status: experimental
 type: TTP
-description: 'The vulnerability, referred to as "ThemeBleed", is a high-severity issue with a score of 8.8. It allows remote attackers to execute code if the target user opens a malicious .THEME file crafted by the attacker. 
-The exploit takes advantage of a race condition when handling .MSSTYLES files. Specifically, when a version number "999" is used, there's a discrepancy between the time a DLL’s (“_vrf.dll”) signature is verified and when the library loads. 
-This allows an attacker to replace a verified DLL with a malicious one, leading to arbitrary code execution.'
+description: The vulnerability, referred to as "ThemeBleed", is a high-severity issue with a score of 8.8. It allows remote attackers to execute code if the target user opens a malicious .THEME file crafted by the attacker. The exploit takes advantage of a race condition when handling .MSSTYLES files. Specifically, when a version number "999" is used, there's a discrepancy between the time a DLL’s (“_vrf.dll”) signature is verified and when the library loads. This allows an attacker to replace a verified DLL with a malicious one, leading to arbitrary code execution.
 data_source:
 - Sysmon
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
