@@ -1,0 +1,21 @@
+name: Windows Theme Command Execution CVE-2023-38146
+id: 5f1c168e-118b-11ec-84ff-acde48001125
+version: 1
+date: '2023-09-25'
+author: Michael Haag, Gowthamaraj Rajendran, Splunk
+description: This analytic story focuses on the Windows Theme vulnerability CVE-2023-38146, commonly referred to as "ThemeBleed". This high-severity issue allows remote attackers to execute arbitrary code if a user opens a malicious .THEME file crafted by the attacker. Exploiting this vulnerability leverages a race condition when handling .MSSTYLES files. Successful exploitation could lead to unauthorized code execution, potentially compromising the system's security. This story is associated with the detection `Windows Theme Command Execution` which identifies attempts to exploit this vulnerability.
+narrative: Windows Themes are a popular way to customize the appearance of the Windows operating system. The "ThemeBleed" vulnerability, CVE-2023-38146, exposes a flaw in the way Windows handles .THEME files, especially when dealing with .MSSTYLES files. An attacker can craft a malicious theme file that, when opened, can lead to arbitrary code execution. This poses a significant risk as it can allow an attacker to run malicious code with the privileges of the logged-in user. It's crucial for organizations to be aware of this vulnerability and apply necessary patches or mitigations.
+references: 
+- https://github.com/gabe-k/themebleed
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-38146
+- https://www.bleepingcomputer.com/news/security/windows-11-themebleed-rce-bug-gets-proof-of-concept-exploit/
+tags:
+  analytic_story: Windows Theme Command Execution CVE-2023-38146
+  category: 
+  - Vulnerability
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
