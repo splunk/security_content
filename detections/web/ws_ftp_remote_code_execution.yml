@@ -34,11 +34,11 @@ tags:
   - name: url
     type: URL String
     role:
-    - Uniform Resource Locator
-    - name: dest
-      type: Hostname
-      role:
-      - Victim    
+    - Other
+  - name: dest
+    type: Hostname
+    role:
+    - Victim    
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
