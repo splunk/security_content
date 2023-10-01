@@ -1,4 +1,4 @@
-name: WS_FTP Server Critical Vulnerabilities
+name: WS FTP Server Critical Vulnerabilities
 id: 60466291-3ab4-452b-9c11-456aa2dc7293
 version: 1
 date: '2023-10-01'
@@ -12,7 +12,7 @@ references:
 - https://www.rapid7.com/blog/post/2023/09/29/etr-critical-vulnerabilities-in-ws_ftp-server/
 - https://www.splunk.com/en_us/blog/security/fantastic-iis-modules-and-how-to-find-them.html
 tags:
-  analytic_story: WS_FTP Server Critical Vulnerabilities
+  analytic_story: WS FTP Server Critical Vulnerabilities
   category:
   - Adversary Tactics
   product:
