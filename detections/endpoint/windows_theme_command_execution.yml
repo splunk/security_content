@@ -1,0 +1,75 @@
+name: Windows Theme Command Execution
+id: 5f1c168e-118b-11ec-84ff-acde48001123
+version: 1
+date: '2023-09-25'
+author: Michael Haag, Gowthamaraj Rajendran, Splunk
+status: experimental
+type: TTP
+description: The vulnerability, referred to as "ThemeBleed", is a high-severity issue with a score of 8.8. It allows remote attackers to execute code if the target user opens a malicious .THEME file crafted by the attacker. 
+The exploit takes advantage of a race condition when handling .MSSTYLES files. Specifically, when a version number "999" is used, there's a discrepancy between the time a DLL’s (“_vrf.dll”) signature is verified and when the library loads. 
+This allows an attacker to replace a verified DLL with a malicious one, leading to arbitrary code execution.
+data_source:
+- Sysmon
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where 
+  (Processes.process="C:\\Windows\\system32\\rundll32.exe*themecpl.dll,OpenThemeAction*theme") OR (Processes.process="*rundll32.exe uxtheme.dll,#64 *.msstyles*") by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `headless_browser_mockbin_or_mocky_request_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Limited false positives will be present, however, tune as necessary.
+references:
+  - https://github.com/gabe-k/themebleed
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-38146
+  - https://www.bleepingcomputer.com/news/security/windows-11-themebleed-rce-bug-gets-proof-of-concept-exploit/
+tags:
+  asset_type: Endpoint
+  confidence: 80
+  cve:
+  - CVE-2023-38146
+  impact: 80
+  message: An instance of $process_name$ was identified on endpoint $dest$ loading theme.
+  mitre_attack_id:
+  - T1204
+  - T1204.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.parent_process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 64
+  security_domain: endpoint
