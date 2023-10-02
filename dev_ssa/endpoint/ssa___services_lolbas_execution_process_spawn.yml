@@ -3,7 +3,7 @@ id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
 version: 1
 date: '2023-10-02'
 author: Bhavin Patel, Splunk
-status: production
+status: validation
 type: Anomaly
 description: The following analytic identifies services.exe spawning a LOLBAS execution process. When adversaries execute code on remote endpoints abusing the Service Control Manager and creating a remote malicious service, the executed command is spawned as a child process of services.exe. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code. Looking for child processes of services.exe that are part of the LOLBAS project can help defenders identify lateral movement activity.
 data_source:
