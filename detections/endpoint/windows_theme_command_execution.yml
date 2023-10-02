@@ -14,7 +14,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where 
-  (Processes.process="C:\\Windows\\system32\\rundll32.exe*themecpl.dll,OpenThemeAction*theme") OR (Processes.process="*rundll32.exe uxtheme.dll,#64 *.msstyles*") by Processes.dest Processes.user Processes.parent_process
+  (Processes.process="C:\\Windows\\system32\\rundll32.exe*themecpl.dll,OpenThemeAction*theme") OR (Processes.process="*rundll32.exe uxtheme.dll,#64 *.msstyles*") by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `headless_browser_mockbin_or_mocky_request_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
