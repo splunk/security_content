@@ -19,7 +19,7 @@ data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7 NOT (process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*"))
   | lookup hijacklibs library AS process_name OUTPUT islibrary | search islibrary
-  = True | rename Computer as dest process_name AS ImageLoaded process_path AS Module_Path
+  = True |rename process_name AS ImageLoaded process_path AS Module_Path
   | stats values(parent_process_name) count by _time dest ImageLoaded Module_Path
   | `windows_dll_search_order_hijacking_hunt_with_sysmon_filter`'
 how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709

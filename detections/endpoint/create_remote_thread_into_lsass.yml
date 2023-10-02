@@ -9,8 +9,7 @@ description: The following analytic developed to detect potential credential dum
 data_source:
 - Sysmon Event ID 8
 search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime
-  max(_time) as lastTime by Computer, EventCode, TargetImage, TargetProcessId | rename
-  Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  max(_time) as lastTime by dest, EventCode, TargetImage, TargetProcessId | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `create_remote_thread_into_lsass_filter`'
 how_to_implement: This search needs Sysmon Logs with a Sysmon configuration, which
   includes EventCode 8 with lsass.exe. This search uses an input macro named `sysmon`.
@@ -50,7 +49,7 @@ tags:
   - _time
   - EventID
   - TargetImage
-  - Computer
+  - dest
   - EventCode
   - TargetImage
   - TargetProcessId

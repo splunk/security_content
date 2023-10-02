@@ -46,7 +46,7 @@ tags:
   required_fields:
   - _time
   - Image
-  - Computer
+  - dest
   - EventCode
   - ImageLoaded
   risk_score: 72

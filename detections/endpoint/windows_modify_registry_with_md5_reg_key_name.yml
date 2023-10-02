@@ -1,0 +1,67 @@
+name: Windows Modify Registry With MD5 Reg Key Name
+id: 4662c6b1-0754-455e-b9ff-3ee730af3ba8
+version: 1
+date: '2023-09-25'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+- Sysmon EventID 14
+description: This analytic is designed to identify potentially malicious registry modification characterized by MD5-like registry key names. 
+  This technique has been notably observed in NjRAT malware, which employs such registries for fileless storage of keylogs and .DLL plugins. 
+  Detecting this tactic serves as an effective means of identifying possible NjRAT malware instances that create or modify registries as 
+  part of their malicious activities.
+search: '| tstats `security_content_summariesonly`  count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where  Registry.registry_path = "*\\SOFTWARE\\*" Registry.registry_value_data = "Binary Data"
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.registry_key_name 
+  | `drop_dm_object_name(Registry)` 
+  | eval dropped_reg_path = split(registry_path, "\\") 
+  | eval dropped_reg_path_split_count = mvcount(dropped_reg_path) 
+  | eval validation_result= if(match(registry_value_name,"^[0-9a-fA-F]{32}$"),"md5","nonmd5")
+  | where validation_result = "md5" AND dropped_reg_path_split_count <= 5
+  | table dest user registry_path registry_value_name registry_value_data registry_key_name reg_key_name dropped_reg_path_split_count validation_result
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)` 
+  | `windows_modify_registry_with_md5_reg_key_name_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that 
+  include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: unknown
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
+tags:
+  analytic_story:
+  - NjRAT
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: A md5 registry value name $registry_value_name$ is created on $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  - Registry.registry_value_data
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/njrat_md5_registry_entry/njrat_reg_binary.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

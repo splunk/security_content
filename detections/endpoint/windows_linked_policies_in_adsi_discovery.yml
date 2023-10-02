@@ -14,7 +14,9 @@ data_source:
 search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText
   = "*objectcategory=organizationalunit*" ScriptBlockText = "*findAll()*" | stats
   count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer user_id
+  | rename Computer as dest, user_id as user 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_linked_policies_in_adsi_discovery_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
@@ -31,13 +33,13 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: powershell process having commandline $Message$ for user enumeration
+  message: Windows PowerShell [Adsisearcher] was used user enumeration on $user$
   mitre_attack_id:
   - T1087.002
   - T1087
   observable:
-  - name: Computer
-    type: Hostname
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

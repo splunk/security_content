@@ -19,7 +19,7 @@ data_source:
 search: '`sysmon` EventCode=11  TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
   = "*.sch*" NOT (Image IN ("*\\Windows\\system32\\mmc.exe")) |stats count min(_time)
   as firstTime max(_time) as lastTime by Image TargetFilename EventCode process_id  process_name
-  Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `schcache_change_by_app_connect_and_create_adsi_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -36,12 +36,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: process $Image$ create a file $TargetFilename$ in host $Computer$
+  message: process $Image$ create a file $TargetFilename$ in host $dest$
   mitre_attack_id:
   - T1087.002
   - T1087
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -56,7 +56,7 @@ tags:
   - EventCode
   - process_id
   - process_name
-  - Computer
+  - dest
   risk_score: 25
   security_domain: endpoint
 tests:
