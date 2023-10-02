@@ -41,6 +41,10 @@ tags:
     type: URL String
     role:
     - Other
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
