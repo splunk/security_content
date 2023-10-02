@@ -27,7 +27,7 @@ tags:
   atomic_guid: []
   confidence: 80
   impact: 90
-  message: Potential WS FTP Remote Code Execution detected against URL $url$ on $dest$
+  message: Potential WS FTP Remote Code Execution detected against URL $url$ on $dest$ from $src$
   mitre_attack_id:
   - T1190
   observable:
@@ -38,7 +38,11 @@ tags:
   - name: dest
     type: Hostname
     role:
-    - Victim    
+    - Victim 
+  - name: src
+    type: IP Address
+    role:
+    - Attacker   
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
