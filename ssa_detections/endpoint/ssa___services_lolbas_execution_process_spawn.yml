@@ -4,7 +4,7 @@ version: 1
 date: '2023-10-02'
 author: Bhavin Patel, Splunk
 type: Anomaly
-status: production
+status: validation
 description: The following analytic identifies services.exe spawning a LOLBAS execution
   process. When adversaries execute code on remote endpoints abusing the Service Control
   Manager and creating a remote malicious service, the executed command is spawned
