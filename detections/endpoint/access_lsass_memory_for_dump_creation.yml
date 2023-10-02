@@ -9,8 +9,8 @@ description: The following analytic is designed to detect potentially malicious 
 data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage,
-  TargetProcessId, SourceImage, SourceProcessId | rename Computer as dest | `security_content_ctime(firstTime)`|
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, TargetImage,
+  TargetProcessId, SourceImage, SourceProcessId  | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_filter` '
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
   includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`.
@@ -53,7 +53,7 @@ tags:
   - EventCode
   - TargetImage
   - CallTrace
-  - Computer
+  - dest
   - TargetProcessId
   - SourceImage
   - SourceProcessId

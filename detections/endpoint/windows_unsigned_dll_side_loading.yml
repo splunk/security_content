@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon Event ID 7
-description: This analysis focuses on detecting potentially malicious unsigned DLLs created in either the c:\windows\system32 or c:\windows\syswow64 folders. 
+description: This analytic focuses on detecting potentially malicious unsigned DLLs created in either the c:\windows\system32 or c:\windows\syswow64 folders. 
   This particular technique was observed in the context of the Warzone (Ave Maria) RAT, where it employed a method known as DLL hijacking (dll-side-loading) 
   by dropping the "dismcore.dll" to achieve privilege escalation.
   DLL hijacking is a stealthy attack technique used by cybercriminals to exploit the way Windows searches and loads DLLs. By placing a malicious DLL with the 
@@ -17,7 +17,7 @@ description: This analysis focuses on detecting potentially malicious unsigned D
   Detecting such suspicious DLLs is crucial in preventing privilege escalation attacks and other potential security breaches. Regular security assessments, thorough monitoring, 
   and implementing security best practices are essential in safeguarding systems from such threats.
 search: '`sysmon` EventCode=7 Signed=false OriginalFileName = "-" SignatureStatus="unavailable" ImageLoaded IN ("*:\\windows\\system32\\*", "*:\\windows\\syswow64\\*") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed SignatureStatus OriginalFileName process_name Computer EventCode ProcessId Hashes IMPHASH | rename Computer as dest
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed SignatureStatus OriginalFileName process_name dest EventCode ProcessId Hashes IMPHASH 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `windows_unsigned_dll_side_loading_filter`'
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Warzone RAT
+  - NjRAT
   asset_type: Endpoint
   confidence: 70
   impact: 70
@@ -54,7 +55,7 @@ tags:
   - SignatureStatus 
   - OriginalFileName 
   - process_name 
-  - Computer 
+  - dest 
   - EventCode 
   - ProcessId 
   - Hashes 
