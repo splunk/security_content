@@ -148,7 +148,8 @@ class Detection(BaseModel, SecurityContentObject):
             if "ssa_" not in values["file_path"]:
                 raise ValueError(f"The following is NOT an ssa_ detection, but has 'status: {values['status']} which may ONLY be used for ssa_ detections:' {values['file_path']}")
             else:
-                print(f"Got an ssa validation detection: {values['file_path']}")
+                #This is an ssa_ validation detection
+                pass
         return values
 
 
