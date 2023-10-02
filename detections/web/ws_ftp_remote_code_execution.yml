@@ -8,7 +8,7 @@ type: TTP
 data_source: []
 description: 'The following analytic is designed to detect a Remote Code Execution (RCE) vulnerability (CVE-2023-40044) in WS_FTP, a managed file transfer software by Progress. The search specifically looks for HTTP requests to the "/AHT/AhtApiService.asmx/AuthUser" URL with a status of 200, which could indicate an exploitation attempt.'
 search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("/AHT/AhtApiService.asmx/AuthUser") Web.status=200
+  as lastTime from datamodel=Web where Web.url IN ("/AHT/AhtApiService.asmx/AuthUser") Web.status=200 Web.http_method=POST
   by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
   | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` 
