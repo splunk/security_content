@@ -14,7 +14,10 @@ search: '| tstats fillnull_value="N/A" count min(_time) as firstTime max(_time) 
   by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user
   Search_Activity.search_type | `drop_dm_object_name(Search_Activity)` | lookup splunk_risky_command
   splunk_risky_command as search output splunk_risky_command description vulnerable_versions
-  CVE other_metadata | where splunk_risky_command != "false" | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
+  CVE other_metadata | where splunk_risky_command != "false"
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
 how_to_implement: Requires implementation of Splunk_Audit.Search_Activity datamodel.
 known_false_positives: This search encompasses many commands.
 references:
