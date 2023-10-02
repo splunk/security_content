@@ -1,0 +1,139 @@
+name: Services lolbas Execution Process Spawn
+id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
+version: 1
+status: production
+description: The following analytic identifies services.exe spawning a LOLBAS execution
+  process. When adversaries execute code on remote endpoints abusing the Service Control
+  Manager and creating a remote malicious service, the executed command is spawned
+  as a child process of services.exe. The LOLBAS project documents Windows native
+  binaries that can be abused by threat actors to perform tasks like executing malicious
+  code. Looking for child processes of services.exe that are part of the LOLBAS project
+  can help defenders identify lateral movement activity.
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
+  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
+  | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
+  | eval actor_process_file = actor_process.file | eval actor_process_file_path =
+  actor_process_file.path | eval actor_process_file_name = actor_process_file.name
+  | eval device_hostname = device.hostname | where actor_process_file_name="services.exe"
+  AND (process_file_name="Regsvcs.exe" OR process_file_name="Ftp.exe" OR process_file_name="OfflineScannerShell.exe"
+  OR process_file_name="Rasautou.exe" OR process_file_name="Schtasks.exe" OR process_file_name="Xwizard.exe"
+  OR process_file_name="Dllhost.exe" OR process_file_name="Pnputil.exe" OR process_file_name="Atbroker.exe"
+  OR process_file_name="Pcwrun.exe" OR process_file_name="Ttdinject.exe" OR process_file_name="Mshta.exe"
+  OR process_file_name="Bitsadmin.exe" OR process_file_name="Certoc.exe" OR process_file_name="Ieexec.exe"
+  OR process_file_name="Microsoft.Workflow.Compiler.exe" OR process_file_name="Runscripthelper.exe"
+  OR process_file_name="Forfiles.exe" OR process_file_name="Msbuild.exe" OR process_file_name="Register-cimprovider.exe"
+  OR process_file_name="Tttracer.exe" OR process_file_name="Ie4uinit.exe" OR process_file_name="Bash.exe"
+  OR process_file_name="Hh.exe" OR process_file_name="SettingSyncHost.exe" OR process_file_name="Cmstp.exe"
+  OR process_file_name="Mmc.exe" OR process_file_name="Stordiag.exe" OR process_file_name="Scriptrunner.exe"
+  OR process_file_name="Odbcconf.exe" OR process_file_name="Extexport.exe" OR process_file_name="Msdt.exe"
+  OR process_file_name="WorkFolders.exe" OR process_file_name="Diskshadow.exe" OR
+  process_file_name="Mavinject.exe" OR process_file_name="Regasm.exe" OR process_file_name="Gpscript.exe"
+  OR process_file_name="Rundll32.exe" OR process_file_name="Regsvr32.exe" OR process_file_name="Msiexec.exe"
+  OR process_file_name="Wuauclt.exe" OR process_file_name="Presentationhost.exe" OR
+  process_file_name="Wmic.exe" OR process_file_name="Runonce.exe" OR process_file_name="Syncappvpublishingserver.exe"
+  OR process_file_name="Verclsid.exe" OR process_file_name="Infdefaultinstall.exe"
+  OR process_file_name="Explorer.exe" OR process_file_name="Installutil.exe" OR process_file_name="Netsh.exe"
+  OR process_file_name="Wab.exe" OR process_file_name="Dnscmd.exe" OR process_file_name="At.exe"
+  OR process_file_name="Pcalua.exe" OR process_file_name="Msconfig.exe") 
+  | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
+    time = timestamp,
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    message = "Services lolbas Execution Process Spawn has been triggered on " + device_hostname + " by " + actor_user_name + ".",
+    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    activity_id = 1,
+    cis_csc = [{"control": "CIS 10", "version": 8}], 
+    analytic_stories = ["Suspicious Command-Line Executions", "Insider Threat"],
+    class_name = "Detection Report", 
+    confidence = 50,
+    confidence_id = 2,
+    duration = 0, 
+    impact = 70,
+    impact_id = 4,
+    kill_chain = [],
+    nist = ["DE.AE"], 
+    risk_level = "Low", 
+    category_uid = 2,
+    class_uid = 102001,
+    risk_level_id = 1,
+    risk_score = 35,
+    severity_id = 0,
+    rule = {"name": "Services lolbas Execution Process Spawn", "uid": "fd40c537-53d0-4c28-9b7e-77cfd28a49c8", "type": "Streaming"},
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
+    type_uid = 10200101,
+    start_time = timestamp,
+    end_time = timestamp
+  | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
+  | into sink; '
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the Processes node of the Endpoint
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: There are circumstances where the services application may
+  legitimately execute and spawn a windows native binary to do an activity that is
+  benign.
+references:
+- https://attack.mitre.org/techniques/T1543/003/
+- https://pentestlab.blog/2020/07/21/lateral-movement-services/
+tags:
+  required_fields:
+  - process.pid
+  - process.file.path
+  - process.file.name
+  - process.cmd_line
+  - actor.user.name
+  - actor.process.pid
+  - actor.process.file.path
+  - actor.process.file.name
+  - device.hostname
+  risk_score: 35
+  security_domain: endpoint
+  risk_severity: low
+  research_site_url: https://research.splunk.com/endpoint/fd40c537-53d0-4c28-9b7e-77cfd28a49c8/
+  event_schema: ocsf
+  mappings:
+  - ocsf: process.pid
+    cim: process_id
+  - ocsf: process.file.path
+    cim: process_path
+  - ocsf: process.file.name
+    cim: process_name
+  - ocsf: process.cmd_line
+    cim: process
+  - ocsf: actor.user.name
+    cim: user
+  - ocsf: actor.process.pid
+    cim: parent_process_id
+  - ocsf: actor.process.file.path
+    cim: parent_process_path
+  - ocsf: actor.process.file.name
+    cim: parent_process_name
+  - ocsf: device.hostname
+    cim: dest
+  annotations:
+    analytic_story:
+    - Suspicious Command-Line Executions
+    - Insider Threat
+    cis20:
+    - CIS 10
+    kill_chain_phases: []
+    mitre_attack_id:
+    - T1543.003
+    nist:
+    - DE.AE
+test:
+  name: Services lolbas Execution Process Spawn Unit Test
+  tests:
+  - name: Services lolbas Execution Process Spawn
+    attack_data:
+    - file_name: 4688_xml_windows_security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/services_lolbas_execution/4688_xml_windows_security.log
+      source: XMLWinEventLog:Security
+runtime: SPL2
+internalVersion: 2
