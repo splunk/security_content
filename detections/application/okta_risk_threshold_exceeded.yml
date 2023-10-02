@@ -8,9 +8,7 @@ type: Correlation
 description:
   The following correlation will take risk associated with the content
   from  "Suspicious Okta Activity" and "Okta MFA Exhaustion" analytic stories and
-  tally it up. Once it hits the threshold of 100 (may be changed), it will trigger
-  an anomaly. As needed, reduce or raise the risk scores assocaited with the anomaly
-  and TTP analytics tagged to these two stories.
+  tally it up. Once it hits the threshold of 100 (can be changed), it will trigger an a notable. As needed, reduce or raise the risk scores assocaited with the anomaly and TTP analytics tagged to these two analytic stories.
 data_source: []
 search:
   '| tstats `security_content_summariesonly` sum(All_Risk.calculated_risk_score) as risk_score,
@@ -44,19 +42,13 @@ tags:
   asset_type: Infrastructure
   confidence: 80
   impact: 70
-  message:
-    Risk threshold exceeded for $risk_object_type$=$risk_object$ related to
-    Okta events.
+  message: Risk score $risk_score$ threshold exceeded for $risk_object$ related to Okta events.
   mitre_attack_id:
     - T1078
     - T1110
   observable:
     - name: risk_object
-      type: Other
-      role:
-        - Victim
-    - name: risk_object_type
-      type: Other
+      type: Hostname
       role:
         - Victim
   product:

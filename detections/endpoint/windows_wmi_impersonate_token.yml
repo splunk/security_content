@@ -15,7 +15,7 @@ data_source:
 search: '`sysmon` EventCode=10 SourceImage = "*\\wmiprvse.exe"  GrantedAccess IN ("0x1478",
   "0x1fffff") | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage
   TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId
-  GrantedAccess CallTrace Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  GrantedAccess CallTrace dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_wmi_impersonate_token_filter`'
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
   includes EventCode 10. This search uses an input macro named `sysmon`. We strongly
@@ -39,8 +39,8 @@ tags:
   mitre_attack_id:
   - T1047
   observable:
-  - name: Computer
-    type: Hostname
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:
@@ -57,7 +57,7 @@ tags:
   - TargetProcessId
   - GrantedAccess
   - CallTrace
-  - Computer
+  - dest
   risk_score: 25
   security_domain: endpoint
 tests:

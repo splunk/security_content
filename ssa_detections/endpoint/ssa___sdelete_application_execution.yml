@@ -12,35 +12,26 @@ description: This analytic will detect the execution of sdelete.exe attempting t
   artifact on the targeted host.
 data_source:
 - Windows Security 4688
-search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
-  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
-  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
-  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
-  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where (like(process_cmd_line, "%.xls%") OR like(process_cmd_line, "%.gz%")
-  OR like(process_cmd_line, "%.tar%") OR like(process_cmd_line, "%.rar%") OR like(process_cmd_line,
-  "%.zip%") OR like(process_cmd_line, "%.7z%") OR like(process_cmd_line, "%.bmp%")
-  OR like(process_cmd_line, "%.gif%") OR like(process_cmd_line, "%.png%") OR like(process_cmd_line,
-  "%.jpg%") OR like(process_cmd_line, "%.txt%") OR like(process_cmd_line, "%.log%")
-  OR like(process_cmd_line, "%.key%") OR like(process_cmd_line, "%.pdf%") OR like(process_cmd_line,
-  "%.rtf%") OR like(process_cmd_line, "%.ppt%") OR like(process_cmd_line, "%.xls%")
-  OR like(process_cmd_line, "%.doc%") OR like(process_cmd_line, "%-nobanner%") OR
-  like(process_cmd_line, "%/accepteula%") OR like(process_cmd_line, "%-z %") OR like(process_cmd_line,
-  "%-s %") OR like(process_cmd_line, "%-q %") OR like(process_cmd_line, "%-r %") OR
-  like(process_cmd_line, "%-p %") OR like(process_cmd_line, "%-f %") OR like(process_cmd_line,
-  "%-c %")) AND like(process_file_name, "%sdelete%") --finding_report--'
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
+  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
+  | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
+  | eval actor_process_file = actor_process.file | eval actor_process_file_path =
+  actor_process_file.path | eval actor_process_file_name = actor_process_file.name
+  | eval device_hostname = device.hostname | where (process_cmd_line LIKE "%.xls%"
+  OR process_cmd_line LIKE "%.gz%" OR process_cmd_line LIKE "%.tar%" OR process_cmd_line
+  LIKE "%.rar%" OR process_cmd_line LIKE "%.zip%" OR process_cmd_line LIKE "%.7z%"
+  OR process_cmd_line LIKE "%.bmp%" OR process_cmd_line LIKE "%.gif%" OR process_cmd_line
+  LIKE "%.png%" OR process_cmd_line LIKE "%.jpg%" OR process_cmd_line LIKE "%.txt%"
+  OR process_cmd_line LIKE "%.log%" OR process_cmd_line LIKE "%.key%" OR process_cmd_line
+  LIKE "%.pdf%" OR process_cmd_line LIKE "%.rtf%" OR process_cmd_line LIKE "%.ppt%"
+  OR process_cmd_line LIKE "%.xls%" OR process_cmd_line LIKE "%.doc%" OR process_cmd_line
+  LIKE "%-nobanner%" OR process_cmd_line LIKE "%/accepteula%" OR process_cmd_line
+  LIKE "%-z %" OR process_cmd_line LIKE "%-s %" OR process_cmd_line LIKE "%-q %" OR
+  process_cmd_line LIKE "%-r %" OR process_cmd_line LIKE "%-p %" OR process_cmd_line
+  LIKE "%-f %" OR process_cmd_line LIKE "%-c %") AND process_file_name LIKE "%sdelete%"
+  --finding_report--'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,

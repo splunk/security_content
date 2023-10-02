@@ -17,7 +17,7 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes  by Processes.original_file_name Processes.process_id
   Processes.parent_process_id Processes.process_hash Processes.dest Processes.user
-  Processes.parent_process Processes.process_name Processes.process | `drop_dm_object_name("Processes")`
+  Processes.parent_process_name Processes.process_name Processes.process | `drop_dm_object_name("Processes")`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
   count_of_pattern1 = (mvcount(split(process,"/.."))-1) | eval count_of_pattern2 =
   (mvcount(split(process,"\.."))-1) | eval count_of_pattern3 = (mvcount(split(process,"\\.."))-1)
@@ -50,7 +50,7 @@ tags:
   - T1059
   observable:
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   product:

@@ -62,7 +62,7 @@ tags:
   - TargetProcessId
   - GrantedAccess
   - CallTrace
-  - Computer
+  - dest
   - user_id
   risk_score: 49
   security_domain: endpoint

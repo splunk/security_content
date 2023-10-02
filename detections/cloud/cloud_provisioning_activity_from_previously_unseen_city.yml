@@ -46,7 +46,7 @@ tags:
   asset_type: AWS Instance
   confidence: 60
   impact: 30
-  message: User $user$ is starting or creating an instance $dest$ for the first time
+  message: User $user$ is starting or creating an instance $object$ for the first time
     in City $City$ from IP address $src$
   mitre_attack_id:
   - T1078
@@ -54,7 +54,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   - name: src
     type: IP Address
     role:

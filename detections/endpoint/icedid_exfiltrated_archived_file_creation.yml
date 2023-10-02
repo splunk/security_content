@@ -12,7 +12,7 @@ data_source:
 - Sysmon Event ID 11
 search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename
   = "*\\cookie.tar") |stats count min(_time) as firstTime max(_time) as lastTime by
-  TargetFilename EventCode process_id  process_name Computer | `security_content_ctime(firstTime)`
+  TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `icedid_exfiltrated_archived_file_creation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -27,16 +27,16 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 80
-  message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  message: Process $process_name$ create a file $TargetImage$ on host $dest$
   mitre_attack_id:
   - T1560.001
   - T1560
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: SourceImage
+  - name: process_name
     type: Process
     role:
     - Attacker
@@ -50,7 +50,7 @@ tags:
   - EventCode
   - process_id
   - process_name
-  - Computer
+  - dest
   risk_score: 72
   security_domain: endpoint
 tests:

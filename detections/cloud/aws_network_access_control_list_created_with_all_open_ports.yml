@@ -5,8 +5,7 @@ date: '2021-01-11'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The search looks for AWS CloudTrail events to detect if any network ACLs
-  were created with all the ports open to a specified CIDR.
+description: The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 data_source: []
 search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
   requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
@@ -14,7 +13,7 @@ search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetwor
   requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
   | eval port_range=''requestParameters.portRange.to'' - ''requestParameters.portRange.from''
   | where port_range>1024] | fillnull | stats count min(_time) as firstTime max(_time)
-  as lastTime by userName userIdentity.principalId eventName requestParameters.ruleAction
+  as lastTime by userName user_arn userIdentity.principalId eventName requestParameters.ruleAction
   requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
   requestParameters.portRange.from src userAgent requestParameters.cidrBlock | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`'
@@ -31,8 +30,7 @@ tags:
   asset_type: AWS Instance
   confidence: 80
   impact: 60
-  message: User $user_arn$ has created network ACLs with all the ports open to a specified
-    CIDR $requestParameters.cidrBlock$
+  message: User $user_arn$ has created network ACLs with all the ports open to a specified CIDR $requestParameters.cidrBlock$
   mitre_attack_id:
   - T1562.007
   - T1562
@@ -41,12 +39,8 @@ tags:
     type: IP Address
     role:
     - Attacker
-  - name: userName
+  - name: user_arn
     type: User
-    role:
-    - Victim
-  - name: requestParameters.cidrBlock
-    type: IP Address
     role:
     - Victim
   product:
