@@ -22,26 +22,27 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where actor_process_file_name="services.exe"
-  AND (process_file_name="Regsvcs.exe" OR process_file_name="Ftp.exe" OR process_file_name="OfflineScannerShell.exe"
-  OR process_file_name="Rasautou.exe" OR process_file_name="Schtasks.exe" OR process_file_name="Xwizard.exe"
-  OR process_file_name="Dllhost.exe" OR process_file_name="Pnputil.exe" OR process_file_name="Atbroker.exe"
-  OR process_file_name="Pcwrun.exe" OR process_file_name="Ttdinject.exe" OR process_file_name="Mshta.exe"
-  OR process_file_name="Bitsadmin.exe" OR process_file_name="Certoc.exe" OR process_file_name="Ieexec.exe"
-  OR process_file_name="Microsoft.Workflow.Compiler.exe" OR process_file_name="Runscripthelper.exe"
-  OR process_file_name="Forfiles.exe" OR process_file_name="Msbuild.exe" OR process_file_name="Register-cimprovider.exe"
-  OR process_file_name="Tttracer.exe" OR process_file_name="Ie4uinit.exe" OR process_file_name="Bash.exe"
-  OR process_file_name="Hh.exe" OR process_file_name="SettingSyncHost.exe" OR process_file_name="Cmstp.exe"
-  OR process_file_name="Mmc.exe" OR process_file_name="Stordiag.exe" OR process_file_name="Scriptrunner.exe"
-  OR process_file_name="Odbcconf.exe" OR process_file_name="Extexport.exe" OR process_file_name="Msdt.exe"
-  OR process_file_name="WorkFolders.exe" OR process_file_name="Diskshadow.exe" OR
-  process_file_name="Mavinject.exe" OR process_file_name="Regasm.exe" OR process_file_name="Gpscript.exe"
-  OR process_file_name="Rundll32.exe" OR process_file_name="Regsvr32.exe" OR process_file_name="Msiexec.exe"
-  OR process_file_name="Wuauclt.exe" OR process_file_name="Presentationhost.exe" OR
-  process_file_name="Wmic.exe" OR process_file_name="Runonce.exe" OR process_file_name="Syncappvpublishingserver.exe"
-  OR process_file_name="Verclsid.exe" OR process_file_name="Infdefaultinstall.exe"
-  OR process_file_name="Explorer.exe" OR process_file_name="Installutil.exe" OR process_file_name="Netsh.exe"
-  OR process_file_name="Wab.exe" OR process_file_name="Dnscmd.exe" OR process_file_name="At.exe"
-  OR process_file_name="Pcalua.exe" OR process_file_name="Msconfig.exe") --finding_report--'
+  AND (process_file_name="at.exe" OR process_file_name="atbroker.exe" OR process_file_name="bash.exe"
+  OR process_file_name="bitsadmin.exe" OR process_file_name="certoc.exe" OR process_file_name="cmd.exe"
+  OR process_file_name="cmstp.exe" OR process_file_name="dllhost.exe" OR process_file_name="dnscmd.exe"
+  OR process_file_name="extexport.exe" OR process_file_name="explorer.exe" OR process_file_name="forfiles.exe"
+  OR process_file_name="ftp.exe" OR process_file_name="gpscript.exe" OR process_file_name="hh.exe"
+  OR process_file_name="ie4uinit.exe" OR process_file_name="ieexec.exe" OR process_file_name="infdefaultinstall.exe"
+  OR process_file_name="installutil.exe" OR process_file_name="lucallbackproxy.exe"
+  OR process_file_name="mavinject.exe" OR process_file_name="microsoft.workflow.compiler.exe"
+  OR process_file_name="mmc.exe" OR process_file_name="msbuild.exe" OR process_file_name="msconfig.exe"
+  OR process_file_name="msdt.exe" OR process_file_name="mshta.exe" OR process_file_name="msiexec.exe"
+  OR process_file_name="netsh.exe" OR process_file_name="odbcconf.exe" OR process_file_name="offlinescannershell.exe"
+  OR process_file_name="pcwrun.exe" OR process_file_name="pcalua.exe" OR process_file_name="pnputil.exe"
+  OR process_file_name="presentationhost.exe" OR process_file_name="rasautou.exe"
+  OR process_file_name="regasm.exe" OR process_file_name="regsvcs.exe" OR process_file_name="regsvr32.exe"
+  OR process_file_name="register-cimprovider.exe" OR process_file_name="rundll32.exe"
+  OR process_file_name="runonce.exe" OR process_file_name="runscripthelper.exe" OR
+  process_file_name="schtasks.exe" OR process_file_name="scriptrunner.exe" OR process_file_name="settingsynchost.exe"
+  OR process_file_name="stordiag.exe" OR process_file_name="syncappvpublishingserver.exe"
+  OR process_file_name="ttdinject.exe" OR process_file_name="tttracer.exe" OR process_file_name="verclsid.exe"
+  OR process_file_name="wab.exe" OR process_file_name="wmic.exe" OR process_file_name="wuauclt.exe"
+  OR process_file_name="xwizard.exe") --finding_report--'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -56,7 +57,7 @@ known_false_positives: There are circumstances where the services application ma
   benign.
 references:
 - https://attack.mitre.org/techniques/T1543/003/
-- https://pentestlab.blog/2020/07/21/lateral-movement-services/
+- https://pentestlab.blog/2020/07/21/lateral-movement-services
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
