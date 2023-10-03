@@ -20,7 +20,7 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*"
   Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user
-  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process Processes.process_path Processes.process_name Processes.process Processes.process_id
   Processes.parent_process_id Processes.process_hash | `drop_dm_object_name("Processes")`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `is_windows_system_file`
   | `system_processes_run_from_unexpected_locations_filter`'
