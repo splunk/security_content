@@ -8,7 +8,7 @@ type: TTP
 data_source: []
 description: This analytic detects potential exploitation attempts against Microsoft SharePoint Server vulnerability CVE-2023-29357. This vulnerability pertains to an elevation of privilege due to improper handling of authentication tokens. By monitoring for suspicious activities related to SharePoint Server, the analytic identifies attempts to exploit this vulnerability. If a true positive is detected, it indicates a serious security breach where an attacker might have gained privileged access to the SharePoint environment, potentially leading to data theft or other malicious activities.
 search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("/_api/web/siteusers*","/_api/web/currentuser*") 
+  as lastTime from datamodel=Web where Web.url IN ("/_api/web/siteusers*","/_api/web/currentuser*") Web.status=200 Web.http_method=GET
   by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
   | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` 
@@ -18,6 +18,7 @@ how_to_implement: This detection requires the Web datamodel to be populated from
 known_false_positives: False positives may occur if there are legitimate activities that mimic the exploitation pattern. It's recommended to review the context of the alerts and adjust the analytic parameters to better fit the specific environment.
 references:
 - https://socradar.io/microsoft-sharepoint-server-elevation-of-privilege-vulnerability-exploit-cve-2023-29357/
+- https://github.com/LuemmelSec/CVE-2023-29357/blob/main/CVE-2023-29357/Program.cs
 tags:
   cve:
   - CVE-2023-29357
