@@ -13,68 +13,67 @@ search:
     actor.process.file.name: services.exe
   selection2:
     process.file.name:
-    - Regsvcs.exe
-    - Ftp.exe
-    - OfflineScannerShell.exe
-    - Rasautou.exe
-    - Schtasks.exe
-    - Xwizard.exe
-    - Dllhost.exe
-    - Pnputil.exe
-    - Atbroker.exe
-    - Pcwrun.exe
-    - Ttdinject.exe
-    - Mshta.exe
-    - Bitsadmin.exe
-    - Certoc.exe
-    - Ieexec.exe
-    - Microsoft.Workflow.Compiler.exe
-    - Runscripthelper.exe
-    - Forfiles.exe
-    - Msbuild.exe
-    - Register-cimprovider.exe
-    - Tttracer.exe
-    - Ie4uinit.exe
-    - Bash.exe
-    - Hh.exe
-    - SettingSyncHost.exe
-    - Cmstp.exe
-    - Mmc.exe
-    - Stordiag.exe
-    - Scriptrunner.exe
-    - Odbcconf.exe
-    - Extexport.exe
-    - Msdt.exe
-    - WorkFolders.exe
-    - Diskshadow.exe
-    - Mavinject.exe
-    - Regasm.exe
-    - Gpscript.exe
-    - Rundll32.exe
-    - Regsvr32.exe
-    - Msiexec.exe
-    - Wuauclt.exe
-    - Presentationhost.exe
-    - Wmic.exe
-    - Runonce.exe
-    - Syncappvpublishingserver.exe
-    - Verclsid.exe
-    - Infdefaultinstall.exe
-    - Explorer.exe
-    - Installutil.exe
-    - Netsh.exe
-    - Wab.exe
-    - Dnscmd.exe
-    - At.exe
-    - Pcalua.exe
-    - Msconfig.exe
+    - at.exe
+    - atbroker.exe
+    - bash.exe
+    - bitsadmin.exe
+    - certoc.exe
+    - cmd.exe
+    - cmstp.exe
+    - dllhost.exe
+    - dnscmd.exe
+    - extexport.exe
+    - explorer.exe
+    - forfiles.exe
+    - ftp.exe
+    - gpscript.exe
+    - hh.exe
+    - ie4uinit.exe
+    - ieexec.exe
+    - infdefaultinstall.exe
+    - installutil.exe
+    - lucallbackproxy.exe
+    - mavinject.exe
+    - microsoft.workflow.compiler.exe
+    - mmc.exe
+    - msbuild.exe
+    - msconfig.exe
+    - msdt.exe
+    - mshta.exe
+    - msiexec.exe
+    - netsh.exe
+    - odbcconf.exe
+    - offlinescannershell.exe
+    - pcwrun.exe
+    - pcalua.exe
+    - pnputil.exe
+    - presentationhost.exe
+    - rasautou.exe
+    - regasm.exe
+    - regsvcs.exe
+    - regsvr32.exe
+    - register-cimprovider.exe
+    - rundll32.exe
+    - runonce.exe
+    - runscripthelper.exe
+    - schtasks.exe
+    - scriptrunner.exe
+    - settingsynchost.exe
+    - stordiag.exe
+    - syncappvpublishingserver.exe
+    - ttdinject.exe
+    - tttracer.exe
+    - verclsid.exe
+    - wab.exe
+    - wmic.exe
+    - wuauclt.exe
+    - xwizard.exe
   condition: (selection1 and selection2)
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the Processes node of the Endpoint data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: There are circumstances where the services application may legitimately execute and spawn a windows native binary to do an activity that is benign.
 references:
 - https://attack.mitre.org/techniques/T1543/003/
-- https://pentestlab.blog/2020/07/21/lateral-movement-services/
-
+- https://pentestlab.blog/2020/07/21/lateral-movement-services
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
