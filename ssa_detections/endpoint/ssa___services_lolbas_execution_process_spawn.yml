@@ -125,4 +125,4 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/services_lolbas_execution/4688_xml_windows_security.log
-    source: XMLWinEventLog:Security
+    source: XmlWinEventLog:Security
