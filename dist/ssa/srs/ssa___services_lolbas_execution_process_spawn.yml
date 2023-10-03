@@ -51,7 +51,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 70,
     impact_id = 4,
-    kill_chain = [],
+    kill_chain = [{"phase": "Installation", "phase_id": 5}, {"phase": "Exploitation", "phase_id": 4}],
     nist = ["DE.AE"], 
     risk_level = "Low", 
     category_uid = 2,
@@ -122,7 +122,9 @@ tags:
     - Insider Threat
     cis20:
     - CIS 10
-    kill_chain_phases: []
+    kill_chain_phases:
+    - Installation
+    - Exploitation
     mitre_attack_id:
     - T1543.003
     nist:
@@ -134,6 +136,6 @@ test:
     attack_data:
     - file_name: 4688_xml_windows_security.log
       data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/services_lolbas_execution/4688_xml_windows_security.log
-      source: XMLWinEventLog:Security
+      source: XmlWinEventLog:Security
 runtime: SPL2
 internalVersion: 2
