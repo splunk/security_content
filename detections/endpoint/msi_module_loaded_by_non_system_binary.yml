@@ -27,7 +27,7 @@ data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*",
   "*\\winsxs\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by
-  Image ImageLoaded process_name Computer EventCode ProcessId | `security_content_ctime(firstTime)`
+  Image ImageLoaded process_name dest EventCode ProcessId | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `msi_module_loaded_by_non_system_binary_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
@@ -49,7 +49,7 @@ tags:
   - CVE-2021-41379
   impact: 80
   message: The following module $ImageLoaded$ was loaded by $Image$ outside of the
-    normal system paths on endpoint $Computer$, potentally related to DLL side-loading.
+    normal system paths on endpoint $dest$, potentally related to DLL side-loading.
   mitre_attack_id:
   - T1574.002
   - T1574
@@ -67,7 +67,7 @@ tags:
   - Image
   - ImageLoaded
   - process_name
-  - Computer
+  - dest
   - EventCode
   - ProcessId
   risk_score: 56

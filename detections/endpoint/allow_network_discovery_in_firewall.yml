@@ -37,6 +37,7 @@ tags:
   - Ransomware
   - Revil Ransomware
   - BlackByte Ransomware
+  - NjRAT
   asset_type: Endpoint
   confidence: 50
   impact: 50

@@ -16,7 +16,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process values(Processes.parent_process)
-  as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.user
+  as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.parent_process_name Processes.user
   Processes.process_name Processes.process | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup windows_protocol_handlers
   handler AS process OUTPUT handler ishandler | where ishandler="TRUE" | `windows_identify_protocol_handlers_filter`'
@@ -57,7 +57,7 @@ tags:
     role:
     - Victim
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   - name: parent_process_name

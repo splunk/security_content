@@ -44,6 +44,7 @@ tags:
   - AsyncRAT
   - Data Destruction
   - IcedID
+  - NjRAT
   confidence: 80
   impact: 70
   message: A suspicious powershell script contains base64 command in $ScriptBlockText$

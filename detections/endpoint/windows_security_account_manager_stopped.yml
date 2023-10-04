@@ -34,7 +34,7 @@ tags:
   confidence: 100
   impact: 70
   message: 'The Windows Security Account Manager (SAM) was stopped via cli by $user$
-    on $dest$ by this command: $processs$'
+    on $dest$ by this command: $process$'
   mitre_attack_id:
   - T1489
   observable:

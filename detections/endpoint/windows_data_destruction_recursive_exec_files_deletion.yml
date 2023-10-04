@@ -17,7 +17,7 @@ data_source:
 - Sysmon Event ID 23
 search: '`sysmon` EventCode=23  TargetFilename IN ("*.exe", "*.sys", "*.dll") | bin
   _time span=2m | stats values(TargetFilename) as deleted_files min(_time) as firstTime
-  max(_time) as lastTime count by Computer user EventCode Image ProcessID | where
+  max(_time) as lastTime count by dest user EventCode Image ProcessID | where
   count >=500 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_data_destruction_recursive_exec_files_deletion_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -34,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: a big number of executable files being deleted in $Computer$
+  message: a big number of executable files being deleted in $dest$
   mitre_attack_id:
   - T1485
   observable:
@@ -42,7 +42,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -57,7 +57,7 @@ tags:
   required_fields:
   - EventCode
   - TargetFilename
-  - Computer
+  - dest
   - user
   - Image
   - ProcessID
