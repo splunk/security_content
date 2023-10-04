@@ -1,28 +1,30 @@
 
-  | eval body=create_map(
-    "devices", [
-        create_map(
-            "hostname", device_hostname, "type_id", 0, "uuid", ucast(map_get(device,"uuid"), "string", null)
-        )
-    ],
-    "time", timestamp,
-    "evidence", {{ detection.tags.evidence_str }},
-    "message", concat("{{ detection.name }} has been triggered on ", device_hostname, " by ", {{ actor_user_name }}, "."),
-    "users", [
-        create_map(
-            "name", {{ actor_user_name }}, "uid", ucast(map_get(actor_user,"uid"), "string", null)
-        )
-    ],
-    "activity_id", 1,
-    "category_uid", 2,
-    "class_uid", 102001,
-    "risk_level_id", {{ detection.tags.risk_level_id }},
-    "risk_score", {{ detection.tags.risk_score }},
-    "severity_id", 0,
-    "rule", create_map("name", "{{ detection.name }}", "uid", "{{ detection.id }}", "type", "Streaming"),
-    "metadata", create_map("customer_uid", ucast(map_get(metadata,"customer_uid"), "string", null), "product", create_map("name", "Behavior Analytics", "vendor_name", "Splunk"), "version", "1.0.0-rc.2", "logged_time", time()),
-    "type_uid", 10200101,
-    "start_time", timestamp,
-    "end_time", timestamp
-  )
-  | into write_ba_finding_events();
+  | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
+    time = timestamp,
+    evidence = {{ detection.tags.evidence_str }},
+    message = "{{ detection.name }} has been triggered on " + device_hostname + " by " + {{ actor_user_name }} + ".",
+    users = [{"name": {{ actor_user_name }}, "uid": actor_user.uid}],
+    activity_id = 1,
+    cis_csc = [{"control": "CIS 10", "version": 8}], 
+    analytic_stories = {{ detection.tags.analytics_story_str }},
+    class_name = "Detection Report", 
+    confidence = {{ detection.tags.confidence }},
+    confidence_id = {{ detection.tags.confidence_id }},
+    duration = 0, 
+    impact = {{ detection.tags.impact }},
+    impact_id = {{ detection.tags.impact_id }},
+    kill_chain = {{ detection.tags.kill_chain_phases_str }},
+    nist = ["DE.AE"], 
+    risk_level = "{{ detection.tags.risk_level }}", 
+    category_uid = 2,
+    class_uid = 102001,
+    risk_level_id = {{ detection.tags.risk_level_id }},
+    risk_score = {{ detection.tags.risk_score }},
+    severity_id = 0,
+    rule = {"name": "{{ detection.name }}", "uid": "{{ detection.id }}", "type": "Streaming"},
+    metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
+    type_uid = 10200101,
+    start_time = timestamp,
+    end_time = timestamp
+  | fields metadata, rule, activity_id, analytic_stories, cis_csc, category_uid, class_name, class_uid, confidence, confidence_id, devices, duration, time, evidence, impact, impact_id, kill_chain, message, nist, observables, risk_level, risk_level_id, risk_score, severity_id, type_uid, users, start_time, end_time 
+  | into sink; 

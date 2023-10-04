@@ -21,8 +21,8 @@ search: ' `sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe 
   (SourceImage!=C:\\Windows\\system32\\svchost.exe AND SourceImage!=C:\\Windows\\system32\\lsass.exe
   AND SourceImage!=C:\\Windows\\system32\\LogonUI.exe AND SourceImage!=C:\\Windows\\system32\\smss.exe
   AND SourceImage!=C:\\Windows\\system32\\wbem\\wmiprvse.exe) | stats count min(_time)
-  as firstTime max(_time) as lastTime by Computer, SourceImage, SourceProcessId, TargetImage,
-  TargetProcessId, EventCode, GrantedAccess | rename Computer as dest | `security_content_ctime(firstTime)`|
+  as firstTime max(_time) as lastTime by dest, SourceImage, SourceProcessId, TargetImage,
+  TargetProcessId, EventCode, GrantedAccess  | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `rubeus_kerberos_ticket_exports_through_winlogon_access_filter`'
 how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
   includes EventCode 10. This search uses an input macro named `sysmon`. We strongly
@@ -63,7 +63,7 @@ tags:
   - EventCode
   - TargetImage
   - CallTrace
-  - Computer
+  - dest
   - TargetProcessId
   - SourceImage
   - SourceProcessId

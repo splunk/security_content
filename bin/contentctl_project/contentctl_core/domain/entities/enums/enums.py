@@ -59,3 +59,4 @@ class DetectionStatus(enum.Enum):
     production = "production"
     deprecated = "deprecated"
     experimental = "experimental"
+    validation = "validation"

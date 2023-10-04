@@ -19,7 +19,7 @@ search: '`sysmon` EventCode=8 SourceImage = "*\\wermgr.exe" TargetImage IN ("*\\
   "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") | stats count min(_time)
   as firstTime max(_time) as lastTime by SourceImage TargetImage SourceProcessGuid
   SourceProcessId StartAddress StartFunction TargetProcessGuid TargetProcessId  EventCode
-  Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_process_injection_of_wermgr_to_known_browser_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
@@ -36,12 +36,12 @@ tags:
   confidence: 70
   impact: 70
   message: wermgr.exe process $SourceImage$ create a remote thread to a browser process
-    $TargetImage$ in host $Computer$
+    $TargetImage$ in host $dest$
   mitre_attack_id:
   - T1055.001
   - T1055
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -60,7 +60,7 @@ tags:
   - TargetProcessGuid
   - TargetProcessId
   - EventCode
-  - Computer
+  - dest
   risk_score: 49
   security_domain: endpoint
 tests:
