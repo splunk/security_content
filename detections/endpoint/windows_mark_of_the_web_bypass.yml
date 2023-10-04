@@ -12,7 +12,7 @@ description: The following analytic identifies a suspicious process that delete 
   security restrictions within the Windows Operating System, particularly pertaining to files downloaded from the internet. 
   An example of this scenario is demonstrated by Ave Maria RAT, which attempts to delete this data stream as a means to evade such restrictions.
 search: '`sysmon` EventCode=23 TargetFilename = "*:Zone.Identifier" 
-  | stats  min(_time) as firstTime max(_time) as lastTime count by user EventCode Image TargetFilename ProcessID Computer | rename Computer as dest
+  | stats  min(_time) as firstTime max(_time) as lastTime count by user EventCode Image TargetFilename ProcessID dest 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `windows_mark_of_the_web_bypass_filter`'
@@ -48,7 +48,7 @@ tags:
   required_fields:
   - EventCode
   - TargetFilename
-  - Computer
+  - dest
   - user
   - Image
   - ProcessID

@@ -1,0 +1,67 @@
+name: JetBrains TeamCity RCE Attempt
+id: 89a58e5f-1365-4793-b45c-770abbb32b6c
+version: 1
+date: '2023-10-01'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: 'The following analytic is designed to detect attempts to exploit the CVE-2023-42793 vulnerability in TeamCity On-Premises. It focuses on identifying suspicious POST requests to /app/rest/users/id:1/tokens/RPC2, which is the initial point of exploitation. This could indicate an unauthenticated attacker trying to gain administrative access through Remote Code Execution (RCE).'
+search: '| tstats count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.url IN ("/app/rest/users/id:1/tokens/RPC2*") Web.status=200 Web.http_method=POST
+  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `jetbrains_teamcity_rce_attempt_filter`'
+how_to_implement: The following analytic requires the Web datamodel. Ensure data source is mapped correctly or modify and tune for your data source.
+known_false_positives: If TeamCity is not in use, this analytic will not return results. Monitor and tune for your environment.
+references:
+- https://blog.jetbrains.com/teamcity/2023/09/critical-security-issue-affecting-teamcity-on-premises-update-to-2023-05-4-now/
+- https://www.sonarsource.com/blog/teamcity-vulnerability/
+- https://github.com/rapid7/metasploit-framework/pull/18408
+- https://attackerkb.com/topics/1XEEEkGHzt/cve-2023-42793/rapid7-analysis
+tags:
+  cve:
+  - CVE-2023-42793
+  analytic_story:
+  - JetBrains TeamCity Unauthenticated RCE
+  asset_type: Web server
+  atomic_guid: []
+  confidence: 90
+  impact: 90
+  message: Potential JetBrains TeamCity RCE Attempt detected against URL $url$ on $dest$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: url
+    type: URL String
+    role:
+    - Other
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  required_fields:
+  - Web.http_user_agent
+  - Web.status
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity.log
+    source: suricata
+    sourcetype: suricata

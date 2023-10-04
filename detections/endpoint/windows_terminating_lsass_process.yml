@@ -19,7 +19,7 @@ data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe GrantedAccess = 0x1 | stats
   count min(_time) as firstTime max(_time) as lastTime by SourceImage, TargetImage,
-  TargetProcessId, SourceProcessId, GrantedAccess CallTrace, Computer | rename Computer
+  TargetProcessId, SourceProcessId, GrantedAccess CallTrace, dest | rename dest
   as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_terminating_lsass_process_filter`'
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
@@ -60,7 +60,7 @@ tags:
   - EventCode
   - TargetImage
   - CallTrace
-  - Computer
+  - dest
   - TargetProcessId
   - SourceImage
   - SourceProcessId

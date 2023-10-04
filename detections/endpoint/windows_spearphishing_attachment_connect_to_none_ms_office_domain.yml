@@ -17,7 +17,7 @@ search: '`sysmon` EventCode=22 Image IN ("*\\winword.exe","*\\excel.exe","*\\pow
   "*\\onenotem.exe","*\\onenoteviewer.exe","*\\onenoteim.exe", "*\\msaccess.exe")
   AND NOT(QueryName IN ("*.office.com", "*.office.net")) | stats count min(_time)
   as firstTime max(_time) as lastTime by Image QueryName QueryResults QueryStatus
-  Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_spearphishing_attachment_connect_to_none_ms_office_domain_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -36,12 +36,12 @@ tags:
   confidence: 30
   impact: 30
   message: a office document process $Image$ connect to an URL link $QueryName$ in
-    $Computer$
+    $dest$
   mitre_attack_id:
   - T1566.001
   - T1566
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -55,7 +55,7 @@ tags:
   - QueryName
   - QueryResults
   - QueryStatus
-  - Computer
+  - dest
   risk_score: 9
   security_domain: endpoint
 tests:

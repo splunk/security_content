@@ -1,0 +1,49 @@
+name: Splunk Reflected XSS on App Search Table Endpoint
+id: 182f9080-4137-4629-94ac-cb1083ac981a
+version: 1
+date: '2023-09-05'
+author: Rod Soto
+status: production
+type: Hunting
+data_source: []
+description: In Splunk Enterprise versions below 9.1.1, 9.0.6, and 8.2.12, an attacker can craft a special web request that can result in reflected cross-site scripting XSS on the app search table web endpoint, which presents as the Create Table View page in Splunk Web. Exploitation of this vulnerability can lead to the execution of arbitrary commands on the Splunk platform instance. A JavaScript file within this web endpoint does not properly validate input which lets an attacker insert a payload into a function.
+search: '`splunkd_web` (dataset_commands="*makeresults*" AND dataset_commands="*count*" AND dataset_commands="*eval*" AND dataset_commands="*baseSPL*") | stats count min(_time) as firstTime max(_time) as lastTime by clientip status user view root uri_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `splunk_reflected_xss_on_app_search_table_endpoint_filter`'
+how_to_implement: Need access to the internal indexes. 
+known_false_positives: This search will produce false positives. It is necessary to also look at uri_query parameter to determine the possible malicious intention of inserting makeresults within the uri string. 
+references:
+- https://advisory.splunk.com/advisories/SVD-2023-0801
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: endpoint
+  confidence: 40
+  impact: 30
+  message: Possible XSS attack against from $user$
+  mitre_attack_id:
+  - T1189
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 12
+  required_fields:
+  - dataset_commands
+  - clientip 
+  - status 
+  - user 
+  - view 
+  - root 
+  - uri_path 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_reflected_xss_on_app_search_table_endpoint_splunk_web_access.log
+    source: web_access.log 
+    sourcetype: splunk_web_access
+    custom_index: _internal
