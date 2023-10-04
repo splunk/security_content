@@ -49,6 +49,7 @@ tags:
   - BlackByte Ransomware
   - CISA AA22-264A
   - Flax Typhoon
+  - WS FTP Server Critical Vulnerabilities
   asset_type: Endpoint
   confidence: 80
   cve:

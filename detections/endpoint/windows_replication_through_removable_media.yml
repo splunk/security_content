@@ -1,7 +1,7 @@
 name: Windows Replication Through Removable Media
 id: 60df805d-4605-41c8-bbba-57baa6a4eb97
 version: 1
-date: '2023-01-17'
+date: '2023-09-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -24,7 +24,7 @@ search: '|tstats `security_content_summariesonly` count min(_time) as firstTime 
   = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name
   = *.js  OR Filesystem.file_name= *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name
   = *.pif) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
-  Filesystem.file_path Filesystem.user | `drop_dm_object_name(Filesystem)` | eval
+  Filesystem.file_path Filesystem.user Filesystem.dest | `drop_dm_object_name(Filesystem)` | eval
   dropped_file_path = split(file_path, "\\") | eval dropped_file_path_split_count
   = mvcount(dropped_file_path) | eval root_drive = mvindex(dropped_file_path,0) |
   where LIKE(root_drive, "%:") AND dropped_file_path_split_count = 2  AND root_drive!=
@@ -41,10 +41,11 @@ references:
 tags:
   analytic_story:
   - Chaos Ransomware
+  - NjRAT
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: executable or script $file_path$ was drop in root drive $root_drive$ in
+  message: executable or script $file_path$ was dropped in root drive $root_drive$ in
     $dest$
   mitre_attack_id:
   - T1091

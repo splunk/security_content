@@ -1,0 +1,26 @@
+name: NjRat
+id: f6d52454-6cf3-4759-9627-5868a3e2b2b1
+version: 2
+date: '2023-09-07'
+author: Teoderick Contreras, Splunk
+description: NjRat is a notorious remote access trojan (RAT) predominantly wielded by malicious operators to infiltrate and wield remote control over compromised systems.
+  This analytical story harnesses targeted search methodologies to uncover and investigate activities that could be indicative of NjRAT's presence. 
+  These activities include tracking file write operations for dropped files, scrutinizing registry modifications aimed at establishing persistence mechanisms, 
+  monitoring suspicious processes, self-deletion behaviors, browser credential parsing, firewall configuration alterations, spread itself via removable drive and an array of other potentially 
+  malicious actions.
+narrative: NjRat is also known as Bladabindi malware that was first discovered in the wild in 2012. Since then this malware remain active and uses different campaign to spred its malware. 
+  While its primary infection vectors are phishing attacks and drive-by downloads, it also has "worm" capability to spread itself via infected removable drives. This RAT has various of capabilities including 
+  keylogging, webcam access, browser credential parsing, file upload and downloads, file and process list, service list, shell command execution, registry modification, screen capture, view the desktop of the infected computer and many more. 
+  NjRat does not target any industry in particular, but attacking a wide variety of individuals and organizations to gather sensitive information.
+references:
+  - https://www.checkpoint.com/cyber-hub/threat-prevention/what-is-malware/what-is-njrat-malware/#:~:text=NJRat%20%E2%80%94%20also%20known%20as%20Bladabindi,malware%20variant%20in%20March%202023.
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
+tags:
+  analytic_story: NjRAT
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
