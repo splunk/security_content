@@ -14,7 +14,7 @@ data_source:
 search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe",
   "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") | stats count min(_time)
   as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId
-  StartAddress EventCode Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  StartAddress EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `rundll32_createremotethread_in_browser_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
@@ -31,11 +31,11 @@ tags:
   confidence: 100
   impact: 70
   message: rundl32 process $SourceImage$ create a remote thread to browser process
-    $TargetImage$ in host $Computer$
+    $TargetImage$ in host $dest$
   mitre_attack_id:
   - T1055
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -55,7 +55,7 @@ tags:
   - SourceProcessId
   - StartAddress
   - EventCode
-  - Computer
+  - dest
   risk_score: 70
   security_domain: endpoint
 tests:

@@ -43,7 +43,9 @@ search: ' `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xc000
   as tried_accounts by _time, Workstation | eventstats avg(unique_accounts) as comp_avg
   , stdev(unique_accounts) as comp_std by Workstation | eval upperBound=(comp_avg+comp_std*3)
   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `windows_unusual_count_of_invalid_users_failed_to_auth_using_ntlm_filter`'
+  | search isOutlier=1
+  | rename Workstation as src
+  |`windows_unusual_count_of_invalid_users_failed_to_auth_using_ntlm_filter`'
 status: production
 tags:
   analytic_story:
@@ -52,15 +54,15 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Potential NTLM based password spraying attack from $Source_Workstation$
+  message: Potential NTLM based password spraying attack from $src$
   mitre_attack_id:
   - T1110.003
   - T1110
   observable:
-  - name: Workstation
+  - name: src
+    type: Endpoint
     role:
     - Attacker
-    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

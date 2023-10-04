@@ -23,6 +23,7 @@ references:
 tags:
   analytic_story:
   - IIS Components
+  - WS FTP Server Critical Vulnerabilities
   asset_type: Endpoint
   confidence: 10
   impact: 10

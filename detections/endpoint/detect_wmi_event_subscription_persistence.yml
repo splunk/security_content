@@ -64,7 +64,7 @@ tags:
   required_fields:
   - _time
   - Destination
-  - Computer
+  - dest
   - User
   risk_score: 63
   security_domain: endpoint

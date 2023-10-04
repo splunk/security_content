@@ -36,8 +36,7 @@ tags:
   asset_type: Google Cloud Platform tenant
   confidence: 90
   impact: 60
-  message: Multiple failed login attempts against users $tried_accounts$ seen from
-    $src_ip$
+  message: Multiple failed login attempts against users $tried_accounts$ seen from $src$
   mitre_attack_id:
   - T1586
   - T1586.003

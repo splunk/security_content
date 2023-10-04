@@ -18,7 +18,7 @@ data_source:
 search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName
   = "dynwrapx.dll" OR  Product = "DynamicWrapperX") | stats count min(_time) as firstTime
   max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name
-  Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `loading_of_dynwrapx_module_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on processes that include the name of the process responsible for the changes from
@@ -43,12 +43,12 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: dynwrapx.dll loaded by process $process_name$ on $Computer$
+  message: dynwrapx.dll loaded by process $process_name$ on $dest$
   mitre_attack_id:
   - T1055
   - T1055.001
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -63,7 +63,7 @@ tags:
   - OriginalFileName
   - Product
   - process_name
-  - Computer
+  - dest
   - EventCode
   - Signed
   - ProcessId

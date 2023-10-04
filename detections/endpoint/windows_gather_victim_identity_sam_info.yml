@@ -16,7 +16,7 @@ search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileNa
   = "samlib.dll") OR (ImageLoaded = "*\\samcli.dll" AND OriginalFileName = "SAMCLI.DLL")
   AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats
   count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name
-  Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_gather_victim_identity_sam_info_filter`'
 how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709
   will add the ImageLoaded name to the process_name field, allowing this query to
@@ -32,13 +32,13 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: An instance of $Computer$ that loads $ImageLoaded$ that are related to
+  message: An instance of $dest$ that loads $ImageLoaded$ that are related to
     accessing to SAM object information.
   mitre_attack_id:
   - T1589.001
   - T1589
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -50,7 +50,7 @@ tags:
   - _time
   - Image
   - ImageLoaded
-  - Computer
+  - dest
   - EventCode
   - Signed
   - ProcessId

@@ -15,6 +15,7 @@ data_source:
 search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
   lastTime by Computer Image Device ProcessGuid ProcessId EventDescription EventCode
+  | rename Computer as dest
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_master_boot_record_drive_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the raw access read event (like sysmon eventcode 9), process name and
@@ -36,16 +37,17 @@ tags:
   - Hermetic Wiper
   - Caddy Wiper
   - BlackByte Ransomware
+  - NjRAT
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: process accessing MBR $device$ in $dest$
+  message: process accessing MBR $Device$ on $dest$
   mitre_attack_id:
   - T1561.002
   - T1561
   observable:
-  - name: Computer
-    type: Hostname
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:
@@ -54,7 +56,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Computer
+  - dest
   - Image
   - Device
   - ProcessGuid

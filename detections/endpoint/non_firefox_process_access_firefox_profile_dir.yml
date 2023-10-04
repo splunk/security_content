@@ -34,6 +34,8 @@ tags:
   - AgentTesla
   - RedLine Stealer
   - FIN7
+  - Warzone RAT
+  - NjRAT
   asset_type: Endpoint
   confidence: 70
   impact: 50
