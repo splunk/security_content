@@ -15,7 +15,7 @@ search: '`sysmon` EventCode=22  QueryName IN ("*wtfismyip.com", "*checkip.amazon
   "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org",
   "*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net", "*iplogger.org*", "*ip-api.com*")
   |  stats  min(_time) as firstTime max(_time) as lastTime count by  Image ProcessId
-  QueryName QueryStatus QueryResults Computer EventCode | `security_content_ctime(firstTime)`
+  QueryName QueryStatus QueryResults EventCode Computer | rename Computer as dest| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_gather_victim_network_info_through_ip_check_web_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, dns query name process path , and query ststus from
@@ -32,12 +32,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: process connecting IP location web services on $Computer$
+  message: Process connecting IP location web services on $dest$
   mitre_attack_id:
   - T1590.005
   - T1590
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -52,7 +52,7 @@ tags:
   - QueryName
   - QueryStatus
   - QueryResults
-  - Computer
+  - dest
   - EventCode
   risk_score: 25
   security_domain: endpoint

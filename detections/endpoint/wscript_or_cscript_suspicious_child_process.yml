@@ -41,6 +41,7 @@ tags:
   - Unusual Processes
   - Data Destruction
   - WhisperGate
+  - NjRAT
   asset_type: Endpoint
   confidence: 70
   impact: 70

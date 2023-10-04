@@ -15,7 +15,7 @@ data_source:
 - Sysmon Event ID 23
 search: '`sysmon` EventCode=23 TargetFilename = "*\\ProgramData\\Microsoft\\Windows
   Defender*" | stats values(TargetFilename) as deleted_files min(_time) as firstTime
-  max(_time) as lastTime count by user EventCode Image ProcessID Computer |where count
+  max(_time) as lastTime count by user EventCode Image ProcessID dest |where count
   >=50 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `excessive_file_deletion_in_windefender_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -33,7 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: High frequency file deletion activity detected on host $Computer$
+  message: High frequency file deletion activity detected on host $dest$
   mitre_attack_id:
   - T1485
   observable:
@@ -41,7 +41,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -57,7 +57,7 @@ tags:
   - _time
   - EventCode
   - TargetFilename
-  - Computer
+  - dest
   - user
   - Image
   - ProcessID
