@@ -75,6 +75,7 @@ class Detection(BaseModel, SecurityContentObject):
     nes_fields: str = None
     providing_technologies: list = None
     runtime: str = None
+    internalVersion: str = None
 
     # @validator('name')v
     # def name_max_length(cls, v, values):
@@ -138,6 +139,17 @@ class Detection(BaseModel, SecurityContentObject):
         if "ssa_" not in values["file_path"]:
             if len(values["name"]) > 67:
                 raise ValueError("name is longer then 67 chars: " + values["name"])
+        return values
+    
+    @root_validator
+    def validation_for_ba_only(cls, values):
+        # Ensure that only a BA detection can have status: validation
+        if values["status"] == "validation":
+            if "ssa_" not in values["file_path"]:
+                raise ValueError(f"The following is NOT an ssa_ detection, but has 'status: {values['status']} which may ONLY be used for ssa_ detections:' {values['file_path']}")
+            else:
+                #This is an ssa_ validation detection
+                pass
         return values
 
 

@@ -16,7 +16,7 @@ search: '`sysmon` EventCode = 8 parent_process_name IN ("powershell_ise.exe", "p
   TargetImage IN ("*\\svchost.exe","*\\csrss.exe" "*\\gpupdate.exe", "*\\explorer.exe","*\\services.exe","*\\winlogon.exe","*\\smss.exe","*\\wininit.exe","*\\userinit.exe","*\\spoolsv.exe","*\\taskhost.exe")
   | stats  min(_time) as firstTime max(_time) as lastTime count by SourceImage process_name
   SourceProcessId SourceProcessGuid TargetImage TargetProcessId NewThreadId StartAddress
-  Computer EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  dest EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_remote_thread_to_known_windows_process_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, Create Remote thread from your endpoints. If you are
@@ -32,11 +32,11 @@ tags:
   confidence: 90
   impact: 70
   message: A suspicious powershell process $process_name$ that tries to create a remote
-    thread on target process $TargetImage$ with eventcode $EventCode$ in host $Computer$
+    thread on target process $TargetImage$ with eventcode $EventCode$ in host $dest$
   mitre_attack_id:
   - T1055
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -58,7 +58,7 @@ tags:
   - TargetProcessId
   - NewThreadId
   - StartAddress
-  - Computer
+  - dest
   - EventCode
   risk_score: 63
   security_domain: endpoint

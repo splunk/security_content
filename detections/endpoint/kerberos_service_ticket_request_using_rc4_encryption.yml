@@ -44,8 +44,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 90
-  message: A Kerberos Service TTicket request with RC4 encryption was requested from
-    $Client_Address$
+  message: A Kerberos Service TTicket request with RC4 encryption was requested from $dest$
   mitre_attack_id:
   - T1558
   - T1558.001

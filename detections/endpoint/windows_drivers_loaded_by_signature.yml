@@ -14,7 +14,7 @@ description: The following analytic assists with viewing all drivers being loade
 data_source:
 - Sysmon Event ID 6
 search: '`sysmon` EventCode=6 | stats min(_time) as firstTime max(_time) as lastTime
-  values(ImageLoaded) count by Computer Signed Signature service_signature_verified
+  values(ImageLoaded) count by dest Signed Signature service_signature_verified
   service_signature_exists Hashes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_drivers_loaded_by_signature_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -37,12 +37,12 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 60
-  message: A driver has loaded on $Computer$.
+  message: A driver has loaded on $dest$.
   mitre_attack_id:
   - T1014
   - T1068
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -53,7 +53,7 @@ tags:
   required_fields:
   - _time
   - ImageLoaded
-  - Computer
+  - dest
   - Signed
   - Signature
   - service_signature_verified

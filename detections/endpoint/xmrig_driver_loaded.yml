@@ -11,7 +11,7 @@ description: This analytic identifies XMRIG coinminer driver installation on the
 data_source:
 - Sysmon Event ID 6
 search: '`sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys"
-  |  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded
+  |  stats  min(_time) as firstTime max(_time) as lastTime count by  dest ImageLoaded
   Hashes IMPHASH Signature Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `xmrig_driver_loaded_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -27,12 +27,12 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: A driver $ImageLoaded$ related to xmrig crytominer loaded in host $Computer$
+  message: A driver $ImageLoaded$ related to xmrig crytominer loaded in host $dest$
   mitre_attack_id:
   - T1543.003
   - T1543
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -42,7 +42,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Computer
+  - dest
   - ImageLoaded
   - Hashes
   - IMPHASH
