@@ -1,5 +1,5 @@
 name: Services lolbas Execution Process Spawn
-id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
+id: 0d85fde3-0de9-4eec-b386-6a8ba70f3935
 version: 1
 status: validation
 description: The following analytic identifies services.exe spawning a LOLBAS execution
@@ -60,7 +60,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 1,
     risk_score = 35,
     severity_id = 0,
-    rule = {"name": "Services lolbas Execution Process Spawn", "uid": "fd40c537-53d0-4c28-9b7e-77cfd28a49c8", "type": "Streaming"},
+    rule = {"name": "Services lolbas Execution Process Spawn", "uid": "0d85fde3-0de9-4eec-b386-6a8ba70f3935", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -96,7 +96,7 @@ tags:
   risk_score: 35
   security_domain: endpoint
   risk_severity: low
-  research_site_url: https://research.splunk.com/endpoint/fd40c537-53d0-4c28-9b7e-77cfd28a49c8/
+  research_site_url: https://research.splunk.com/endpoint/0d85fde3-0de9-4eec-b386-6a8ba70f3935/
   event_schema: ocsf
   mappings:
   - ocsf: process.pid
