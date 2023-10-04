@@ -1,0 +1,61 @@
+name: Confluence Data Center and Server Privilege Escalation
+id: 115bebac-0976-4f7d-a3ec-d1fb45a39a11
+version: 1
+date: '2023-10-04'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies potential exploitation attempts on a known vulnerability in Atlassian Confluence, targeting the /setup/*.action* URL pattern. By analyzing web logs within the Splunk 'Web' Data Model, it filters for successful accesses (HTTP status 200) to these vulnerable endpoints. Such behavior is crucial for a SOC to monitor, as it suggests attackers might be exploiting a privilege escalation flaw in Confluence. A true positive implies a possible unauthorized access or account creation with escalated privileges. Key details captured include user-agent, HTTP methods, URL length, and source and destination IPs. These insights aid SOCs in swiftly detecting and responding to threats, ensuring vulnerabilities are mitigated before substantial compromise.
+search: '| tstats count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.url IN ("/setup/*.action*") Web.status=200 
+  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `confluence_data_center_and_server_privilege_escalation_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on Web traffic that include fields relavent for traffic into the `Web` datamodel.
+known_false_positives: False positives may be present with legitimate applications.
+  Attempt to filter by dest IP or use Asset groups to restrict to confluence servers.
+references:
+  - https://confluence.atlassian.com/security/cve-2023-22515-privilege-escalation-vulnerability-in-confluence-data-center-and-server-1295682276.html
+  - https://www.rapid7.com/blog/post/2023/10/04/etr-cve-2023-22515-zero-day-privilege-escalation-in-confluence-server-and-data-center/
+tags:
+  analytic_story:
+  - CVE-2023-22515 Privilege Escalation Vulnerability Confluence Data Center and Server
+  asset_type: Web server
+  atomic_guid: []
+  confidence: 80
+  impact: 90
+  message: Potential exploitation attempts on a known vulnerability in Atlassian Confluence detected. The source IP is $src$ and the destination hostname is $dest$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 72
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/confluence_cve-2023-22515.log
+    source: suricata
+    sourcetype: suricata
