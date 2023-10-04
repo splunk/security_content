@@ -11,7 +11,7 @@ description: This search looks for AWS CloudTrail events and analyse the amount 
 data_source: []
 search: '`cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  |
   stats dc(eventName) as dc_events min(_time) as firstTime max(_time) as lastTime
-  values(eventName) as eventName values(src) as src values(userAgent) as userAgent
+  values(eventName) as command values(src) as src values(userAgent) as userAgent
   by user userIdentity.arn | where dc_events > 50 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`|`aws_excessive_security_scanning_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
@@ -25,9 +25,7 @@ tags:
   asset_type: AWS Account
   confidence: 60
   impact: 30
-  message: user $user$ has excessive number of api calls $dc_events$ from these IP
-    addresses $src$, violating the threshold of 50,  using the following commands
-    $command$.
+  message: User $user$ has excessive number of api calls $dc_events$ from these IP addresses $src$, violating the threshold of 50, using the following commands $command$.
   mitre_attack_id:
   - T1526
   observable:
@@ -38,7 +36,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
