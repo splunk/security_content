@@ -11,7 +11,7 @@ description: The following hunting analytic assists with identifying the proces 
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.parent_process
+  as lastTime FROM datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.original_file_name Processes.process_path
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name("Processes")`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `is_nirsoft_software`
@@ -48,7 +48,7 @@ tags:
     role:
     - Victim
   - name: dest
-    type: Hostname
+    type: Endpoint
     role:
     - Victim
   - name: parent_process_name

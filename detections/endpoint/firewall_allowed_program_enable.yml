@@ -38,6 +38,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Azorult
   - BlackByte Ransomware
+  - NjRAT
   asset_type: Endpoint
   confidence: 50
   impact: 50

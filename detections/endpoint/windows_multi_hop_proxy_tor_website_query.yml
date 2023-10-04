@@ -14,7 +14,7 @@ data_source:
 - Sysmon Event ID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
   | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName
-  QueryStatus ProcessId  Computer | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  QueryStatus ProcessId  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_multi_hop_proxy_tor_website_query_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and sysmon eventcode = 22 dns query events from your
@@ -31,12 +31,12 @@ tags:
   confidence: 50
   impact: 50
   message: a process $Image$ is having a dns query in a tor domain $QueryName$ in
-    $Computer$
+    $dest$
   mitre_attack_id:
   - T1071.003
   - T1071
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -50,7 +50,7 @@ tags:
   - QueryName
   - QueryStatus
   - ProcessId
-  - Computer
+  - dest
   risk_score: 25
   security_domain: endpoint
 tests:

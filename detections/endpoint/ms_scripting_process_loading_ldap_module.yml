@@ -54,7 +54,7 @@ tags:
   - process_name
   - ProcessId
   - ProcessGuid
-  - Computer
+  - dest
   - ImageLoaded
   risk_score: 9
   security_domain: endpoint

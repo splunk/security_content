@@ -36,6 +36,7 @@ tags:
   - CISA AA22-264A
   - AgentTesla
   - CISA AA22-277A
+  - NjRAT
   asset_type: Endpoint
   confidence: 70
   impact: 40

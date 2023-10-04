@@ -16,7 +16,7 @@ data_source:
 search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\windows\\system32\\*","*\\windows\\SysWOW64\\*"))
   (DestinationPortName="ftp" OR DestinationPort=21) | stats count min(_time) as firstTime
   max(_time) as lastTime by Image DestinationPort DestinationPortName DestinationHostname
-  DestinationIp SourcePort SourcePortName Protocol SourceHostname Computer user |
+  DestinationIp SourcePort SourcePortName Protocol SourceHostname dest user |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_file_transfer_protocol_in_non_common_process_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and sysmon eventcode = 3 connection events from your
@@ -33,12 +33,12 @@ tags:
   confidence: 30
   impact: 30
   message: a process $Image$ is having a FTP connection to $DestinationHostname$ in
-    $Computer$
+    $dest$
   mitre_attack_id:
   - T1071.003
   - T1071
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -57,7 +57,7 @@ tags:
   - SourcePortName
   - Protocol
   - DestinationIp
-  - Computer
+  - dest
   - user
   risk_score: 9
   security_domain: endpoint
