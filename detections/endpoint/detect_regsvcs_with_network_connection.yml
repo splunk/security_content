@@ -18,7 +18,7 @@ description: The following analytic identifies Regsvcs.exe with a network connec
 data_source:
 - Sysmon Event ID 3
 search: '`sysmon` EventID=3 dest_ip!=10.0.0.0/12 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16
-  process_name=regsvcs.exe | rename Computer as dest | stats count min(_time) as firstTime
+  process_name=regsvcs.exe  | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, user, process_name, src_ip, dest_ip | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_regsvcs_with_network_connection_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -40,7 +40,7 @@ tags:
   confidence: 100
   impact: 80
   message: An instance of $process_name$ contacting a remote destination was identified
-    on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$.
+    on endpoint $dest$ by user $user$. This behavior is not normal for $process_name$.
   mitre_attack_id:
   - T1218
   - T1218.009
@@ -66,7 +66,7 @@ tags:
   - EventID
   - dest_ip
   - process_name
-  - Computer
+  - dest
   - user
   - src_ip
   - dest_host

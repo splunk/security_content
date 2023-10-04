@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Chaos Ransomware
+  - NjRAT
   asset_type: Endpoint
   confidence: 90
   impact: 90

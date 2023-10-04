@@ -12,7 +12,7 @@ data_source:
 - Sysmon Event ID 11
 search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*"
   OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time)
-  as lastTime by TargetFilename EventCode process_id  process_name Computer | `security_content_ctime(firstTime)`
+  as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -27,16 +27,16 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  message: A process $process_name$ created a file $TargetFilename$ on host $dest$
   mitre_attack_id:
   - T1204
   - T1204.002
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: SourceImage
+  - name: process_name
     type: Process
     role:
     - Attacker
