@@ -110,7 +110,7 @@ $main = from source
                     parent = new_val
                     i = i + 1
                     continue
-                parser_str = '| eval ' + new_val + ' = ' + parent + '.' + val + ' '
+                parser_str = '| eval ' + new_val + ' = ' + 'lower(' + parent + '.' + val + ') '
                 detection_str = detection_str + parser_str
                 parsed_fields.append(new_val)
                 parent = new_val
