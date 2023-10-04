@@ -9,12 +9,15 @@ description: This search looks for a variety of high-risk commands throughout
   a number of different Splunk Vulnerability Disclosures.  Please refer to the
   following URL for additional information on these disclosures - https://advisory.splunk.com
 data_source: []
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity
+search: '| tstats fillnull_value="N/A" count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity
   where Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
   by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user
   Search_Activity.search_type | `drop_dm_object_name(Search_Activity)` | lookup splunk_risky_command
   splunk_risky_command as search output splunk_risky_command description vulnerable_versions
-  CVE other_metadata | where splunk_risky_command != "false" | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
+  CVE other_metadata | where splunk_risky_command != "false"
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
 how_to_implement: Requires implementation of Splunk_Audit.Search_Activity datamodel.
 known_false_positives: This search encompasses many commands.
 references:
@@ -32,10 +35,12 @@ tags:
   - CVE-2023-22939
   - CVE-2023-22940
   - CVE-2023-40598
+  - CVE-2023-40598
   impact: 50
   message: Use of risky splunk command $splunk_risky_command$ detected by $user$
   mitre_attack_id:
   - T1548
+  - T1202
   observable:
   - name: user
     type: User
@@ -67,6 +72,12 @@ tests:
 - name: True Positive Test runshellscript abuse
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_runshellscript_abuse.log
+    source: audittrail
+    sourcetype: audittrail
+    custom_index: _audit
+- name: True Positive Test Additional runshellscript abuse
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/splunk/splunk_cmd_injection_using_external_lookups_audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

@@ -62,6 +62,7 @@ tags:
   - Amadey
   - BlackByte Ransomware
   - Warzone RAT
+  - NjRAT
   asset_type: Endpoint
   confidence: 50
   impact: 40

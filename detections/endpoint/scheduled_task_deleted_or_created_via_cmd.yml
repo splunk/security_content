@@ -56,6 +56,7 @@ tags:
   - Azorult
   - Amadey
   - Scheduled Tasks
+  - NjRAT
   asset_type: Endpoint
   confidence: 80
   impact: 70
