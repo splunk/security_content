@@ -13,7 +13,7 @@ data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false
   Company != "Microsoft Corporation" | stats count min(_time) as firstTime max(_time)
-  as lastTime by Image ImageLoaded Signed ProcessId OriginalFileName Computer EventCode
+  as lastTime by Image ImageLoaded Signed ProcessId OriginalFileName dest EventCode
   Company | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `uac_bypass_mmc_load_unsigned_dll_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -29,14 +29,14 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: Suspicious unsigned $ImageLoaded$ loaded by $Image$ on endpoint $Computer$
+  message: Suspicious unsigned $ImageLoaded$ loaded by $Image$ on endpoint $dest$
     with EventCode $EventCode$
   mitre_attack_id:
   - T1548.002
   - T1548
   - T1218.014
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -51,7 +51,7 @@ tags:
   - Signed
   - ProcessId
   - OriginalFileName
-  - Computer
+  - dest
   - EventCode
   - Company
   risk_score: 63

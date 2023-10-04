@@ -27,7 +27,7 @@ search: '`sysmon` EventCode=7 |bin _time span=30s | eval BRC4_AnomalyLoadedDll=c
   "dbghelp.dll"), 1, match(ImageLoaded, "samcli.dll"), 1, match(ImageLoaded, "winhttp.dll"),
   1, 1=1, 0) | stats count min(_time) as firstTime max(_time) as lastTime values(ImageLoaded)
   as ImageLoaded values(OriginalFileName) as OriginalFileName dc(ImageLoaded) as ImageLoadedCount
-  by Image  BRC4_LoadedDllPath BRC4_AnomalyLoadedDll Computer EventCode Signed | where  ImageLoadedCount
+  by Image  BRC4_LoadedDllPath BRC4_AnomalyLoadedDll dest EventCode Signed | where  ImageLoadedCount
   == 4 AND (BRC4_LoadedDllPath == 1 OR BRC4_AnomalyLoadedDll == 1) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_remote_access_software_brc4_loaded_dll_filter`'
 how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709
@@ -50,12 +50,12 @@ tags:
   confidence: 30
   impact: 30
   message: a process $Image$ loaded several modules $ImageLoaded$ that might related
-    to credential access on $Computer$.
+    to credential access on $dest$.
   mitre_attack_id:
   - T1219
   - T1003
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -68,7 +68,7 @@ tags:
   - Image
   - ImageLoaded
   - process_name
-  - Computer
+  - dest
   - EventCode
   - Signed
   - ProcessId

@@ -99,7 +99,7 @@ class BAFactory():
 
 
 
-                if detection.status == "production":
+                if detection.status in ["production","validation"]:
                     self.output_dto.detections.append(detection)
             else:
                 raise(Exception(f"Unsupported content type: [{type}]"))

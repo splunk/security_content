@@ -39,7 +39,7 @@ tags:
   asset_type: endpoint
   confidence: 80
   impact: 80
-  message: a $process_name$ deleting a services in $dest$
+  message: A services file $file_name$ deteted on host $dest$ by process GUID -  $process_guid$
   mitre_attack_id:
   - T1485
   - T1070.004
@@ -49,6 +49,10 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: process_guid
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

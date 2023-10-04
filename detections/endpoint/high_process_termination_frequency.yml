@@ -13,7 +13,7 @@ description: This analytic is designed to identify a high frequency of process t
 data_source:
 - Sysmon Event ID 5
 search: '`sysmon` EventCode=5 |bin _time span=3s |stats values(Image) as proc_terminated
-  min(_time) as firstTime max(_time) as lastTime  count by _time Computer EventCode
+  min(_time) as firstTime max(_time) as lastTime  count by _time dest EventCode
   ProcessID | where count >= 15 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `high_process_termination_frequency_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -32,11 +32,11 @@ tags:
   confidence: 80
   impact: 90
   message: High frequency process termination (more than 15 processes within 3s) detected
-    on host $Computer$
+    on host $dest$
   mitre_attack_id:
   - T1486
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -51,7 +51,7 @@ tags:
   required_fields:
   - EventCode
   - Image
-  - Computer
+  - dest
   - _time
   - ProcessID
   risk_score: 72

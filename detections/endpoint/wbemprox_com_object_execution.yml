@@ -17,7 +17,7 @@ data_source:
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll",
   "*\\wbemcomn.dll") NOT (process_name IN ("wmiprvse.exe", "WmiApSrv.exe", "unsecapp.exe"))
   NOT(Image IN("*\\windows\\*","*\\program files*", "*\\wbem\\*")) | stats count min(_time)
-  as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode
+  as firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode
   Signed ProcessId Hashes IMPHASH | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `wbemprox_com_object_execution_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -36,12 +36,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 70
-  message: Suspicious COM Object Execution on $Computer$
+  message: Suspicious COM Object Execution on $dest$
   mitre_attack_id:
   - T1218
   - T1218.003
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -54,7 +54,7 @@ tags:
   - Image
   - ImageLoaded
   - process_name
-  - Computer
+  - dest
   - EventCode
   - Signed
   - ProcessId

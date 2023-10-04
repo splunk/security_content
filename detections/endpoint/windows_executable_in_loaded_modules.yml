@@ -1,0 +1,65 @@
+name: Windows Executable in Loaded Modules
+id: 3e27af56-fcf0-4113-988d-24969b062be7
+version: 1
+date: '2023-09-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 7
+description: This analytic identifies potentially malicious 'ImageLoaded' events, particularly when they involve executable files. 
+  This behavior was observed in NjRAT instances, where, during each instance of loading a module from its C2 server onto the compromised host, 
+  Sysmon recorded the path of the actual Image or Process as an 'ImageLoaded' event, rather than the typical tracking of dynamically loaded DLL modules in memory.
+  This event holds significance because it tracks processes that load modules and libraries, which are typically in the .dll format rather than .exe. 
+  Leveraging this 'Time-To-Perform' (TTP) detection method can prove invaluable for the identification of NjRAT malware or 
+  other malicious software instances that introduce executable files as modules within a targeted host.
+search: '`sysmon` EventCode=7 ImageLoaded= *.exe
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed SignatureStatus OriginalFileName process_name Computer EventCode ProcessId Hashes IMPHASH 
+  | rename Computer as dest 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_executable_in_loaded_modules_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. 
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown.
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
+tags:
+  analytic_story:
+  - NjRAT
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: An executable $Imageloaded$ loaded by $Image$ on $dest$
+  mitre_attack_id:
+  - T1129
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  required_fields:
+  - _time
+  - Image 
+  - ImageLoaded 
+  - Signed 
+  - SignatureStatus 
+  - OriginalFileName 
+  - process_name 
+  - Computer 
+  - EventCode 
+  - ProcessId 
+  - Hashes 
+  - IMPHASH 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1129/executable_shared_modules/image_loaded_exe.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
