@@ -67,6 +67,7 @@ class SplunkBABackend(TextQueryBackend):
     wildcard_match_expression : ClassVar[Optional[str]] = "{field} LIKE {value}"
 
 
+
     def __init__(self, processing_pipeline: Optional["sigma.processing.pipeline.ProcessingPipeline"] = None, collect_errors: bool = False, min_time : str = "-30d", max_time : str = "now", detection : Detection = None, field_mapping: dict = None, **kwargs):
         super().__init__(processing_pipeline, collect_errors, **kwargs)
         self.min_time = min_time or "-30d"
@@ -116,7 +117,19 @@ $main = from source
                 parent = new_val
                 i = i + 1
 
-        detection_str = detection_str + "| where " + query
+        ### Convert sigma values into lower case
+        lower_query = ""
+        in_quotes = False
+        for char in query:
+            if char == '"':
+                in_quotes = not in_quotes
+            if in_quotes:
+                lower_query += char.lower()
+            else:
+                lower_query += char
+
+        detection_str = detection_str + "| where " + lower_query
+        
         detection_str = detection_str.replace("\\\\\\\\", "\\\\")
         return detection_str
 
