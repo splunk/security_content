@@ -19,36 +19,21 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="bitsadmin.exe"
-  OR process_file_name="certoc.exe" OR process_file_name="certreq.exe" OR process_file_name="certutil.exe"
-  OR process_file_name="cmdkey.exe" OR process_file_name="cmdl32.exe" OR process_file_name="cmstp.exe"
-  OR process_file_name="configsecuritypolicy.exe" OR process_file_name="control.exe"
-  OR process_file_name="cscript.exe" OR process_file_name="datasvcutil.exe" OR process_file_name="desktopimgdownldr.exe"
-  OR process_file_name="dfsvc.exe" OR process_file_name="diantz.exe" OR process_file_name="diskshadow.exe"
-  OR process_file_name="dllhost.exe" OR process_file_name="dnscmd.exe" OR process_file_name="esentutl.exe"
-  OR process_file_name="eventvwr.exe" OR process_file_name="expand.exe" OR process_file_name="extexport.exe"
-  OR process_file_name="extrac32.exe" OR process_file_name="findstr.exe" OR process_file_name="finger.exe"
-  OR process_file_name="fltmc.exe" OR process_file_name="forfiles.exe" OR process_file_name="ftp.exe"
-  OR process_file_name="gfxdownloadwrapper.exe" OR process_file_name="gpscript.exe"
-  OR process_file_name="imewdbld.exe" OR process_file_name="ie4uinit.exe" OR process_file_name="ieexec.exe"
-  OR process_file_name="ilasm.exe" OR process_file_name="infdefaultinstall.exe" OR
-  process_file_name="makecab.exe" OR process_file_name="mavinject.exe" OR process_file_name="microsoft.workflow.compiler.exe"
-  OR process_file_name="mmc.exe" OR process_file_name="msconfig.exe" OR process_file_name="msdt.exe"
-  OR process_file_name="mshta.exe" OR process_file_name="msiexec.exe" OR process_file_name="netsh.exe"
-  OR process_file_name="odbcconf.exe" OR process_file_name="offlinescannershell.exe"
-  OR process_file_name="pcalua.exe" OR process_file_name="pcwrun.exe" OR process_file_name="pktmon.exe"
-  OR process_file_name="pnputil.exe" OR process_file_name="presentationhost.exe" OR
-  process_file_name="print.exe" OR process_file_name="printbrm.exe" OR process_file_name="psr.exe"
-  OR process_file_name="rasautou.exe" OR process_file_name="reg.exe" OR process_file_name="regini.exe"
-  OR process_file_name="register-cimprovider.exe" OR process_file_name="regsvr32.exe"
-  OR process_file_name="replace.exe" OR process_file_name="rpcping.exe" OR process_file_name="rundll32.exe"
-  OR process_file_name="runonce.exe" OR process_file_name="runscripthelper.exe" OR
-  process_file_name="sc.exe" OR process_file_name="schtasks.exe" OR process_file_name="scriptrunner.exe"
-  OR process_file_name="settingsynchost.exe" OR process_file_name="syncappvpublishingserver.exe"
-  OR process_file_name="ttdinject.exe" OR process_file_name="tttracer.exe" OR process_file_name="vbc.exe"
-  OR process_file_name="verclsid.exe" OR process_file_name="wab.exe" OR process_file_name="wlrmdr.exe"
-  OR process_file_name="wmic.exe" OR process_file_name="workfolders.exe" OR process_file_name="wscript.exe"
-  OR process_file_name="wsreset.exe" OR process_file_name="wuauclt.exe" OR process_file_name="xwizard.exe")
+  | eval device_hostname = device.hostname | where (process_file_name IN ("bitsadmin.exe", "certoc.exe", "certreq.exe", "certutil.exe",
+  "cmdkey.exe", "cmdl32.exe", "cmstp.exe", "configsecuritypolicy.exe", "control.exe",
+  "cscript.exe", "datasvcutil.exe", "desktopimgdownldr.exe", "dfsvc.exe", "diantz.exe", "diskshadow.exe",
+  "dllhost.exe", "dnscmd.exe", "esentutl.exe", "eventvwr.exe", "expand.exe", "extexport.exe",
+  "extrac32.exe", "findstr.exe", "finger.exe", "fltmc.exe", "forfiles.exe", "ftp.exe",
+  "gfxdownloadwrapper.exe", "gpscript.exe", "imewdbld.exe", "ie4uinit.exe", "ieexec.exe", 
+  "ilasm.exe", "infdefaultinstall.exe", "makecab.exe", "mavinject.exe", "microsoft.workflow.compiler.exe",
+  "mmc.exe", "msconfig.exe", "msdt.exe", "mshta.exe", "msiexec.exe", "netsh.exe",
+  "odbcconf.exe", "offlinescannershell.exe", "pcalua.exe", "pcwrun.exe", "pktmon.exe",
+  "pnputil.exe", "presentationhost.exe", "print.exe", "printbrm.exe", "psr.exe",
+  "rasautou.exe", "reg.exe", "regini.exe", "register-cimprovider.exe", "regsvr32.exe",
+  "replace.exe", "rpcping.exe", "rundll32.exe", "runonce.exe", "runscripthelper.exe", "sc.exe", 
+  "schtasks.exe", "scriptrunner.exe", "settingsynchost.exe", "syncappvpublishingserver.exe", 
+  "ttdinject.exe", "tttracer.exe", "vbc.exe", "verclsid.exe", "wab.exe", "wlrmdr.exe", 
+  "wmic.exe", "workfolders.exe", "wscript.exe", "wsreset.exe", "wuauclt.exe", "xwizard.exe"))
   AND (NOT (match(process_file_path, /(?i)(?i)\\windows\\system32/)=true OR match(process_file_path,
   /(?i)(?i)\\windows\\syswow64/)=true OR match(process_file_path, /(?i)(?i)\\windows\\networkcontrolle/)=true
   OR match(process_file_path, /(?i)(?i)\\windows\\systemapps/)=true OR match(process_file_path,
