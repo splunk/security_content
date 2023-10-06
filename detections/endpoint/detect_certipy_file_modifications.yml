@@ -33,7 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 50
-  message: Suspicious files $file_name$ related to Certipy detected on $dest$.
+  message: Suspicious files $file_name$ related to Certipy detected on $dest$
   mitre_attack_id:
   - T1649
   - T1560
