@@ -1,0 +1,52 @@
+name: O365 Multiple Users Failing To Authenticate From Ip
+id: 8d486e2e-3235-4cfe-ac35-0d042e24ecb4
+version: 1
+date: '2023-10-10'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: UPDATE_DESCRIPTION
+search: '
+  | `o365_multiple_users_failing_to_authenticate_from_ip_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: A source Ip failing to authenticate with multiple users in a short period of time is not common legitimate behavior.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+- https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: Office 365 tenant
+  atomic_guid:
+  - UPDATE atomic_guid
+  confidence: 90
+  impact: 70
+  message: Source Ip $src_ip$ failed to authenticate with 20 users within 5 minutes.
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1110
+  - T1110.003
+  - T1110.004
+  observable:
+  - name: UPDATE
+    type: UPDATE
+    role:
+    - UPDATE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  required_fields:
+  - _time
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: UPDATE url to dataset
+    source: UPDATE source
+    sourcetype: UPDATE sourcetype
