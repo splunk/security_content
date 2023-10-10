@@ -32,10 +32,10 @@ tags:
   - T1110.003
   - T1110.004
   observable:
-  - name: UPDATE
-    type: UPDATE
+  - name: src_ip
+    type: IP Address
     role:
-    - UPDATE
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
