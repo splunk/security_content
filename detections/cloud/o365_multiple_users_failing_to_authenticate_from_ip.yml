@@ -7,7 +7,10 @@ status: production
 type: TTP
 data_source: []
 description: UPDATE_DESCRIPTION
-search: '
+search: ' o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed record_type=AzureActiveDirectoryStsLogon 
+  |  bucket span=5m _time
+  |  stats dc(user) as unique_accounts values(user) as user values(LogonError) as LogonError values(signature) as signature values(UserAgent) as UserAgent by _time, src_ip
+  |  where unique_accounts > 10
   | `o365_multiple_users_failing_to_authenticate_from_ip_filter`'
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: A source Ip failing to authenticate with multiple users in a short period of time is not common legitimate behavior.
@@ -47,6 +50,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: UPDATE url to dataset
-    source: UPDATE source
-    sourcetype: UPDATE sourcetype
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/o365_multiple_users_from_ip/o365_multiple_users_from_ip.log
+    source: o365
+    sourcetype: o365:management:activity
+
