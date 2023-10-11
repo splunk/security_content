@@ -19,7 +19,7 @@ search: '`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfism
   "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org",
   "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net")
   |  stats  min(_time) as firstTime max(_time) as lastTime count by Image process_name
-  ProcessId QueryName QueryStatus QueryResults Computer EventCode | rename Computer as dest| `security_content_ctime(firstTime)`
+  ProcessId QueryName QueryStatus QueryResults EventCode Computer | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wermgr_process_connecting_to_ip_check_web_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, dns query name process path , and query ststus from
@@ -56,7 +56,7 @@ tags:
   - QueryName
   - QueryStatus
   - QueryResults
-  - Computer
+  - dest
   - EventCode
   risk_score: 56
   security_domain: endpoint

@@ -13,8 +13,8 @@ description: Detect the hands on keyboard behavior of Windows Task Manager creat
 data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventID=11 process_name=taskmgr.exe TargetFilename=*lsass*.dmp |
-  stats count min(_time) as firstTime max(_time) as lastTime by Computer, object_category,
-  process_name, TargetFilename | rename Computer as dest | `security_content_ctime(firstTime)`
+  stats count min(_time) as firstTime max(_time) as lastTime by dest, object_category,
+  process_name, TargetFilename  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `creation_of_lsass_dump_with_taskmgr_filter`'
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
   includes EventCode 11 for detecting file create of lsass.dmp. This search uses an
@@ -54,7 +54,7 @@ tags:
   - EventID
   - process_name
   - TargetFilename
-  - Computer
+  - dest
   - object_category
   risk_score: 80
   security_domain: endpoint

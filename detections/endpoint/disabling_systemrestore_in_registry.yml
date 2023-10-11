@@ -31,6 +31,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
+  - NjRAT
   asset_type: Endpoint
   confidence: 70
   impact: 70

@@ -11,7 +11,7 @@ description: This search is designed to detect the creation of a new Federation 
   providing an additional layer of security for your environment.
 data_source: []
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user." 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type by  UserId dest ResultStatus 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type values(ModifiedProperties{}.Name) as modified_properties_name by user dest ResultStatus Operation
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `o365_add_app_role_assignment_grant_user_filter`'
@@ -30,16 +30,15 @@ tags:
   asset_type: Office 365
   confidence: 60
   impact: 30
-  message: User $Actor.ID$ has created a new federation setting on $dest$ from IP
-    Address $ActorIpAddress$
+  message: User $user$ has created a new federation setting $modified_properties_name$ on $dest$
   mitre_attack_id:
   - T1136.003
   - T1136
   observable:
-  - name: UserId
+  - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   - name: dest
     type: Endpoint
     role:

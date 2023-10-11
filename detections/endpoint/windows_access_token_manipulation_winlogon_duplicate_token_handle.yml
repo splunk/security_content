@@ -14,7 +14,7 @@ data_source:
 search: '`sysmon` EventCode=10 TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*")
   GrantedAccess = 0x1040 | stats count min(_time) as firstTime max(_time) as lastTime
   by SourceImage TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId
-  GrantedAccess CallTrace Computer user_id | `security_content_ctime(firstTime)` |
+  GrantedAccess CallTrace dest user_id | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `windows_access_token_manipulation_winlogon_duplicate_token_handle_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
@@ -32,12 +32,12 @@ tags:
   confidence: 60
   impact: 60
   message: A process $SourceImage$ is duplicating the handle token of winlogon.exe
-    in $Computer$
+    in $dest$
   mitre_attack_id:
   - T1134.001
   - T1134
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -59,7 +59,7 @@ tags:
   - TargetProcessId
   - GrantedAccess
   - CallTrace
-  - Computer
+  - dest
   - user_id
   risk_score: 36
   security_domain: endpoint

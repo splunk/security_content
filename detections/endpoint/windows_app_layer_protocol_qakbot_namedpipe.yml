@@ -18,7 +18,7 @@ search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPip
   "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe",
   "*\\msra.exe", "*\\xwizard.exe") | regex PipeName="^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}"
   | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType
-  ProcessGuid ProcessId PipeName SecurityID EventCode Computer UserID | `security_content_ctime(firstTime)`
+  ProcessGuid ProcessId PipeName SecurityID EventCode dest UserID | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_app_layer_protocol_qakbot_namedpipe_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, pipename, processguid and named pipe event type from
@@ -35,11 +35,11 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: $Image$ is creating or connecting to a named pipe $PipeName$ in $Computer$
+  message: $Image$ is creating or connecting to a named pipe $PipeName$ in $dest$
   mitre_attack_id:
   - T1071
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -54,7 +54,7 @@ tags:
   - ProcessGuid
   - ProcessId
   - PipeName
-  - Computer
+  - dest
   - UserID
   - SecurityID
   risk_score: 49

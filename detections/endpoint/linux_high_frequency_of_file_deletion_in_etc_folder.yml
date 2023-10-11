@@ -35,7 +35,7 @@ tags:
   asset_type: endpoint
   confidence: 70
   impact: 70
-  message: a $process_name$ deleting multiple files in /etc/ folder in $dest$
+  message: Multiple files delted in /etc/ folder on $dest$ by process GUID -  $process_guid$
   mitre_attack_id:
   - T1485
   - T1070.004
@@ -45,6 +45,10 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: process_guid
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
