@@ -9,7 +9,7 @@ data_source:
 - UPDATE_DATA_SOURCE
 description: UPDATE_DESCRIPTION
 search: >
-  `o365_management_activity` Operation="Consent to application." ResultStatus=Failure
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application." ResultStatus=Failure
   | eval permissions =mvindex('ModifiedProperties{}.NewValue', 4)
   | eval reason =mvindex('ModifiedProperties{}.NewValue', 5)
   |  search reason = "Risky application detected"
