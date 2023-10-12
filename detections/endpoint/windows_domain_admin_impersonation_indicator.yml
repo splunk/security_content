@@ -51,5 +51,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/diamond_ticket/security.log
-    source: XmlWinEventLog
+    source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
