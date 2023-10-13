@@ -5,7 +5,7 @@ date: '2023-04-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: "This analytic detects potential privilege escalation threats in Azure Active Directory (AD). The detection is made by running a specific search within the ingested Azure Active Directory events to leverage the AuditLogs log category. This detection is important because it identifies instances where privileged roles that hold elevated permissions are assigned to service principals. This prevents unauthorized access or malicious activities, which occur when these non-human entities access Azure resources to exploit them. False positives might occur since administrators can legitimately assign privileged roles to service principals."
+description: "The following analytic detects potential privilege escalation threats in Azure Active Directory (AD). The detection is made by running a specific search within the ingested Azure Active Directory events to leverage the AuditLogs log category. This detection is important because it identifies instances where privileged roles that hold elevated permissions are assigned to service principals. This prevents unauthorized access or malicious activities, which occur when these non-human entities access Azure resources to exploit them. False positives might occur since administrators can legitimately assign privileged roles to service principals."
 data_source: []
 search: ' `azuread` operationName="Add member to role" | rename properties.* as *
   | search "targetResources{}.type"=ServicePrincipal | rename initiatedBy.user.userPrincipalName
