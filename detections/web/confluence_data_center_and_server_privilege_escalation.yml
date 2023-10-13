@@ -20,6 +20,7 @@ known_false_positives: False positives may be present with legitimate applicatio
 references:
   - https://confluence.atlassian.com/security/cve-2023-22515-privilege-escalation-vulnerability-in-confluence-data-center-and-server-1295682276.html
   - https://www.rapid7.com/blog/post/2023/10/04/etr-cve-2023-22515-zero-day-privilege-escalation-in-confluence-server-and-data-center/
+  - https://attackerkb.com/topics/Q5f0ItSzw5/cve-2023-22515/rapid7-analysis
 tags:
   analytic_story:
   - CVE-2023-22515 Privilege Escalation Vulnerability Confluence Data Center and Server
