@@ -5,7 +5,7 @@ date: '2021-11-11'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic detects instances of 'schtasks.exe' being used to start
+description: The following analytic detects instances of 'schtasks.exe' being used to start
   a Scheduled Task on a remote endpoint. Adversaries often abuse the Task Scheduler
   for lateral movement and remote code execution. The search parameters include process
   details such as the process  name, parent process, and command-line executions.
