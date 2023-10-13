@@ -10,10 +10,11 @@ description: This search looks for newly created accounts that have been elevate
 data_source:
 - Windows Security 4732
 - Windows Security 4720
-search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
-  | transaction member_id connected=false maxspan=180m | rename member_id as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by user dest | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `detect_new_local_admin_account_filter`'
+search: '`wineventlog_security` (EventCode=4720) OR (EventCode=4732 Group_Name=Administrators) 
+| stats dc(EventCode) as evCount min(_time) as _time range(_time) as duration values(src_user) as src_user values(src_user_category) as src_user_category values(dest_category) as dest_category by user dest
+| where evCount=2 AND duration<7200
+| fields - evCount, duration
+| `detect_new_local_admin_account_filter`'
 how_to_implement: You must be ingesting Windows event logs using the Splunk Windows
   TA and collecting event code 4720 and 4732
 known_false_positives: The activity may be legitimate. For this reason, it's best
@@ -70,3 +71,7 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/xml-windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

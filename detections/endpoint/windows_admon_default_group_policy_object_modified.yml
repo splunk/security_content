@@ -11,9 +11,9 @@ description: The following analytic leverages Splunks Admon to identify the modi
   The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 
   policy objects to obtain further access, deploy persistence or execute malware across a large number of hosts. Security teams should monitor the modification of the default GPOs.
 search: ' `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" (displayName="Default Domain Policy" OR displayName="Default Domain Controllers Policy")
-  | stats min(_time) as firstTime max(_time) as lastTime values(gPCFileSysPath) by dcName, displayName
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+  | appendpipe [
+  | map search="search `wineventlog_security` EventCode=5136  AttributeSyntaxOID=2.5.5.12 AttributeValue=$displayName$" | rename AttributeValue as displayName] 
+  | stats min(_time) as _time values(displayName) as gp_name, values(gPCFileSysPath) as gPCFileSysPath, values(src_user) as src_user, values(dest) as dest, values(dest_category) as dest_category, values(src_user_category) as src_user_category by displayName
   | `windows_admon_default_group_policy_object_modified_filter`'
 how_to_implement: To successfully implement this search, you need to be monitoring Active Directory logs using Admon. Details can be found here
   https://docs.splunk.com/Documentation/SplunkCloud/8.1.2101/Data/MonitorActiveDirectory
