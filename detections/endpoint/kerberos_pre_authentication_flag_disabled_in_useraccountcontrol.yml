@@ -14,8 +14,9 @@ description: The following analytic leverages Windows Security Event 4738, `A us
   network may use this technique as a backdoor or a way to escalate privileges.
 data_source:
 - Windows Security 4738
-search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
-  Preauth'' - Enabled*" |rename Account_Name as user | table EventCode, user, dest, Security_ID, MSADChangedAttributes
+search: ' `wineventlog_security` EventCode=4738 (UserAccountControl="%%2096" OR MSADChangedAttributes="*Don''t Require Preauth'' - Enabled*")
+  | eval MSADChangedAttributes="''Don''t Require Preauth'' - Enabled"
+  | table _time, source, EventCode, src_user, src_user_category, user, user_category, MSADChangedAttributes 
   | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `User Account
