@@ -7,7 +7,7 @@ status: production
 type: Hunting
 data_source: []
 description: The following inventory analytic is used with a PowerShell scripted inputs to capture all SIP providers on a Windows system. This analytic is used to identify potential malicious SIP providers that may be used to subvert trust controls. Upon review, look for new and non-standard paths for SIP providers.
-search: 'sourcetype = PwSh:SubjectInterfacePackage Dll=*\\*.dll | stats count min(_time) as firstTime max(_time) as lastTime values(Dll) by Path host| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_sip_provider_inventory_filter`'
+search: '`SubjectInterfacePackage` Dll=*\\*.dll | stats count min(_time) as firstTime max(_time) as lastTime values(Dll) by Path host| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_sip_provider_inventory_filter`'
 how_to_implement: To implement this analytic, one must first perform inventory using a scripted inputs. Review the following Gist - https://gist.github.com/MHaggis/75dd5db546c143ea67703d0e86cdbbd1
 known_false_positives: False positives are limited as this is a hunting query for inventory.
 references:
