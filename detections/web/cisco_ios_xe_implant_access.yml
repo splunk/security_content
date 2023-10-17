@@ -25,8 +25,7 @@ tags:
   analytic_story:
   - Cisco IOS XE Software Web Management User Interface vulnerability
   asset_type: Network
-  atomic_guid:
-  - UPDATE atomic_guid
+  atomic_guid: []
   confidence: 90
   impact: 90
   message: Possible exploitation of CVE-2023-20198 against $dest$ by $src$.
