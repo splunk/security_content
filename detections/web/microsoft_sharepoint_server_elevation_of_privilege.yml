@@ -60,5 +60,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/sharepoint/sharepointeop.log
-      source: suricata
-      sourcetype: suricata
+    source: suricata
+    sourcetype: suricata
