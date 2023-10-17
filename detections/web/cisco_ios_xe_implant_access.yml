@@ -29,7 +29,7 @@ tags:
   - UPDATE atomic_guid
   confidence: 90
   impact: 90
-  message: Possible exploitation of CVE-2023-20198 against $dest$.
+  message: Possible exploitation of CVE-2023-20198 against $dest$ by $src$.
   mitre_attack_id:
   - T1190
   observable:
@@ -37,6 +37,10 @@ tags:
     type: Hostname
     role:
     - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
