@@ -1,0 +1,19 @@
+name: O365 Compromised Identity Abuse
+id: f2c72a90-e7ea-4819-91c7-8fc0f0faa940
+version: 1
+date: '2023-10-17'
+author: Mauricio Velazco, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: O365 Compromised Identity Abuse
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

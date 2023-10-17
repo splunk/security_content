@@ -5,22 +5,23 @@ date: '2020-12-16'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: This search will detect more than 5 login failures in Office365 Azure
-  Active Directory from a single source IP address. Please adjust the threshold value
-  of 5 as suited for your environment.
+description: This analytic detects multiple failed login attempts in Office365 Azure Active Directory from a single source IP address. Specifically, it identifies scenarios where there are more than 5 unsuccessful login attempts within a short time frame. The detection leverages Office365 management activity logs, specifically the AzureActiveDirectoryStsLogon records from the AzureActiveDirectory workload. It aggregates these logs in 5-minute intervals to count the number of failed login attempts and associates them with the originating source IP address. Multiple failed login attempts from a single source can be indicative of brute-force attacks, password spraying, or other malicious authentication attempts. Identifying and responding to these patterns promptly can prevent unauthorized access and potential breaches. If this detection represents a true positive, an attacker might be attempting to gain unauthorized access to an Office365 account. Successful compromise could lead to unauthorized access to sensitive data, potential lateral movement within the organization, or further malicious activities using the compromised account.
 data_source: []
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed record_type=AzureActiveDirectoryStsLogon 
   | bucket span=5m _time
   | stats dc(_raw) AS failed_attempts values(user) as user values(LogonError) as LogonError values(signature) as signature values(UserAgent) as UserAgent by _time, src_ip
   | where failed_attempts > 10
   | `high_number_of_login_failures_from_a_single_source_filter`'
-how_to_implement: ''
-known_false_positives: An Ip address with more than 20 failed authentication attempts
-  in the span of 5 minutes may also be triggered by a broken application.
-references: []
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. Adjust the threshold value to suit the specific environment, as environments with naturally higher login failures might generate false positives at a lower threshold.
+known_false_positives: An Ip address with more than 10 failed authentication attempts in the span of 5 minutes may also be triggered by a broken application.
+references:
+- https://attack.mitre.org/techniques/T1110/001/
+- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+- https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
 tags:
   analytic_story:
-  - Office 365 Detections
+  - O365 Identity Compromise Techniques
   asset_type: Office 365
   confidence: 50
   impact: 50

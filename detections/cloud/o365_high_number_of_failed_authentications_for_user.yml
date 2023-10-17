@@ -19,7 +19,7 @@ references:
 - https://attack.mitre.org/techniques/T1110/001/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - O365 Identity Compromise Techniques
   asset_type: O365 tenant
   confidence: 70
   impact: 50

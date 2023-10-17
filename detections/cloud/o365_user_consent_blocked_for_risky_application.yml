@@ -23,7 +23,7 @@ references:
 - REFERENCE
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - O365 Identity Compromise Techniques
   asset_type: O365 tenant
   atomic_guid:
   - UPDATE atomic_guid

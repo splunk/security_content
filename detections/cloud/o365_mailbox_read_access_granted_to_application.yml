@@ -35,7 +35,7 @@ references:
 - https://graphpermissions.merill.net/permission/Mail.Read
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - O365 Compromised Identity Abuse
   asset_type: Office 365 tenant
   confidence: 50
   impact: 90

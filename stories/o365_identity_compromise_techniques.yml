@@ -1,0 +1,19 @@
+name: O365 Identity Compromise Techniques
+id: 3d69980c-193b-4790-935c-5a9ef085dc60
+version: 1
+date: '2023-10-17'
+author: Mauricio Velazco, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  analytic_story: O365 Identity Compromise Techniques
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
