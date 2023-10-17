@@ -25,7 +25,7 @@ references:
 - https://o365blog.com/post/aadbackdoor/
 tags:
   analytic_story:
-  - Office 365 Detections
+  - O365 Persistence Mechanisms
   - Cloud Federated Credential Abuse
   asset_type: Office 365
   confidence: 80

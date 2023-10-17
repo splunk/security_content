@@ -3,8 +3,8 @@ id: f2c72a90-e7ea-4819-91c7-8fc0f0faa940
 version: 1
 date: '2023-10-17'
 author: Mauricio Velazco, Splunk
-description: UPDATE_DESCRIPTION
-narrative: UPDATE_NARRATIVE
+description: Office 365 (O365) is Microsoft's cloud-based suite of productivity tools, encompassing email, collaboration platforms, and office applications, all integrated with Azure Active Directory for identity and access management. Given the centralized storage of sensitive organizational data within O365 and its widespread adoption, it has become a focal point for cybersecurity efforts. The platform's complexity, combined with its ubiquity, makes it both a valuable asset and a prime target for potential threats. With the "O365 Compromised Identity Abuse" analytic story, the emphasis shifts to the post-compromise phase, highlighting the myriad ways attackers might exploit a breached O365 identity. Monitoring for these signs of identity abuse is crucial for swift response and mitigation.
+narrative: Monitor for activities and anomalies indicative of potential identity abuse one an account has beem compromised within Office 365 environments.
 references: []
 tags:
   analytic_story: O365 Compromised Identity Abuse

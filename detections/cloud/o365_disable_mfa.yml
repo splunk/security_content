@@ -21,7 +21,7 @@ references:
 - https://attack.mitre.org/techniques/T1556/
 tags:
   analytic_story:
-  - Office 365 Detections
+  - O365 Persistence Mechanisms
   asset_type: Office 365
   confidence: 80
   impact: 80

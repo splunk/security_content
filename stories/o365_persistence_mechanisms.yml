@@ -1,0 +1,20 @@
+name: O365 Persistence Mechanisms
+id: d230a106-0475-4605-a8d8-abaf4c31ced7
+version: 1
+date: '2023-10-17'
+author: Mauricio Velazco, Splunk
+description: Office 365 (O365) is Microsoft's cloud-based suite of productivity tools, encompassing email, collaboration platforms, and office applications, all integrated with Azure Active Directory for identity and access management. Given the centralized storage of sensitive organizational data within O365 and its widespread adoption, it has become a focal point for cybersecurity efforts. The platform's complexity, combined with its ubiquity, makes it both a valuable asset and a prime target for potential threats.
+narrative: Monitor for activities and anomalies indicative of potential persistence techniques within Office 365 environments.
+references: []
+tags:
+  analytic_story: O365 Persistence Mechanisms
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Cloud Security
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

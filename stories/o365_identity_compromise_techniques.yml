@@ -3,8 +3,8 @@ id: 3d69980c-193b-4790-935c-5a9ef085dc60
 version: 1
 date: '2023-10-17'
 author: Mauricio Velazco, Splunk
-description: UPDATE_DESCRIPTION
-narrative: UPDATE_NARRATIVE
+description: Office 365 (O365) is Microsoft's cloud-based suite of productivity tools, encompassing email, collaboration platforms, and office applications, all integrated with Azure Active Directory for identity and access management. Given the centralized storage of sensitive organizational data within O365 and its widespread adoption, it has become a focal point for cybersecurity efforts. The platform's complexity, combined with its ubiquity, makes it both a valuable asset and a prime target for potential threats. As O365's importance grows, it increasingly becomes a target for attackers seeking to exploit organizational data and systems. The "O365 Identity Compromise Techniques" analytic story focuses on the initial techniques attackers employ to breach or compromise these identities. Recognizing these early indicators is pivotal, forming the frontline of defense against unauthorized access and potential security incidents.
+narrative: Monitor for activities and anomalies indicative of potential identity compromise techniques within Office 365 environments.
 references: []
 tags:
   analytic_story: O365 Identity Compromise Techniques
