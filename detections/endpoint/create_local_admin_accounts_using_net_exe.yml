@@ -5,8 +5,8 @@ date: '2021-09-08'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: This search looks for the creation of local administrator accounts using
-  net.exe .
+description: |-
+  The following analytic detects the creation of local administrator accounts using the net.exe command to mitigate the risks associated with unauthorized access and prevent further damage to the environment by responding to potential threats earlier and taking appropriate actions to protect the organization's systems and data. This detection is made by a Splunk query to search for processes with the name net.exe or net1.exe that include the "/add" parameter and have specific keywords related to administrator accounts in their process name. This detection is important because the creation of unauthorized local administrator accounts might indicate that an attacker has successfully created a new administrator account and is trying to gain persistent access to a system or escalate their privileges for data theft, or other malicious activities. False positives might occur since there might be legitimate uses of the net.exe command and the creation of administrator accounts in certain circumstances. You must consider the context of the activity and other indicators of compromise before taking any action. For next steps, review the details of the identified process, including the user, parent process, and parent process name. Examine any relevant on-disk artifacts and look for concurrent processes to determine the source of the attack.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as

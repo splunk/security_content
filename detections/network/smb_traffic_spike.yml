@@ -5,8 +5,8 @@ date: '2020-07-22'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for spikes in the number of Server Message Block (SMB)
-  traffic connections.
+description: |-
+  The following analytic detects spikes in the number of Server Message Block (SMB) traffic connections. SMB is a network protocol used for sharing files, printers, and other resources between computers. This detection is made by a Splunk query that looks for SMB traffic connections on ports 139 and 445, as well as connections using the SMB application. The query calculates the average and standard deviation of the number of SMB connections over the past 70 minutes, and identifies any sources that exceed two standard deviations from the average. This helps to filter out false positives caused by normal fluctuations in SMB traffic. This detection is important because it identifies potential SMB-based attacks, such as ransomware or data theft, which often involve a large number of SMB connections. This  suggests that an attacker is attempting to exfiltrate data or spread malware within the network. Next steps include investigating the source of the traffic and determining if it is malicious. This can involve reviewing network logs, capturing and analyzing any relevant network packets, and correlating with other security events to identify the attack source and mitigate the risk.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic
   where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb
