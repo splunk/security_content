@@ -16,33 +16,25 @@ data_source:
 - Windows Security 4688
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
-  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
   = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
-  actor_process_file.path | eval actor_process_file_name = actor_process_file.name
+  actor_process_file.path | eval actor_process_file_name = lower(actor_process_file.name)
   | eval device_hostname = device.hostname | where actor_process_file_name="services.exe"
-  AND (process_file_name="at.exe" OR process_file_name="atbroker.exe" OR process_file_name="bash.exe"
-  OR process_file_name="bitsadmin.exe" OR process_file_name="certoc.exe" OR process_file_name="cmd.exe"
-  OR process_file_name="cmstp.exe" OR process_file_name="dllhost.exe" OR process_file_name="dnscmd.exe"
-  OR process_file_name="extexport.exe" OR process_file_name="explorer.exe" OR process_file_name="forfiles.exe"
-  OR process_file_name="ftp.exe" OR process_file_name="gpscript.exe" OR process_file_name="hh.exe"
-  OR process_file_name="ie4uinit.exe" OR process_file_name="ieexec.exe" OR process_file_name="infdefaultinstall.exe"
-  OR process_file_name="installutil.exe" OR process_file_name="lucallbackproxy.exe"
-  OR process_file_name="mavinject.exe" OR process_file_name="microsoft.workflow.compiler.exe"
-  OR process_file_name="mmc.exe" OR process_file_name="msbuild.exe" OR process_file_name="msconfig.exe"
-  OR process_file_name="msdt.exe" OR process_file_name="mshta.exe" OR process_file_name="msiexec.exe"
-  OR process_file_name="netsh.exe" OR process_file_name="odbcconf.exe" OR process_file_name="offlinescannershell.exe"
-  OR process_file_name="pcwrun.exe" OR process_file_name="pcalua.exe" OR process_file_name="pnputil.exe"
-  OR process_file_name="presentationhost.exe" OR process_file_name="rasautou.exe"
-  OR process_file_name="regasm.exe" OR process_file_name="regsvcs.exe" OR process_file_name="regsvr32.exe"
-  OR process_file_name="register-cimprovider.exe" OR process_file_name="rundll32.exe"
-  OR process_file_name="runonce.exe" OR process_file_name="runscripthelper.exe" OR
-  process_file_name="schtasks.exe" OR process_file_name="scriptrunner.exe" OR process_file_name="settingsynchost.exe"
-  OR process_file_name="stordiag.exe" OR process_file_name="syncappvpublishingserver.exe"
-  OR process_file_name="ttdinject.exe" OR process_file_name="tttracer.exe" OR process_file_name="verclsid.exe"
-  OR process_file_name="wab.exe" OR process_file_name="wmic.exe" OR process_file_name="wuauclt.exe"
-  OR process_file_name="xwizard.exe") --finding_report--'
+  AND (process_file_name IN ("at.exe", "atbroker.exe", "bash.exe", "bitsadmin.exe", 
+  "certoc.exe", "cmd.exe", "cmstp.exe", "dllhost.exe", "dnscmd.exe", "extexport.exe", 
+  "explorer.exe", "forfiles.exe", "ftp.exe", "gpscript.exe", "hh.exe", "ie4uinit.exe", 
+  "ieexec.exe", "infdefaultinstall.exe", "installutil.exe", "lucallbackproxy.exe", 
+  "mavinject.exe", "microsoft.workflow.compiler.exe", "mmc.exe", "msbuild.exe", 
+  "msconfig.exe", "msdt.exe", "mshta.exe", "msiexec.exe", "netsh.exe", "odbcconf.exe", 
+  "offlinescannershell.exe", "pcwrun.exe", "pcalua.exe", "pnputil.exe", 
+  "presentationhost.exe", "rasautou.exe", "regasm.exe", "regsvcs.exe", 
+  "regsvr32.exe", "register-cimprovider.exe", "rundll32.exe", "runonce.exe", 
+  "runscripthelper.exe", "schtasks.exe", "scriptrunner.exe", "settingsynchost.exe", 
+  "stordiag.exe", "syncappvpublishingserver.exe", "ttdinject.exe", "tttracer.exe", 
+  "verclsid.exe", "wab.exe", "wmic.exe", "wuauclt.exe", "xwizard.exe")) 
+  --finding_report--'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

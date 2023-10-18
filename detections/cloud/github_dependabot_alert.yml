@@ -5,7 +5,7 @@ date: '2021-09-01'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: This search looks for Dependabot Alerts in Github logs.
+description: "The following analytic is made by first searching for logs that contain the action \"create\" and renames certain fields for easier analysis. Then, this analytic uses the \"stats\" command to calculate the first and last occurrence of the alert based on the timestamp. The fields included in the output are the action, affected package name, affected range, created date, external identifier, external reference, fixed version, severity, repository, repository URL, and user. The \"phase\" field is set to \"code\" to indicate that the alert pertains to code-related issues. The detection is important because dependabot Alerts can indicate vulnerabilities in the codebase that can be exploited by attackers. Detecting and investigating these alerts can help a SOC to proactively address security risks and prevent potential breaches or unauthorized access to sensitive information. False positives might occur since there are legitimate actions that trigger the \"create\" action or if other factors exist that can generate similar log entries. Next steps include reviewing the details of the alert, such as the affected package, severity, and fixed version to determine the appropriate response and mitigation steps."
 data_source: []
 search: '`github` alert.id=* action=create | rename repository.full_name as repository,
   repository.html_url as repository_url sender.login as user | stats min(_time) as

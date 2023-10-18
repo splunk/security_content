@@ -7,12 +7,19 @@ type: TTP
 status: production
 data_source:
 - Windows Security 4719
-description: This analytic looks for audit policies being disabled on a domain controller.
-search: '`wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448","%%8450","%%8448, %%8450") OR Changes IN ("Failure removed","Success removed","Success removed, Failure
-  removed")) dest_category="domain_controller"| replace "%%8448" with "Success removed", "%%8450" with "Failure removed", "%%8448, %%8450" with "Success removed, Failure removed" in AuditPolicyChanges | eval AuditPolicyChanges=coalesce(AuditPolicyChanges,Changes), SubcategoryGuid=coalesce(SubcategoryGuid,Subcategory_GUID) | stats min(_time) as _time values(host) as dest by AuditPolicyChanges SubcategoryGuid | lookup advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory | `windows_ad_domain_controller_audit_policy_disabled_filter`'
-how_to_implement: Ensure you are ingesting EventCode `4719` from your domain controllers, the category domain_controller exists
-  in assets and identities, and that assets and identities is enabled. If A&I is not configured, you will need to manually filter the results 
-  within the base search. 
+description: The following analytic detects the disabling of audit policies on a domain controller. The detection is made by identifying changes made to audit policies and checks for the removal of success or failure auditing, which are common indicators of policy tampering. The detection is important because it indicates that an attacker has gained access to the domain controller and is attempting to evade detection and cover up malicious activity. The impact of such an attack can be severe, including data theft, privilege escalation, and compromise of the entire network. False positives might occur since legitimate changes to audit policies might also trigger the analytic. Upon triage, review the audit policy change event and investigate the source of the change. Additionally, you must capture and inspect any relevant on-disk artifacts and review concurrent processes to identify the attack source."
+search: '`wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448","%%8450","%%8448,
+  %%8450") OR Changes IN ("Failure removed","Success removed","Success removed, Failure
+  removed")) dest_category="domain_controller"| replace "%%8448" with "Success removed",
+  "%%8450" with "Failure removed", "%%8448, %%8450" with "Success removed, Failure
+  removed" in AuditPolicyChanges | eval AuditPolicyChanges=coalesce(AuditPolicyChanges,Changes),
+  SubcategoryGuid=coalesce(SubcategoryGuid,Subcategory_GUID) | stats min(_time) as
+  _time values(host) as dest by AuditPolicyChanges SubcategoryGuid | lookup advanced_audit_policy_guids
+  GUID as SubcategoryGuid OUTPUT Category SubCategory | `windows_ad_domain_controller_audit_policy_disabled_filter`'
+how_to_implement: Ensure you are ingesting EventCode `4719` from your domain controllers,
+  the category domain_controller exists in assets and identities, and that assets
+  and identities is enabled. If A&I is not configured, you will need to manually filter
+  the results within the base search.
 known_false_positives: Unknown
 references:
 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4719
@@ -41,7 +48,8 @@ tags:
   - SubcategoryGuid
   risk_score: 60
   security_domain: endpoint
-  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested
+  manual_test: This search uses a lookup provided by Enterprise Security and needs
+    to be manually tested
 tests:
 - name: True Positive Test
   attack_data:

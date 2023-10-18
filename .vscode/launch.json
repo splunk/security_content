@@ -50,6 +50,15 @@
             "args": ["-p", "detections", "content_changer", "-cf", "fix_kill_chain"]
         },
         {
+            "name": "contentctl convert",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/contentctl.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-p", ".", "convert", "-dm", "ocsf", "-dp", "dev_ssa/endpoint/ssa___windows_wmiprvse_spawn_msbuild.yml", "-o", "ssa_detections/endpoint"]
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",

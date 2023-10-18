@@ -5,8 +5,8 @@ date: '2021-01-06'
 author: John Stoner, Splunk
 status: experimental
 type: TTP
-description: This search aims to detect the Supernova webshell used in the SUNBURST
-  attack.
+description: |-
+  The following analytic detects the presence of the Supernova webshell, which was used in the SUNBURST attack. This webshell can be used by attackers to gain unauthorized access to a compromised system and run arbitrary code. This detection is made by a Splunk query that searches for specific patterns in web URLs, including "*logoimagehandler.ashx*codes*", "*logoimagehandler.ashx*clazz*", "*logoimagehandler.ashx*method*", and "*logoimagehandler.ashx*args*". These patterns are commonly used by the Supernova webshell to communicate with its command and control server. This detection is important because it indicates a potential compromise and unauthorized access to the system to run arbitrary code, which can lead to data theft, ransomware, or other damaging outcomes. False positives might occur since the patterns used by the webshell can also be present in legitimate web traffic. In such cases, tune the search to the specific environment and monitor it closely for any suspicious activity. Next steps include reviewing the web URLs and inspecting any relevant on-disk artifacts. Additionally, review concurrent processes and network connections to identify the source of the attack.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Web.Web where
   web.url=*logoimagehandler.ashx*codes* OR Web.url=*logoimagehandler.ashx*clazz* OR
