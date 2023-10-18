@@ -27,9 +27,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_cmd_line LIKE "%-F %"
+  | eval device_hostname = device.hostname | where (process_cmd_line LIKE "%-f %"
   OR process_cmd_line LIKE "%--data %" OR process_cmd_line LIKE "%-d %" OR process_cmd_line
-  LIKE "%--upload-file %" OR process_cmd_line LIKE "%-T %") AND match(process_file_name,
+  LIKE "%--upload-file %" OR process_cmd_line LIKE "%-t %") AND match(process_file_name,
   /(?i)curl.exe/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
