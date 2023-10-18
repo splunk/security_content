@@ -7,7 +7,7 @@ description: The vssadmin.exe utility is used to interact with the Volume Shadow
   looks for either of these tools being used to delete shadow copies.
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
-  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
   = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
