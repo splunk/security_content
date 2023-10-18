@@ -5,20 +5,15 @@ date: '2023-04-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic is geared towards detecting potential privilege escalation threats in Azure Active Directory (AD). It identifies instances where privileged roles, which hold elevated permissions, are assigned to Service Principals. These non-human entities that can access Azure resources could be exploited in an attack scenario, leading to unauthorized access or malicious activities. The analytic runs a specific search within the ingested Azure AD events, specifically leveraging the AuditLogs log category. Keep in mind, however, that there could be false positives, as administrators may legitimately assign privileged roles to Service Principals.
+description: "The following analytic detects potential privilege escalation threats in Azure Active Directory (AD). The detection is made by running a specific search within the ingested Azure Active Directory events to leverage the AuditLogs log category. This detection is important because it identifies instances where privileged roles that hold elevated permissions are assigned to service principals. This prevents unauthorized access or malicious activities, which occur when these non-human entities access Azure resources to exploit them. False positives might occur since administrators can legitimately assign privileged roles to service principals."
 data_source: []
-search: ' `azuread` operationName="Add member to role" 
-  | rename properties.* as *
-  | search "targetResources{}.type"=ServicePrincipal
-  | rename initiatedBy.user.userPrincipalName as initiatedBy 
-  | rename targetResources{}.modifiedProperties{}.newValue  as roles 
-  | eval role=mvindex(roles,1) 
-  | rename targetResources{}.displayName as apps
-  | eval displayName=mvindex(apps,0) 
-  | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
-  | search isprvilegedadrole = True
-  | stats values(displayName) by _time, initiatedBy, result, operationName, role
-  | `azure_ad_privileged_role_assigned_to_service_principal_filter`'
+search: ' `azuread` operationName="Add member to role" | rename properties.* as *
+  | search "targetResources{}.type"=ServicePrincipal | rename initiatedBy.user.userPrincipalName
+  as initiatedBy | rename targetResources{}.modifiedProperties{}.newValue  as roles
+  | eval role=mvindex(roles,1) | rename targetResources{}.displayName as apps | eval
+  displayName=mvindex(apps,0) | lookup privileged_azure_ad_roles azureadrole AS role
+  OUTPUT isprvilegedadrole description | search isprvilegedadrole = True | stats values(displayName)
+  by _time, initiatedBy, result, operationName, role | `azure_ad_privileged_role_assigned_to_service_principal_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
@@ -33,8 +28,8 @@ tags:
   asset_type: Azure Active Directory
   confidence: 50
   impact: 70
-  message: A privileged Azure AD role was assigned to the Service Principal $displayName$ initiated
-    by $initiatedBy$
+  message: A privileged Azure AD role was assigned to the Service Principal $displayName$
+    initiated by $initiatedBy$
   mitre_attack_id:
   - T1098
   - T1098.003
