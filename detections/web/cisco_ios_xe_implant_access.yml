@@ -1,0 +1,61 @@
+name: Cisco IOS XE Implant Access
+id: 07c36cda-6567-43c3-bc1a-89dff61e2cd9
+version: 1
+date: '2023-10-17'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies potential exploitation of a previously unknown vulnerability in the Web User Interface (Web UI) feature of Cisco IOS XE software (CVE-2023-20198). Successful exploitation allows an attacker to create an account on the affected device with privilege level 15 access, granting them full control of the compromised device. The detection is based on the observation of suspicious account creation and subsequent actions, including the deployment of an implant consisting of a configuration file. The implant is saved under the file path //usr//binos//conf//nginx-conf//cisco_service.conf and is not persistent, meaning a device reboot will remove it, but the newly created local user accounts remain active even after system reboots. The new user accounts have level 15 privileges, meaning they have full administrator access to the device. This privileged access to the devices and subsequent creation of new users is tracked as CVE-2023-20198.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("/webui/logoutconfirm.html?logon_hash=*") Web.http_method=POST Web.status=200
+  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`| `cisco_ios_xe_implant_access_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk
+  for Palo Alto. 
+known_false_positives: False positives may be present, restrict to Cisco IOS XE devices or perimeter appliances. Modify the analytic as needed based on hunting for successful exploitation of CVE-2023-20198.
+references:
+- https://blog.talosintelligence.com/active-exploitation-of-cisco-ios-xe-software/
+- https://github.com/vulncheck-oss/cisco-ios-xe-implant-scanner
+tags:
+  cve:
+  - CVE-2023-20198
+  analytic_story:
+  - Cisco IOS XE Software Web Management User Interface vulnerability
+  asset_type: Network
+  atomic_guid: []
+  confidence: 90
+  impact: 90
+  message: Possible exploitation of CVE-2023-20198 against $dest$ by $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/iosxe/ciscocve202320198.log
+    source: suricata
+    sourcetype: suricata

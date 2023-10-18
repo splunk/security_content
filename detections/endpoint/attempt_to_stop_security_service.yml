@@ -5,8 +5,8 @@ date: '2023-06-13'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: This search looks for attempts to stop security-related services on the
-  endpoint.
+description: |-
+  The following analytic detects attempts to stop security-related services on the endpoint and helps to mitigate potential threats earlier, thereby minimizing the impact on the organization's security. The detection is made by using a Splunk query that searches for processes that involve the "sc.exe" command and include the phrase "stop" in their command. The query collects information such as the process name, process ID, parent process, user, destination, and timestamps. The detection is important because attempts to stop security-related services can indicate malicious activity or an attacker's attempt to disable security measures. This can impact the organization's security posture and can lead to the compromise of the endpoint and potentially the entire network. Disabling security services can allow attackers to gain unauthorized access, exfiltrate sensitive data, or launch further attacks, such as malware installation or privilege escalation. False positives might occur since there might be legitimate reasons for stopping these services in certain situations. Therefore, you must exercise caution and consider the context of the activity before taking any action. Next steps include reviewing the identified process and its associated details. You must also investigate any on-disk artifacts related to the process and review concurrent processes to determine the source of the attack.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

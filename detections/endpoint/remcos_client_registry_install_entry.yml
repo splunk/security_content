@@ -5,8 +5,8 @@ date: '2022-11-14'
 author: Steven Dick, Bhavin Patel, Rod Soto, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search detects registry key license at host where Remcos RAT agent
-  is installed.
+description: |-
+  The following analytic detects the presence of a registry key related to the Remcos RAT agent on a host. This detection is made by a Splunk query to search for instances where the registry key "license" is found in the "Software\Remcos" path. This analytic combines information from two data models: Endpoint.Processes and Endpoint.Registry and retrieves process information such as user, process ID, process name, process path, destination, parent process name, parent process, and process GUID. This analytic also retrieves registry information such as registry path, registry key name, registry value name, registry value data, and process GUID. By joining the process GUID from the Endpoint.Processes data model with the process GUID from the Endpoint.Registry data model, the analytic identifies instances where the "license" registry key is found in the "Software\Remcos" path. This detection is important because it suggests that the host has been compromised by the Remcos RAT agent. Remcos is a well-known remote access Trojan that can be used by attackers to gain unauthorized access to systems and exfiltrate sensitive data. Identifying this behavior allows the SOC to take immediate action to remove the RAT agent and prevent further compromise. The impact of this attack can be severe, as the attacker can gain unauthorized access to the system, steal sensitive information, or use the compromised system as a launching point for further attacks. Next steps include using this analytic in conjunction with other security measures and threat intelligence to ensure accurate detection and response.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
