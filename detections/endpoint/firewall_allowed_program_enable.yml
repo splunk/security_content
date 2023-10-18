@@ -5,7 +5,7 @@ date: '2021-11-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic detects a potential suspicious modification of firewall
+description: The following analytic detects a potential suspicious modification of firewall
   rule allowing to execute specific application. This technique was identified when
   an adversary and red teams to bypassed firewall file execution restriction in a
   targetted host. Take note that this event or command can run by administrator during

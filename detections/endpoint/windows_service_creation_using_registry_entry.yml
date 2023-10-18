@@ -5,19 +5,15 @@ date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to look for suspicious modification or creation of registry
-  to have service entry. This technique is abused by adversaries or threat actor to
-  persist, gain privileges in the machine or even lateral movement. This technique
-  can be executed using reg.exe application or using windows API like for example
-  the CrashOveride malware. This detection is a good indicator that a process is trying
-  to create a service entry using registry ImagePath.
+description: |-
+  The following analytic detects when reg.exe modify registry keys that define Windows services and their configurations in Windows to detect potential threats earlier and mitigate the risks. This detection is made by a Splunk query that searches for specific keywords in the process name, parent process name, user, and process ID. This detection is important because it suggests that an attacker has modified the registry keys that define Windows services and their configurations, which can allow them to maintain access to the system and potentially move laterally within the network. It is a common technique used by attackers to gain persistence on a compromised system and its impact can lead to data theft, ransomware, or other damaging outcomes. False positives can occur since legitimate uses of reg.exe to modify registry keys for Windows services can also trigger this alert. Next steps include reviewing the process and user context of the reg.exe activity and identify any other concurrent processes that might be associated with the attack upon triage.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\SYSTEM\\CurrentControlSet\\Services*" Registry.registry_value_name
-  = ImagePath) BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
+  = ImagePath) BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_service_creation_using_registry_entry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -37,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A Windows Service was created on a endpoint from $dest$ using a registry entry
+  message: A Windows Service was created on a endpoint from $dest$ using a registry
+    entry
   mitre_attack_id:
   - T1574.011
   observable:

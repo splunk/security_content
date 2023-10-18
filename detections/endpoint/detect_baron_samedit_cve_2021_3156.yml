@@ -5,7 +5,8 @@ date: '2021-01-27'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: This search detects the heap-based buffer overflow of sudoedit
+description: |-
+  The following analytic detects a specific type of vulnerability known as a heap-based buffer overflow in the sudoedit command, commonly referred to as Baron Samedit CVE-2021-3156. The detection is made by a Splunk query that searches for instances of the sudoedit command with the "-s" flag followed by a double quote. This combination of parameters is indicative of the vulnerability being exploited. The detection is important because it suggests that an attacker is attempting to exploit the Baron Samedit vulnerability. The Baron Samedit vulnerability allows an attacker to gain elevated privileges on a Linux system and run arbitrary code with root privileges, potentially leading to complete control over the affected system. The impact of a successful attack can be severe since it allows the attacker to bypass security measures and gain unauthorized access to sensitive data or systems. This can result in data breaches, unauthorized modifications, or even complete system compromise. Next steps include being aware of this vulnerability and actively monitoring any attempts to exploit it. By detecting and responding to such attacks in a timely manner, you can prevent or minimize the potential damage caused by the heap-based buffer overflow of sudoedit.
 data_source: []
 search: '`linux_hosts` "sudoedit -s \\" | `detect_baron_samedit_cve_2021_3156_filter`'
 how_to_implement: Splunk Universal Forwarder running on Linux systems, capturing logs
