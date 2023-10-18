@@ -5,7 +5,8 @@ date: '2021-09-06'
 author: Patrick Bareiss, Splunk
 status: production
 type: Correlation
-description: This search correlations detections by user and risk_score
+description: |-
+  The following analytic detects the correlation between the user and risk score and identifies users with a high risk score that pose a significant security risk such as unauthorized access attempts, suspicious behavior, or potential insider threats. Next, the analytic calculates the sum of the risk scores and groups the results by user, the corresponding signals, and the repository. The results are sorted in descending order based on the risk score and filtered to include records with a risk score greater than 80. Finally, the results are passed through a correlation filter specific to the user and risk. This detection is important because it identifies users who have a high risk score and helps to prioritize investigations and allocate resources. False positives might occur but the impact of such an attack can vary depending on the specific scenario such as data exfiltration, system compromise, or the disruption of critical services. Please investigate this notable event.
 data_source: []
 search: '`risk_index` | fillnull | stats sum(risk_score) as risk_score values(source)
   as signals values(repository) as repository by user | sort - risk_score | where

@@ -5,7 +5,8 @@ date: '2021-01-29'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: This search detects the heap-based buffer overflow of sudoedit
+description: |-
+  The following analytic detects the occurrence of a heap-based buffer overflow in sudoedit.The detection is made by using a Splunk query to identify Linux hosts where the terms "sudoedit" and "segfault" appear in the logs. The detection is important because the heap-based buffer overflow vulnerability in sudoedit can be exploited by attackers to gain elevated root privileges on a vulnerable system, which might lead to the compromise of sensitive data, unauthorized access, and other malicious activities. False positives might occur. Therefore, you must review the logs and investigate further before taking any action.
 data_source: []
 search: '`linux_hosts` TERM(sudoedit) TERM(segfault) | stats count min(_time) as firstTime
   max(_time) as lastTime by host | where count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'

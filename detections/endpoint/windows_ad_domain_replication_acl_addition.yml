@@ -7,7 +7,7 @@ type: TTP
 status: experimental
 data_source: []
 description:
-  This analytic detects the addition of the permissions necessary to perform a DCSync attack.
+  The following analytic detects the addition of the permissions necessary to perform a DCSync attack.
   In order to replicate AD objects, the initiating user or computer must have the following permissions on the domain.
   - DS-Replication-Get-Changes
   - DS-Replication-Get-Changes-All

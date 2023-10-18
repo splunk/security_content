@@ -5,7 +5,7 @@ date: '2023-04-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic detects a suspicious process making a DNS query via known,
+description: The following analytic detects a suspicious process making a DNS query via known,
   abused text-paste web services, VoIP, instant messaging, and digital distribution
   platforms used to download external files. This technique is abused by adversaries,
   malware actors, and red teams to download a malicious file on the target host. This
