@@ -1,0 +1,23 @@
+name: Subvert Trust Controls SIP and Trust Provider Hijacking
+id: 7faf91b6-532a-4f18-807c-b2761e90b6dc
+version: 1
+date: '2023-10-10'
+author: Michael Haag, Splunk
+description: Adversaries may tamper with SIP and trust provider components to mislead the operating system and application control tools when conducting signature validation checks. This technique involves modifying the Dll and FuncName Registry values that point to the dynamic link library (DLL) providing a SIP's function, which retrieves an encoded digital certificate from a signed file. By pointing to a maliciously-crafted DLL with an exported function that always returns a known good signature value, an adversary can apply an acceptable signature value to all files using that SIP. This can also enable persistent code execution, since these malicious components may be invoked by any application that performs code signing or signature validation.
+narrative: In user mode, Windows Authenticode digital signatures are used to verify a file's origin and integrity, variables that may be used to establish trust in signed code. The signature validation process is handled via the WinVerifyTrust application programming interface (API) function, which accepts an inquiry and coordinates with the appropriate trust provider, which is responsible for validating parameters of a signature. Because of the varying executable file types and corresponding signature formats, Microsoft created software components called Subject Interface Packages (SIPs) to provide a layer of abstraction between API functions and files. SIPs are responsible for enabling API functions to create, retrieve, calculate, and verify signatures. Unique SIPs exist for most file formats and are identified by globally unique identifiers (GUIDs). Adversaries may hijack SIP and trust provider components to mislead operating system and application control tools to classify malicious (or any) code as signed.
+references: 
+  - https://attack.mitre.org/techniques/T1553/003/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_sip_persistence.yml
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/SpecterOps_Subverting_Trust_in_Windows.pdf
+  - https://github.com/gtworek/PSBits/tree/master/SIP
+  - https://github.com/mattifestation/PoCSubjectInterfacePackage
+  - https://pentestlab.blog/2017/11/06/hijacking-digital-signatures/
+tags:
+  analytic_story: Subvert Trust Controls SIP and Trust Provider Hijacking
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

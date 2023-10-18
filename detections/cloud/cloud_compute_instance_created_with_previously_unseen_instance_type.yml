@@ -5,7 +5,7 @@ date: '2020-09-12'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: Find EC2 instances being created with previously unseen instance types.
+description: The following analytic detects the creation of EC2 instances with previously unseen instance types. The detection is made by using a Splunk query to identify the EC2 instances. First, the query searches for changes in the EC2 instance creation action and filters for instances with instance types that are not recognized or previously seen. Next, the query uses the Splunk tstats command to gather the necessary information from the Change data model. Then, it filters the instances with unknown instance types and reviews previously seen instance types to determine if they are new or not. The detection is important because it identifies attackers attempting to create instances with unknown or potentially compromised instance types, which can be an attempt to gain unauthorized access to sensitive data, compromise of systems, exfiltrate data, potential disruption of services, or launch other malicious activities within the environment. False positives might occur since there might be legitimate reasons for creating instances with previously unseen instance types. Therefore, you must carefully review and triage all alerts.
 data_source: []
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type,

@@ -5,7 +5,7 @@ date: '2021-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic detects a potential process using COM Object like CMLUA
+description: The following analytic detects a potential process using COM Object like CMLUA
   or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries
   to gain administrative privileges to its running process.
 data_source:
