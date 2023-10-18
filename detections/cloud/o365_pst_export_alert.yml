@@ -21,7 +21,7 @@ references:
 - https://attack.mitre.org/techniques/T1114/
 tags:
   analytic_story:
-  - O365 Compromised Identity Abuse
+  - O365 Persistence Mechanisms
   - Data Exfiltration
   asset_type: Office 365
   confidence: 60

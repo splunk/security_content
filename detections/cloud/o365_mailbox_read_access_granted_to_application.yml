@@ -35,7 +35,7 @@ references:
 - https://graphpermissions.merill.net/permission/Mail.Read
 tags:
   analytic_story:
-  - O365 Compromised Identity Abuse
+  - O365 Persistence Mechanisms
   asset_type: Office 365 tenant
   confidence: 50
   impact: 90
