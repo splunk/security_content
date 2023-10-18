@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic identifies DCRat "forkbomb" payload feature. This
   technique was seen in dark crystal RAT backdoor capabilities where it will execute
-  several cmd child process executing "notepad.exe & pause". This analytic detects
+  several cmd child process executing "notepad.exe & pause". The following analytic detects
   the multiple cmd.exe and child process notepad.exe  execution using batch script
   in the targeted host within 30s timeframe. this TTP can be a good pivot to check
   DCRat infection.

@@ -5,8 +5,8 @@ date: '2020-07-22'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: This search detects writes to the recycle bin by a process other than
-  explorer.exe.
+description: |-
+  The following analytic detects when a process other than explorer.exe writes to the Windows Recycle Bin to detect potential threats earlier and mitigate the risks. This detection is made by a Splunk query that utilizes the Endpoint.Filesystem data model and the Endpoint.Processes data model. The query looks for any process writing to the "*$Recycle.Bin*" file path, excluding explorer.exe. This detection is important because it suggests that an attacker is attempting to hide their activities by using the Recycle Bin, which can lead to data theft, ransomware, or other damaging outcomes. Detecting writes to the Recycle Bin by a process other than explorer.exe can help to investigate and determine if the activity is malicious or benign. False positives might occur since there might be legitimate uses of the Recycle Bin by processes other than explorer.exe. Next steps include reviewing the process writing to the Recycle Bin and any relevant on-disk artifacts upon triage.
 data_source:
 - Sysmon Event ID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

@@ -5,13 +5,13 @@ date: '2023-08-02'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: The following search detects the addition of a new Federated domain in O365 environments.  If an attacker adds an unverified domain to Office 365, they may gain unauthorized access to the organization's email and other services, potentially leading to data breaches and information theft. It can be misused to set up adversary infrastruture for phishing, spoofing emails and malware distribution.
+description: |-
+  The following analytic detects the addition of a new federated domain in an organization's Office 365 environment. Identifies instances where a new federated domain is added to the organization's Office 365 configuration and helps to take immediate action to mitigate the risks, prevent further unauthorized access, and protect the organization's data and systems. The detection is made by the Splunk query `o365_management_activity` with the parameters `Workload=Exchange` and `Operation="Add-FederatedDomain"`, which analyzes the management activity logs in Office 365 and filters for the specific operation to add a federated domain. The detection is important because identifying the addition of a new federated domain can indicate potential unauthorized access or compromise of the organization's Office 365 environment. A new Federated domain can be added by an attacker to gain unauthorized access, exfiltrate data, or carry out other malicious activity, which can lead to data breaches, unauthorized access to sensitive information, or compromise of the organization's systems and infrastructure. Next steps include viewing the details of the added federated domain, including the organization name, originating server, user ID, and user key. You must also capture and analyze any relevant on-disk artifacts. Additionally, you must identify the source of the attack by looking for concurrent processes or other indicators of compromise.
 data_source: []
 search: '`o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*"
-  | stats count values(ModifiedProperties{}.NewValue) as new_value by  user user_agent authentication_service action Workload Operation 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `o365_new_federated_domain_added_filter`'
+  | stats count values(ModifiedProperties{}.NewValue) as new_value by  user user_agent
+  authentication_service action Workload Operation | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `o365_new_federated_domain_added_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity.
 known_false_positives: The creation of a new Federated domain is not necessarily malicious,
