@@ -41,6 +41,9 @@ tags:
   - _time
   - src_ip
   - user
+  - Operation
+  - record_type
+  - Workload
   security_domain: identity
 tests:
 - name: True Positive Test
