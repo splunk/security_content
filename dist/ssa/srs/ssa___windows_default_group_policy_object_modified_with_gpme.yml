@@ -14,14 +14,14 @@ description: The following analytic identifies the potential edition of a defaul
   of the default GPOs.
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
-  = process_file.path | eval process_file_name = process_file.name | eval process_cmd_line
+  = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
   = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where (process_file_name="mmc.exe" AND
-  process_cmd_line LIKE "%gpme.msc%") OR process_cmd_line LIKE "%31B2F340-016D-11D2-945F-00C04FB984F9%"
-  OR process_cmd_line LIKE "%6AC1786C-016F-11D2-945F-00C04fB984F9%" 
+  process_cmd_line LIKE "%gpme.msc%") OR process_cmd_line LIKE "%31b2f340-016d-11d2-945f-00c04fb984f9%"
+  OR process_cmd_line LIKE "%6ac1786c-016f-11d2-945f-00c04fb984f9%" 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
