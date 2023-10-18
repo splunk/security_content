@@ -1,0 +1,52 @@
+name: Windows SIP WinVerifyTrust Failed Trust Validation
+id: 6ffc7f88-415b-4278-a80d-b957d6539e1a
+version: 1
+date: '2023-10-10'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+data_source: []
+description: The following analytic utilizes a Windows Event Log - CAPI2 - or CryptoAPI 2, to identify failed trust validation. Typically, this event log is meant for diagnosing PKI issues, however is a great source to identify failed trust validation. Note that this event log is noisy as it captures common PKI requests from many different processes. EventID 81 is generated anytime a trust validation fails. The description for EventID 81 is "The digital signature of the object did not verify." STRT tested this analytic using Mimikatz binary.
+search: '`capi2_operational` EventID=81 "The digital signature of the object did not verify." | xmlkv UserData_Xml | stats count min(_time) as firstTime max(_time) as lastTime by Computer, UserData_Xml | rename Computer as dest | `windows_sip_winverifytrust_failed_trust_validation_filter`'
+how_to_implement: To implement this analytic, one will need to enable the Microsoft-Windows-CAPI2/Operational
+  log within the Windows Event Log. Note this is a debug log for many purposes, and
+  the analytic only focuses in on EventID 81. Review the following gist for additional
+  enabling information.
+known_false_positives: False positives may be present in some instances of legitimate binaries with invalid signatures. Filter as needed.
+references:
+  - https://attack.mitre.org/techniques/T1553/003/
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/SpecterOps_Subverting_Trust_in_Windows.pdf
+  - https://github.com/gtworek/PSBits/tree/master/SIP
+  - https://github.com/mattifestation/PoCSubjectInterfacePackage
+  - https://pentestlab.blog/2017/11/06/hijacking-digital-signatures/
+tags:
+  analytic_story:
+  - Subvert Trust Controls SIP and Trust Provider Hijacking
+  asset_type: endpoint
+  atomic_guid: []
+  confidence: 80
+  impact: 80
+  message: Failed trust validation via the CryptoAPI 2 on $dest$ for a binary.
+  mitre_attack_id:
+  - T1553.003
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  required_fields:
+  - _time
+  - Computer
+  - UserData_Xml
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.003/sip/capi2-operational.log
+    source: XmlWinEventLog:Microsoft-Windows-CAPI2/Operational
+    sourcetype: xmlwineventlog

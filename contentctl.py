@@ -1,6 +1,6 @@
 import sys
 import argparse
-import os
+import os 
 
 from bin.contentctl_project.contentctl_core.domain.entities.link_validator import LinkValidator
 

@@ -5,8 +5,8 @@ date: '2018-10-12'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for cloud compute instances being created with previously
-  unseen image IDs.
+description: |-
+  The following analytic detects potential instances that are created in a cloud computing environment using new or unknown image IDs that have not been seen before. This detection is important because it helps to investigate and take appropriate action to prevent further damage or unauthorized access to the Cloud environment, which can include data breaches, unauthorized access to sensitive information, or the deployment of malicious payloads within the cloud environment. False positives might occur since legitimate instances can also have previously unseen image IDs. Next steps include conducting an extensive triage and investigation to determine the nature of the activity. During triage, review the details of the created instances, including the user responsible for the creation, the image ID used, and any associated metadata. Additionally, consider inspecting any relevant on-disk artifacts and analyzing concurrent processes to identify the source of the attack.
 data_source: []
 search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id,
