@@ -5,7 +5,7 @@ date: '2023-03-29'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic detects a potential suspicious modification of firewall
+description: The following analytic detects a potential suspicious modification of firewall
   rule registry allowing inbound traffic in specific port with public profile. This
   technique was identified when an adversary wants to grant remote access to a machine
   by allowing the traffic in a firewall rule.

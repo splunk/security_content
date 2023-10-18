@@ -1,0 +1,20 @@
+name: Microsoft SharePoint Server Elevation of Privilege CVE-2023-29357
+id: 95ae800d-485e-47f7-866e-8be281aa497d
+version: 1
+date: '2023-09-27'
+author: Michael Haag, Gowthamaraj Rajendran, Splunk
+description: This analytic story focuses on the Microsoft SharePoint Server vulnerability CVE-2023-29357, which allows for an elevation of privilege due to improper handling of authentication tokens. Exploitation of this vulnerability could lead to a serious security breach where an attacker might gain privileged access to the SharePoint environment, potentially leading to data theft or other malicious activities. This story is associated with the detection `Microsoft SharePoint Server Elevation of Privilege` which identifies attempts to exploit this vulnerability.
+narrative: Microsoft SharePoint Server is a widely used web-based collaborative platform. The vulnerability CVE-2023-29357 exposes a flaw in the handling of authentication tokens, allowing an attacker to escalate privileges and gain unauthorized access to the SharePoint environment. This could potentially lead to data theft, unauthorized system modifications, or other malicious activities. Organizations are urged to apply immediate patches and conduct regular system assessments to ensure security.
+references: 
+- https://socradar.io/microsoft-sharepoint-server-elevation-of-privilege-vulnerability-exploit-cve-2023-29357/
+- https://github.com/Chocapikk/CVE-2023-29357
+tags:
+  analytic_story: Microsoft SharePoint Server Elevation of Privilege CVE-2023-29357
+  category: 
+  - Vulnerability
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

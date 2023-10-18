@@ -14,10 +14,11 @@ search: '| tstats count min(_time) as firstTime max(_time)
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` | `ws_ftp_remote_code_execution_filter`'
 how_to_implement: The following analytic requires the Web datamodel. Ensure data source is mapped correctly or modify and tune for your data source.
-known_false_positives: If WS_FTP Server is not in use, this analytic will not return results. Monitor and tune for your environment.
+known_false_positives: If WS_FTP Server is not in use, this analytic will not return results. Monitor and tune for your environment. Note the MetaSploit module is focused on only hitting /AHT/ and not the full /AHT/AhtApiService.asmx/AuthUser URL.
 references:
 - https://github.com/projectdiscovery/nuclei-templates/pull/8296/files
 - https://www.assetnote.io/resources/research/rce-in-progress-ws-ftp-ad-hoc-via-iis-http-modules-cve-2023-40044
+- https://github.com/rapid7/metasploit-framework/pull/18414
 tags:
   cve:
   - CVE-2023-40044
