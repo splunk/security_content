@@ -1,0 +1,45 @@
+name: Windows SIP Provider Inventory
+id: 21c5af91-1a4a-4511-8603-64fb41df3fad
+version: 1
+date: '2023-10-10'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+data_source: []
+description: The following inventory analytic is used with a PowerShell scripted inputs to capture all SIP providers on a Windows system. This analytic is used to identify potential malicious SIP providers that may be used to subvert trust controls. Upon review, look for new and non-standard paths for SIP providers.
+search: '`subjectinterfacepackage` Dll=*\\*.dll | stats count min(_time) as firstTime max(_time) as lastTime values(Dll) by Path host| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_sip_provider_inventory_filter`'
+how_to_implement: To implement this analytic, one must first perform inventory using a scripted inputs. Review the following Gist - https://gist.github.com/MHaggis/75dd5db546c143ea67703d0e86cdbbd1
+known_false_positives: False positives are limited as this is a hunting query for inventory.
+references:
+- https://gist.github.com/MHaggis/75dd5db546c143ea67703d0e86cdbbd1
+tags:
+  analytic_story:
+  - Subvert Trust Controls SIP and Trust Provider Hijacking
+  asset_type: endpoint
+  atomic_guid: []
+  confidence: 50
+  impact: 50
+  message: A list of SIP providers on the system is available. Review for new and non-standard paths for SIP providers on $host$.
+  mitre_attack_id:
+  - T1553.003
+  observable:
+  - name: host
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 25
+  required_fields:
+  - Path
+  - Dll
+  - host
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.003/sip/sip_inventory.log
+    source: powershell://SubjectInterfacePackage
+    sourcetype: PwSh:SubjectInterfacePackage
