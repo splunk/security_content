@@ -1,0 +1,48 @@
+name: O365 Multiple Failed MFA Requests For User
+id: fd22124e-dbac-4744-a8ce-be10d8ec3e26
+version: 1
+date: '2023-10-19'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source:
+- UPDATE_DATA_SOURCE
+description: UPDATE_DESCRIPTION
+search: ' `o365_graph` status.errorCode=500121 
+  | bucket span=10m _time 
+  | rename userPrincipalName as user 
+  | rename ipAddress as src_ip
+  | stats dc(_raw) AS mfa_prompts values(src_ip) values(appDisplayName) values(status.failureReason)  by user, _time
+  | `o365_multiple_failed_mfa_requests_for_user_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://attack.mitre.org/techniques/T1621/
+tags:
+  analytic_story:
+  - O365 Identity Compromise Techniques
+  asset_type: Office 365 tenant
+  confidence: 80
+  impact: 60
+  message: UPDATE message
+  mitre_attack_id:
+  - T1621
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 48
+  required_fields:
+  - UPDATE_required_fields
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/o365_multiple_failed_mfa_requests/o365_multiple_failed_mfa_requests.log
+    source: o365
+    sourcetype: o365_graph
