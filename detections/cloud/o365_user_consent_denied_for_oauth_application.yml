@@ -13,7 +13,7 @@ search: ' `o365_graph` status.errorCode=65004
   | stats max(_time) as lastTime by user src_ip appDisplayName status.failureReason
   | `security_content_ctime(lastTime)`
   | `o365_user_consent_denied_for_oauth_application_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 events.
 known_false_positives: OAuth applications that require mail permissions may be legitimate, investigate and filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1528/
