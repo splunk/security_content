@@ -1,0 +1,22 @@
+build:
+  name: DA-ESS-ContentUpdate
+  path_root: dist
+  prefix: ESCU
+  build: 16959
+  version: 4.14.0
+  label: ES Content Updates
+  author_name: Splunk Threat Research Team
+  author_email: research@splunk.com
+  author_company: Splunk
+  description: Explore the Analytic Stories included with ES Content Updates.
+  splunk_app: {}
+  json_objects: null
+  ba_objects: null
+build_ssa:
+  path_root: 'dist/ssa'
+build_api:
+  path_root: 'dist/api'
+enrichments:
+  attack_enrichment: true
+  cve_enrichment: true
+  splunk_app_enrichment: false
