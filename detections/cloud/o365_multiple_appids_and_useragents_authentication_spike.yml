@@ -1,0 +1,46 @@
+name: O365 Multiple AppIDs and UserAgents Authentication Spike
+id: 66adc486-224d-45c1-8e4d-9e7eeaba988f
+version: 1
+date: '2023-10-24'
+author: Mauricio Velazco, Splunk
+status: production
+type: Anomaly
+data_source: []
+description: UPDATE_DESCRIPTION
+search: ' `o365_management_activity` Workload=AzureActiveDirectory (Operation=UserLoggedIn OR Operation=UserLoginFailed)
+  | bucket span=5m _time
+  | stats  dc(_raw) as failed_attempts dc(ApplicationId) as unique_app_ids dc(UserAgent) as unique_user_agents values(ApplicationId) values(OS) by _time user src_ip
+  | where failed_attempts > 5 and unique_user_agents > 5 and unique_app_ids > 2
+  | `o365_multiple_appids_and_useragents_authentication_spike_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://github.com/dafthack/MFASweep
+tags:
+  analytic_story:
+  - O365 Identity Compromise Techniques
+  asset_type: Office 365 
+  confidence: 80
+  impact: 60
+  message: UPDATE message
+  mitre_attack_id:
+  - T1078
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 48
+  required_fields:
+  - _time
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/o365_multiple_appids_and_useragents_auth/o365_multiple_appids_and_useragents_auth.log
+    source: o365
+    sourcetype: o365:management:activity
