@@ -61,6 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/citrix/nginx_kv_cve_2023-4966-citrix.log
-    source: nginx:plus:kv
-    sourcetype: nginx:plus:kv
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/citrix/cve-2023-4966-citrix.log
+    source: suricata
+    sourcetype: suricata
