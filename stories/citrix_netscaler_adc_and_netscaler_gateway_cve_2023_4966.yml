@@ -1,0 +1,22 @@
+name: Citrix NetScaler ADC and NetScaler Gateway CVE-2023-4966
+id: b194d644-4095-431a-bee0-a8e6ec067414
+version: 1
+date: '2023-10-24'
+author: Michael Haag, Splunk
+description: A critical security update, CVE-2023-4966, has been released for NetScaler ADC and NetScaler Gateway. This vulnerability, discovered by our internal team, can result in unauthorized data disclosure if exploited. Reports of incidents consistent with session hijacking have been received. The Cybersecurity and Infrastructure Security Agency (CISA) has added an entry for CVE-2023-4966 to its Known Exploited and Vulnerabilities Catalog. No workarounds are available for this vulnerability, and immediate installation of the recommended builds is strongly advised.
+narrative: On October 10, 2023, Cloud Software Group released builds to fix CVE-2023-4966, a vulnerability affecting NetScaler ADC and NetScaler Gateway. This vulnerability, if exploited, can lead to unauthorized data disclosure and possibly session hijacking. Although there were no known exploits at the time of disclosure, we have since received credible reports of targeted attacks exploiting this vulnerability. The Cybersecurity and Infrastructure Security Agency (CISA) has added an entry for CVE-2023-4966 to its Known Exploited and Vulnerabilities Catalog, which contains detection and mitigation guidance for observed exploitations of CVE-2023-4966 by threat actors against NetScaler ADC and NetScaler Gateway. We strongly recommend that users of affected builds immediately install the recommended builds, as this vulnerability has been identified as critical. No workarounds are available for this vulnerability.
+references:
+  - https://www.netscaler.com/blog/news/cve-2023-4966-critical-security-update-now-available-for-netscaler-adc-and-netscaler-gateway/
+  - https://support.citrix.com/article/CTX579459/netscaler-adc-and-netscaler-gateway-security-bulletin-for-cve20234966-and-cve20234967
+  - https://www.assetnote.io/resources/research/citrix-bleed-leaking-session-tokens-with-cve-2023-4966
+  - https://github.com/assetnote/exploits/tree/main/citrix/CVE-2023-4966
+  - https://github.com/projectdiscovery/nuclei-templates/blob/b815d23b908de52996060163091395d1c89fbeea/http/cves/2023/CVE-2023-4966.yaml
+tags:
+  analytic_story: Citrix NetScaler ADC and NetScaler Gateway CVE-2023-4966
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
