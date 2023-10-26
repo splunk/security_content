@@ -9,7 +9,7 @@ data_source:
 - UPDATE_DATA_SOURCE
 description: UPDATE_DESCRIPTION
 search: >
-  `o365_management_activity` `Workload=AzureActiveDirectory Operation="Update authorization policy."
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Update authorization policy."
   | eval index_number = if(mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps") >= 0, mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps"), -1)
   | search index_number >= 0 
   | eval AllowUserConsentForRiskyApps = mvindex('ModifiedProperties{}.NewValue',index_number)
