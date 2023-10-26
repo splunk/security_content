@@ -5,13 +5,13 @@ default:
 stages:
   - validate
   - generate
+  - app_inspect
   - release
   - publish_build_to_pre_qa
 
 include:
   - local: "pipeline/.validate.yml"
   - local: "pipeline/.generate.yml"
+  - local: "pipeline/.app_inspect.yml"
   - local: "pipeline/.release.yml"
   - local: "pipeline/.publish_build_to_pre_qa.yml"
-
-
