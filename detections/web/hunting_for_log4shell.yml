@@ -55,7 +55,7 @@ search: '| from datamodel Web.Web | eval jndi=if(match(_raw, "(\{|%7B)[jJnNdDiI]
   "(?i)({|%7b)(main|sys|k8s|spring|lower|upper|env|date|sd)"),4,0)  | addtotals fieldname=Score,
   jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, obf,
   lookups | where Score > 2 | stats values(Score) by  jndi, jndi_proto, env_var, uridetect,
-  all_match, jndi_fastmatch, keywords, lookups, obf, _raw | `hunting_for_log4shell_filter`'
+  all_match, jndi_fastmatch, keywords, lookups, obf, dest, src, http_method, _raw | `hunting_for_log4shell_filter`'
 how_to_implement: Out of the box, the Web datamodel is required to be pre-filled.
   However, tested was performed against raw httpd access logs. Change the first line
   to any dataset to pass the regex's against.
