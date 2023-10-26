@@ -1,0 +1,54 @@
+name: O365 Block User Consent For Risky Apps Disabled
+id: 12a23592-e3da-4344-8545-205d3290647c
+version: 1
+date: '2023-10-26'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source:
+- UPDATE_DATA_SOURCE
+description: UPDATE_DESCRIPTION
+search: >
+  `o365_management_activity` `Workload=AzureActiveDirectory Operation="Update authorization policy."
+  | eval index_number = if(mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps") >= 0, mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps"), -1)
+  | search index_number >= 0 
+  | eval AllowUserConsentForRiskyApps = mvindex('ModifiedProperties{}.NewValue',index_number)
+  | where AllowUserConsentForRiskyApps like "%true%"
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, Operation, AllowUserConsentForRiskyApps, user_agent
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_block_user_consent_for_risky_apps_disabled_filter`
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- REFERENCE
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  atomic_guid:
+  - UPDATE atomic_guid
+  confidence: 50
+  impact: 60
+  message: UPDATE message
+  mitre_attack_id:
+  - T1003.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - _time
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/o365_disable_blockconsent_for_riskapps/o365_disable_blockconsent_for_riskapps.log
+    source: O365
+    sourcetype: o365:management:activity
