@@ -17,8 +17,11 @@ description: The following analytic leverages Event 4768, A Kerberos authenticat
   ticket may be used to obtain unauthorized access to systems and other network resources.
 data_source:
 - Windows Security 4768
-search: ' `wineventlog_security` EventCode=4768 Ticket_Encryption_Type=0x17 Account_Name!=*$
-  | `kerberos_tgt_request_using_rc4_encryption_filter` '
+search: ' `wineventlog_security` EventCode=4768 Ticket_Encryption_Type=0x17 Account_Name!=*$ 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Account_Name Client_Address dest
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `kerberos_tgt_request_using_rc4_encryption_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.

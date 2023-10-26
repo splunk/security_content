@@ -193,14 +193,3 @@ class Detection(BaseModel, SecurityContentObject):
             )
         return v
 
-    @validator("experimental", always=True)
-    def experimental_validate(cls, v, values):
-        if DetectionStatus(values["status"]) == DetectionStatus.experimental:
-            return True
-        return False
-
-    @validator("deprecated", always=True)
-    def deprecated_validate(cls, v, values):
-        if DetectionStatus(values["status"]) == DetectionStatus.deprecated:
-            return True
-        return False

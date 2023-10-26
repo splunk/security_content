@@ -1,16 +1,14 @@
 name: Confluence Data Center and Server Privilege Escalation
 id: 115bebac-0976-4f7d-a3ec-d1fb45a39a11
-version: 1
-date: '2023-10-04'
+version: 2
+date: '2023-10-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source: []
 description: The following analytic identifies potential exploitation attempts on a known vulnerability in Atlassian Confluence, targeting the /setup/*.action* URL pattern. By analyzing web logs within the Splunk 'Web' Data Model, it filters for successful accesses (HTTP status 200) to these vulnerable endpoints. Such behavior is crucial for a SOC to monitor, as it suggests attackers might be exploiting a privilege escalation flaw in Confluence. A true positive implies a possible unauthorized access or account creation with escalated privileges. Key details captured include user-agent, HTTP methods, URL length, and source and destination IPs. These insights aid SOCs in swiftly detecting and responding to threats, ensuring vulnerabilities are mitigated before substantial compromise.
-search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("/setup/*.action*") Web.status=200 
-  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
-  | `drop_dm_object_name("Web")`
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/setup/setupadministrator.action*", "*/setup/finishsetup.action*") Web.status=200  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` | `confluence_data_center_and_server_privilege_escalation_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
@@ -55,7 +53,12 @@ tags:
   - Web.http_user_agent
   security_domain: network
 tests:
-- name: True Positive Test
+- name: Nginx Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/nginx_plus_kv_confluence.log
+    source: nginx:plus:kv
+    sourcetype: nginx:plus:kv
+- name: Suricata Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/confluence_cve-2023-22515.log
     source: suricata
