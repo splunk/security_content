@@ -17,14 +17,14 @@ description: The following analytic identifies the execution of the Azure Device
   It's crucial for organizations to be aware of this threat, as it can lead to unauthorized access and potential data breaches.
 search: '`azuread` category=SignInLogs "properties.authenticationProtocol"=deviceCode 
   | rename properties.* as * 
-  | stats values(userPrincipalName) by _time, ipAddress, appDisplayName, userAgent
+  | stats count min(_time) as firstTime max(_time) as lastTime by user src_ip, appDisplayName, userAgent
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
   | `azure_ad_device_code_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
-  Specifically, this analytic leverages the AuditLogs log category.
-known_false_positives: In most organizations, Code Based Authentication will be used
-  rarely. Filter as needed.
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
+known_false_positives: In most organizations, device code authentication will be used to access common Microsoft service but it may be legitimate for others. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1528
 - https://github.com/rvrsh3ll/TokenTactics
@@ -59,8 +59,8 @@ tags:
   required_fields:
   - _time
   - category
+  - user
   - properties.authenticationProtocol
-  - properties.userPrincipalName
   - properties.ipAddress
   - properties.status.additionalDetails
   - properties.appDisplayName
@@ -70,5 +70,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/device_code_authentication/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
