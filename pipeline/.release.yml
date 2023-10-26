@@ -20,7 +20,7 @@ reporting:
     - aws s3 cp reporting s3://$BUCKET/reporting --recursive --exclude "*" --include "*.svg"
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: always
+      when: on_success
 
 # Security Content API Update
 security_content_api:
@@ -58,7 +58,7 @@ security_content_api:
     - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: always
+      when: on_success
 
 # Update Attack Range ESCU App
 attack_range_escu_app:
@@ -80,7 +80,7 @@ attack_range_escu_app:
 #    - aws s3api put-object-acl --bucket $BUCKET --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: always
+      when: on_success
 
 # Sync change to GitHub develop
 github_push_develop:
@@ -109,7 +109,7 @@ github_push_develop:
     - git push github_origin $BRANCH
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: always 
+      when: on_success 
 
 # Create Package GitLab
 # need to be tested
@@ -123,6 +123,6 @@ release_job:
     description: '$CI_COMMIT_TAG'
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: always
+      when: on_success
 
       
