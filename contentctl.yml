@@ -17,6 +17,6 @@ build_ssa:
 build_api:
   path_root: 'dist/api'
 enrichments:
-  attack_enrichment: true
-  cve_enrichment: true
+  attack_enrichment: false
+  cve_enrichment: false
   splunk_app_enrichment: false
