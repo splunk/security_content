@@ -1,4 +1,7 @@
 build:
+  #Temporary fix to support testing. The following
+  #line will be reverted soon
+  title: DA-ESS-ContentUpdate
   name: DA-ESS-ContentUpdate
   path_root: dist
   prefix: ESCU
