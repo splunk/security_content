@@ -1,8 +1,8 @@
 app_inspect:
   stage: app_inspect
-  needs:
-  - validate_escu
-  - generate_escu
+  # needs:
+  # - validate_escu
+  # - generate_escu
   artifacts:
     when: always
     paths:

@@ -2,15 +2,15 @@ default:
   image: docker-hub.repo.splunkdev.net/python:3.9
 
 stages:
-  - validate
-  - generate
-  - app_inspect
+  # - validate
+  # - generate
+  # - app_inspect
   - release
 
 include:
-  - local: "pipeline/.validate.yml"
-  - local: "pipeline/.generate.yml"
-  - local: "pipeline/.app_inspect.yml"
+  # - local: "pipeline/.validate.yml"
+  # - local: "pipeline/.generate.yml"
+  # - local: "pipeline/.app_inspect.yml"
   - local: "pipeline/.release.yml"
 
 workflow:

@@ -1,94 +1,94 @@
 # Run reporting
-reporting:
-  stage: release
-  needs: 
-  - app_inspect
-  variables:
-    BUCKET: "security-content-dev"
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-  script:
-    - poetry run contentctl -p ../ report
-    - cd ..
-    - aws s3 cp reporting s3://$BUCKET/reporting --recursive --exclude "*" --include "*.svg"
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+# reporting:
+#   stage: release
+#   needs: 
+#   - app_inspect
+#   variables:
+#     BUCKET: "security-content-dev"
+#   before_script:
+#     - pip3 install poetry
+#     - git submodule update --init contentctl
+#     - cd contentctl
+#     - git checkout main
+#     - poetry install
+#     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#     - unzip awscliv2.zip
+#     - ./aws/install
+#   script:
+#     - poetry run contentctl -p ../ report
+#     - cd ..
+#     - aws s3 cp reporting s3://$BUCKET/reporting --recursive --exclude "*" --include "*.svg"
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
 
 # Security Content API Update
-security_content_api:
-  stage: release
-  needs: 
-  - app_inspect
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-  variables:
-    BUCKET: "security-content-dev"
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-  script:
-    - poetry run contentctl -p ../ build -t api
-    - cd ..
-    - aws s3 rm s3://$BUCKET --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp stories s3://$BUCKET/stories --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp baselines s3://$BUCKET/baselines --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp detections s3://$BUCKET/detections --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp playbooks s3://$BUCKET/playbooks --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.csv"
-    - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.mlmodel"
-    - aws s3 cp macros s3://$BUCKET/macros --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp deployments s3://$BUCKET/deployments --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+# security_content_api:
+#   stage: release
+#   needs: 
+#   - app_inspect
+#   artifacts:
+#     when: always
+#     paths:
+#       - artifacts/*
+#   variables:
+#     BUCKET: "security-content-dev"
+#   before_script:
+#     - pip3 install poetry
+#     - git submodule update --init contentctl
+#     - cd contentctl
+#     - git checkout main
+#     - poetry install
+#     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#     - unzip awscliv2.zip
+#     - ./aws/install
+#   script:
+#     - poetry run contentctl -p ../ build -t api
+#     - cd ..
+#     - aws s3 rm s3://$BUCKET --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp stories s3://$BUCKET/stories --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp baselines s3://$BUCKET/baselines --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp detections s3://$BUCKET/detections --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp playbooks s3://$BUCKET/playbooks --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.csv"
+#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.mlmodel"
+#     - aws s3 cp macros s3://$BUCKET/macros --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp deployments s3://$BUCKET/deployments --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
 
 # Update Attack Range ESCU App
-attack_range_escu_app:
-  stage: release
-  needs: 
-  - app_inspect
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-  variables:
-    BUCKET: "attack-range-dev"
-  before_script:
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-  script:
-    - aws s3 cp artifacts/DA-ESS-ContentUpdate-latest.tar.gz  s3://$BUCKET/
-#    - aws s3api put-object-acl --bucket $BUCKET --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+# attack_range_escu_app:
+#   stage: release
+#   needs: 
+#   - app_inspect
+#   artifacts:
+#     when: always
+#     paths:
+#       - artifacts/*
+#   variables:
+#     BUCKET: "attack-range-dev"
+#   before_script:
+#     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#     - unzip awscliv2.zip
+#     - ./aws/install
+#   script:
+#     - aws s3 cp artifacts/DA-ESS-ContentUpdate-latest.tar.gz  s3://$BUCKET/
+# #    - aws s3api put-object-acl --bucket $BUCKET --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
 
 # Sync change to GitHub develop
 github_push_develop:
   stage: release
-  needs: 
-  - app_inspect
+  # needs: 
+  # - app_inspect
   variables:
-    BRANCH: "gitlab_release_testing_2"
+    BRANCH: "release_$CI_COMMIT_TAG"
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -98,14 +98,17 @@ github_push_develop:
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - echo "listing content"
+    - ls 
     - git config user.email "research@splunk.com"
     - git config user.name "research bot"
     - git remote add github_origin git@github.com:splunk/security_content.git
     - git fetch --all
     - git checkout -b $BRANCH github_origin/$BRANCH
+    - ls
     - git pull
     - git add --all
-    - git commit -m 'release'
+    - git commit -m "release_$CI_COMMIT_TAG"
     - git push github_origin $BRANCH
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
@@ -113,18 +116,18 @@ github_push_develop:
 
 # Create Package GitLab
 # need to be tested
-release_job:
-  stage: release
-  needs: 
-  - app_inspect
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  script:
-    - echo "running release_job"
-  release:                               # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
-    tag_name: '$CI_COMMIT_TAG'
-    description: '$CI_COMMIT_TAG'
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+# release_job:
+#   stage: release
+#   needs: 
+#   - app_inspect
+#   image: registry.gitlab.com/gitlab-org/release-cli:latest
+#   script:
+#     - echo "running release_job"
+#   release:                               # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
+#     tag_name: '$CI_COMMIT_TAG'
+#     description: '$CI_COMMIT_TAG'
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
 
       
