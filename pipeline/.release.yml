@@ -2,7 +2,7 @@
 reporting:
   stage: release
   needs: 
-  - generate_escu
+  - app_inspect
   variables:
     BUCKET: "security-content-dev"
   before_script:
@@ -26,7 +26,7 @@ reporting:
 security_content_api:
   stage: release
   needs: 
-  - generate_escu
+  - app_inspect
   artifacts:
     when: always
     paths:
@@ -64,7 +64,7 @@ security_content_api:
 attack_range_escu_app:
   stage: release
   needs: 
-  - generate_escu
+  - app_inspect
   artifacts:
     when: always
     paths:
@@ -86,9 +86,9 @@ attack_range_escu_app:
 github_push_develop:
   stage: release
   needs: 
-  - generate_escu
+  - app_inspect
   variables:
-    BRANCH: "gitlab_release_testing"
+    BRANCH: "gitlab_release_testing_2"
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -115,6 +115,8 @@ github_push_develop:
 # need to be tested
 release_job:
   stage: release
+  needs: 
+  - app_inspect
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - echo "running release_job"
