@@ -5,7 +5,7 @@
 [ESCU - {{ detection.name }} - Rule]
 action.escu = 0
 action.escu.enabled = 1
-{% if detection.deprecated %}
+{% if detection.status == "deprecated" %}
 description = WARNING, this detection has been marked deprecated by the Splunk Threat Research team, this means that it will no longer be maintained or supported. If you have any questions feel free to email us at: research@splunk.com. {{ detection.description }} 
 {% else %}
 description = {{ detection.description }}
@@ -52,7 +52,7 @@ cron_schedule = {{ detection.deployment.scheduling.cron_schedule }}
 dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
 dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
-{% if detection.deprecated %}
+{% if detection.status == "deprecated" %}
 action.correlationsearch.label = ESCU - Deprecated - {{ detection.name }} - Rule
 {% elif detection.type | lower == "correlation" %}
 action.correlationsearch.label = ESCU - RIR - {{ detection.name }} - Rule
