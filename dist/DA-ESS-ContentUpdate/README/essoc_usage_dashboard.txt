@@ -1,0 +1,51 @@
+######################
+ESSOC Usage Dashboard#
+######################
+
+The ESSOC Usage dashboard is designed to provide high-level insight into the usage of the ES-SOC app. It is suitable for display when providing feedback to the Splunk team or for identifying how the ES-SOC app is being used. This dashboard has two time selectors that work independently - the top time selector determines the search time range for all the single-value. And the lower time selector, determines the time range for the usage table.
+
+IMPORTANT: The user loading this dashboard must have permission to search the _audit index
+
+##################
+#Dashboard panels#
+##################
+
+Searches Ran
+
+The total number of searches in ES-SOC that were executed. This number includes scheduled searches and ad hoc searches run from the search bar using the '| savedsearch <ESSOC search_name> ‘ syntax
+
+Unique Searches
+
+The unique/distinct searches executed on the deployment. This is equivalent to the distinct count of searches run in the ES-SOC app.
+
+Most Run
+
+The total number of searches in ES-SOC that were executed. This number includes scheduled searches and ad hoc searches run from the search bar using the '| savedsearch <ESSOC search_name> ‘ syntax.
+
+Ad hoc Searches
+
+The total number of searches run from the search bar using the '| savedsearch <ESSOC search_name> ‘ syntax.
+
+Scheduled
+
+The total number of ESSOC searches run that were scheduled.
+
+Most Active User
+
+The user who executed the highest number/count of searches. This calculation includes scheduled searches and ad hoc searches run from the search bar using the '| savedsearch <ESSOC search_name> ‘ syntax.
+
+Search Run Time (seconds)
+
+Total run time of all searches executed in seconds. This calculation includes scheduled searches and ad hoc searches run from the search bar using the '| savedsearch <ESSOC search_name> ‘ syntax.
+
+Average Run Time (seconds)
+
+Average run time of all searches executed in seconds. This calculation includes scheduled searches and ad hoc searches run from the search bar using the '| savedsearch <ESSOC search_name> ‘ syntax.
+
+Max Run Time (seconds)
+
+The run time of the longest running search. This calculation includes scheduled searches and ad hoc searches run from the search bar using the '| savedsearch <ESSOC search_name> ‘ syntax.
+
+Search summary
+
+This table provides details on each search that was executed in the ESSOC app.
