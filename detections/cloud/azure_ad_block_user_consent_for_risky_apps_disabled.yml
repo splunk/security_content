@@ -1,0 +1,53 @@
+name: Azure AD Block User Consent For Risky Apps Disabled
+id: 875de3d7-09bc-4916-8c0a-0929f4ced3d8
+version: 1
+date: '2023-10-26'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: test
+search: >
+ `azuread` operationName="Update authorization policy"
+ | rename properties.* as * 
+ | eval index_number = if(mvfind('targetResources{}.modifiedProperties{}.displayName', "AllowUserConsentForRiskyApps") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', "AllowUserConsentForRiskyApps"), -1)
+ | search index_number >= 0 
+ | eval AllowUserConsentForRiskyApps = mvindex('targetResources{}.modifiedProperties{}.newValue',index_number)
+ | search AllowUserConsentForRiskyApps = "[true]"
+ | stats count min(_time) as firstTime max(_time) as lastTime by user, src_ip, operationName, AllowUserConsentForRiskyApps
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)`
+ | `azure_ad_block_user_consent_for_risky_apps_disabled_filter`
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://attack.mitre.org/techniques/T1562/
+- https://goodworkaround.com/2020/10/19/a-look-behind-the-azure-ad-permission-classifications-preview/
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  asset_type: UPDATE asset_type
+  confidence: 50
+  impact: 60
+  message: UPDATE message
+  mitre_attack_id:
+  - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - _time
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/azuread_disable_blockconsent_for_riskapps/azuread_disable_blockconsent_for_riskapps.log
+    source: Azure Ad
+    sourcetype: azure:monitor:aad
