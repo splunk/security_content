@@ -7,7 +7,7 @@ status: production
 type: Hunting
 data_source: []
 description: In Splunk Enterprise versions lower than 8.2.12, 9.0.6, and 9.1.1, an attacker can exploit an absolute path traversal to execute arbitrary code that is located on a separate disk.
-search: > 
+search: >- 
   `splunk_python` *runshellscript* 
   | eval log_split=split(_raw, "runshellscript: ")
   | eval array_raw = mvindex(log_split,1)

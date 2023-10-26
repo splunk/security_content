@@ -29,8 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: rundll32 process $process_name$ having a dns query to $QueryName$ in host
-    $dest$
+  message: rundll32 process $process_name$ made a DNS query for $query$ from host $dest$
   mitre_attack_id:
   - T1218
   - T1218.011
