@@ -1,0 +1,3 @@
+image, repository
+devsecops/cat_dog_client, splunk/devsecops_poc
+devsecops/cat_dog_server, splunk/devsecops_poc
