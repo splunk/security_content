@@ -8,7 +8,7 @@ type: TTP
 data_source: []
 description: test
 search: >
- `azuread` operationName="Update authorization policy"
+ `azure_monitor_aad` operationName="Update authorization policy"
  | rename properties.* as * 
  | eval index_number = if(mvfind('targetResources{}.modifiedProperties{}.displayName', "AllowUserConsentForRiskyApps") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', "AllowUserConsentForRiskyApps"), -1)
  | search index_number >= 0 
