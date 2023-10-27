@@ -15,7 +15,7 @@ description: The following analytic identifies the execution of the Azure Device
   in adversaries gaining unauthorized access to Azure AD, Exchange mailboxes, and the target's Outlook Web Application (OWA). 
   This attack technique was detailed by security researchers including Bobby Cooke, Stephan Borosh, and others. 
   It's crucial for organizations to be aware of this threat, as it can lead to unauthorized access and potential data breaches.
-search: '`azuread` category=SignInLogs "properties.authenticationProtocol"=deviceCode 
+search: '`azure_monitor_aad` category=SignInLogs "properties.authenticationProtocol"=deviceCode 
   | rename properties.* as * 
   | stats count min(_time) as firstTime max(_time) as lastTime by user src_ip, appDisplayName, userAgent
   | `security_content_ctime(firstTime)`
