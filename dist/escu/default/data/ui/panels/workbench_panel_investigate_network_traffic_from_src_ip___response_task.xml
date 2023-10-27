@@ -1,0 +1,9 @@
+<panel>
+  <table>
+    <search>
+      <query>| from datamodel Network_Traffic.All_Traffic | search src_ip=$src_ip$</query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>
