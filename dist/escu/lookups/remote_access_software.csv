@@ -1,0 +1,54 @@
+remote_utility, description, isutility
+aweray_remote*.exe,AweRay (AweSun), TRUE
+aa_v*.exe, Ammyy Admin, TRUE
+AeroAdmin.exe, AeroAdmin, TRUE
+anydesk.exe, AnyDesk, TRUE
+AnyViewerSetup.exe, AnyViewer, TRUE
+RCClient.exe, AnyViewer, TRUE
+CService.exe, AnyViewer, TRUE
+atera_agent.exe, Atera, TRUE
+bomgar-scc.exe, BeyondTrust (Bomgar), TRUE
+bomgar-rdp.exe, BeyondTrust (Bomgar), TRUE
+screenconnect.clientservice.exe, ConnectWise Control, TRUE
+screenconnect.windowsclient.exe, ConnectWise Control, TRUE
+dwrcs.exe, Dameware, TRUE
+distant-desktop.exe, Distant Desktop, TRUE
+dwagsvc.exe, DW Service, TRUE
+g2comm.exe, GoToMyPC, TRUE
+g2fileh.exe, GoToMyPC, TRUE
+g2host.exe, GoToMyPC, TRUE
+g2mainh.exe, GoToMyPC, TRUE
+g2printh.exe, GoToMyPC, TRUE
+g2svc.exe, GoToMyPC, TRUE
+g2tray.exe, GoToMyPC, TRUE
+gopcsrv.exe, GoToMyPC, TRUE
+ROMServer.exe, LiteManager, TRUE 
+ROMFUSClient.exe, LiteManager, TRUE
+lmiignition.exe, LogMeIn, TRUE
+lmiguardiansvc.exe, LogMeIn, TRUE
+logmein*.exe, LogMeIn, TRUE
+awrem32.exe, PCAnywhere Client, TRUE
+awhost32.exe, PCAnywhere Server, TRUE
+PCMonitorManager.exe, Pulseway, TRUE
+pcmonitorsrv.exe, Pulseway, TRUE
+radmin3.exe, RAdmin, TRUE
+famitrfc.exe, RAdmin,  TRUE
+rutserv.exe, RemoteUtilities, TRUE
+smpcsetup.exe, ShowMyPC, TRUE
+showmypc*.exe, ShowMyPC, TRUE
+strwinclt.exe, Splashtop, TRUE
+supremo.exe, Supremo, TRUE
+supremohelper.exe, Supremo, TRUE
+supremosystem.exe, Supremo, TRUE
+teamviewer_desktop.exe, TeamViewer Desktop, TRUE
+teamviewer.exe, TeamViewer Service, TRUE
+teamviewer_service.exe, TeamViewer Service, TRUE
+winvnc.exe, VNC, TRUE
+vncviewer.exe, VNC, TRUE
+winvncsc.exe, VNC, TRUE
+winwvc.exe, VNC, TRUE
+Zaservice.exe, Zoho Assist, TRUE
+Zohours.exe, Zoho Assist, TRUE
+ZohoMeeting.exe, Zoho Assist, TRUE
+meshagent.exe, MeshAgent, TRUE
+tacticalrmm.exe, Tactical RMM, TRUE
