@@ -21,7 +21,9 @@ search: >
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `azure_ad_user_consent_blocked_for_risky_application_filter`
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
 references:
 - https://attack.mitre.org/techniques/T1528/
