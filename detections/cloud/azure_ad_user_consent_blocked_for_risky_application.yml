@@ -53,6 +53,10 @@ tags:
   risk_score: 30
   required_fields:
   - _time
+  - operationName
+  - properties.result
+  - properties.targetResources{}.modifiedProperties{}.displayName
+  - properties.targetResources{}.modifiedProperties{}.newValue
   security_domain: identity
 tests:
 - name: True Positive Test

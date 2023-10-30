@@ -16,7 +16,7 @@ search: ' `azure_monitor_aad` operationName="Sign-in activity" properties.status
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
   This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+known_false_positives: Users may deny consent for legitimate applications by mistake, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1528/
 - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
@@ -26,11 +26,11 @@ references:
 - https://github.com/AlteredSecurity/365-Stealer
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
-  asset_type: UPDATE asset_type
+  - Azure Active Directory Account Takeover
+  asset_type: Azure AD
   confidence: 60
   impact: 60
-  message: UPDATE message
+  message: User $user$ denied consent for an OAuth application.
   mitre_attack_id:
   - T1528
   observable:
