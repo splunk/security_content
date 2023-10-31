@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as
   dest_ip transport gtime | eval totalDestPortCount=totalDestUdpPortCount+totalDestTcpPortCount,
   privilegedDestPortCount=privilegedDestTcpPortCount+privilegedDestUdpPortCount| where
   (totalDestPortCount>=500 AND privilegedDestPortCount>=20) | fields - gtime | `internal_vertical_port_scan_filter`'
-how_to_implement: You must ensure that your network traffic data is populating the Network_Traffic data model.
+how_to_implement: Ensure your network traffic data is populating the Network_Traffic data model.
 known_false_positives: Unknown
 references: []
 tags:
@@ -54,4 +54,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/nmap/vertical.log
+    source: aws:cloudwatchlogs:vpcflow
     sourcetype: aws:cloudwatchlogs:vpcflow
+    update_timestamp: true
