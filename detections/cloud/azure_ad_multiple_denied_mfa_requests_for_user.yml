@@ -19,7 +19,7 @@ search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
   This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+known_false_positives: Multiple denifed MFA requests in a short period of span may also be a sign of authentication errors. Investigate and filter as needed.
 references:
 - https://www.mandiant.com/resources/blog/russian-targeting-gov-business
 - https://arstechnica.com/information-technology/2022/03/lapsus-and-solar-winds-hackers-both-use-the-same-old-trick-to-bypass-mfa/
