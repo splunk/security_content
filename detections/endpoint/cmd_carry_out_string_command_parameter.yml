@@ -51,6 +51,7 @@ tags:
   - Data Destruction
   - Warzone RAT
   - NjRAT
+  - PlugX
   asset_type: Endpoint
   automated_detection_testing: passed
   confidence: 50
