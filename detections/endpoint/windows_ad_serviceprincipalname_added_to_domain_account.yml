@@ -26,7 +26,7 @@ references:
 - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
 tags:
   analytic_story:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/service_principal_name_added/windows-security.log
+  - Sneaky Active Directory Persistence Tricks
   asset_type: endpoint
   confidence: 50
   impact: 60
