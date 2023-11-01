@@ -17,7 +17,7 @@ description: The following analytic identifies multiple failed multi-factor auth
   messages, and phone calls potentially resulting in the user finally accepting the
   authentication request. Threat actors like the Lapsus team and APT29 have leveraged
   this technique to bypass multi-factor authentication controls as reported by Mandiant
-  and others.
+  and others. 
 data_source: []
 search: ' `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied; user declined the authentication"
   | rename properties.* as * 
