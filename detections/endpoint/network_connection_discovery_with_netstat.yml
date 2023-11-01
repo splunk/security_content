@@ -38,6 +38,7 @@ tags:
   - Windows Post-Exploitation
   - Prestige Ransomware
   - Volt Typhoon
+  - PlugX
   asset_type: Endpoint
   confidence: 50
   impact: 30
