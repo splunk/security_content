@@ -1,0 +1,70 @@
+version_control_config: {}
+infrastructure_config:
+  infrastructure_type: container
+  full_image_path: registry.hub.docker.com/splunk/splunk:latest
+post_test_behavior: always_pause
+mode: all
+detections_list: null
+splunkbase_username: null
+splunkbase_password: null
+apps:
+- uid: 6176
+  appid: Splunk_TA_linux_sysmon
+  title: Add-on for Linux Sysmon
+  description: null
+  release: 1.0.4
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/add-on-for-linux-sysmon_104.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
+- uid: 742
+  appid: Splunk_TA_windows
+  title: Splunk Add-on for Microsoft Windows
+  description: null
+  release: 8.5.0
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_850_PATCHED.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
+- uid: 5709
+  appid: Splunk_TA_microsoft_sysmon
+  title: Splunk Add-on for Sysmon
+  description: null
+  release: 3.0.0
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_300.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
+- uid: 833
+  appid: Splunk_TA_nix
+  title: Splunk Add-on for Unix and Linux
+  description: null
+  release: 8.7.0
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_860.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
+- uid: 2734
+  appid: utbox
+  title: URL Toolbox
+  description: null
+  release: 1.9.2
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
+- uid: 1621
+  appid: Splunk_SA_CIM
+  title: Splunk Common Information Model (CIM)
+  description: null
+  release: 5.0.2
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_501.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
