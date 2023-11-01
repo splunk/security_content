@@ -72,7 +72,7 @@ tags:
     - ObjectClass
   risk_score: 80
   security_domain: endpoint
-  manual_test: False
+  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
 tests:
   - name: True Positive Test
     attack_data:
