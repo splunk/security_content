@@ -33,7 +33,7 @@ class SplunkBABackend(TextQueryBackend):
     wildcard_single : ClassVar[str] = "%"
     add_escaped : ClassVar[str] = "\\"
 
-    re_expression : ClassVar[str] = "match_regex({field}, /(?i){regex}/)=true"
+    re_expression : ClassVar[str] = "match({field}, /(?i){regex}/)=true"
     re_escape_char : ClassVar[str] = ""
     re_escape : ClassVar[Tuple[str]] = ('"',)
 
@@ -64,7 +64,8 @@ class SplunkBABackend(TextQueryBackend):
     deferred_separator : ClassVar[str] = " OR "
     deferred_only_query : ClassVar[str] = "*"
 
-    wildcard_match_expression : ClassVar[Optional[str]] = "like({field}, {value})"
+    wildcard_match_expression : ClassVar[Optional[str]] = "{field} LIKE {value}"
+
 
 
     def __init__(self, processing_pipeline: Optional["sigma.processing.pipeline.ProcessingPipeline"] = None, collect_errors: bool = False, min_time : str = "-30d", max_time : str = "now", detection : Detection = None, field_mapping: dict = None, **kwargs):
@@ -88,41 +89,52 @@ class SplunkBABackend(TextQueryBackend):
         #         fields_input_parsing = fields_input_parsing + ', '
 
         detection_str = """
-| from read_ba_enriched_events()
-| eval timestamp = ucast(map_get(input_event,"time"),"long", null)
-| eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>", null)
-| eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null)
+$main = from source 
+| eval timestamp = time 
+| eval metadata_uid = metadata.uid 
 """.replace("\n", " ")
 
         parsed_fields = [] 
 
         for field in self.field_mapping["mapping"].keys():
             mapped_field = self.field_mapping["mapping"][field]
-            parent = 'input_event'
+            parent = 'parent'
             i = 1
             values = mapped_field.split('.')
             for val in values:
-                if parent == "input_event":
-                    new_val = val
+                if parent == "parent":
+                    parent = val
+                    continue
                 else:
                     new_val = parent + '_' + val
                 if new_val in parsed_fields:
                     parent = new_val
                     i = i + 1
                     continue
-                if i == len(values):
-                    parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "string", null) ' 
+                new_val_spaces = new_val + "="
+                if new_val_spaces not in query:
+                    parser_str = '| eval ' + new_val + ' = ' + parent + '.' + val + ' '
                 else:
-                    parser_str = '| eval ' + new_val + '' + '=ucast(map_get(' + parent + ',"' + val + '"), "map<string, any>", null) ' 
+                    parser_str = '| eval ' + new_val + ' = ' + 'lower(' + parent + '.' + val + ') '
                 detection_str = detection_str + parser_str
                 parsed_fields.append(new_val)
                 parent = new_val
                 i = i + 1
 
-        detection_str = detection_str + "| where " + query
-        detection_str = detection_str.replace("\\\\\\\\", "\\\\")
-        
+        ### Convert sigma values into lower case
+        lower_query = ""
+        in_quotes = False
+        for char in query:
+            if char == '"':
+                in_quotes = not in_quotes
+            if in_quotes:
+                lower_query += char.lower()
+            else:
+                lower_query += char
 
+        detection_str = detection_str + "| where " + lower_query
+        
+        detection_str = detection_str.replace("\\\\\\\\", "\\\\")
         return detection_str
 
     def finalize_output_data_model(self, queries: List[str]) -> List[str]:

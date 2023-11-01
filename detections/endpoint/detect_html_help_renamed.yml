@@ -46,8 +46,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: The following $process_name$ has been identified as renamed, spawning from
-    $parent_process_name$.
+  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ executed by $user$
   mitre_attack_id:
   - T1218
   - T1218.001
@@ -56,7 +55,7 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

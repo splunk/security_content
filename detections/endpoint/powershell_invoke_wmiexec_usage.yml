@@ -8,7 +8,7 @@ type: TTP
 status: production
 data_source:
 - Powershell 4104
-description: This analytic detects the usage of the Invoke-WMIExec utility within PowerShell Script Block Logging (EventCode 4104). The utility is used for executing WMI commands on targets using NTLMv2 pass-the-hash authentication.
+description: The following analytic detects the usage of the Invoke-WMIExec utility within PowerShell Script Block Logging (EventCode 4104). The utility is used for executing WMI commands on targets using NTLMv2 pass-the-hash authentication.
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*invoke-wmiexec*") 
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText 
   | `security_content_ctime(firstTime)` 

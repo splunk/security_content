@@ -15,6 +15,7 @@ search: '`wineventlog_system` EventCode=7040
   (service_name IN ("Update Orchestrator Service for Windows Update", "WaaSMedicSvc", "Windows Update") OR param1 IN ("UsoSvc", "WaaSMedicSvc", "wuauserv")) AND 
   (param3=disabled OR start_mode = disabled) 
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer Error_Code service_name start_mode param1 param2 param3 param4 
+  | rename Computer as dest
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `windows_service_stop_win_updates_filter`'
@@ -34,7 +35,7 @@ tags:
   mitre_attack_id:
   - T1489
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim

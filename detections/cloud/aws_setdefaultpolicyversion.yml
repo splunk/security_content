@@ -30,7 +30,7 @@ tags:
   asset_type: AWS Account
   confidence: 60
   impact: 50
-  message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an
+  message: From IP address $src$, user $user_arn$ has trigged an
     event $eventName$ for updating the the default policy version
   mitre_attack_id:
   - T1078.004

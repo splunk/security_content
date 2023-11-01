@@ -5,7 +5,7 @@ date: '2021-09-01'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: This search looks for Pull Request from unknown user.
+description: The following analytic detects pull requests from unknown users on GitHub. The detection is made by using a Splunk query to search for pull requests in the `check_suite.pull_requests` field where the `id` is not specified. Next, the analytic retrieves information such as the author's name, the repository's full name, the head reference of the pull request, and the commit message from the `check_suite.head_commit` field. The analytic also includes a step to exclude known users by using the `github_known_users` lookup table, which helps to filter out pull requests from known users and focus on the pull requests from unknown users. The detection is important because it locates potential malicious activity or unauthorized access since unknown users can introduce malicious code or gain unauthorized access to repositories leading to unauthorized code changes, data breaches, or other security incidents. Next steps include reviewing the author's name, the repository involved, the head reference of the pull request, and the commit message upon triage of a potential pull request from an unknown user. You must also analyze any relevant on-disk artifacts and investigate any concurrent processes to determine the source and intent of the pull request."
 data_source: []
 search: '`github` check_suite.pull_requests{}.id=* | stats count by check_suite.head_commit.author.name
   repository.full_name check_suite.pull_requests{}.head.ref check_suite.head_commit.message

@@ -69,6 +69,7 @@ tags:
   - Sneaky Active Directory Persistence Tricks
   - BlackByte Ransomware
   - Warzone RAT
+  - NjRAT
   asset_type: Endpoint
   confidence: 95
   impact: 80

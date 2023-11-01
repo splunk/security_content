@@ -5,8 +5,8 @@ date: '2023-04-14'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for emails that have attachments with suspicious file
-  extensions.
+description: |-
+  The following analytic detects emails that contain attachments with suspicious file extensions. Detecting and responding to emails with suspicious attachments can mitigate the risks associated with phishing and malware attacks, thereby protecting the organization's data and systems from potential harm. The detection is made by using a Splunk query that searches for emails in the datamodel=Email where the filename of the attachment is not empty. The analytic uses the tstats command to summarize the count, first time, and last time of the emails that meet the criteria. It groups the results by the source user, file name, and message ID of the email. The detection is important because it indicates potential phishing or malware delivery attempts in which an attacker attempts to deliver malicious content through email attachments, which can lead to data breaches, malware infections, or unauthorized access to sensitive information. Next steps include reviewing the identified emails and attachments and analyzing the source user, file name, and message ID to determine if they are legitimate or malicious. Additionally, you must inspect any relevant on-disk artifacts associated with the attachments and investigate any concurrent processes to identify the source of the attack.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,

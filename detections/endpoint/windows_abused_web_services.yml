@@ -1,0 +1,67 @@
+name: Windows Abused Web Services
+id: 01f0aef4-8591-4daa-a53d-0ed49823b681
+version: 1
+date: '2023-09-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 22
+description: The following analytic detects a suspicious process making a DNS query via known,
+  abused text-paste web services, VoIP, internet via secure tunneling,instant messaging, and digital distribution
+  platforms used to download external files. This technique is abused by adversaries,
+  malware actors, and red teams to download a malicious file on the target host. This
+  is a good TTP indicator for possible initial access techniques. A user will experience
+  false positives if the following instant messaging is allowed or common applications
+  like telegram or discord are allowed in the corporate network.
+search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*",""*textbin*"", "*ngrok.io*", "*discord*", "*duckdns.org*", "*pasteio.com*") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name QueryResults Computer
+  | rename Computer as dest 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_abused_web_services_filter`'
+how_to_implement: This detection relies on sysmon logs with the Event ID 22, DNS Query.
+  We suggest you run this detection at least once a day over the last 14 days.
+known_false_positives: Noise and false positive can be seen if the following instant
+  messaging is allowed to use within corporate network. In this case, a filter is
+  needed.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
+tags:
+  analytic_story:
+  - NjRAT
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: a network connection on known abused web services from $dest$
+  mitre_attack_id:
+  - T1102
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  required_fields:
+  - _time
+  - Image
+  - QueryName
+  - QueryStatus
+  - process_name
+  - QueryResults
+  - Computer
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102/njrat_ngrok_connection/ngrok.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

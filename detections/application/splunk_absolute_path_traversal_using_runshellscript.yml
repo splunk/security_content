@@ -1,0 +1,58 @@
+name: Splunk Absolute Path Traversal Using runshellscript
+id: 356bd3fe-f59b-4f64-baa1-51495411b7ad
+version: 1
+date: '2023-09-05'
+author: Rod Soto
+status: production
+type: Hunting
+data_source: []
+description: In Splunk Enterprise versions lower than 8.2.12, 9.0.6, and 9.1.1, an attacker can exploit an absolute path traversal to execute arbitrary code that is located on a separate disk.
+search: >- 
+  `splunk_python` *runshellscript* 
+  | eval log_split=split(_raw, "runshellscript: ")
+  | eval array_raw = mvindex(log_split,1)
+  | eval data_cleaned=replace(replace(replace(array_raw,"\[",""),"\]",""),"'","")
+  | eval array_indices=split(data_cleaned,",")
+  | eval runshellscript_args_count=mvcount(array_indices)
+  | where runshellscript_args_count = 10
+  | eval interpreter=mvindex(array_indices,0)
+  | eval targetScript=mvindex(array_indices,1)
+  | eval targetScript != "*C:*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by splunk_server interpreter targetScript
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `splunk_absolute_path_traversal_using_runshellscript_filter`
+how_to_implement: Must have access to internal indexes. Only applies to Splunk on Windows versions. 
+known_false_positives: The command runshellscript can be used for benign purposes. Analyst will have to review the searches and determined maliciousness specially by looking at targeted script.
+references:
+- https://advisory.splunk.com/advisories/SVD-2023-0806
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities 
+  asset_type: endpoint
+  confidence: 70
+  impact: 50
+  message: Possible attack against splunk_server $splunk_server$ through abuse of the runshellscript command
+  mitre_attack_id:
+  - T1083
+  cve:
+  - CVE-2023-40597
+  observable:
+  - name: splunk_server
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 35
+  required_fields:
+  - search
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/splunk_absolute_path_traversal_using_runshellscript_splunk_python.log
+    source: python.log 
+    sourcetype: splunk_python
+    custom_index: _internal 

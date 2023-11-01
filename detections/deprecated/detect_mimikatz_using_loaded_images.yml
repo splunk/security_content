@@ -3,17 +3,15 @@ id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
 version: 1
 date: '2019-12-03'
 author: Patrick Bareiss, Splunk
-status: production
+status: deprecated
 type: TTP
 description: This search looks for reading loaded Images unique to credential dumping
-  with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon
-  Event Code.
+  with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon Event Code.
 data_source:
 - Sysmon Event ID 7
 search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId)
-  as ProcessId by Computer, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
-  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | rename
-  Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  as ProcessId by dest, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
+  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_mimikatz_using_loaded_images_filter`'
 how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
   includes EventCode 7 with powershell.exe. This search uses an input macro named
@@ -40,7 +38,7 @@ tags:
   confidence: 80
   impact: 80
   message: A process, $Image$, has loaded $ImageLoaded$ that are typically related
-    to credential dumping on $Computer$. Review for further details.
+    to credential dumping on $dest$. Review for further details.
   mitre_attack_id:
   - T1003.001
   - T1003
@@ -49,18 +47,10 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: ImageLoaded
-    type: Process
-    role:
-    - Other
-  - name: Image
-    type: Process
-    role:
-    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -70,7 +60,7 @@ tags:
   - EventCode
   - ImageLoaded
   - ProcessId
-  - Computer
+  - dest
   - Image
   risk_score: 64
   security_domain: endpoint

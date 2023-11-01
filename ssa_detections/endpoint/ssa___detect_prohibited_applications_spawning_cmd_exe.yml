@@ -11,31 +11,21 @@ description: The following analytic identifies parent processes, browsers, Windo
   need to be tuned to further enhance the risk.
 data_source:
 - Windows Security 4688
-search: ' | from read_ba_enriched_events() | eval timestamp = ucast(map_get(input_event,"time"),"long",
-  null) | eval metadata = ucast(map_get(input_event, "metadata"),"map<string, any>",
-  null) | eval metadata_uid = ucast(map_get(metadata, "uid"),"string", null) | eval
-  process=ucast(map_get(input_event,"process"), "map<string, any>", null) | eval process_pid=ucast(map_get(process,"pid"),
-  "string", null) | eval process_file=ucast(map_get(process,"file"), "map<string,
-  any>", null) | eval process_file_path=ucast(map_get(process_file,"path"), "string",
-  null) | eval process_file_name=ucast(map_get(process_file,"name"), "string", null)
-  | eval process_cmd_line=ucast(map_get(process,"cmd_line"), "string", null) | eval
-  actor=ucast(map_get(input_event,"actor"), "map<string, any>", null) | eval actor_user=ucast(map_get(actor,"user"),
-  "map<string, any>", null) | eval actor_user_name=ucast(map_get(actor_user,"name"),
-  "string", null) | eval actor_process=ucast(map_get(actor,"process"), "map<string,
-  any>", null) | eval actor_process_pid=ucast(map_get(actor_process,"pid"), "string",
-  null) | eval actor_process_file=ucast(map_get(actor_process,"file"), "map<string,
-  any>", null) | eval actor_process_file_path=ucast(map_get(actor_process_file,"path"),
-  "string", null) | eval actor_process_file_name=ucast(map_get(actor_process_file,"name"),
-  "string", null) | eval device=ucast(map_get(input_event,"device"), "map<string,
-  any>", null) | eval device_hostname=ucast(map_get(device,"hostname"), "string",
-  null) | where ((actor_process_file_name="winword.exe" OR actor_process_file_name="excel.exe"
-  OR actor_process_file_name="outlook.exe" OR actor_process_file_name="acrobat.exe"
-  OR actor_process_file_name="acrord32.exe" OR actor_process_file_name="iexplore.exe"
-  OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe"
-  OR actor_process_file_name="powershell.exe") OR (actor_process_file_name="java.exe"
-  AND (NOT match_regex(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe"
-  AND (NOT process_cmd_line="chrome-extension"))) AND process_file_name="cmd.exe"
-  --finding_report--'
+search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
+  eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
+  = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
+  = lower(process.cmd_line) | eval actor_user = actor.user | eval actor_user_name
+  = actor_user.name | eval actor_process = actor.process | eval actor_process_pid
+  = actor_process.pid | eval actor_process_file = actor_process.file | eval actor_process_file_path
+  = actor_process_file.path | eval actor_process_file_name = lower(actor_process_file.name)
+  | eval device_hostname = device.hostname | where ((actor_process_file_name="winword.exe"
+  OR actor_process_file_name="excel.exe" OR actor_process_file_name="outlook.exe"
+  OR actor_process_file_name="acrobat.exe" OR actor_process_file_name="acrord32.exe"
+  OR actor_process_file_name="iexplore.exe" OR actor_process_file_name="opera.exe"
+  OR actor_process_file_name="firefox.exe" OR actor_process_file_name="powershell.exe")
+  OR (actor_process_file_name="java.exe" AND (NOT match(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true))
+  OR (actor_process_file_name="chrome.exe" AND (NOT process_cmd_line="chrome-extension")))
+  AND process_file_name="cmd.exe" --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.

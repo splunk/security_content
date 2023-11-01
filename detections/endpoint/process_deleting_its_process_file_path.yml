@@ -14,15 +14,19 @@ data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image
   = "*\\cmd.exe" | eval result = if(like(process,"%".parent_process."%"), "Found",
-  "Not Found") | stats min(_time) as firstTime max(_time) as lastTime count by Computer
+  "Not Found") | stats min(_time) as firstTime max(_time) as lastTime count by dest
   user ParentImage ParentCommandLine Image CommandLine EventCode ProcessID result
   | where result = "Found" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `process_deleting_its_process_file_path_filter`'
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
 known_false_positives: unknown
 references:
 - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
@@ -37,13 +41,13 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 60
-  message: A process $Image$ tries to delete its process path in commandline $cmdline$
-    as part of defense evasion in host $Computer$
+  message: A process $Image$ tries to delete its process path in commandline $CommandLine$
+    as part of defense evasion in host $dest$ by user $user$
   mitre_attack_id:
   - T1070
   observable:
-  - name: Computer
-    type: Hostname
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   - name: user
@@ -56,7 +60,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - EventCode
-  - Computer
+  - dest
   - user
   - ParentImage
   - ParentCommandLine

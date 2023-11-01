@@ -1,10 +1,10 @@
 name: Risk Notable Preprocess
-id: rn0edc96-ff2b-48b0-9f6f-13da3783fd63
+id: 060edc96-ff2b-48b0-9f6f-13da3783fd63
 version: 1
 date: "2021-10-22"
 author: Kelby Shelton, Splunk
 type: Investigation
-description: >
+description: >-
   "This playbook prepares a risk notable for investigation by performing the following tasks:
   1. Ensures that a risk notable links back to the original notable event with a card pinned to the HUD.
   2. Posts a link to this container in the comment field of Splunk ES.

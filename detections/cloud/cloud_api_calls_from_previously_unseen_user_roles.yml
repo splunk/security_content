@@ -5,7 +5,8 @@ date: '2020-09-04'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for new commands from each user role.
+description: |-
+  The following analytic detects when a new command is run by a user, who typically does not run those commands. The detection is made by a Splunk query to search for these commands in the Change data model. Identifies commands run by users with the user_type of AssumedRole and a status of success. The query retrieves the earliest and latest timestamps of each command run and groups the results by the user and command. Then, it drops the unnecessary data model object name and creates a lookup to verify if the command was seen before. The lookup table contains information about previously seen cloud API calls for each user role, including the first time the command was seen and whether enough data is available for analysis. If the firstTimeSeenUserApiCall field is null or greater than the relative time of 24 hours ago, it indicates that the command is new and was not seen before. The final result table includes the firstTime, user, object, and command fields of the new commands. It also applies the security_content_ctime function to format the timestamps and applies a filter to remove any cloud API calls from previously unseen user roles. The detection is important because it helps to identify new commands run by different user roles. New commands can indicate potential malicious activity or unauthorized actions within the environment. Detecting and investigating these new commands can help identify and mitigate potential security threats earlier, preventing data breaches, unauthorized access, or other damaging outcomes.
 data_source: []
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,
