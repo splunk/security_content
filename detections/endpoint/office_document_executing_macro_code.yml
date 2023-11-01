@@ -41,6 +41,7 @@ tags:
   - Qakbot
   - Azorult
   - Remcos
+  - PlugX
   asset_type: Endpoint
   confidence: 50
   impact: 70

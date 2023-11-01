@@ -30,6 +30,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Registry Abuse
   - Brute Ratel C4
+  - PlugX
   asset_type: Endpoint
   confidence: 80
   impact: 80

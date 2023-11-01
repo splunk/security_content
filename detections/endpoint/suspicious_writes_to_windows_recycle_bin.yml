@@ -28,6 +28,7 @@ references: []
 tags:
   analytic_story:
   - Collection and Staging
+  - PlugX
   asset_type: Windows
   confidence: 70
   impact: 40
