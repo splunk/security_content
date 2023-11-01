@@ -1,0 +1,35 @@
+name: PlugX
+id: a2c94c99-b93b-4bc7-a749-e2198743d0d6
+version: 2
+date: '2023-10-12'
+author: Teoderick Contreras, Splunk
+description: PlugX, also referred to as "PlugX RAT" or "Kaba," is a highly sophisticated remote access Trojan (RAT) discovered in 2012. 
+  This malware is notorious for its involvement in targeted cyberattacks, primarily driven by cyber espionage objectives. 
+  PlugX provides attackers with comprehensive remote control capabilities over compromised systems, 
+  granting them the ability to execute commands, collect sensitive data, and manipulate the infected host.
+narrative: PlugX, known as the "silent infiltrator of the digital realm, is a shadowy figure in the world of cyber threats. 
+  This remote access Trojan (RAT), first unveiled in 2012, is not your run-of-the-mill malware. 
+  It's the go-to tool for sophisticated hackers with one goal in mind, espionage.
+  PlugX's repertoire of capabilities reads like a spy thriller. It doesn't just breach your defenses; 
+  it goes a step further, slipping quietly into your systems, much like a ghost. Once inside, 
+  it opens the door to a world of possibilities for cybercriminals. With a few keystrokes, 
+  they can access your data, capture your screen, and silently watch your every move. 
+  In the hands of skilled hackers, it's a versatile instrument for cyber espionage.
+  This malware thrives on persistence. It's not a one-time hit; it's in it for the long haul. 
+  Even if you reboot your system, PlugX remains, ensuring that its grip on your infrastructure doesn't waver.
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.plugx
+  - https://blog.sekoia.io/my-teas-not-cold-an-overview-of-china-cyber-threat/
+  - https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/carderbee-software-supply-chain-certificate-abuse
+  - https://go.recordedfuture.com/hubfs/reports/cta-2023-0808.pdf
+  - https://www.mandiant.com/resources/blog/infected-usb-steal-secrets
+  - https://attack.mitre.org/software/S0013/
+tags:
+  analytic_story: PlugX
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
