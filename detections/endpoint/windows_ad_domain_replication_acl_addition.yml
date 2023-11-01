@@ -18,7 +18,7 @@ search: '`wineventlog_security` EventCode=5136
   | rex field=AttributeValue max_match=10000 "OA;;CR;1131f6aa-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChanges_user_sid>S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3})\)"
   | rex field=AttributeValue max_match=10000 "OA;;CR;1131f6ad-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChangesAll_user_sid>S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3})\)"
   | rex field=AttributeValue max_match=10000 "OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3})\)"
-  | table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid\
+  | table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid
   | mvexpand DSRGetChanges_user_sid
   | eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,"true","false"), fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,"true","false")
   | where minDCSyncPermissions="true"
@@ -72,7 +72,7 @@ tags:
     - ObjectClass
   risk_score: 80
   security_domain: endpoint
-  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
+  manual_test: False
 tests:
   - name: True Positive Test
     attack_data:

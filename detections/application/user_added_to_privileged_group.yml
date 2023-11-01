@@ -21,7 +21,8 @@ references:
 - https://splunkbase.splunk.com/app/6853
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Active Directory Privilege Escalation
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 100
   impact: 50
@@ -46,6 +47,7 @@ tags:
   - Group_Name
   - dest
   security_domain: identity
+  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
 tests:
 - name: True Positive Test
   attack_data:
