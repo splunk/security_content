@@ -1,17 +1,20 @@
 default:
   image: docker-hub.repo.splunkdev.net/python:3.9
 
-
 stages:
   - validate
   - generate
+  - app_inspect
   - release
-  - publish_build_to_pre_qa
 
 include:
   - local: "pipeline/.validate.yml"
   - local: "pipeline/.generate.yml"
+  - local: "pipeline/.app_inspect.yml"
   - local: "pipeline/.release.yml"
-  - local: "pipeline/.publish_build_to_pre_qa.yml"
 
-
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

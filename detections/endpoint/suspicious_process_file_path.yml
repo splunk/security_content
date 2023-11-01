@@ -71,6 +71,7 @@ tags:
   - Amadey
   - BlackByte Ransomware
   - Warzone RAT
+  - PlugX
   asset_type: Endpoint
   confidence: 50
   impact: 70

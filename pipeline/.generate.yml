@@ -15,10 +15,9 @@ generate_escu:
   script:
     - poetry run contentctl -p ../ build
     - cd ..
-    - mkdir -p artifacts/DA-ESS-ContentUpdate
-    - cp -r dist/DA-ESS-ContentUpdate/* artifacts/DA-ESS-ContentUpdate
-    - tar -czf artifacts/DA-ESS-ContentUpdate-latest.tar.gz -C  artifacts/DA-ESS-ContentUpdate .
-
+    - mkdir artifacts
+    - mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
+    
 generate_ba:
   stage: generate
   needs: 

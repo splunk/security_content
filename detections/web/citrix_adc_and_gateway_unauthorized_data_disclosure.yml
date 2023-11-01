@@ -1,0 +1,66 @@
+name: Citrix ADC and Gateway Unauthorized Data Disclosure
+id: b593cac5-dd20-4358-972a-d945fefdaf17
+version: 1
+date: '2023-10-24'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic detects attempts to exploit the Citrix Bleed vulnerability, which can lead to the leaking of session tokens. The vulnerability, identified as CVE-2023-4966, pertains to sensitive information disclosure in NetScaler ADC and NetScaler Gateway when set up as various server configurations. The analytic specifically searches for HTTP requests with a 200 status code targeting the /oauth/idp/.well-known/openid-configuration URL endpoint. By parsing web traffic and filtering based on the aforementioned criteria along with specific user agent details, HTTP method, source and destination IPs, and the sourcetype, the analytic aims to identify potentially malicious requests that fit the profile of this exploit. \
+
+  This behavior is essential for a Security Operations Center (SOC) to identify because if successfully exploited, attackers can gain unauthorized access, leading to a potential breach or further malicious activities within the organization's network. As the Citrix Bleed vulnerability can disclose session tokens, a successful exploit can allow attackers to impersonate legitimate users, bypassing authentication mechanisms and accessing sensitive data or systems. \
+
+  If a true positive is confirmed, it implies that an attacker is actively exploiting the vulnerability within the organization's environment. This could lead to severe consequences, including unauthorized data access, further propagation within the network, and potential disruptions or exfiltration of critical information. \
+
+  Upon flagging such activity, it's crucial for analysts to swiftly validate the alert, assess the nature and extent of the exposure, and implement necessary measures to mitigate the threat. Reviewing the details such as user agent, source, and destination IP can help in understanding the context and intent of the attack. While it's imperative to patch vulnerable systems to prevent this exploitation, early detection through this analytic provides a valuable layer of defense, enabling timely response to thwart potential breaches.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/oauth/idp/.well-known/openid-configuration*")  Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `citrix_adc_and_gateway_unauthorized_data_disclosure_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk
+  for Palo Alto. We recommend hunting in the environment first to understand the scope of the issue and then deploying this detection to monitor for future exploitation attempts. Limit or restrict to Citrix devices only if possible.
+known_false_positives: False positives may be present based on organization use of Citrix ADC and Gateway. Filter, or restrict the analytic to Citrix devices only.
+references:
+  - https://www.assetnote.io/resources/research/citrix-bleed-leaking-session-tokens-with-cve-2023-4966
+  - https://github.com/assetnote/exploits/tree/main/citrix/CVE-2023-4966
+tags:
+  analytic_story:
+  - Citrix NetScaler ADC and NetScaler Gateway CVE-2023-4966
+  asset_type: Web server
+  atomic_guid: []
+  confidence: 90
+  impact: 100
+  message: Possible exploitation of Citrix Bleed vulnerability against $dest$ fron $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: IP Address
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 90
+  required_fields:
+  - Web.http_user_agent
+  - Web.status
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - sourcetype
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/citrix/cve-2023-4966-citrix.log
+    source: suricata
+    sourcetype: suricata
