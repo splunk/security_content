@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
+  - PlugX
   asset_type: Endpoint
   confidence: 50
   impact: 70
