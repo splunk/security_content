@@ -1,4 +1,4 @@
-version_control_config: null
+version_control_config: {}
 infrastructure_config:
   infrastructure_type: container
   full_image_path: registry.hub.docker.com/splunk/splunk:latest
