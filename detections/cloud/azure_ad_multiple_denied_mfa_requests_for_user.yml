@@ -26,6 +26,7 @@ references:
 - https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/
 - https://attack.mitre.org/techniques/T1621/
 - https://attack.mitre.org/techniques/T1078/004/
+- https://www.cisa.gov/sites/default/files/publications/fact-sheet-implement-number-matching-in-mfa-applications-508c.pdf
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
