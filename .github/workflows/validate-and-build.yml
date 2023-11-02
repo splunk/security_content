@@ -1,44 +1,9 @@
-#This file makes use of a number of useful, external Github Actions.
-#Check the links below for additional documentation on each of these:
-#https://github.com/actions/setup-python
-#https://github.com/actions/setup-node
-#https://github.com/actions/checkout
-#https://github.com/actions/upload-artifact
-
-#The mechanism for persisting data between jobs in a workflow is the same as for persisting it
-#permanently:
-#https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
-#In CircleCI, this was different (store_artifacts vs persist_to_workspace)
-
 name: validate-and-build
 on:
   push:
   pull_request:
     types: [opened, reopened]
 jobs:
-  validate-tag-if-present:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: TAGGED, Validate that the tag is in the correct format
-
-        run: |
-          echo "The GITHUB_REF: $GITHUB_REF"
-          #First check to see if the release is a tag
-          if [[ $GITHUB_REF =~ refs/tags/* ]]; then
-            #Yes, this is a tag, so we need to test to make sure that the tag
-            #is in the correct format (like v1.10.20)
-            if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
-              echo "PASS: Tagged release with good format"
-              exit 0
-            else
-              echo "FAIL: Tagged release with bad format"
-              exit 1
-            fi
-          else
-          echo "PASS: Not a tagged release"
-          exit 0
-          fi
 
   validate-and-build:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
@@ -48,23 +13,6 @@ jobs:
     needs: [validate-tag-if-present]
     steps:
 
-      - name: Configure Enrichment and Tag
-        id: vars
-        run: |
-          if [ $(echo ${GITHUB_REF} | grep "^refs/tags/*") ]; then
-            #failed to find the refs/tags/ beginning, grab and set the tag
-            echo "Release is TAGGED!"
-            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
-            echo "::set-output name=skip_enrichment_var::"
-          else
-            #Not a tagged relese
-            echo "Release is NOT TAGGED!"
-            echo "::set-output name=tag::"
-            echo "::set-output name=skip_enrichment_var::--skip_enrichment"
-          fi
-
-      #Previous config chose which branch/tag to operate on.
-      #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
       - name: Check out the repository code
         uses: actions/checkout@v3
        
@@ -72,7 +20,6 @@ jobs:
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
 
       - name: Install System Packages
         run: |
@@ -90,13 +37,15 @@ jobs:
       
       - name: content_ctl validate
         run: |
+          cd contentctl
           poetry run contentctl -p ../ validate 
 
       - name: contentctl generate
         run: |
+          cd contentctl
           poetry run contentctl -p ../ build
-          mkdir artifacts
-          mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
+          mkdir ../artifacts
+          mv ../dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
       - name: store_artifacts
         uses: actions/upload-artifact@v3
