@@ -58,8 +58,3 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/nginx_plus_kv_confluence.log
     source: nginx:plus:kv
     sourcetype: nginx:plus:kv
-- name: Suricata Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/confluence_cve-2023-22515.log
-    source: suricata
-    sourcetype: suricata

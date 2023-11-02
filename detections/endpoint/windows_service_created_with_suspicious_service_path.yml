@@ -34,6 +34,7 @@ tags:
   - Qakbot
   - Snake Malware
   - Flax Typhoon
+  - PlugX
   asset_type: Endpoint
   confidence: 80
   impact: 70
