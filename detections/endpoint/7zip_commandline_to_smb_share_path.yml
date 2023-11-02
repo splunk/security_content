@@ -5,7 +5,7 @@ date: '2021-08-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: DAFTPUNK- This search is to detect a suspicious 7z process with commandline pointing
+description: This search is to detect a suspicious 7z process with commandline pointing
   to SMB network share. This technique was seen in CONTI LEAK tools where it use 7z
   to archive a sensitive files and place it in network share tmp folder. This search
   is a good hunting query that may give analyst a hint why specific user try to archive
