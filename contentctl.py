@@ -1,3 +1,7 @@
+#### DEPRECATED
+
+### This code is deprecated : use the submodule contentctl and these functionalities are available with that application
+###
 import sys
 import argparse
 import os 
