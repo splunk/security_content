@@ -44,8 +44,9 @@ jobs:
         run: |
           cd contentctl
           poetry run contentctl -p ../ build
-          mkdir ../artifacts
-          mv ../dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
+          cd ..
+          mkdir artifacts
+          mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
       - name: store_artifacts
         uses: actions/upload-artifact@v3
