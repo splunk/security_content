@@ -1,0 +1,65 @@
+save_pipeline_id:
+  stage: test
+  needs:
+    - generate_escu
+  artifacts:
+    when: always
+    paths:
+      - artifacts/*
+  script:
+    - echo $CI_PIPELINE_ID > artifacts/security_content_pipeline_id.txt
+
+trigger_escu_test:
+  stage: test
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: on_success
+  inherit:
+    variables: false
+  variables:
+    SECURITY_CONTENT_PIPELINE_ID: $CI_PIPELINE_ID
+    SECURITY_CONTENT_PIPELINE_SOURCE: $CI_PIPELINE_SOURCE
+    SECURITY_CONTENT_GIT_REF: $CI_COMMIT_REF_NAME
+    SECURITY_CONTENT_GIT_COMMIT_SHA: $CI_COMMIT_SHA
+    ESCU_BUILD_PATH: artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+    BUILD_NAME: DA-ESS-ContentUpdate
+  needs:
+    - save_pipeline_id
+  trigger:
+    project: securitycontent/security-content-automation
+    branch: pex-263/triggered-by-upstream
+    strategy: depend
+
+# TODO (PEX-325): re-enable (never -> on_success) MR trigger after diff-level testing is enabled in contentctl
+trigger_escu_test_mr:
+  stage: test
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+  inherit:
+    variables: false
+  variables:
+    SECURITY_CONTENT_PIPELINE_ID: $CI_PIPELINE_ID
+    SECURITY_CONTENT_PIPELINE_SOURCE: $CI_PIPELINE_SOURCE
+    SECURITY_CONTENT_GIT_REF: $CI_COMMIT_REF_NAME
+    SECURITY_CONTENT_GIT_COMMIT_SHA: $CI_COMMIT_SHA
+    SECURITY_CONTENT_MR_ID: $CI_MERGE_REQUEST_ID
+    SECURITY_CONTENT_MR_IID: $CI_MERGE_REQUEST_IID
+    SECURITY_CONTENT_MR_REF_PATH: $CI_MERGE_REQUEST_REF_PATH
+    SECURITY_CONTENT_MR_EVENT_TYPE: $CI_MERGE_REQUEST_EVENT_TYPE
+    SECURITY_CONTENT_SOURCE_BRANCH: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+    SECURITY_CONTENT_TARGET_BRANCH: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    SECURITY_CONTENT_SOURCE_COMMIT: $CI_MERGE_REQUEST_SOURCE_BRANCH_SHA
+    SECURITY_CONTENT_TARGET_COMMIT: $CI_MERGE_REQUEST_TARGET_BRANCH_SHA
+    ESCU_BUILD_PATH: artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+    BUILD_NAME: DA-ESS-ContentUpdate
+  needs:
+    - save_pipeline_id
+  trigger:
+    project: securitycontent/security-content-automation
+    branch: pex-263/triggered-by-upstream
+    # strategy: depend
