@@ -12,6 +12,7 @@ include:
   - local: "pipeline/.generate.yml"
   - local: "pipeline/.app_inspect.yml"
   - local: "pipeline/.release.yml"
+  - local: "pipeline/.post.yml"
 
 workflow:
   rules:
