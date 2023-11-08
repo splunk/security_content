@@ -1,4 +1,6 @@
-version_control_config: {}
+version_control_config:
+  repo_path: .
+  repo_url: https://github.com/splunk/security_content
 infrastructure_config:
   infrastructure_type: container
   full_image_path: registry.hub.docker.com/splunk/splunk:latest
