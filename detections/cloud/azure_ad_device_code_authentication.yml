@@ -37,17 +37,17 @@ tags:
   asset_type: Azure AD
   confidence: 50
   impact: 70
-  message: Device code requested for $userPrincipalName$ from $ipAddress$
+  message: Device code requested for $user$ from $src_ip$
   mitre_attack_id:
   - T1528
   - T1566
   - T1566.002
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: ipAddress
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
