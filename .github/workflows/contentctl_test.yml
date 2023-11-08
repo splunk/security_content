@@ -24,6 +24,5 @@ jobs:
             git pull
             python -m pip install poetry
             poetry install
-            poetry shell
-            cd ..
-            contentctl test --mode changes --target_branch develop --test_branch TR_3232_azure_ad
+            poetry run contentctl -p ../ validate
+            poetry run contentctl -p ../ test --mode changes --target_branch develop --test_branch TR_3232_azure_ad
