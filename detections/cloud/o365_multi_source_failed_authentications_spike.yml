@@ -35,11 +35,6 @@ tags:
   - T1110
   - T1110.003
   - T1110.004
-  observable:
-  - name: src_ip
-    type: IP Address
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
