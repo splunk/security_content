@@ -13,7 +13,7 @@ description: The following analytic identifies instances where the Mail.Read Gra
  access and that any inadvertent or malicious assignments are promptly identified.
  If an attacker successfully grants this permission to a malicious or compromised application, they can read all emails in the affected mailboxes. This can lead to
  data exfiltration, spear-phishing attacks, or further compromise based on the information gathered from the emails.
-search: >
+search: >-
   `o365_management_activity` Operation="Update application."
   | eval json_data=mvindex('ModifiedProperties{}.NewValue', 0)
   | eval json_data=replace(json_data, "^\[\s*", "")
