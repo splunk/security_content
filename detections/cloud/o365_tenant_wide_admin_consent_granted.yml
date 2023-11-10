@@ -25,7 +25,7 @@ references:
 - https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT501/AZT501-2/ 
 tags:
   analytic_story:
-  - O365 Persistence Mechanisms
+  - Office 365 Persistence Mechanisms
   asset_type: Office 365
   confidence: 50
   impact: 90

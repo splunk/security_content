@@ -22,7 +22,7 @@ references:
 - https://attack.mitre.org/techniques/T1110/
 tags:
   analytic_story:
-  - O365 Identity Compromise Techniques
+  - Office 365 Account Takeover
   asset_type: Office 365
   confidence: 80
   impact: 80

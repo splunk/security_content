@@ -19,7 +19,7 @@ references:
 - https://attack.mitre.org/techniques/T1114/
 tags:
   analytic_story:
-  - O365 Persistence Mechanisms
+  - Office 365 Persistence Mechanisms
   - Data Exfiltration
   asset_type: Office 365
   confidence: 60

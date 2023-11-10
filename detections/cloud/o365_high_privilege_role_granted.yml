@@ -25,7 +25,7 @@ references:
 - https://learn.microsoft.com/en-us/sharepoint/sharepoint-admin-role
 tags:
   analytic_story:
-  - O365 Persistence Mechanisms
+  - Office 365 Persistence Mechanisms
   asset_type: Office 365 tenant
   confidence: 60
   impact: 80

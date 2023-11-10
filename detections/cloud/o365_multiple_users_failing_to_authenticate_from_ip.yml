@@ -21,7 +21,7 @@ references:
 - https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
 tags:
   analytic_story:
-  - O365 Identity Compromise Techniques
+  - Office 365 Account Takeover
   asset_type: Office 365 tenant
   confidence: 90
   impact: 70

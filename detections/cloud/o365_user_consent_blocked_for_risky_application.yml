@@ -27,7 +27,7 @@ references:
 - https://github.com/AlteredSecurity/365-Stealer
 tags:
   analytic_story:
-  - O365 Identity Compromise Techniques
+  - Office 365 Account Takeover
   asset_type: Office 365 tenant
   confidence: 100
   impact: 30

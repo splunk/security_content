@@ -21,7 +21,7 @@ references:
 - https://www.youtube.com/watch?v=SK1zgqaAZ2E
 tags:
   analytic_story:
-  - O365 Identity Compromise Techniques
+  - Office 365 Account Takeover
   asset_type: Office 365 
   confidence: 80
   impact: 60

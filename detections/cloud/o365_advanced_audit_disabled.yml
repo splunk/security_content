@@ -28,7 +28,7 @@ references:
 - https://www.csoonline.com/article/570381/microsoft-365-advanced-audit-what-you-need-to-know.html
 tags:
   analytic_story:
-  - O365 Persistence Mechanisms
+  - Office 365 Persistence Mechanisms
   asset_type: Office 365
   confidence: 80
   impact: 40

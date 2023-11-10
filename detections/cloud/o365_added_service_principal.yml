@@ -20,7 +20,7 @@ references:
 - https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en
 tags:
   analytic_story:
-  - O365 Persistence Mechanisms
+  - Office 365 Persistence Mechanisms
   - Cloud Federated Credential Abuse
   asset_type: Office 365
   confidence: 60
