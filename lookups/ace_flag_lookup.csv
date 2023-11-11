@@ -1,0 +1,10 @@
+flag_string,flag_value
+CI,Container inherit
+OI,Object inherit
+NP,No propagate
+IO,Inherit only
+ID,Inherited
+SA,Audit success
+FA,Audit failure
+TP,Trust protected filter
+CR,Critical

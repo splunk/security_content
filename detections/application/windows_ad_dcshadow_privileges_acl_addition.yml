@@ -1,0 +1,83 @@
+name: Windows AD DCShadow ACL Addition
+id: ae915743-1aa8-4a94-975c-8062ebc8b723
+version: 1
+date: '2023-11-10'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Security 5136
+description: Detect ACL modification event applying the minimum required extended rights to perform a DCShadow attack. 
+search: '`wineventlog_security` EventCode=5136 OperationType="%%14674" ObjectClass=domainDNS
+  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;(?P<DSInstallReplica_user>.*?)\)" 
+  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSReplSync_user>.*?)\)" 
+  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSReplManageTopology_user>.*?)\)" 
+  | mvexpand DSInstallReplica_user 
+  | eval DCShadowPermissions=if(DSInstallReplica_user=DSReplSync_user AND DSInstallReplica_user=DSReplManageTopology_user,"true","false"), permissions_applied=mvappend("DS-Install-Replica","DS-Replication-Synchronize","DS-Replication-Manage-Topology")
+  | where DCShadowPermissions="true" 
+  | stats min(_time) as _time by src_user DSInstallReplica_user permissions_applied, SubjectLogonId, DSName
+  | rename SubjectLogonId as TargetLogonId, src_user as initiator, DSInstallReplica_user as target_user
+  | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
+  | stats min(_time) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(target_user) as user, values(Computer) as dest, values(permissions_applied) as permissions_applied, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType by TargetLogonId
+  ``` uncomment to enable SID lookups as required
+  | lookup identity_lookup_expanded objectSid as user OUTPUT downLevelDomainName as translated_user
+  | lookup admon_groups_def objectSid as user OUTPUT cn as group_user
+  | eval user=if(match(user, "S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3}") AND translated_user like "%" OR group_user like "%",coalesce(translated_user,group_user),user)
+  | fields - translated_user group_user
+  ```
+  | eval comment=mvappend(if(isnull(src_ip),"Finding: Rerun search over longer time-range to locate src_ip from the captured TargetLogonId",null),if(match(user, "S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3}"),"Finding: Captured SID could not be found in A&I lookup, ensure A&I lookup is configured, also check potential group SIDs for a match",null))
+  | `windows_ad_dcshadow_acl_addition_filter`'
+how_to_implement: See link in references for how to configure logging for these eventcodes. 
+known_false_positives: Unknown
+references:
+- https://www.labofapenetrationtester.com/2018/04/dcshadow.html
+- https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1
+- https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: $targetDomain$ ACL modification Event Initiated by $src_user$ applying $user$ the minimum required extended rights to perform a DCShadow attack. 
+  mitre_attack_id:
+  - T1484
+  - T1207
+  observable:
+    - name: user
+      type: User
+      role:
+        - Victim
+    - name: src_user
+      type: User
+      role:
+        - Victim
+    - name: dest
+      type: Hostname
+      role:
+        - Victim
+    - name: src_ip
+      type: Hostname
+      role:
+        - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 100
+  required_fields:
+    - _time
+    - OperationType
+    - src_user
+    - AttributeLDAPDisplayName
+    - AttributeValue
+    - ObjectClass
+    - SubjectLogonId
+    - DSName
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/DCShadowPermissions/windows-security-xml.log
+        source: XmlWinEventLog:Security
+        sourcetype: xmlwineventlog

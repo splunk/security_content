@@ -14,17 +14,25 @@ description:
   - DS-Replication-Get-Changes-All
   Certain Sync operations may require the additional permission of DS-Replication-Get-Changes-In-Filtered-Set.
   By default, adding DCSync permissions via the Powerview Add-ObjectACL operation adds all 3. This alert identifies where this trifecta has been met, and also where just the base level requirements have been met.
-search: '`wineventlog_security` EventCode=5136
-  | rex field=AttributeValue max_match=10000 "OA;;CR;1131f6aa-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChanges_user_sid>S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3})\)"
-  | rex field=AttributeValue max_match=10000 "OA;;CR;1131f6ad-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChangesAll_user_sid>S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3})\)"
-  | rex field=AttributeValue max_match=10000 "OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3})\)"
-  | table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid
-  | mvexpand DSRGetChanges_user_sid
-  | eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,"true","false"), fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,"true","false")
-  | where minDCSyncPermissions="true"
-  | lookup identity_lookup_expanded objectSid as DSRGetChanges_user_sid OUTPUT sAMAccountName as user
-  | rename DSRGetChanges_user_sid as userSid
-  | stats min(_time) as _time values(user) as user by dest src_user userSid minDCSyncPermissions fullSet
+search: '`wineventlog_security` EventCode=5136 OperationType="%%14674" ObjectClass=domainDNS 
+  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;1131f6aa-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChanges_user>(S-1-[ 0-59]-|\w+\\\).*?)\)"
+  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;1131f6ad-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChangesAll_user>(S-1-[ 0-59]-|\w+\\\).*?)\)"
+  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user>(S-1-[ 0-59]-|\w+\\\).*?)\)"
+  | mvexpand DSRGetChanges_user
+  | eval minDCSyncPermissions=if(DSRGetChanges_user=DSRGetChangesAll_user,"true","false"), fullSet=if(DSRGetChanges_user=DSRGetChangesAll_user AND DSRGetChanges_user=DSRGetChangesFiltered_user,"true","false")
+  | where minDCSyncPermissions="true" 
+  | eval permissions_applied=mvappend(if(DSRGetChanges_user like "%","DS-Replication-Get-Changes",null),if(DSRGetChanges_user=DSRGetChangesAll_user,"DS-Replication-Get-Changes-All",null), if(DSRGetChanges_user=DSRGetChangesFiltered_user,"DS-Replication-Get-Changes-In-Filtered-Set",null))
+  | stats min(_time) as _time by src_user DSRGetChanges_user permissions_applied, SubjectLogonId, DSName
+  | rename SubjectLogonId as TargetLogonId, src_user as initiator, DSRGetChanges_user as target_user
+  | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
+  | stats min(_time) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(target_user) as user, values(Computer) as dest, values(permissions_applied) as permissions_applied, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType by TargetLogonId
+  ``` uncomment to enable SID lookups as required
+  | lookup identity_lookup_expanded objectSid as user OUTPUT downLevelDomainName as translated_user
+  | lookup admon_groups_def objectSid as user OUTPUT cn as group_user
+  | eval user=if(match(user, "S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3}") AND translated_user like "%" OR group_user like "%",coalesce(translated_user,group_user),user)
+  | fields - translated_user group_user
+  ```
+  | eval comment=mvappend(if(isnull(src_ip),"Finding: Rerun search over longer time-range to locate src_ip from the captured TargetLogonId",null),if(match(user, "S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3}"),"Finding: Captured SID could not be found in A&I lookup, ensure A&I lookup is configured, also check potential group SIDs for a match",null))
   | `windows_ad_domain_replication_acl_addition_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting the eventcode 5136. The Advanced Security Audit policy setting
   `Audit Directory Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody` to  `Write All Properties`
@@ -55,21 +63,19 @@ tags:
       type: User
       role:
         - Victim
-    - name: dest
-      type: Hostname
-      role:
-        - Victim
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
   required_fields:
     - _time
-    - dest
+    - OperationType
     - src_user
     - AttributeLDAPDisplayName
     - AttributeValue
     - ObjectClass
+    - SubjectLogonId
+    - DSName
   risk_score: 80
   security_domain: endpoint
   manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.

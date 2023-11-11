@@ -1,0 +1,18 @@
+ace_type_string,ace_type_value
+A,Access allowed
+D,Access denied
+OA,Object access allowed
+OD,Object access denied
+AU,Audit
+AL,Alarm
+OU,Object audit
+OL,Object alarm
+ML,Mandatory label
+XA,Callback access allowed
+XD,Callback access denied
+RA,Resource attribute
+SP,Scoped policy ID
+XU,Callback audit
+ZA,Callback object access allowed
+TL,Process trust label
+FL,Access filter
