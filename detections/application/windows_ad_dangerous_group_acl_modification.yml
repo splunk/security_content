@@ -1,0 +1,82 @@
+name: Windows AD Dangerous Group ACL Modification
+id: 59b0fc85-7a0d-4585-97ec-06a382801990
+version: 1
+date: '2023-11-13'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Security 5136
+description: Group ACL modification event with potentially dangerous permissions applied. 
+search: '`wineventlog_security` EventCode=5136 ObjectClass=group
+  | eval old_value=if(OperationType=="%%14675",AttributeValue,null), new_value=if(OperationType=="%%14674",AttributeValue,null) 
+  | stats min(_time) as _time values(old_value) as old_value values(new_value) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
+  | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
+  | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)" 
+  | mvexpand new_ace 
+  | where NOT new_ace IN (old_values) 
+  | rex field=new_ace "(?P<aceType>.*?);(?P<aceFlags>.*?);(?P<aceAccessRights>.*?);(?P<aceObjectGuid>.*?);(?P<aceInheritedTypeGuid>.*?);(?P<aceSid>.*?)$" 
+  | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
+  | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
+  | lookup ace_control_access_rights_lookup.csv control_access_rights_guid as aceObjectGuid OUTPUT control_access_rights_value as ControlAccessRights 
+  | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
+  | lookup ace_type_lookup.csv ace_type_string as aceType OUTPUT ace_type_value as aceType
+  | lookup ace_flag_lookup.csv flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+  ``` Optional SID resolution lookups
+  | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
+  | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
+  | lookup builtin_groups_lookup.csv builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
+  | eval aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",'access_rights_value'), aceFlags=coalesce(ace_flag_value,"This object only"), user=coalesce(user, group, builtin_group, aceSid),  ControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid)
+  | stats values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(ControlAccessRights) as ControlAccessRights values(aceAccessRights) as aceAccessRights values(aceInheritedTypeGuid) as inheritedTypeGuid values(new_ace) as new_ace by _time ObjectClass ObjectDN src_user SubjectLogonId user OpCorrelationID
+  | search aceAccessRights IN ("Full control","All validated writes","All extended rights","Modify permissions","Modify owner","Write all properties")
+  | eval ControlAccessRights=if(mvcount(ControlAccessRights)=1 AND ControlAccessRights="","All rights",'ControlAccessRights')
+  | `windows_ad_dangerous_group_acl_modification_filter`'
+how_to_implement: See link in references for how to configure logging for these eventcodes. Include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
+known_false_positives: Unknown
+references:
+- https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
+- https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: $src_user$ has removed $user$ $aceAccessRights$ ACL rights to domain root $ObjectDN$
+  mitre_attack_id:
+  - T1484
+  - T1222
+  - T1222.001
+  observable:
+    - name: user
+      type: User
+      role:
+        - Victim
+    - name: src_user
+      type: User
+      role:
+        - Victim
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  risk_score: 100
+  required_fields:
+    - _time
+    - OperationType
+    - ObjectDN
+    - OpCorrelationID
+    - src_user
+    - AttributeLDAPDisplayName
+    - AttributeValue
+    - ObjectClass
+    - SubjectLogonId
+    - DSName
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/DCShadowPermissions/windows-security-xml.log
+        source: XmlWinEventLog:Security
+        sourcetype: xmlwineventlog

@@ -1,0 +1,73 @@
+name: Windows AD Suspicious Attribute Modification
+id: 5682052e-ce55-4f9f-8d28-59191420b7e0
+version: 1
+date: '2023-11-13'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Security 5136
+description: Suspicious AD Attribute Modification
+search: ' `wineventlog_security` EventCode=5136 EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","msDS-KeyCredentialLink","scriptPath","msTSInitialProgram") OperationType=%%14674 
+  | table _time ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName AttributeValue AttributeLDAPDisplayName 
+  | rename SubjectLogonId as TargetLogonId, src_user as initiator, DSRGetChanges_user as target_user, _time as eventTime 
+  | appendpipe 
+  |   [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] 
+  | stats min(eventTime) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(ObjectDN) as ObjectDN, values(ObjectClass) as ObjectClass, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType values(AttributeValue) as AttributeValue values(AttributeLDAPDisplayName) as AttributeLDAPDisplayName by TargetLogonId 
+  | rex field=ObjectDN "^CN=(?P<cn>.*?),[A-Z]{2}\=" 
+  | eval dest=if(ObjectClass="computer",cn,null), user=if(ObjectClass="user",cn,null)
+  | fields - cn
+  | `windows_ad_suspicious_attribute_modification_filter`'
+how_to_implement: This analytic leverages event code 5136, see documentation in references on how to enable logging. 
+known_false_positives: Unknown
+references:
+- https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
+- https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: $src_user$ has removed $user$ $aceAccessRights$ ACL rights to domain root $ObjectDN$
+  mitre_attack_id:
+  - T1484
+  - T1222
+  - T1222.001
+  observable:
+    - name: user
+      type: User
+      role:
+        - Victim
+    - name: src_user
+      type: User
+      role:
+        - Victim
+    - name: dest
+      type: Hostname
+      role:
+        - Victim
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  risk_score: 100
+  required_fields:
+    - _time
+    - OperationType
+    - ObjectDN
+    - OpCorrelationID
+    - src_user
+    - AttributeLDAPDisplayName
+    - AttributeValue
+    - ObjectClass
+    - SubjectLogonId
+    - DSName
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/DCShadowPermissions/windows-security-xml.log
+        source: XmlWinEventLog:Security
+        sourcetype: xmlwineventlog

@@ -1,0 +1,39 @@
+builtin_group_string,builtin_group_name
+AO,Account operators
+RU,Alias to allow previous Windows 2000
+AN,Anonymous logon
+AU,Authenticated users
+BA,Built-in administrators
+BG,Built-in guests
+BO,Backup operators
+BU,Built-in users
+CA,Certificate server administrators
+CG,Creator group
+CO,Creator owner
+DA,Domain administrators
+DC,Domain computers
+DD,Domain controllers
+DG,Domain guests
+DU,Domain users
+EA,Enterprise administrators
+ED,Enterprise domain controllers
+WD,Everyone
+PA,Group Policy administrators
+IU,Interactively logged-on user
+LA,Local administrator
+LG,Local guest
+LS,Local service account
+SY,Local system
+NU,Network sign-in user
+NO,Network configuration operators
+NS,Network service account
+PO,Printer operators
+PS,Personal self
+PU,Power users
+RS,RAS servers group
+RD,Terminal server users
+RE,Replicator
+RC,Restricted code
+SA,Schema administrators
+SO,Server operators
+SU,Service sign-in user
