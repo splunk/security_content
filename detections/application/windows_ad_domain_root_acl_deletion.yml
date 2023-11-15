@@ -18,7 +18,7 @@ search: '`wineventlog_security` EventCode=5136 ObjectClass=domainDNS
   | rex field=old_values "(?P<aceType>.*?);(?P<aceFlags>.*?);(?P<aceAccessRights>.*?);(?P<aceObjectGuid>.*?);;(?P<aceSid>.*?)$" 
   | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
   | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
-  | lookup ace_control_access_rights_lookup.csv control_access_rights_guid as aceObjectGuid OUTPUT control_access_rights_value as ControlAccessRights 
+  | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights 
   | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
   | lookup ace_type_lookup.csv ace_type_string as aceType OUTPUT ace_type_value 
   | lookup ace_flag_lookup.csv flag_string as aceFlags OUTPUT flag_value as ace_flag_value
@@ -26,9 +26,9 @@ search: '`wineventlog_security` EventCode=5136 ObjectClass=domainDNS
   | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
   | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
   | lookup builtin_groups_lookup.csv builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
-  | eval aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",'access_rights_value'), aceType=ace_type_value, aceFlags=coalesce(ace_flag_value,"This object only"), aceControlAccessRights=ControlAccessRights, user=coalesce(user, group, builtin_group, aceSid) 
+  | eval aceType=coalesce(ace_type_value,aceType), aceFlags=coalesce(ace_flag_value,"This object only"), aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",coalesce(access_rights_value,AccessRights)), aceControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid), user=coalesce(user, group, builtin_group, aceSid)
   | stats values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(old_values) as old_values by _time ObjectClass ObjectDN src_user SubjectLogonId user OpCorrelationID
-  | eval ControlAccessRights=if(mvcount(ControlAccessRights)=1 AND ControlAccessRights="","All rights",'ControlAccessRights')
+  | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
   | `windows_ad_domain_root_acl_deletion_filter`'
 how_to_implement: See link in references for how to configure logging for these eventcodes. Include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
 known_false_positives: Unknown

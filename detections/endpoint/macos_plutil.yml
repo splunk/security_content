@@ -5,7 +5,7 @@ date: '2022-05-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: Detect usage of plutil to modify plist files. Adversaries can modiy plist
+description: Detect usage of plutil to modify plist files. Adversaries can Modify plist
   files to executed binaries or add command line arguments. Plist files in auto-run
   locations are executed upon user logon or system startup.
 data_source: []

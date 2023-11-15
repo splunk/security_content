@@ -2,7 +2,7 @@ access_rights_string,access_rights_value
 RC,Read permissions
 SD,Delete
 WD,Modify permissions
-WO,Modiy owner
+WO,Modify owner
 RP,Read all properties
 WP,Write all properties
 CC,Create all child objects

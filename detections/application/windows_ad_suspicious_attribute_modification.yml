@@ -10,7 +10,7 @@ data_source:
 description: Suspicious AD Attribute Modification
 search: ' `wineventlog_security` EventCode=5136 EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","msDS-KeyCredentialLink","scriptPath","msTSInitialProgram") OperationType=%%14674 
   | table _time ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName AttributeValue AttributeLDAPDisplayName 
-  | rename SubjectLogonId as TargetLogonId, src_user as initiator, DSRGetChanges_user as target_user, _time as eventTime 
+  | rename SubjectLogonId as TargetLogonId, src_user as initiator, _time as eventTime 
   | appendpipe 
   |   [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] 
   | stats min(eventTime) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(ObjectDN) as ObjectDN, values(ObjectClass) as ObjectClass, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType values(AttributeValue) as AttributeValue values(AttributeLDAPDisplayName) as AttributeLDAPDisplayName by TargetLogonId 
@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: $src_user$ has removed $user$ $aceAccessRights$ ACL rights to domain root $ObjectDN$
+  message: $src_user$ has added $user$ $aceAccessRights$ ACL rights to $ObjectClass$ $ObjectDN$
   mitre_attack_id:
   - T1484
   - T1222

@@ -14,25 +14,28 @@ description:
   - DS-Replication-Get-Changes-All
   Certain Sync operations may require the additional permission of DS-Replication-Get-Changes-In-Filtered-Set.
   By default, adding DCSync permissions via the Powerview Add-ObjectACL operation adds all 3. This alert identifies where this trifecta has been met, and also where just the base level requirements have been met.
-search: '`wineventlog_security` EventCode=5136 OperationType="%%14674" ObjectClass=domainDNS 
-  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;1131f6aa-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChanges_user>(S-1-[ 0-59]-|\w+\\\).*?)\)"
-  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;1131f6ad-9c07-11d1-f79f-00c04fc2dcd2;;(?P<DSRGetChangesAll_user>(S-1-[ 0-59]-|\w+\\\).*?)\)"
-  | rex field=AttributeValue max_match=10000 "OA(;|;CI);CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user>(S-1-[ 0-59]-|\w+\\\).*?)\)"
-  | mvexpand DSRGetChanges_user
-  | eval minDCSyncPermissions=if(DSRGetChanges_user=DSRGetChangesAll_user,"true","false"), fullSet=if(DSRGetChanges_user=DSRGetChangesAll_user AND DSRGetChanges_user=DSRGetChangesFiltered_user,"true","false")
-  | where minDCSyncPermissions="true" 
-  | eval permissions_applied=mvappend(if(DSRGetChanges_user like "%","DS-Replication-Get-Changes",null),if(DSRGetChanges_user=DSRGetChangesAll_user,"DS-Replication-Get-Changes-All",null), if(DSRGetChanges_user=DSRGetChangesFiltered_user,"DS-Replication-Get-Changes-In-Filtered-Set",null))
-  | stats min(_time) as _time by src_user DSRGetChanges_user permissions_applied, SubjectLogonId, DSName
-  | rename SubjectLogonId as TargetLogonId, src_user as initiator, DSRGetChanges_user as target_user
-  | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
-  | stats min(_time) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(target_user) as user, values(Computer) as dest, values(permissions_applied) as permissions_applied, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType by TargetLogonId
-  ``` uncomment to enable SID lookups as required
-  | lookup identity_lookup_expanded objectSid as user OUTPUT downLevelDomainName as translated_user
-  | lookup admon_groups_def objectSid as user OUTPUT cn as group_user
-  | eval user=if(match(user, "S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3}") AND translated_user like "%" OR group_user like "%",coalesce(translated_user,group_user),user)
-  | fields - translated_user group_user
-  ```
-  | eval comment=mvappend(if(isnull(src_ip),"Finding: Rerun search over longer time-range to locate src_ip from the captured TargetLogonId",null),if(match(user, "S-1-[ 0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[ 1-9]\d{3}"),"Finding: Captured SID could not be found in A&I lookup, ensure A&I lookup is configured, also check potential group SIDs for a match",null))
+search: '`wineventlog_security` EventCode=5136 ObjectClass=domainDNS 
+  | eval old_value=if(OperationType=="%%14675",AttributeValue,null), new_value=if(OperationType=="%%14674",AttributeValue,null) 
+  | stats min(_time) as _time values(old_value) as old_value values(new_value) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
+  | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
+  | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)" 
+  | mvexpand new_ace
+  | where NOT new_ace IN (old_values) 
+  | rex field=new_ace "(?P<aceType>.*?);(?P<aceFlags>.*?);(?P<aceAccessRights>.*?);(?P<aceObjectGuid>.*?);;(?P<aceSid>.*?)$"
+  | search aceObjectGuid IN ("1131f6aa-9c07-11d1-f79f-00c04fc2dcd2","1131f6ad-9c07-11d1-f79f-00c04fc2dcd2","89e95b76-444d-4c62-991a-0facbeda640c")
+  | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
+  | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
+  | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights
+  | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
+  | lookup ace_type_lookup.csv ace_type_string as aceType OUTPUT ace_type_value 
+  | lookup ace_flag_lookup.csv flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+  ``` Optional SID resolution lookups
+  | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
+  | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
+  | lookup builtin_groups_lookup.csv builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
+  | eval aceType=coalesce(ace_type_value,aceType), aceFlags=coalesce(ace_flag_value,"This object only"), aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",coalesce(access_rights_value,AccessRights)), aceControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid), user=coalesce(user, group, builtin_group, aceSid)
+  | stats min(_time) as _time values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(SubjectLogonId) as SubjectLogonId by ObjectClass ObjectDN src_user user
+  | search (aceControlAccessRights="DS-Replication-Get-Changes" AND aceControlAccessRights="DS-Replication-Get-Changes-All") OR (aceControlAccessRights="1131f6aa-9c07-11d1-f79f-00c04fc2dcd2" AND aceControlAccessRights="1131f6ad-9c07-11d1-f79f-00c04fc2dcd2")
   | `windows_ad_domain_replication_acl_addition_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting the eventcode 5136. The Advanced Security Audit policy setting
   `Audit Directory Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody` to  `Write All Properties`

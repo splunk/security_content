@@ -18,18 +18,18 @@ search: '`wineventlog_security` EventCode=5136 ObjectClass=group
   | rex field=new_ace "(?P<aceType>.*?);(?P<aceFlags>.*?);(?P<aceAccessRights>.*?);(?P<aceObjectGuid>.*?);(?P<aceInheritedTypeGuid>.*?);(?P<aceSid>.*?)$" 
   | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
   | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
-  | lookup ace_control_access_rights_lookup.csv control_access_rights_guid as aceObjectGuid OUTPUT control_access_rights_value as ControlAccessRights 
-  | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
   | lookup ace_type_lookup.csv ace_type_string as aceType OUTPUT ace_type_value as aceType
   | lookup ace_flag_lookup.csv flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+  | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
+  | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights
   ``` Optional SID resolution lookups
   | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
   | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
   | lookup builtin_groups_lookup.csv builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
-  | eval aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",'access_rights_value'), aceFlags=coalesce(ace_flag_value,"This object only"), user=coalesce(user, group, builtin_group, aceSid),  ControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid)
-  | stats values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(ControlAccessRights) as ControlAccessRights values(aceAccessRights) as aceAccessRights values(aceInheritedTypeGuid) as inheritedTypeGuid values(new_ace) as new_ace by _time ObjectClass ObjectDN src_user SubjectLogonId user OpCorrelationID
-  | search aceAccessRights IN ("Full control","All validated writes","All extended rights","Modify permissions","Modify owner","Write all properties")
-  | eval ControlAccessRights=if(mvcount(ControlAccessRights)=1 AND ControlAccessRights="","All rights",'ControlAccessRights')
+  | eval aceType=coalesce(ace_type_value,aceType), aceInheritance=coalesce(ace_flag_value,"This object only"), aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",coalesce(access_rights_value,AccessRights)), aceControlAccessRights=if((ControlAccessRights="Write member" OR aceObjectGuid="bf9679c0-0de6-11d0-a285-00aa003049e2") AND (aceAccessRights="All validated writes" OR AccessRights="SW"),"Add/remove self as member",coalesce(ControlAccessRights,aceObjectGuid)), user=coalesce(user, group, builtin_group, aceSid)
+  | stats values(aceType) as aceType values(aceInheritance) as aceInheritance values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(aceInheritedTypeGuid) as aceInheritedTypeGuid by _time ObjectClass ObjectDN src_user SubjectLogonId user OpCorrelationID
+  | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
+  | search NOT aceType IN ("*denied*","D","OD","XD") AND aceAccessRights IN ("Full control","All extended rights","All validated writes","Create all child objects","Delete all child objects","Delete subtree","Delete","Modify permissions","Modify owner","Write all properties",CC,CR,DC,DT,SD,SW,WD,WO,WP)
   | `windows_ad_dangerous_group_acl_modification_filter`'
 how_to_implement: See link in references for how to configure logging for these eventcodes. Include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
 known_false_positives: Unknown
