@@ -1,0 +1,3 @@
+description: A lookup file that will contain translations for AD object ace control access rights guids
+filename: msad_guid_lookup.csv
+name: msad_guid_lookup

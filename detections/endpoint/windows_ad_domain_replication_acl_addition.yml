@@ -4,8 +4,9 @@ version: 1
 date: "2022-11-18"
 author: Dean Luxton
 type: TTP
-status: experimental
-data_source: []
+status: production
+data_source:
+- Windows Security 5136
 description:
   The following analytic detects the addition of the permissions necessary to perform a DCSync attack.
   In order to replicate AD objects, the initiating user or computer must have the following permissions on the domain.
@@ -13,9 +14,30 @@ description:
   - DS-Replication-Get-Changes-All
   Certain Sync operations may require the additional permission of DS-Replication-Get-Changes-In-Filtered-Set.
   By default, adding DCSync permissions via the Powerview Add-ObjectACL operation adds all 3. This alert identifies where this trifecta has been met, and also where just the base level requirements have been met.
-search: '`wineventlog_security`  | rex field=AttributeValue max_match=10000 \"OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)\"| table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid| mvexpand DSRGetChanges_user_sid| eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,\"true\",\"false\"), fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,\"true\",\"false\")| where minDCSyncPermissions=\"true\" | lookup identity_lookup_expanded  objectSid as DSRGetChanges_user_sid OUTPUT sAMAccountName as user | rename DSRGetChanges_user_sid as userSid | stats min(_time) as _time values(user) as user by dest src_user userSid minDCSyncPermissions fullSet| `windows_ad_domain_replication_acl_addition_filter`'
-how_to_implement:
-  To successfully implement this search, you need to be ingesting the eventcode 5136. The Advanced Security Audit policy setting
+search: '`wineventlog_security` EventCode=5136 ObjectClass=domainDNS 
+  | eval old_value=if(OperationType=="%%14675",AttributeValue,null), new_value=if(OperationType=="%%14674",AttributeValue,null) 
+  | stats min(_time) as _time values(old_value) as old_value values(new_value) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
+  | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
+  | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)" 
+  | mvexpand new_ace
+  | where NOT new_ace IN (old_values) 
+  | rex field=new_ace "(?P<aceType>.*?);(?P<aceFlags>.*?);(?P<aceAccessRights>.*?);(?P<aceObjectGuid>.*?);;(?P<aceSid>.*?)$"
+  | search aceObjectGuid IN ("1131f6aa-9c07-11d1-f79f-00c04fc2dcd2","1131f6ad-9c07-11d1-f79f-00c04fc2dcd2","89e95b76-444d-4c62-991a-0facbeda640c")
+  | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
+  | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
+  | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights
+  | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
+  | lookup ace_type_lookup.csv ace_type_string as aceType OUTPUT ace_type_value 
+  | lookup ace_flag_lookup.csv flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+  ``` Optional SID resolution lookups
+  | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
+  | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
+  | lookup builtin_groups_lookup.csv builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
+  | eval aceType=coalesce(ace_type_value,aceType), aceFlags=coalesce(ace_flag_value,"This object only"), aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",coalesce(access_rights_value,AccessRights)), aceControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid), user=coalesce(user, group, builtin_group, aceSid)
+  | stats min(_time) as _time values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(SubjectLogonId) as SubjectLogonId by ObjectClass ObjectDN src_user user
+  | search (aceControlAccessRights="DS-Replication-Get-Changes" AND aceControlAccessRights="DS-Replication-Get-Changes-All") OR (aceControlAccessRights="1131f6aa-9c07-11d1-f79f-00c04fc2dcd2" AND aceControlAccessRights="1131f6ad-9c07-11d1-f79f-00c04fc2dcd2")
+  | `windows_ad_domain_replication_acl_addition_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting the eventcode 5136. The Advanced Security Audit policy setting
   `Audit Directory Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody` to  `Write All Properties`
   applied to the domain root and all descendant objects. Once the necessary logging has been enabled, enumerate the domain policy to verify if existing
   accounts with access need to be whitelisted, or revoked. Assets and Identities is also leveraged to automatically translate the objectSid into username.
@@ -44,21 +66,19 @@ tags:
       type: User
       role:
         - Victim
-    - name: dest
-      type: Hostname
-      role:
-        - Victim
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
   required_fields:
     - _time
-    - dest
+    - OperationType
     - src_user
     - AttributeLDAPDisplayName
     - AttributeValue
     - ObjectClass
+    - SubjectLogonId
+    - DSName
   risk_score: 80
   security_domain: endpoint
   manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
