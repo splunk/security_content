@@ -44,6 +44,7 @@ tags:
   - HAFNIUM Group
   - Data Destruction
   - IcedID
+  - SysAid On-Prem Software CVE-2023-47246 Vulnerability
   asset_type: Endpoint
   confidence: 70
   impact: 80

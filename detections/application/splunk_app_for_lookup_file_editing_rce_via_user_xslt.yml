@@ -1,0 +1,56 @@
+name: Splunk App for Lookup File Editing RCE via User XSLT
+id: a053e6a6-2146-483a-9798-2d43652f3299
+version: 1
+date: '2023-11-16'
+author: Rod Soto, Splunk
+status: experimental
+type: Hunting
+data_source: []
+description: This search provides information to investigate possible remote code execution exploitation via 
+  user-supplied Extensible Stylesheet Language Transformations (XSLT), affecting Splunk versions 9.1.x. 
+  Exploitation of this vulnerability by attackers requires that the Splunk App for Lookup File Editing 
+  is, or was, installed.
+search: '| rest splunk_server=local /services/data/lookup-table-files/ 
+  | fields title author disabled eai:acl.app eai:acl.owner eai:acl.sharing eai:appName eai:data 
+  | `splunk_app_for_lookup_file_editing_rce_via_user_xslt_filter`'
+how_to_implement: Because there is no way to detect the payload, this search only provides the ability to monitor 
+  the creation of lookups which are the base of this exploit. An operator must then investigate suspicious lookups. 
+  This search requires ability to perform REST queries. Note that if the Splunk App for Lookup File Editing is not, 
+  or was not, installed in the Splunk environment then it is not necessary to run the search as the enviornment 
+  was not vulnerable. 
+known_false_positives: This search will provide information for investigation and hunting of lookup creation via 
+  user-supplied XSLT which may be indications of possible exploitation. There will be false positives as it is 
+  not possible to detect the payload executed via this exploit. 
+references:
+  - https://advisory.splunk.com/advisories 
+cve: 
+  - CVE-2023-46214
+tags:
+  analytic_story:
+    - Splunk Vulnerabilities
+  asset_type: endpoint
+  confidence: 2
+  impact: 50
+  message: Please review $eai:acl.app$ for possible malicious lookups
+  mitre_attack_id:
+    - T1210
+  observable:
+    - name: eai:acl.app
+      type: Other
+      role:
+        - Victim
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  risk_score: 1
+  required_fields:
+    - title
+    - author 
+    - disabled 
+    - ea:acl.app 
+    - eai:acl.owner
+    - eai:acl.sharing 
+    - eai:appName
+    - eai:data
+  security_domain: endpoint

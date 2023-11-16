@@ -1,6 +1,6 @@
 name: Windows PowerShell Start-BitsTransfer
 id: 0bafd086-8f61-11ec-996e-acde48001122
-version: 1
+version: 2
 status: production
 description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar
   functionality is present. This technique variation is not as commonly used by adversaries,
@@ -16,9 +16,8 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="powershell_ise.exe"
-  OR process_file_name="powershell.exe" OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe"
-  OR process_file_name="pwsh.exe" OR process_file_name="pwsh.exe") AND match(process_cmd_line,
+  | eval device_hostname = device.hostname | where (process_file_name IN ("powershell_ise.exe",
+  "powershell.exe", "sqltoolsps.exe", "sqlps.exe", "pwsh.exe", "pwsh.exe")) AND match(process_cmd_line,
   /(?i)start-bitstransfer/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,

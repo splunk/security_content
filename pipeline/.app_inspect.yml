@@ -7,6 +7,7 @@ app_inspect:
     when: always
     paths:
       - artifacts/*
+    expire_in: 60 days  
   before_script:
     - pip3 install poetry
     - git submodule update --init contentctl

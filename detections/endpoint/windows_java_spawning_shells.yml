@@ -39,6 +39,7 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
+  - SysAid On-Prem Software CVE-2023-47246 Vulnerability
   asset_type: Endpoint
   confidence: 50
   cve:
