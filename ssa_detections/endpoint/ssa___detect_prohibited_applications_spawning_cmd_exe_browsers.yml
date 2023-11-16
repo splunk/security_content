@@ -1,6 +1,6 @@
 name: Detect Prohibited Applications Spawning cmd exe browsers
 id: c10a18cb-fd70-4ffa-a844-25026e0a0c94
-version: 1
+version: 2
 date: '2023-10-26'
 author: Lou Stella, Splunk
 type: Anomaly
@@ -17,9 +17,8 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   = actor_user.name | eval actor_process = actor.process | eval actor_process_pid
   = actor_process.pid | eval actor_process_file = actor_process.file | eval actor_process_file_path
   = actor_process_file.path | eval actor_process_file_name = lower(actor_process_file.name)
-  | eval device_hostname = device.hostname | where ((actor_process_file_name="iexplore.exe"
-  OR actor_process_file_name="opera.exe" OR actor_process_file_name="firefox.exe")
-  OR (actor_process_file_name="chrome.exe" AND (NOT process_cmd_line="chrome-extension")))
+  | eval device_hostname = device.hostname | where ((actor_process_file_name IN ("iexplore.exe",
+  "opera.exe", "firefox.exe")) OR (actor_process_file_name="chrome.exe" AND (NOT process_cmd_line="chrome-extension")))
   AND process_file_name="cmd.exe" --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified

@@ -1,6 +1,6 @@
 name: Windows Powershell Connect to Internet With Hidden Window
 id: 477e068e-8b6d-11ec-b6c1-81af21670352
-version: 2
+version: 3
 date: '2022-02-11'
 author: Jose Hernandez, David Dorsey, Michael Haag Splunk
 type: Anomaly
@@ -23,10 +23,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="powershell_ise.exe"
-  OR process_file_name="powershell.exe" OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe"
-  OR process_file_name="pwsh.exe") AND match(process_cmd_line, /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+/)=true
-  --finding_report--'
+  | eval device_hostname = device.hostname | where (process_file_name IN ("powershell_ise.exe",
+  "powershell.exe", "sqltoolsps.exe", "sqlps.exe", "pwsh.exe")) AND match(process_cmd_line,
+  /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+/)=true --finding_report--'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
@@ -49,9 +48,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: PowerShell processes $process$ started with parameters to modify the execution
-    policy of the run, run in a hidden window, and connect to the Internet on host
-    $dest$ executed by user $user$.
   mitre_attack_id:
   - T1020
   observable:
@@ -73,6 +69,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: PowerShell processes $process$ started with parameters to modify the execution
+    policy of the run, run in a hidden window, and connect to the Internet on host
+    $dest$ executed by user $user$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

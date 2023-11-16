@@ -38,7 +38,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: Commandlets leveraged to discover GPP credentials were executed on $Computer$
   mitre_attack_id:
   - T1552
   - T1552.006
@@ -53,6 +52,7 @@ tags:
     type: Other
   - name: actor.user.uid
     type: Other
+  message: Commandlets leveraged to discover GPP credentials were executed on $Computer$
   product:
   - Splunk Behavioral Analytics
   required_fields:

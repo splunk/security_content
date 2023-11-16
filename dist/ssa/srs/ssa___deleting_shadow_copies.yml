@@ -1,6 +1,6 @@
 name: Deleting Shadow Copies
 id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
-version: 1
+version: 2
 status: validation
 description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy
   Service. Wmic is an interface to the Windows Management Instrumentation.  This search
@@ -12,9 +12,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="vssadmin.exe"
-  OR process_file_name="wmic.exe") AND process_cmd_line LIKE "%delete%" AND process_cmd_line
-  LIKE "%shadow%" 
+  | eval device_hostname = device.hostname | where (process_file_name IN ("vssadmin.exe",
+  "wmic.exe")) AND process_cmd_line LIKE "%delete%" AND process_cmd_line LIKE "%shadow%"
+  
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},

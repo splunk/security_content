@@ -1,6 +1,6 @@
 name: Office Product Spawning Windows Script Host
 id: 3ea3851a-8736-41a0-bc09-7e4485b48fa6
-version: 1
+version: 2
 date: '2022-10-12'
 author: Michael Haag, Splunk
 type: TTP
@@ -17,11 +17,11 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="cscript.exe"
-  OR process_file_name="wscript.exe") AND (match(actor_process_file_name, /(?i)visio.exe/)=true
-  OR match(actor_process_file_name, /(?i)mspub.exe/)=true OR match(actor_process_file_name,
-  /(?i)powerpnt.exe/)=true OR match(actor_process_file_name, /(?i)excel.exe/)=true
-  OR match(actor_process_file_name, /(?i)winword.exe/)=true) --finding_report--'
+  | eval device_hostname = device.hostname | where (process_file_name IN ("cscript.exe",
+  "wscript.exe")) AND (match(actor_process_file_name, /(?i)visio.exe/)=true OR match(actor_process_file_name,
+  /(?i)mspub.exe/)=true OR match(actor_process_file_name, /(?i)powerpnt.exe/)=true
+  OR match(actor_process_file_name, /(?i)excel.exe/)=true OR match(actor_process_file_name,
+  /(?i)winword.exe/)=true) --finding_report--'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -36,8 +36,6 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A Microsoft office parent process $parent_process_name$ has spawned a suspicious
-    child process $process_name$ on host $dest$.
   mitre_attack_id:
   - T1566
   - T1566.001
@@ -60,6 +58,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: A Microsoft office parent process $parent_process_name$ has spawned a suspicious
+    child process $process_name$ on host $dest$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

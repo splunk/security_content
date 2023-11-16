@@ -35,7 +35,6 @@ tags:
   asset_type: endpoint
   confidence: 90
   impact: 60
-  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest_device_id$
   mitre_attack_id:
   - T1558
   - T1558.004
@@ -50,6 +49,7 @@ tags:
     type: Other
   - name: actor.user.uid
     type: Other
+  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest_device_id$
   product:
   - Splunk Behavioral Analytics
   required_fields:

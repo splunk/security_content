@@ -48,8 +48,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 60
-  message: Sdelete process $process_name$ executed on $dest_device_id$ attempting
-    to permanently delete files by $dest_user_id$.
   mitre_attack_id:
   - T1485
   - T1070.004
@@ -73,6 +71,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: Sdelete process $process_name$ executed on $dest_device_id$ attempting
+    to permanently delete files by $dest_user_id$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

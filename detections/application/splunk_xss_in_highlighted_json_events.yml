@@ -1,0 +1,56 @@
+name: Splunk XSS in Highlighted JSON Events
+id: 1030bc63-0b37-4ac9-9ae0-9361c955a3cc
+version: 1
+date: '2023-11-16'
+author: Rod Soto, Splunk
+status: production
+type: Hunting
+data_source: []
+description: This detection provides information about possible exploitation against affected versions of Splunk Enterprise 9.1.2. 
+  The ability to view JSON logs in the web GUI may be abused by crafting a specific request, causing the execution of javascript 
+  in script tags. This vulnerability can be used to execute javascript to access the API at the permission level of the 
+  logged-in user. If user is admin it can be used to create an admin user, giving an attacker broad access to the Splunk Environment. 
+search: '`splunkd_ui` "/en-US/splunkd/__raw/servicesNS/nobody/search/authentication/users" status=201
+  | stats count min(_time) as firstTime max(_time) as lastTime by clientip, uri_path, method
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `splunk_xss_in_highlighted_json_events_filter`'
+how_to_implement: This search only applies to web-GUI-enabled Splunk instances and operator must have access to internal indexes. 
+known_false_positives: This is a hunting search and will produce false positives as it is not possible to view contents of a request 
+  payload. It shows the artifact resulting from a potential exploitation payload (the creation of a user with admin privileges).
+references:
+- https://advisory.splunk.com/advisories 
+cve:
+  - CVE-2023-46213
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: endpoint
+  confidence: 50
+  impact: 30
+  message: Possible XSS exploitation from $clientip$
+  mitre_attack_id:
+    - T1189
+  observable:
+    - name: clientip
+      type: IP Address
+      role:
+      - Attacker
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  risk_score: 15
+  required_fields:
+    - clientip
+    - uri_path
+    - method
+    - status 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_xss_in_highlighted_json_events_splunkd_ui_access.log   
+    source: splunkd_ui_access.log 
+    sourcetype: splunkd_ui_access
+    custom_index: _internal

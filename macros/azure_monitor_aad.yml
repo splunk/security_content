@@ -1,0 +1,4 @@
+definition: sourcetype=azure:monitor:aad
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: azure_monitor_aad
