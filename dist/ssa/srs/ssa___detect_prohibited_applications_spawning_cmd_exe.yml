@@ -1,7 +1,8 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-version: 4
+version: 5
 status: production
+detection_type: STREAMING
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
@@ -13,14 +14,12 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   = actor_user.name | eval actor_process = actor.process | eval actor_process_pid
   = actor_process.pid | eval actor_process_file = actor_process.file | eval actor_process_file_path
   = actor_process_file.path | eval actor_process_file_name = lower(actor_process_file.name)
-  | eval device_hostname = device.hostname | where ((actor_process_file_name="winword.exe"
-  OR actor_process_file_name="excel.exe" OR actor_process_file_name="outlook.exe"
-  OR actor_process_file_name="acrobat.exe" OR actor_process_file_name="acrord32.exe"
-  OR actor_process_file_name="iexplore.exe" OR actor_process_file_name="opera.exe"
-  OR actor_process_file_name="firefox.exe" OR actor_process_file_name="powershell.exe")
-  OR (actor_process_file_name="java.exe" AND (NOT match(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true))
-  OR (actor_process_file_name="chrome.exe" AND (NOT process_cmd_line="chrome-extension")))
-  AND process_file_name="cmd.exe" 
+  | eval device_hostname = device.hostname | where ((actor_process_file_name IN ("winword.exe",
+  "excel.exe", "outlook.exe", "acrobat.exe", "acrord32.exe", "iexplore.exe", "opera.exe",
+  "firefox.exe", "powershell.exe")) OR (actor_process_file_name="java.exe" AND (NOT
+  match(actor_process_file_name, /(?i)patch1-Hotfix1a/)=true)) OR (actor_process_file_name="chrome.exe"
+  AND (NOT process_cmd_line="chrome-extension"))) AND process_file_name="cmd.exe"
+  
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},

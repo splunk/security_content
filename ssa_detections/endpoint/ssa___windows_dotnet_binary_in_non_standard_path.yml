@@ -71,8 +71,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: A system process $process_name$ with commandline $process$ spawn in non-default
-    folder path on host $dest_device_id$
   mitre_attack_id:
   - T1036
   - T1036.003
@@ -97,6 +95,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: A system process $process_name$ with commandline $process$ spawn in non-default
+    folder path on host $dest_device_id$
   product:
   - Splunk Behavioral Analytics
   required_fields:

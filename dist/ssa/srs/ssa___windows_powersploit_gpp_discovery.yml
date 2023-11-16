@@ -2,6 +2,7 @@ name: Windows PowerSploit GPP Discovery
 id: fdef746e-71fb-41ce-8ab2-b4a5a6b50ca2
 version: 1
 status: production
+detection_type: STREAMING
 description: The following analytic identifies the use of the Get-GPPPassword PowerShell
   commandlet employed to search for unsecured credentials Group Policy Preferences
   (GPP). GPP are tools that allow administrators to create domain policies with embedded

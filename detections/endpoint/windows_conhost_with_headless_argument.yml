@@ -1,0 +1,60 @@
+name: Windows ConHost with Headless Argument
+id: d5039508-998d-4cfc-8b5e-9dcd679d9a62
+version: 1
+date: '2023-11-01'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source:
+- Windows Security 4688
+description: 'The following analytic detects the unusual use of the Windows Console Host process (conhost.exe) with the undocumented --headless parameter to spawn a new process. This behavior is highly unusual and indicative of suspicious activity, as the --headless parameter is not commonly used in legitimate operations. The analytic identifies this behavior by looking for instances where conhost.exe is invoked with the --headless argument. This behavior is worth identifying for a Security Operations Center (SOC) as it could indicate an attacker''s attempt to execute commands or scripts in a stealthy manner, potentially to establish persistence, perform lateral movement, or carry out other malicious activities. If a true positive is identified, it suggests that an attacker has gained a foothold in the environment and is attempting to further their attack, which could lead to serious consequences such as data exfiltration, system compromise, or deployment of ransomware. Potential false positives could arise from legitimate administrative activity, hence it is important to validate the context of the detected behavior during triage.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=conhost.exe
+  Processes.process="*--headless *" by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_conhost_with_headless_argument_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present if the application is legitimately used, filter by user or endpoint as needed.
+references:
+- https://x.com/embee_research/status/1559410767564181504?s=20
+- https://x.com/GroupIB_TI/status/1719675754886131959?s=20
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  asset_type: endpoint
+  atomic_guid: []
+  confidence: 70
+  impact: 100
+  message: Windows ConHost with Headless Argument detected on $dest$ by $user$.
+  mitre_attack_id:
+  - T1564.003
+  - T1564.006
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 70
+  required_fields:
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.003/headless/4688_conhost_headless.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

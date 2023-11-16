@@ -1,4 +1,4 @@
 [submodule "contentctl"]
 	path = contentctl
 	url = https://github.com/splunk/contentctl.git
-	ignore = all
+        ignore = all

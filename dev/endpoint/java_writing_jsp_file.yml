@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Spring4Shell CVE-2022-22965
   - Atlassian Confluence Server and Data Center CVE-2022-26134
+  - SysAid On-Prem Software CVE-2023-47246 Vulnerability
   asset_type: Endpoint
   confidence: 70
   cve:

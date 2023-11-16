@@ -1,7 +1,8 @@
 name: Windows Powershell DownloadFile
 id: 46440222-81d5-44b1-a376-19dcd70d1b08
-version: 1
+version: 2
 status: production
+detection_type: STREAMING
 description: The following analytic identifies the use of PowerShell downloading a
   file using `DownloadFile` method. This particular method is utilized in many different
   PowerShell frameworks to download files and output to disk. Identify the source
@@ -14,9 +15,8 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="powershell_ise.exe"
-  OR process_file_name="powershell.exe" OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe"
-  OR process_file_name="pwsh.exe" OR process_file_name="pwsh.exe") AND match(process_cmd_line,
+  | eval device_hostname = device.hostname | where (process_file_name IN ("powershell_ise.exe",
+  "powershell.exe", "sqltoolsps.exe", "sqlps.exe", "pwsh.exe", "pwsh.exe")) AND match(process_cmd_line,
   /(?i)downloadfile/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,

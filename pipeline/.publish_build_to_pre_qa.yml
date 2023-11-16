@@ -4,6 +4,7 @@ publish_build_to_pre_qa:
     when: always
     paths:
       - artifacts/*
+    expire_in: 14 days
   image: python:3.8-alpine
   before_script:
     - apk add --update --no-cache make curl bash git

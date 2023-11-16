@@ -2,6 +2,7 @@ name: Windows File Share Discovery With Powerview
 id: ec4f671e-c736-4f78-a4c0-8fe809e952e5
 version: 1
 status: production
+detection_type: STREAMING
 description: The following analytic identifies the use of the Invoke-ShareFinder PowerShell
   commandlet part of PowerView. This module obtains the list of all active domain
   computers and lists the active shares on each computer. Network file shares in Active
