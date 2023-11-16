@@ -2,7 +2,6 @@ name: Detect Prohibited Applications Spawning cmd exe browsers
 id: c10a18cb-fd70-4ffa-a844-25026e0a0c94
 version: 2
 status: validation
-detection_type: STREAMING
 description: The following analytic identifies parent processes that are browsers,
   spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or
   built into macros. Much of this will need to be tuned to further enhance the risk.
