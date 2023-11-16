@@ -39,8 +39,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: An instance of $parent_process_name$ has spawned $process_name$ attempting
-    to modify InProcServer32 within the registry on $dest_device_id$ by $dest_user_id$.
   mitre_attack_id:
   - T1546.015
   - T1546
@@ -63,6 +61,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ has spawned $process_name$ attempting
+    to modify InProcServer32 within the registry on $dest_device_id$ by $dest_user_id$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

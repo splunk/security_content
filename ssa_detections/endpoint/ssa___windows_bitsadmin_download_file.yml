@@ -49,8 +49,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $dest_user_id$ attempting to download a file.
   mitre_attack_id:
   - T1197
   - T1105
@@ -73,6 +71,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $dest_user_id$ attempting to download a file.
   product:
   - Splunk Behavioral Analytics
   required_fields:

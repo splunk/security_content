@@ -1,0 +1,63 @@
+name: Azure AD OAuth Application Consent Granted By User
+id: 10ec9031-015b-4617-b453-c0c1ab729007
+version: 1
+date: '2023-10-27'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: This analytic detects when a user in an Azure AD environment grants consent to an OAuth application, capturing any consent granted regardless of the specific permissions requested. Utilizing Azure AD audit logs, it focuses on events related to OAuth application consents, alerting security teams to instances where users actively grant consent to applications. This monitoring is crucial as it highlights potential risks associated with third-party applications gaining access to organizational data, a tactic often exploited by malicious actors to gain unauthorized access. A true positive from this analytic necessitates immediate investigation to validate the application's legitimacy, review the granted permissions, and assess potential risks, helping to prevent unauthorized access and protect sensitive data and resources. While false positives may occur with legitimate application integrations, ensuring alignment with organizational policies and security best practices is paramount.
+search: >-
+  `azure_monitor_aad` operationName="Consent to application" properties.result=success
+  | rename properties.* as * 
+  | eval permissions_index = if(mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Permissions") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', "ConsentAction.Permissions"), -1)
+  | eval permissions = mvindex('targetResources{}.modifiedProperties{}.newValue',permissions_index)
+  | rex field=permissions "Scope: (?<Scope>[^,]+)"
+  | stats count min(_time) as firstTime max(_time) as lastTime by operationName, user, Scope
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_oauth_application_consent_granted_by_user_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: False positives may occur if users are granting consents as part of legitimate application integrations or setups. It is crucial to review the application and the permissions it requests to ensure they align with organizational policies and security best practices.
+references:
+- https://attack.mitre.org/techniques/T1528/
+- https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
+- https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/protect-against-consent-phishing
+- https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+- https://www.alteredsecurity.com/post/introduction-to-365-stealer
+- https://github.com/AlteredSecurity/365-Stealer
+tags:
+  analytic_story:
+  - Azure Active Directory Account Takeover
+  asset_type: Azure AD
+  confidence: 60
+  impact: 60
+  message: User $user$ consented an OAuth application.
+  mitre_attack_id:
+  - T1528
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  required_fields:
+  - _time
+  - operationName
+  - properties.targetResources{}.modifiedProperties{}.displayName
+  - properties.targetResources{}.modifiedProperties{}.newValue
+  - user
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/azure_ad_user_consent_granted/azure_ad_user_consent_granted.log
+    source: Azure AD
+    sourcetype: azure:monitor:aad
+

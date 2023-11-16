@@ -6,6 +6,7 @@ save_pipeline_id:
     when: always
     paths:
       - artifacts/*
+    expire_in: 14 days
   script:
     - echo $CI_PIPELINE_ID > artifacts/security_content_pipeline_id.txt
 

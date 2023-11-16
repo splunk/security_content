@@ -1,0 +1,60 @@
+name: Azure AD Multi-Source Failed Authentications Spike
+id: 116e11a9-63ea-41eb-a66a-6a13bdc7d2c7
+version: 1
+date: '2023-11-08'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+data_source: []
+description: This analytic detects potential distributed password spraying attacks within an Azure AD environment. It identifies a notable increase in failed authentication attempts across a variety of unique user-and-IP address combinations, originating from multiple source IP addresses and countries, and employing different user agents. Such patterns suggest an adversary's attempt to bypass security controls by using a range of IP addresses to test commonly used passwords against numerous user accounts. The detection scrutinizes SignInLogs from Azure AD logs, particularly focusing on events with error code 50126, which signals a failed authentication due to incorrect credentials. By collating data over a five-minute interval, the analytic computes the distinct counts of user-and-IP combinations, unique users, source IPs, and countries. It then applies a set of thresholds to these metrics to pinpoint unusual activities that could indicate a coordinated attack effort. The thresholds set within the analytic (such as unique IPs, unique users, etc.) are initial guidelines and should be customized based on the organization's user behavior and risk profile. Recognizing this behavior is vital for security operations centers (SOCs) as distributed password spraying represents a more complex form of traditional password spraying. Attackers distribute the source of their attempts to evade detection mechanisms that typically monitor for single-source IP anomalies. Prompt detection of such distributed activities is essential to thwart unauthorized access attempts, prevent account compromises, and mitigate the risk of further malicious activities within the organization's network. A true positive alert from this analytic suggests an active distributed password spraying attack against the organization's Azure AD tenant. A successful attack could result in unauthorized access, particularly to accounts with elevated privileges, leading to data breaches, privilege escalation, persistent threats, and lateral movement within the organization's infrastructure.
+search: ' `azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
+ | rename properties.* as * 
+ | bucket span=5m _time 
+ | eval uniqueIPUserCombo = src_ip . "-" . user
+ | stats dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, dc(location.countryOrRegion) as uniqueCountries values(user) as users, values(src_ip) as ips, values(user_agent) as user_agents, values(location.countryOrRegion) as countries by _time
+ | where uniqueIpUserCombinations > 20 AND uniqueUsers > 20 AND uniqueIPs > 20
+ | `azure_ad_multi_source_failed_authentications_spike_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
+  The thresholds set within the analytic (such as unique IPs, unique users, etc.) are initial guidelines and should be customized based on the organization's user behavior and risk profile. Security teams are encouraged to adjust these thresholds to optimize the balance between detecting genuine threats and minimizing false positives, ensuring the detection is tailored to their specific environment.
+known_false_positives: This detection may yield false positives in scenarios where legitimate bulk sign-in activities occur, such as during company-wide system updates or when users are accessing resources from varying locations in a short time frame, such as in the case of VPNs or cloud services that rotate IP addresses. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+- https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
+tags:
+  analytic_story:
+  - Azure Active Directory Account Takeover
+  asset_type: Azure AD 
+  atomic_guid: []
+  confidence: 60
+  impact: 70
+  message: An anomalous multi source authentication spike ocurred at $_time$
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1110
+  - T1110.003
+  - T1110.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 42
+  required_fields:
+  - _time
+  - category
+  - properties.authenticationDetails{}.succeeded
+  - properties.location.countryOrRegion
+  - user_agent
+  - src_ip
+  - user
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azure_ad_distributed_spray/azure_ad_distributed_spray.log
+    source: Azure AD
+    sourcetype: azure:monitor:aad

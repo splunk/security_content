@@ -36,8 +36,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: a registry $Registry.registry_path$ was modified or created to modify defaulticon
-    settings of the $dest$
+  message: A suspicious registry modification to change the default icon association
+    of windows to ransomware was detected on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1112
   observable:

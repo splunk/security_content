@@ -2,6 +2,7 @@ name: Clear Unallocated Sector Using Cipher App
 id: 8f907d90-6173-11ec-9c23-acde48001122
 version: 1
 status: production
+detection_type: STREAMING
 description: this search is to detect execution of `cipher.exe` to clear the unallocated
   sectors of a specific disk. This technique was seen in some ransomware to make it
   impossible to forensically recover deleted files.

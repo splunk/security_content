@@ -1,0 +1,43 @@
+name: Risk Rule for Dev Sec Ops by Repository
+id: 161bc0ca-4651-4c13-9c27-27770660cf67
+version: 1
+date: '2023-10-27'
+author: Bhavin Patel
+status: production
+type: Correlation
+description: |-
+  The following analytic detects by correlating repository and risk score to identify patterns and trends in the data based on the level of risk associated. The analytic adds any null values and calculates the sum of the risk scores for each detection. Then, the analytic captures the source and user information for each detection and sorts the results in ascending order based on the risk score. Finally, the analytic filters the detections with a risk score below 80 and focuses only on high-risk detections.This detection is important because it provides valuable insights into the distribution of high-risk activities across different repositories. It also identifies the most vulnerable repositories that are frequently targeted by potential threats. Additionally, it proactively detects and responds to potential threats, thereby minimizing the impact of attacks and safeguarding critical assets. Finally, it provides a comprehensive view of the risk landscape and helps to make informed decisions to protect the organization's data and infrastructure. False positives might occur so it is important to identify the impact of the attack and prioritize response and mitigation efforts.
+data_source: []
+search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as sum_risk_score, values(All_Risk.annotations.mitre_attack.mitre_tactic) as annotations.mitre_attack.mitre_tactic, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count values(source) as source, dc(source) as source_count from datamodel=Risk.All_Risk where All_Risk.analyticstories="Dev Sec Ops" All_Risk.risk_object_type = "other" by All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic | `drop_dm_object_name(All_Risk)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where source_count > 3 and sum_risk_score > 100 | `risk_rule_for_dev_sec_ops_by_repository_filter`'
+how_to_implement: Ensure that all relevant detections in the Dev Sec Ops analytic stories are enabled and are configured to create risk events in Enterprise Security.
+known_false_positives: Unknown
+references: []
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: Amazon Elastic Container Registry
+  confidence: 100
+  impact: 70
+  message: Correlation triggered for repository $risk_object$
+  mitre_attack_id:
+  - T1204.003
+  - T1204
+  observable:
+  - name: risk_object
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  risk_score: 70
+  security_domain: cloud
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1204.003/risk_dataset/aws_ecr_risk_dataset.log
+    source: aws_ecr_risk_dataset.log
+    sourcetype: stash
