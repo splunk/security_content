@@ -1,6 +1,6 @@
 name: Disable Net User Account
 id: ba858b08-d26c-11eb-af9b-acde48001122
-version: 3
+version: 4
 status: production
 description: This analytic will identify a suspicious command-line that disables a
   user account using the native `net.exe` or `net1.exe` utility to Windows. This technique
@@ -14,7 +14,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_cmd_line LIKE "%user%"
-  AND process_cmd_line LIKE "%/active:no%" AND (process_file_name="net.exe" OR process_file_name="net1.exe")
+  AND process_cmd_line LIKE "%/active:no%" AND (process_file_name IN ("net.exe", "net1.exe"))
   
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,

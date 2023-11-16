@@ -44,8 +44,6 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: $process_name$ on $dest_device_id$ under user $dest_user_id$ possibly indicative
-    of indirect command execution.
   mitre_attack_id:
   - T1218
   observable:
@@ -67,6 +65,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: $process_name$ on $dest_device_id$ under user $dest_user_id$ possibly indicative
+    of indirect command execution.
   product:
   - Splunk Behavioral Analytics
   required_fields:

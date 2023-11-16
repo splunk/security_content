@@ -6,6 +6,7 @@ generate_escu:
     when: always
     paths:
       - artifacts/*
+    expire_in: 14 days
   before_script:
     - pip3 install poetry
     - git submodule update --init contentctl
@@ -26,6 +27,7 @@ generate_ba:
     when: always
     paths:
       - artifacts/*
+    expire_in: 14 days
   before_script:
     - pip3 install poetry
     - git submodule update --init contentctl
@@ -46,6 +48,7 @@ generate_api:
     when: always
     paths:
       - artifacts/*
+    expire_in: 14 days
   before_script:
     - pip3 install poetry
     - git submodule update --init contentctl

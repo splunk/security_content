@@ -41,8 +41,6 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A wevtutil process $process_name$ with commandline $process$ to clear event
-    logs in host $dest_device_id$
   mitre_attack_id:
   - T1070
   - T1070.001
@@ -65,6 +63,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: A wevtutil process $process_name$ with commandline $process$ to clear event
+    logs in host $dest_device_id$
   product:
   - Splunk Behavioral Analytics
   required_fields:

@@ -1,6 +1,6 @@
 name: Windows LOLBin Binary in Non Standard Path
 id: 25689101-012a-324a-94d3-08301e6c065a
-version: 4
+version: 5
 status: production
 description: The following analytic identifies native living off the land binaries
   within the Windows operating system that may be abused by adversaries by moving

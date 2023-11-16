@@ -1,0 +1,67 @@
+name: Azure AD New MFA Method Registered
+id: 0488e814-eb81-42c3-9f1f-b2244973e3a3
+version: 1
+date: '2023-10-31'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: This analytic detects the registration of a new Multi-Factor Authentication (MFA) method associated with a user account within Azure Active Directory by monitoring Azure AD audit logs and configurations. While adding a new MFA method can be a routine and legitimate action, it can also be indicative of an attacker's attempt to maintain persistence on a compromised account. By registering a new MFA method, attackers can potentially bypass existing security measures, allowing them to authenticate using stolen credentials without raising alarms. Monitoring for such changes is crucial, especially if the addition is not preceded by a user request or if it deviates from typical user behavior. If an attacker successfully registers a new MFA method on a compromised account, they can solidify their access, making it harder for legitimate users to regain control. The attacker can then operate with the privileges of the compromised account, potentially accessing sensitive data, making unauthorized changes, or even escalating their privileges further. Immediate action would be required to verify the legitimacy of the MFA change and, if malicious, to remediate and secure the affected account.
+search: >-
+ `azure_monitor_aad`  operationName="Update user"
+ | rename properties.* as * 
+ | eval propertyName = mvindex('targetResources{}.modifiedProperties{}.displayName', 0)
+ | search propertyName = StrongAuthenticationMethod
+ | eval oldvalue = mvindex('targetResources{}.modifiedProperties{}.oldValue',0)
+ | eval newvalue = mvindex('targetResources{}.modifiedProperties{}.newValue',0)
+ | rex field=newvalue max_match=0 "(?i)(?<new_method_type>\"MethodType\")"
+ | rex field=oldvalue max_match=0 "(?i)(?<old_method_type>\"MethodType\")"
+ | eval count_new_method_type = coalesce(mvcount(new_method_type), 0)
+ | eval count_old_method_type = coalesce(mvcount(old_method_type), 0)
+ | stats earliest(_time) as firstTime latest(_time) as lastTime values(propertyName) by user newvalue oldvalue
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)`
+ | `azure_ad_new_mfa_method_registered_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: Users may register MFA methods legitimally, investigate and filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/005/
+- https://www.microsoft.com/en-us/security/blog/2023/06/08/detecting-and-mitigating-a-multi-stage-aitm-phishing-and-bec-campaign/
+- https://www.csoonline.com/article/573451/sophisticated-bec-scammers-bypass-microsoft-365-multi-factor-authentication.html
+tags:
+  analytic_story:
+  - Azure Active Directory Persistence
+  asset_type: Azure AD
+  confidence: 50
+  impact: 60
+  message: A new MFA method was registered for user $user$
+  mitre_attack_id:
+  - T1098
+  - T1098.005
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - _time
+  - operationName
+  - properties.targetResources{}.modifiedProperties{}.displayName
+  - properties.targetResources{}.modifiedProperties{}.oldValue
+  - properties.targetResources{}.modifiedProperties{}.newValue
+  - user
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/azure_ad_register_new_mfa_method/azure_ad_register_new_mfa_method.log
+    source: Azure AD
+    sourcetype: azure:monitor:aad
+

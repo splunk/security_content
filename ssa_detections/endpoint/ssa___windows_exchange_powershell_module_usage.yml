@@ -58,7 +58,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 40
-  message: Exchange enumeration using PowerShell on $dest_device_id$.
   mitre_attack_id:
   - T1059
   - T1059.001
@@ -73,6 +72,7 @@ tags:
     type: Other
   - name: actor.user.uid
     type: Other
+  message: Exchange enumeration using PowerShell on $dest_device_id$.
   product:
   - Splunk Behavioral Analytics
   required_fields:
