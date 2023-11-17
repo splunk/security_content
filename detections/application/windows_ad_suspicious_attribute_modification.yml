@@ -8,11 +8,10 @@ type: TTP
 data_source:
 - Windows Security 5136
 description: Suspicious AD Attribute Modification
-search: ' `wineventlog_security` EventCode=5136 EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","msDS-KeyCredentialLink","scriptPath","msTSInitialProgram") OperationType=%%14674 
+search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","msDS-KeyCredentialLink","scriptPath","msTSInitialProgram") OperationType=%%14674 
   | table _time ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName AttributeValue AttributeLDAPDisplayName 
   | rename SubjectLogonId as TargetLogonId, src_user as initiator, _time as eventTime 
-  | appendpipe 
-  |   [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] 
+  | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] 
   | stats min(eventTime) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(ObjectDN) as ObjectDN, values(ObjectClass) as ObjectClass, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType values(AttributeValue) as AttributeValue values(AttributeLDAPDisplayName) as AttributeLDAPDisplayName by TargetLogonId 
   | rex field=ObjectDN "^CN=(?P<cn>.*?),[A-Z]{2}\=" 
   | eval dest=if(ObjectClass="computer",cn,null), user=if(ObjectClass="user",cn,null)
