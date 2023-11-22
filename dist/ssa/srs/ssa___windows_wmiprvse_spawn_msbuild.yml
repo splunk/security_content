@@ -2,7 +2,6 @@ name: Windows WMIPrvse Spawn MSBuild
 id: 76b3b290-9b31-11ec-a934-acde48001122
 version: 1
 status: production
-detection_type: STREAMING
 description: The following analytic identifies wmiprvse.exe spawning msbuild.exe.
   This behavior is indicative of a COM object being utilized to spawn msbuild from
   wmiprvse.exe. It is common for MSBuild.exe to be spawned from devenv.exe while using

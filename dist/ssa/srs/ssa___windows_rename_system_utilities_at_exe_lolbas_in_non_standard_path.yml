@@ -2,7 +2,6 @@ name: Windows Rename System Utilities At exe LOLBAS in Non Standard Path
 id: 6401d583-0052-4dc5-a713-68b510826d2b
 version: 1
 status: production
-detection_type: STREAMING
 description: The following analytic identifies At.exe which is a native living off
   the land binary or script (LOLBAS) within the Windows operating system that may
   be abused by adversaries by moving it to a new directory. The list of binaries was
