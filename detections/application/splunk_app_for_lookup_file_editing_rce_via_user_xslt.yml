@@ -7,9 +7,7 @@ status: experimental
 type: Hunting
 data_source: []
 description: This search provides information to investigate possible remote code execution exploitation via 
-  user-supplied Extensible Stylesheet Language Transformations (XSLT), affecting Splunk versions 9.1.x. 
-  Exploitation of this vulnerability by attackers requires that the Splunk App for Lookup File Editing 
-  is, or was, installed.
+  user-supplied Extensible Stylesheet Language Transformations (XSLT), affecting Splunk versions 9.1.x.
 search: '| rest splunk_server=local /services/data/lookup-table-files/ 
   | fields title author disabled eai:acl.app eai:acl.owner eai:acl.sharing eai:appName eai:data 
   | `splunk_app_for_lookup_file_editing_rce_via_user_xslt_filter`'
@@ -22,7 +20,7 @@ known_false_positives: This search will provide information for investigation an
   user-supplied XSLT which may be indications of possible exploitation. There will be false positives as it is 
   not possible to detect the payload executed via this exploit. 
 references:
-  - https://advisory.splunk.com/advisories 
+  - https://advisory.splunk.com/advisories/SVD-2023-1104 
 cve: 
   - CVE-2023-46214
 tags:
