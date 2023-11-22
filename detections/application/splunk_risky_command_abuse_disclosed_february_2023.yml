@@ -36,6 +36,7 @@ tags:
   - CVE-2023-22940
   - CVE-2023-40598
   - CVE-2023-40598
+  - CVE-2023-46214
   impact: 50
   message: Use of risky splunk command $splunk_risky_command$ detected by $user$
   mitre_attack_id:
