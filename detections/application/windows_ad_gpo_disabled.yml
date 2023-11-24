@@ -1,0 +1,57 @@
+name: Windows AD GPO Disabled
+id: 72793bc0-c0cd-400e-9e60-fdf36f278917
+version: 1
+date: '2023-11-24'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Security 5136
+description: Windows AD Group Policy Object Disabled
+search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=flags OperationType="%%14674" AttributeValue!=0
+  | eval AttributeValueExp=case(AttributeValue==0,"Enabled",AttributeValue==1,"User configuration settings disabled",AttributeValue==2,"Computer configuration settings disabled",AttributeValue==3,"Disabled"), ObjectDN=upper(ObjectDN)
+  | join ObjectDN type=outer [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | eval ObjectDN=upper(distinguishedName) | stats latest(displayName) as displayName by ObjectDN ]
+  | stats min(_time) as _time values(AttributeValue) as AttributeValue values(AttributeValueExp) as AttributeValueExp values(OpCorrelationID) as OpCorrelationID values(displayName) as policyName values(src_user) as src_user by ObjectDN SubjectLogonId
+  | `windows_ad_gpo_disabled_filter`'
+how_to_implement: Ensure you are ingesting AD audit logs, see lantern doc in references for further details. This detection also leverages admon data. Ensure the admon macro is configured with the correct index. 
+known_false_positives: Unknown
+references:
+- https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: $src_user$ has disabled GPO $policyName$
+  mitre_attack_id:
+  - T1562.001
+  observable:
+    - name: src_user
+      type: User
+      role:
+        - Victim
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  risk_score: 60
+  required_fields:
+    - _time
+    - OperationType
+    - ObjectDN
+    - OpCorrelationID
+    - src_user
+    - AttributeLDAPDisplayName
+    - AttributeValue
+    - ObjectClass
+    - SubjectLogonId
+    - DSName
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/DCShadowPermissions/windows-security-xml.log
+        source: XmlWinEventLog:Security
+        sourcetype: xmlwineventlog
+

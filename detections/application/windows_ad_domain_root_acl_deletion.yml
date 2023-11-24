@@ -9,8 +9,7 @@ data_source:
 - Windows Security 5136
 description: ACL deletion performed on the domain root object, significant AD change with high impact. Following MS guidance all changes at this level should be reviewed. Drill into the logonID within EventCode 4624 for information on the source device during triage. 
 search: '`wineventlog_security` EventCode=5136 ObjectClass=domainDNS 
-  | eval old_value=if(OperationType=="%%14675",AttributeValue,null), new_value=if(OperationType=="%%14674",AttributeValue,null) 
-  | stats min(_time) as _time values(old_value) as old_value values(new_value) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
+  | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
   | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
   | rex field=new_value max_match=10000 "\((?P<new_values>.*?)\)" 
   | mvexpand old_values 
@@ -36,6 +35,7 @@ references:
 - https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings
 - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
 - https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+- https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
 tags:
   analytic_story:
     - Sneaky Active Directory Persistence Tricks

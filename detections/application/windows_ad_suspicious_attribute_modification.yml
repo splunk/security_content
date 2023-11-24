@@ -23,6 +23,7 @@ references:
 - https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings
 - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
 - https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+- https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
 tags:
   analytic_story:
     - Sneaky Active Directory Persistence Tricks
