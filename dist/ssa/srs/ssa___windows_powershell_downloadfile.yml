@@ -2,6 +2,7 @@ name: Windows Powershell DownloadFile
 id: 46440222-81d5-44b1-a376-19dcd70d1b08
 version: 2
 status: production
+detection_type: STREAMING
 description: The following analytic identifies the use of PowerShell downloading a
   file using `DownloadFile` method. This particular method is utilized in many different
   PowerShell frameworks to download files and output to disk. Identify the source

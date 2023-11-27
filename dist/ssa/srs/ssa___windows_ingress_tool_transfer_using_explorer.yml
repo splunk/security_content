@@ -2,6 +2,7 @@ name: Windows Ingress Tool Transfer Using Explorer
 id: 695bfad6-9662-4f9e-a576-bf02a951aa60
 version: 1
 status: production
+detection_type: STREAMING
 description: The following analytic identifies the Windows Explorer process with a
   URL within the command-line. Explorer.exe is known Windows process that handles
   start menu, taskbar, desktop and file manager. Many adversaries abuse this process,

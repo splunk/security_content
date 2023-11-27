@@ -2,6 +2,7 @@ name: Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard
 id: c842931e-661f-42bc-a4df-0460d93cfb69
 version: 1
 status: production
+detection_type: STREAMING
 description: The following analytic identifies AccCheckConsole.exe which is a native
   living off the land binary or script (LOLBAS) within the Windows operating system
   that may be abused by adversaries by moving it to a new directory. The list of binaries

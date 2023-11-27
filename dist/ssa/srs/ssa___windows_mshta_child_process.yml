@@ -2,6 +2,7 @@ name: Windows MSHTA Child Process
 id: f63f7e9c-9526-11ec-9fc7-acde48001122
 version: 3
 status: production
+detection_type: STREAMING
 description: The following analytic identifies child processes spawning from  "mshta.exe".
   The search will return the first time and last time these command-line arguments
   were used for these executions, as well as the target system, the user, parent process

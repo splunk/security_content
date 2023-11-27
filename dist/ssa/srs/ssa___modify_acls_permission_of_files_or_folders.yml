@@ -2,6 +2,7 @@ name: Modify ACLs Permission Of Files Or Folders
 id: 9ae9a48a-cdbe-11eb-875a-acde48001122
 version: 4
 status: production
+detection_type: STREAMING
 description: This analytic identifies suspicious modification of ACL permission to
   a files or folder to make it available to everyone or to a specific user. This technique
   may be used by the adversary to evade ACLs or protected files access. This changes

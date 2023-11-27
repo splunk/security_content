@@ -2,6 +2,7 @@ name: Windows Diskshadow Proxy Execution
 id: aa502688-9037-11ec-842d-acde48001122
 version: 1
 status: production
+detection_type: STREAMING
 description: DiskShadow.exe is a Microsoft Signed binary present on Windows Server.
   It has a scripting mode intended for complex scripted backup operations. This feature
   also allows for execution of arbitrary unsigned code. This analytic looks for the
