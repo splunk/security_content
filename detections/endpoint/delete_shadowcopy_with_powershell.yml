@@ -28,6 +28,7 @@ tags:
   - DarkSide Ransomware
   - Ransomware
   - Revil Ransomware
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 90
   impact: 90

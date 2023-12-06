@@ -1,6 +1,6 @@
 name: Resize Shadowstorage Volume
 id: dbc30554-d27e-11eb-9e5e-acde48001122
-version: 3
+version: 4
 date: '2021-11-30'
 author: Teoderick Contreras, Splunk
 status: production

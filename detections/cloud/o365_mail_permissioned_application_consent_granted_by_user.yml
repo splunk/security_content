@@ -1,0 +1,64 @@
+name: O365 Mail Permissioned Application Consent Granted by User
+id: fddad083-cdf5-419d-83c6-baa85e329595
+version: 1
+date: '2023-10-12'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies instances where a user grants consent to an application that requests mail related permissions within the Office 365 environment. This could involve permissions to read, send, or manage mail settings. It leverages the O365 audit logs, specifically events related to application permissions and user consent actions. By filtering for mail-related permissions and user-granted consents, the analytic pinpoints potential security concerns. While many legitimate applications request mail permissions for valid reasons, malicious actors can exploit these permissions for data exfiltration, spear phishing, or other malicious activities. By monitoring for user-granted mail permissions, security teams can identify and review potentially risky consents, ensuring that only trusted applications have access to sensitive email data. If the detection is a true positive, it indicates that an application now has access to the users mail data as permitted. In the hands of a malicious actor, this could lead to unauthorized data access, email forwarding, or even the sending of malicious emails from the compromised account. Its crucial to validate the legitimacy of the application and the context of the consent to prevent potential data breaches or further malicious activities.
+search: >-
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application." ResultStatus=Success
+  | eval admin_consent =mvindex('ModifiedProperties{}.NewValue', 0)
+  | search admin_consent=False
+  | eval permissions =mvindex('ModifiedProperties{}.NewValue', 4)
+  | rex field=permissions "Scope: (?<Scope>[^,]+)"
+  | makemv delim=" " Scope
+  | search Scope IN ("Mail.Read", "Mail.ReadBasic", "Mail.ReadWrite", "Mail.Read.Shared", "Mail.ReadWrite.Shared", "Mail.Send", "Mail.Send.Shared")
+  | stats max(_time) as lastTime values(Scope) by Operation, user, object, ObjectId
+  | `security_content_ctime(lastTime)`
+  | `o365_mail_permissioned_application_consent_granted_by_user_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: OAuth applications that require mail permissions may be legitimate, investigate and filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1528/
+- https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
+- https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/protect-against-consent-phishing
+- https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+- https://www.alteredsecurity.com/post/introduction-to-365-stealer
+- https://github.com/AlteredSecurity/365-Stealer
+tags:
+  analytic_story:
+  - Office 365 Account Takeover
+  asset_type: Office 365 tenant
+  confidence: 50
+  impact: 80
+  message: User $user$ consented an OAuth application that requests mail-related permissions.
+  mitre_attack_id:
+  - T1528
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 40
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - ResultStatus
+  - ModifiedProperties{}.NewValue
+  - object
+  - ObjectId
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_mail_permissions/o365_user_consent_mail_permissions.log
+    source: o365
+    sourcetype: o365:management:activity
+

@@ -1,11 +1,11 @@
 name: Windows DLL Search Order Hijacking Hunt with Sysmon
 id: 79c7d1fc-64c7-91be-a616-ccda752efe81
-version: 2
-date: '2022-12-31'
+version: 3
+date: '2023-11-07'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting analytic is an experimental query built against
+description: The following hunting analytic is query built against
   a accidental feature using the latest Sysmon TA 3.0 (https://splunkbase.splunk.com/app/5709/)
   which maps the module load (ImageLoaded) to process_name. This analytic will deprecate
   once this is fixed. This hunting analytic identifies known libraries in Windows
@@ -20,7 +20,7 @@ data_source:
 search: '`sysmon` EventCode=7 NOT (process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*"))
   | lookup hijacklibs library AS process_name OUTPUT islibrary | search islibrary
   = True |rename process_name AS ImageLoaded process_path AS Module_Path
-  | stats values(parent_process_name) count by _time dest ImageLoaded Module_Path
+  | stats count values(parent_process_name) as parent_process_name by _time dest ImageLoaded Module_Path
   | `windows_dll_search_order_hijacking_hunt_with_sysmon_filter`'
 how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709
   will add the ImageLoaded name to the process_name field, allowing this query to
@@ -37,8 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 10
   impact: 10
-  message: An instance of $parent_process_name$ loading $process_name$ was identified
-    on endpoint $dest$.
+  message: Potential Windows DLL Search Order Hijacking detected on $dest$
   mitre_attack_id:
   - T1574.001
   - T1574
@@ -47,14 +46,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

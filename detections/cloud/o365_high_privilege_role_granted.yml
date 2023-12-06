@@ -1,0 +1,59 @@
+name: O365 High Privilege Role Granted
+id: e78a1037-4548-4072-bb1b-ad99ae416426
+version: 1
+date: '2023-10-20'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: This analytic detects when high-privilege roles, specifically "Exchange Administrator", "SharePoint Administrator", or "Global Administrator", are granted within Office 365. By monitoring O365 audit logs for events where these administrative roles are assigned to any user or service account, the analytic provides insight into critical role changes. The assignment of these roles is of paramount importance to Security Operations Centers (SOCs) as they grant extensive permissions, allowing for broad access and control over critical organizational resources and data. An unexpected or unauthorized role assignment could indicate potential malicious activity, insider threats, or misconfigurations. If an attacker or unauthorized individual is granted one of these roles, the potential impact includes gaining significant control over O365 resources, accessing, modifying, or deleting critical data, making configuration changes, and potentially compromising the overall security and functionality of the O365 environment.
+search: >-
+  `o365_management_activity` Operation="Add member to role." Workload=AzureActiveDirectory
+  | eval role_id = mvindex('ModifiedProperties{}.NewValue',2)
+  | eval role_name = mvindex('ModifiedProperties{}.NewValue',1)
+  | where role_id IN ("29232cdf-9323-42fd-ade2-1d097af3e4de", "f28a1f50-f6e7-4571-818b-6a12f2af6b6c", "62e90394-69f5-4237-9190-012177145e10") 
+  | stats earliest(_time) as firstTime latest(_time) as lastTime by user Operation ObjectId role_name
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_high_privilege_role_granted_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Privilege roles may be assigned for legitimate purposes, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/003/
+- https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+- https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-exchange-online-admin-role?view=o365-worldwide
+- https://learn.microsoft.com/en-us/sharepoint/sharepoint-admin-role
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  asset_type: Office 365 tenant
+  confidence: 60
+  impact: 80
+  message: $user$ granted high privilege roles to $ObjectId$
+  mitre_attack_id:
+  - T1098
+  - T1098.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 48
+  required_fields:
+  - _time
+  - Operation
+  - Workload
+  - ModifiedProperties{}.NewValue
+  - user
+  - ObjectId
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_high_priv_role_assigned/o365_high_priv_role_assigned.log
+    source: o365
+    sourcetype: o365:management:activity

@@ -1,7 +1,7 @@
 name: Create local admin accounts using net exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
-version: 6
-date: '2021-09-08'
+version: 7
+date: '2023-11-07'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -15,8 +15,8 @@ search: '| tstats `security_content_summariesonly` count values(Processes.user) 
   where (Processes.process_name=net.exe OR Processes.process_name=net1.exe) AND Processes.process=*/add*
   AND (Processes.process=*administrators* OR Processes.process=*administratoren* OR
   Processes.process=*administrateurs* OR Processes.process=*administrador* OR Processes.process=*amministratori*
-  OR Processes.process=*administratorer*) by Processes.process Processes.process_name
-  Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  OR Processes.process=*administratorer*) by Processes.process Processes.process_name Processes.parent_process_name
+  Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `create_local_admin_accounts_using_net_exe_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -34,6 +34,7 @@ tags:
   - DHS Report TA18-074A
   - Azorult
   - CISA AA22-257A
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 60
   impact: 50
