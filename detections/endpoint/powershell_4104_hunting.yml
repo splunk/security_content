@@ -61,6 +61,7 @@ tags:
   - Hermetic Wiper
   - Data Destruction
   - Flax Typhoon
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 100
   impact: 80

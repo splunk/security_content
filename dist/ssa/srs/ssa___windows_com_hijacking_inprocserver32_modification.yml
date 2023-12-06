@@ -1,6 +1,6 @@
 name: Windows COM Hijacking InprocServer32 Modification
 id: 0ae05a0f-bc84-456b-822a-a5b9c081c7ca
-version: 1
+version: 2
 status: production
 description: The following analytic identifies the use of reg.exe performing an add
   to the InProcServer32, which may be related to COM hijacking. Adversaries can use
@@ -21,7 +21,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   AND process_file_name="reg.exe" 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type},
     message = "Windows COM Hijacking InprocServer32 Modification has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,

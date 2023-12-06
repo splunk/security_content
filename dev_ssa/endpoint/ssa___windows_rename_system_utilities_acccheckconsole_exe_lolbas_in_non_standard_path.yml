@@ -1,6 +1,6 @@
 name: Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard Path
 id: c842931e-661f-42bc-a4df-0460d93cfb69
-version: 1
+version: 2
 date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 status: production

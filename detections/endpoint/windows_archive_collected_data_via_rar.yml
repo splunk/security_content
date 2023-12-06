@@ -1,0 +1,80 @@
+name: Windows Archive Collected Data via Rar
+id: 2015de95-fe91-413d-9d62-2fe011b67e82
+version: 1
+date: '2023-11-23'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- Sysmon Event ID 1
+description: The following analytic identifies a process execute a rar utilities to archive files. 
+  This method has been exploited by various threat actors, including red-teamers and malware like DarkGate, 
+  to gather and compress collected data on compromised hosts. Subsequently, these archives are transmitted to 
+  command and control servers as part of their data exfiltration techniques.
+  These adversaries leverage RAR archiving to consolidate and compress collected data on compromised hosts. 
+  Once the data is compiled into these archives, it serves as a means for these entities to effectively exfiltrate sensitive information. 
+  This process involves transferring the archived data to command and control servers, 
+  facilitating the extraction and retrieval of critical information from compromised systems.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where Processes.process_name="Rar.exe" OR Processes.original_file_name = "Rar.exe" AND Processes.process = "*a*" Processes.process = "* -ep1*" Processes.process = "* -r*" Processes.process = "* -y*" 
+  Processes.process = "* -v5m*" Processes.process = "* -m1*" 
+  by Processes.process_name Processes.original_file_name Processes.process Processes.process_id
+  Processes.process_guid Processes.parent_process_name Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_archive_collected_data_via_rar_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: user and network administrator can execute this command.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+tags:
+  analytic_story:
+  - DarkGate Malware
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: a Rar.exe commandline used in archiving collected data in $dest$.
+  mitre_attack_id:
+  - T1560.001
+  - T1560
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  - Processes.parent_process_guid
+  - Processes.process_guid
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility_darkgate/rar_sys.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

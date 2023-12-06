@@ -1,6 +1,6 @@
 name: Office Product Spawning Windows Script Host
 id: 3ea3851a-8736-41a0-bc09-7e4485b48fa6
-version: 2
+version: 3
 date: '2022-10-12'
 author: Michael Haag, Splunk
 type: TTP

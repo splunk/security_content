@@ -1,7 +1,7 @@
 name: Multiple Archive Files Http Post Traffic
 id: 4477f3ea-a28f-11eb-b762-acde48001122
-version: 1
-date: '2021-04-21'
+version: 2
+date: '2023-11-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -39,7 +39,7 @@ tags:
   confidence: 50
   impact: 50
   message: A http post $http_method$ sending packet with possible archive bytes header
-    4form_data$ in uri path $uri_path$
+    $http_request_body$ in uri path $uri_path$
   mitre_attack_id:
   - T1048.003
   - T1048
@@ -48,7 +48,7 @@ tags:
     type: URL String
     role:
     - Attacker
-  - name: form_data
+  - name: http_request_body
     type: Other
     role:
     - Other

@@ -1,7 +1,7 @@
 name: Windows Gather Victim Host Information Camera
 id: e4df4676-ea41-4397-b160-3ee0140dc332
-version: 1
-date: '2022-07-28'
+version: 2
+date: '2023-11-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,13 +15,12 @@ data_source:
 search: '`powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText=
   "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText
   IN ("*Image*", "*Camera*") | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
+  by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_gather_victim_host_information_camera_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators may execute this powershell command to get hardware
-  information related to camera.
+known_false_positives: Administrators may execute this powershell command to get hardware information related to camera on $dest$.
 references:
 - https://cert.gov.ua/article/405538
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
@@ -37,11 +36,11 @@ tags:
   - T1592.001
   - T1592
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

@@ -1,6 +1,6 @@
 name: Windows System Binary Proxy Execution MSIExec Remote Download
 id: 92cbbf0f-9a6b-4e9d-8c35-cc9244a4e3d5
-version: 1
+version: 2
 date: '2022-08-31'
 author: Michael Haag, Splunk
 status: production
