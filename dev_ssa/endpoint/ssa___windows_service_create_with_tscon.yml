@@ -1,6 +1,6 @@
 name: Windows Service Create with TSCon
 id: 6d16f079-0195-4fdc-a97d-7cfacb6b9b4d
-version: 1
+version: 2
 date: '2022-02-23'
 author: Michael Haag, Splunk
 status: experimental

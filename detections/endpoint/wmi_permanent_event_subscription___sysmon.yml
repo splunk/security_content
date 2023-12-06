@@ -1,7 +1,7 @@
 name: WMI Permanent Event Subscription - Sysmon
 id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
-version: 3
-date: '2020-12-08'
+version: 2
+date: '2023-11-07'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -47,13 +47,13 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 30
-  message: 'User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter:
+  message: 'User $user$ on $dest$ executed the following suspicious WMI query: $Query$.  Filter:
     $filter$. Consumer: $Consumer$.  EventCode: $EventCode$'
   mitre_attack_id:
   - T1546.003
   - T1546
   observable:
-  - name: host
+  - name: dest
     type: Endpoint
     role:
     - Victim

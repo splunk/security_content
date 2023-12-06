@@ -1,7 +1,7 @@
 name: AWS S3 Exfiltration Behavior Identified
 id: 85096389-a443-42df-b89d-200efbb1b560
-version: 1
-date: '2023-05-04'
+version: 2
+date: '2023-11-07'
 author: Bhavin Patel, Splunk
 status: production
 type: Correlation
@@ -24,7 +24,7 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 90
-  message: Multiple AWS Exfiltration detections $source$ and techniques $All_Risk.annotations.mitre_attack.mitre_tactic_id$ trigged for risk object $risk_object$
+  message: Multiple AWS Exfiltration detections $source$ and techniques $annotations.mitre_attack.mitre_tactic_id$ trigged for risk object $risk_object$
   mitre_attack_id:
   - T1537
   observable:

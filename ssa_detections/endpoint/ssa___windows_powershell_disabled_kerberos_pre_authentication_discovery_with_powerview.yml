@@ -1,6 +1,6 @@
 name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: dc3f2af7-ca69-47ce-a122-9f9787e19417
-version: 1
+version: 2
 date: '2022-11-14'
 author: Michael Haag, Splunk
 type: TTP

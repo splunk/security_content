@@ -52,6 +52,7 @@ tags:
   - Warzone RAT
   - NjRAT
   - PlugX
+  - DarkGate Malware
   asset_type: Endpoint
   automated_detection_testing: passed
   confidence: 50

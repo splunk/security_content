@@ -17,7 +17,7 @@ references:
 - https://stealthbits.com/blog/bypassing-mfa-with-pass-the-cookie/
 tags:
   analytic_story:
-  - Office 365 Detections
+  - Office 365 Account Takeover
   - Cloud Federated Credential Abuse
   asset_type: Office 365
   confidence: 80

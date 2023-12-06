@@ -1,0 +1,54 @@
+name: O365 Application Registration Owner Added
+id: c068d53f-6aaa-4558-8011-3734df878266
+version: 1
+date: '2023-09-07'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies instances where a new owner is assigned to an application registration within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to changes in owner assignments within the AzureActiveDirectory workload for application registrations. Assigning a new owner to an application registration can grant significant control over the application's configuration, permissions, and behavior. An unauthorized or inadvertent change in ownership can lead to misuse of the application, potentially affecting data access, user permissions, or the application's interactions within the tenant. Monitoring for such changes ensures that only legitimate and authorized personnel have control over application registrations. If an attacker successfully assigns themselves or a compromised account as an owner to an application registration, they can modify the application's settings, permissions, and behavior. This can lead to unauthorized data access, escalation of privileges, or the introduction of malicious behavior within the application's operations
+search: >-
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Add owner to application."
+  | eval app_id=mvindex('ModifiedProperties{}.NewValue', 0)
+  | eval app_displayName=mvindex('ModifiedProperties{}.NewValue', 1)
+  | stats max(_time) as lastTime values(ModifiedProperties{}.NewValue) by Operation, user, app_displayName, object
+  | `security_content_ctime(lastTime)`
+  | `o365_application_registration_owner_added_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Application owners may be added for legitimate reasons, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/
+- https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/overview-assign-app-owners
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  asset_type: Office 365
+  atomic_guid: []
+  confidence: 50
+  impact: 60
+  message: Application registration $app_displayName$ was assigned a new owner $object$
+  mitre_attack_id:
+  - T1098
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - time
+  - Workload
+  - Operation
+  - ModifiedProperties{}.NewValue
+  - user
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_add_app_registration_owner/o365_add_app_registration_owner.log
+    source: o365
+    sourcetype: o365:management:activity

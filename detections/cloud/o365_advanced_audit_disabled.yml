@@ -1,0 +1,62 @@
+name: O365 Advanced Audit Disabled
+id: 49862dd4-9cb2-4c48-a542-8c8a588d9361
+version: 1
+date: '2023-09-19'
+author: Mauricio Velazco, Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies instances where the O365 advanced audit is disabled for a specific user within the Office 365 tenant. It leverages O365 audit logs, specifically events related to audit license changes or modifications within the AzureActiveDirectory workloads. The O365 advanced audit provides granular logging and insights into user and administrator activities, making it a crucial tool for security monitoring and incident response. Disabling this audit for a user can blind security teams to potential malicious or unauthorized activities related to that user's mailbox or account. Attackers may disable these audits to obscure their actions and reduce the chances of detection. If an attacker successfully disables the O365 advanced audit for a user, they can operate within that user's mailbox or account with reduced risk of detection. This can lead to unauthorized data access, data exfiltration, account compromise, or other malicious activities without leaving a detailed audit trail.
+search: >-
+  `o365_management_activity` Operation="Change user license." 
+  | eval property_name = mvindex ('ExtendedProperties{}.Name', 1)
+  | search property_name = "extendedAuditEventCategory"
+  | eval additionalDetails = mvindex('ExtendedProperties{}.Value',0)
+  | eval split_value=split(additionalDetails, "NewValue")
+  | eval possible_plan=mvindex(split_value, 1) 
+  | rex field="possible_plan" "DisabledPlans=\[(?P<DisabledPlans>[^\]]+)\]"
+  | search DisabledPlans IN ("*M365_ADVANCED_AUDITING*")
+  | stats min(_time) as firstTime max(_time) as lastTime by Operation user object DisabledPlans
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_advanced_audit_disabled_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Administrators might temporarily disable the advanced audit for troubleshooting, performance reasons, or other administrative tasks. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1562/008/
+- https://www.mandiant.com/sites/default/files/2022-08/remediation-hardening-strategies-for-m365-defend-against-apt29-white-paper.pdf
+- https://www.csoonline.com/article/570381/microsoft-365-advanced-audit-what-you-need-to-know.html
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  asset_type: Office 365
+  confidence: 80
+  impact: 40
+  message: Advanced auditing for user $object$ was disabled by $user$
+  mitre_attack_id:
+  - T1562
+  - T1562.008
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 32
+  required_fields:
+  - _time
+  - Operation
+  - ExtendedProperties{}.Name
+  - ExtendedProperties{}.Value
+  - user
+  - object
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/o365_advanced_audit_disabled/o365_advanced_audit_disabled.log
+    source: o365
+    sourcetype: o365:management:activity

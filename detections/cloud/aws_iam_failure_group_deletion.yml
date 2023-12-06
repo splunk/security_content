@@ -1,7 +1,7 @@
 name: AWS IAM Failure Group Deletion
 id: 723b861a-92eb-11eb-93b8-acde48001122
-version: 1
-date: '2021-04-01'
+version: 2
+date: '2023-11-07'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -32,8 +32,7 @@ tags:
   asset_type: AWS Account
   confidence: 50
   impact: 10
-  message: User $user_arn$ has had mulitple failures while attempting to delete groups
-    from $src$
+  message: User $user_arn$ has had mulitple failures while attempting to delete groups from $src$
   mitre_attack_id:
   - T1098
   observable:
@@ -42,10 +41,6 @@ tags:
     role:
     - Attacker
   - name: user_arn
-    type: User
-    role:
-    - Victim
-  - name: group_name
     type: User
     role:
     - Victim
