@@ -1,6 +1,6 @@
 name: Wevtutil Usage To Disable Logs
 id: a4bdc944-cdd9-11eb-ac97-acde48001122
-version: 2
+version: 3
 date: '2021-06-15'
 author: Teoderick Contreras, Splunk
 type: TTP

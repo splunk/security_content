@@ -40,6 +40,7 @@ tags:
   analytic_story:
   - DarkCrystal RAT
   - NjRAT
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 50
   impact: 60

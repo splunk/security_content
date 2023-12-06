@@ -1,7 +1,7 @@
 name: Interactive Session on Remote Endpoint with PowerShell
 id: a4e8f3a4-48b2-11ec-bcfc-3e22fbd008af
-version: 3
-date: '2022-03-22'
+version: 4
+date: '2023-11-07'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText="*Enter-PSSession*" AND ScriptBlockText="*-ComputerName*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `interactive_session_on_remote_endpoint_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
@@ -31,12 +31,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 90
-  message: An interactive session was opened on a remote endpoint from $ComputerName
+  message: An interactive session was opened on a remote endpoint from $dest$
   mitre_attack_id:
   - T1021
   - T1021.006
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim
