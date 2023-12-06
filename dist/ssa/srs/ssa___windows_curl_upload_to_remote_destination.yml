@@ -2,7 +2,6 @@ name: Windows Curl Upload to Remote Destination
 id: cc8d046a-543b-11ec-b864-acde48001122
 version: 2
 status: production
-detection_type: STREAMING
 description: 'The following analytic identifies the use of Windows Curl.exe uploading
   a file to a remote destination. \
 

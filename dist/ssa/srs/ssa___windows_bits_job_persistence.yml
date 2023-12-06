@@ -2,7 +2,6 @@ name: Windows Bits Job Persistence
 id: 1e25e97a-8ea4-11ec-9767-acde48001122
 version: 2
 status: production
-detection_type: STREAMING
 description: The following query identifies Microsoft Background Intelligent Transfer
   Service utility `bitsadmin.exe` scheduling a BITS job to persist on an endpoint.
   The query identifies the parameters used to create, resume or add a file to a BITS

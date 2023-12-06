@@ -2,7 +2,6 @@ name: Windows Exchange PowerShell Module Usage
 id: 1118bc65-b0c7-4589-bc2f-ad6802fd0909
 version: 2
 status: production
-detection_type: STREAMING
 description: 'The following analytic identifies the usage of Exchange PowerShell modules
   that were recently used for a proof of concept related to ProxyShell. Currently,
   there is no active data shared or data we could re-produce relate to this part of

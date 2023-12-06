@@ -2,7 +2,6 @@ name: Windows DotNet Binary in Non Standard Path
 id: 21179107-099a-324a-94d3-08301e6c065f
 version: 2
 status: production
-detection_type: STREAMING
 description: The following analytic identifies native .net binaries within the Windows
   operating system that may be abused by adversaries by moving it to a new directory.
   The analytic identifies the .net binary by using a list. If one or the other matches

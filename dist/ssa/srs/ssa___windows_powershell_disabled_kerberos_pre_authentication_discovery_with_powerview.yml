@@ -2,7 +2,6 @@ name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With Pow
 id: dc3f2af7-ca69-47ce-a122-9f9787e19417
 version: 2
 status: production
-detection_type: STREAMING
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainUser` commandlet with specific parameters.
   `Get-DomainUser` is part of PowerView, a PowerShell tool used to perform enumeration

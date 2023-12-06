@@ -2,7 +2,6 @@ name: Deny Permission using Cacls Utility
 id: b76eae28-cd25-11eb-9c92-acde48001122
 version: 5
 status: production
-detection_type: STREAMING
 description: The following analytic identifies the use of `cacls.exe`, `icacls.exe`
   or `xcacls.exe` placing the deny permission on a file or directory. Adversaries
   perform this behavior to prevent responders from reviewing or gaining access to

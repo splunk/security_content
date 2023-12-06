@@ -2,7 +2,6 @@ name: Fsutil Zeroing File
 id: f792cdc9-43ee-4429-a3c0-ffce4fed1a85
 version: 2
 status: production
-detection_type: STREAMING
 description: This search is to detect a suspicious fsutil process to zeroing a target
   file. This technique was seen in lockbit ransomware where it tries to zero out its
   malware path as part of its defense evasion after encrypting the compromised host.

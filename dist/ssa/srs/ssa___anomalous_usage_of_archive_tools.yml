@@ -2,7 +2,6 @@ name: Anomalous usage of Archive Tools
 id: 63614a58-10e2-4c6c-ae81-ea1113681439
 version: 2
 status: production
-detection_type: STREAMING
 description: The following detection identifies the usage of archive tools from the
   command line.
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
