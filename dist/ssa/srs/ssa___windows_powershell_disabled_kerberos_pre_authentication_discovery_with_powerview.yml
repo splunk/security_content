@@ -1,6 +1,6 @@
 name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: dc3f2af7-ca69-47ce-a122-9f9787e19417
-version: 1
+version: 2
 status: production
 detection_type: STREAMING
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
@@ -19,7 +19,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   /(?i)get-domainuser/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid},
+    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid, "sourceType": metadata.source_type},
     message = "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView has been triggered on " + device_hostname + " by " + "Unknown" + ".",
     users = [{"name": "Unknown", "uid": actor_user.uid}],
     activity_id = 1,

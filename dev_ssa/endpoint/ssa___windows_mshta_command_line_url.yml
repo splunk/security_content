@@ -1,6 +1,6 @@
 name: Windows MSHTA Command-Line URL
 id: 9b35c538-94ef-11ec-9439-acde48001122
-version: 1
+version: 2
 date: '2022-02-23'
 author: Michael Haag, Splunk
 status: production

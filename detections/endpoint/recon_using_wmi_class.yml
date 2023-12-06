@@ -1,7 +1,7 @@
 name: Recon Using WMI Class
 id: 018c1972-ca07-11eb-9473-acde48001122
 version: 2
-date: '2023-04-14'
+date: '2023-11-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -19,7 +19,7 @@ search: '`powershell` EventCode=4104 (ScriptBlockText= "*SELECT*" OR ScriptBlock
   OR ScriptBlockText= "*Win32_PnPEntity*" OR ScriptBlockText= "*Win32_ShadowCopy*"
   OR ScriptBlockText= "*Win32_DiskDrive*" OR ScriptBlockText= "*Win32_PhysicalMemory*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `recon_using_wmi_class_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -46,17 +46,16 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 75
-  message: A suspicious powershell script contains host recon command in $ScriptBlockText$
-    with EventCode $EventCode$ in host $Computer$
+  message: A suspicious powershell script contains host recon commands detected on host $dest$
   mitre_attack_id:
   - T1592
   - T1059.001
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim

@@ -1,0 +1,63 @@
+name: Windows Modify Registry DontShowUI
+id: 4ff9767b-fdf2-489c-83a5-c6c34412d72e
+version: 1
+date: '2023-11-23'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 13
+description: The following analytic identifies a modification in the Windows Error Reporting registry to DontShowUI.
+  DarkGate malware modify this registry as part of its malicious installation in a targeted host for its remote desktop capabilities.
+  When this registry value is present and set to a specific configuration, it can influence the behavior of error reporting dialogs or prompts, 
+  suppressing them from being displayed to the user.For instance, setting DontShowUI to a value of 1 often indicates that the 
+  Windows Error Reporting UI prompts will be suppressed, meaning users won't see error reporting pop-ups when errors occur.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\DontShowUI"  Registry.registry_value_data = 0x00000001
+  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.user Registry.dest 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_dontshowui_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: Administrators may enable or disable this feature that may
+  cause some false positive, however is not common. Filter as needed.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+tags:
+  analytic_story:
+  - DarkGate Malware
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: the registry for WER settings was modified to be disable show UI on $dest$.
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/wer_dontshowui/dontshowui_sys.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,6 +1,6 @@
 name: Delete A Net User
 id: 8776d79c-d26e-11eb-9a56-acde48001122
-version: 5
+version: 6
 date: '2022-03-17'
 author: Teoderick Contreras, Splunk
 status: production

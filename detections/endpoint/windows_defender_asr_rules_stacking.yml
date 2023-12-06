@@ -1,0 +1,63 @@
+name: Windows Defender ASR Rules Stacking
+id: 425a6657-c5e4-4cbb-909e-fc9e5d326f01
+version: 1
+date: '2023-11-20'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+data_source: []
+description: This hunting analytic targets a range of security events from Microsoft Defender, focusing on the Exploit Guard and Attack Surface Reduction (ASR) features. It monitors specific Event IDs - Event IDs 1121 and 1126 indicate active blocking of unauthorized operations or dangerous network connections, whereas Event IDs 1122 and 1125 represent audit logs for similar activities. Event ID 1129 shows user overrides on blocked operations. For ASR-related activities, Event IDs 1131 and 1133 signal blocked operations, while 1132 and 1134 are audit logs. Event ID 5007 alerts on configuration changes, possibly indicating security breaches. \
+
+  Additionally, the analytic utilizes a lookup to correlate ASR rule GUIDs with their descriptive names, enhancing understanding of the context behind these security alerts. This includes rules for blocking vulnerable drivers, restricting actions of Adobe Reader and Office applications, and protecting against various malware and unauthorized system changes. This comprehensive approach aids in assessing policy enforcement and potential security risks.
+search: '`ms_defender`
+    EventCode IN (1121, 1122, 1125, 1126, 1129, 1131, 1132, 1133, 1134, 5007)
+  | lookup asr_rules ID OUTPUT ASR_Rule
+  | fillnull value=NULL
+  | stats count min(_time) as firstTime max(_time) as lastTime by host Parent_Commandline, Process_Name, Path, ID, EventCode, ASR_Rule
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| rename host as dest
+  | `windows_defender_asr_rules_stacking_filter`'
+how_to_implement: The following analytic requires collection of Windows Defender Operational logs in either XML or multi-line. To collect, setup a new input for the Windows Defender Operational logs. In addition, it does require a lookup that maps the ID to ASR Rule name. Note that Audit and block Event IDs have different fields, therefore the analytic will need to be modified for each type of event. The analytic can be modified to look for specific ASR rules, or to look for specific Event IDs. EventID 5007 is a change in the registry, and may be a false positive. This can be removed from the search if desired.
+known_false_positives: False positives are not expected with this analytic, since it is a hunting analytic. It is meant to show the use of ASR rules and how they can be used to detect malicious activity.
+references:
+- https://asrgen.streamlit.app/
+- https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction?view=o365-worldwide
+tags:
+  analytic_story:
+  - Windows Attack Surface Reduction
+  asset_type: endpoint
+  atomic_guid: []
+  confidence: 100
+  impact: 50
+  message: An ASR rule, $ASR_Rule$, was triggered on $dest$.
+  mitre_attack_id:
+  - T1566.001
+  - T1566.002
+  - T1059
+  observable:
+  - name: ASR_Rule
+    type: Unknown
+    role:
+    - Other
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 50
+  required_fields:
+  - host
+  - Parent_Commandline
+  - Target_Commandline
+  - ID
+  - EventCode
+  - ASR_Rule
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/defender/asr_defender_operational.log
+    source: WinEventLog:Microsoft-Windows-Windows Defender/Operational
+    sourcetype: xmlwineventlog

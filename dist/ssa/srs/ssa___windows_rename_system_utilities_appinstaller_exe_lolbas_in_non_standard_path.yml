@@ -1,6 +1,6 @@
 name: Windows Rename System Utilities Appinstaller exe LOLBAS in Non Standard Path
 id: 057c06c7-ef31-4749-b5c9-199152e53a06
-version: 1
+version: 2
 status: production
 detection_type: STREAMING
 description: The following analytic identifies AppInstaller.exe which is a native
@@ -19,7 +19,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type},
     message = "Windows Rename System Utilities Appinstaller exe LOLBAS in Non Standard Path has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,

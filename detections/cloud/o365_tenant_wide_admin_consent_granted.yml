@@ -1,0 +1,59 @@
+name: O365 Tenant Wide Admin Consent Granted
+id: 50eaabf8-5180-4e86-bfb2-011472c359fc
+version: 1
+date: '2023-09-06'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies instances where admin consent is granted to an application within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to the admin consent action within the AzureActiveDirectory workload. The admin consent action allows applications to access data across the entire tenant, potentially encompassing a vast amount of organizational data. Given its broad scope and the sensitivity of some permissions that can only be granted via admin consent, it's crucial to monitor this action. Unauthorized or inadvertent granting of admin consent can lead to significant security risks, including data breaches, unauthorized data access, and potential compliance violations. If an attacker successfully tricks an administrator into granting admin consent to a malicious or compromised application, they can gain extensive and persistent access to organizational data. This can lead to data exfiltration, espionage, further malicious activities within the tenant, and potential breaches of compliance regulations
+search: >-
+  `o365_management_activity` Operation="Consent to application." 
+  | eval new_field=mvindex('ModifiedProperties{}.NewValue', 4)
+  | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)"  
+  | search  ConsentType = "AllPrincipals"
+  | stats max(_time) as lastTime by Operation, user, object, ObjectId, ConsentType
+  | `security_content_ctime(lastTime)`
+  | `o365_tenant_wide_admin_consent_granted_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Legitimate applications may be granted tenant wide consent, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/003/
+- https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
+- https://learn.microsoft.com/en-us/security/operations/incident-response-playbook-app-consent
+- https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/grant-admin-consent?pivots=portal
+- https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT501/AZT501-2/ 
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  asset_type: Office 365
+  confidence: 50
+  impact: 90
+  message: The $object$ application registration was granted tenant wide admin consent.
+  mitre_attack_id:
+  - T1098
+  - T1098.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 45
+  required_fields:
+  - _time
+  - Operation
+  - user
+  - object
+  - ObjectId
+  - ModifiedProperties{}.NewValue
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_admin_consent/o365_admin_consent.log
+    source: o365
+    sourcetype: o365:management:activity

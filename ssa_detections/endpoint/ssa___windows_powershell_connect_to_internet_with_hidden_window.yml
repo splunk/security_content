@@ -1,6 +1,6 @@
 name: Windows Powershell Connect to Internet With Hidden Window
 id: 477e068e-8b6d-11ec-b6c1-81af21670352
-version: 3
+version: 4
 date: '2022-02-11'
 author: Jose Hernandez, David Dorsey, Michael Haag Splunk
 type: Anomaly
