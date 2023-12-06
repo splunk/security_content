@@ -1,0 +1,7 @@
+description: A csv of the ID and rule name for ASR, Microsoft Attack Surface Reduction rules.
+filename: asr_rules.csv
+name: asr_rules
+default_match: 'false'
+match_type: WILDCARD(ASR_Rule)
+min_matches: 1
+case_sensitive_match: 'false'

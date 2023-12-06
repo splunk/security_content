@@ -1,7 +1,7 @@
 name: Windows AD Privileged Account SID History Addition
 id: 6b521149-b91c-43aa-ba97-c2cac59ec830
-version: 1
-date: "2022-09-12"
+version: 2
+date: '2023-11-07'
 author: Dean Luxton
 type: TTP
 status: production
@@ -38,16 +38,12 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 100
-  message: A Privileged User Account SID History Attribute was added to $user$ by $src_user$
+  message: A Privileged User Account SID History Attribute was added to $userSid$ by $src_user$
   mitre_attack_id:
     - T1134.005
     - T1134
   observable:
     - name: src_user
-      type: User
-      role:
-        - Victim
-    - name: user
       type: User
       role:
         - Victim

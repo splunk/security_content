@@ -1,6 +1,6 @@
 name: Windows Exchange PowerShell Module Usage
 id: 1118bc65-b0c7-4589-bc2f-ad6802fd0909
-version: 1
+version: 2
 status: production
 detection_type: STREAMING
 description: 'The following analytic identifies the usage of Exchange PowerShell modules
@@ -34,7 +34,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   OR match(process_cmd_line, /(?i)new-mailboxexportrequest/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid},
+    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid, "sourceType": metadata.source_type},
     message = "Windows Exchange PowerShell Module Usage has been triggered on " + device_hostname + " by " + "Unknown" + ".",
     users = [{"name": "Unknown", "uid": actor_user.uid}],
     activity_id = 1,

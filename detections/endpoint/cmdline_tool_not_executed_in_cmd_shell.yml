@@ -50,6 +50,7 @@ tags:
   - CISA AA22-277A
   - Qakbot
   - Volt Typhoon
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 80
   impact: 70
