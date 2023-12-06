@@ -43,6 +43,7 @@ tags:
   - CISA AA22-320A
   - Sandworm Tools
   - BlackByte Ransomware
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 90
   impact: 30

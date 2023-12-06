@@ -1,0 +1,54 @@
+name: O365 Multiple Failed MFA Requests For User
+id: fd22124e-dbac-4744-a8ce-be10d8ec3e26
+version: 1
+date: '2023-10-19'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: This analytic identifies potential "MFA fatigue" attacks targeting Office 365 users. Specifically, it detects scenarios where a user experiences more than nine Multi-Factor Authentication (MFA) prompts within a 10-minute timeframe. Attackers may exploit MFA fatigue by repeatedly triggering MFA requests, hoping that the user, out of frustration or oversight, will approve a malicious authentication attempt. The detection leverages O365 management activity logs, focusing on Azure Active Directory events. It looks for the UserLoginFailed operation combined with a Success ResultStatus and an ErrorNumber of 500121, which indicates MFA prompts. By monitoring these specific events and conditions, the analytic captures and alerts on potential MFA fatigue scenarios. With MFA being a cornerstone of modern cybersecurity defenses, attackers are constantly seeking ways to bypass or exploit it. MFA fatigue is one such tactic, where attackers rely on user frustration or confusion caused by frequent MFA prompts. Detecting potential MFA fatigue scenarios allows security teams to proactively investigate and ensure that users aren't inadvertently granting access to malicious actors. If this detection flags a true positive, it suggests a potential attempt by an attacker to exploit MFA mechanisms to gain unauthorized access to an O365 account. Successful exploitation could lead to data breaches, unauthorized data access, or further compromise within the O365 environment. Immediate investigation and response would be crucial to safeguard the affected account and assess the full scope of the potential breach.
+search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ResultStatus=Success  ErrorNumber=500121 
+  | bucket span=10m _time  
+  | stats  dc(_raw) as mfa_prompts values(LogonError) as LogonError values(signature) as signature by user, _time 
+  | where  mfa_prompts  > 9
+  | `o365_multiple_failed_mfa_requests_for_user_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
+  or application issues. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1621/
+tags:
+  analytic_story:
+  - Office 365 Account Takeover
+  asset_type: Office 365 tenant
+  confidence: 80
+  impact: 60
+  message: Multiple failed MFA requestes for $user$
+  mitre_attack_id:
+  - T1621
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 48
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - ResultStatus
+  - ErrorNumber
+  - user
+  - LogonError
+  - signature
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/o365_multiple_failed_mfa_requests/o365_multiple_failed_mfa_requests.log
+    source: o365
+    sourcetype: o365:management:activity

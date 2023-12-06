@@ -1,0 +1,64 @@
+name: O365 New MFA Method Registered
+id: 4e12db1f-f7c7-486d-8152-a221cad6ac2b
+version: 1
+date: '2023-10-20'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: This analytic detects the registration of a new Multi-Factor Authentication (MFA) method associated with a user account within Office 365 by monitoring O365 audit logs and configurations. While adding a new MFA method can be a routine and legitimate action, it can also be indicative of an attacker's attempt to maintain persistence on a compromised account. By registering a new MFA method, attackers can potentially bypass existing security measures, allowing them to authenticate using stolen credentials without raising alarms. Monitoring for such changes is crucial, especially if the addition is not preceded by a user request or if it deviates from typical user behavior. If an attacker successfully registers a new MFA method on a compromised account, they can solidify their access, making it harder for legitimate users to regain control. The attacker can then operate with the privileges of the compromised account, potentially accessing sensitive data, making unauthorized changes, or even escalating their privileges further. Immediate action would be required to verify the legitimacy of the MFA change and, if malicious, to remediate and secure the affected account.
+search: >-
+  `o365_management_activity` Workload=AzureActiveDirectory  Operation="Update user." 
+  | eval propertyName = mvindex('ModifiedProperties{}.Name', 0)
+  | search propertyName = StrongAuthenticationMethod
+  | eval oldvalue = mvindex('ModifiedProperties{}.OldValue',0)
+  | eval newvalue = mvindex('ModifiedProperties{}.NewValue',0)
+  | rex field=newvalue max_match=0 "(?i)(?<new_method_type>\"MethodType\")"
+  | rex field=oldvalue max_match=0 "(?i)(?<old_method_type>\"MethodType\")"
+  | eval count_new_method_type = coalesce(mvcount(new_method_type), 0)
+  | eval count_old_method_type = coalesce(mvcount(old_method_type), 0)
+  |  where count_new_method_type > count_old_method_type
+  |  stats earliest(_time) as firstTime latest(_time) as lastTime values(propertyName) by user newvalue oldvalue
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_new_mfa_method_registered_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Users may register MFA methods legitimally, investigate and filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/005/
+- https://www.microsoft.com/en-us/security/blog/2023/06/08/detecting-and-mitigating-a-multi-stage-aitm-phishing-and-bec-campaign/
+- https://www.csoonline.com/article/573451/sophisticated-bec-scammers-bypass-microsoft-365-multi-factor-authentication.html
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  asset_type: Office 365 tenant
+  confidence: 50
+  impact: 60
+  message: A new MFA method was added for $user$
+  mitre_attack_id:
+  - T1098
+  - T1098.005
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - ModifiedProperties{}.Name
+  - ModifiedProperties{}.OldValue
+  - ModifiedProperties{}.NewValue
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/o365_register_new_mfa_method/o365_register_new_mfa_method.log
+    sourcetype: o365:management:activity
+    source: o365

@@ -1,7 +1,7 @@
 name: MSHTML Module Load in Office Product
 id: 5f1c168e-118b-11ec-84ff-acde48001122
-version: 6
-date: '2023-07-11'
+version: 2
+date: '2023-11-07'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -36,8 +36,7 @@ tags:
   cve:
   - CVE-2021-40444
   impact: 80
-  message: An instance of $process_name$ was identified on endpoint $dest$ loading
-    mshtml.dll.
+  message: An instance of $process_name$ was identified on endpoint $dest$ loading mshtml.dll.
   mitre_attack_id:
   - T1566
   - T1566.001
@@ -46,10 +45,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Process
-    role:
-    - Parent Process
   - name: process_name
     type: Process
     role:

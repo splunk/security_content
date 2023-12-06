@@ -1,6 +1,6 @@
 name: Windows WMIPrvse Spawn MSBuild
 id: 76b3b290-9b31-11ec-a934-acde48001122
-version: 1
+version: 2
 date: '2022-03-03'
 author: Michael Haag, Splunk
 type: TTP
