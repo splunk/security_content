@@ -46,6 +46,7 @@ tags:
   - Masquerading - Rename System Utilities
   - Qakbot
   - Windows Error Reporting Service Elevation of Privilege Vulnerability
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 50
   impact: 60

@@ -1,7 +1,7 @@
 name: Windows AD ServicePrincipalName Added To Domain Account
 id: 8a1259cb-0ea7-409c-8bfe-74bad89259f9
-version: 1
-date: '2022-11-17'
+version: 2
+date: '2023-11-07'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -12,7 +12,7 @@ description: The following analytic identifies the addition of a Service Princip
   of the account by performing offline cracking. An adversary who has obtained privileged access to a domain environment may add an SPN to a privileged account to then leverage the Kerberoasting technique and attempt
   to obtain its clertext password. 
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName OperationType="%%14674"
-  | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
+  | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue | rename Computer as dest SubjectUserName as user
   | `windows_ad_serviceprincipalname_added_to_domain_account_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
@@ -30,11 +30,11 @@ tags:
   asset_type: endpoint
   confidence: 50
   impact: 60
-  message: A Servince Principal Name for $ObjectDN$ was set by $SubjectUserName$
+  message: A Servince Principal Name for $ObjectDN$ was set by $user$
   mitre_attack_id:
   - T1098
   observable:
-  - name: SubjectUserName
+  - name: user
     type: User
     role:
     - Attacker

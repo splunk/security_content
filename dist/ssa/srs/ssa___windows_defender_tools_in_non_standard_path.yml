@@ -1,6 +1,6 @@
 name: Windows Defender Tools in Non Standard Path
 id: c205bd2e-cd5b-4224-8510-578a2a1f83d7
-version: 1
+version: 2
 status: production
 description: The following analytic identifies usage of the MPCmdRun utility that
   can be abused by adversaries by moving it to a new directory.
@@ -16,7 +16,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   /(?i)\\microsoft\\windows defender\\platform/)=true) 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type},
     message = "Windows Defender Tools in Non Standard Path has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,

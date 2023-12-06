@@ -43,6 +43,7 @@ tags:
   - Credential Dumping
   - Malicious PowerShell
   - Data Destruction
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 80
   impact: 60

@@ -1,6 +1,6 @@
 name: Detect Prohibited Applications Spawning cmd exe browsers
 id: c10a18cb-fd70-4ffa-a844-25026e0a0c94
-version: 2
+version: 3
 date: '2023-10-26'
 author: Lou Stella, Splunk
 status: validation
