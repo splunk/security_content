@@ -70,6 +70,7 @@ tags:
   - BlackByte Ransomware
   - Warzone RAT
   - NjRAT
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 95
   impact: 80

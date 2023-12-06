@@ -1,0 +1,60 @@
+name: O365 User Consent Denied for OAuth Application
+id: 2d8679ef-b075-46be-8059-c25116cb1072
+version: 1
+date: '2023-10-12'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies instances where a user has actively denied consent to an OAuth application seeking permissions within the Office 365 environment. This suggests that the user either recognized something suspicious about the application or chose not to grant it the requested permissions for other reasons. This detection leverages the O365 audit logs, specifically focusing on events related to user consent actions. By filtering for denied consent actions associated with OAuth applications, the analytic captures instances where users have actively rejected permission requests. While user-denied consents can be routine, they can also be indicative of users spotting potentially suspicious or unfamiliar applications. By monitoring these denied consent attempts, security teams can gain insights into applications that might be perceived as risky or untrusted by users. It can also serve as a feedback loop for security awareness training, indicating that users are being cautious about granting permissions. If the detection is a true positive, it indicates that a user has actively prevented an OAuth application from gaining the permissions it requested. While this is a proactive security measure on the user's part, it's essential for security teams to review the context of the denial. Understanding why certain applications are being denied can help in refining application whitelisting policies and ensuring that no malicious applications are attempting to gain access.
+search: ' `o365_graph` status.errorCode=65004
+  | rename userPrincipalName as user 
+  | rename ipAddress as src_ip
+  | stats max(_time) as lastTime by user src_ip appDisplayName status.failureReason
+  | `security_content_ctime(lastTime)`
+  | `o365_user_consent_denied_for_oauth_application_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 events.
+known_false_positives: OAuth applications that require mail permissions may be legitimate, investigate and filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1528/
+- https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
+- https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/protect-against-consent-phishing
+- https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+- https://www.alteredsecurity.com/post/introduction-to-365-stealer
+- https://github.com/AlteredSecurity/365-Stealer
+tags:
+  analytic_story:
+  - Office 365 Account Takeover
+  asset_type: Office 365 tenant
+  confidence: 100
+  impact: 30
+  message: User $user$ denifed consent for an OAuth application.
+  mitre_attack_id:
+  - T1528
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - _time
+  - status.errorCode
+  - userPrincipalName
+  - ipAddress
+  - status.failureReason
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_declined/o365_user_consent_declined.log
+    source: o365
+    sourcetype: o365:graph:api

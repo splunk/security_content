@@ -1,6 +1,6 @@
 name: Windows MSHTA Inline HTA Execution
 id: 24962154-9524-11ec-9333-acde48001122
-version: 1
+version: 2
 date: '2022-02-23'
 author: Michael Haag, Splunk
 type: TTP

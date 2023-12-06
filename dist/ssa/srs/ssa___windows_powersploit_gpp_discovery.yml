@@ -1,6 +1,6 @@
 name: Windows PowerSploit GPP Discovery
 id: fdef746e-71fb-41ce-8ab2-b4a5a6b50ca2
-version: 1
+version: 2
 status: production
 detection_type: STREAMING
 description: The following analytic identifies the use of the Get-GPPPassword PowerShell
@@ -19,7 +19,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | where match(process_cmd_line, /(?i)get-gpppassword/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid},
+    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid, "sourceType": metadata.source_type},
     message = "Windows PowerSploit GPP Discovery has been triggered on " + device_hostname + " by " + "Unknown" + ".",
     users = [{"name": "Unknown", "uid": actor_user.uid}],
     activity_id = 1,

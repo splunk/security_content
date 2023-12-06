@@ -1,7 +1,7 @@
 name: Windows Special Privileged Logon On Multiple Hosts
 id: 4c461f5a-c2cc-4e86-b132-c262fc9edca7
-version: 1
-date: '2023-03-27'
+version: 2
+date: '2023-11-07'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -17,10 +17,9 @@ description: The following analytic leverages Event ID 4672 to identify a source
   behavior like an adversary enumerating network shares. As environments differ across
   organizations, security teams should customize the thresholds of this detection
   as needed.
-search: ' `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL
-  SERVICE","NETWORK SERVICE","SYSTEM","*$")) | bucket span=5m _time | stats dc(Computer)
+search: ' `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL SERVICE","NETWORK SERVICE","SYSTEM","*$")) | bucket span=5m _time | stats dc(Computer)
   AS unique_targets values(Computer) as host_targets values(PrivilegeList) as privileges
-  by _time, Caller_User_Name | where unique_targets > 30 | `windows_special_privileged_logon_on_multiple_hosts_filter`'
+  by _time, Caller_User_Name | rename Caller_User_Name as user| where unique_targets > 30 | `windows_special_privileged_logon_on_multiple_hosts_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   special logon events. The Advanced Security Audit policy setting `Audit Special
   Logon` within `Logon/Logoff` need to be enabled.
@@ -38,18 +37,18 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A source user $Caller_User_Name$ obtained special privileges on a large
-    number of endpoints within 5 minutes.
+  message: A source user $user$ obtained special privileges on a large
+    number of endpoints $host_targets$ within 5 minutes.
   mitre_attack_id:
   - T1087
   - T1021.002
   - T1135
   observable:
-  - name: Computer
+  - name: host_targets
     type: Hostname
     role:
     - Victim
-  - name: Caller_User_Name
+  - name: user
     type: User
     role:
     - Attacker

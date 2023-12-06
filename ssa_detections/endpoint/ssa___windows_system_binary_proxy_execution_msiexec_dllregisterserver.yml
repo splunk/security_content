@@ -1,6 +1,6 @@
 name: Windows System Binary Proxy Execution MSIExec DLLRegisterServer
 id: 8d1d5570-722c-49a3-996c-2e2cceef5163
-version: 1
+version: 2
 date: '2022-08-31'
 author: Michael Haag, Splunk
 type: TTP

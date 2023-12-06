@@ -1,0 +1,55 @@
+name: O365 Mailbox Inbox Folder Shared with All Users
+id: 21421896-a692-4594-9888-5faeb8a53106
+version: 1
+date: '2023-09-07'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies instances where the inbox folder of a mailbox in Office 365 is shared with all users within the tenant. Sharing the inbox folder with all users is an unusual and risky configuration. Attackers have been known to exploit this setting to surreptitiously read a target user's emails from another account. Such unauthorized access can lead to data breaches, leakage of confidential information, or further compromise based on the information gathered from the emails. Monitoring for this configuration change ensures that inadvertent or malicious sharing is promptly identified and addressed. If an attacker successfully configures the inbox to be shared with all users, they can access and read all emails in the affected mailbox from any account within the tenant. This can lead to data exfiltration, spear-phishing attacks based on the information in the emails, or further malicious activities using sensitive information gathered from the mailbox.
+search: ' `o365_management_activity` Operation=ModifyFolderPermissions Workload=Exchange object=Inbox Item.ParentFolder.MemberUpn=Everyone Item.ParentFolder.MemberRights!=None
+  | stats max(_time) as lastTime by Operation, UserId, object, MailboxOwnerUPN, Item.ParentFolder.MemberUpn, Item.ParentFolder.MemberRights
+  | `security_content_ctime(lastTime)`
+  | `o365_mailbox_inbox_folder_shared_with_all_users_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Administrators might temporarily share a mailbox with all users for legitimate reasons, such as troubleshooting, migrations, or other administrative tasks. Some organizations use shared mailboxes for teams or departments where multiple users need access to the same mailbox. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1114/002/
+- https://www.mandiant.com/sites/default/files/2022-08/remediation-hardening-strategies-for-m365-defend-against-apt29-white-paper.pdf
+- https://www.blackhillsinfosec.com/abusing-exchange-mailbox-permissions-mailsniper/
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  asset_type: Office 365 Tenant
+  confidence: 70
+  impact: 80
+  message: Inbox folder for the $MailboxOwnerUPN$ mailbox was shared with all users.
+  mitre_attack_id:
+  - T1114
+  - T1114.002
+  observable:
+  - name: MailboxOwnerUPN
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  required_fields:
+  - _time
+  - Operation
+  - Workload
+  - object
+  - Item.ParentFolder.MemberUpn
+  - Item.ParentFolder.MemberRights
+  - UserId
+  - MailboxOwnerUPN
+  security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_inbox_shared_with_all_users/o365_inbox_shared_with_all_users.log
+    source: o365
+    sourcetype: o365:management:activity

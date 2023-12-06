@@ -1,7 +1,7 @@
 name: Active Directory Lateral Movement Identified
 id: 6aa6f9dd-adfe-45a8-8f74-c4c7a0d7d037
-version: 1
-date: '2023-04-19'
+version: 2
+date: '2023-11-07'
 author: Michael Haag, Splunk
 status: production
 type: Correlation
@@ -53,6 +53,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1218/living_off_the_land/adlm_risk.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/living_off_the_land/adlm_risk.log
     source: adlm
     sourcetype: stash
