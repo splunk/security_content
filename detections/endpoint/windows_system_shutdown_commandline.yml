@@ -47,6 +47,7 @@ tags:
   - DarkCrystal RAT
   - Sandworm Tools
   - NjRAT
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 70
   impact: 70

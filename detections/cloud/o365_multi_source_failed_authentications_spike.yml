@@ -1,0 +1,62 @@
+name: O365 Multi-Source Failed Authentications Spike
+id: ea4e2c41-dbfb-4f5f-a7b6-9ac1b7f104aa
+version: 1
+date: '2023-11-09'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+data_source: []
+description: This analytic detects potential distributed password spraying attacks within an Office 365 environment. It identifies a significant increase in failed authentication attempts characterized by diverse user-and-IP address combinations, originating from multiple source IP addresses, and utilizing various user agents. These patterns may indicate an adversary's attempt to circumvent security controls by employing a spectrum of IP addresses to test commonly used passwords against a wide range of user accounts. The detection examines UserLoginFailed events from O365 Management Activity logs, with a particular focus on events with ErrorNumber 50126, which indicates a failed authentication due to incorrect credentials. By aggregating data over a five-minute interval, the analytic calculates the distinct counts of user-and-IP combinations and unique users and source IPs. It then applies a set of thresholds to these metrics to identify abnormal activities that could suggest a coordinated attack. The predefined thresholds within the analytic (such as unique IPs, unique users, etc.) serve as initial benchmarks and should be tailored to align with the organization's typical user behavior and risk tolerance. Early detection of such distributed activities is crucial for security operations centers (SOCs) to intercept unauthorized access attempts, avert account takeovers, and reduce the risk of subsequent malevolent actions within the organization's systems. A true positive alert from this analytic would indicate an ongoing distributed password spraying campaign targeting the organization's Office 365 tenant. If such an attack is successful, it could lead to unauthorized access, especially to accounts with administrative privileges, resulting in data breaches, privilege escalation, persistent threats, and lateral movement within the organization's digital environment.
+search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126
+  | bucket span=5m _time 
+  | eval uniqueIPUserCombo = src_ip . "-" . user
+  | stats dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, values(user) as user, values(src_ip) as ips, values(user_agent) as user_agents by _time
+  | where uniqueIpUserCombinations > 20 AND uniqueUsers > 20 AND uniqueIPs > 20
+  | `o365_multi_source_failed_authentications_spike_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+  The thresholds set within the analytic (such as unique IPs, unique users, etc.) are initial guidelines and should be customized based on the organization's user behavior and risk profile. Security teams are encouraged to adjust these thresholds to optimize the balance between detecting genuine threats and minimizing false positives, ensuring the detection is tailored to their specific environment.
+known_false_positives: This detection may yield false positives in scenarios where legitimate bulk sign-in activities occur, such as during company-wide system updates or when users are accessing resources from varying locations in a short time frame, such as in the case of VPNs or cloud services that rotate IP addresses. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+- https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
+tags:
+  analytic_story:
+  - Office 365 Account Takeover
+  asset_type: O365 tenant
+  atomic_guid: []
+  confidence: 60
+  impact: 70
+  message: An anomalous multi source authentication spike ocurred at $_time$
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1110
+  - T1110.003
+  - T1110.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 42
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - ErrorNumber
+  - user
+  - src_ip
+  - user_agent
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/o365_distributed_spray/o365_distributed_spray.log
+    source: o365
+    sourcetype: o365:management:activity

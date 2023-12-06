@@ -1,6 +1,6 @@
 name: Windows Bits Job Persistence
 id: 1e25e97a-8ea4-11ec-9767-acde48001122
-version: 1
+version: 2
 date: '2022-02-15'
 author: Michael Haag, Splunk
 status: production

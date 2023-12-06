@@ -1,7 +1,7 @@
 name: Plain HTTP POST Exfiltrated Data
 id: e2b36208-a364-11eb-8909-acde48001122
-version: 1
-date: '2021-04-22'
+version: 2
+date: '2023-11-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ tags:
   confidence: 90
   impact: 70
   message: A http post $http_method$ sending packet with plain text of information
-    $form_data$ in uri path $uri_path$
+    $http_request_body$ in uri path $uri_path$
   mitre_attack_id:
   - T1048.003
   - T1048
@@ -38,7 +38,7 @@ tags:
     type: URL String
     role:
     - Attacker
-  - name: form_data
+  - name: http_request_body
     type: Other
     role:
     - Other

@@ -1,0 +1,68 @@
+name: O365 Mailbox Read Access Granted to Application
+id: 27ab61c5-f08a-438a-b4d3-325e666490b3
+version: 1
+date: '2023-09-01'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic identifies instances where the Mail.Read Graph API permissions are granted to an application registration within an Office 365
+ tenant. It leverages O365 audit logs, specifically events related to changes in application permissions within the AzureActiveDirectory workload. 
+ The Mail.Read permission allows applications to access and read all emails within a user's mailbox. Emails often contain sensitive or confidential information, 
+ and unauthorized access can lead to data breaches or leakage. Monitoring the assignment of this permission ensures that only legitimate applications have such 
+ access and that any inadvertent or malicious assignments are promptly identified.
+ If an attacker successfully grants this permission to a malicious or compromised application, they can read all emails in the affected mailboxes. This can lead to
+ data exfiltration, spear-phishing attacks, or further compromise based on the information gathered from the emails.
+search: >-
+  `o365_management_activity` Operation="Update application."
+  | eval json_data=mvindex('ModifiedProperties{}.NewValue', 0)
+  | eval json_data=replace(json_data, "^\[\s*", "")
+  | eval json_data=replace(json_data, "\s*\]$", "")
+  | spath input=json_data path=RequiredAppPermissions{}.EntitlementId output=EntitlementIds
+  | eval match_found=mvfind(EntitlementIds, "810c84a8-4a9e-49e6-bf7d-12d183f40d01")
+  | where isnotnull(match_found)
+  | stats max(_time) as lastTime values(EntitlementIds) as EntitlementIds by Operation, user, object
+  | `security_content_ctime(lastTime)`
+  | `o365_mailbox_read_access_granted_to_application_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: There are legitimate scenarios in wich an Application registrations requires Mailbox read access. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/003/
+- https://attack.mitre.org/techniques/T1114/002/
+- https://www.mandiant.com/sites/default/files/2022-08/remediation-hardening-strategies-for-m365-defend-against-apt29-white-paper.pdf
+- https://www.cisa.gov/sites/default/files/publications/Supply_Chain_Compromise_Detecting_APT_Activity_from_known_TTPs.pdf
+- https://learn.microsoft.com/en-us/graph/permissions-reference
+- https://graphpermissions.merill.net/permission/Mail.Read
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  asset_type: Office 365 tenant
+  confidence: 50
+  impact: 90
+  message: Application registration $object$ was grandes mailbox read access by $user$
+  mitre_attack_id:
+  - T1114.002
+  - T1114
+  - T1098
+  - T1098.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 45
+  required_fields:
+  - Operation
+  - _time
+  - ModifiedProperties{}.NewValue
+  security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_grant_mail_read/o365_grant_mail_read.log
+    source: o365
+    sourcetype: o365:management:activity

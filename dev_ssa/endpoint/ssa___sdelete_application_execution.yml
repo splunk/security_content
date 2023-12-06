@@ -1,6 +1,6 @@
 name: Sdelete Application Execution
 id: fcc52b9a-4616-11ec-8454-acde48001122
-version: 1
+version: 2
 date: '2021-11-15'
 author: Teoderick Contreras, Splunk
 status: production

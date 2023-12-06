@@ -34,6 +34,7 @@ tags:
   - CISA AA22-277A
   - Windows Post-Exploitation
   - Prestige Ransomware
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 50
   impact: 50

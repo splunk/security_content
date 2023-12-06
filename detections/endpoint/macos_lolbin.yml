@@ -1,7 +1,7 @@
 name: MacOS LOLbin
 id: 58d270fb-5b39-418e-a855-4b8ac046805e
-version: 1
-date: '2022-03-04'
+version: 2
+date: '2023-11-07'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -13,7 +13,7 @@ search: '`osquery` name=es_process_events columns.cmdline IN ("find*", "crontab*
   columns.* as * | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline)
   as cmdline, values(pid) as pid, values(parent) as parent, values(path) as path,
   values(signing_id) as signing_id,  dc(path) as dc_path by username host | rename
-  username as User, cmdline as process, path as process_path | where dc_path > 3 |
+  username as user, cmdline as process, path as process_path, host as dest | where dc_path > 3 |
   `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `macos_lolbin_filter`'
 how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow
   the link in references, which describes how to setup process auditing in MacOS with
@@ -27,13 +27,17 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Multiplle LOLbin are executed on host $host$ by user $user$
+  message: Multiplle LOLbin are executed on host $dest$ by user $user$
   mitre_attack_id:
   - T1059.004
   - T1059
   observable:
   - name: user
     type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
     role:
     - Victim
   - name: process
