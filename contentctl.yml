@@ -5,8 +5,8 @@ build:
   name: DA-ESS-ContentUpdate
   path_root: dist
   prefix: ESCU
-  build: 004161
-  version: 4.16.1
+  build: 004170
+  version: 4.17.0
   label: ES Content Updates
   author_name: Splunk Threat Research Team
   author_email: research@splunk.com

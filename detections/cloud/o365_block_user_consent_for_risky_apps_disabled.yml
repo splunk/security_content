@@ -1,0 +1,61 @@
+name: O365 Block User Consent For Risky Apps Disabled
+id: 12a23592-e3da-4344-8545-205d3290647c
+version: 1
+date: '2023-10-26'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: This analytic detects when the "risk-based step-up consent" security setting in Microsoft 365 is disabled. This setting, when enabled, prevents regular users from granting consent to potentially malicious OAuth applications, requiring an administrative "step-up" for consent instead. Disabling this feature could expose the organization to OAuth phishing threats.The detection operates by monitoring Azure Active Directory logs for events where the "Update authorization policy" operation is performed. It specifically looks for changes to the "AllowUserConsentForRiskyApps" setting, identifying instances where this setting is switched to "true," effectively disabling the risk-based step-up consent. Monitoring for changes to critical security settings like the "risk-based step-up consent" is vital for maintaining the integrity of an organization's security posture. Disabling this feature can make the environment more susceptible to OAuth phishing attacks, where attackers trick users into granting permissions to malicious applications. Identifying when this setting is disabled can help blue teams to quickly respond, investigate, and potentially uncover targeted phishing campaigns against their users. If an attacker successfully disables the "risk-based step-up consent" and subsequently launches an OAuth phishing campaign, they could gain unauthorized access to user data and other sensitive information within the M365 environment. This could lead to data breaches, unauthorized access to emails, and potentially further compromise within the organization.
+search: >-
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Update authorization policy."
+  | eval index_number = if(mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps") >= 0, mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps"), -1)
+  | search index_number >= 0 
+  | eval AllowUserConsentForRiskyApps = mvindex('ModifiedProperties{}.NewValue',index_number)
+  | where AllowUserConsentForRiskyApps like "%true%"
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, Operation, AllowUserConsentForRiskyApps, user_agent
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_block_user_consent_for_risky_apps_disabled_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Legitimate changes to the 'risk-based step-up consent' setting by administrators, perhaps as part of a policy update or security assessment, may trigger this alert, necessitating verification of the change's intent and authorization.
+references:
+- https://attack.mitre.org/techniques/T1562/
+- https://goodworkaround.com/2020/10/19/a-look-behind-the-azure-ad-permission-classifications-preview/
+- https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-risk-based-step-up-consent
+- https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+tags:
+  analytic_story:
+  - Office 365 Account Takeover
+  asset_type: O365 tenant
+  atomic_guid: []
+  confidence: 50
+  impact: 60
+  message: Risk-based step-up consent security setting was disabled by $user$
+  mitre_attack_id:
+  - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 30
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - ModifiedProperties{}.Name
+  - ModifiedProperties{}.NewValue
+  - user
+  - user_agent
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/o365_disable_blockconsent_for_riskapps/o365_disable_blockconsent_for_riskapps.log
+    source: O365
+    sourcetype: o365:management:activity

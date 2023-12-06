@@ -1,6 +1,6 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-version: 5
+version: 6
 date: '2022-03-01'
 author: Ignacio Bermudez Corrales, Splunk
 type: Anomaly

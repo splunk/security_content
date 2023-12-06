@@ -41,6 +41,7 @@ tags:
   - Prestige Ransomware
   - Chaos Ransomware
   - LockBit Ransomware
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 90
   impact: 90

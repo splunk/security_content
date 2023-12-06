@@ -37,6 +37,7 @@ tags:
   - Brute Ratel C4
   - AsyncRAT
   - PlugX
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 60
   impact: 60

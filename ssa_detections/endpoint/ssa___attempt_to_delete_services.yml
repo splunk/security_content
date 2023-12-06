@@ -1,6 +1,6 @@
 name: Attempt To Delete Services
 id: a0c8c292-d01a-11eb-aa18-acde48001122
-version: 3
+version: 4
 date: '2021-11-24'
 author: Teoderick Contreras, splunk
 type: TTP

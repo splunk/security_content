@@ -1,6 +1,6 @@
 name: Windows CertUtil VerifyCtl Download
 id: 9ac29c40-8f6b-11ec-b19a-acde48001122
-version: 1
+version: 2
 date: '2022-02-16'
 author: Michael Haag, Splunk
 status: production

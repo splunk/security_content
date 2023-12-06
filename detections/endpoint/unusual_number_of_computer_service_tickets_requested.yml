@@ -10,14 +10,7 @@ description: 'The following hunting analytic leverages Event ID 4769, `A Kerbero
   ticket requests from one source. When a domain joined endpoint connects to a remote
   endpoint, it first will request a Kerberos Ticket with the computer name as the
   Service Name. An endpoint requesting a large number of computer service tickets
-  for different endpoints could represent malicious behavior like lateral movement,
-  malware staging, reconnaissance, etc.\
-
-  The detection calculates the standard deviation for each host and leverages the
-  3-sigma statistical rule to identify an unusual number of service requests. To customize
-  this analytic, users can try different combinations of the `bucket` span time,  the
-  calculation of the `upperBound` field as well as the Outlier calculation. This logic
-  can be used for real time security monitoring as well as threat hunting exercises.\'
+  for different endpoints could represent malicious behavior like lateral movement, malware staging, reconnaissance, etc. The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of service requests. To customize this analytic, users can try different combinations of the `bucket` span time,  the calculation of the `upperBound` field as well as the Outlier calculation. This logic can be used for real time security monitoring as well as threat hunting exercises.'
 data_source:
 - Windows Security 4769
 search: ' `wineventlog_security` EventCode=4769 Service_Name="*$" Account_Name!="*$*"

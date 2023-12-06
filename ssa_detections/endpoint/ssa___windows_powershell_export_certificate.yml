@@ -1,6 +1,6 @@
 name: Windows PowerShell Export Certificate
 id: 0bf87e10-4d7d-4c63-9721-c7b3f6e6e944
-version: 1
+version: 2
 date: '2023-05-01'
 author: Michael Haag, Splunk
 type: Anomaly

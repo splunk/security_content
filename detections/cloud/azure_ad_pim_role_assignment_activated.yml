@@ -1,7 +1,7 @@
 name: Azure AD PIM Role Assignment Activated
 id: 952e80d0-e343-439b-83f4-808c3e6fbf2e
-version: 1
-date: '2023-04-26'
+version: 2
+date: '2023-11-07'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies the assignment of the Azure AD PI
 search: ' `azuread` operationName="Add member to role completed (PIM activation)"
   | rename properties.* as * 
   | rename targetResources{}.userPrincipalName as userPrincipalName | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | stats values(userPrincipalName) values(targetResources{}.displayName) by _time, initiatedBy, result, operationName,
+  | stats values(userPrincipalName) as userPrincipalName values(targetResources{}.displayName) as target_display_name by _time, initiatedBy, result, operationName,
   | `azure_ad_pim_role_assignment_activated_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
@@ -38,7 +38,7 @@ tags:
   - T1098
   - T1098.003
   observable:
-  - name: userPrincipalName
+  - name: initiatedBy
     type: User
     role:
     - Attacker

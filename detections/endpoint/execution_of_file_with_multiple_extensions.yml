@@ -34,6 +34,7 @@ tags:
   - Windows File Extension and Association Abuse
   - Masquerading - Rename System Utilities
   - AsyncRAT
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 70
   impact: 80

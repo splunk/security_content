@@ -1,6 +1,6 @@
 name: Windows Powershell Connect to Internet With Hidden Window
 id: 477e068e-8b6d-11ec-b6c1-81af21670352
-version: 3
+version: 4
 status: production
 description: The following hunting analytic identifies PowerShell commands utilizing
   the WindowStyle parameter to hide the window on the compromised endpoint. This combination
@@ -23,7 +23,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type},
     message = "Windows Powershell Connect to Internet With Hidden Window has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,

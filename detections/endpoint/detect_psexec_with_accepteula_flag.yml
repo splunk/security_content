@@ -48,6 +48,7 @@ tags:
   - Volt Typhoon
   - IcedID
   - BlackByte Ransomware
+  - DarkGate Malware
   asset_type: Endpoint
   confidence: 70
   impact: 50

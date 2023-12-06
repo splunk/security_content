@@ -1,7 +1,7 @@
 name: WMI Recon Running Process Or Services
 id: b5cd5526-cce7-11eb-b3bd-acde48001122
-version: 2
-date: '2023-04-14'
+version: 3
+date: '2023-11-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*"
   OR ScriptBlockText="*Win32_Service*") | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`
+  as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -34,17 +34,17 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 20
-  message: Suspicious powerShell script execution by $user$ on $Computer$ via EventCode
+  message: Suspicious powerShell script execution by $user$ on $dest$ via EventCode
     4104, where WMI is performing an event query looking for running processes or
     running services
   mitre_attack_id:
   - T1592
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
