@@ -36,4 +36,4 @@ WerFault.exe,
 WSReset.exe,
 wusa.exe'
 description: A listing of processes known to be abused for User Account Control bypass exploitation.
-name: base64decode
+name: uacbypass_process_name
