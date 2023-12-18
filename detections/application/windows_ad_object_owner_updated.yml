@@ -71,6 +71,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/DCShadowPermissions/windows-security-xml.log
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/dacl_abuse/owner_updated_windows-security-xml.log
         source: XmlWinEventLog:Security
         sourcetype: xmlwineventlog

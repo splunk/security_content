@@ -7,7 +7,7 @@ status: production
 type: TTP
 data_source:
 - Windows Security 5136
-description: Hidden OU created using an ACL to deny listing the objects residing in the OU. 
+description: This analytic is looking for when an ACL is applied to an OU which denies listing the objects residing in the OU. This activity combined with modifying the owner of the OU will hide AD objects even from domain administrators. 
 search: '`wineventlog_security` EventCode=5136 ObjectClass=organizationalUnit
   | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
   | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
@@ -41,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: $src_user$ has added ACL rights to grant $user$ $aceControlAccessRights$ $aceAccessRights$ to user $ObjectDN$
+  message: $src_user$ has hidden the contents of OU $ObjectDN$ from $user$
   mitre_attack_id:
   - T1484
   - T1222
@@ -75,6 +75,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/DCShadowPermissions/windows-security-xml.log
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/dacl_abuse/hidden_ou_windows-security-xml.log
         source: XmlWinEventLog:Security
         sourcetype: xmlwineventlog
