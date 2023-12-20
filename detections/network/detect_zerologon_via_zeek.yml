@@ -22,9 +22,11 @@ references:
 - https://www.secura.com/blog/zero-logon
 - https://github.com/SecuraBV/CVE-2020-1472
 - https://msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a
 tags:
   analytic_story:
   - Detect Zerologon Attack
+  - Rhysida Ransomware
   asset_type: Network
   confidence: 50
   cve:

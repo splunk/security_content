@@ -1,9 +1,9 @@
-name: Detect Prohibited Applications Spawning cmd exe powershell
-id: c10a18cb-fd70-4ffa-a844-25126e0b0d94
-version: 3
-date: '2023-10-26'
+name: Detect PowerShell Applications Spawning cmd exe 
+id: d20a18cb-fd70-4ffa-a844-25126e0b0d94
+version: 1
+date: '2023-12-11'
 author: Lou Stella, Splunk
-status: validation
+status: production
 type: Anomaly
 description: The following analytic identifies parent processes that are powershell, spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
@@ -14,6 +14,7 @@ search:
   selection1:
     actor.process.file.name:
     - powershell.exe
+    - pwsh.exe
   selection2:
     process.file.name: cmd.exe
   condition: selection1 and selection2

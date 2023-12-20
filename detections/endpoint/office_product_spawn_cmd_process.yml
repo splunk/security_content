@@ -50,6 +50,7 @@ tags:
   - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
   - Warzone RAT
   - PlugX
+  - NjRAT
   asset_type: Endpoint
   confidence: 80
   impact: 70

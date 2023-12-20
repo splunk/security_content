@@ -37,6 +37,7 @@ tags:
   - Spearphishing Attachments
   - Qakbot
   - IcedID
+  - Amadey
   asset_type: Endpoint
   confidence: 90
   impact: 70

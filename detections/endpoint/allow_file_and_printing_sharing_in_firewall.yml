@@ -1,7 +1,7 @@
 name: Allow File And Printing Sharing In Firewall
 id: ce27646e-d411-11eb-8a00-acde48001122
-version: 2
-date: '2021-06-23'
+version: 3
+date: '2023-12-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -38,13 +38,17 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: ''
+  message: A suspicious modification of firewall to allow file and printer sharing detected on host - $dest$
   mitre_attack_id:
   - T1562.007
   - T1562
   observable:
   - name: user
     type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
     role:
     - Victim
   product:

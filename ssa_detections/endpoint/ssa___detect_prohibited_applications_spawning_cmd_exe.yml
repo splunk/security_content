@@ -4,7 +4,7 @@ version: 6
 date: '2022-03-01'
 author: Ignacio Bermudez Corrales, Splunk
 type: Anomaly
-status: production
+status: deprecated
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will

@@ -62,6 +62,7 @@ tags:
   - Data Destruction
   - Flax Typhoon
   - DarkGate Malware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 100
   impact: 80

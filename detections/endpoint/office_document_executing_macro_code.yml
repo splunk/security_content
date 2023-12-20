@@ -31,6 +31,7 @@ references:
 - https://bazaar.abuse.ch/sample/02cbc1ab80695fc12ff8822b926957c3a600247b9ca412a137f69cb5716c8781/
 - https://www.fortinet.com/blog/threat-research/latest-remcos-rat-phishing
 - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+- https://www.fortinet.com/blog/threat-research/leveraging-microsoft-office-documents-to-deliver-agent-tesla-and-njrat
 tags:
   analytic_story:
   - Spearphishing Attachments
@@ -42,6 +43,7 @@ tags:
   - Azorult
   - Remcos
   - PlugX
+  - NjRAT
   asset_type: Endpoint
   confidence: 50
   impact: 70

@@ -35,6 +35,7 @@ tags:
   - Windows Log Manipulation
   - Ransomware
   - Clop Ransomware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 40

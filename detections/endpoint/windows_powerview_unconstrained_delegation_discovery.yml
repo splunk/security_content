@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 50

@@ -41,6 +41,7 @@ tags:
   - Trickbot
   - IcedID
   - AgentTesla
+  - NjRAT
   asset_type: Endpoint
   confidence: 90
   impact: 70
