@@ -32,6 +32,7 @@ tags:
   - BlackMatter Ransomware
   - Chaos Ransomware
   - LockBit Ransomware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 90

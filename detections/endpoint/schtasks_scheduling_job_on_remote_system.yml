@@ -41,6 +41,7 @@ tags:
   - Living Off The Land
   - Prestige Ransomware
   - Scheduled Tasks
+  - RedLine Stealer
   asset_type: Endpoint
   confidence: 90
   impact: 70

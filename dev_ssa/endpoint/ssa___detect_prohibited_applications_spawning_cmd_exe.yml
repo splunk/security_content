@@ -3,7 +3,7 @@ id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 version: 6
 date: '2022-03-01'
 author: Ignacio Bermudez Corrales, Splunk
-status: production
+status: deprecated
 type: Anomaly
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,

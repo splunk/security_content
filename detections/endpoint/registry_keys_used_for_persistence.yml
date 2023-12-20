@@ -71,6 +71,7 @@ tags:
   - Warzone RAT
   - NjRAT
   - DarkGate Malware
+  - RedLine Stealer
   asset_type: Endpoint
   confidence: 95
   impact: 80

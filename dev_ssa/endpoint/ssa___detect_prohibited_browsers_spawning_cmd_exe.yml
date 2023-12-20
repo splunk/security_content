@@ -1,9 +1,9 @@
-name: Detect Prohibited Applications Spawning cmd exe browsers
-id: c10a18cb-fd70-4ffa-a844-25026e0a0c94
-version: 3
-date: '2023-10-26'
+name: Detect Prohibited Browsers Spawning cmd exe
+id: c10a18cb-fa70-4dfa-a944-25026e1b0c94
+version: 1
+date: '2023-12-11'
 author: Lou Stella, Splunk
-status: validation
+status: production
 type: Anomaly
 description: The following analytic identifies parent processes that are browsers, spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will

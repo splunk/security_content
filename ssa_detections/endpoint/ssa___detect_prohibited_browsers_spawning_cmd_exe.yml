@@ -1,26 +1,25 @@
-name: Detect Prohibited Applications Spawning cmd exe office
-id: c10a18cb-fd70-4ffa-a844-25026e0b0c94
-version: 3
-date: '2023-10-26'
+name: Detect Prohibited Browsers Spawning cmd exe
+id: c10a18cb-fa70-4dfa-a944-25026e1b0c94
+version: 1
+date: '2023-12-11'
 author: Lou Stella, Splunk
 type: Anomaly
-status: validation
-description: The following analytic identifies parent processes that are office/productivity
-  applications, spawning cmd.exe. By its very nature, many applications spawn cmd.exe
-  natively or built into macros. Much of this will need to be tuned to further enhance
-  the risk.
+status: production
+description: The following analytic identifies parent processes that are browsers,
+  spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or
+  built into macros. Much of this will need to be tuned to further enhance the risk.
 data_source:
 - Windows Security 4688
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
   = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
-  = process.cmd_line | eval actor_user = actor.user | eval actor_user_name = actor_user.name
-  | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
-  | eval actor_process_file = actor_process.file | eval actor_process_file_path =
-  actor_process_file.path | eval actor_process_file_name = lower(actor_process_file.name)
-  | eval device_hostname = device.hostname | where (actor_process_file_name IN ("winword.exe",
-  "excel.exe", "outlook.exe", "acrobat.exe", "acrord32.exe")) AND process_file_name="cmd.exe"
-  --finding_report--'
+  = lower(process.cmd_line) | eval actor_user = actor.user | eval actor_user_name
+  = actor_user.name | eval actor_process = actor.process | eval actor_process_pid
+  = actor_process.pid | eval actor_process_file = actor_process.file | eval actor_process_file_path
+  = actor_process_file.path | eval actor_process_file_name = lower(actor_process_file.name)
+  | eval device_hostname = device.hostname | where ((actor_process_file_name IN ("iexplore.exe",
+  "opera.exe", "firefox.exe")) OR (actor_process_file_name="chrome.exe" AND (NOT process_cmd_line="chrome-extension")))
+  AND process_file_name="cmd.exe" --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
@@ -95,5 +94,5 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ssa_validation/office/windows-security.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ssa_validation/browsers/windows-security.log
     source: WinEventLog:Security

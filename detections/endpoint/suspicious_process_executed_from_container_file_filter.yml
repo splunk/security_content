@@ -37,6 +37,8 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  - Amadey
+  - Remcos
   asset_type: Endpoint
   confidence: 20
   impact: 80

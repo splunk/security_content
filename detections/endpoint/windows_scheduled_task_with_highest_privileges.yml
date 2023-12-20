@@ -43,6 +43,7 @@ tags:
   analytic_story:
   - AsyncRAT
   - Scheduled Tasks
+  - RedLine Stealer
   asset_type: Endpoint
   confidence: 80
   impact: 80

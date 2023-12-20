@@ -44,6 +44,7 @@ tags:
   - Sandworm Tools
   - BlackByte Ransomware
   - DarkGate Malware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 30

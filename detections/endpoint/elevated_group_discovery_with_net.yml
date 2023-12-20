@@ -41,6 +41,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   - Volt Typhoon
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 30

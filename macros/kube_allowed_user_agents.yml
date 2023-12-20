@@ -1,0 +1,3 @@
+definition: userAgent=Helm/3.13.2
+description: Define your user agents which are allowed to connect to your kubernetes cluster.
+name: kube_allowed_user_agents
