@@ -1,10 +1,10 @@
-name: Detect Prohibited Applications Spawning cmd exe powershell
-id: c10a18cb-fd70-4ffa-a844-25126e0b0d94
-version: 3
-date: '2023-10-26'
+name: Detect PowerShell Applications Spawning cmd exe
+id: d20a18cb-fd70-4ffa-a844-25126e0b0d94
+version: 1
+date: '2023-12-11'
 author: Lou Stella, Splunk
 type: Anomaly
-status: validation
+status: production
 description: The following analytic identifies parent processes that are powershell,
   spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or
   built into macros. Much of this will need to be tuned to further enhance the risk.
@@ -17,8 +17,8 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = lower(actor_process_file.name)
-  | eval device_hostname = device.hostname | where actor_process_file_name="powershell.exe"
-  AND process_file_name="cmd.exe" --finding_report--'
+  | eval device_hostname = device.hostname | where (actor_process_file_name IN ("powershell.exe",
+  "pwsh.exe")) AND process_file_name="cmd.exe" --finding_report--'
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.

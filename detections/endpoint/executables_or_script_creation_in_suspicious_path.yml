@@ -65,6 +65,7 @@ tags:
   - NjRAT
   - PlugX
   - DarkGate Malware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 40

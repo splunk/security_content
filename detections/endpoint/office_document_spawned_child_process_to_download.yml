@@ -38,6 +38,7 @@ tags:
   - Spearphishing Attachments
   - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
   - PlugX
+  - NjRAT
   asset_type: Endpoint
   confidence: 50
   impact: 70

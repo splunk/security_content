@@ -1,0 +1,69 @@
+name: Kubernetes Access Scanning
+id: f5edd22d-0f3b-4c70-bcfe-5bf41150f10c
+version: 1
+date: '2023-12-07'
+author: Patrick Bareiss, Splunk
+status: production
+type: Anomaly
+description: 'The following analytic detects potential scanning activities within a Kubernetes environment. 
+  It identifies unauthorized access attempts, probing of public APIs, or attempts to exploit known vulnerabilities. 
+  The analytic detects this behavior by monitoring Kubernetes audit logs for patterns indicative of scanning, such as repeated failed access attempts or unusual API requests. 
+  This behavior is worth identifying for a SOC as it could indicate an attackers preliminary step in an attack, aiming to gather information about the system to find potential vulnerabilities. 
+  The impact of such an attack could be severe, potentially leading to unauthorized access to sensitive systems or data.'
+data_source: []
+search: '`kube_audit` "user.groups{}"="system:unauthenticated" "responseStatus.code"=403
+  | iplocation sourceIPs{} 
+  | stats count values(userAgent) as userAgent values(user.username) as user.username values(user.groups{}) as user.groups{} values(verb) as verb values(requestURI) as requestURI values(responseStatus.code) as responseStatus.code values(responseStatus.message) as responseStatus.message values(responseStatus.reason) as responseStatus.reason values(responseStatus.status) as responseStatus.status
+  by sourceIPs{} Country City
+  | where count > 5
+  | rename sourceIPs{} as src_ip, user.username as user
+  | `kubernetes_access_scanning_filter` '
+how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
+  Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
+  Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
+  Use the Splunk OpenTelemetry Collector for Kubernetes to collect the logs. This doc will describe how to collect the audit log file https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/migration-from-sck.md.
+known_false_positives: unknown
+references:
+- https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+tags:
+  analytic_story:
+  - Kubernetes Security
+  asset_type: Kubernetes
+  confidence: 70
+  impact: 70
+  message: Kubernetes scanning from ip $src_ip$ 
+  mitre_attack_id:
+  - T1046
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - verb
+  - requestReceivedTimestamp
+  - requestURI
+  - responseStatus.code
+  - sourceIPs{}
+  - user.groups{}
+  - user.username
+  - userAgent
+  - verb
+  - responseStatus.reason
+  - responseStatus.status
+  risk_score: 49
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/kubernetes_scanning/kubernetes_scanning.json
+    sourcetype: _json
+    source: kubernetes

@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Credential Dumping
   - Graceful Wipe Out Attack
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 100
   cve:

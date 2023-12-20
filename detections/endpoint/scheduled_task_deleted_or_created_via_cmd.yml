@@ -57,6 +57,8 @@ tags:
   - Amadey
   - Scheduled Tasks
   - NjRAT
+  - RedLine Stealer
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 70

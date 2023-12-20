@@ -49,6 +49,7 @@ tags:
   - IcedID
   - BlackByte Ransomware
   - DarkGate Malware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 50

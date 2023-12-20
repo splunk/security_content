@@ -2,6 +2,7 @@ name: Attempt To Delete Services
 id: a0c8c292-d01a-11eb-aa18-acde48001122
 version: 4
 status: production
+detection_type: STREAMING
 description: The following analytic identifies Windows Service Control, `sc.exe`,
   attempting to delete a service. This is typically identified in parallel with other
   instances of service enumeration of attempts to stop a service and then delete it.

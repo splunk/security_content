@@ -1,9 +1,9 @@
-name: Detect Prohibited Applications Spawning cmd exe office
-id: c10a18cb-fd70-4ffa-a844-25026e0b0c94
-version: 3
-date: '2023-10-26'
+name: Detect Prohibited Office Applications Spawning cmd exe
+id: c10a18cb-fd70-44fb-a8f4-25026a0b0c94
+version: 1
+date: '2023-12-11'
 author: Lou Stella, Splunk
-status: validation
+status: production
 type: Anomaly
 description: The following analytic identifies parent processes that are office/productivity applications, spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
@@ -16,6 +16,7 @@ search:
     - winword.exe
     - excel.exe
     - outlook.exe
+    - powerpnt.exe
     - acrobat.exe
     - acrord32.exe
   selection2:

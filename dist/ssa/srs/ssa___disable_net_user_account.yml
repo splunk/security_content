@@ -2,6 +2,7 @@ name: Disable Net User Account
 id: ba858b08-d26c-11eb-af9b-acde48001122
 version: 5
 status: production
+detection_type: STREAMING
 description: This analytic will identify a suspicious command-line that disables a
   user account using the native `net.exe` or `net1.exe` utility to Windows. This technique
   may used by the adversaries to interrupt availability of accounts and continue the

@@ -37,6 +37,7 @@ tags:
   - Windows Post-Exploitation
   - Azorult
   - Ransomware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 40

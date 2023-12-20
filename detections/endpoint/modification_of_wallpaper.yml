@@ -11,11 +11,12 @@ description: This analytic identifies suspicious modification of registry to def
   a note that the machine was compromised and make it as a wallpaper.
 data_source:
 - Sysmon Event ID 13
-search: '`sysmon` EventCode =13  (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper"
-  AND Image != "*\\explorer.exe") OR (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper"
-  AND Details = "*\\temp\\*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Image TargetObject Details Computer process_guid process_id
-  user_id | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`sysmon` EventCode =13  (TargetObject IN ("*\\Control Panel\\Desktop\\Wallpaper","*\\Control Panel\\Desktop\\WallpaperStyle") AND Image != "*\\explorer.exe") 
+  OR (TargetObject IN ("*\\Control Panel\\Desktop\\Wallpaper","*\\Control Panel\\Desktop\\WallpaperStyle") AND Details IN ("*\\temp\\*", "*\\users\\public\\*")) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Image TargetObject Details Computer process_guid process_id user_id 
+  | rename Computer as dest 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `modification_of_wallpaper_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Image, TargetObject registry key, registry Details from your endpoints.
@@ -33,6 +34,7 @@ tags:
   - Windows Registry Abuse
   - Brute Ratel C4
   - LockBit Ransomware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 60

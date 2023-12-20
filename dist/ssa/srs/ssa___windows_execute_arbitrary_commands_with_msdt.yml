@@ -2,6 +2,7 @@ name: Windows Execute Arbitrary Commands with MSDT
 id: f253f9c2-10f0-4cc8-b469-f505ba8c2038
 version: 2
 status: production
+detection_type: STREAMING
 description: The following analytic identifies a recently disclosed arbitraty command
   execution using Windows msdt.exe - a Diagnostics Troubleshooting Wizard. The sample
   identified will use the ms-msdt:/ protocol handler to load msdt.exe to retrieve
