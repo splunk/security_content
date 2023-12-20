@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   - Active Directory Privilege Escalation
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 40

@@ -2,6 +2,7 @@ name: Windows Defender Tools in Non Standard Path
 id: c205bd2e-cd5b-4224-8510-578a2a1f83d7
 version: 2
 status: production
+detection_type: STREAMING
 description: The following analytic identifies usage of the MPCmdRun utility that
   can be abused by adversaries by moving it to a new directory.
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |

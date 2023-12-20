@@ -2,6 +2,7 @@ name: Windows Rundll32 Comsvcs Memory Dump
 id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 version: 6
 status: production
+detection_type: STREAMING
 description: The following analytic identifies memory dumping using comsvcs.dll with
   the minidump function with `rundll32.exe`. This technique is common with adversaries
   who would like to dump the memory of lsass.exe.

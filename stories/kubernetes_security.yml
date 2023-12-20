@@ -1,0 +1,25 @@
+name: Kubernetes Security
+id: 77006b3a-306c-4e32-afd5-30b6e40c1c41
+version: 1
+date: '2023-12-06'
+author: 'Patrick Bareiss'
+description: Kubernetes, as a container orchestration platform, faces unique security challenges. This story explores various tactics and techniques adversaries 
+  use to exploit Kubernetes environments, including attacking the control plane, exploiting misconfigurations, and compromising containerized applications.
+narrative: 
+  Kubernetes, a widely used container orchestration system, presents a complex environment that can be targeted by adversaries. Key areas of concern include the control plane, worker nodes, and network communication. 
+  Attackers may attempt to exploit vulnerabilities in the Kubernetes API, misconfigured containers, or insecure network policies. The control plane, responsible for managing cluster operations, is a prime target. 
+  Compromising this can give attackers control over the entire cluster. Worker nodes, running the containerized applications, can be targeted to disrupt services or to gain access to sensitive data.
+  Common attack vectors include exploiting vulnerabilities in container images, misconfigured role-based access controls (RBAC), exposed Kubernetes dashboards, and insecure network configurations. 
+  Attackers can also target the supply chain, injecting malicious code into container images or Helm charts. To mitigate these threats, it is essential to enforce robust security practices such as regular vulnerability scanning, 
+  implementing least privilege access, securing the control plane, network segmentation, and continuous monitoring for suspicious activities. Tools like Kubernetes Network Policies, Pod Security Policies, and third-party security solutions can provide additional layers of defense.
+references:
+  - https://kubernetes.io/docs/concepts/security/
+tags:
+  analytic_story: Kubernetes Security
+  category:
+  - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

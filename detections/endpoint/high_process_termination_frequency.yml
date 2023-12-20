@@ -28,6 +28,7 @@ tags:
   - Clop Ransomware
   - LockBit Ransomware
   - BlackByte Ransomware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 90

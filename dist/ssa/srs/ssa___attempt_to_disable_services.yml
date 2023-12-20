@@ -2,6 +2,7 @@ name: Attempt To Disable Services
 id: afb31de4-d023-11eb-98d5-acde48001122
 version: 4
 status: production
+detection_type: STREAMING
 description: The following analytic identifies Windows Service Control, `sc.exe`,
   attempting to disable a service. This is typically identified in parallel with other
   instances of service enumeration of attempts to stop a service and then disable

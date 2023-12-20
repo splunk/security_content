@@ -34,6 +34,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   - Graceful Wipe Out Attack
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50

@@ -2,6 +2,7 @@ name: Services lolbas Execution Process Spawn
 id: 0d85fde3-0de9-4eec-b386-6a8ba70f3935
 version: 3
 status: validation
+detection_type: STREAMING
 description: The following analytic identifies services.exe spawning a LOLBAS execution
   process. When adversaries execute code on remote endpoints abusing the Service Control
   Manager and creating a remote malicious service, the executed command is spawned

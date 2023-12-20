@@ -1,0 +1,3 @@
+definition: user.groups{} IN (admin)
+description: Define your user groups which are allowed to connect to your kubernetes cluster.
+name: kube_allowed_user_groups

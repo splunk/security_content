@@ -1,0 +1,3 @@
+definition: user.username=admin
+description: Define your user names which are allowed to connect to your kubernetes cluster.
+name: kube_allowed_user_names

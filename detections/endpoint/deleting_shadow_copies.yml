@@ -42,6 +42,7 @@ tags:
   - Chaos Ransomware
   - LockBit Ransomware
   - DarkGate Malware
+  - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 90

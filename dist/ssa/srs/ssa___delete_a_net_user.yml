@@ -2,6 +2,7 @@ name: Delete A Net User
 id: 8776d79c-d26e-11eb-9a56-acde48001122
 version: 6
 status: production
+detection_type: STREAMING
 description: This analytic will detect a suspicious net.exe/net1.exe command-line
   to delete a user on a system. This technique may be use by an administrator for
   legitimate purposes, however this behavior has been used in the wild to impair some
