@@ -47,15 +47,15 @@ tags:
   - T1548.002
   observable:
   - name: dest
-    type: hostname
+    type: Hostname
     role:
     - Victim
   - name: user
-    type: username
+    type: User Name
     role:
     - Victim	
   - name: process
-    type: other
+    type: Process
     role:
     - Attacker
   - name: process_name
