@@ -1,7 +1,7 @@
 name: PowerShell Domain Enumeration
 id: e1866ce2-ca22-11eb-8e44-acde48001122
 version: 2
-date: '2023-04-14'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -21,7 +21,8 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN (*get-netdomaintrust*, *get-netforesttrust*,
   *get-addomain*, *get-adgroupmember*, *get-domainuser*) | stats count min(_time)
-  as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
+  as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText UserID
+  | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `powershell_domain_enumeration_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -35,8 +36,9 @@ references:
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Malicious PowerShell
   - Hermetic Wiper
+  - Malicious PowerShell
+  - CISA AA23-347A
   - Data Destruction
   asset_type: Endpoint
   confidence: 70

@@ -1,0 +1,57 @@
+name: Windows Account Discovery With NetUser PreauthNotRequire
+id: cf056b65-44b2-4d32-9172-d6b6f081a376
+version: 1
+date: '2023-12-15'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+data_source:
+- Powershell 4104
+description: The following analytic leverages Event ID 4104 to identify the execution of the PowerView powershell commandlets Get-NetUser. 
+  This technique was observed in the context of PowerView's Get-NetUser cmdlet as a filter or parameter
+  to query Active Directory user accounts that do not require preauthentication for Kerberos. This hunting query is a good pivot to look for suspicious process 
+  or malware that gather user account information in a host or within network system. 
+search: '`powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText = "*-PreauthNotRequire*"
+  | rename Computer as dest, UserID as user
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText dest user
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_account_discovery_with_netuser_preauthnotrequire_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
+known_false_positives: Administrators may leverage PowerView for legitimate purposes, filter as needed.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+tags:
+  analytic_story:
+  - CISA AA23-347A
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: A user dicovery using powerview commandlet Get-NetUser with PreauthNotRequire parameter on $dest$.
+  mitre_attack_id:
+  - T1087
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  required_fields:
+  - _time
+  - ScriptBlockText
+  - dest
+  - EventCode
+  - user
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/powerview_get_netuser_preauthnotrequire/get-netuser-not-require-pwh.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog

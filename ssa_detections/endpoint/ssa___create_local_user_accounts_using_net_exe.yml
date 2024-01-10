@@ -1,8 +1,8 @@
 name: Create Local User Accounts Using Net Exe
 id: 1ee0fff0-9642-421b-8e13-9aa6fba4ace3
-version: 4
+version: 5
 date: '2023-10-23'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: Anomaly
 status: validation
 description: The following analytic detects the creation of local administrator accounts
@@ -31,7 +31,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_cmd_line LIKE "%user%"
-  AND process_cmd_line LIKE "%/add%" AND (process_file_name="net.exe" OR process_file_name="net1.exe")
+  AND process_cmd_line LIKE "%/add%" AND (process_file_name IN ("net.exe", "net1.exe"))
   --finding_report--'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -48,11 +48,9 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ attempting to add a user to the local group.
   mitre_attack_id:
-  - T1136
   - T1136.001
+  - T1136
   observable:
   - name: process.pid
     type: Other
@@ -72,6 +70,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to add a user to the local group.
   product:
   - Splunk Behavioral Analytics
   required_fields:

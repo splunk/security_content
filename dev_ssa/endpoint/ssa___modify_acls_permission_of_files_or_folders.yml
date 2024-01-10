@@ -1,6 +1,6 @@
 name: Modify ACLs Permission Of Files Or Folders
 id: 9ae9a48a-cdbe-11eb-875a-acde48001122
-version: 5
+version: 6
 date: '2022-03-17'
 author: Teoderick Contreras, Splunk
 status: production

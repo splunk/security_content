@@ -1,8 +1,8 @@
 name: GCP Authentication Failed During MFA Challenge
 id: 345f7e1d-a3fe-4158-abd8-e630f9878323
-version: 1
-date: '2022-10-12'
-author: Mauricio Velazco, Splunk
+version: 2
+date: '2024-01-04'
+author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
 description: 'The following analytic identifies an authentication attempt event against
@@ -11,7 +11,7 @@ description: 'The following analytic identifies an authentication attempt event 
   compromised credentials for an account that has multi-factor authentication enabled. '
 data_source: []
 search: ' `gws_reports_login` event.name=login_failure `gws_login_mfa_methods` | stats
-  values(user) by _time, src_ip, login_challenge_method | `gcp_authentication_failed_during_mfa_challenge_filter`'
+  count min(_time) as firstTime max(_time) as lastTime by user, src_ip, login_challenge_method | `gcp_authentication_failed_during_mfa_challenge_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Google
   Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows
   Splunk administrators to collect Google Workspace event data in Splunk using Google

@@ -1,7 +1,7 @@
 name: Azure AD User Consent Denied for OAuth Application
 id: bb093c30-d860-4858-a56e-cd0895d5b49c
-version: 1
-date: '2023-10-27'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

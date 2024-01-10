@@ -1,21 +1,22 @@
 name: Disable Defender BlockAtFirstSeen Feature
 id: 2dd719ac-3021-11ec-97b4-acde48001122
 version: 4
-date: '2023-04-11'
+date: '2023-12-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon Event ID 1
-description: This analytic is intended to detect a suspicious modification of the Windows registry to disable
-  a Windows Defender feature. This technique is intended to bypass or evade detection from
-  Windows Defender AV, specifically the BlockAtFirstSeen feature where it blocks
-  suspicious files the first time seen on the host.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name = DisableBlockAtFirstSeen Registry.registry_value_data = 0x00000001) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.user Registry.dest 
-  | `drop_dm_object_name(Registry)`
-  | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: This analytic is intended to detect a suspicious modification of the
+  Windows registry to disable a Windows Defender feature. This technique is intended
+  to bypass or evade detection from Windows Defender AV, specifically the BlockAtFirstSeen
+  feature where it blocks suspicious files the first time seen on the host.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name
+  = DisableBlockAtFirstSeen Registry.registry_value_data = 0x00000001) BY _time span=1h
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.user Registry.dest | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `disable_defender_blockatfirstseen_feature_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -26,9 +27,10 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
+  - Azorult
+  - CISA AA23-347A
   - IcedID
   - Windows Registry Abuse
-  - Azorult
   asset_type: Endpoint
   confidence: 70
   impact: 70

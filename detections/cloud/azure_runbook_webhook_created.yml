@@ -1,7 +1,7 @@
 name: Azure Runbook Webhook Created
 id: e98944a9-92e4-443c-81b8-a322e33ce75a
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,9 +16,14 @@ description: The following analytic identifies the creation of a new Automation 
   of an Automation Runbook with malicious code that can create users or execute code
   on a VM. This provides a persistent foothold on the environment.
 data_source: []
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
-  webhook" status.value=Succeeded | stats values(object) as object by _time, caller, claims.ipaddr,
-  resourceGroupName, object_path | `azure_runbook_webhook_created_filter`'
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation webhook" status.value=Succeeded 
+  | dedup object
+  | rename claims.ipaddr as src_ip
+  | rename caller as user
+  | stats count min(_time) as firstTime max(_time) as lastTime values(object) as object by user, src_ip, resourceGroupName, object_path 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_runbook_webhook_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Audit events into your Splunk environment. Specifically,
@@ -48,7 +53,7 @@ tags:
     type: Other
     role:
     - Victim
-  - name: caller
+  - name: user
     type: User
     role:
     - Attacker

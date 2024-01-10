@@ -1,0 +1,78 @@
+name: Windows UAC Bypass Suspicious Child Process
+id: 453a6b0f-b0ea-48fa-9cf4-20537ffdd22c
+version: 1
+date: '2023-11-20'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when an executable known for User Account Control bypass exploitation, spawns a child process in user controlled location or a command shell executable (cmd, powershell, etc). This behavioral chain may indicate that an attacker has used a UAC Bypass exploit to successfully escalate privileges.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("high","system") AND Processes.parent_process_name IN (`uacbypass_process_name`) AND (Processes.process_name IN ("cmd.exe","powershell.exe","pwsh.exe","wscript","cscript.exe","bash.exe","werfault.exe") OR Processes.process IN ("*\\\\*","*\\Users\\*","*\\ProgramData\\*","*\\Temp\\*")) by Processes.dest, Processes.user, Processes.parent_process_guid, Processes.parent_process, Processes.parent_process_name Processes.process_name Processes.process, Processes.process_path, Processes.process_integrity_level, Processes.process_current_directory 
+  | `drop_dm_object_name(Processes)` 
+  | where parent_process_name != process_name 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_uac_bypass_suspicious_child_process_filter`'
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID 1 with process integrity level data.
+known_false_positives: Including Werfault.exe may cause some unintended false positives related to normal application faulting, but is used in a number of UAC bypass techniques.
+references:
+- https://attack.mitre.org/techniques/T1548/002/
+- https://atomicredteam.io/defense-evasion/T1548.002/
+- https://hadess.io/user-account-control-uncontrol-mastering-the-art-of-bypassing-windows-uac/
+- https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 75
+  impact: 60
+  message: A UAC bypass parent process- $parent_process_name$ on host- $dest$ launched a suspicious child process - $process_name$.
+  mitre_attack_id:
+  - T1548
+  - T1548.002
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User Name
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Attacker
+  - name: process_name
+    type: Process Name
+    role:
+    - Attacker
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_guid
+  - Processes.parent_process
+  - Processes.parent_process_name
+  - Processes.process_name Processes.process
+  - Processes.process_path
+  - Processes.process_integrity_level
+  - Processes.process_current_directory
+  risk_score: 45
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/uac_behavior/uac_behavior_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

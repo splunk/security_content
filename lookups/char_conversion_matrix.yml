@@ -1,0 +1,7 @@
+description: A simple conversion matrix for converting to and from UTF8/16 base64/hex/decimal encoding. Created mosty from https://community.splunk.com/t5/Splunk-Search/base64-decoding-in-search/m-p/27572#M177741, with small modifications for UTF16LE parsing for powershell encoding.
+filename: char_conversion_matrix.csv
+name: char_conversion_matrix
+default_match: 'false'
+match_type: WILDCARD(data)
+min_matches: 1
+case_sensitive_match: 'true'
