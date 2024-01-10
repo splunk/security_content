@@ -1,7 +1,7 @@
 name: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser
 id: 114c6bfe-9406-11ec-bcce-acde48001122
 version: 2
-date: '2022-05-03'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -17,7 +17,8 @@ data_source:
 - Powershell 4104
 search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
   | stats count min(_time)  as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | rename Computer as dest | `security_content_ctime(firstTime)` | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
+  UserID EventCode ScriptBlockText | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -29,6 +30,7 @@ references:
 - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
 tags:
   analytic_story:
+  - CISA AA23-347A
   - Active Directory Kerberos Attacks
   asset_type: endpoint
   confidence: 90

@@ -1,7 +1,7 @@
 name: ETW Registry Disabled
 id: 8ed523ac-276b-11ec-ac39-acde48001122
 version: 4
-date: '2023-04-27'
+date: '2023-12-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -12,10 +12,11 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*" Registry.registry_value_name
-  = ETWEnabled Registry.registry_value_data=0x00000000) BY _time span=1h Registry.dest Registry.user Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `etw_registry_disabled_filter`'
+  = ETWEnabled Registry.registry_value_data=0x00000000) BY _time span=1h Registry.dest
+  Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `etw_registry_disabled_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -26,9 +27,10 @@ references:
 tags:
   analytic_story:
   - Hermetic Wiper
-  - Windows Privilege Escalation
   - Windows Persistence Techniques
+  - Windows Privilege Escalation
   - Windows Registry Abuse
+  - CISA AA23-347A
   - Data Destruction
   asset_type: Endpoint
   confidence: 100

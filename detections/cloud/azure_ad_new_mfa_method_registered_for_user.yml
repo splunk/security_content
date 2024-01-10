@@ -1,7 +1,7 @@
 name: Azure AD New MFA Method Registered For User
 id: 2628b087-4189-403f-9044-87403f777a1b
-version: 1
-date: '2023-01-30'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -9,14 +9,17 @@ description: The following analytic identifies the registration of a new Multi F
   authentication method for an Azure AD account. Adversaries who have obtained unauthorized
   access to an Azure AD account may register a new MFA method to maintain persistence.
 data_source: []
-search: ' `azuread` category=AuditLogs operationName="User registered security info"
-  properties.operationType=Add | rename properties.* as * | rename targetResources{}.*
-  as * | stats  values(userPrincipalName) as userPrincipalName by _time, resultDescription, result, callerIpAddress
+search: ' `azure_monitor_aad` category=AuditLogs operationName="User registered security info" properties.operationType=Add 
+  | rename properties.* as *
+  | rename targetResources{}.* as *
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, resultDescription, result, src_ip
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `azure_ad_new_mfa_method_registered_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
 known_false_positives: Newly onboarded users who are registering an MFA method for
   the first time will also trigger this detection.
 references:
@@ -31,16 +34,16 @@ tags:
   asset_type: Azure Active Directory
   confidence: 80
   impact: 80
-  message: UPDATE message
+  message: A new MFA method was registered for user $user$
   mitre_attack_id:
   - T1556
   - T1556.006
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: callerIpAddress
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
@@ -53,16 +56,16 @@ tags:
   - category
   - operationName
   - properties.operationType
-  - userPrincipalName
+  - user
   - resultDescription
   - result
-  - callerIpAddress
+  - src_ip
   risk_score: 64
   security_domain: identity
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/azure_ad_new_mfa_method_registered_for_user/azuread.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

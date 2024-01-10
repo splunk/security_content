@@ -1,18 +1,36 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
 version: 1
-date: '2023-04-05'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 datamodel: []
-description: The following analytic utilizes Windows Security EventCode 4698, which indicates the creation of a scheduled task on a Windows system. The purpose of this query is to identify suspicious tasks that have been registered using either schtasks.exe or TaskService and involve executing a command from a user-writable file path.\
+description: 'The following analytic utilizes Windows Security EventCode 4698, which
+  indicates the creation of a scheduled task on a Windows system. The purpose of this
+  query is to identify suspicious tasks that have been registered using either schtasks.exe
+  or TaskService and involve executing a command from a user-writable file path.\
 
-  When this analytic is triggered, it provides information such as the first and last registration time of the task, the command to be executed, the task name, author, and whether it is set as hidden or not. It is worth noting that schtasks.exe is commonly located in C:\Windows\system32 and C:\Windows\syswow64, and it loads the taskschd.dll DLL when launched. If this DLL is loaded by another process, it suggests that a scheduled task may be registered within that process's context in memory.\
+  When this analytic is triggered, it provides information such as the first and last
+  registration time of the task, the command to be executed, the task name, author,
+  and whether it is set as hidden or not. It is worth noting that schtasks.exe is
+  commonly located in C:\Windows\system32 and C:\Windows\syswow64, and it loads the
+  taskschd.dll DLL when launched. If this DLL is loaded by another process, it suggests
+  that a scheduled task may be registered within that process''s context in memory.\
 
-  During the triage process, it is essential to identify the source of the scheduled task creation, whether it was initiated through schtasks.exe or TaskService. The analyst should review the task that was created, including the command to be executed. Additionally, any artifacts on disk related to the task should be captured and analyzed. It is also recommended to identify any parallel processes that occurred within the same timeframe to determine the source of the task creation.\
+  During the triage process, it is essential to identify the source of the scheduled
+  task creation, whether it was initiated through schtasks.exe or TaskService. The
+  analyst should review the task that was created, including the command to be executed.
+  Additionally, any artifacts on disk related to the task should be captured and analyzed.
+  It is also recommended to identify any parallel processes that occurred within the
+  same timeframe to determine the source of the task creation.\
 
-  By conducting this triage process, security analysts can gain insights into potentially malicious or suspicious scheduled tasks, helping them identify the source and assess the impact of the task. This analytic is valuable for a Security Operations Center (SOC) as it can detect unauthorized or suspicious activity that could indicate an attacker's attempt to establish persistence or execute unauthorized commands on the system.\
+  By conducting this triage process, security analysts can gain insights into potentially
+  malicious or suspicious scheduled tasks, helping them identify the source and assess
+  the impact of the task. This analytic is valuable for a Security Operations Center
+  (SOC) as it can detect unauthorized or suspicious activity that could indicate an
+  attacker''s attempt to establish persistence or execute unauthorized commands on
+  the system.\'
 data_source:
 - Windows Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
@@ -34,18 +52,19 @@ references:
 - https://app.any.run/tasks/e26f1b2e-befa-483b-91d2-e18636e2faf3/
 tags:
   analytic_story:
+  - Industroyer2
+  - Ryuk Ransomware
+  - Scheduled Tasks
+  - AsyncRAT
+  - Winter Vivern
   - Ransomware
   - Windows Persistence Techniques
-  - Winter Vivern
-  - Prestige Ransomware
-  - AsyncRAT
-  - Ryuk Ransomware
-  - IcedID
-  - CISA AA22-257A
-  - Industroyer2
   - Active Directory Lateral Movement
+  - Prestige Ransomware
+  - IcedID
   - Data Destruction
-  - Scheduled Tasks
+  - CISA AA23-347A
+  - CISA AA22-257A
   asset_type: Endpoint
   confidence: 100
   impact: 70

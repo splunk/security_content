@@ -1,7 +1,7 @@
 name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
 version: 1
-date: '2023-04-05'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -32,8 +32,9 @@ tags:
   analytic_story:
   - Winter Vivern
   - Active Directory Discovery
-  - Qakbot
   - Rhysida Ransomware
+  - Qakbot
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 30

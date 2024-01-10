@@ -1,7 +1,7 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
 version: 6
-date: '2023-04-05'
+date: '2023-12-27'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -40,25 +40,26 @@ references:
 - https://www.joesandbox.com/analysis/691823/0/html
 tags:
   analytic_story:
-  - Qakbot
-  - NOBELIUM Group
-  - Windows Persistence Techniques
-  - Winter Vivern
-  - Prestige Ransomware
-  - DarkCrystal RAT
-  - AgentTesla
-  - Trickbot
   - AsyncRAT
-  - Sandworm Tools
+  - Winter Vivern
+  - Windows Persistence Techniques
   - Living Off The Land
-  - CISA AA22-257A
-  - DHS Report TA18-074A
-  - Azorult
-  - Amadey
-  - Scheduled Tasks
+  - Prestige Ransomware
+  - AgentTesla
   - NjRAT
   - RedLine Stealer
   - Rhysida Ransomware
+  - Azorult
+  - DHS Report TA18-074A
+  - Scheduled Tasks
+  - Sandworm Tools
+  - Qakbot
+  - CISA AA22-257A
+  - Trickbot
+  - NOBELIUM Group
+  - Amadey
+  - DarkCrystal RAT
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 80
   impact: 70

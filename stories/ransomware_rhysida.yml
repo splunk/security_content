@@ -16,7 +16,7 @@ narrative: This story addresses Rhysida ransomware. Rhysida Ransomware emerges a
   it swiftly locks critical files and databases, holding them hostage behind an impenetrable digital veil. 
   The haunting demand for ransom sends shockwaves through affected organizations, rendering operations inert 
   and plunging them into a tumultuous struggle between compliance and resilience. 
-  Threat actors leveraging Rhysida ransomware are known to impact “targets of opportunity,” including victims in the education, 
+  Threat actors leveraging Rhysida ransomware are known to impact "targets of opportunity," including victims in the education, 
   healthcare, manufacturing, information technology, and government sectors. Open source reporting details similarities between 
   Vice Society activity and the actors observed deploying Rhysida ransomware. Additionally, open source reporting
   has confirmed observed instances of Rhysida actors operating in a ransomware-as-a-service (RaaS) capacity, 

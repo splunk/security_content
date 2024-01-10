@@ -1,7 +1,7 @@
 name: Azure AD New Federated Domain Added
 id: a87cd633-076d-4ab2-9047-977751a3c1a0
-version: 1
-date: '2022-09-02'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -19,15 +19,17 @@ description: The following analytic identifies the addition of a new federated d
   persistence and be able to authenticate to Azure AD impersonating any user and bypassing
   the requirement to have a valid password and/or perform MFA.
 data_source: []
-search: ' `azuread` operationName="Set domain authentication" "properties.result"=success
-  | rename properties.* as * | rename callerIpAddress as callerIpAddress
-  | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.displayName
-  as domain | stats values(domain) by _time, initiatedBy, result, operationName,
-  callerIpAddress | `azure_ad_new_federated_domain_added_filter`'
+search: ' `azure_monitor_aad`  operationName="Set domain authentication" "properties.result"=success
+  | rename properties.* as * 
+  | rename targetResources{}.displayName as domain 
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, domain, result, operationName, src_ip
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_new_federated_domain_added_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
 known_false_positives: In most organizations, domain federation settings will be updated
   infrequently. Filter as needed.
 references:
@@ -42,12 +44,12 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 90
-  message: A new federated domain, $domain$ , was added by $initiatedBy$
+  message: A new federated domain, $domain$ , was added by $user$
   mitre_attack_id:
   - T1484
   - T1484.002
   observable:
-  - name: initiatedBy
+  - name: user
     type: User
     role:
     - Attacker
@@ -59,15 +61,15 @@ tags:
   - _time
   - operationName
   - properties.result
-  - callerIpAddress
+  - src_ip
   - properties.targetResources{}.displayName
-  - properties.initiatedBy.user.userPrincipalName
+  - user
   risk_score: 81
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

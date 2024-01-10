@@ -1,6 +1,6 @@
 name: Create Local User Accounts Using Net Exe
 id: 1ee0fff0-9642-421b-8e13-9aa6fba4ace3
-version: 4
+version: 5
 status: validation
 detection_type: STREAMING
 description: The following analytic detects the creation of local administrator accounts
@@ -27,11 +27,11 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_cmd_line LIKE "%user%"
-  AND process_cmd_line LIKE "%/add%" AND (process_file_name="net.exe" OR process_file_name="net1.exe")
+  AND process_cmd_line LIKE "%/add%" AND (process_file_name IN ("net.exe", "net1.exe"))
   
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Create Local User Accounts Using Net Exe has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uid": actor_user.uid}],
     activity_id = 1,
@@ -110,8 +110,8 @@ tags:
     kill_chain_phases:
     - Installation
     mitre_attack_id:
-    - T1136
     - T1136.001
+    - T1136
     nist:
     - DE.AE
 test:

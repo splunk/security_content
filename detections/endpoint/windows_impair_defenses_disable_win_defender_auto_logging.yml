@@ -1,7 +1,7 @@
 name: Windows Impair Defenses Disable Win Defender Auto Logging
 id: 76406a0f-f5e0-4167-8e1f-337fdc0f1b0c
 version: 1
-date: '2022-06-07'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - CISA AA23-347A
   - Windows Registry Abuse
   asset_type: Endpoint
   confidence: 80

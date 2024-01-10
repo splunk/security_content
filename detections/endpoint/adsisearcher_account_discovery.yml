@@ -1,7 +1,7 @@
 name: AdsiSearcher Account Discovery
 id: de7fcadc-04f3-11ec-a241-acde48001122
 version: 2
-date: '2023-04-14'
+date: '2023-12-27'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -13,8 +13,9 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText
   = "*objectcategory=user*" ScriptBlockText = "*.findAll()*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Computer ScriptBlockText UserID | rename Computer as dest, UserID as user
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `adsisearcher_account_discovery_filter`'
+  as firstTime max(_time) as lastTime by EventCode Computer ScriptBlockText UserID
+  | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `adsisearcher_account_discovery_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
@@ -25,13 +26,15 @@ references:
 - https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
 tags:
   analytic_story:
-  - Data Destruction
-  - Active Directory Discovery
   - Industroyer2
+  - Active Directory Discovery
+  - CISA AA23-347A
+  - Data Destruction
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Powershell process having commandline "AdsiSearcher" used for user enumeration on $dest$
+  message: Powershell process having commandline "AdsiSearcher" used for user enumeration
+    on $dest$
   mitre_attack_id:
   - T1087.002
   - T1087

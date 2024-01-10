@@ -1,7 +1,7 @@
 name: Azure AD Successful Single-Factor Authentication
 id: a560e7f6-1711-4353-885b-40be53101fcd
-version: 1
-date: '2022-07-12'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -10,14 +10,14 @@ description: The following analytic identifies a successful authentication event
   This could be evidence of a missconfiguration, a policy violation or an account
   take over attempt that should be investigated
 data_source: []
-search: ' `azuread`  category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication
-  properties.authenticationDetails{}.succeeded=true | rename properties.*
-  as * |  stats values(userPrincipalName) as userPrincipalName by _time, ipAddress, appDisplayName, authenticationRequirement
-  | `azure_ad_successful_single_factor_authentication_filter`'
+search: ' `azure_monitor_aad` category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication properties.authenticationDetails{}.succeeded=true
+   | rename properties.* as * 
+   | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip, appDisplayName, authenticationRequirement
+   | `azure_ad_successful_single_factor_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the SignInLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
 known_false_positives: Although not recommended, certain users may be required without
   multi-factor authentication. Filter as needed
 references:
@@ -30,7 +30,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 50
-  message: Successful authentication for user $userPrincipalName$
+  message: Successful authentication for user $user$
     without MFA
   mitre_attack_id:
   - T1586
@@ -38,11 +38,11 @@ tags:
   - T1078
   - T1078.004
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: ipAddress
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
@@ -55,8 +55,8 @@ tags:
   - category
   - properties.authenticationRequirement
   - properties.authenticationDetails
-  - properties.userPrincipalName
-  - properties.ipAddress
+  - user
+  - src_ip
   - properties.appDisplayName
   risk_score: 45
   security_domain: identity
@@ -64,6 +64,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

@@ -1,0 +1,60 @@
+name: O365 Concurrent Sessions From Different Ips
+id: 58e034de-1f87-4812-9dc3-a4f68c7db930
+version: 1
+date: '2023-12-04'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+description: The following analytic identies scenarios where the same user session is accessed from multiple IP addresses. This situation typically arises in an adversary-in-the-middle (AiTM) phishing attack, where attackers compromise user sessions. The detection method involves analyzing Azure Active Directory logs for 'UserLoggedIn' operations. It focuses on identifying sessions where the number of associated IP addresses exceeds one for the same SessionId. This pattern suggests potential unauthorized concurrent access, which is atypical under normal usage scenarios. If a true positive is identified, it implies that an adversary has gained unauthorized access to a user's Office 365 account. The ramifications of this can be significant, including data theft, account takeover, and launching of internal phishing campaigns. 
+data_source: []
+search: ' `o365_management_activity` Workload=AzureActiveDirectory  Operation=UserLoggedIn
+  | stats min(_time) as firstTime max(_time) as lastTime values(src_ip) as ips values(user_agent) as user_agents by Operation, user, SessionId
+  | where mvcount(ips) > 1
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_concurrent_sessions_from_different_ips_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
+known_false_positives: Unknown
+references:
+- https://attack.mitre.org/techniques/T1185/
+- https://breakdev.org/evilginx-2-next-generation-of-phishing-2fa-tokens/
+- https://github.com/kgretzky/evilginx2
+tags:
+  analytic_story:
+  - Office 365 Account Takeover
+  asset_type: O365
+  confidence: 60
+  impact: 70
+  message: User $user$ has logged in with the same session id from more than one unique IP address
+  mitre_attack_id:
+  - T1185
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: ips
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Operation
+  - Workload
+  - src_ip
+  - user
+  - user_agent
+  risk_score: 42
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/o365_concurrent_sessions_from_different_ips/o365_concurrent_sessions_from_different_ips.log
+    sourcetype: o365:management:activity
+    source: o365
+    update_timestamp: true

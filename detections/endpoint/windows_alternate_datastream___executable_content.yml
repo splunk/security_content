@@ -1,0 +1,76 @@
+name: Windows Alternate DataStream - Executable Content
+id: a258bf2a-34fd-4986-8086-78f506e00206
+version: 1
+date: '2023-10-30'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when data is written to the contents of an NTFS file system alternate data stream that possess an IMPASH value. This indicates that the data written has a PE structure and can be executed. This behavior could indicate a threat actor staging malicious code within difficult to detect areas of the file system for later usage or persistence.Note - import hashing/imphash must be enabled within Sysmon.
+data_source:
+- Sysmon Event ID 15
+search: '`sysmon` EventCode=15 IMPHASH!=00000000000000000000000000000000 
+| regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
+| eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename, file_hash = case( EventCode IN ("15"), coalesce(SHA256,SHA1,MD5,Hash), EventCode IN ("23","26"), coalesce(SHA256,SHA1,MD5,Hashes))
+| stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by dest, process, process_guid, file_name, file_path, file_hash, IMPHASH
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `windows_alternate_datastream___executable_content_filter`'
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID 15.
+known_false_positives: Unknown 
+references:
+- https://car.mitre.org/analytics/CAR-2020-08-001/
+- https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams 
+- https://twitter.com/0xrawsec/status/1002478725605273600?s=21
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  confidence: 80
+  impact: 100
+  message: Base64 content written to an NTFS alternate data stream by $user$, see command field for details.
+  mitre_attack_id:
+  - T1564
+  - T1564.004
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User Name
+    role:
+    - Victim
+  - name: process
+    type: Process Name
+    role:
+    - Attacker
+  - name: file_name
+    type: File Name
+    role:
+    - Attacker
+  - name: file_hash
+    type: File Hash
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - TargetFilename
+  - Image
+  - Contents
+  - file_hash
+  - process_guid
+  - IMPHASH
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.004/ads_abuse/ads_abuse_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

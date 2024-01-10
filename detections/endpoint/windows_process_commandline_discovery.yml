@@ -1,0 +1,70 @@
+name: Windows Process Commandline Discovery
+id: 67d2a52e-a7e2-4a5d-ae44-a21212048bc2
+version: 1
+date: '2023-12-15'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+data_source:
+- Sysmon Event ID 1
+description: The following analytic detects Windows Management Instrumentation Command-line (WMIC) command 
+  used to retrieve information about running processes and specifically fetches the command lines used to launch those processes.
+  This Hunting detection can be a good indicator for possible suspicious user or process getting list of process with its command line using wmic application which is not a 
+  common practice for a non-technical user.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where `process_wmic` Processes.process= "* process *" Processes.process= "* get commandline *" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_process_commandline_discovery_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Administrators or power users may use this command for troubleshooting. Filter as needed.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+tags:
+  analytic_story:
+  - CISA AA23-347A
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: Activity related to process commandline discovery detected on $dest$ using wmic.exe.
+  mitre_attack_id:
+  - T1057
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 15
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1057/process_commandline_discovery/wmic-cmdline-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

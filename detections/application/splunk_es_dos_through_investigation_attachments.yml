@@ -1,0 +1,51 @@
+name: Splunk ES DoS Through Investigation Attachments
+id: bb85b25e-2d6b-4e39-bd27-50db42edcb8f
+version: 1
+date: '2024-01-04'
+author: Rod Soto, Eric McGinnis, Chase Franklin
+status: production
+type: TTP
+data_source: []
+description: In Splunk Enterprise Security (ES) versions below 7.1.2, an attacker can use investigation attachments to perform a denial of service (DoS) to the Investigation. The attachment endpoint does not properly limit the size of the request which lets an attacker cause the Investigation to become inaccessible.
+search: '`splunkd_investigation_rest_handler` status=error object=investigation 
+  | stats min(_time) as firstTime max(_time) as lastTime values(status) as status values(msg) as msg values(id) as investigation_id by user 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `splunk_es_dos_through_investigation_attachments_filter`'
+how_to_implement: This search requires access to internal indexes, only affects Enterprise Security versions below 7.1.2. 
+known_false_positives: This search will show the exact DoS event via error message and investigation id. The error however does not point exactly at the uploader as any users associated with the investigation will be affected. Operator must investigate using investigation id the possible origin of the malicious upload. Attack only affects specific investigation not the investigation manager.
+references:
+- https://advisory.splunk.com/advisories/SVD-2024-0101
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  cve:
+  - CVE-2024-22164
+  message: Denial of Service detected at Splunk ES affecting $user$
+  mitre_attack_id:
+  - T1499
+  observable:
+  - name: user
+    type: User 
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise Security
+  risk_score: 100
+  required_fields:
+  - user 
+  - status 
+  - msg 
+  - id 
+  - object 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk/splunk_cve_2024_22164_investigation_rest_handler.log
+    source: /opt/splunk/var/log/splunk/investigation_handler.log
+    sourcetype: investigation_rest_handler
+    custom_index: _internal
