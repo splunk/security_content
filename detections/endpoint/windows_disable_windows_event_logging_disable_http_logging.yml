@@ -1,7 +1,7 @@
 name: Windows Disable Windows Event Logging Disable HTTP Logging
 id: 23fb6787-255f-4d5b-9a66-9fd7504032b5
 version: 1
-date: '2022-12-21'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,8 +35,9 @@ references:
 - https://strontic.github.io/xcyclopedia/library/appcmd.exe-055B2B09409F980BF9B5A3969D01E5B2.html
 tags:
   analytic_story:
-  - IIS Components
   - Windows Defense Evasion Tactics
+  - CISA AA23-347A
+  - IIS Components
   asset_type: Endpoint
   confidence: 80
   impact: 80

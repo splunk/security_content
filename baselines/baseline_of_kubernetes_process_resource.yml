@@ -1,0 +1,50 @@
+name: Baseline Of Kubernetes Process Resource
+id: f749862b-5fae-415f-940b-823bdeba2315
+version: 1
+date: '2023-12-18'
+author: Matthew Moore, Splunk
+type: Baseline
+datamodel: []
+description: This baseline rule calculates the average and standard deviation of various process resources in a Kubernetes environment. 
+  It uses metrics from the Kubernetes API and the Splunk Infrastructure Monitoring Add-on. The rule generates a lookup table with the average and 
+  standard deviation of the resource utilization for each process. This baseline can be used to detect anomalies in process resource utilization, 
+  which may indicate security threats such as resource exhaustion attacks, cryptojacking, or compromised process behavior.
+search: '| mstats avg(process.*) as avg_process.* stdev(*) as stdev_* where `kubernetes_metrics` by host.name k8s.cluster.name k8s.node.name process.executable.name 
+  | eval key = ''k8s.cluster.name'' + ":" + ''host.name'' + ":" + ''process.executable.name''
+  | fillnull
+  | outputlookup k8s_process_resource_baseline'
+how_to_implement: 'To implement this detection, follow these steps:
+  1. Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
+  2. Enable the hostmetrics/process receiver in the OTEL configuration.
+  3. Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
+  4. Install the Splunk Infrastructure Monitoring (SIM) add-on.
+  5. Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
+  6. Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
+  7. In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
+  8. Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+  9. Set the Metric Resolution to 10000.
+  10. Leave all other settings at their default values.'
+known_false_positives: none
+references: []
+tags:
+  analytic_story:
+  - Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
+  detections:
+  - Kubernetes Process with Anomalous Resource Utilisation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - process.*
+  - host.name 
+  - k8s.cluster.name 
+  - k8s.node.name 
+  - process.executable.name
+  security_domain: network
+deployment:
+  scheduling:
+    cron_schedule: 0 2 * * 0
+    earliest_time: -30d@d
+    latest_time: -1d@d
+    schedule_window: auto

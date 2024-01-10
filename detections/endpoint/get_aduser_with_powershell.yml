@@ -1,7 +1,7 @@
 name: Get ADUser with PowerShell
 id: 0b6ee3f4-04e3-11ec-a87d-acde48001122
 version: 1
-date: '2021-08-24'
+date: '2023-12-27'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 50

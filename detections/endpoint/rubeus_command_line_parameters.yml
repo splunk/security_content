@@ -1,7 +1,7 @@
 name: Rubeus Command Line Parameters
 id: cca37478-8377-11ec-b59a-acde48001122
 version: 1
-date: '2022-02-01'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -45,8 +45,9 @@ references:
 - https://en.hackndo.com/kerberos-silver-golden-tickets/
 tags:
   analytic_story:
-  - Active Directory Kerberos Attacks
   - Active Directory Privilege Escalation
+  - CISA AA23-347A
+  - Active Directory Kerberos Attacks
   asset_type: Endpoint
   confidence: 60
   impact: 60

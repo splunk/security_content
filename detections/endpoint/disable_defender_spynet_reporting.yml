@@ -1,7 +1,7 @@
 name: Disable Defender Spynet Reporting
 id: 898debf4-3021-11ec-ba7c-acde48001122
 version: 4
-date: '2023-04-27'
+date: '2023-12-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -15,8 +15,9 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name
   = SpynetReporting Registry.registry_value_data = 0x00000000) BY _time span=1h Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid Registry.user Registry.dest  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_defender_spynet_reporting_filter`'
+  Registry.process_guid Registry.user Registry.dest  | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `disable_defender_spynet_reporting_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -26,10 +27,11 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IcedID
-  - Windows Registry Abuse
   - Azorult
+  - Windows Registry Abuse
   - Qakbot
+  - IcedID
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 70

@@ -1,0 +1,13 @@
+arguments:
+  - b64in
+definition: 'eval b64x_split=split($b64in$,"") 
+| lookup char_conversion_matrix base64char as b64x_split OUTPUT base64bin as b64x_bin 
+| eval b64x_join=mvjoin(b64x_bin,"") 
+| rex field=b64x_join "(?<b64x_by8>.{8})" max_match=0 
+| lookup char_conversion_matrix bin as b64x_by8 output ascii as b64x_out 
+| eval $b64in$_decode=mvjoin(b64x_out,"")
+| fields - b64x_*
+| eval $b64in$_decode = replace(replace($b64in$_decode,":NUL:",""),":SPACE:"," ")
+| rex field=$b64in$_decode mode=sed "s/\x00//g"'
+description: Content based conversion of UTF8/UTF16 based base64 encoding. Not a full implementation, but good enough for context without additional app installation.
+name: base64decode

@@ -1,7 +1,7 @@
 name: Extraction of Registry Hives
 id: 8bbb7d58-b360-11eb-ba21-acde48001122
 version: 2
-date: '2021-09-09'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,10 +35,11 @@ references:
 - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
 tags:
   analytic_story:
-  - DarkSide Ransomware
-  - Credential Dumping
-  - CISA AA22-257A
   - Volt Typhoon
+  - Credential Dumping
+  - CISA AA23-347A
+  - DarkSide Ransomware
+  - CISA AA22-257A
   asset_type: Endpoint
   confidence: 70
   impact: 80

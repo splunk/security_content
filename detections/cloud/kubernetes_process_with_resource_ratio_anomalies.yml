@@ -1,0 +1,78 @@
+name: Kubernetes Process with Resource Ratio Anomalies
+id: 0d42b295-0f1f-4183-b75e-377975f47c65
+version: 1
+date: '2023-12-18'
+author: Matthew Moore, Splunk
+status: experimental
+type: Anomaly
+description: This analytic detects anomalously changes in the ratio between specific process resources on a Kubernetes node, based on the past behavior for each process running in the Kubernetes scope on that node.
+  This detection leverages process metrics harvested using an OTEL collector and hostmetrics receiver, and is pulled from Splunk Observability cloud using the Splunk Infrastructure Monitoring Add-on. (https://splunkbase.splunk.com/app/5247).   
+  This detection also leverages a lookup table that contains average and standard deviation for the cpu:disk operations, cpu:mem, cpu:thread count, disk operations:thread count, and mem:disk operations ratios.  
+  This is used to indicate an anomalous change in resource ratios that indicate the workload has changed behavior irrespective of load.
+  Changes in the relationship between utilization of different resources can indicate a change in behavior of the monitored process, which can indicate a potentially compromised application. 
+  Deviations in resource ratios, such as memory-to-CPU or CPU-to-disk utilization, may signify compromised processes, malicious activity, or misconfigurations that could pose risks. 
+  A change in process behavior could signify a potential security breach within the Kubernetes environment, where an attacker may have compromised a process either on the node or running within a container. 
+data_source: []
+search: '| mstats avg(process.*) as process.* where `kubernetes_metrics` by host.name k8s.cluster.name k8s.node.name process.executable.name span=10s 
+  | eval cpu:mem = ''process.cpu.utilization''/''process.memory.utilization'' 
+  | eval cpu:disk = ''process.cpu.utilization''/''process.disk.operations'' 
+  | eval mem:disk = ''process.memory.utilization''/''process.disk.operations'' 
+  | eval cpu:threads = ''process.cpu.utilization''/''process.threads'' 
+  | eval disk:threads = ''process.disk.operations''/''process.threads'' 
+  | eval key = ''k8s.cluster.name'' + ":" + ''host.name'' + ":" + ''process.executable.name'' 
+  | lookup k8s_process_resource_ratio_baseline key 
+  | fillnull 
+  | eval anomalies = "" 
+  | foreach stdev_* 
+    [ eval anomalies =if( ''<<MATCHSTR>>'' > (''avg_<<MATCHSTR>>'' + 4 * ''stdev_<<MATCHSTR>>''), anomalies + "<<MATCHSTR>> ratio higher than average by " + 
+        tostring(round((''<<MATCHSTR>>'' - ''avg_<<MATCHSTR>>'')/''stdev_<<MATCHSTR>>'' ,2)) + " Standard Deviations. <<MATCHSTR>>=" + tostring(''<<MATCHSTR>>'') + " avg_<<MATCHSTR>>=" 
+        + tostring(''avg_<<MATCHSTR>>'') + " ''stdev_<<MATCHSTR>>''=" + tostring(''stdev_<<MATCHSTR>>'') + ", "
+        , anomalies)
+        ] 
+  | eval anomalies = replace(anomalies, ",\s$", "") 
+  | where anomalies!="" 
+  | stats count values(anomalies) as anomalies by host.name k8s.cluster.name k8s.node.name process.executable.name 
+  | where count > 5
+  | rename host.name as host
+  | `kubernetes_process_with_resource_ratio_anomalies_filter`'
+how_to_implement: 'To implement this detection, follow these steps:
+  1. Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
+  2. Enable the hostmetrics/process receiver in the OTEL configuration.
+  3. Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
+  4. Install the Splunk Infrastructure Monitoring (SIM) add-on.(ref: https://splunkbase.splunk.com/app/5247)
+  5. Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
+  6. Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
+  7. In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
+  8. Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+  9. Set the Metric Resolution to 10000.
+  10. Leave all other settings at their default values.
+  11. Run the search Baseline Of Kubernetes Process Resource Ratio'
+known_false_positives: unknown
+references:
+- https://github.com/signalfx/splunk-otel-collector-chart
+tags:
+  analytic_story:
+  - Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
+  asset_type: Kubernetes
+  confidence: 50
+  impact: 50
+  message: Kubernetes Process with Resource Ratio Anomalies on host $host$
+  mitre_attack_id:
+  - T1204
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - process.*
+  - host.name 
+  - k8s.cluster.name 
+  - k8s.node.name 
+  - process.executable.name
+  risk_score: 25
+  security_domain: network

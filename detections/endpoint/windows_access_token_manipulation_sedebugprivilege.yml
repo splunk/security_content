@@ -1,7 +1,7 @@
 name: Windows Access Token Manipulation SeDebugPrivilege
 id: 6ece9ed0-5f92-4315-889d-48560472b188
 version: 1
-date: '2022-08-24'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -36,8 +36,9 @@ tags:
   analytic_story:
   - Brute Ratel C4
   - AsyncRAT
-  - PlugX
   - DarkGate Malware
+  - CISA AA23-347A
+  - PlugX
   asset_type: Endpoint
   confidence: 60
   impact: 60

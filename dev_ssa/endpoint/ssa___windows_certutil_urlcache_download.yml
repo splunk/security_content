@@ -1,6 +1,6 @@
 name: Windows CertUtil URLCache Download
 id: 8cb1ad38-8f6d-11ec-87a3-acde48001122
-version: 2
+version: 3
 date: '2022-02-16'
 author: Michael Haag, Splunk
 status: production

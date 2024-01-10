@@ -1,7 +1,7 @@
 name: Windows Modify Registry Disable Win Defender Raw Write Notif
 id: 0e5e25c3-32f4-46f7-ba4a-5b95c3b90f5b
 version: 1
-date: '2022-06-23'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Azorult
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 70

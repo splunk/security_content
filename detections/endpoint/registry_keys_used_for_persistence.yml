@@ -1,16 +1,17 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 version: 9
-date: '2023-06-06'
+date: '2023-12-27'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
-description: The search looks for modifications or alterations made to registry keys 
-  that have the potential to initiate the launch of an application or service during system startup. 
-  By monitoring and detecting modifications in these registry keys, we can identify suspicious or 
-  unauthorized changes that could be indicative of malicious activity. 
-  This proactive approach helps in safeguarding the system's 
-  integrity and security by promptly identifying and mitigating potential threats that aim to gain persistence or execute malicious actions during the startup process.
+description: The search looks for modifications or alterations made to registry keys
+  that have the potential to initiate the launch of an application or service during
+  system startup. By monitoring and detecting modifications in these registry keys,
+  we can identify suspicious or unauthorized changes that could be indicative of malicious
+  activity. This proactive approach helps in safeguarding the system's integrity and
+  security by promptly identifying and mitigating potential threats that aim to gain
+  persistence or execute malicious actions during the startup process.
 data_source:
 - Sysmon Event ID 12
 - Sysmon Event ID 13
@@ -18,9 +19,9 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce
   OR Registry.registry_path=*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run
-  OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\\*"
-  OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\*"
-  OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls*
+  OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User
+  Shell Folders\\*" OR Registry.registry_path= "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell
+  Folders\\*" OR Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify*
   OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet*
   OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices*
@@ -51,27 +52,28 @@ known_false_positives: There are many legitimate applications that must execute 
 references: []
 tags:
   analytic_story:
-  - Suspicious Windows Registry Activities
-  - Suspicious MSHTA Activity
-  - DHS Report TA18-074A
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - AsyncRAT
   - Ransomware
   - Windows Persistence Techniques
-  - 'Emotet Malware  DHS Report TA18-201A '
+  - DarkGate Malware
+  - NjRAT
+  - RedLine Stealer
   - IcedID
+  - Sneaky Active Directory Persistence Tricks
+  - Chaos Ransomware
+  - Azorult
+  - DHS Report TA18-074A
+  - 'Emotet Malware  DHS Report TA18-201A '
   - Remcos
   - Windows Registry Abuse
-  - Azorult
   - Qakbot
-  - Chaos Ransomware
-  - AsyncRAT
-  - Amadey
-  - Sneaky Active Directory Persistence Tricks
-  - BlackByte Ransomware
+  - Suspicious MSHTA Activity
+  - Suspicious Windows Registry Activities
   - Warzone RAT
-  - NjRAT
-  - DarkGate Malware
-  - RedLine Stealer
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Amadey
+  - BlackByte Ransomware
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 95
   impact: 80

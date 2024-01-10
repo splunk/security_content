@@ -1,7 +1,7 @@
 name: Azure AD Service Principal Owner Added
 id: 7ddf2084-6cf3-4a44-be83-474f7b73c701
-version: 2
-date: '2022-08-30'
+version: 3
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,19 +15,21 @@ description: The following analytic identifies the addition of a new owner for a
   and obtain single-factor access to an Azure AD environment. Attackers who are looking to
   escalate their privileges by leveraging a Service Principals permissions may also add a new owner.
 data_source: []
-search: ' `azuread` operationName="Add owner to application"
+search: ' `azure_monitor_aad`  operationName="Add owner to application"
   | rename properties.* as *
   | rename initiatedBy.user.userPrincipalName as initiatedBy
   | rename targetResources{}.userPrincipalName as newOwner
   | rename targetResources{}.modifiedProperties{}.newValue as displayName
   | eval displayName = mvindex(displayName,1) 
   | where initiatedBy!=newOwner
-  | stats values(displayName) as displayName by _time, initiatedBy, result, operationName, newOwner
+  | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by initiatedBy, result, operationName, newOwner
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `azure_ad_service_principal_owner_added_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrator may legitimately add new owners for Service Principals.
   Filter as needed.
 references:
@@ -68,6 +70,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_add_serviceprincipal_owner/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true
