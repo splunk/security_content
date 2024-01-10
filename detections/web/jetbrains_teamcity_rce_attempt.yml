@@ -25,6 +25,7 @@ tags:
   - CVE-2023-42793
   analytic_story:
   - JetBrains TeamCity Unauthenticated RCE
+  - CISA AA23-347A
   asset_type: Web server
   atomic_guid: []
   confidence: 90

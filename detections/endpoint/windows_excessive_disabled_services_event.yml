@@ -1,7 +1,7 @@
 name: Windows Excessive Disabled Services Event
 id: c3f85976-94a5-11ec-9a58-acde48001122
 version: 1
-date: '2022-02-23'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 90
   impact: 90

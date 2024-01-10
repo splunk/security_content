@@ -1,7 +1,7 @@
 name: Suspicious Process File Path
 id: 9be25988-ad82-11eb-a14f-acde48001122
 version: 1
-date: '2023-06-13'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -46,34 +46,35 @@ references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
-  - WhisperGate
-  - XMRig
-  - Industroyer2
-  - Remcos
-  - Data Destruction
-  - Hermetic Wiper
-  - Azorult
-  - DarkCrystal RAT
-  - Graceful Wipe Out Attack
-  - IcedID
-  - Swift Slicer
-  - Qakbot
-  - RedLine Stealer
-  - Brute Ratel C4
-  - Prestige Ransomware
-  - AsyncRAT
-  - LockBit Ransomware
-  - AgentTesla
   - Double Zero Destructor
-  - Volt Typhoon
+  - Graceful Wipe Out Attack
+  - AsyncRAT
+  - WhisperGate
+  - Prestige Ransomware
+  - DarkGate Malware
+  - AgentTesla
+  - Brute Ratel C4
+  - RedLine Stealer
+  - Rhysida Ransomware
+  - Swift Slicer
+  - IcedID
+  - DarkCrystal RAT
   - Chaos Ransomware
+  - PlugX
+  - Industroyer2
+  - Azorult
+  - Remcos
+  - XMRig
+  - Qakbot
+  - Volt Typhoon
+  - Hermetic Wiper
+  - Warzone RAT
   - Trickbot
   - Amadey
   - BlackByte Ransomware
-  - Warzone RAT
-  - PlugX
-  - DarkGate Malware
-  - Rhysida Ransomware
+  - LockBit Ransomware
+  - CISA AA23-347A
+  - Data Destruction
   asset_type: Endpoint
   confidence: 50
   impact: 70

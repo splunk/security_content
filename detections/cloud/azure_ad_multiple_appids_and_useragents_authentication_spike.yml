@@ -1,7 +1,7 @@
 name: Azure AD Multiple AppIDs and UserAgents Authentication Spike
 id: 5d8bb1f0-f65a-4b4e-af2e-fcdb88276314
-version: 1
-date: '2023-10-25'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -10,8 +10,10 @@ description: This analytic is crafted to identify unusual and potentially malici
 search: ' `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" (properties.authenticationRequirement="multiFactorAuthentication" AND properties.status.additionalDetails="MFA required in Azure AD") OR (properties.authenticationRequirement=singleFactorAuthentication AND "properties.authenticationDetails{}.succeeded"=true)
    | bucket span=5m _time
    | rename properties.* as *
-   | stats  dc(_raw) as failed_attempts dc(appId) as unique_app_ids dc(userAgent) as unique_user_agents values(appDisplayName) values(deviceDetail.operatingSystem) by _time user src_ip
-   | where failed_attempts > 5 and unique_app_ids > 2 and unique_user_agents > 5
+   | stats count min(_time) as firstTime max(_time) as lastTime dc(appId) as unique_app_ids dc(userAgent) as unique_user_agents values(appDisplayName) values(deviceDetail.operatingSystem) by user, src_ip
+   | where count > 5 and unique_app_ids > 2 and unique_user_agents > 5
+   | `security_content_ctime(firstTime)`
+   | `security_content_ctime(lastTime)`
    | `azure_ad_multiple_appids_and_useragents_authentication_spike_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
@@ -44,6 +46,8 @@ tags:
   required_fields:
   - _time
   - category
+  - user
+  - src_ip
   - operationName
   - properties.authenticationRequirement
   - properties.status.additionalDetails

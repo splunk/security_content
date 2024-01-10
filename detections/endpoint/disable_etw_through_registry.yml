@@ -1,7 +1,7 @@
 name: Disable ETW Through Registry
 id: f0eacfa4-d33f-11eb-8f9d-acde48001122
 version: 4
-date: '2023-04-27'
+date: '2023-12-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - CISA AA23-347A
   - Windows Registry Abuse
   asset_type: Endpoint
   confidence: 50

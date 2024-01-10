@@ -15,9 +15,13 @@ description: The following analytic identifies the creation of a new Azure Autom
   Automation Runbook can be created to create Global Administrators in Azure AD, execute
   code on VMs, etc.
 data_source: []
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
-  Runbook" object!=AzureAutomationTutorial* status.value=Succeeded | dedup object
-  | stats values(object) as object by _time, caller, claims.ipaddr, resourceGroupName, object_path
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation Runbook" object!=AzureAutomationTutorial* status.value=Succeeded 
+  | dedup object
+  | rename claims.ipaddr as src_ip
+  | rename caller as user
+  | stats count min(_time) as firstTime max(_time) as lastTime values(object) as object by user, src_ip, resourceGroupName, object_path 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `azure_automation_runbook_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
@@ -48,7 +52,7 @@ tags:
     type: Other
     role:
     - Victim
-  - name: caller
+  - name: user
     type: User
     role:
     - Attacker

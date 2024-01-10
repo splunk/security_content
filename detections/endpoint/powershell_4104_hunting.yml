@@ -1,7 +1,7 @@
 name: PowerShell 4104 Hunting
 id: d6f2b006-0041-11ec-8885-acde48001122
 version: 4
-date: '2023-06-14'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -20,9 +20,8 @@ search: '`powershell` EventCode=4104 | eval DoIt = if(match(ScriptBlockText,"(?i
   AND match(lower(ScriptBlockText), "frombase64string") ,5,0) | eval mimikatz=if(match(lower(ScriptBlockText),"mimikatz")
   OR match(lower(ScriptBlockText), "-dumpcr") OR match(lower(ScriptBlockText), "SEKURLSA::Pth")
   OR match(lower(ScriptBlockText), "kerberos::ptt") OR match(lower(ScriptBlockText),
-  "kerberos::golden") ,5,0) 
-   | eval iex=if(match(ScriptBlockText, "(?i)iex|invoke-expression"),2,0)
-   | eval webclient=if(match(lower(ScriptBlockText),"http") OR match(lower(ScriptBlockText),"web(client|request)")
+  "kerberos::golden") ,5,0) | eval iex=if(match(ScriptBlockText, "(?i)iex|invoke-expression"),2,0)
+  | eval webclient=if(match(lower(ScriptBlockText),"http") OR match(lower(ScriptBlockText),"web(client|request)")
   OR match(lower(ScriptBlockText),"socket") OR match(lower(ScriptBlockText),"download(file|string)")
   OR match(lower(ScriptBlockText),"bitstransfer") OR match(lower(ScriptBlockText),"internetexplorer.application")
   OR match(lower(ScriptBlockText),"xmlhttp"),5,0) | eval get = if(match(lower(ScriptBlockText),"get-"),
@@ -37,10 +36,10 @@ search: '`powershell` EventCode=4104 | eval DoIt = if(match(ScriptBlockText,"(?i
   | eval invokecmd = if(match(lower(ScriptBlockText),"invoke-command"), "4", 0) |
   addtotals fieldname=Score DoIt, enccom, suspcmdlet, suspkeywrd, compressed, downgrade,
   mimikatz, iex, empire, rundll32, webclient, syswow64, httplocal, reflection, invokewmi,
-  invokecmd, base64, get | stats values(Score) by UserID, Computer, DoIt, enccom, compressed, downgrade,
-  iex, mimikatz, rundll32, empire, webclient, syswow64, httplocal, reflection, invokewmi,
-  invokecmd, base64, get, suspcmdlet, suspkeywrd | rename Computer as dest, UserID as user
-  | `powershell_4104_hunting_filter`'
+  invokecmd, base64, get | stats values(Score) by UserID, Computer, DoIt, enccom,
+  compressed, downgrade, iex, mimikatz, rundll32, empire, webclient, syswow64, httplocal,
+  reflection, invokewmi, invokecmd, base64, get, suspcmdlet, suspkeywrd | rename Computer
+  as dest, UserID as user | `powershell_4104_hunting_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
@@ -59,14 +58,16 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - Hermetic Wiper
-  - Data Destruction
-  - Flax Typhoon
-  - DarkGate Malware
   - Rhysida Ransomware
+  - DarkGate Malware
+  - Flax Typhoon
+  - CISA AA23-347A
+  - Data Destruction
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: Powershell was identified on endpoint $host$ by user $user$ executing suspicious commands.
+  message: Powershell was identified on endpoint $host$ by user $user$ executing suspicious
+    commands.
   mitre_attack_id:
   - T1059
   - T1059.001

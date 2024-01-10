@@ -1,7 +1,7 @@
 name: Azure AD Privileged Role Assigned
 id: a28f0bc3-3400-4a6e-a2da-89b9e95f0d2a
-version: 1
-date: '2022-08-29'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -10,19 +10,20 @@ description: The following analytic identifies the assignment of sensitive and p
   may assign these roles to a compromised account to establish Persistence in an Azure
   AD environment.
 data_source: []
-search: ' `azuread` "operationName"="Add member to role" | rename properties.*  as * 
-  | rename targetResources{}.userPrincipalName as userPrincipalName 
+search: ' `azure_monitor_aad`  "operationName"="Add member to role" | rename properties.*  as * 
   | rename initiatedBy.user.userPrincipalName as initiatedBy 
   | rename targetResources{}.modifiedProperties{}.newValue  as roles 
   | eval role=mvindex(roles,1) 
   | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
   | search isprvilegedadrole = True
-  | stats values(userPrincipalName) as userPrincipalName by _time, initiatedBy, result, operationName, role, description 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by initiatedBy, result, operationName, role, description 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `azure_ad_privileged_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrators will legitimately assign the privileged roles
   users as part of administrative tasks. Filter as needed.
 references:
@@ -38,13 +39,13 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 70
-  message: A privileged Azure AD role was assigned for User $userPrincipalName$ initiated
+  message: A privileged Azure AD role was assigned for User $user$ initiated
     by $initiatedBy$
   mitre_attack_id:
   - T1098
   - T1098.003
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
@@ -58,7 +59,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - properties.targetResources{}.userPrincipalName
+  - user
   - properties.targetResources{}.type
   - properties.initiatedBy.user.userPrincipalName
   - properties.result
@@ -68,6 +69,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

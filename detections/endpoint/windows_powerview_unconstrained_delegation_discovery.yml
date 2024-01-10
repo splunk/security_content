@@ -1,7 +1,7 @@
 name: Windows PowerView Unconstrained Delegation Discovery
 id: fbf9e47f-e531-4fea-942d-5c95af7ed4d6
 version: 1
-date: '2022-03-28'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -29,8 +29,9 @@ references:
 - https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation
 tags:
   analytic_story:
-  - Active Directory Kerberos Attacks
+  - CISA AA23-347A
   - Rhysida Ransomware
+  - Active Directory Kerberos Attacks
   asset_type: Endpoint
   confidence: 70
   impact: 50

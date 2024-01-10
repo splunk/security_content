@@ -1,0 +1,90 @@
+name: Windows UAC Bypass Suspicious Escalation Behavior
+id: 00d050d3-a5b4-4565-a6a5-a31f69681dc3
+version: 1
+date: '2023-11-20'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when a process spawns an executable known for User Account Control bypass exploitation, and then monitors for any subsequent child processes that are above the integrity level of the original spawning process. This behavioral chain may indicate that an attacker has used a UAC Bypass exploit to successfully escalate privileges.
+data_source:
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("low","medium") by Processes.dest, Processes.user, Processes.process_name, Processes.process, Processes.process_guid, Processes.process_path, Processes.process_integrity_level, Processes.process_current_directory 
+  | `drop_dm_object_name(Processes)` 
+  | eval original_integrity_level = CASE(match(process_integrity_level,"low"),1,match(process_integrity_level,"medium"),2,match(process_integrity_level,"high"),3,match(process_integrity_level,"system"),4,true(),0) 
+  | rename process_guid as join_guid_1, process* as parent_process* 
+  | join max=0 dest join_guid_1 
+      [| tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("high","system") AND Processes.process_name IN (`uacbypass_process_name`) by Processes.dest, Processes.parent_process_guid, Processes.process_name, Processes.process_guid 
+      | `drop_dm_object_name(Processes)` 
+      | rename parent_process_guid as join_guid_1, process_guid as join_guid_2, process_name as uac_process_name ] 
+  | join max=0 dest join_guid_2 
+      [| tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN (`uacbypass_process_name`) AND Processes.process_integrity_level IN ("high","system") by Processes.dest, Processes.parent_process_guid, Processes.process_name, Processes.process, Processes.process_guid, Processes.process_path, Processes.process_integrity_level, Processes.process_current_directory 
+      | `drop_dm_object_name(Processes)` 
+      | rename parent_process_guid as join_guid_2 
+      | eval elevated_integrity_level = CASE(match(process_integrity_level,"low"),1,match(process_integrity_level,"medium"),2,match(process_integrity_level,"high"),3,match(process_integrity_level,"system"),4,true(),0)] 
+  | where elevated_integrity_level > original_integrity_level 
+  | table dest user parent_process parent_process_name parent_process_integrity_level process_integrity_level process process_name uac_process_name count firstTime lastTime
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_uac_bypass_suspicious_escalation_behavior_filter`'
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID 1 with process integrity level data.
+known_false_positives: Including Werfault.exe may cause some unintended false positives related to normal application faulting, but is used in a number of UAC bypass techniques.
+references:
+- https://attack.mitre.org/techniques/T1548/002/
+- https://atomicredteam.io/defense-evasion/T1548.002/
+- https://hadess.io/user-account-control-uncontrol-mastering-the-art-of-bypassing-windows-uac/
+- https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A UAC bypass behavior was detected by parent process name- $parent_process_name$ on host $dest$ by $user$.
+  mitre_attack_id:
+  - T1548
+  - T1548.002
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User Name
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Attacker
+  - name: process_name
+    type: Process Name
+    role:
+    - Attacker
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_guid
+  - Processes.parent_process
+  - Processes.parent_process_name
+  - Processes.process_name Processes.process
+  - Processes.process_path
+  - Processes.process_integrity_level
+  - Processes.process_current_directory
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/uac_behavior/uac_behavior_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

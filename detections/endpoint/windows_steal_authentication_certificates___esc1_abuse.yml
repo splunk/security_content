@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates - ESC1 Abuse
 id: cbe761fc-d945-4c8c-a71d-e26d12255d32
-version: 1
-date: '2023-05-25'
+version: 2
+date: '2024-01-03'
 author: Steven Dick
 status: production
 type: TTP
@@ -14,7 +14,7 @@ search: >-
   | stats count min(_time) as firstTime max(_time) as lastTime values(name) as name values(status) as status values(Subject) as ssl_subject
   values(SubjectKeyIdentifier) as ssl_hash by Computer, EventCode, Requester, Attributes, RequestId
   | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+  | `security_content_ctime(lastTime)`| fillnull
   | rex field=Attributes "(?i)CertificateTemplate:(?<object>[^\r\n]+)"
   | rex field=Attributes "(?i)ccm:(?<req_src>[^\r\n]+)"
   | rex max_match=10 field=Attributes "(?i)(upn=(?<req_user_1>[^\r\n&]+))"
@@ -47,18 +47,6 @@ tags:
         - Victim
     - name: src_user
       type: User
-      role:
-        - Victim
-    - name: user
-      type: User
-      role:
-        - Victim
-    - name: ssl_hash
-      type: Other
-      role:
-        - Attacker
-    - name: ssl_serial
-      type: Other
       role:
         - Attacker
   product:
