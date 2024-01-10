@@ -1,7 +1,7 @@
 name: Domain Controller Discovery with Nltest
 id: 41243735-89a7-4c83-bcdd-570aa78f00a1
 version: 1
-date: '2021-08-30'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - CISA AA23-347A
   - Rhysida Ransomware
   asset_type: Endpoint
   confidence: 70

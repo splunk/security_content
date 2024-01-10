@@ -1,7 +1,7 @@
 name: Azure AD Privileged Authentication Administrator Role Assigned
 id: a7da845d-6fae-41cf-b823-6c0b8c55814a
-version: 1
-date: '2023-04-25'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -10,16 +10,17 @@ description: The following analytic identifies the assignment of the Privileged 
   methods for any user in Azure Active Directory, including privileged roles like Global Administrators. Users with this role can change credentials for people who may have access to sensitive
   or private information or critical configuration inside and outside of Azure Active Directory. Changing the credentials of a user may mean the ability to assume that users identity and permissions.
   Red teams and adversaries alike may abuse this role to escalate their privileges.
-search: ' `azuread` "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\"" 
+search: ' `azure_monitor_aad`  "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged Authentication Administrator\"" 
   | rename properties.* as * 
-  | rename targetResources{}.userPrincipalName as userPrincipalName 
   | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | stats values(userPrincipalName) as userPrincipalName by _time, initiatedBy, result, operationName
+  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by initiatedBy, result, operationName
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `azure_ad_privileged_authentication_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrators may legitimately assign the Privileged Authentication Administrator role
   as part of administrative tasks. Filter as needed.
 references:
@@ -32,12 +33,12 @@ tags:
   asset_type: Azure Active Directory
   confidence: 50
   impact: 100
-  message: The privileged Azure AD role Privileged Authentication Administrator was assigned for User $userPrincipalName$ initiated
+  message: The privileged Azure AD role Privileged Authentication Administrator was assigned for User $user$ initiated
     by $initiatedBy$
   mitre_attack_id:
   - T1003.002
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
@@ -51,7 +52,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - properties.targetResources{}.userPrincipalName
+  - user
   - properties.targetResources{}.type
   - properties.initiatedBy.user.userPrincipalName
   - properties.result
@@ -61,6 +62,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

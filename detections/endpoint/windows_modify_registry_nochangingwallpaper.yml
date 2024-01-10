@@ -1,0 +1,64 @@
+name: Windows Modify Registry NoChangingWallPaper
+id: a2276412-e254-4e9a-9082-4d92edb6a3e0
+version: 1
+date: '2023-12-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 13
+description: The following analytic identifies alterations in the Windows registry aimed at restricting wallpaper modifications. 
+  This tactic has been exploited by the Rhysida ransomware as a part of its destructive payload within compromised systems. 
+  By making this registry modification, the ransomware seeks to impede users from changing the wallpaper forcibly set by the malware, 
+  restricting the user's control over their system's visual settings.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
+  WHERE (Registry.registry_path= "*\\Windows\\CurrentVersion\\Policies\\ActiveDesktop\\NoChangingWallPaper"
+  Registry.registry_value_data = 1) 
+  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)` 
+  | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_nochangingwallpaper_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: Administrators may enable or disable this feature that may
+  cause some false positive, however is not common. Filter as needed.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a
+tags:
+  analytic_story:
+  - Rhysida Ransomware
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: the registry settings was modified to disable changing of wallpaper on $dest$.
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 36
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/no_changing_wallpaper/NoChangingWallPaper.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

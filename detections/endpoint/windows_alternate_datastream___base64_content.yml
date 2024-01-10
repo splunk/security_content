@@ -1,0 +1,74 @@
+name: Windows Alternate DataStream - Base64 Content
+id: 683f48de-982f-4a7e-9aac-9cec550da498
+version: 1
+date: '2023-10-30'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when an uninterrupted string of base64 characters is written to the contents of an NTFS file system alternate data stream. This behavior could indicate a threat actor staging malicious code within difficult to detect areas of the file system for later use or persistence.
+data_source:
+- Sysmon Event ID 15
+search: '`sysmon` EventCode=15 NOT Contents IN ("-","[ZoneTransfer]*")
+| regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
+| regex Contents="(?:[A-Za-z0-9+/]{128,})(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+| eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename , base64 = Contents, file_hash = case( EventCode IN ("15"), coalesce(SHA256,SHA1,MD5,Hash), EventCode IN ("23","26"), coalesce(SHA256,SHA1,MD5,Hashes))
+| stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by dest, process, process_guid, file_name, file_path, file_hash, base64
+| `base64decode(base64)` 
+| fields - base64 
+| rename base64_decode as command 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `windows_alternate_datastream___base64_content_filter`'
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID 15.
+known_false_positives: Unknown 
+references:
+- https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f
+- https://car.mitre.org/analytics/CAR-2020-08-001/
+- https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams 
+- https://blog.netwrix.com/2022/12/16/alternate_data_stream/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  confidence: 80
+  impact: 100
+  message: Base64 content written to an NTFS alternate data stream by $user$, see command field for details.
+  mitre_attack_id:
+  - T1564
+  - T1564.004
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User Name
+    role:
+    - Victim 
+  - name: process
+    type: Process Name
+    role:
+    - Attacker
+  - name: file_name
+    type: File Name
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - TargetFilename
+  - Image
+  - Contents
+  - file_hash
+  - process_guid
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.004/ads_abuse/ads_abuse_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

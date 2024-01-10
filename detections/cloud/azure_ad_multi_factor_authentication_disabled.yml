@@ -1,7 +1,7 @@
 name: Azure AD Multi-Factor Authentication Disabled
 id: 482dd42a-acfa-486b-a0bb-d6fcda27318e
-version: 1
-date: '2022-08-10'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -11,15 +11,18 @@ description: The following analytic identifies an attempt to disable multi-facto
   and maintain persistence using a valid account. This way the attackers can keep
   persistance in the environment without adding new users.
 data_source: []
-search: '`azuread` category=AuditLogs operationName="Disable Strong Authentication"
-  | rename properties.* as * | rename targetResources{}.userPrincipalName as
-  userPrincipalName | rename targetResources{}.type as type | rename initiatedBy.user.userPrincipalName
-  as initiatedBy | stats values(userPrincipalName) as userPrincipalName by _time, type, operationName,
-  initiatedBy, result | `azure_ad_multi_factor_authentication_disabled_filter`'
+search: '`azure_monitor_aad` category=AuditLogs operationName="Disable Strong Authentication"
+  | rename properties.* as *
+  | rename targetResources{}.type as type 
+  | rename initiatedBy.user.userPrincipalName as initiatedBy 
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, type, operationName, initiatedBy, result 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_multi_factor_authentication_disabled_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
 known_false_positives: Legitimate use case may require for users to disable MFA. Filter
   as needed.
 references:
@@ -33,14 +36,14 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 50
-  message: MFA disabled for User $userPrincipalName$ initiated by $initiatedBy$
+  message: MFA disabled for User $user$ initiated by $initiatedBy$
   mitre_attack_id:
   - T1586
   - T1586.003
   - T1556
   - T1556.006
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
@@ -54,7 +57,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - properties.targetResources{}.userPrincipalName
+  - user
   - properties.targetResources{}.type
   - properties.initiatedBy.user.userPrincipalName
   - properties.result
@@ -64,6 +67,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/azuread/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

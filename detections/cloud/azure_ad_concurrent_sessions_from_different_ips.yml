@@ -1,7 +1,7 @@
 name: Azure AD Concurrent Sessions From Different Ips
 id: a9126f73-9a9b-493d-96ec-0dd06695490d
-version: 1
-date: '2023-01-24'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,14 +12,18 @@ description: The following analytic identifies an Azure AD account with concurre
   to access corporate online resources. As users may behave differently across organizations,
   security teams should test and customize this detection to fit their environments.
 data_source: []
-search: ' `azuread` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs
-  | rename properties.* as * | bucket span=5m _time | stats  dc(ipAddress) AS unique_ips
-  values(ipAddress) as ipAddress values(appDisplayName) by _time, userPrincipalName | where unique_ips
-  > 1 | `azure_ad_concurrent_sessions_from_different_ips_filter`'
+search: ' `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs
+  | rename properties.* as *
+  | bucket span=30m _time 
+  | stats count min(_time) as firstTime max(_time) as lastTime dc(src_ip) AS unique_ips values(src_ip) as src_ip values(appDisplayName) as appDisplayName by user
+  | where unique_ips  > 1 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_concurrent_sessions_from_different_ips_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the SignInLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
 known_false_positives: A user with concurrent sessions from different Ips may also
   represent the legitimate use of more than one device. Filter as needed and/or customize
   the threshold to fit your environment.
@@ -34,16 +38,16 @@ tags:
   asset_type: Azure AD
   confidence: 60
   impact: 70
-  message: User $userPrincipalName$ has concurrent sessions from more than one unique
+  message: User $user$ has concurrent sessions from more than one unique
     IP address in the span of 5 minutes.
   mitre_attack_id:
   - T1185
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: ipAddress
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
@@ -56,14 +60,14 @@ tags:
   - properties.status.errorCode
   - category
   - properties.authenticationDetails
-  - properties.userPrincipalName
-  - properties.ipAddress
+  - user
+  - src_ip
   risk_score: 42
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/azure_ad_concurrent_sessions_from_different_ips/azuread.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

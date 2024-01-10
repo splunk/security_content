@@ -1,7 +1,7 @@
 name: Remote WMI Command Attempt
 id: 272df6de-61f1-4784-877c-1fbc3e2d0838
 version: 4
-date: '2023-06-13'
+date: '2023-12-27'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,11 +34,12 @@ references:
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
-  - Volt Typhoon
   - Graceful Wipe Out Attack
+  - Volt Typhoon
+  - Living Off The Land
   - IcedID
   - Suspicious WMI Use
-  - Living Off The Land
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 60
   impact: 60

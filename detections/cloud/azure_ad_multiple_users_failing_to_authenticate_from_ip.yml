@@ -1,7 +1,7 @@
 name: Azure AD Multiple Users Failing To Authenticate From Ip
 id: 94481a6a-8f59-4c86-957f-55a71e3612a6
-version: 1
-date: '2022-07-12'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -15,16 +15,18 @@ description: 'The following analytic identifies one source Ip failing to authent
   Azure AD tenants can be very different depending on the organization. Users should
   test this detection and customize the arbitrary threshold if needed.'
 data_source: []
-search: ' `azuread` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
+search: ' `azure_monitor_aad`  category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
 | rename properties.* as *
 | bucket span=5m _time
-| stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName) as userPrincipalName by _time, ipAddress
-| where unique_accounts > 30 
+| stats count min(_time) as firstTime max(_time) as lastTime dc(user) AS unique_accounts values(user) as user by src_ip
+| where unique_accounts > 30
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
 | `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the SignInLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
 known_false_positives: A source Ip failing to authenticate with multiple users is
   not a common for legitimate behavior.
 references:
@@ -38,7 +40,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 70
-  message: Source Ip $ipAddress$ failed to authenticate with 30 users
+  message: Source Ip $src_ip$ failed to authenticate with 30 users
     within 5 minutes.
   mitre_attack_id:
   - T1586
@@ -47,11 +49,11 @@ tags:
   - T1110.003
   - T1110.004
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: ipAddress
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
@@ -64,14 +66,14 @@ tags:
   - properties.status.errorCode
   - category
   - properties.authenticationDetails
-  - properties.userPrincipalName
-  - properties.ipAddress
+  - user
+  - user_agent
   risk_score: 63
   security_domain: identity
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/password_spraying_azuread/azuread_signin.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

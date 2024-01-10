@@ -1,6 +1,6 @@
 name: Windows Rundll32 Inline HTA Execution
 id: 0caa1dd6-94f5-11ec-9786-acde48001122
-version: 2
+version: 3
 date: '2022-02-23'
 author: Michael Haag, Splunk
 status: production

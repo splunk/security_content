@@ -1,7 +1,7 @@
 name: Mimikatz PassTheTicket CommandLine Parameters
 id: 13bbd574-83ac-11ec-99d4-acde48001122
 version: 1
-date: '2022-02-01'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -35,9 +35,10 @@ references:
 - https://attack.mitre.org/techniques/T1550/003/
 tags:
   analytic_story:
-  - Active Directory Kerberos Attacks
-  - CISA AA22-320A
   - Sandworm Tools
+  - CISA AA23-347A
+  - CISA AA22-320A
+  - Active Directory Kerberos Attacks
   asset_type: endpoint
   confidence: 60
   impact: 60

@@ -1,7 +1,7 @@
 name: Windows DISM Remove Defender
 id: 8567da9e-47f0-11ec-99a9-acde48001122
 version: 1
-date: '2021-11-17'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 100
   impact: 80

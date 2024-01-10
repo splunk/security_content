@@ -1,0 +1,4 @@
+description: A place holder for a list of used Kuberntes Container Network IO Ratio
+collection: k8s_container_network_io_ratio_baseline
+name: k8s_container_network_io_ratio_baseline
+fields_list: key, avg_outbound_network_io, avg_inbound_network_io, stdev_outbound_network_io, stdev_inbound_network_io, count, last_seen

@@ -1,7 +1,7 @@
 name: Cmdline Tool Not Executed In CMD Shell
 id: 6c3f7dd8-153c-11ec-ac2d-acde48001122
 version: 2
-date: '2022-10-27'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -45,13 +45,13 @@ references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
+  - Volt Typhoon
+  - Rhysida Ransomware
   - FIN7
+  - DarkGate Malware
   - Qakbot
   - CISA AA22-277A
-  - Qakbot
-  - Volt Typhoon
-  - DarkGate Malware
-  - Rhysida Ransomware
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 80
   impact: 70

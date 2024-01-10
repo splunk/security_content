@@ -1,6 +1,6 @@
 name: Grant Permission Using Cacls Utility
 id: c6da561a-cd29-11eb-ae65-acde48001122
-version: 5
+version: 6
 date: '2021-11-30'
 author: Teoderick Contreras, Splunk
 type: TTP

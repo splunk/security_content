@@ -1,7 +1,7 @@
 name: Windows PowerView Constrained Delegation Discovery
 id: 86dc8176-6e6c-42d6-9684-5444c6557ab3
 version: 1
-date: '2022-03-31'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -30,8 +30,9 @@ references:
 - https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation
 tags:
   analytic_story:
-  - Active Directory Kerberos Attacks
+  - CISA AA23-347A
   - Rhysida Ransomware
+  - Active Directory Kerberos Attacks
   asset_type: Endpoint
   confidence: 70
   impact: 50

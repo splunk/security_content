@@ -1,6 +1,6 @@
 name: Windows Bitsadmin Download File
 id: d76e8188-8f5a-11ec-ace4-acde48001122
-version: 2
+version: 3
 date: '2022-02-16'
 author: Michael Haag, Splunk
 type: TTP

@@ -14,17 +14,18 @@ description: The following analytic identifies the creation of a Service Princip
   access may create a Service Principal to establish Persistence and obtain single-factor
   access to an Azure AD environment.
 data_source: []
-search: '`azuread` operationName="Add service principal" properties.initiatedBy.user.id=*
+search: '`azure_monitor_aad`  operationName="Add service principal" properties.initiatedBy.user.id=*
   | rename properties.* as * 
   | rename targetResources{}.displayName as displayName
-  | rename initiatedBy.user.userPrincipalName as initiatedBy
   | rename targetResources{}.type as type
-  | stats values(displayName) as displayName by _time, type, initiatedBy, result, operationName
+  | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by type, user, result, operationName 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `azure_ad_service_principal_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment thorough an EventHub.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrator may legitimately create Service Principal. Filter
   as needed.
 references:
@@ -39,7 +40,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 50
-  message: Service Principal named $displayName$ created by $initiatedBy$
+  message: Service Principal named $displayName$ created by $user$
   mitre_attack_id:
   - T1136.003
   observable:
@@ -47,7 +48,7 @@ tags:
     type: Other
     role:
     - Victim
-  - name: initiatedBy
+  - name: user
     type: User
     role:
     - Attacker
@@ -59,7 +60,7 @@ tags:
   - _time
   - properties.targetResources{}.displayName
   - properties.targetResources{}.type
-  - properties.initiatedBy.user.userPrincipalName
+  - user
   - properties.result
   risk_score: 45
   security_domain: threat
@@ -67,6 +68,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_add_service_principal/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true
