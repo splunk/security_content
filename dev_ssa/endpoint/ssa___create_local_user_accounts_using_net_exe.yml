@@ -1,6 +1,6 @@
 name: Create Local User Accounts Using Net Exe
 id: 1ee0fff0-9642-421b-8e13-9aa6fba4ace3
-version: 4
+version: 5
 date: '2023-10-23'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: validation

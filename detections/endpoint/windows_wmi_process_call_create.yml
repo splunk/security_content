@@ -1,7 +1,7 @@
 name: Windows WMI Process Call Create
 id: 0661c2de-93de-11ec-9833-acde48001122
 version: 1
-date: '2022-02-22'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -37,10 +37,11 @@ references:
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
-  - Suspicious WMI Use
-  - Qakbot
   - Volt Typhoon
+  - Qakbot
   - IcedID
+  - Suspicious WMI Use
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 50

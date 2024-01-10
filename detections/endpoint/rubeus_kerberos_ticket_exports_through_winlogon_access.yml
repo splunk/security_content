@@ -1,7 +1,7 @@
 name: Rubeus Kerberos Ticket Exports Through Winlogon Access
 id: 5ed8c50a-8869-11ec-876f-acde48001122
 version: 1
-date: '2022-02-07'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -37,6 +37,7 @@ references:
 - https://attack.mitre.org/techniques/T1550/003/
 tags:
   analytic_story:
+  - CISA AA23-347A
   - Active Directory Kerberos Attacks
   asset_type: Endpoint
   confidence: 60

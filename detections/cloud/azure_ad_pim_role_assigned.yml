@@ -1,7 +1,7 @@
 name: Azure AD PIM Role Assigned
 id: fcd6dfeb-191c-46a0-a29c-c306382145ab
 version: 2
-date: '2023-11-07'
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,16 +12,16 @@ description: The following analytic identifies the assignment of the Azure AD PI
   assignment to perform the privileged actions. When a role is activated, Azure AD PIM temporarily adds active assignment for the role. While PIM can be leveraged as a powerful
   security control, it may also abused by adversaries to obtain privileged access. Security teams should monitor for the assignment and activation of PIM roles and validate their
   legitimacy.
-search: ' `azuread` operationName="Add eligible member to role in PIM completed*"
+search: ' `azure_monitor_aad` operationName="Add eligible member to role in PIM completed*"
   | rename properties.* as * 
-  | rename targetResources{}.userPrincipalName as userPrincipalName 
-  | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | stats values(userPrincipalName) as userPrincipalName values(targetResources{}.displayName) as target_display_name by _time, result, operationName, initiatedBy
+  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user values(targetResources{}.displayName) as displayName  by result, operationName, initiatedBy.user.displayName 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `azure_ad_pim_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  Specifically, this analytic leverages the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: As part of legitimate administrative behavior, users may be assigned PIM roles. Filter as needed
 references:
 - https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure
@@ -34,16 +34,12 @@ tags:
   asset_type: Azure Active Directory
   confidence: 50
   impact: 70
-  message: An Azure AD PIM role assignment was assiged to $userPrincipalName$ by $initiatedBy$
+  message: An Azure AD PIM role assignment was assiged to $user$
   mitre_attack_id:
   - T1098
   - T1098.003
   observable:
-  - name: initiatedBy
-    type: User
-    role:
-    - Attacker
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
@@ -56,7 +52,7 @@ tags:
   - _time
   - properties
   - operationName
-  - userPrincipalName
+  - user
   - initiatedBy.user.userPrincipalName 
   - result
   security_domain: identity
@@ -64,5 +60,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_pim_role_activated/azure-audit.log
-    source: eventhub://researchhub1.servicebus.windows.net/azureadhub;
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad

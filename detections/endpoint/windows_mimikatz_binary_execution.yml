@@ -1,7 +1,7 @@
 name: Windows Mimikatz Binary Execution
 id: a9e0d6d3-9676-4e26-994d-4e0406bb4467
 version: 1
-date: '2022-11-16'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -38,11 +38,12 @@ references:
 - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
 tags:
   analytic_story:
-  - Credential Dumping
-  - CISA AA22-320A
-  - Sandworm Tools
   - Volt Typhoon
+  - Sandworm Tools
+  - Credential Dumping
   - Flax Typhoon
+  - CISA AA22-320A
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 100
   impact: 100

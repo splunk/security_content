@@ -41,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: ''
+  message: Suspicious modification to the firewall to allow network discovery detected on host - $dest$
   mitre_attack_id:
   - T1562.007
   - T1562

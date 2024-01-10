@@ -5,8 +5,19 @@ date: '2023-04-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: |-
-  The following analytic detects when reg.exe modify registry keys that define Windows services and their configurations in Windows to detect potential threats earlier and mitigate the risks. This detection is made by a Splunk query that searches for specific keywords in the process name, parent process name, user, and process ID. This detection is important because it suggests that an attacker has modified the registry keys that define Windows services and their configurations, which can allow them to maintain access to the system and potentially move laterally within the network. It is a common technique used by attackers to gain persistence on a compromised system and its impact can lead to data theft, ransomware, or other damaging outcomes. False positives can occur since legitimate uses of reg.exe to modify registry keys for Windows services can also trigger this alert. Next steps include reviewing the process and user context of the reg.exe activity and identify any other concurrent processes that might be associated with the attack upon triage.
+description: The following analytic detects when reg.exe modify registry keys that
+  define Windows services and their configurations in Windows to detect potential
+  threats earlier and mitigate the risks. This detection is made by a Splunk query
+  that searches for specific keywords in the process name, parent process name, user,
+  and process ID. This detection is important because it suggests that an attacker
+  has modified the registry keys that define Windows services and their configurations,
+  which can allow them to maintain access to the system and potentially move laterally
+  within the network. It is a common technique used by attackers to gain persistence
+  on a compromised system and its impact can lead to data theft, ransomware, or other
+  damaging outcomes. False positives can occur since legitimate uses of reg.exe to
+  modify registry keys for Windows services can also trigger this alert. Next steps
+  include reviewing the process and user context of the reg.exe activity and identify
+  any other concurrent processes that might be associated with the attack upon triage.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
@@ -31,6 +42,7 @@ tags:
   - Windows Registry Abuse
   - Brute Ratel C4
   - PlugX
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 80
   impact: 80

@@ -1,7 +1,7 @@
 name: Suspicious Scheduled Task from Public Directory
 id: 7feb7972-7ac3-11eb-bac8-acde48001122
 version: 1
-date: '2021-03-01'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -42,13 +42,14 @@ references:
 - https://attack.mitre.org/techniques/T1053/005/
 tags:
   analytic_story:
-  - Ransomware
+  - Azorult
   - Ryuk Ransomware
+  - Scheduled Tasks
+  - Ransomware
   - Windows Persistence Techniques
   - Living Off The Land
-  - Azorult
   - DarkCrystal RAT
-  - Scheduled Tasks
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 70

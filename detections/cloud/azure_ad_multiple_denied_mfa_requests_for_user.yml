@@ -1,7 +1,7 @@
 name: Azure AD Multiple Denied MFA Requests For User
 id: d0895c20-de71-4fd2-b56c-3fcdb888eba1
-version: 1
-date: '2023-10-31'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -11,8 +11,8 @@ search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity
   | rename properties.* as * 
   | search status.errorCode=500121 status.additionalDetails="MFA denied; user declined the authentication"
   | bucket span=10m _time 
-  | stats dc(_raw) AS mfa_prompts earliest(_time) as firstTime latest(_time) as lastTime by user, status.additionalDetails, appDisplayName, userAgent, _time 
-  | where mfa_prompts > 9
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, status.additionalDetails, appDisplayName, user_agent
+  | where count > 9
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `azure_ad_multiple_denied_mfa_requests_for_user_filter`'
@@ -50,12 +50,11 @@ tags:
   required_fields:
   - _time
   - category
-  - category
   - properties.status.errorCode
   - properties.status.additionalDetails
   - user
   - properties.appDisplayName
-  - properties.userAgent
+  - user_agent
   security_domain: identity
 tests:
 - name: True Positive Test

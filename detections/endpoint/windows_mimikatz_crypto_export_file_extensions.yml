@@ -1,7 +1,7 @@
 name: Windows Mimikatz Crypto Export File Extensions
 id: 3a9a6806-16a8-4cda-8d73-b49d10a05b16
 version: 1
-date: '2023-02-07'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -11,8 +11,11 @@ description: The following analytic identifies hardcoded extensions related to t
   of certificates being exported.
 data_source:
 - Sysmon Event ID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.keyx.rsa.pvk","*sign.rsa.pvk","*sign.dsa.pvk","*dsa.ec.p8k","*dh.ec.p8k", "*.pfx", "*.der") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)` | `windows_mimikatz_crypto_export_file_extensions_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.keyx.rsa.pvk","*sign.rsa.pvk","*sign.dsa.pvk","*dsa.ec.p8k","*dh.ec.p8k",
+  "*.pfx", "*.der") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
+  Filesystem.file_path | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  | `drop_dm_object_name(Filesystem)` | `windows_mimikatz_crypto_export_file_extensions_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
@@ -25,8 +28,9 @@ references:
 - https://github.com/gentilkiwi/mimikatz/blob/master/mimikatz/modules/kuhl_m_crypto.c#L628-L645
 tags:
   analytic_story:
-  - Windows Certificate Services
   - Sandworm Tools
+  - CISA AA23-347A
+  - Windows Certificate Services
   asset_type: Endpoint
   confidence: 70
   impact: 40

@@ -1,7 +1,7 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
 version: 4
-date: '2021-10-11'
+date: '2023-12-27'
 author: David Dorsey, Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,8 +34,9 @@ tags:
   analytic_story:
   - Windows Log Manipulation
   - Ransomware
-  - Clop Ransomware
   - Rhysida Ransomware
+  - Clop Ransomware
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 40

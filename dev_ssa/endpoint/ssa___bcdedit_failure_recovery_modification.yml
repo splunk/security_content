@@ -1,6 +1,6 @@
 name: BCDEdit Failure Recovery Modification
 id: 76d79d6e-25bb-40f6-b3b2-e0a6b7e5ea13
-version: 2
+version: 3
 date: '2021-12-07'
 author: Michael Haag, Splunk
 status: production

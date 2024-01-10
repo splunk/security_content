@@ -1,23 +1,25 @@
 name: Windows Modify Registry DisableSecuritySettings
 id: 989019b4-b7aa-418a-9a17-2293e91288b6
 version: 1
-date: '2023-11-23'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon Event ID 13
-description: The following analytic identifies a modification in the Windows registry to disable security settings of Terminal Services. 
-  altering or disabling security settings within Terminal Services. Terminal Services, now known as Remote Desktop Services (RDS) in 
-  more recent Windows versions, allows users to access applications, data, and even an entire desktop remotely.
-  DarkGate malware modify this registry as part of its malicious installation in a targeted host for its remote desktop capabilities.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path = "*\\Terminal Services\\DisableSecuritySettings"  Registry.registry_value_data = 0x00000001
-  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.user Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_disablesecuritysettings_filter`'
+description: The following analytic identifies a modification in the Windows registry
+  to disable security settings of Terminal Services. altering or disabling security
+  settings within Terminal Services. Terminal Services, now known as Remote Desktop
+  Services (RDS) in more recent Windows versions, allows users to access applications,
+  data, and even an entire desktop remotely. DarkGate malware modify this registry
+  as part of its malicious installation in a targeted host for its remote desktop
+  capabilities.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Terminal
+  Services\\DisableSecuritySettings"  Registry.registry_value_data = 0x00000001 by  Registry.registry_path
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  Registry.action Registry.user Registry.dest | `drop_dm_object_name(Registry)` |
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_disablesecuritysettings_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -29,10 +31,12 @@ references:
 tags:
   analytic_story:
   - DarkGate Malware
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: the registry for terminal services settings was modified to disable security settings on $dest$.
+  message: the registry for terminal services settings was modified to disable security
+    settings on $dest$.
   mitre_attack_id:
   - T1112
   observable:
