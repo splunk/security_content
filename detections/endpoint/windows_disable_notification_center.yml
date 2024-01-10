@@ -1,7 +1,7 @@
 name: Windows Disable Notification Center
 id: 1cd983c8-8fd6-11ec-a09d-acde48001122
 version: 3
-date: '2023-04-27'
+date: '2023-12-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,9 +14,9 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_value_name= "DisableNotificationCenter" Registry.registry_value_data
-  = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
+  = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_notification_center_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - CISA AA23-347A
   - Windows Registry Abuse
   asset_type: Endpoint
   confidence: 80

@@ -1,6 +1,6 @@
 name: Windows Lateral Tool Transfer RemCom
 id: 25c6b8ba-2a61-41ad-b80c-8e97cf501920
-version: 2
+version: 3
 date: '2022-02-23'
 author: Michael Haag, Splunk
 status: experimental

@@ -1,7 +1,7 @@
 name: Windows Modify Registry Disable Windows Security Center Notif
 id: 27ed3e79-6d86-44dd-b9ab-524451c97a7b
 version: 1
-date: '2022-06-22'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Azorult
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 70

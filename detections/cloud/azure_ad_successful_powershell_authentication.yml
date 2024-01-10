@@ -1,7 +1,7 @@
 name: Azure AD Successful PowerShell Authentication
 id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
-version: 1
-date: '2022-07-13'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -11,14 +11,16 @@ description: The following analytic identifies a successful authentication event
   and red teams  alike will perform enumeration and discovery techniques. One method
   of executing these techniques is leveraging the native PowerShell modules.
 data_source: []
-search: ' `azuread` category=SignInLogs properties.authenticationDetails{}.succeeded=true
-  properties.appDisplayName="Microsoft Azure PowerShell" | rename properties.*
-  as * |  stats values(userPrincipalName) as userPrincipalName by _time, ipAddress, appDisplayName, userAgent
-  | `azure_ad_successful_powershell_authentication_filter`'
+search: ' `azure_monitor_aad`  category=SignInLogs properties.authenticationDetails{}.succeeded=true properties.appDisplayName="Microsoft Azure PowerShell"
+ | rename properties.*  as * 
+ | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip, appDisplayName, user_agent
+ | `security_content_ctime(firstTime)` 
+ | `security_content_ctime(lastTime)`
+ | `azure_ad_successful_powershell_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the SignInLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
 known_false_positives: Administrative users will likely use PowerShell commandlets
   to troubleshoot and maintain the environment. Filter as needed.
 references:
@@ -32,7 +34,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: Successful authentication for user $userPrincipalName$
+  message: Successful authentication for user $user$
     using PowerShell.
   mitre_attack_id:
   - T1586
@@ -40,11 +42,11 @@ tags:
   - T1078
   - T1078.004
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: ipAddress
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
@@ -56,8 +58,8 @@ tags:
   - _time
   - properties.appDisplayName
   - category
-  - properties.userPrincipalName
-  - properties.ipAddress
+  - user
+  - src_ip
   - properties.appDisplayName
   - properties.userAgent
   risk_score: 54
@@ -66,6 +68,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread_pws/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

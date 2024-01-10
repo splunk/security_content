@@ -1,7 +1,7 @@
 name: Azure Automation Account Created
 id: 860902fd-2e76-46b3-b050-ba548dab576c
-version: 1
-date: '2022-08-18'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -18,9 +18,14 @@ description: The following analytic identifies the creation of a new Azure Autom
   to maintain persistence in the Azure tenant. A malicious Automation Runbook can
   be created to create Global Administrators in Azure AD, execute code on VMs, etc.
 data_source: []
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
-  account" status.value=Succeeded | dedup object | stats values(object) by _time,
-  caller, claims.ipaddr, resourceGroupName, object_path | `azure_automation_account_created_filter`'
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation account" status.value=Succeeded 
+  | dedup object 
+  | rename claims.ipaddr as src_ip
+  | rename caller as user
+  | stats count min(_time) as firstTime max(_time) as lastTime values(object) as object by user, src_ip, resourceGroupName, object_path 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_automation_account_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Audit events into your Splunk environment. Specifically,
@@ -41,7 +46,7 @@ tags:
   asset_type: Azure
   confidence: 90
   impact: 70
-  message: A new Azure Automation account $object$ was created by $caller$
+  message: A new Azure Automation account $object$ was created by $user$
   mitre_attack_id:
   - T1136
   - T1136.003
@@ -50,7 +55,7 @@ tags:
     type: Other
     role:
     - Victim
-  - name: caller
+  - name: user
     type: User
     role:
     - Attacker

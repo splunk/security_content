@@ -1,22 +1,27 @@
 name: Azure AD High Number Of Failed Authentications For User
 id: 630b1694-210a-48ee-a450-6f79e7679f2c
-version: 1
-date: '2023-01-23'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 description: The following analytic identifies an Azure AD account with more than
-  20 failed authentication events in the span of 5 minutes. This behavior could represent
+  20 failed authentication events in the span of 10 minutes. This behavior could represent
   a brute force attack against the account. As environments differ across organizations,
   security teams should customize the threshold of this detection.
 data_source: []
-search: ' `azuread` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
-  | rename properties.* as * | bucket span=5m _time | stats  dc(_raw) AS failed_attempts  values(ipAddress)
-  by userPrincipalName, _time | where failed_attempts > 20 | `azure_ad_high_number_of_failed_authentications_for_user_filter`'
+search: ' `azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
+  | rename properties.* as * 
+  | bucket span=10m _time
+  | stats count min(_time) as firstTime max(_time) as lastTime values(src_ip) as src_ip by user
+  | where count > 20
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `azure_ad_high_number_of_failed_authentications_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the SignInLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
 known_false_positives: A user with more than 20 failed authentication attempts in
   the span of 5 minutes may also be triggered by a broken application.
 references:
@@ -29,13 +34,13 @@ tags:
   asset_type: Azure AD
   confidence: 70
   impact: 50
-  message: User $userPrincipalName$ failed to authenticate more than 20 times in the
+  message: User $user$ failed to authenticate more than 20 times in the
     span of 5 minutes.
   mitre_attack_id:
   - T1110
   - T1110.001
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
@@ -48,7 +53,7 @@ tags:
   - properties.status.errorCode
   - category
   - properties.authenticationDetails
-  - properties.userPrincipalName
+  - user
   - properties.ipAddress
   risk_score: 35
   security_domain: identity
@@ -56,6 +61,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_high_number_of_failed_authentications_for_user/azuread.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

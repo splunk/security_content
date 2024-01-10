@@ -1,6 +1,6 @@
 name: Windows Script Host Spawn MSBuild
 id: 92886f1c-9b11-11ec-848a-acde48001122
-version: 2
+version: 3
 date: '2022-03-03'
 author: Michael Haag, Splunk
 status: production

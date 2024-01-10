@@ -1,7 +1,7 @@
 name: Azure AD Authentication Failed During MFA Challenge
 id: e62c9c2e-bf51-4719-906c-3074618fcc1c
-version: 1
-date: '2022-07-14'
+version: 2
+date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -11,13 +11,16 @@ description: 'The following analytic identifies an authentication attempt event 
   This behavior may represent an adversary trying to authenticate with compromised
   credentials for an account that has multi-factor authentication enabled. '
 data_source: []
-search: ' `azuread` category=SignInLogs properties.status.errorCode=500121
-  | rename properties.* as * | stats values(userPrincipalName) as userPrincipalName by _time, ipAddress,
-  status.additionalDetails, appDisplayName, userAgent | `azure_ad_authentication_failed_during_mfa_challenge_filter`'
+search: ' `azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121
+  | rename properties.* as * 
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, src_ip, status.additionalDetails, appDisplayName, user_agent
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_authentication_failed_during_mfa_challenge_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the SignInLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
 known_false_positives: Legitimate users may miss to reply the MFA challenge within
   the time window or deny it by mistake.
 references:
@@ -30,7 +33,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: User $userPrincipalName$ failed to pass MFA challenge
+  message: User $user$ failed to pass MFA challenge
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -38,11 +41,11 @@ tags:
   - T1078.004
   - T1621
   observable:
-  - name: userPrincipalName
+  - name: user
     type: User
     role:
     - Victim
-  - name: ipAddress
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
@@ -54,8 +57,8 @@ tags:
   - _time
   - category
   - properties.status.errorCode
-  - properties.userPrincipalName
-  - properties.ipAddress
+  - user
+  - src_ip
   - properties.status.additionalDetails
   - properties.appDisplayName
   - properties.userAgent
@@ -65,6 +68,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azuread/azure-audit.log
-    source: mscs:azure:eventhub
-    sourcetype: mscs:azure:eventhub
+    source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

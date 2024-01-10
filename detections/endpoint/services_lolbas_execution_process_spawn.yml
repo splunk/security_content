@@ -50,6 +50,7 @@ tags:
   - Active Directory Lateral Movement
   - Living Off The Land
   - Qakbot
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 60
   impact: 90

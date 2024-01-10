@@ -1,6 +1,6 @@
 name: Detect PowerShell Applications Spawning cmd exe 
 id: d20a18cb-fd70-4ffa-a844-25126e0b0d94
-version: 1
+version: 2
 date: '2023-12-11'
 author: Lou Stella, Splunk
 status: production

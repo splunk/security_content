@@ -1,7 +1,7 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
 version: 1
-date: '2023-04-25'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -30,13 +30,14 @@ tags:
   analytic_story:
   - Azorult
   - Remcos
+  - NjRAT
+  - Warzone RAT
   - 3CX Supply Chain Attack
-  - AgentTesla
   - RedLine Stealer
   - FIN7
-  - Warzone RAT
-  - NjRAT
   - DarkGate Malware
+  - AgentTesla
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 50
