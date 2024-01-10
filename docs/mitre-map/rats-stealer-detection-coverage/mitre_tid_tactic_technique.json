@@ -1,0 +1,3282 @@
+{
+    "T1027.012": [
+        "defense-evasion",
+        "LNK Icon Smuggling"
+    ],
+    "T1036.009": [
+        "defense-evasion",
+        "Break Process Trees"
+    ],
+    "T1555.006": [
+        "credential-access",
+        "Cloud Secrets Management Stores"
+    ],
+    "T1016.002": [
+        "discovery",
+        "Wi-Fi Discovery"
+    ],
+    "T1566.004": [
+        "initial-access",
+        "Spearphishing Voice"
+    ],
+    "T1598.004": [
+        "reconnaissance",
+        "Spearphishing Voice"
+    ],
+    "T1578.005": [
+        "defense-evasion",
+        "Modify Cloud Compute Configurations"
+    ],
+    "T1659": [
+        "initial-access",
+        "Content Injection"
+    ],
+    "T1564.011": [
+        "defense-evasion",
+        "Ignore Process Interrupts"
+    ],
+    "T1657": [
+        "impact",
+        "Financial Theft"
+    ],
+    "T1656": [
+        "defense-evasion",
+        "Impersonation"
+    ],
+    "T1567.004": [
+        "exfiltration",
+        "Exfiltration Over Webhook"
+    ],
+    "T1098.006": [
+        "persistence",
+        "Additional Container Cluster Roles"
+    ],
+    "T1654": [
+        "discovery",
+        "Log Enumeration"
+    ],
+    "T1548.005": [
+        "privilege-escalation",
+        "Temporary Elevated Cloud Access"
+    ],
+    "T1653": [
+        "persistence",
+        "Power Settings"
+    ],
+    "T1021.008": [
+        "lateral-movement",
+        "Direct Cloud VM Connections"
+    ],
+    "T1562.012": [
+        "defense-evasion",
+        "Disable or Modify Linux Audit System"
+    ],
+    "T1556.008": [
+        "credential-access",
+        "Network Provider DLL"
+    ],
+    "T1652": [
+        "discovery",
+        "Device Driver Discovery"
+    ],
+    "T1027.011": [
+        "defense-evasion",
+        "Fileless Storage"
+    ],
+    "T1027.010": [
+        "defense-evasion",
+        "Command Obfuscation"
+    ],
+    "T1562.011": [
+        "defense-evasion",
+        "Spoof Security Alerting"
+    ],
+    "T1552.008": [
+        "credential-access",
+        "Chat Messages"
+    ],
+    "T1651": [
+        "execution",
+        "Cloud Administration Command"
+    ],
+    "T1650": [
+        "resource-development",
+        "Acquire Access"
+    ],
+    "T1036.008": [
+        "defense-evasion",
+        "Masquerade File Type"
+    ],
+    "T1567.003": [
+        "exfiltration",
+        "Exfiltration to Text Storage Sites"
+    ],
+    "T1583.008": [
+        "resource-development",
+        "Malvertising"
+    ],
+    "T1021.007": [
+        "lateral-movement",
+        "Cloud Services"
+    ],
+    "T1205.002": [
+        "defense-evasion",
+        "Socket Filters"
+    ],
+    "T1608.006": [
+        "resource-development",
+        "SEO Poisoning"
+    ],
+    "T1027.009": [
+        "defense-evasion",
+        "Embedded Payloads"
+    ],
+    "T1027.008": [
+        "defense-evasion",
+        "Stripped Payloads"
+    ],
+    "T1556.007": [
+        "credential-access",
+        "Hybrid Identity"
+    ],
+    "T1546.016": [
+        "privilege-escalation",
+        "Installer Packages"
+    ],
+    "T1027.007": [
+        "defense-evasion",
+        "Dynamic API Resolution"
+    ],
+    "T1593.003": [
+        "reconnaissance",
+        "Code Repositories"
+    ],
+    "T1649": [
+        "credential-access",
+        "Steal or Forge Authentication Certificates"
+    ],
+    "T1070.009": [
+        "defense-evasion",
+        "Clear Persistence"
+    ],
+    "T1070.008": [
+        "defense-evasion",
+        "Clear Mailbox Data"
+    ],
+    "T1584.007": [
+        "resource-development",
+        "Serverless"
+    ],
+    "T1583.007": [
+        "resource-development",
+        "Serverless"
+    ],
+    "T1070.007": [
+        "defense-evasion",
+        "Clear Network Connection History and Configurations"
+    ],
+    "T1556.006": [
+        "credential-access",
+        "Multi-Factor Authentication"
+    ],
+    "T1586.003": [
+        "resource-development",
+        "Cloud Accounts"
+    ],
+    "T1585.003": [
+        "resource-development",
+        "Cloud Accounts"
+    ],
+    "T1648": [
+        "execution",
+        "Serverless Execution"
+    ],
+    "T1647": [
+        "defense-evasion",
+        "Plist File Modification"
+    ],
+    "T1622": [
+        "defense-evasion",
+        "Debugger Evasion"
+    ],
+    "T1621": [
+        "credential-access",
+        "Multi-Factor Authentication Request Generation"
+    ],
+    "T1505.005": [
+        "persistence",
+        "Terminal Services DLL"
+    ],
+    "T1557.003": [
+        "credential-access",
+        "DHCP Spoofing"
+    ],
+    "T1059.009": [
+        "execution",
+        "Cloud API"
+    ],
+    "T1595.003": [
+        "reconnaissance",
+        "Wordlist Scanning"
+    ],
+    "T1098.005": [
+        "persistence",
+        "Device Registration"
+    ],
+    "T1574.013": [
+        "persistence",
+        "KernelCallbackTable"
+    ],
+    "T1556.005": [
+        "credential-access",
+        "Reversible Encryption"
+    ],
+    "T1055.015": [
+        "defense-evasion",
+        "ListPlanting"
+    ],
+    "T1564.010": [
+        "defense-evasion",
+        "Process Argument Spoofing"
+    ],
+    "T1564.009": [
+        "defense-evasion",
+        "Resource Forking"
+    ],
+    "T1559.003": [
+        "execution",
+        "XPC Services"
+    ],
+    "T1562.010": [
+        "defense-evasion",
+        "Downgrade Attack"
+    ],
+    "T1547.015": [
+        "persistence",
+        "Login Items"
+    ],
+    "T1620": [
+        "defense-evasion",
+        "Reflective Code Loading"
+    ],
+    "T1619": [
+        "discovery",
+        "Cloud Storage Object Discovery"
+    ],
+    "T1218.014": [
+        "defense-evasion",
+        "MMC"
+    ],
+    "T1218.013": [
+        "defense-evasion",
+        "Mavinject"
+    ],
+    "T1614.001": [
+        "discovery",
+        "System Language Discovery"
+    ],
+    "T1615": [
+        "discovery",
+        "Group Policy Discovery"
+    ],
+    "T1036.007": [
+        "defense-evasion",
+        "Double File Extension"
+    ],
+    "T1562.009": [
+        "defense-evasion",
+        "Safe Mode Boot"
+    ],
+    "T1564.008": [
+        "defense-evasion",
+        "Email Hiding Rules"
+    ],
+    "T1505.004": [
+        "persistence",
+        "IIS Components"
+    ],
+    "T1027.006": [
+        "defense-evasion",
+        "HTML Smuggling"
+    ],
+    "T1213.003": [
+        "collection",
+        "Code Repositories"
+    ],
+    "T1553.006": [
+        "defense-evasion",
+        "Code Signing Policy Modification"
+    ],
+    "T1614": [
+        "discovery",
+        "System Location Discovery"
+    ],
+    "T1613": [
+        "discovery",
+        "Container and Resource Discovery"
+    ],
+    "T1552.007": [
+        "credential-access",
+        "Container API"
+    ],
+    "T1612": [
+        "defense-evasion",
+        "Build Image on Host"
+    ],
+    "T1611": [
+        "privilege-escalation",
+        "Escape to Host"
+    ],
+    "T1204.003": [
+        "execution",
+        "Malicious Image"
+    ],
+    "T1053.007": [
+        "execution",
+        "Container Orchestration Job"
+    ],
+    "T1610": [
+        "defense-evasion",
+        "Deploy Container"
+    ],
+    "T1609": [
+        "execution",
+        "Container Administration Command"
+    ],
+    "T1608.005": [
+        "resource-development",
+        "Link Target"
+    ],
+    "T1608.004": [
+        "resource-development",
+        "Drive-by Target"
+    ],
+    "T1608.003": [
+        "resource-development",
+        "Install Digital Certificate"
+    ],
+    "T1608.002": [
+        "resource-development",
+        "Upload Tool"
+    ],
+    "T1608.001": [
+        "resource-development",
+        "Upload Malware"
+    ],
+    "T1608": [
+        "resource-development",
+        "Stage Capabilities"
+    ],
+    "T1016.001": [
+        "discovery",
+        "Internet Connection Discovery"
+    ],
+    "T1553.005": [
+        "defense-evasion",
+        "Mark-of-the-Web Bypass"
+    ],
+    "T1555.005": [
+        "credential-access",
+        "Password Managers"
+    ],
+    "T1484.002": [
+        "defense-evasion",
+        "Domain Trust Modification"
+    ],
+    "T1484.001": [
+        "defense-evasion",
+        "Group Policy Modification"
+    ],
+    "T1547.014": [
+        "persistence",
+        "Active Setup"
+    ],
+    "T1606.002": [
+        "credential-access",
+        "SAML Tokens"
+    ],
+    "T1606.001": [
+        "credential-access",
+        "Web Cookies"
+    ],
+    "T1606": [
+        "credential-access",
+        "Forge Web Credentials"
+    ],
+    "T1555.004": [
+        "credential-access",
+        "Windows Credential Manager"
+    ],
+    "T1059.008": [
+        "execution",
+        "Network Device CLI"
+    ],
+    "T1602.002": [
+        "collection",
+        "Network Device Configuration Dump"
+    ],
+    "T1542.005": [
+        "defense-evasion",
+        "TFTP Boot"
+    ],
+    "T1542.004": [
+        "defense-evasion",
+        "ROMMONkit"
+    ],
+    "T1602.001": [
+        "collection",
+        "SNMP (MIB Dump)"
+    ],
+    "T1602": [
+        "collection",
+        "Data from Configuration Repository"
+    ],
+    "T1601.002": [
+        "defense-evasion",
+        "Downgrade System Image"
+    ],
+    "T1601.001": [
+        "defense-evasion",
+        "Patch System Image"
+    ],
+    "T1601": [
+        "defense-evasion",
+        "Modify System Image"
+    ],
+    "T1600.002": [
+        "defense-evasion",
+        "Disable Crypto Hardware"
+    ],
+    "T1600.001": [
+        "defense-evasion",
+        "Reduce Key Space"
+    ],
+    "T1600": [
+        "defense-evasion",
+        "Weaken Encryption"
+    ],
+    "T1556.004": [
+        "credential-access",
+        "Network Device Authentication"
+    ],
+    "T1599.001": [
+        "defense-evasion",
+        "Network Address Translation Traversal"
+    ],
+    "T1599": [
+        "defense-evasion",
+        "Network Boundary Bridging"
+    ],
+    "T1020.001": [
+        "exfiltration",
+        "Traffic Duplication"
+    ],
+    "T1557.002": [
+        "credential-access",
+        "ARP Cache Poisoning"
+    ],
+    "T1588.006": [
+        "resource-development",
+        "Vulnerabilities"
+    ],
+    "T1053.006": [
+        "execution",
+        "Systemd Timers"
+    ],
+    "T1562.008": [
+        "defense-evasion",
+        "Disable or Modify Cloud Logs"
+    ],
+    "T1547.012": [
+        "persistence",
+        "Print Processors"
+    ],
+    "T1598.003": [
+        "reconnaissance",
+        "Spearphishing Link"
+    ],
+    "T1598.002": [
+        "reconnaissance",
+        "Spearphishing Attachment"
+    ],
+    "T1598.001": [
+        "reconnaissance",
+        "Spearphishing Service"
+    ],
+    "T1598": [
+        "reconnaissance",
+        "Phishing for Information"
+    ],
+    "T1597.002": [
+        "reconnaissance",
+        "Purchase Technical Data"
+    ],
+    "T1597.001": [
+        "reconnaissance",
+        "Threat Intel Vendors"
+    ],
+    "T1597": [
+        "reconnaissance",
+        "Search Closed Sources"
+    ],
+    "T1596.005": [
+        "reconnaissance",
+        "Scan Databases"
+    ],
+    "T1596.004": [
+        "reconnaissance",
+        "CDNs"
+    ],
+    "T1596.003": [
+        "reconnaissance",
+        "Digital Certificates"
+    ],
+    "T1596.001": [
+        "reconnaissance",
+        "DNS/Passive DNS"
+    ],
+    "T1596.002": [
+        "reconnaissance",
+        "WHOIS"
+    ],
+    "T1596": [
+        "reconnaissance",
+        "Search Open Technical Databases"
+    ],
+    "T1595.002": [
+        "reconnaissance",
+        "Vulnerability Scanning"
+    ],
+    "T1595.001": [
+        "reconnaissance",
+        "Scanning IP Blocks"
+    ],
+    "T1595": [
+        "reconnaissance",
+        "Active Scanning"
+    ],
+    "T1594": [
+        "reconnaissance",
+        "Search Victim-Owned Websites"
+    ],
+    "T1593.002": [
+        "reconnaissance",
+        "Search Engines"
+    ],
+    "T1593.001": [
+        "reconnaissance",
+        "Social Media"
+    ],
+    "T1593": [
+        "reconnaissance",
+        "Search Open Websites/Domains"
+    ],
+    "T1592.004": [
+        "reconnaissance",
+        "Client Configurations"
+    ],
+    "T1592.003": [
+        "reconnaissance",
+        "Firmware"
+    ],
+    "T1592.002": [
+        "reconnaissance",
+        "Software"
+    ],
+    "T1592.001": [
+        "reconnaissance",
+        "Hardware"
+    ],
+    "T1592": [
+        "reconnaissance",
+        "Gather Victim Host Information"
+    ],
+    "T1591.004": [
+        "reconnaissance",
+        "Identify Roles"
+    ],
+    "T1591.003": [
+        "reconnaissance",
+        "Identify Business Tempo"
+    ],
+    "T1591.001": [
+        "reconnaissance",
+        "Determine Physical Locations"
+    ],
+    "T1591.002": [
+        "reconnaissance",
+        "Business Relationships"
+    ],
+    "T1591": [
+        "reconnaissance",
+        "Gather Victim Org Information"
+    ],
+    "T1590.006": [
+        "reconnaissance",
+        "Network Security Appliances"
+    ],
+    "T1590.005": [
+        "reconnaissance",
+        "IP Addresses"
+    ],
+    "T1590.004": [
+        "reconnaissance",
+        "Network Topology"
+    ],
+    "T1590.003": [
+        "reconnaissance",
+        "Network Trust Dependencies"
+    ],
+    "T1590.002": [
+        "reconnaissance",
+        "DNS"
+    ],
+    "T1590.001": [
+        "reconnaissance",
+        "Domain Properties"
+    ],
+    "T1590": [
+        "reconnaissance",
+        "Gather Victim Network Information"
+    ],
+    "T1589.003": [
+        "reconnaissance",
+        "Employee Names"
+    ],
+    "T1589.002": [
+        "reconnaissance",
+        "Email Addresses"
+    ],
+    "T1589.001": [
+        "reconnaissance",
+        "Credentials"
+    ],
+    "T1589": [
+        "reconnaissance",
+        "Gather Victim Identity Information"
+    ],
+    "T1588.005": [
+        "resource-development",
+        "Exploits"
+    ],
+    "T1588.004": [
+        "resource-development",
+        "Digital Certificates"
+    ],
+    "T1588.003": [
+        "resource-development",
+        "Code Signing Certificates"
+    ],
+    "T1588.002": [
+        "resource-development",
+        "Tool"
+    ],
+    "T1588.001": [
+        "resource-development",
+        "Malware"
+    ],
+    "T1588": [
+        "resource-development",
+        "Obtain Capabilities"
+    ],
+    "T1587.004": [
+        "resource-development",
+        "Exploits"
+    ],
+    "T1587.003": [
+        "resource-development",
+        "Digital Certificates"
+    ],
+    "T1587.002": [
+        "resource-development",
+        "Code Signing Certificates"
+    ],
+    "T1587.001": [
+        "resource-development",
+        "Malware"
+    ],
+    "T1587": [
+        "resource-development",
+        "Develop Capabilities"
+    ],
+    "T1586.002": [
+        "resource-development",
+        "Email Accounts"
+    ],
+    "T1586.001": [
+        "resource-development",
+        "Social Media Accounts"
+    ],
+    "T1586": [
+        "resource-development",
+        "Compromise Accounts"
+    ],
+    "T1585.002": [
+        "resource-development",
+        "Email Accounts"
+    ],
+    "T1585.001": [
+        "resource-development",
+        "Social Media Accounts"
+    ],
+    "T1585": [
+        "resource-development",
+        "Establish Accounts"
+    ],
+    "T1584.006": [
+        "resource-development",
+        "Web Services"
+    ],
+    "T1584.005": [
+        "resource-development",
+        "Botnet"
+    ],
+    "T1584.004": [
+        "resource-development",
+        "Server"
+    ],
+    "T1584.003": [
+        "resource-development",
+        "Virtual Private Server"
+    ],
+    "T1584.002": [
+        "resource-development",
+        "DNS Server"
+    ],
+    "T1584.001": [
+        "resource-development",
+        "Domains"
+    ],
+    "T1583.006": [
+        "resource-development",
+        "Web Services"
+    ],
+    "T1583.005": [
+        "resource-development",
+        "Botnet"
+    ],
+    "T1583.004": [
+        "resource-development",
+        "Server"
+    ],
+    "T1583.003": [
+        "resource-development",
+        "Virtual Private Server"
+    ],
+    "T1583.002": [
+        "resource-development",
+        "DNS Server"
+    ],
+    "T1584": [
+        "resource-development",
+        "Compromise Infrastructure"
+    ],
+    "T1583.001": [
+        "resource-development",
+        "Domains"
+    ],
+    "T1583": [
+        "resource-development",
+        "Acquire Infrastructure"
+    ],
+    "T1564.007": [
+        "defense-evasion",
+        "VBA Stomping"
+    ],
+    "T1558.004": [
+        "credential-access",
+        "AS-REP Roasting"
+    ],
+    "T1580": [
+        "discovery",
+        "Cloud Infrastructure Discovery"
+    ],
+    "T1218.012": [
+        "defense-evasion",
+        "Verclsid"
+    ],
+    "T1205.001": [
+        "defense-evasion",
+        "Port Knocking"
+    ],
+    "T1564.006": [
+        "defense-evasion",
+        "Run Virtual Instance"
+    ],
+    "T1564.005": [
+        "defense-evasion",
+        "Hidden File System"
+    ],
+    "T1556.003": [
+        "credential-access",
+        "Pluggable Authentication Modules"
+    ],
+    "T1574.012": [
+        "persistence",
+        "COR_PROFILER"
+    ],
+    "T1562.007": [
+        "defense-evasion",
+        "Disable or Modify Cloud Firewall"
+    ],
+    "T1098.004": [
+        "persistence",
+        "SSH Authorized Keys"
+    ],
+    "T1480.001": [
+        "defense-evasion",
+        "Environmental Keying"
+    ],
+    "T1059.007": [
+        "execution",
+        "JavaScript"
+    ],
+    "T1578.004": [
+        "defense-evasion",
+        "Revert Cloud Instance"
+    ],
+    "T1578.003": [
+        "defense-evasion",
+        "Delete Cloud Instance"
+    ],
+    "T1578.001": [
+        "defense-evasion",
+        "Create Snapshot"
+    ],
+    "T1578.002": [
+        "defense-evasion",
+        "Create Cloud Instance"
+    ],
+    "T1127.001": [
+        "defense-evasion",
+        "MSBuild"
+    ],
+    "T1027.005": [
+        "defense-evasion",
+        "Indicator Removal from Tools"
+    ],
+    "T1562.006": [
+        "defense-evasion",
+        "Indicator Blocking"
+    ],
+    "T1573.002": [
+        "command-and-control",
+        "Asymmetric Cryptography"
+    ],
+    "T1573.001": [
+        "command-and-control",
+        "Symmetric Cryptography"
+    ],
+    "T1573": [
+        "command-and-control",
+        "Encrypted Channel"
+    ],
+    "T1027.004": [
+        "defense-evasion",
+        "Compile After Delivery"
+    ],
+    "T1574.004": [
+        "persistence",
+        "Dylib Hijacking"
+    ],
+    "T1546.015": [
+        "privilege-escalation",
+        "Component Object Model Hijacking"
+    ],
+    "T1071.004": [
+        "command-and-control",
+        "DNS"
+    ],
+    "T1071.003": [
+        "command-and-control",
+        "Mail Protocols"
+    ],
+    "T1071.002": [
+        "command-and-control",
+        "File Transfer Protocols"
+    ],
+    "T1071.001": [
+        "command-and-control",
+        "Web Protocols"
+    ],
+    "T1572": [
+        "command-and-control",
+        "Protocol Tunneling"
+    ],
+    "T1048.003": [
+        "exfiltration",
+        "Exfiltration Over Unencrypted Non-C2 Protocol"
+    ],
+    "T1048.002": [
+        "exfiltration",
+        "Exfiltration Over Asymmetric Encrypted Non-C2 Protocol"
+    ],
+    "T1048.001": [
+        "exfiltration",
+        "Exfiltration Over Symmetric Encrypted Non-C2 Protocol"
+    ],
+    "T1001.003": [
+        "command-and-control",
+        "Protocol Impersonation"
+    ],
+    "T1001.002": [
+        "command-and-control",
+        "Steganography"
+    ],
+    "T1001.001": [
+        "command-and-control",
+        "Junk Data"
+    ],
+    "T1132.002": [
+        "command-and-control",
+        "Non-Standard Encoding"
+    ],
+    "T1132.001": [
+        "command-and-control",
+        "Standard Encoding"
+    ],
+    "T1090.004": [
+        "command-and-control",
+        "Domain Fronting"
+    ],
+    "T1090.003": [
+        "command-and-control",
+        "Multi-hop Proxy"
+    ],
+    "T1090.002": [
+        "command-and-control",
+        "External Proxy"
+    ],
+    "T1090.001": [
+        "command-and-control",
+        "Internal Proxy"
+    ],
+    "T1102.003": [
+        "command-and-control",
+        "One-Way Communication"
+    ],
+    "T1102.002": [
+        "command-and-control",
+        "Bidirectional Communication"
+    ],
+    "T1102.001": [
+        "command-and-control",
+        "Dead Drop Resolver"
+    ],
+    "T1571": [
+        "command-and-control",
+        "Non-Standard Port"
+    ],
+    "T1074.002": [
+        "collection",
+        "Remote Data Staging"
+    ],
+    "T1074.001": [
+        "collection",
+        "Local Data Staging"
+    ],
+    "T1078.004": [
+        "defense-evasion",
+        "Cloud Accounts"
+    ],
+    "T1564.004": [
+        "defense-evasion",
+        "NTFS File Attributes"
+    ],
+    "T1564.003": [
+        "defense-evasion",
+        "Hidden Window"
+    ],
+    "T1078.003": [
+        "defense-evasion",
+        "Local Accounts"
+    ],
+    "T1078.002": [
+        "defense-evasion",
+        "Domain Accounts"
+    ],
+    "T1078.001": [
+        "defense-evasion",
+        "Default Accounts"
+    ],
+    "T1564.002": [
+        "defense-evasion",
+        "Hidden Users"
+    ],
+    "T1574.006": [
+        "persistence",
+        "Dynamic Linker Hijacking"
+    ],
+    "T1574.002": [
+        "persistence",
+        "DLL Side-Loading"
+    ],
+    "T1574.001": [
+        "persistence",
+        "DLL Search Order Hijacking"
+    ],
+    "T1574.008": [
+        "persistence",
+        "Path Interception by Search Order Hijacking"
+    ],
+    "T1574.007": [
+        "persistence",
+        "Path Interception by PATH Environment Variable"
+    ],
+    "T1574.009": [
+        "persistence",
+        "Path Interception by Unquoted Path"
+    ],
+    "T1574.011": [
+        "persistence",
+        "Services Registry Permissions Weakness"
+    ],
+    "T1574.005": [
+        "persistence",
+        "Executable Installer File Permissions Weakness"
+    ],
+    "T1574.010": [
+        "persistence",
+        "Services File Permissions Weakness"
+    ],
+    "T1574": [
+        "persistence",
+        "Hijack Execution Flow"
+    ],
+    "T1069.001": [
+        "discovery",
+        "Local Groups"
+    ],
+    "T1570": [
+        "lateral-movement",
+        "Lateral Tool Transfer"
+    ],
+    "T1568.003": [
+        "command-and-control",
+        "DNS Calculation"
+    ],
+    "T1204.002": [
+        "execution",
+        "Malicious File"
+    ],
+    "T1204.001": [
+        "execution",
+        "Malicious Link"
+    ],
+    "T1195.003": [
+        "initial-access",
+        "Compromise Hardware Supply Chain"
+    ],
+    "T1195.002": [
+        "initial-access",
+        "Compromise Software Supply Chain"
+    ],
+    "T1195.001": [
+        "initial-access",
+        "Compromise Software Dependencies and Development Tools"
+    ],
+    "T1568.001": [
+        "command-and-control",
+        "Fast Flux DNS"
+    ],
+    "T1052.001": [
+        "exfiltration",
+        "Exfiltration over USB"
+    ],
+    "T1569.002": [
+        "execution",
+        "Service Execution"
+    ],
+    "T1569.001": [
+        "execution",
+        "Launchctl"
+    ],
+    "T1569": [
+        "execution",
+        "System Services"
+    ],
+    "T1568.002": [
+        "command-and-control",
+        "Domain Generation Algorithms"
+    ],
+    "T1568": [
+        "command-and-control",
+        "Dynamic Resolution"
+    ],
+    "T1011.001": [
+        "exfiltration",
+        "Exfiltration Over Bluetooth"
+    ],
+    "T1567.002": [
+        "exfiltration",
+        "Exfiltration to Cloud Storage"
+    ],
+    "T1567.001": [
+        "exfiltration",
+        "Exfiltration to Code Repository"
+    ],
+    "T1059.006": [
+        "execution",
+        "Python"
+    ],
+    "T1059.005": [
+        "execution",
+        "Visual Basic"
+    ],
+    "T1059.004": [
+        "execution",
+        "Unix Shell"
+    ],
+    "T1059.003": [
+        "execution",
+        "Windows Command Shell"
+    ],
+    "T1059.002": [
+        "execution",
+        "AppleScript"
+    ],
+    "T1059.001": [
+        "execution",
+        "PowerShell"
+    ],
+    "T1567": [
+        "exfiltration",
+        "Exfiltration Over Web Service"
+    ],
+    "T1497.003": [
+        "defense-evasion",
+        "Time Based Evasion"
+    ],
+    "T1497.002": [
+        "defense-evasion",
+        "User Activity Based Checks"
+    ],
+    "T1497.001": [
+        "defense-evasion",
+        "System Checks"
+    ],
+    "T1498.002": [
+        "impact",
+        "Reflection Amplification"
+    ],
+    "T1498.001": [
+        "impact",
+        "Direct Network Flood"
+    ],
+    "T1566.003": [
+        "initial-access",
+        "Spearphishing via Service"
+    ],
+    "T1566.002": [
+        "initial-access",
+        "Spearphishing Link"
+    ],
+    "T1566.001": [
+        "initial-access",
+        "Spearphishing Attachment"
+    ],
+    "T1566": [
+        "initial-access",
+        "Phishing"
+    ],
+    "T1565.003": [
+        "impact",
+        "Runtime Data Manipulation"
+    ],
+    "T1565.002": [
+        "impact",
+        "Transmitted Data Manipulation"
+    ],
+    "T1565.001": [
+        "impact",
+        "Stored Data Manipulation"
+    ],
+    "T1565": [
+        "impact",
+        "Data Manipulation"
+    ],
+    "T1564.001": [
+        "defense-evasion",
+        "Hidden Files and Directories"
+    ],
+    "T1564": [
+        "defense-evasion",
+        "Hide Artifacts"
+    ],
+    "T1563.002": [
+        "lateral-movement",
+        "RDP Hijacking"
+    ],
+    "T1563.001": [
+        "lateral-movement",
+        "SSH Hijacking"
+    ],
+    "T1563": [
+        "lateral-movement",
+        "Remote Service Session Hijacking"
+    ],
+    "T1518.001": [
+        "discovery",
+        "Security Software Discovery"
+    ],
+    "T1069.003": [
+        "discovery",
+        "Cloud Groups"
+    ],
+    "T1069.002": [
+        "discovery",
+        "Domain Groups"
+    ],
+    "T1087.004": [
+        "discovery",
+        "Cloud Account"
+    ],
+    "T1087.003": [
+        "discovery",
+        "Email Account"
+    ],
+    "T1087.002": [
+        "discovery",
+        "Domain Account"
+    ],
+    "T1087.001": [
+        "discovery",
+        "Local Account"
+    ],
+    "T1553.004": [
+        "defense-evasion",
+        "Install Root Certificate"
+    ],
+    "T1562.004": [
+        "defense-evasion",
+        "Disable or Modify System Firewall"
+    ],
+    "T1562.003": [
+        "defense-evasion",
+        "Impair Command History Logging"
+    ],
+    "T1562.002": [
+        "defense-evasion",
+        "Disable Windows Event Logging"
+    ],
+    "T1562.001": [
+        "defense-evasion",
+        "Disable or Modify Tools"
+    ],
+    "T1562": [
+        "defense-evasion",
+        "Impair Defenses"
+    ],
+    "T1003.004": [
+        "credential-access",
+        "LSA Secrets"
+    ],
+    "T1003.005": [
+        "credential-access",
+        "Cached Domain Credentials"
+    ],
+    "T1561.002": [
+        "impact",
+        "Disk Structure Wipe"
+    ],
+    "T1561.001": [
+        "impact",
+        "Disk Content Wipe"
+    ],
+    "T1561": [
+        "impact",
+        "Disk Wipe"
+    ],
+    "T1560.003": [
+        "collection",
+        "Archive via Custom Method"
+    ],
+    "T1560.002": [
+        "collection",
+        "Archive via Library"
+    ],
+    "T1560.001": [
+        "collection",
+        "Archive via Utility"
+    ],
+    "T1560": [
+        "collection",
+        "Archive Collected Data"
+    ],
+    "T1499.004": [
+        "impact",
+        "Application or System Exploitation"
+    ],
+    "T1499.003": [
+        "impact",
+        "Application Exhaustion Flood"
+    ],
+    "T1499.002": [
+        "impact",
+        "Service Exhaustion Flood"
+    ],
+    "T1499.001": [
+        "impact",
+        "OS Exhaustion Flood"
+    ],
+    "T1491.002": [
+        "impact",
+        "External Defacement"
+    ],
+    "T1491.001": [
+        "impact",
+        "Internal Defacement"
+    ],
+    "T1114.003": [
+        "collection",
+        "Email Forwarding Rule"
+    ],
+    "T1114.002": [
+        "collection",
+        "Remote Email Collection"
+    ],
+    "T1114.001": [
+        "collection",
+        "Local Email Collection"
+    ],
+    "T1134.005": [
+        "defense-evasion",
+        "SID-History Injection"
+    ],
+    "T1134.004": [
+        "defense-evasion",
+        "Parent PID Spoofing"
+    ],
+    "T1134.003": [
+        "defense-evasion",
+        "Make and Impersonate Token"
+    ],
+    "T1134.002": [
+        "defense-evasion",
+        "Create Process with Token"
+    ],
+    "T1134.001": [
+        "defense-evasion",
+        "Token Impersonation/Theft"
+    ],
+    "T1213.002": [
+        "collection",
+        "Sharepoint"
+    ],
+    "T1213.001": [
+        "collection",
+        "Confluence"
+    ],
+    "T1555.003": [
+        "credential-access",
+        "Credentials from Web Browsers"
+    ],
+    "T1555.002": [
+        "credential-access",
+        "Securityd Memory"
+    ],
+    "T1555.001": [
+        "credential-access",
+        "Keychain"
+    ],
+    "T1559.002": [
+        "execution",
+        "Dynamic Data Exchange"
+    ],
+    "T1559.001": [
+        "execution",
+        "Component Object Model"
+    ],
+    "T1559": [
+        "execution",
+        "Inter-Process Communication"
+    ],
+    "T1558.002": [
+        "credential-access",
+        "Silver Ticket"
+    ],
+    "T1558.001": [
+        "credential-access",
+        "Golden Ticket"
+    ],
+    "T1558": [
+        "credential-access",
+        "Steal or Forge Kerberos Tickets"
+    ],
+    "T1557.001": [
+        "credential-access",
+        "LLMNR/NBT-NS Poisoning and SMB Relay"
+    ],
+    "T1557": [
+        "credential-access",
+        "Adversary-in-the-Middle"
+    ],
+    "T1556.002": [
+        "credential-access",
+        "Password Filter DLL"
+    ],
+    "T1556.001": [
+        "credential-access",
+        "Domain Controller Authentication"
+    ],
+    "T1556": [
+        "credential-access",
+        "Modify Authentication Process"
+    ],
+    "T1056.004": [
+        "collection",
+        "Credential API Hooking"
+    ],
+    "T1056.003": [
+        "collection",
+        "Web Portal Capture"
+    ],
+    "T1056.002": [
+        "collection",
+        "GUI Input Capture"
+    ],
+    "T1056.001": [
+        "collection",
+        "Keylogging"
+    ],
+    "T1555": [
+        "credential-access",
+        "Credentials from Password Stores"
+    ],
+    "T1552.005": [
+        "credential-access",
+        "Cloud Instance Metadata API"
+    ],
+    "T1003.008": [
+        "credential-access",
+        "/etc/passwd and /etc/shadow"
+    ],
+    "T1003.007": [
+        "credential-access",
+        "Proc Filesystem"
+    ],
+    "T1003.006": [
+        "credential-access",
+        "DCSync"
+    ],
+    "T1558.003": [
+        "credential-access",
+        "Kerberoasting"
+    ],
+    "T1552.006": [
+        "credential-access",
+        "Group Policy Preferences"
+    ],
+    "T1003.003": [
+        "credential-access",
+        "NTDS"
+    ],
+    "T1003.002": [
+        "credential-access",
+        "Security Account Manager"
+    ],
+    "T1003.001": [
+        "credential-access",
+        "LSASS Memory"
+    ],
+    "T1110.004": [
+        "credential-access",
+        "Credential Stuffing"
+    ],
+    "T1110.003": [
+        "credential-access",
+        "Password Spraying"
+    ],
+    "T1110.002": [
+        "credential-access",
+        "Password Cracking"
+    ],
+    "T1110.001": [
+        "credential-access",
+        "Password Guessing"
+    ],
+    "T1021.006": [
+        "lateral-movement",
+        "Windows Remote Management"
+    ],
+    "T1021.005": [
+        "lateral-movement",
+        "VNC"
+    ],
+    "T1021.004": [
+        "lateral-movement",
+        "SSH"
+    ],
+    "T1021.003": [
+        "lateral-movement",
+        "Distributed Component Object Model"
+    ],
+    "T1021.002": [
+        "lateral-movement",
+        "SMB/Windows Admin Shares"
+    ],
+    "T1021.001": [
+        "lateral-movement",
+        "Remote Desktop Protocol"
+    ],
+    "T1554": [
+        "persistence",
+        "Compromise Client Software Binary"
+    ],
+    "T1036.006": [
+        "defense-evasion",
+        "Space after Filename"
+    ],
+    "T1036.005": [
+        "defense-evasion",
+        "Match Legitimate Name or Location"
+    ],
+    "T1036.004": [
+        "defense-evasion",
+        "Masquerade Task or Service"
+    ],
+    "T1036.003": [
+        "defense-evasion",
+        "Rename System Utilities"
+    ],
+    "T1036.002": [
+        "defense-evasion",
+        "Right-to-Left Override"
+    ],
+    "T1036.001": [
+        "defense-evasion",
+        "Invalid Code Signature"
+    ],
+    "T1553.003": [
+        "defense-evasion",
+        "SIP and Trust Provider Hijacking"
+    ],
+    "T1553.002": [
+        "defense-evasion",
+        "Code Signing"
+    ],
+    "T1553.001": [
+        "defense-evasion",
+        "Gatekeeper Bypass"
+    ],
+    "T1553": [
+        "defense-evasion",
+        "Subvert Trust Controls"
+    ],
+    "T1027.003": [
+        "defense-evasion",
+        "Steganography"
+    ],
+    "T1027.002": [
+        "defense-evasion",
+        "Software Packing"
+    ],
+    "T1027.001": [
+        "defense-evasion",
+        "Binary Padding"
+    ],
+    "T1222.002": [
+        "defense-evasion",
+        "Linux and Mac File and Directory Permissions Modification"
+    ],
+    "T1222.001": [
+        "defense-evasion",
+        "Windows File and Directory Permissions Modification"
+    ],
+    "T1552.004": [
+        "credential-access",
+        "Private Keys"
+    ],
+    "T1552.003": [
+        "credential-access",
+        "Bash History"
+    ],
+    "T1552.002": [
+        "credential-access",
+        "Credentials in Registry"
+    ],
+    "T1552.001": [
+        "credential-access",
+        "Credentials In Files"
+    ],
+    "T1552": [
+        "credential-access",
+        "Unsecured Credentials"
+    ],
+    "T1216.001": [
+        "defense-evasion",
+        "PubPrn"
+    ],
+    "T1070.006": [
+        "defense-evasion",
+        "Timestomp"
+    ],
+    "T1070.005": [
+        "defense-evasion",
+        "Network Share Connection Removal"
+    ],
+    "T1070.004": [
+        "defense-evasion",
+        "File Deletion"
+    ],
+    "T1070.003": [
+        "defense-evasion",
+        "Clear Command History"
+    ],
+    "T1550.004": [
+        "defense-evasion",
+        "Web Session Cookie"
+    ],
+    "T1550.001": [
+        "defense-evasion",
+        "Application Access Token"
+    ],
+    "T1550.003": [
+        "defense-evasion",
+        "Pass the Ticket"
+    ],
+    "T1550.002": [
+        "defense-evasion",
+        "Pass the Hash"
+    ],
+    "T1550": [
+        "defense-evasion",
+        "Use Alternate Authentication Material"
+    ],
+    "T1548.004": [
+        "privilege-escalation",
+        "Elevated Execution with Prompt"
+    ],
+    "T1548.003": [
+        "privilege-escalation",
+        "Sudo and Sudo Caching"
+    ],
+    "T1548.002": [
+        "privilege-escalation",
+        "Bypass User Account Control"
+    ],
+    "T1548.001": [
+        "privilege-escalation",
+        "Setuid and Setgid"
+    ],
+    "T1548": [
+        "privilege-escalation",
+        "Abuse Elevation Control Mechanism"
+    ],
+    "T1136.003": [
+        "persistence",
+        "Cloud Account"
+    ],
+    "T1070.002": [
+        "defense-evasion",
+        "Clear Linux or Mac System Logs"
+    ],
+    "T1070.001": [
+        "defense-evasion",
+        "Clear Windows Event Logs"
+    ],
+    "T1136.002": [
+        "persistence",
+        "Domain Account"
+    ],
+    "T1136.001": [
+        "persistence",
+        "Local Account"
+    ],
+    "T1547.010": [
+        "persistence",
+        "Port Monitors"
+    ],
+    "T1547.009": [
+        "persistence",
+        "Shortcut Modification"
+    ],
+    "T1547.008": [
+        "persistence",
+        "LSASS Driver"
+    ],
+    "T1547.007": [
+        "persistence",
+        "Re-opened Applications"
+    ],
+    "T1547.006": [
+        "persistence",
+        "Kernel Modules and Extensions"
+    ],
+    "T1547.005": [
+        "persistence",
+        "Security Support Provider"
+    ],
+    "T1547.004": [
+        "persistence",
+        "Winlogon Helper DLL"
+    ],
+    "T1547.003": [
+        "persistence",
+        "Time Providers"
+    ],
+    "T1546.014": [
+        "privilege-escalation",
+        "Emond"
+    ],
+    "T1546.013": [
+        "privilege-escalation",
+        "PowerShell Profile"
+    ],
+    "T1546.012": [
+        "privilege-escalation",
+        "Image File Execution Options Injection"
+    ],
+    "T1218.008": [
+        "defense-evasion",
+        "Odbcconf"
+    ],
+    "T1546.011": [
+        "privilege-escalation",
+        "Application Shimming"
+    ],
+    "T1547.002": [
+        "persistence",
+        "Authentication Package"
+    ],
+    "T1546.010": [
+        "privilege-escalation",
+        "AppInit DLLs"
+    ],
+    "T1546.009": [
+        "privilege-escalation",
+        "AppCert DLLs"
+    ],
+    "T1218.007": [
+        "defense-evasion",
+        "Msiexec"
+    ],
+    "T1546.008": [
+        "privilege-escalation",
+        "Accessibility Features"
+    ],
+    "T1546.007": [
+        "privilege-escalation",
+        "Netsh Helper DLL"
+    ],
+    "T1546.006": [
+        "privilege-escalation",
+        "LC_LOAD_DYLIB Addition"
+    ],
+    "T1546.005": [
+        "privilege-escalation",
+        "Trap"
+    ],
+    "T1546.004": [
+        "privilege-escalation",
+        "Unix Shell Configuration Modification"
+    ],
+    "T1546.003": [
+        "privilege-escalation",
+        "Windows Management Instrumentation Event Subscription"
+    ],
+    "T1546.002": [
+        "privilege-escalation",
+        "Screensaver"
+    ],
+    "T1546.001": [
+        "privilege-escalation",
+        "Change Default File Association"
+    ],
+    "T1547.001": [
+        "persistence",
+        "Registry Run Keys / Startup Folder"
+    ],
+    "T1218.002": [
+        "defense-evasion",
+        "Control Panel"
+    ],
+    "T1218.010": [
+        "defense-evasion",
+        "Regsvr32"
+    ],
+    "T1218.009": [
+        "defense-evasion",
+        "Regsvcs/Regasm"
+    ],
+    "T1218.005": [
+        "defense-evasion",
+        "Mshta"
+    ],
+    "T1218.004": [
+        "defense-evasion",
+        "InstallUtil"
+    ],
+    "T1218.001": [
+        "defense-evasion",
+        "Compiled HTML File"
+    ],
+    "T1218.003": [
+        "defense-evasion",
+        "CMSTP"
+    ],
+    "T1218.011": [
+        "defense-evasion",
+        "Rundll32"
+    ],
+    "T1547": [
+        "persistence",
+        "Boot or Logon Autostart Execution"
+    ],
+    "T1546": [
+        "privilege-escalation",
+        "Event Triggered Execution"
+    ],
+    "T1098.003": [
+        "persistence",
+        "Additional Cloud Roles"
+    ],
+    "T1098.002": [
+        "persistence",
+        "Additional Email Delegate Permissions"
+    ],
+    "T1098.001": [
+        "persistence",
+        "Additional Cloud Credentials"
+    ],
+    "T1543.004": [
+        "persistence",
+        "Launch Daemon"
+    ],
+    "T1543.003": [
+        "persistence",
+        "Windows Service"
+    ],
+    "T1543.002": [
+        "persistence",
+        "Systemd Service"
+    ],
+    "T1543.001": [
+        "persistence",
+        "Launch Agent"
+    ],
+    "T1037.005": [
+        "persistence",
+        "Startup Items"
+    ],
+    "T1037.004": [
+        "persistence",
+        "RC Scripts"
+    ],
+    "T1055.012": [
+        "defense-evasion",
+        "Process Hollowing"
+    ],
+    "T1055.013": [
+        "defense-evasion",
+        "Process Doppelg\u00e4nging"
+    ],
+    "T1055.011": [
+        "defense-evasion",
+        "Extra Window Memory Injection"
+    ],
+    "T1055.014": [
+        "defense-evasion",
+        "VDSO Hijacking"
+    ],
+    "T1055.009": [
+        "defense-evasion",
+        "Proc Memory"
+    ],
+    "T1055.008": [
+        "defense-evasion",
+        "Ptrace System Calls"
+    ],
+    "T1055.005": [
+        "defense-evasion",
+        "Thread Local Storage"
+    ],
+    "T1055.004": [
+        "defense-evasion",
+        "Asynchronous Procedure Call"
+    ],
+    "T1055.003": [
+        "defense-evasion",
+        "Thread Execution Hijacking"
+    ],
+    "T1055.002": [
+        "defense-evasion",
+        "Portable Executable Injection"
+    ],
+    "T1055.001": [
+        "defense-evasion",
+        "Dynamic-link Library Injection"
+    ],
+    "T1037.003": [
+        "persistence",
+        "Network Logon Script"
+    ],
+    "T1543": [
+        "persistence",
+        "Create or Modify System Process"
+    ],
+    "T1037.002": [
+        "persistence",
+        "Login Hook"
+    ],
+    "T1037.001": [
+        "persistence",
+        "Logon Script (Windows)"
+    ],
+    "T1542.003": [
+        "persistence",
+        "Bootkit"
+    ],
+    "T1542.002": [
+        "persistence",
+        "Component Firmware"
+    ],
+    "T1542.001": [
+        "persistence",
+        "System Firmware"
+    ],
+    "T1505.003": [
+        "persistence",
+        "Web Shell"
+    ],
+    "T1505.002": [
+        "persistence",
+        "Transport Agent"
+    ],
+    "T1505.001": [
+        "persistence",
+        "SQL Stored Procedures"
+    ],
+    "T1053.003": [
+        "execution",
+        "Cron"
+    ],
+    "T1053.005": [
+        "execution",
+        "Scheduled Task"
+    ],
+    "T1053.002": [
+        "execution",
+        "At"
+    ],
+    "T1542": [
+        "defense-evasion",
+        "Pre-OS Boot"
+    ],
+    "T1137.001": [
+        "persistence",
+        "Office Template Macros"
+    ],
+    "T1137.004": [
+        "persistence",
+        "Outlook Home Page"
+    ],
+    "T1137.003": [
+        "persistence",
+        "Outlook Forms"
+    ],
+    "T1137.005": [
+        "persistence",
+        "Outlook Rules"
+    ],
+    "T1137.006": [
+        "persistence",
+        "Add-ins"
+    ],
+    "T1137.002": [
+        "persistence",
+        "Office Test"
+    ],
+    "T1531": [
+        "impact",
+        "Account Access Removal"
+    ],
+    "T1539": [
+        "credential-access",
+        "Steal Web Session Cookie"
+    ],
+    "T1529": [
+        "impact",
+        "System Shutdown/Reboot"
+    ],
+    "T1518": [
+        "discovery",
+        "Software Discovery"
+    ],
+    "T1547.013": [
+        "persistence",
+        "XDG Autostart Entries"
+    ],
+    "T1534": [
+        "lateral-movement",
+        "Internal Spearphishing"
+    ],
+    "T1528": [
+        "credential-access",
+        "Steal Application Access Token"
+    ],
+    "T1535": [
+        "defense-evasion",
+        "Unused/Unsupported Cloud Regions"
+    ],
+    "T1525": [
+        "persistence",
+        "Implant Internal Image"
+    ],
+    "T1538": [
+        "discovery",
+        "Cloud Service Dashboard"
+    ],
+    "T1530": [
+        "collection",
+        "Data from Cloud Storage"
+    ],
+    "T1578": [
+        "defense-evasion",
+        "Modify Cloud Compute Infrastructure"
+    ],
+    "T1537": [
+        "exfiltration",
+        "Transfer Data to Cloud Account"
+    ],
+    "T1526": [
+        "discovery",
+        "Cloud Service Discovery"
+    ],
+    "T1505": [
+        "persistence",
+        "Server Software Component"
+    ],
+    "T1499": [
+        "impact",
+        "Endpoint Denial of Service"
+    ],
+    "T1497": [
+        "defense-evasion",
+        "Virtualization/Sandbox Evasion"
+    ],
+    "T1498": [
+        "impact",
+        "Network Denial of Service"
+    ],
+    "T1496": [
+        "impact",
+        "Resource Hijacking"
+    ],
+    "T1495": [
+        "impact",
+        "Firmware Corruption"
+    ],
+    "T1491": [
+        "impact",
+        "Defacement"
+    ],
+    "T1490": [
+        "impact",
+        "Inhibit System Recovery"
+    ],
+    "T1489": [
+        "impact",
+        "Service Stop"
+    ],
+    "T1486": [
+        "impact",
+        "Data Encrypted for Impact"
+    ],
+    "T1485": [
+        "impact",
+        "Data Destruction"
+    ],
+    "T1484": [
+        "defense-evasion",
+        "Domain Policy Modification"
+    ],
+    "T1482": [
+        "discovery",
+        "Domain Trust Discovery"
+    ],
+    "T1480": [
+        "defense-evasion",
+        "Execution Guardrails"
+    ],
+    "T1221": [
+        "defense-evasion",
+        "Template Injection"
+    ],
+    "T1220": [
+        "defense-evasion",
+        "XSL Script Processing"
+    ],
+    "T1222": [
+        "defense-evasion",
+        "File and Directory Permissions Modification"
+    ],
+    "T1202": [
+        "defense-evasion",
+        "Indirect Command Execution"
+    ],
+    "T1195": [
+        "initial-access",
+        "Supply Chain Compromise"
+    ],
+    "T1219": [
+        "command-and-control",
+        "Remote Access Software"
+    ],
+    "T1205": [
+        "defense-evasion",
+        "Traffic Signaling"
+    ],
+    "T1218": [
+        "defense-evasion",
+        "System Binary Proxy Execution"
+    ],
+    "T1207": [
+        "defense-evasion",
+        "Rogue Domain Controller"
+    ],
+    "T1210": [
+        "lateral-movement",
+        "Exploitation of Remote Services"
+    ],
+    "T1201": [
+        "discovery",
+        "Password Policy Discovery"
+    ],
+    "T1197": [
+        "defense-evasion",
+        "BITS Jobs"
+    ],
+    "T1216": [
+        "defense-evasion",
+        "System Script Proxy Execution"
+    ],
+    "T1204": [
+        "execution",
+        "User Execution"
+    ],
+    "T1212": [
+        "credential-access",
+        "Exploitation for Credential Access"
+    ],
+    "T1199": [
+        "initial-access",
+        "Trusted Relationship"
+    ],
+    "T1200": [
+        "initial-access",
+        "Hardware Additions"
+    ],
+    "T1213": [
+        "collection",
+        "Data from Information Repositories"
+    ],
+    "T1211": [
+        "defense-evasion",
+        "Exploitation for Defense Evasion"
+    ],
+    "T1190": [
+        "initial-access",
+        "Exploit Public-Facing Application"
+    ],
+    "T1217": [
+        "discovery",
+        "Browser Information Discovery"
+    ],
+    "T1203": [
+        "execution",
+        "Exploitation for Client Execution"
+    ],
+    "T1189": [
+        "initial-access",
+        "Drive-by Compromise"
+    ],
+    "T1176": [
+        "persistence",
+        "Browser Extensions"
+    ],
+    "T1185": [
+        "collection",
+        "Browser Session Hijacking"
+    ],
+    "T1187": [
+        "credential-access",
+        "Forced Authentication"
+    ],
+    "T1135": [
+        "discovery",
+        "Network Share Discovery"
+    ],
+    "T1140": [
+        "defense-evasion",
+        "Deobfuscate/Decode Files or Information"
+    ],
+    "T1134": [
+        "defense-evasion",
+        "Access Token Manipulation"
+    ],
+    "T1136": [
+        "persistence",
+        "Create Account"
+    ],
+    "T1137": [
+        "persistence",
+        "Office Application Startup"
+    ],
+    "T1133": [
+        "persistence",
+        "External Remote Services"
+    ],
+    "T1132": [
+        "command-and-control",
+        "Data Encoding"
+    ],
+    "T1129": [
+        "execution",
+        "Shared Modules"
+    ],
+    "T1127": [
+        "defense-evasion",
+        "Trusted Developer Utilities Proxy Execution"
+    ],
+    "T1125": [
+        "collection",
+        "Video Capture"
+    ],
+    "T1124": [
+        "discovery",
+        "System Time Discovery"
+    ],
+    "T1123": [
+        "collection",
+        "Audio Capture"
+    ],
+    "T1120": [
+        "discovery",
+        "Peripheral Device Discovery"
+    ],
+    "T1119": [
+        "collection",
+        "Automated Collection"
+    ],
+    "T1115": [
+        "collection",
+        "Clipboard Data"
+    ],
+    "T1114": [
+        "collection",
+        "Email Collection"
+    ],
+    "T1113": [
+        "collection",
+        "Screen Capture"
+    ],
+    "T1112": [
+        "defense-evasion",
+        "Modify Registry"
+    ],
+    "T1111": [
+        "credential-access",
+        "Multi-Factor Authentication Interception"
+    ],
+    "T1110": [
+        "credential-access",
+        "Brute Force"
+    ],
+    "T1106": [
+        "execution",
+        "Native API"
+    ],
+    "T1105": [
+        "command-and-control",
+        "Ingress Tool Transfer"
+    ],
+    "T1104": [
+        "command-and-control",
+        "Multi-Stage Channels"
+    ],
+    "T1102": [
+        "command-and-control",
+        "Web Service"
+    ],
+    "T1098": [
+        "persistence",
+        "Account Manipulation"
+    ],
+    "T1095": [
+        "command-and-control",
+        "Non-Application Layer Protocol"
+    ],
+    "T1092": [
+        "command-and-control",
+        "Communication Through Removable Media"
+    ],
+    "T1091": [
+        "lateral-movement",
+        "Replication Through Removable Media"
+    ],
+    "T1090": [
+        "command-and-control",
+        "Proxy"
+    ],
+    "T1087": [
+        "discovery",
+        "Account Discovery"
+    ],
+    "T1083": [
+        "discovery",
+        "File and Directory Discovery"
+    ],
+    "T1082": [
+        "discovery",
+        "System Information Discovery"
+    ],
+    "T1080": [
+        "lateral-movement",
+        "Taint Shared Content"
+    ],
+    "T1078": [
+        "defense-evasion",
+        "Valid Accounts"
+    ],
+    "T1074": [
+        "collection",
+        "Data Staged"
+    ],
+    "T1072": [
+        "execution",
+        "Software Deployment Tools"
+    ],
+    "T1071": [
+        "command-and-control",
+        "Application Layer Protocol"
+    ],
+    "T1070": [
+        "defense-evasion",
+        "Indicator Removal"
+    ],
+    "T1069": [
+        "discovery",
+        "Permission Groups Discovery"
+    ],
+    "T1068": [
+        "privilege-escalation",
+        "Exploitation for Privilege Escalation"
+    ],
+    "T1059": [
+        "execution",
+        "Command and Scripting Interpreter"
+    ],
+    "T1057": [
+        "discovery",
+        "Process Discovery"
+    ],
+    "T1056": [
+        "collection",
+        "Input Capture"
+    ],
+    "T1055": [
+        "defense-evasion",
+        "Process Injection"
+    ],
+    "T1053": [
+        "execution",
+        "Scheduled Task/Job"
+    ],
+    "T1052": [
+        "exfiltration",
+        "Exfiltration Over Physical Medium"
+    ],
+    "T1049": [
+        "discovery",
+        "System Network Connections Discovery"
+    ],
+    "T1048": [
+        "exfiltration",
+        "Exfiltration Over Alternative Protocol"
+    ],
+    "T1047": [
+        "execution",
+        "Windows Management Instrumentation"
+    ],
+    "T1046": [
+        "discovery",
+        "Network Service Discovery"
+    ],
+    "T1041": [
+        "exfiltration",
+        "Exfiltration Over C2 Channel"
+    ],
+    "T1040": [
+        "credential-access",
+        "Network Sniffing"
+    ],
+    "T1039": [
+        "collection",
+        "Data from Network Shared Drive"
+    ],
+    "T1037": [
+        "persistence",
+        "Boot or Logon Initialization Scripts"
+    ],
+    "T1036": [
+        "defense-evasion",
+        "Masquerading"
+    ],
+    "T1033": [
+        "discovery",
+        "System Owner/User Discovery"
+    ],
+    "T1030": [
+        "exfiltration",
+        "Data Transfer Size Limits"
+    ],
+    "T1029": [
+        "exfiltration",
+        "Scheduled Transfer"
+    ],
+    "T1027": [
+        "defense-evasion",
+        "Obfuscated Files or Information"
+    ],
+    "T1025": [
+        "collection",
+        "Data from Removable Media"
+    ],
+    "T1021": [
+        "lateral-movement",
+        "Remote Services"
+    ],
+    "T1020": [
+        "exfiltration",
+        "Automated Exfiltration"
+    ],
+    "T1018": [
+        "discovery",
+        "Remote System Discovery"
+    ],
+    "T1016": [
+        "discovery",
+        "System Network Configuration Discovery"
+    ],
+    "T1014": [
+        "defense-evasion",
+        "Rootkit"
+    ],
+    "T1012": [
+        "discovery",
+        "Query Registry"
+    ],
+    "T1011": [
+        "exfiltration",
+        "Exfiltration Over Other Network Medium"
+    ],
+    "T1010": [
+        "discovery",
+        "Application Window Discovery"
+    ],
+    "T1008": [
+        "command-and-control",
+        "Fallback Channels"
+    ],
+    "T1007": [
+        "discovery",
+        "System Service Discovery"
+    ],
+    "T1006": [
+        "defense-evasion",
+        "Direct Volume Access"
+    ],
+    "T1005": [
+        "collection",
+        "Data from Local System"
+    ],
+    "T1003": [
+        "credential-access",
+        "OS Credential Dumping"
+    ],
+    "T1001": [
+        "command-and-control",
+        "Data Obfuscation"
+    ],
+    "T1663": [
+        "command-and-control",
+        "Remote Access Software"
+    ],
+    "T1662": [
+        "impact",
+        "Data Destruction"
+    ],
+    "T1661": [
+        "initial-access",
+        "Application Versioning"
+    ],
+    "T1660": [
+        "initial-access",
+        "Phishing"
+    ],
+    "T1658": [
+        "execution",
+        "Exploitation for Client Execution"
+    ],
+    "T1655.001": [
+        "defense-evasion",
+        "Match Legitimate Name or Location"
+    ],
+    "T1655": [
+        "defense-evasion",
+        "Masquerading"
+    ],
+    "T1628.002": [
+        "defense-evasion",
+        "User Evasion"
+    ],
+    "T1630.003": [
+        "defense-evasion",
+        "Disguise Root/Jailbreak Indicators"
+    ],
+    "T1481.003": [
+        "command-and-control",
+        "One-Way Communication"
+    ],
+    "T1481.002": [
+        "command-and-control",
+        "Bidirectional Communication"
+    ],
+    "T1481.001": [
+        "command-and-control",
+        "Dead Drop Resolver"
+    ],
+    "T1644": [
+        "command-and-control",
+        "Out of Band Data"
+    ],
+    "T1643": [
+        "impact",
+        "Generate Traffic from Victim"
+    ],
+    "T1642": [
+        "impact",
+        "Endpoint Denial of Service"
+    ],
+    "T1641.001": [
+        "impact",
+        "Transmitted Data Manipulation"
+    ],
+    "T1641": [
+        "impact",
+        "Data Manipulation"
+    ],
+    "T1640": [
+        "impact",
+        "Account Access Removal"
+    ],
+    "T1639.001": [
+        "exfiltration",
+        "Exfiltration Over Unencrypted Non-C2 Protocol"
+    ],
+    "T1639": [
+        "exfiltration",
+        "Exfiltration Over Alternative Protocol"
+    ],
+    "T1521.002": [
+        "command-and-control",
+        "Asymmetric Cryptography"
+    ],
+    "T1521.001": [
+        "command-and-control",
+        "Symmetric Cryptography"
+    ],
+    "T1638": [
+        "collection",
+        "Adversary-in-the-Middle"
+    ],
+    "T1637.001": [
+        "command-and-control",
+        "Domain Generation Algorithms"
+    ],
+    "T1637": [
+        "command-and-control",
+        "Dynamic Resolution"
+    ],
+    "T1430.002": [
+        "collection",
+        "Impersonate SS7 Nodes"
+    ],
+    "T1417.002": [
+        "credential-access",
+        "GUI Input Capture"
+    ],
+    "T1417.001": [
+        "collection",
+        "Keylogging"
+    ],
+    "T1430.001": [
+        "collection",
+        "Remote Device Management Services"
+    ],
+    "T1437.001": [
+        "command-and-control",
+        "Web Protocols"
+    ],
+    "T1629.003": [
+        "defense-evasion",
+        "Disable or Modify Tools"
+    ],
+    "T1629.002": [
+        "defense-evasion",
+        "Device Lockout"
+    ],
+    "T1629.001": [
+        "defense-evasion",
+        "Prevent Application Removal"
+    ],
+    "T1629": [
+        "defense-evasion",
+        "Impair Defenses"
+    ],
+    "T1626.001": [
+        "privilege-escalation",
+        "Device Administrator Permissions"
+    ],
+    "T1626": [
+        "privilege-escalation",
+        "Abuse Elevation Control Mechanism"
+    ],
+    "T1646": [
+        "exfiltration",
+        "Exfiltration Over C2 Channel"
+    ],
+    "T1635.001": [
+        "credential-access",
+        "URI Hijacking"
+    ],
+    "T1635": [
+        "credential-access",
+        "Steal Application Access Token"
+    ],
+    "T1634.001": [
+        "credential-access",
+        "Keychain"
+    ],
+    "T1634": [
+        "credential-access",
+        "Credentials from Password Store"
+    ],
+    "T1636.004": [
+        "collection",
+        "SMS Messages"
+    ],
+    "T1636.003": [
+        "collection",
+        "Contact List"
+    ],
+    "T1636.002": [
+        "collection",
+        "Call Log"
+    ],
+    "T1636.001": [
+        "collection",
+        "Calendar Entries"
+    ],
+    "T1636": [
+        "collection",
+        "Protected User Data"
+    ],
+    "T1418.001": [
+        "discovery",
+        "Security Software Discovery"
+    ],
+    "T1627.001": [
+        "defense-evasion",
+        "Geofencing"
+    ],
+    "T1627": [
+        "defense-evasion",
+        "Execution Guardrails"
+    ],
+    "T1628.001": [
+        "defense-evasion",
+        "Suppress Application Icon"
+    ],
+    "T1628": [
+        "defense-evasion",
+        "Hide Artifacts"
+    ],
+    "T1645": [
+        "persistence",
+        "Compromise Client Software Binary"
+    ],
+    "T1630.002": [
+        "defense-evasion",
+        "File Deletion"
+    ],
+    "T1630.001": [
+        "defense-evasion",
+        "Uninstall Malicious Application"
+    ],
+    "T1630": [
+        "defense-evasion",
+        "Indicator Removal on Host"
+    ],
+    "T1406.002": [
+        "defense-evasion",
+        "Software Packing"
+    ],
+    "T1406.001": [
+        "defense-evasion",
+        "Steganography"
+    ],
+    "T1631.001": [
+        "defense-evasion",
+        "Ptrace System Calls"
+    ],
+    "T1631": [
+        "defense-evasion",
+        "Process Injection"
+    ],
+    "T1632.001": [
+        "defense-evasion",
+        "Code Signing Policy Modification"
+    ],
+    "T1632": [
+        "defense-evasion",
+        "Subvert Trust Controls"
+    ],
+    "T1633.001": [
+        "defense-evasion",
+        "System Checks"
+    ],
+    "T1633": [
+        "defense-evasion",
+        "Virtualization/Sandbox Evasion"
+    ],
+    "T1625.001": [
+        "persistence",
+        "System Runtime API Hijacking"
+    ],
+    "T1625": [
+        "persistence",
+        "Hijack Execution Flow"
+    ],
+    "T1624.001": [
+        "persistence",
+        "Broadcast Receivers"
+    ],
+    "T1624": [
+        "persistence",
+        "Event Triggered Execution"
+    ],
+    "T1623.001": [
+        "execution",
+        "Unix Shell"
+    ],
+    "T1623": [
+        "execution",
+        "Command and Scripting Interpreter"
+    ],
+    "T1474.001": [
+        "initial-access",
+        "Compromise Software Dependencies and Development Tools"
+    ],
+    "T1474.002": [
+        "initial-access",
+        "Compromise Hardware Supply Chain"
+    ],
+    "T1474.003": [
+        "initial-access",
+        "Compromise Software Supply Chain"
+    ],
+    "T1617": [
+        "defense-evasion",
+        "Hooking"
+    ],
+    "T1616": [
+        "collection",
+        "Call Control"
+    ],
+    "T1604": [
+        "defense-evasion",
+        "Proxy Through Victim"
+    ],
+    "T1603": [
+        "execution",
+        "Scheduled Task/Job"
+    ],
+    "T1582": [
+        "impact",
+        "SMS Control"
+    ],
+    "T1577": [
+        "persistence",
+        "Compromise Application Executable"
+    ],
+    "T1575": [
+        "defense-evasion",
+        "Native API"
+    ],
+    "T1544": [
+        "command-and-control",
+        "Ingress Tool Transfer"
+    ],
+    "T1541": [
+        "defense-evasion",
+        "Foreground Persistence"
+    ],
+    "T1533": [
+        "collection",
+        "Data from Local System"
+    ],
+    "T1532": [
+        "collection",
+        "Archive Collected Data"
+    ],
+    "T1521": [
+        "command-and-control",
+        "Encrypted Channel"
+    ],
+    "T1516": [
+        "defense-evasion",
+        "Input Injection"
+    ],
+    "T1517": [
+        "collection",
+        "Access Notifications"
+    ],
+    "T1512": [
+        "collection",
+        "Video Capture"
+    ],
+    "T1513": [
+        "collection",
+        "Screen Capture"
+    ],
+    "T1509": [
+        "command-and-control",
+        "Non-Standard Port"
+    ],
+    "T1481": [
+        "command-and-control",
+        "Web Service"
+    ],
+    "T1474": [
+        "initial-access",
+        "Supply Chain Compromise"
+    ],
+    "T1424": [
+        "discovery",
+        "Process Discovery"
+    ],
+    "T1421": [
+        "discovery",
+        "System Network Connections Discovery"
+    ],
+    "T1437": [
+        "command-and-control",
+        "Application Layer Protocol"
+    ],
+    "T1422": [
+        "discovery",
+        "System Network Configuration Discovery"
+    ],
+    "T1406": [
+        "defense-evasion",
+        "Obfuscated Files or Information"
+    ],
+    "T1398": [
+        "persistence",
+        "Boot or Logon Initialization Scripts"
+    ],
+    "T1404": [
+        "privilege-escalation",
+        "Exploitation for Privilege Escalation"
+    ],
+    "T1418": [
+        "discovery",
+        "Software Discovery"
+    ],
+    "T1417": [
+        "collection",
+        "Input Capture"
+    ],
+    "T1423": [
+        "discovery",
+        "Network Service Scanning"
+    ],
+    "T1464": [
+        "impact",
+        "Network Denial of Service"
+    ],
+    "T1461": [
+        "initial-access",
+        "Lockscreen Bypass"
+    ],
+    "T1458": [
+        "initial-access",
+        "Replication Through Removable Media"
+    ],
+    "T1420": [
+        "discovery",
+        "File and Directory Discovery"
+    ],
+    "T1414": [
+        "collection",
+        "Clipboard Data"
+    ],
+    "T1426": [
+        "discovery",
+        "System Information Discovery"
+    ],
+    "T1409": [
+        "collection",
+        "Stored Application Data"
+    ],
+    "T1407": [
+        "defense-evasion",
+        "Download New Code at Runtime"
+    ],
+    "T1428": [
+        "lateral-movement",
+        "Exploitation of Remote Services"
+    ],
+    "T1429": [
+        "collection",
+        "Audio Capture"
+    ],
+    "T1430": [
+        "collection",
+        "Location Tracking"
+    ],
+    "T1471": [
+        "impact",
+        "Data Encrypted for Impact"
+    ],
+    "T1456": [
+        "initial-access",
+        "Drive-By Compromise"
+    ],
+    "T0893": [
+        "collection",
+        "Data from Local System"
+    ],
+    "T0892": [
+        "inhibit-response-function",
+        "Change Credential"
+    ],
+    "T0891": [
+        "lateral-movement",
+        "Hardcoded Credentials"
+    ],
+    "T0864": [
+        "initial-access",
+        "Transient Cyber Asset"
+    ],
+    "T0888": [
+        "discovery",
+        "Remote System Information Discovery"
+    ],
+    "T0834": [
+        "execution",
+        "Native API"
+    ],
+    "T0890": [
+        "privilege-escalation",
+        "Exploitation for Privilege Escalation"
+    ],
+    "T0889": [
+        "persistence",
+        "Modify Program"
+    ],
+    "T0821": [
+        "execution",
+        "Modify Controller Tasking"
+    ],
+    "T0886": [
+        "initial-access",
+        "Remote Services"
+    ],
+    "T0837": [
+        "impact",
+        "Loss of Protection"
+    ],
+    "T0803": [
+        "inhibit-response-function",
+        "Block Command Message"
+    ],
+    "T0829": [
+        "impact",
+        "Loss of View"
+    ],
+    "T0860": [
+        "initial-access",
+        "Wireless Compromise"
+    ],
+    "T0801": [
+        "collection",
+        "Monitor Process State"
+    ],
+    "T0811": [
+        "collection",
+        "Data from Information Repositories"
+    ],
+    "T0802": [
+        "collection",
+        "Automated Collection"
+    ],
+    "T0871": [
+        "execution",
+        "Execution through API"
+    ],
+    "T0865": [
+        "initial-access",
+        "Spearphishing Attachment"
+    ],
+    "T0866": [
+        "initial-access",
+        "Exploitation of Remote Services"
+    ],
+    "T0830": [
+        "collection",
+        "Adversary-in-the-Middle"
+    ],
+    "T0826": [
+        "impact",
+        "Loss of Availability"
+    ],
+    "T0847": [
+        "initial-access",
+        "Replication Through Removable Media"
+    ],
+    "T0846": [
+        "discovery",
+        "Remote System Discovery"
+    ],
+    "T0873": [
+        "persistence",
+        "Project File Infection"
+    ],
+    "T0836": [
+        "impair-process-control",
+        "Modify Parameter"
+    ],
+    "T0831": [
+        "impact",
+        "Manipulation of Control"
+    ],
+    "T0861": [
+        "collection",
+        "Point & Tag Identification"
+    ],
+    "T0878": [
+        "inhibit-response-function",
+        "Alarm Suppression"
+    ],
+    "T0835": [
+        "inhibit-response-function",
+        "Manipulate I/O Image"
+    ],
+    "T0855": [
+        "impair-process-control",
+        "Unauthorized Command Message"
+    ],
+    "T0872": [
+        "evasion",
+        "Indicator Removal on Host"
+    ],
+    "T0817": [
+        "initial-access",
+        "Drive-by Compromise"
+    ],
+    "T0822": [
+        "initial-access",
+        "External Remote Services"
+    ],
+    "T0827": [
+        "impact",
+        "Loss of Control"
+    ],
+    "T0823": [
+        "execution",
+        "Graphical User Interface"
+    ],
+    "T0857": [
+        "persistence",
+        "System Firmware"
+    ],
+    "T0884": [
+        "command-and-control",
+        "Connection Proxy"
+    ],
+    "T0813": [
+        "impact",
+        "Denial of Control"
+    ],
+    "T0867": [
+        "lateral-movement",
+        "Lateral Tool Transfer"
+    ],
+    "T0881": [
+        "inhibit-response-function",
+        "Service Stop"
+    ],
+    "T0800": [
+        "inhibit-response-function",
+        "Activate Firmware Update Mode"
+    ],
+    "T0807": [
+        "execution",
+        "Command-Line Interface"
+    ],
+    "T0858": [
+        "execution",
+        "Change Operating Mode"
+    ],
+    "T0853": [
+        "execution",
+        "Scripting"
+    ],
+    "T0804": [
+        "inhibit-response-function",
+        "Block Reporting Message"
+    ],
+    "T0862": [
+        "initial-access",
+        "Supply Chain Compromise"
+    ],
+    "T0812": [
+        "lateral-movement",
+        "Default Credentials"
+    ],
+    "T0820": [
+        "evasion",
+        "Exploitation for Evasion"
+    ],
+    "T0882": [
+        "impact",
+        "Theft of Operational Information"
+    ],
+    "T0852": [
+        "collection",
+        "Screen Capture"
+    ],
+    "T0840": [
+        "discovery",
+        "Network Connection Enumeration"
+    ],
+    "T0814": [
+        "inhibit-response-function",
+        "Denial of Service"
+    ],
+    "T0816": [
+        "inhibit-response-function",
+        "Device Restart/Shutdown"
+    ],
+    "T0868": [
+        "collection",
+        "Detect Operating Mode"
+    ],
+    "T0845": [
+        "collection",
+        "Program Upload"
+    ],
+    "T0842": [
+        "discovery",
+        "Network Sniffing"
+    ],
+    "T0809": [
+        "inhibit-response-function",
+        "Data Destruction"
+    ],
+    "T0877": [
+        "collection",
+        "I/O Image"
+    ],
+    "T0880": [
+        "impact",
+        "Loss of Safety"
+    ],
+    "T0879": [
+        "impact",
+        "Damage to Property"
+    ],
+    "T0806": [
+        "impair-process-control",
+        "Brute Force I/O"
+    ],
+    "T0848": [
+        "initial-access",
+        "Rogue Master"
+    ],
+    "T0849": [
+        "evasion",
+        "Masquerading"
+    ],
+    "T0859": [
+        "persistence",
+        "Valid Accounts"
+    ],
+    "T0869": [
+        "command-and-control",
+        "Standard Application Layer Protocol"
+    ],
+    "T0838": [
+        "inhibit-response-function",
+        "Modify Alarm Settings"
+    ],
+    "T0839": [
+        "persistence",
+        "Module Firmware"
+    ],
+    "T0887": [
+        "discovery",
+        "Wireless Sniffing"
+    ],
+    "T0805": [
+        "inhibit-response-function",
+        "Block Serial COM"
+    ],
+    "T0863": [
+        "execution",
+        "User Execution"
+    ],
+    "T0819": [
+        "initial-access",
+        "Exploit Public-Facing Application"
+    ],
+    "T0851": [
+        "evasion",
+        "Rootkit"
+    ],
+    "T0832": [
+        "impact",
+        "Manipulation of View"
+    ],
+    "T0815": [
+        "impact",
+        "Denial of View"
+    ],
+    "T0828": [
+        "impact",
+        "Loss of Productivity and Revenue"
+    ],
+    "T0856": [
+        "evasion",
+        "Spoof Reporting Message"
+    ],
+    "T0874": [
+        "execution",
+        "Hooking"
+    ],
+    "T0843": [
+        "lateral-movement",
+        "Program Download"
+    ],
+    "T0885": [
+        "command-and-control",
+        "Commonly Used Port"
+    ],
+    "T0883": [
+        "initial-access",
+        "Internet Accessible Device"
+    ]
+}

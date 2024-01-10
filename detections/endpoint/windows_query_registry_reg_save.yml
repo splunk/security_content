@@ -1,7 +1,7 @@
 name: Windows Query Registry Reg Save
 id: cbee60c1-b776-456f-83c2-faa56bdbe6c6
 version: 1
-date: '2022-12-12'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -38,6 +38,7 @@ references:
 tags:
   analytic_story:
   - Windows Post-Exploitation
+  - CISA AA23-347A
   - Prestige Ransomware
   asset_type: Endpoint
   confidence: 30

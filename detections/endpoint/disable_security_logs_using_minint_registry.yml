@@ -1,7 +1,7 @@
 name: Disable Security Logs Using MiniNt Registry
 id: 39ebdc68-25b9-11ec-aec7-acde48001122
 version: 4
-date: '2023-04-27'
+date: '2023-12-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -12,10 +12,11 @@ description: This analytic is to detect a suspicious registry modification to di
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path="*\\Control\\MiniNt\\*") BY _time span=1h  Registry.user Registry.dest Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_security_logs_using_minint_registry_filter`'
+  WHERE (Registry.registry_path="*\\Control\\MiniNt\\*") BY _time span=1h  Registry.user
+  Registry.dest Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `disable_security_logs_using_minint_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -26,6 +27,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - CISA AA23-347A
   - Windows Registry Abuse
   asset_type: Endpoint
   confidence: 100

@@ -1,7 +1,7 @@
 name: Windows Modify Registry Suppress Win Defender Notif
 id: e3b42daf-fff4-429d-bec8-2a199468cea9
 version: 1
-date: '2022-06-22'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Azorult
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 70

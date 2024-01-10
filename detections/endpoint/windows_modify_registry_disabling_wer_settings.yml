@@ -1,7 +1,7 @@
 name: Windows Modify Registry Disabling WER Settings
 id: 21cbcaf1-b51f-496d-a0c1-858ff3070452
 version: 1
-date: '2022-06-22'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Azorult
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 70

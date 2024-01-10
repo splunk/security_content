@@ -1,0 +1,66 @@
+name: Kubernetes Process Running From New Path
+id: 454076fb-0e9e-4adf-b93a-da132621c5e6
+version: 1
+date: '2023-12-18'
+author: Matthew Moore, Splunk
+status: experimental
+type: Anomaly
+description: This analytic detects processes running within the same scope as Kubernetes that have been run from a newly seen path. 
+  This detection leverages process metrics harvested using an OTEL collector and hostmetrics receiever, and is pulled from Splunk Observability cloud 
+  using the Splunk Infrastructure Monitoring Add-on. (https://splunkbase.splunk.com/app/5247). This detection compares the processes seen for 
+  each node over the previous 1 hour with those over the previous 30 days up until the previous 1 hour, and alerts if the path for that process was not seen over the previous 30 days. 
+  The specific metric used by this detection is process.memory.utilization. Processes running from a newly seen path can signify potential security risks and anomalies. 
+  A process executing from an unfamiliar file path may indicate unauthorized changes to the file system, a compromised node, or the introduction of malicious software.
+  If the presence of a process running from a newly seen file path on a Kubernetes node indicates malicious activity, the security implications could be severe. 
+  It suggests that an attacker has potentially compromised the node, allowing them to execute unauthorized processes and potentially gain control over critical resources. 
+  This could lead to further exploitation, data exfiltration, privilege escalation, or the introduction of malware and backdoors within the Kubernetes cluster.
+data_source: []
+search: '| mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name 
+  | eval current="True" 
+  | append 
+    [ mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-30d latest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name
+        ] 
+  | stats count values(current) as current by host.name k8s.cluster.name k8s.node.name process.pid process.executable.name process.executable.path
+  | where count=1 and current="True"
+  | rename host.name as host
+  | `kubernetes_process_running_from_new_path_filter` '
+how_to_implement: 'To implement this detection, follow these steps:
+  1. Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
+  2. Enable the hostmetrics/process receiver in the OTEL configuration.
+  3. Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
+  4. Install the Splunk Infrastructure Monitoring (SIM) add-on.(ref: https://splunkbase.splunk.com/app/5247)
+  5. Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
+  6. Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
+  7. In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
+  8. Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+  9. Set the Metric Resolution to 10000.
+  10. Leave all other settings at their default values.'
+known_false_positives: unknown
+references:
+- https://github.com/signalfx/splunk-otel-collector-chart
+tags:
+  analytic_story:
+  - Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
+  asset_type: Kubernetes
+  confidence: 50
+  impact: 50
+  message: Kubernetes Process Running From New Path on host $host$
+  mitre_attack_id:
+  - T1204
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - process.memory.utilization
+  - host.name 
+  - k8s.cluster.name 
+  - k8s.node.name 
+  - process.executable.name
+  risk_score: 25
+  security_domain: network

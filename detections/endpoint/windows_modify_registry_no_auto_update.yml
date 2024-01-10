@@ -1,7 +1,7 @@
 name: Windows Modify Registry No Auto Update
 id: fbd4f333-17bb-4eab-89cb-860fa2e0600e
 version: 1
-date: '2023-04-21'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -9,19 +9,18 @@ data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 - Sysmon EventID 14
-description: The following analytic identifies a suspicious registry modification of Windows auto update configuration. 
-  This technique was being abused by several adversaries, malware authors and also red-teamers to bypass detection or 
-  to be able to compromise the target host with zero day exploit or as an additional defense evasion technique.
-  RedLine Stealer is one of the malware we've seen that uses this technique to evade detection and add more payload on the target host.
-  This detection looks for registry modification that will "Disable Automatic Updates".
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\NoAutoUpdate"
-  AND Registry.registry_value_data="0x00000001" 
-  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_key_name 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` 
-  | `windows_modify_registry_no_auto_update_filter`'
+description: The following analytic identifies a suspicious registry modification
+  of Windows auto update configuration. This technique was being abused by several
+  adversaries, malware authors and also red-teamers to bypass detection or to be able
+  to compromise the target host with zero day exploit or as an additional defense
+  evasion technique. RedLine Stealer is one of the malware we've seen that uses this
+  technique to evade detection and add more payload on the target host. This detection
+  looks for registry modification that will "Disable Automatic Updates".
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\NoAutoUpdate"
+  AND Registry.registry_value_data="0x00000001" by Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_data Registry.registry_key_name | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_modify_registry_no_auto_update_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -33,9 +32,10 @@ references:
 - https://learn.microsoft.com/de-de/security-updates/windowsupdateservices/18127499
 tags:
   analytic_story:
+  - CISA AA23-347A
   - RedLine Stealer
   asset_type: Endpoint
-  atomic_guid: 
+  atomic_guid:
   - 12e03af7-79f9-4f95-af48-d3f12f28a260
   confidence: 70
   impact: 70

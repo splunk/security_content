@@ -1,6 +1,6 @@
 name: Anomalous usage of Archive Tools
 id: 63614a58-10e2-4c6c-ae81-ea1113681439
-version: 2
+version: 3
 date: '2021-11-22'
 author: Patrick Bareiss, Splunk
 type: Anomaly

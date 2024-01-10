@@ -1,0 +1,49 @@
+name: Splunk ES DoS Investigations Manager via Investigation Creation
+id: 7f6a07bd-82ef-46b8-8eba-802278abd00e
+version: 1
+date: '2024-01-04'
+author: Rod Soto, Eric McGinnis, Chase Franklin
+status: production
+type: TTP
+data_source: []
+description: In Splunk Enterprise Security (ES) versions lower than 7.1.2, an attacker can create a malformed Investigation to perform a denial of service (DoS). The malformed investigation prevents the generation and rendering of the Investigations manager until it is deleted.
+search: '`splunkd_investigation_rest_handler` method=put msg=*investigation* status=error | stats count min(_time) as firstTime max(_time) as lastTime by user method msg 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `splunk_es_dos_investigations_manager_via_investigation_creation_filter`'
+how_to_implement: This search requires access to internal indexes. Only affects Splunk Enterprise Security versions lower than 7.1.2. 
+known_false_positives: The vulnerability requires an authenticated session and access to create an Investigation. It only affects the availability of the Investigations manager, but without the manager, the Investigations functionality becomes unusable for most users. This search gives the exact offending event. 
+references:
+- https://advisory.splunk.com/advisories/SVD-2024-0102
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: Denial of Service Attack against Splunk ES Investigation Manager by $user$
+  cve:
+  - CVE-2024-22165
+  mitre_attack_id:
+  - T1499
+  observable:
+  - name: user
+    type: User 
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise Security
+  risk_score: 100
+  required_fields:
+  - method
+  - msg 
+  - status 
+  - user 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk/splunk_cve_2024_22165_investigation_rest_handler.log
+    source: /opt/splunk/var/log/splunk/investigation_handler.log
+    sourcetype: investigation_rest_handler
+    custom_index: _internal

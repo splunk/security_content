@@ -1,6 +1,6 @@
 name: Services lolbas Execution Process Spawn
 id: 0d85fde3-0de9-4eec-b386-6a8ba70f3935
-version: 3
+version: 4
 date: '2023-10-02'
 author: Bhavin Patel, Splunk
 status: validation

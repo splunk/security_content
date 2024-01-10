@@ -1,23 +1,39 @@
 name: Short Lived Scheduled Task
 id: 6fa31414-546e-11ec-adfa-acde48001122
 version: 1
-date: '2021-12-03'
+date: '2023-12-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes Windows Security EventCode 4698, "A scheduled task was created," and EventCode 4699, "A scheduled task was deleted," to identify scheduled tasks that are created and deleted within a short time frame of less than 30 seconds. This behavior is indicative of a potential lateral movement attack where the Task Scheduler is abused to achieve code execution. Both red teams and adversaries may exploit the Task Scheduler for lateral movement and remote code execution.\
+description: 'The following analytic utilizes Windows Security EventCode 4698, "A
+  scheduled task was created," and EventCode 4699, "A scheduled task was deleted,"
+  to identify scheduled tasks that are created and deleted within a short time frame
+  of less than 30 seconds. This behavior is indicative of a potential lateral movement
+  attack where the Task Scheduler is abused to achieve code execution. Both red teams
+  and adversaries may exploit the Task Scheduler for lateral movement and remote code
+  execution.\
 
-  To implement this analytic, ensure that you are ingesting Windows Security Event Logs with EventCode 4698 enabled. Additionally, the Windows TA (Technology Add-on) is required to parse and extract the necessary information from the logs.\
+  To implement this analytic, ensure that you are ingesting Windows Security Event
+  Logs with EventCode 4698 enabled. Additionally, the Windows TA (Technology Add-on)
+  is required to parse and extract the necessary information from the logs.\
 
-  It's important to note that while uncommon, legitimate applications may create and delete scheduled tasks within a short duration. Analysts should filter the results based on the specific context and environment to reduce false positives.\
+  It''s important to note that while uncommon, legitimate applications may create
+  and delete scheduled tasks within a short duration. Analysts should filter the results
+  based on the specific context and environment to reduce false positives.\
 
-  Identifying short-lived scheduled tasks is valuable for a SOC as it can indicate malicious activities attempting to move laterally or execute unauthorized code on Windows systems. By detecting and investigating these events, security analysts can respond promptly to prevent further compromise and mitigate potential risks. The impact of a true positive could range from unauthorized access to data exfiltration or the execution of malicious payloads.
+  Identifying short-lived scheduled tasks is valuable for a SOC as it can indicate
+  malicious activities attempting to move laterally or execute unauthorized code on
+  Windows systems. By detecting and investigating these events, security analysts
+  can respond promptly to prevent further compromise and mitigate potential risks.
+  The impact of a true positive could range from unauthorized access to data exfiltration
+  or the execution of malicious payloads.'
 data_source:
 - Windows Security 4698
 search: ' `wineventlog_security` EventCode=4698 OR EventCode=4699 | xmlkv Message
   | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699) |
-  eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | rename ComputerName as dest| table
-  _time, dest, Account_Name, Command, Task_Name, short_lived | `short_lived_scheduled_task_filter` '
+  eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | rename
+  ComputerName as dest| table _time, dest, Account_Name, Command, Task_Name, short_lived
+  | `short_lived_scheduled_task_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
   required.
@@ -28,9 +44,10 @@ references:
 - https://docs.microsoft.com/en-us/windows/win32/taskschd/about-the-task-scheduler
 tags:
   analytic_story:
+  - CISA AA23-347A
   - Active Directory Lateral Movement
-  - CISA AA22-257A
   - Scheduled Tasks
+  - CISA AA22-257A
   asset_type: Endpoint
   confidence: 90
   impact: 90

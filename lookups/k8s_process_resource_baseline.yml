@@ -1,0 +1,4 @@
+description: A place holder for a list of used Kuberntes Process Resource
+collection: k8s_process_resource_baseline
+name: k8s_process_resource_baseline
+fields_list: host.name, k8s.cluster.name, k8s.node.name, process.executable.name, avg_process.cpu.time, avg_process.cpu.utilization, avg_process.disk.io, avg_process.disk.operations, avg_process.memory.usage, avg_process.memory.utilization, avg_process.memory.virtual, avg_process.threads, stdev_process.cpu.time, stdev_process.cpu.utilization, stdev_process.disk.io, stdev_process.disk.operations, stdev_process.memory.usage, stdev_process.memory.utilization, stdev_process.memory.virtual, stdev_process.threads, key

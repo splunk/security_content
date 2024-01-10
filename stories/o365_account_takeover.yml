@@ -2,9 +2,9 @@ name: Office 365 Account Takeover
 id: 7dcea963-af44-4db7-a5b9-fd2b543d9bc9
 version: 1
 date: '2023-10-17'
-author: Mauricio Velazco, Splunk
-description: Office 365 (O365) is Microsoft's cloud-based suite of productivity tools, encompassing email, collaboration platforms, and office applications, all integrated with Azure Active Directory for identity and access management. Given the centralized storage of sensitive organizational data within O365 and its widespread adoption, it has become a focal point for cybersecurity efforts. The platform's complexity, combined with its ubiquity, makes it both a valuable asset and a prime target for potential threats. As O365's importance grows, it increasingly becomes a target for attackers seeking to exploit organizational data and systems. The "Office 365 Account Takeover" analytic story focuses on the initial techniques attackers employ to breach or compromise these identities. Recognizing these early indicators is pivotal, forming the frontline of defense against unauthorized access and potential security incidents.
-narrative: Monitor for activities and anomalies indicative of initial access techniques within Office 365 environments.
+author: Mauricio Velazco, Patrick Bareiss, Splunk
+description: Monitor for activities and anomalies indicative of initial access techniques within Office 365 environments.
+narrative: Office 365 (O365) is Microsoft's cloud-based suite of productivity tools, encompassing email, collaboration platforms, and office applications, all integrated with Azure Active Directory for identity and access management. O365's centralized storage of sensitive data and widespread adoption make it a key asset, yet also a prime target for security threats. The "Office 365 Account Takeover" analytic story focuses on the initial techniques attackers employ to breach or compromise these identities. Initial access, in this context, consists of techniques that use various entry vectors to gain their initial foothold . Identifying these early indicators is crucial for establishing the first line of defense against unauthorized access and potential security incidents within O365 environments.
 references:
 - https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
 - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
