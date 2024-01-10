@@ -1,6 +1,6 @@
 name: Windows LOLBin Binary in Non Standard Path
 id: 25689101-012a-324a-94d3-08301e6c065a
-version: 6
+version: 7
 date: '2022-08-31'
 author: Michael Haag, Splunk
 status: production

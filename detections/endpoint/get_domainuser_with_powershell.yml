@@ -1,7 +1,7 @@
 name: Get DomainUser with PowerShell
 id: 9a5a41d6-04e7-11ec-923c-acde48001122
 version: 1
-date: '2021-08-24'
+date: '2023-12-27'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -34,6 +34,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 50

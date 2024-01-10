@@ -1,6 +1,6 @@
 name: Windows Powershell DownloadFile
 id: 46440222-81d5-44b1-a376-19dcd70d1b08
-version: 3
+version: 4
 date: '2022-02-11'
 author: Jose Hernandez, Michael Haag, Splunk
 type: Anomaly

@@ -1,6 +1,6 @@
 name: DNS Exfiltration Using Nslookup App
 id: 2452e632-9e0d-11eb-34ba-acde48001122
-version: 2
+version: 3
 date: '2021-12-07'
 author: Michael Haag, Splunk
 status: production

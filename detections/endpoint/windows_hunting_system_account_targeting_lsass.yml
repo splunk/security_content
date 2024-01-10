@@ -1,7 +1,7 @@
 name: Windows Hunting System Account Targeting Lsass
 id: 1c6abb08-73d1-11ec-9ca0-acde48001122
 version: 1
-date: '2022-01-12'
+date: '2023-12-27'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -14,8 +14,8 @@ data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe | stats count min(_time) as
   firstTime max(_time) as lastTime by dest, TargetImage, GrantedAccess, SourceImage,
-  SourceProcessId, SourceUser, TargetUser  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_hunting_system_account_targeting_lsass_filter`'
+  SourceProcessId, SourceUser, TargetUser  | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `windows_hunting_system_account_targeting_lsass_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -31,6 +31,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights?redirectedfrom=MSDN
 tags:
   analytic_story:
+  - CISA AA23-347A
   - Credential Dumping
   asset_type: Endpoint
   confidence: 80

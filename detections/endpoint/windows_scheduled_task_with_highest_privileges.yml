@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Highest Privileges
 id: 2f15e1a4-0fc2-49dd-919e-cbbe60699218
 version: 1
-date: '2023-01-26'
+date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -41,9 +41,10 @@ references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
 tags:
   analytic_story:
-  - AsyncRAT
+  - CISA AA23-347A
   - Scheduled Tasks
   - RedLine Stealer
+  - AsyncRAT
   asset_type: Endpoint
   confidence: 80
   impact: 80

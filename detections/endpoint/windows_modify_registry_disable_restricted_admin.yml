@@ -1,0 +1,75 @@
+name: Windows Modify Registry Disable Restricted Admin
+id: cee573a0-7587-48e6-ae99-10e8c657e89a
+version: 1
+date: '2023-12-15'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 13
+description: The following analytic identifies a modification in the Windows registry related to DisableRestrictedAdmin.
+  This registry entry is used to control the behavior of Restricted Admin mode, which is a security feature that limits 
+  the exposure of sensitive credentials when connecting remotely to another computer. When this registry value is set to 0 it 
+  indicates that Restricted Admin mode is enabled (default behavior). As with any modifications to registry settings, 
+  changing this entry should be approached cautiously, ensuring a clear understanding of the implications for system 
+  security and functionality. Unauthorized changes to these security settings can pose risks and should be monitored 
+  closely for any signs of tampering or unauthorized alterations. 
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
+  WHERE (Registry.registry_path= "*\\System\\CurrentControlSet\\Control\\Lsa\\DisableRestrictedAdmin"
+  Registry.registry_value_data = 0x00000000) 
+  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)` 
+  | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_disable_restricted_admin_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: Administrator may change this registry setting. Filter as needed.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+tags:
+  analytic_story:
+  - CISA AA23-347A
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: Windows Modify Registry Disable Restricted Admin on $dest$ by $user$.
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.dest
+  - Registry.action
+  - Registry.registry_value_data 
+  - Registry.process_guid 
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.004/NoLMHash/lsa-reg-settings-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

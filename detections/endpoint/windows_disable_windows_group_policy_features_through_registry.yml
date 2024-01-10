@@ -1,7 +1,7 @@
 name: Windows Disable Windows Group Policy Features Through Registry
 id: 63a449ae-9f04-11ec-945e-acde48001122
 version: 4
-date: '2023-04-27'
+date: '2023-12-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,18 +14,21 @@ description: This analytic is to detect a suspicious registry modification to di
   allowed doing this is needed.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\*" Registry.registry_value_name IN ("NoDesktop", "NoFind", "NoControlPanel", "NoFileMenu", "NoSetTaskbar", "NoTrayContextMenu", "TaskbarLockAll", "NoThemesTab","NoPropertiesMyDocuments","NoVisualStyleChoice","NoColorChoice","NoPropertiesMyDocuments") Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-  | `drop_dm_object_name(Registry)`
-  | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_disable_windows_group_policy_features_through_registry_filter`'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
+  OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\*"
+  Registry.registry_value_name IN ("NoDesktop", "NoFind", "NoControlPanel", "NoFileMenu",
+  "NoSetTaskbar", "NoTrayContextMenu", "TaskbarLockAll", "NoThemesTab","NoPropertiesMyDocuments","NoVisualStyleChoice","NoColorChoice","NoPropertiesMyDocuments")
+  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_windows_group_policy_features_through_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
   Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: Disabling these features for legitimate purposes is not a common use case but can still be implemented by the
-  administrators. Filter as needed.
+known_false_positives: Disabling these features for legitimate purposes is not a common
+  use case but can still be implemented by the administrators. Filter as needed.
 references:
 - https://hybrid-analysis.com/sample/ef1c427394c205580576d18ba68d5911089c7da0386f19d1ca126929d3e671ab?environmentId=120&lang=en
 - https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis
@@ -33,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - CISA AA23-347A
   - Windows Defense Evasion Tactics
   - Windows Registry Abuse
   asset_type: Endpoint

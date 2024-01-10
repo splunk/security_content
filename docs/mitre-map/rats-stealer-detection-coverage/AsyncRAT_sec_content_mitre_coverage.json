@@ -1,0 +1,147 @@
+{
+    "version": "4.3",
+    "name": "AsyncRAT Detection Coverage",
+    "description": "security_content detection coverage for AsyncRAT",
+    "domain": "mitre-enterprise",
+    "techniques": [
+        {
+            "techniqueID": "T1059.005",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/vbscript_execution_using_wscript_app.yml"
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 7,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/vbscript_execution_using_wscript_app.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_powershell_cryptography_namespace.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/powershell_fileless_script_contains_base64_encoded_content.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/powershell_loading_dotnet_into_memory_via_reflection.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cmd_carry_out_string_command_parameter.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/malicious_powershell_process_-_execution_policy_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/powershell_processing_stream_of_data.yml"
+        },
+        {
+            "techniqueID": "T1059.001",
+            "score": 6,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_powershell_cryptography_namespace.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/powershell_fileless_script_contains_base64_encoded_content.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/powershell_loading_dotnet_into_memory_via_reflection.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/recon_using_wmi_class.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/malicious_powershell_process_-_execution_policy_bypass.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/powershell_processing_stream_of_data.yml"
+        },
+        {
+            "techniqueID": "T1218",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/regsvr32_with_known_silent_switch_cmdline.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/regsvr32_silent_and_install_param_dll_loading.yml"
+        },
+        {
+            "techniqueID": "T1218.010",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/regsvr32_with_known_silent_switch_cmdline.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/regsvr32_silent_and_install_param_dll_loading.yml"
+        },
+        {
+            "techniqueID": "T1036",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/execution_of_file_with_multiple_extensions.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/suspicious_copy_on_system32.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/executables_or_script_creation_in_suspicious_path.yml"
+        },
+        {
+            "techniqueID": "T1036.003",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/execution_of_file_with_multiple_extensions.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/suspicious_copy_on_system32.yml"
+        },
+        {
+            "techniqueID": "T1055",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/loading_of_dynwrapx_module.yml"
+        },
+        {
+            "techniqueID": "T1055.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/loading_of_dynwrapx_module.yml"
+        },
+        {
+            "techniqueID": "T1027",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/powershell_fileless_script_contains_base64_encoded_content.yml"
+        },
+        {
+            "techniqueID": "T1059.003",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cmd_carry_out_string_command_parameter.yml"
+        },
+        {
+            "techniqueID": "T1592",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/recon_using_wmi_class.yml"
+        },
+        {
+            "techniqueID": "T1053",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_scheduled_task_with_highest_privileges.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/scheduled_task_deleted_or_created_via_cmd.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/winevent_scheduled_task_created_within_public_path.yml"
+        },
+        {
+            "techniqueID": "T1053.005",
+            "score": 4,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_scheduled_task_with_highest_privileges.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/scheduled_task_deleted_or_created_via_cmd.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/winevent_scheduled_task_created_within_public_path.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/winevent_windows_task_scheduler_event_action_started.yml"
+        },
+        {
+            "techniqueID": "T1134.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_access_token_manipulation_sedebugprivilege.yml"
+        },
+        {
+            "techniqueID": "T1134",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_access_token_manipulation_sedebugprivilege.yml"
+        },
+        {
+            "techniqueID": "T1543",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_process_file_path.yml"
+        },
+        {
+            "techniqueID": "T1566.001",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_spearphishing_attachment_onenote_spawn_mshta.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_spearphishing_attachment_connect_to_none_ms_office_domain.yml"
+        },
+        {
+            "techniqueID": "T1566",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_spearphishing_attachment_onenote_spawn_mshta.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_spearphishing_attachment_connect_to_none_ms_office_domain.yml"
+        },
+        {
+            "techniqueID": "T1547.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/registry_keys_used_for_persistence.yml"
+        },
+        {
+            "techniqueID": "T1547",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/registry_keys_used_for_persistence.yml"
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66b1ff",
+            "#096ed7"
+        ],
+        "minValue": 0,
+        "maxValue": 5
+    },
+    "filters": {
+        "platforms": [
+            "Windows",
+            "Linux",
+            "macOS",
+            "AWS",
+            "GCP",
+            "Azure",
+            "Office 365",
+            "SaaS"
+        ]
+    },
+    "legendItems": [
+        {
+            "label": "NO available detections",
+            "color": "#ffffff"
+        },
+        {
+            "label": "Some detections available",
+            "color": "#66b1ff"
+        }
+    ],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#dddddd",
+    "sorting": 3
+}

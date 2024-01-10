@@ -1,0 +1,132 @@
+{
+    "version": "4.3",
+    "name": "Amadey Detection Coverage",
+    "description": "security_content detection coverage for Amadey",
+    "domain": "mitre-enterprise",
+    "techniques": [
+        {
+            "techniqueID": "T1566.001",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/detect_outlook_exe_writing_a_zip_file.yml"
+        },
+        {
+            "techniqueID": "T1566",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/detect_outlook_exe_writing_a_zip_file.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/process_creating_lnk_file_in_suspicious_location.yml"
+        },
+        {
+            "techniqueID": "T1204.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml"
+        },
+        {
+            "techniqueID": "T1204",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml"
+        },
+        {
+            "techniqueID": "T1204.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_process_executed_from_container_file.yml"
+        },
+        {
+            "techniqueID": "T1036.008",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_process_executed_from_container_file.yml"
+        },
+        {
+            "techniqueID": "T1222.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_files_and_dirs_access_rights_modification_via_icacls.yml"
+        },
+        {
+            "techniqueID": "T1222",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_files_and_dirs_access_rights_modification_via_icacls.yml"
+        },
+        {
+            "techniqueID": "T1012",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_credentials_from_password_stores_chrome_extension_access.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_credentials_from_password_stores_chrome_login_data_access.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_credentials_from_password_stores_chrome_localstate_access.yml"
+        },
+        {
+            "techniqueID": "T1543",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_process_file_path.yml"
+        },
+        {
+            "techniqueID": "T1053.005",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/scheduled_task_deleted_or_created_via_cmd.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/winevent_windows_task_scheduler_event_action_started.yml"
+        },
+        {
+            "techniqueID": "T1053",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/scheduled_task_deleted_or_created_via_cmd.yml"
+        },
+        {
+            "techniqueID": "T1059.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_powershell_remotesigned_file.yml"
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_powershell_remotesigned_file.yml"
+        },
+        {
+            "techniqueID": "T1566.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/process_creating_lnk_file_in_suspicious_location.yml"
+        },
+        {
+            "techniqueID": "T1036",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/executables_or_script_creation_in_suspicious_path.yml"
+        },
+        {
+            "techniqueID": "T1547.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/registry_keys_used_for_persistence.yml"
+        },
+        {
+            "techniqueID": "T1547",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/registry_keys_used_for_persistence.yml"
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66b1ff",
+            "#096ed7"
+        ],
+        "minValue": 0,
+        "maxValue": 5
+    },
+    "filters": {
+        "platforms": [
+            "Windows",
+            "Linux",
+            "macOS",
+            "AWS",
+            "GCP",
+            "Azure",
+            "Office 365",
+            "SaaS"
+        ]
+    },
+    "legendItems": [
+        {
+            "label": "NO available detections",
+            "color": "#ffffff"
+        },
+        {
+            "label": "Some detections available",
+            "color": "#66b1ff"
+        }
+    ],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#dddddd",
+    "sorting": 3
+}
