@@ -20,7 +20,7 @@ reporting:
     - aws s3 cp reporting s3://$BUCKET/reporting --recursive --exclude "*" --include "*.svg"
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: manual
+      when: on_success
 
 # Update Attack Range ESCU App
 attack_range_escu_app:
@@ -43,7 +43,7 @@ attack_range_escu_app:
     - aws s3api put-object-acl --bucket $BUCKET --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: manual
+      when: on_success
 
 # Security Content API Update
 security_content_api:
@@ -82,7 +82,7 @@ security_content_api:
     - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: manual
+      when: on_success
 
 # Push SSE security content Json files to Artifactory
 push_sse_json_to_artifactory:
@@ -135,7 +135,7 @@ release_job:
     description: '$CI_COMMIT_TAG'
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: manual
+      when: on_success
 
 # Updating Gitlab dist
 update_gitlab_dist:
@@ -171,7 +171,7 @@ update_gitlab_dist:
     - git push origin develop
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: manual
+      when: on_success
 
 # Sync changes to GitHub, by creating a branch and push the content
 github_push_develop:
@@ -210,4 +210,4 @@ github_push_develop:
     # - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"develop\", \"base\":\"gitlab_release_$CI_COMMIT_TAG\"}" https://api.github.com/repos/splunk/security_content/pulls'
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: manual
+      when: on_success
