@@ -1,0 +1,28 @@
+name: Ivanti Connect Secure VPN Vulnerabilities
+id: e3b5c3b8-082b-4b4e-b2c9-47ed79e2a5ab
+version: 1
+date: '2024-01-16'
+author: Michael Haag, Splunk
+description: The following analytic story addresses critical vulnerabilities CVE-2023-46805 and CVE-2024-21887 in Ivanti Connect Secure and Ivanti Policy Secure Gateways. CVE-2023-46805 is an authentication bypass vulnerability, while CVE-2024-21887 is a command injection flaw, both presenting significant risks in versions 9.x and 22.x. Combined, these vulnerabilities enable unauthenticated threat actors to execute arbitrary commands, compromising system integrity. Immediate mitigation is imperative, with patches scheduled for staggered release. Ivanti has provided interim mitigation steps, and it's crucial for customers to apply these measures to protect their systems against potential exploits.
+narrative: Ivanti Connect Secure and Ivanti Policy Secure gateways face a severe security challenge with the discovery of CVE-2023-46805 and CVE-2024-21887. CVE-2023-46805 allows attackers to bypass authentication in critical web components of versions 9.x and 22.x. More alarmingly, when paired with CVE-2024-21887, a command injection vulnerability, it enables remote attackers to execute arbitrary commands without authentication. This combination poses a heightened threat, undermining the security of enterprise networks. Ivanti has mobilized resources to address these vulnerabilities, offering immediate mitigation advice and scheduling patch releases. Customers are urged to apply these mitigations without delay to safeguard their networks. 
+references:
+  - https://github.com/RootUp/PersonalStuff/blob/master/http-vuln-cve2023-46805_2024_21887.nse
+  - https://github.com/projectdiscovery/nuclei-templates/blob/c6b351e71b0fb0e40e222e97038f1fe09ac58194/http/misconfiguration/ivanti/CVE-2023-46085-CVE-2024-21887-mitigation-not-applied.yaml
+  - https://github.com/rapid7/metasploit-framework/pull/18708/files
+  - https://attackerkb.com/topics/AdUh6by52K/cve-2023-46805/rapid7-analysis
+  - https://labs.watchtowr.com/welcome-to-2024-the-sslvpn-chaos-continues-ivanti-cve-2023-46805-cve-2024-21887/
+  - https://www.volexity.com/blog/2024/01/10/active-exploitation-of-two-zero-day-vulnerabilities-in-ivanti-connect-secure-vpn/
+  - https://www.mandiant.com/resources/blog/suspected-apt-targets-ivanti-zero-day
+  - https://forums.ivanti.com/s/article/CVE-2023-46805-Authentication-Bypass-CVE-2024-21887-Command-Injection-for-Ivanti-Connect-Secure-and-Ivanti-Policy-Secure-Gateways?language=en_US
+tags:
+  cve:
+  - CVE-2023-46805
+  - CVE-2024-21887
+  analytic_story: Ivanti Connect Secure VPN Vulnerabilities
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
