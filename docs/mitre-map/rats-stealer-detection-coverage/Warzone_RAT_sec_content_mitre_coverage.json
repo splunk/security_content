@@ -1,0 +1,157 @@
+{
+    "version": "4.3",
+    "name": "Warzone RAT Detection Coverage",
+    "description": "security_content detection coverage for Warzone RAT",
+    "domain": "mitre-enterprise",
+    "techniques": [
+        {
+            "techniqueID": "T1562.001",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/powershell_windows_defender_exclusion_commands.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/hide_user_account_from_sign-in_screen.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_defender_exclusion_registry_entry.yml"
+        },
+        {
+            "techniqueID": "T1562",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/powershell_windows_defender_exclusion_commands.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/hide_user_account_from_sign-in_screen.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_defender_exclusion_registry_entry.yml"
+        },
+        {
+            "techniqueID": "T1055",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_process_injection_remote_thread.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/create_remote_thread_in_shell_application.yml"
+        },
+        {
+            "techniqueID": "T1055.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_process_injection_remote_thread.yml"
+        },
+        {
+            "techniqueID": "T1112",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_modify_registry_maxconnectionperserver.yml"
+        },
+        {
+            "techniqueID": "T1566.001",
+            "score": 4,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_product_spawn_cmd_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_application_drop_executable.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_phishing_recent_iso_exec_registry.yml"
+        },
+        {
+            "techniqueID": "T1566",
+            "score": 4,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_product_spawn_cmd_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_application_drop_executable.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_phishing_recent_iso_exec_registry.yml"
+        },
+        {
+            "techniqueID": "T1204.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml"
+        },
+        {
+            "techniqueID": "T1204",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_iso_lnk_file_creation.yml"
+        },
+        {
+            "techniqueID": "T1497",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/ping_sleep_batch_command.yml"
+        },
+        {
+            "techniqueID": "T1497.003",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/ping_sleep_batch_command.yml"
+        },
+        {
+            "techniqueID": "T1059.003",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cmd_carry_out_string_command_parameter.yml"
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cmd_carry_out_string_command_parameter.yml"
+        },
+        {
+            "techniqueID": "T1574.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_unsigned_dll_side-loading.yml"
+        },
+        {
+            "techniqueID": "T1543",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_process_file_path.yml"
+        },
+        {
+            "techniqueID": "T1012",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_credentials_from_password_stores_chrome_login_data_access.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_credentials_from_password_stores_chrome_localstate_access.yml"
+        },
+        {
+            "techniqueID": "T1555",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/non_firefox_process_access_firefox_profile_dir.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/non_chrome_process_accessing_chrome_default_dir.yml"
+        },
+        {
+            "techniqueID": "T1555.003",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/non_firefox_process_access_firefox_profile_dir.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/non_chrome_process_accessing_chrome_default_dir.yml"
+        },
+        {
+            "techniqueID": "T1553.005",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_mark_of_the_web_bypass.yml"
+        },
+        {
+            "techniqueID": "T1548.002",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_bypass_uac_via_pkgmgr_tool.yml"
+        },
+        {
+            "techniqueID": "T1036",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/executables_or_script_creation_in_suspicious_path.yml"
+        },
+        {
+            "techniqueID": "T1547.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/registry_keys_used_for_persistence.yml"
+        },
+        {
+            "techniqueID": "T1547",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/registry_keys_used_for_persistence.yml"
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66b1ff",
+            "#096ed7"
+        ],
+        "minValue": 0,
+        "maxValue": 5
+    },
+    "filters": {
+        "platforms": [
+            "Windows",
+            "Linux",
+            "macOS",
+            "AWS",
+            "GCP",
+            "Azure",
+            "Office 365",
+            "SaaS"
+        ]
+    },
+    "legendItems": [
+        {
+            "label": "NO available detections",
+            "color": "#ffffff"
+        },
+        {
+            "label": "Some detections available",
+            "color": "#66b1ff"
+        }
+    ],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#dddddd",
+    "sorting": 3
+}

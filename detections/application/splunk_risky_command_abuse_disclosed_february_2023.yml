@@ -1,7 +1,7 @@
 name: Splunk risky Command Abuse disclosed february 2023
 id: ee69374a-d27e-4136-adac-956a96ff60fd
 version: 2
-date: '2023-08-30'
+date: '2024-01-22'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
@@ -25,7 +25,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities
-  asset_type: Endpoint
+  asset_type: Splunk Server
   confidence: 50
   cve:
   - CVE-2023-22931
@@ -37,6 +37,7 @@ tags:
   - CVE-2023-40598
   - CVE-2023-40598
   - CVE-2023-46214
+  - CVE-2024-23676
   impact: 50
   message: Use of risky splunk command $splunk_risky_command$ detected by $user$
   mitre_attack_id:
@@ -79,6 +80,12 @@ tests:
 - name: True Positive Test Additional runshellscript abuse
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/splunk/splunk_cmd_injection_using_external_lookups_audittrail.log
+    source: audittrail
+    sourcetype: audittrail
+    custom_index: _audit
+- name: True Positive Test mrollup abuse
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/splunk/splunk_mrollup_abuse_audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
