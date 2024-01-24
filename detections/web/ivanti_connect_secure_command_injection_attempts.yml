@@ -1,13 +1,13 @@
 name: Ivanti Connect Secure Command Injection Attempts
 id: 1f32a7e0-a060-4545-b7de-73fcf9ad536e
-version: 1
-date: '2024-01-16'
+version: 2
+date: '2024-01-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source: []
 description: This analytic is designed to identify the exploit phase of the CVE-2023-46805 and CVE-2024-21887 vulnerabilities. During this phase, a POST request is made to the /api/v1/totp/user-backup-code/../../system/maintenance/archiving/cloud-server-test-connection URI. This request exploits the command injection vulnerability to execute arbitrary commands. A successful request, indicated by a 200 OK response, suggests that the system is vulnerable.
-search: '| tstats count min(_time) as firstTime max(__time) as lastTime from datamodel=Web where Web.url="*/api/v1/totp/user-backup-code/../../system/maintenance/archiving/cloud-server-test-connection*" Web.http_method=POST Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN("*/api/v1/totp/user-backup-code/../../system/maintenance/archiving/cloud-server-test-connection*","*/api/v1/totp/user-backup-code/../../license/keys-status/*") Web.http_method IN ("POST", "GET") Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.http_method, Web.status
   | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
@@ -20,6 +20,7 @@ references:
 - https://github.com/rapid7/metasploit-framework/pull/18708/files
 - https://attackerkb.com/topics/AdUh6by52K/cve-2023-46805/rapid7-analysis
 - https://labs.watchtowr.com/welcome-to-2024-the-sslvpn-chaos-continues-ivanti-cve-2023-46805-cve-2024-21887/
+- https://twitter.com/GreyNoiseIO/status/1747711939466453301
 tags:
   cve:
   - CVE-2023-46805
