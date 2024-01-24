@@ -1,0 +1,59 @@
+name: Confluence Pre-Auth RCE via OGNL Injection CVE-2023-22527
+id: f56936c0-ae6f-4eeb-91ff-ecc1448c6105
+version: 1
+date: '2024-01-22'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: This analytic identifies a critical template injection vulnerability (CVE-2023-22527) in outdated versions of Confluence Data Center and Server, which allows an unauthenticated attacker to execute arbitrary code remotely. The vulnerability is exploited by injecting OGNL (Object-Graph Navigation Language) expressions into the application, as evidenced by POST requests to the "/template/aui/text-inline.vm" endpoint with specific content types and payloads. The search looks for POST requests with HTTP status codes 200 or 202, which may indicate successful exploitation attempts. Immediate patching to the latest version of Confluence is strongly recommended, as there are no known workarounds. This detection is crucial for identifying and responding to potential RCE attacks, ensuring that affected Confluence instances are secured against this critical threat.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/template/aui/text-inline.vm*" Web.http_method=POST Web.status IN (200, 202) by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `confluence_pre_auth_rce_via_ognl_injection_cve_2023_22527_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on Web traffic that include fields relavent for traffic into the `Web` datamodel.
+known_false_positives: False positives may be present with legitimate applications.
+  Attempt to filter by dest IP or use Asset groups to restrict to confluence servers.
+references:
+- https://github.com/cleverg0d/CVE-2023-22527
+- https://confluence.atlassian.com/security/cve-2023-22527-rce-remote-code-execution-vulnerability-in-confluence-data-center-and-confluence-server-1333990257.html
+tags:
+  cve:
+  - CVE-2023-22527
+  analytic_story:
+  - Confluence Data Center and Confluence Server Vulnerabilities
+  asset_type: Web Application
+  atomic_guid: []
+  confidence: 90
+  impact: 90
+  message: Exploitation attempts on a known vulnerability in Atlassian Confluence detected. The source IP is $src$ and the destination hostname is $dest$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  required_fields:
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - Web.url
+  - Web.status
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/suricata_confluence_cve-2023-22527.log
+    source: suricata
+    sourcetype: suricata

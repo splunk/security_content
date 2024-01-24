@@ -23,6 +23,7 @@ references:
 tags:
   analytic_story:
   - CVE-2023-22515 Privilege Escalation Vulnerability Confluence Data Center and Server
+  - Confluence Data Center and Confluence Server Vulnerabilities
   cve:
   - CVE-2023-22518
   asset_type: Web server
