@@ -194,15 +194,14 @@ github_push_develop:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ build
-    - poetry run contentctl -p ../ build -t ssa
-    - poetry run contentctl -p ../ build -t api
-    - cd ..
     - git config user.email "research@splunk.com"
     - git config user.name "research bot"
     - git remote add github_origin git@github.com:splunk/security_content.git
     - git fetch --all
     - git checkout -b $BRANCH
+    - git merge develop
+    - poetry run contentctl -p ../ build
+    - cd ..
     - git rm CODEOWNERS
     - git add .
     - git commit -m "removing CODEOWNERS"
