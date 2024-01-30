@@ -1,0 +1,3 @@
+definition: sourcetype="kube:container:falco"
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Kubernetes audit data. Replace the macro definition with configurations for your Splunk Environmnent.
+name: kube_container_falco

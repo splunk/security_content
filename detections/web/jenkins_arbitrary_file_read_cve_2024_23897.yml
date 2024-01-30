@@ -1,0 +1,63 @@
+name: Jenkins Arbitrary File Read CVE-2024-23897
+id: c641260d-2b48-4eb1-b1e8-2cc5b8b99ab1
+version: 1
+date: '2024-01-26'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analtyic identifies a Jenkins Arbitrary File Read CVE-2024-23897 exploitation. This attack allows an attacker to read arbitrary files on the Jenkins server. This can be used to obtain sensitive information such as credentials, private keys, and other sensitive information.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/cli?remoting=false*" Web.status=200 Web.http_method=POST by Web.src, Web.dest, Web.http_user_agent, Web.url Web.status, Web.http_method
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `jenkins_arbitrary_file_read_cve_2024_23897_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Suricata, Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto. If unable to utilize the Web datamodel, modify query to your data source.
+known_false_positives: False positives should be limited as this detection is based on a specific URL path and HTTP status code. Adjust the search as necessary to fit the environment.
+references:
+- https://github.com/projectdiscovery/nuclei-templates/pull/9025
+- https://github.com/jenkinsci-cert/SECURITY-3314-3315
+- https://github.com/binganao/CVE-2024-23897
+- https://github.com/h4x0r-dz/CVE-2024-23897
+- https://www.sonarsource.com/blog/excessive-expansion-uncovering-critical-security-vulnerabilities-in-jenkins/
+- https://www.shodan.io/search?query=product%3A%22Jenkins%22
+- https://thehackernews.com/2024/01/critical-jenkins-vulnerability-exposes.html
+tags:
+  cve:
+  - CVE-2024-23897
+  analytic_story:
+  - Jenkins Server Vulnerabilities
+  asset_type: Web server
+  atomic_guid: []
+  confidence: 90
+  impact: 90
+  message: Jenkins Arbitrary File Read CVE-2024-23897 against $dest$ by $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  required_fields:
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - Web.url
+  - Web.status
+  - Web.http_method
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jenkins/nginx_jenkins_cve_2023_23897.log
+    source: nginx:plus:kv
+    sourcetype: nginx:plus:kv

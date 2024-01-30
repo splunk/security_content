@@ -1,0 +1,71 @@
+name: Windows Impair Defense Disable Win Defender Report Infection
+id: 201946c6-b1d5-42bb-a7e0-5f7123f47fc4
+version: 1
+date: '2024-01-08'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 12
+- Sysmon Event ID 13
+- Sysmon Event ID 14
+description: The following analytic identifies a modification in the Windows registry to disable windows defender 
+  report infection information. Setting this registry key to 1, Instructs Windows Defender not to report detailed 
+  information about infections or threats detected on the system to Microsoft. Enabling this setting might limit 
+  or prevent the transmission of specific data related to infections, such as details about the detected malware, 
+  to Microsoft's servers for analysis or logging purposes.
+  This registry is being abused by adversaries, threat actors and red-teamers to bypasses Windows Defender detections.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Microsoft\\MRT\\DontReportInfectionInformation"
+  Registry.registry_value_data="0x00000001" 
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_impair_defense_disable_win_defender_report_infection_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: It is unusual to turn this feature off a Windows system since
+  it is a default security control, although it is not rare for some policies to disable
+  it. Although no false positives have been identified, use the provided filter macro
+  to tune the search.
+references:
+- https://x.com/malmoeb/status/1742604217989415386?s=20
+- https://github.com/undergroundwires/privacy.sexy
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Windows Defender DontReportInfectionInformation registry is enabled on $dest$.
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
+  - Registry.action
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,0 +1,42 @@
+name: Splunk Information Disclosure in Splunk Add-on Builder
+id: b7b82980-4a3e-412e-8661-4531d8758735
+version: 1
+date: '2024-01-30'
+author: Rod Soto, Eric McGinnis
+status: production
+type: Hunting
+data_source: []
+description: In Splunk Add-on Builder versions below 4.1.4, the application writes sensitive information to its internal log files when you visit the Splunk Add-on Builder or when you build or edit a custom app or add-on.
+search: '| rest /services/apps/local | search disabled=0 core=0 label="Splunk Add-on Builder" | dedup label | search version < 4.1.4 
+  | eval WarningMessage="Splunk Add-on Builder Versions older than v4.1.4 contain a critical vulnerability. Update to Splunk Add-on Builder v4.1.4 or higher immediately. For more information about this vulnerability, please refer to https://advisory.splunk.com/advisories/SVD-2024-0111" 
+  | table label version WarningMessage | `splunk_information_disclosure_in_splunk_add_on_builder_filter`'
+how_to_implement: This search should be run on search heads where Splunk Add-on Builder may be installed.  The results of this search will conclusively show whether or not a vulnerable version of Splunk Add-on Builder is currently installed. 
+known_false_positives: This search is highly specific for vulnerable versions of Splunk Add-on Builder. There are no known false positives. 
+references:
+- https://advisory.splunk.com/advisories/SVD-2024-0111
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Splunk Server 
+  confidence: 100
+  impact: 100
+  message: Vulnerable $version$ of Splunk Add-on Builder found - Upgrade Immediately. 
+  mitre_attack_id:
+  - T1082
+  observable:
+  - name: version
+    type: Other
+    role:
+    - Other
+  product:
+  - Splunk Enterprise
+  risk_score: 100
+  required_fields:
+  - disabled
+  - core 
+  - version
+  - label
+  security_domain: endpoint
+  manual_test: This search uses a REST call against a running Splunk instance to fetch the versions of installed apps. 
+    It cannot be replicated with a normal test or attack data. 
+
