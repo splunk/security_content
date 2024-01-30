@@ -2,7 +2,7 @@ name: Splunk Identifier Activity Analysis
 id: 5299b9dc-e8c4-46ba-d942-92ace0ff816d
 version: 1
 date: '2023-03-31'
-author: Lou Stella, Splunk
+author: Lou Stella, Splunk; Kelby Shelton, Splunk
 type: Investigation
 description: "Accepts a file_hash, domain, IP address, or URL, and asks Splunk for a list of devices that have interacted with each. It then produces a normalized output and summary table."
 playbook: Splunk_Identifier_Activity_Analysis

@@ -1,7 +1,7 @@
 name: Linux Service Started Or Enabled
 id: e0428212-61b7-11ec-88a3-acde48001122
-version: 1
-date: '2021-12-20'
+version: 2
+date: '2024-01-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -20,7 +20,8 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name IN ("systemctl",
   "service") OR Processes.process IN ("*systemctl *", "*service *")) Processes.process
-  IN ("* start *", "* enable *") by Processes.dest Processes.user Processes.parent_process_name
+  IN ("* start *", "* enable *") AND NOT (Processes.os="Microsoft Windows" OR Processes.vendor_product="Microsoft Windows") 
+  by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `linux_service_started_or_enabled_filter`'

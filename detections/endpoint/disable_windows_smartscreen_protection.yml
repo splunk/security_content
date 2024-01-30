@@ -13,10 +13,12 @@ description: The following search identifies a modification of registry to disab
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path= "*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled"  Registry.registry_value_data=
-  "Off") BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)`| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  WHERE Registry.registry_path IN ("*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled", "*\\Microsoft\\Windows\\System\\EnableSmartScreen")  
+  Registry.registry_value_data  IN ("Off", "0") 
+  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
   | `disable_windows_smartscreen_protection_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
