@@ -1,0 +1,82 @@
+name: Kubernetes Anomalous Outbound Network Activity from Process
+id: dd6afee6-e0a3-4028-a089-f47dd2842c22
+version: 1
+date: '2024-01-10'
+author: Matthew Moore, Splunk
+status: experimental
+type: Anomaly
+description: 'This detection detects outbound network traffic volume anomalies from processes running within containerised workloads. 
+  Anomalies are provided with context identifying the Kubernetes cluster, the workload name, and the type of anomaly. This detection 
+  leverages Network performance Monitoring metrics harvested using an OTEL collector, and is pulled from Splunk Observability cloud 
+  using the Splunk Infrastructure Monitoring Add-on. (https://splunkbase.splunk.com/app/5247). This detection compares the tcp.bytes, 
+  tcp.new_sockets, tcp.packets, udp.bytes, udp.packets metrics for source (transmitting) workload process pairs over the last 1 hout, 
+  with the average of those metrics for those pairs over the last 30 days in order to detect any anonymously high outbound network activity. 
+  Anonymously high outbound network traffic from a process running in a container is a potential indication of data exfiltration, or an indication that the process has been modified. 
+  Anomalously high outbound network activity from a process running within a container suggests the potential compromise, which may lead to unauthorized data exfiltration, 
+  communication with malicious entities, or the propagation of malware to external systems. The compromised container could also serve as a pivot point 
+  for further attacks within the containerized environment.'
+data_source: []
+search: '| mstats avg(tcp.*) as tcp.* avg(udp.*) as udp.* where `kubernetes_metrics` AND earliest=-1h by k8s.cluster.name source.workload.name source.process.name  span=10s 
+  | eval key=''source.workload.name'' + ":" + ''source.process.name'' 
+  | join type=left key 
+    [ mstats avg(tcp.*) as avg_tcp.* avg(udp.*) as avg_udp.* stdev(tcp.*) as stdev_tcp.* avg(udp.*) as stdev_udp.* where `kubernetes_metrics` AND earliest=-30d latest=-1h by source.workload.name source.process.name
+    | eval key=''source.workload.name'' + ":" + ''source.process.name''
+        ] 
+  | eval anomalies = "" 
+  | foreach stdev_* 
+    [ eval anomalies =if( ''<<MATCHSTR>>'' > (''avg_<<MATCHSTR>>'' + 3 * ''stdev_<<MATCHSTR>>''), anomalies + "<<MATCHSTR>> higher than average by " + 
+        tostring(round((''<<MATCHSTR>>'' - ''avg_<<MATCHSTR>>'')/''stdev_<<MATCHSTR>>'' ,2)) + " Standard Deviations. <<MATCHSTR>>=" + tostring(''<<MATCHSTR>>'') + " avg_<<MATCHSTR>>=" 
+        + tostring(''avg_<<MATCHSTR>>'') + " ''stdev_<<MATCHSTR>>''=" + tostring(''stdev_<<MATCHSTR>>'') + ", "
+        , anomalies)
+        ] 
+  | fillnull
+  | eval anomalies = split(replace(anomalies, ",\s$$$$", "") ,", ") 
+  | where anomalies!="" 
+  | stats count(anomalies) as count values(anomalies) as anomalies by k8s.cluster.name source.workload.name source.process.name
+  | where count > 5
+  | rename k8s.cluster.name as host
+  | `kubernetes_anomalous_outbound_network_activity_from_process_filter` '
+how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cluster and 
+  enable Network Performance Monitoring according to instructions found in Splunk Docs 
+  https://docs.splunk.com/observability/en/infrastructure/network-explorer/network-explorer-setup.html#network-explorer-setup 
+  In order to access those metrics from within Splunk Enterprise and ES, the Splunk Infrastructure Monitoring add-on must be installed and 
+  configured on a Splunk Search Head.  Once installed, first configure the add-on with your O11y Cloud Org ID and Access Token. 
+  Lastly set up the add-on to ingest metrics from O11y cloud using the following settings, and any other settings left at default:\
+  
+  * Name sim_npm_metrics_to_metrics_index \
+
+  * Org ID <Your O11y Cloud Org Id> \
+  
+  * Signal Flow Program data(''tcp.packets'').publish(label=''A''); data(''tcp.bytes'').publish(label=''B''); data(''tcp.new_sockets'').publish(label=''C''); data(''udp.packets'').publish(label=''D''); data(''udp.bytes'').publish(label=''E'') \
+  
+  * Metric Resolution 10000'
+known_false_positives: unknown
+references:
+- https://github.com/signalfx/splunk-otel-collector-chart
+tags:
+  analytic_story:
+  - Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
+  asset_type: Kubernetes
+  confidence: 50
+  impact: 50
+  message: Kubernetes Anomalous Outbound Network Activity from Process in kubernetes cluster $host$
+  mitre_attack_id:
+  - T1204
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - tcp.*
+  - udp.*
+  - k8s.cluster.name 
+  - source.workload.name 
+  - dest.workload.name 
+  - udp.packets
+  risk_score: 25
+  security_domain: network

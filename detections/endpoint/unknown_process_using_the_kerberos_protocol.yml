@@ -1,7 +1,7 @@
 name: Unknown Process Using The Kerberos Protocol
 id: c91a0852-9fbb-11ec-af44-acde48001122
-version: 1
-date: '2022-03-09'
+version: 2
+date: '2024-01-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -13,14 +13,7 @@ description: The following analytic identifies a process performing an outbound 
   Kerberos protocol.
 data_source:
 - Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name!=lsass.exe by _time Processes.process_id Processes.process_name
-  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
-  where All_Traffic.dest_port = 88 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
-  | `drop_dm_object_name(All_Traffic)` ] | table _time dest parent_process_name process_name
-  process_path process process_id dest_port | `unknown_process_using_the_kerberos_protocol_filter`'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name!=lsass.exe by _time Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id dest [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port = 88 by All_Traffic.src All_Traffic.process_id  All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename src as dest ] |  table _time dest parent_process_name process_name process_path process process_id dest_port | `unknown_process_using_the_kerberos_protocol_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

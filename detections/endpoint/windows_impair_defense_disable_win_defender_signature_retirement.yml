@@ -1,0 +1,74 @@
+name: Windows Impair Defense Disable Win Defender Signature Retirement
+id: 7567a72f-bada-489d-aef1-59743fb64a66
+version: 1
+date: '2024-01-08'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+data_source:
+- Sysmon Event ID 12
+- Sysmon Event ID 13
+- Sysmon Event ID 14
+description: The following analytic identifies a modification in the Windows registry to disable windows defender 
+  Signature Retirement. The DisableSignatureRetirement registry setting in Windows Defender controls the retirement 
+  or expiration of antivirus signatures used by Windows Defender Antivirus.
+  When DisableSignatureRetirement is set to 1, it usually indicates that Windows Defender won't automatically retire 
+  or expire antivirus signatures. Antivirus signatures are files containing information about known malware and are 
+  used by Windows Defender to detect and protect against threats.
+  Disabling signature retirement might prevent Windows Defender from automatically removing or retiring older or less 
+  relevant antivirus signatures. This can potentially increase the number of signatures in use and might impact system 
+  resources or the effectiveness of threat detection.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\NIS\\Consumers\\IPS\\DisableSignatureRetirement" 
+  Registry.registry_value_data="0x00000001"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_impair_defense_disable_win_defender_signature_retirement_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: It is unusual to turn this feature off a Windows system since
+  it is a default security control, although it is not rare for some policies to disable
+  it. Although no false positives have been identified, use the provided filter macro
+  to tune the search.
+references:
+- https://x.com/malmoeb/status/1742604217989415386?s=20
+- https://github.com/undergroundwires/privacy.sexy
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Windows Defender DisableSignatureRetirement registry is set to enable on $dest$.
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
+  - Registry.action
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

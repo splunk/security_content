@@ -1,8 +1,8 @@
 name: Splunk Message Identifier Activity Analysis
 id: 5299b9dc-e8c4-46ba-d942-98dae0fa816d
 version: 1
-date: '2023-05-12'
-author: Lou Stella, Splunk
+date: '2023-01-26'
+author: Lou Stella, Splunk; Kelby Shelton, Splunk
 type: Investigation
 description: "Accepts an internet message id, and asks Splunk 
  to look for records that have a matching internet message id.  It then produces a normalized output and summary table."

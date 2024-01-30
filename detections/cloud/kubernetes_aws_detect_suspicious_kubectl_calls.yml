@@ -1,15 +1,22 @@
 name: Kubernetes AWS detect suspicious kubectl calls
 id: 042a3d32-8318-4763-9679-09db2644a8f2
 version: 2
-date: '2022-11-11'
-author: Rod Soto, Splunk
+date: '2023-12-19'
+author: Rod Soto, Patrick Bareiss, Splunk
 status: experimental
-type: Hunting
-description: This search provides information on anonymous Kubectl calls with IP,
-  verb namespace and object access context
+type: Anomaly
+description: 'The following analytic detects anonymous and unauthenticated requests to a Kubernetes cluster. 
+  It identifies this behavior by monitoring for API calls from users who have not provided any token or password in their request. 
+  This is a significant behavior to identify for a SOC as it indicates a severe misconfiguration that allows unfettered access to a cluster 
+  with no traceability to a user or service. The impact of such an attack could be substantial, 
+  potentially granting an attacker access to sensitive data or control over the cluster. 
+  This detection rule is crucial for maintaining the security and integrity of your Kubernetes infrastructure.'
 data_source: []
-search: '`aws_cloudwatchlogs_eks` userAgent=kubectl* sourceIPs{}!=127.0.0.1 sourceIPs{}!=::1
-  src_user=system:anonymous  | stats  count by src_ip src_user verb userAgent requestURI
+search: '`kube_audit` user.username="system:anonymous" user.groups{} IN ("system:unauthenticated")
+  | fillnull
+  | stats count by objectRef.name objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI 
+  responseStatus.code sourceIPs{} stage user.groups{} user.uid user.username userAgent verb
+  | rename sourceIPs{} as src_ip, user.username as user
   |`kubernetes_aws_detect_suspicious_kubectl_calls_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudwatch logs.
@@ -19,7 +26,7 @@ known_false_positives: Kubectl calls are not malicious by nature. However source
 references: []
 tags:
   analytic_story:
-  - Kubernetes Sensitive Object Access Activity
+  - Kubernetes Security
   asset_type: Kubernetes
   confidence: 50
   impact: 50
@@ -34,12 +41,19 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
-  - userAgent
-  - sourceIPs{}
-  - src_user
-  - src_ip
+  - objectRef.resource
   - verb
+  - objectRef.name
+  - objectRef.namespace
+  - requestReceivedTimestamp
   - requestURI
+  - responseStatus.code
+  - sourceIPs{}
+  - stage
+  - user.groups{}
+  - user.uid
+  - user.username
+  - userAgent
+  - verb
   risk_score: 25
   security_domain: threat

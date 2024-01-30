@@ -2,7 +2,7 @@ name: Splunk Attack Analyzer Dynamic Analysis
 id: c77faffe-1339-43b0-b870-86582da9063e
 version: 1
 date: '2023-03-24'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk; Kelby Shelton, Splunk
 type: Investigation
 description: "Accepts url link, domain or vault_id (hash) to be detonated using Splunk Attacker (SAA) API connector. This playbook produces a normalized output for each user and device."
 playbook: Splunk_Attack_Analyzer_Dynamic_Analysis
@@ -12,11 +12,13 @@ app_list:
   - Splunk Attack Analyzer Connector for Splunk SOAR
 tags:
   platform_tags:
-    - url
-    - domain
-    - sandbox
-    - ip 
-    - vault_id
+    - "url"
+    - "ip"
+    - "domain"
+    - "sandbox"
+    - "D3-DA"
+    - "vault_id"
+    - "splunk_attack_analyzer"
   playbook_type: Input
   vpe_type: Modern
   playbook_fields: []

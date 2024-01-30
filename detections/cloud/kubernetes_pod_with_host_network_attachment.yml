@@ -1,0 +1,69 @@
+name: Kubernetes Pod With Host Network Attachment
+id: cce357cf-43a4-494a-814b-67cea90fe990
+version: 1
+date: '2023-12-14'
+author: Patrick Bareiss, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the creation of a pod with host network attachment in Kubernetes. It identifies this behavior by monitoring Kubernetes Audit logs for the creation or update of pods with host network configuration. 
+  This behavior is worth identifying for a SOC as it could potentially allow an attacker to listen to all network traffic on the node and other compute on the network namespace, capturing secrets passed in arguments or connections to escalate their privileges. 
+  The impact of such an attack could be severe, leading to unauthorized access to sensitive information, data breaches, and service disruptions.
+data_source: []
+search: '`kube_audit` objectRef.resource=pods verb=create OR verb=update requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration=*\"hostNetwork\":true*
+  | fillnull
+  | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 
+  requestObject.kind responseStatus.code sourceIPs{} stage user.username userAgent verb requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
+  | rename sourceIPs{} as src_ip, user.username as user
+  | `kubernetes_pod_with_host_network_attachment_filter` '
+how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
+  Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
+  Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
+  Use the Splunk OpenTelemetry Collector for Kubernetes to collect the logs. This doc will describe how to collect the audit log file https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/migration-from-sck.md.
+known_false_positives: unknown
+references:
+- https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+tags:
+  analytic_story:
+  - Kubernetes Security
+  asset_type: Kubernetes
+  confidence: 70
+  impact: 70
+  message: Kubernetes pod with host network attachment from user $user$.
+  mitre_attack_id:
+  - T1204
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - user.groups{}
+  - kind 
+  - objectRef.name 
+  - objectRef.namespace 
+  - objectRef.resource 
+  - requestObject.kind 
+  - requestObject.spec.type 
+  - responseStatus.code 
+  - sourceIPs{} 
+  - stage 
+  - user.username 
+  - userAgent 
+  - verb
+  - requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
+  risk_score: 49
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_privileged_pod/kubernetes_privileged_pod.json
+    sourcetype: _json
+    source: kubernetes
