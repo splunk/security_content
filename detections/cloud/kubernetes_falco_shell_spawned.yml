@@ -1,0 +1,58 @@
+name: Kubernetes Falco Shell Spawned
+id: d2feef92-d54a-4a19-8306-b47c6ceba5b2
+version: 1
+date: '2023-12-13'
+author: Patrick Bareiss, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects instances where a shell is spawned within a Kubernetes container, a behavior often indicative of an attacker gaining unauthorized access. 
+  Leveraging Falco, a cloud-native runtime security tool, this analytic monitors system calls within the Kubernetes environment, flagging when a shell is spawned in a container. 
+  This behavior is worth identifying for a SOC as it could potentially allow an attacker to execute arbitrary commands, manipulate container processes, or escalate privileges, posing a significant threat to the integrity and security of the Kubernetes infrastructure. 
+  The impact of such an attack could be severe, leading to data breaches, service disruptions, or unauthorized access to sensitive information.
+data_source: []
+search: '`kube_container_falco` "A shell was spawned in a container"
+  |  fillnull
+  | stats count by container_image container_image_tag container_name parent proc_exepath process user
+  | `kubernetes_falco_shell_spawned_filter` '
+how_to_implement: The detection is based on data that originates from Falco, a cloud native runtime security tool. 
+  Falco is designed to detect anomalous activity in your applications and is a crucial component of this detection rule. 
+  To implement this detection rule, you need to install and configure Falco in your Kubernetes environment. 
+  Once Falco is set up, it will monitor the system calls in your Kubernetes infrastructure and generate logs for any suspicious activity. 
+  These logs are then ingested by Splunk for analysis. Use the Splunk OpenTelemetry Collector for Kubernetes to collect the logs. 
+known_false_positives: unknown
+references:
+- https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+tags:
+  analytic_story:
+  - Kubernetes Security
+  asset_type: Kubernetes
+  confidence: 70
+  impact: 70
+  message: A shell is spawned in the container $container_name$ by user $user$.
+  mitre_attack_id:
+  - T1204
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - container_image 
+  - container_image_tag 
+  - container_name 
+  - parent 
+  - proc_exepath 
+  - process 
+  - user
+  risk_score: 49
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_falco_shell_spawned/kubernetes_falco_shell_spawned.log
+    sourcetype: kube:container:falco
+    source: kubernetes

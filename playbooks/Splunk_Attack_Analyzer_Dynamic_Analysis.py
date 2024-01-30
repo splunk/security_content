@@ -18,7 +18,7 @@ def on_start(container):
     return
 
 @phantom.playbook_block()
-def saa_input_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def saa_input_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("saa_input_filter() called")
 
     ################################################################################
@@ -55,7 +55,7 @@ def saa_input_filter(action=None, success=None, container=None, results=None, ha
 
 
 @phantom.playbook_block()
-def url_detonation(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def url_detonation(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("url_detonation() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
@@ -85,13 +85,13 @@ def url_detonation(action=None, success=None, container=None, results=None, hand
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate url", parameters=parameters, name="url_detonation", assets=["splunk attack analyzer app"], callback=url_status_filter)
+    phantom.act("detonate url", parameters=parameters, name="url_detonation", assets=["splunk_attack_analyzer"], callback=url_status_filter)
 
     return
 
 
 @phantom.playbook_block()
-def detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def detonation_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("detonation_status_filter() called")
 
     ################################################################################
@@ -109,14 +109,29 @@ def detonation_status_filter(action=None, success=None, container=None, results=
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        get_file_forensics_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+        get_file_summary_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
 
 @phantom.playbook_block()
-def get_url_forensics_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("get_url_forensics_output() called")
+def loop_get_url_summary_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("loop_get_url_summary_output() called")
+
+    loop_state = phantom.LoopState(state=loop_state_json)
+
+    if loop_state.should_continue(container=container, results=results): # should_continue evaluates iteration/timeout/conditions
+        loop_state.increment() # increments iteration count
+        get_url_summary_output(container=container, loop_state_json=loop_state.to_json())
+    else:
+        url_summary_filter(container=container)
+
+    return
+
+
+@phantom.playbook_block()
+def get_url_summary_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("get_url_summary_output() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -129,13 +144,29 @@ def get_url_forensics_output(action=None, success=None, container=None, results=
 
     parameters = []
 
-    # build parameters list for 'get_url_forensics_output' call
+    # build parameters list for 'get_url_summary_output' call
     for filtered_result_0_item_url_status_filter in filtered_result_0_data_url_status_filter:
         if filtered_result_0_item_url_status_filter[0] is not None:
             parameters.append({
                 "job_id": filtered_result_0_item_url_status_filter[0],
-                "timeout": 2,
+                "timeout": "",
             })
+
+    if not loop_state_json:
+        # Loop state is empty. We are creating a new one from the inputs
+        loop_state_json = {
+            # Looping configs
+            "current_iteration": 1,
+            "max_iterations": 15,
+            "conditions": [
+                ["get_url_summary_output:action_result.data.*.State", "==", "done"]
+            ],
+            "max_ttl": 1800,
+            "delay_time": 120,
+        }
+
+    # Load state from the JSON passed to it
+    loop_state = phantom.LoopState(state=loop_state_json)
 
     ################################################################################
     ## Custom Code Start
@@ -155,14 +186,14 @@ def get_url_forensics_output(action=None, success=None, container=None, results=
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="get_url_forensics_output", assets=["splunk attack analyzer app"], callback=get_jobid_forensic_filter)
+    phantom.act("get job summary", parameters=parameters, name="get_url_summary_output", assets=["splunk_attack_analyzer"], callback=loop_get_url_summary_output, loop_state=loop_state.to_json())
 
     return
 
 
 @phantom.playbook_block()
-def get_jobid_forensic_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("get_jobid_forensic_filter() called")
+def url_summary_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("url_summary_filter() called")
 
     ################################################################################
     # Filters successful url detonation job forensic results.
@@ -172,21 +203,21 @@ def get_jobid_forensic_filter(action=None, success=None, container=None, results
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["get_url_forensics_output:action_result.status", "==", "success"]
+            ["get_url_summary_output:action_result.status", "==", "success"]
         ],
-        name="get_jobid_forensic_filter:condition_1",
+        name="url_summary_filter:condition_1",
         delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        normalized_url_forensic_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+        get_url_job_screenshots(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
 
 @phantom.playbook_block()
-def normalized_url_forensic_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("normalized_url_forensic_output() called")
+def normalized_url_summary_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("normalized_url_summary_output() called")
 
     ################################################################################
     # This block uses custom code for normalizing score. Adjust the logic as desired 
@@ -194,27 +225,26 @@ def normalized_url_forensic_output(action=None, success=None, container=None, re
     ################################################################################
 
     filtered_result_0_data_url_status_filter = phantom.collect2(container=container, datapath=["filtered-data:url_status_filter:condition_1:url_detonation:action_result.parameter.url","filtered-data:url_status_filter:condition_1:url_detonation:action_result.data.*.JobID"])
-    filtered_result_1_data_get_jobid_forensic_filter = phantom.collect2(container=container, datapath=["filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.parameter.job_id","filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.DisplayScore","filtered-data:get_jobid_forensic_filter:condition_1:get_url_forensics_output:action_result.data.*.Detections"])
+    filtered_result_1_data_url_summary_filter = phantom.collect2(container=container, datapath=["filtered-data:url_summary_filter:condition_1:get_url_summary_output:action_result.parameter.job_id","filtered-data:url_summary_filter:condition_1:get_url_summary_output:action_result.summary.Score","filtered-data:url_summary_filter:condition_1:get_url_summary_output:action_result.data.*.Resources","filtered-data:url_summary_filter:condition_1:get_url_summary_output:action_result.data.*.Verdict"])
 
     filtered_result_0_parameter_url = [item[0] for item in filtered_result_0_data_url_status_filter]
     filtered_result_0_data___jobid = [item[1] for item in filtered_result_0_data_url_status_filter]
-    filtered_result_1_parameter_job_id = [item[0] for item in filtered_result_1_data_get_jobid_forensic_filter]
-    filtered_result_1_data___displayscore = [item[1] for item in filtered_result_1_data_get_jobid_forensic_filter]
-    filtered_result_1_data___detections = [item[2] for item in filtered_result_1_data_get_jobid_forensic_filter]
+    filtered_result_1_parameter_job_id = [item[0] for item in filtered_result_1_data_url_summary_filter]
+    filtered_result_1_summary_score = [item[1] for item in filtered_result_1_data_url_summary_filter]
+    filtered_result_1_data___resources = [item[2] for item in filtered_result_1_data_url_summary_filter]
+    filtered_result_1_data___verdict = [item[3] for item in filtered_result_1_data_url_summary_filter]
 
-    normalized_url_forensic_output__url_score_object = None
-    normalized_url_forensic_output__scores = None
-    normalized_url_forensic_output__categories = None
-    normalized_url_forensic_output__score_id = None
-    normalized_url_forensic_output__url = None
-    normalized_url_forensic_output__job_id = None
+    normalized_url_summary_output__url_score_object = None
+    normalized_url_summary_output__scores = None
+    normalized_url_summary_output__classifications = None
+    normalized_url_summary_output__score_id = None
+    normalized_url_summary_output__url = None
+    normalized_url_summary_output__job_id = None
 
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
-    # Write your custom code here...
-    score_id =0
     score_table = {
         "0":"Unknown",
         "1":"Very_Safe",
@@ -228,71 +258,131 @@ def normalized_url_forensic_output(action=None, success=None, container=None, re
         "9":"Probably_Malicious",
         "10":"Malicious"
     }
+    classification_ids = {
+        "Unknown": 0,
+        "Adware": 1,
+        "Backdoor": 2,
+        "Bot": 3,
+        "Bootkit": 4,
+        "DDOS": 5,
+        "Downloader": 6,
+        "Dropper": 7,
+        "Exploit-Kit": 8,
+        "Keylogger": 9,
+        "Ransomware": 10,
+        "Remote-Access-Trojan": 11,
+        "Resource-Exploitation": 13,
+        "Rogue-Security-Software": 14,
+        "Rootkit": 15,
+        "Screen-Capture": 16,
+        "Spyware": 17,
+        "Trojan": 18,
+        "Virus": 19,
+        "Webshell": 20,
+        "Wiper": 21,
+        "Worm": 22,
+        "Other": 99
+    }
+    normalized_url_summary_output__url_score_object = []
+    normalized_url_summary_output__scores = []
+    normalized_url_summary_output__classifications = []
+    normalized_url_summary_output__score_id = []
+    normalized_url_summary_output__url = []
+    normalized_url_summary_output__job_id = []
     
-    normalized_url_forensic_output__url_score_object = []
-    normalized_url_forensic_output__scores = []
-    normalized_url_forensic_output__categories = []
-    normalized_url_forensic_output__score_id = []
-    normalized_url_forensic_output__url = []
-    normalized_url_forensic_output__job_id = []
-
     ## pair forensic job results with url detonated
     job_url_dict = {}
-
-    for orig_url, orig_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid):
-        for filtered_job in filtered_result_0_data___jobid:
-            if orig_job == filtered_job:
-                job_url_dict[filtered_job] = orig_url
+    for orig_url, orig_job, filtered_job in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):
+        if orig_job == filtered_job:
+            job_url_dict[filtered_job] = orig_url
                 
-    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):
+            
+    for job, score_num, resources, verdict in zip(filtered_result_1_parameter_job_id, filtered_result_1_summary_score, filtered_result_1_data___resources, filtered_result_1_data___verdict):
         
         ## translate scores
         score_id = int(score_num/10) if score_num > 0 else 0
         score = score_table[str(score_id)]
         url = job_url_dict[job]
-        categories = [item.get('Description') for item in detections]
+        
+        ## build a sub dictionary of high priority related observables
+        related_observables = []
+        for sub_observ in resources:
+            if sub_observ['Name'] != url:
+                second_num = sub_observ['DisplayScore']
+                second_num_id = int(second_num/10) if second_num > 0 else 0
+                related_observables.append({
+                    'value': sub_observ['Name'],
+                    'type': sub_observ['Type'].lower(),
+                    'reputation': {
+                        'score': score_table[str(second_num_id)],
+                        'orig_score': second_num,
+                        'score_id': second_num_id
+                    },
+                    'source': 'Splunk Attack Analyzer'
+                })
         
         # Attach final object
-        normalized_url_forensic_output__url_score_object.append({'value': url, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})
-        normalized_url_forensic_output__scores.append(score)
-        normalized_url_forensic_output__categories.append(", ".join(categories))
-        normalized_url_forensic_output__score_id.append(score_id)
-        normalized_url_forensic_output__url.append(url)
-        normalized_url_forensic_output__job_id.append(job)
+        normalized_url_summary_output__url_score_object.append({
+            'value': url, 
+            'orig_score': score_num, 
+            'score': score, 
+            'score_id': score_id, 
+            'classifications': [verdict if verdict else "Unknown"],
+            'classification_ids': [classification_ids.get(verdict, 99) if verdict else 0],
+            'related_observables': related_observables
+        })
+        normalized_url_summary_output__scores.append(score)
+        normalized_url_summary_output__score_id.append(score_id)
+        normalized_url_summary_output__url.append(url)
+        normalized_url_summary_output__job_id.append(job)
+        normalized_url_summary_output__classifications.append([verdict if verdict else "Unknown"])
+        
 
     ################################################################################
     ## Custom Code End
     ################################################################################
 
-    phantom.save_run_data(key="normalized_url_forensic_output:url_score_object", value=json.dumps(normalized_url_forensic_output__url_score_object))
-    phantom.save_run_data(key="normalized_url_forensic_output:scores", value=json.dumps(normalized_url_forensic_output__scores))
-    phantom.save_run_data(key="normalized_url_forensic_output:categories", value=json.dumps(normalized_url_forensic_output__categories))
-    phantom.save_run_data(key="normalized_url_forensic_output:score_id", value=json.dumps(normalized_url_forensic_output__score_id))
-    phantom.save_run_data(key="normalized_url_forensic_output:url", value=json.dumps(normalized_url_forensic_output__url))
-    phantom.save_run_data(key="normalized_url_forensic_output:job_id", value=json.dumps(normalized_url_forensic_output__job_id))
+    phantom.save_run_data(key="normalized_url_summary_output:url_score_object", value=json.dumps(normalized_url_summary_output__url_score_object))
+    phantom.save_run_data(key="normalized_url_summary_output:scores", value=json.dumps(normalized_url_summary_output__scores))
+    phantom.save_run_data(key="normalized_url_summary_output:classifications", value=json.dumps(normalized_url_summary_output__classifications))
+    phantom.save_run_data(key="normalized_url_summary_output:score_id", value=json.dumps(normalized_url_summary_output__score_id))
+    phantom.save_run_data(key="normalized_url_summary_output:url", value=json.dumps(normalized_url_summary_output__url))
+    phantom.save_run_data(key="normalized_url_summary_output:job_id", value=json.dumps(normalized_url_summary_output__job_id))
 
-    format_url_report(container=container)
+    join_format_url_report(container=container)
 
     return
 
 
 @phantom.playbook_block()
-def format_url_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def join_format_url_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("join_format_url_report() called")
+
+    if phantom.completed(action_names=["get_url_job_screenshots"]):
+        # call connected block "format_url_report"
+        format_url_report(container=container, handle=handle)
+
+    return
+
+
+@phantom.playbook_block()
+def format_url_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("format_url_report() called")
 
     ################################################################################
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed URL(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Score Id | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\n\n"""
+    template = """SOAR analyzed URL(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| URL | Normalized Score | Score Id | Classifications | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\nScreenshots associated with the detonated URLs are shown below (if available):\n\n{5}\n"""
 
     # parameter list for template variable replacement
     parameters = [
-        "normalized_url_forensic_output:custom_function:url",
-        "normalized_url_forensic_output:custom_function:scores",
-        "normalized_url_forensic_output:custom_function:score_id",
-        "normalized_url_forensic_output:custom_function:categories",
-        "normalized_url_forensic_output:custom_function:job_id"
+        "normalized_url_summary_output:custom_function:url",
+        "normalized_url_summary_output:custom_function:scores",
+        "normalized_url_summary_output:custom_function:score_id",
+        "normalized_url_summary_output:custom_function:classifications",
+        "normalized_url_summary_output:custom_function:job_id",
+        "url_screenshot_formatting:custom_function:report"
     ]
 
     ################################################################################
@@ -305,7 +395,7 @@ def format_url_report(action=None, success=None, container=None, results=None, h
     ## Custom Code End
     ################################################################################
 
-    phantom.format(container=container, template=template, parameters=parameters, name="format_url_report")
+    phantom.format(container=container, template=template, parameters=parameters, name="format_url_report", drop_none=True)
 
     build_url_output(container=container)
 
@@ -313,7 +403,7 @@ def format_url_report(action=None, success=None, container=None, results=None, h
 
 
 @phantom.playbook_block()
-def build_url_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def build_url_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("build_url_output() called")
 
     ################################################################################
@@ -321,9 +411,9 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     # the observables data path.
     ################################################################################
 
-    normalized_url_forensic_output__url = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_forensic_output:url")) != "" else "null")  # pylint: disable=used-before-assignment
-    normalized_url_forensic_output__job_id = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_forensic_output:job_id")) != "" else "null")  # pylint: disable=used-before-assignment
-    normalized_url_forensic_output__url_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_forensic_output:url_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
+    normalized_url_summary_output__url = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_summary_output:url")) != "" else "null")  # pylint: disable=used-before-assignment
+    normalized_url_summary_output__job_id = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_summary_output:job_id")) != "" else "null")  # pylint: disable=used-before-assignment
+    normalized_url_summary_output__url_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalized_url_summary_output:url_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
 
     build_url_output__observable_array = None
 
@@ -338,28 +428,32 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
     # Build URL
 
         
-    for url, external_id, url_object in zip(normalized_url_forensic_output__url, normalized_url_forensic_output__job_id, normalized_url_forensic_output__url_score_object):
+    for url, external_id, url_object in zip(normalized_url_summary_output__url, normalized_url_summary_output__job_id, normalized_url_summary_output__url_score_object):
         parsed_url = urlparse(url)
         #phantom.debug("url: {} jobs_id:{}".format(url, external_id))
         #phantom.debug("parsed_url: {}, url_object: {}".format(parsed_url, url_object))
         observable_object = {
-                "value": url,
-                "type": "url",
-                "reputation": {
-                    "base_score": url_object['base_score'],
-                    "score": url_object['score'],
-                    "score_id": url_object['score_id'],
-                    "confidence": url_object['base_score'] #Attack Analyzer's score has confidence baked in.
-                },
-                "attributes": {
-                    "hostname": parsed_url.hostname,
-                    "scheme": parsed_url.scheme
-                },
-                "classifications": url_object['categories'],
-                "source": "Splunk Attack Analyzer",
-                "source_link": f"https://app.twinwave.io/job/{external_id}"
-            }
-
+            "value": url,
+            "type": "url",
+            "reputation": {
+                "orig_score": url_object['orig_score'],
+                "score": url_object['score'],
+                "score_id": url_object['score_id']
+            },
+            "attributes": {
+                "hostname": parsed_url.hostname,
+                "scheme": parsed_url.scheme
+            },
+            "malware": {
+                "classifications": url_object['classifications'],
+                "classification_ids": url_object['classification_ids']
+            },
+            "source": "Splunk Attack Analyzer",
+            "source_link": f"https://app.twinwave.io/job/{external_id}"
+        }
+        if url_object.get('related_observables'):
+            observable_object["related_observables"] = url_object['related_observables']
+            
         if parsed_url.path:
             observable_object['attributes']['path'] = parsed_url.path
         if parsed_url.query:
@@ -379,7 +473,7 @@ def build_url_output(action=None, success=None, container=None, results=None, ha
 
 
 @phantom.playbook_block()
-def file_detonation(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def file_detonation(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("file_detonation() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
@@ -409,14 +503,29 @@ def file_detonation(action=None, success=None, container=None, results=None, han
     ## Custom Code End
     ################################################################################
 
-    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk attack analyzer app"], callback=detonation_status_filter)
+    phantom.act("detonate file", parameters=parameters, name="file_detonation", assets=["splunk_attack_analyzer"], callback=detonation_status_filter)
 
     return
 
 
 @phantom.playbook_block()
-def get_file_forensics_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("get_file_forensics_output() called")
+def loop_get_file_summary_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("loop_get_file_summary_output() called")
+
+    loop_state = phantom.LoopState(state=loop_state_json)
+
+    if loop_state.should_continue(container=container, results=results): # should_continue evaluates iteration/timeout/conditions
+        loop_state.increment() # increments iteration count
+        get_file_summary_output(container=container, loop_state_json=loop_state.to_json())
+    else:
+        file_summary_filter(container=container)
+
+    return
+
+
+@phantom.playbook_block()
+def get_file_summary_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("get_file_summary_output() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -429,13 +538,29 @@ def get_file_forensics_output(action=None, success=None, container=None, results
 
     parameters = []
 
-    # build parameters list for 'get_file_forensics_output' call
+    # build parameters list for 'get_file_summary_output' call
     for filtered_result_0_item_detonation_status_filter in filtered_result_0_data_detonation_status_filter:
         if filtered_result_0_item_detonation_status_filter[0] is not None:
             parameters.append({
                 "job_id": filtered_result_0_item_detonation_status_filter[0],
-                "timeout": 2,
+                "timeout": "",
             })
+
+    if not loop_state_json:
+        # Loop state is empty. We are creating a new one from the inputs
+        loop_state_json = {
+            # Looping configs
+            "current_iteration": 1,
+            "max_iterations": 15,
+            "conditions": [
+                ["get_file_summary_output:action_result.data.*.State", "==", "done"]
+            ],
+            "max_ttl": 1800,
+            "delay_time": 120,
+        }
+
+    # Load state from the JSON passed to it
+    loop_state = phantom.LoopState(state=loop_state_json)
 
     ################################################################################
     ## Custom Code Start
@@ -455,14 +580,14 @@ def get_file_forensics_output(action=None, success=None, container=None, results
     ## Custom Code End
     ################################################################################
 
-    phantom.act("get job forensics", parameters=parameters, name="get_file_forensics_output", assets=["splunk attack analyzer app"], callback=file_forensics_filter)
+    phantom.act("get job summary", parameters=parameters, name="get_file_summary_output", assets=["splunk_attack_analyzer"], callback=loop_get_file_summary_output, loop_state=loop_state.to_json())
 
     return
 
 
 @phantom.playbook_block()
-def normalized_file_forensic_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("normalized_file_forensic_output() called")
+def normalized_file_summary_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("normalized_file_summary_output() called")
 
     ################################################################################
     # This block uses custom code for normalizing score. Adjust the logic as desired 
@@ -470,27 +595,31 @@ def normalized_file_forensic_output(action=None, success=None, container=None, r
     ################################################################################
 
     filtered_result_0_data_detonation_status_filter = phantom.collect2(container=container, datapath=["filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.parameter.file","filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID"])
-    filtered_result_1_data_file_forensics_filter = phantom.collect2(container=container, datapath=["filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.parameter.job_id","filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.DisplayScore","filtered-data:file_forensics_filter:condition_1:get_file_forensics_output:action_result.data.*.Detections"])
+    filtered_result_1_data_file_summary_filter = phantom.collect2(container=container, datapath=["filtered-data:file_summary_filter:condition_1:get_file_summary_output:action_result.parameter.job_id","filtered-data:file_summary_filter:condition_1:get_file_summary_output:action_result.data.*.Submission.Name","filtered-data:file_summary_filter:condition_1:get_file_summary_output:action_result.summary.Score","filtered-data:file_summary_filter:condition_1:get_file_summary_output:action_result.data.*.Resources","filtered-data:file_summary_filter:condition_1:get_file_summary_output:action_result.data.*.Verdict","filtered-data:file_summary_filter:condition_1:get_file_summary_output:action_result.data.*.Tasks"])
 
     filtered_result_0_parameter_file = [item[0] for item in filtered_result_0_data_detonation_status_filter]
     filtered_result_0_data___jobid = [item[1] for item in filtered_result_0_data_detonation_status_filter]
-    filtered_result_1_parameter_job_id = [item[0] for item in filtered_result_1_data_file_forensics_filter]
-    filtered_result_1_data___displayscore = [item[1] for item in filtered_result_1_data_file_forensics_filter]
-    filtered_result_1_data___detections = [item[2] for item in filtered_result_1_data_file_forensics_filter]
+    filtered_result_1_parameter_job_id = [item[0] for item in filtered_result_1_data_file_summary_filter]
+    filtered_result_1_data___submission_name = [item[1] for item in filtered_result_1_data_file_summary_filter]
+    filtered_result_1_summary_score = [item[2] for item in filtered_result_1_data_file_summary_filter]
+    filtered_result_1_data___resources = [item[3] for item in filtered_result_1_data_file_summary_filter]
+    filtered_result_1_data___verdict = [item[4] for item in filtered_result_1_data_file_summary_filter]
+    filtered_result_1_data___tasks = [item[5] for item in filtered_result_1_data_file_summary_filter]
 
-    normalized_file_forensic_output__file_score_object = None
-    normalized_file_forensic_output__scores = None
-    normalized_file_forensic_output__categories = None
-    normalized_file_forensic_output__score_id = None
-    normalized_file_forensic_output__file = None
-    normalized_file_forensic_output__job_id = None
+    normalized_file_summary_output__file_score_object = None
+    normalized_file_summary_output__scores = None
+    normalized_file_summary_output__categories = None
+    normalized_file_summary_output__score_id = None
+    normalized_file_summary_output__file = None
+    normalized_file_summary_output__job_id = None
+    normalized_file_summary_output__classifications = None
+    normalized_file_summary_output__file_name = None
 
     ################################################################################
     ## Custom Code Start
     ################################################################################
-
-    # Write your custom code here...
-    score_id =0
+    
+    
     score_table = {
         "0":"Unknown",
         "1":"Very_Safe",
@@ -504,70 +633,194 @@ def normalized_file_forensic_output(action=None, success=None, container=None, r
         "9":"Probably_Malicious",
         "10":"Malicious"
     }
+
+    classification_ids = {
+        "Unknown": 0,
+        "Adware": 1,
+        "Backdoor": 2,
+        "Bot": 3,
+        "Bootkit": 4,
+        "DDOS": 5,
+        "Downloader": 6,
+        "Dropper": 7,
+        "Exploit-Kit": 8,
+        "Keylogger": 9,
+        "Ransomware": 10,
+        "Remote-Access-Trojan": 11,
+        "Resource-Exploitation": 13,
+        "Rogue-Security-Software": 14,
+        "Rootkit": 15,
+        "Screen-Capture": 16,
+        "Spyware": 17,
+        "Trojan": 18,
+        "Virus": 19,
+        "Webshell": 20,
+        "Wiper": 21,
+        "Worm": 22,
+        "Other": 99
+    }
+
+    normalized_file_summary_output__file_score_object = []
+    normalized_file_summary_output__scores = []
+    normalized_file_summary_output__categories = []
+    normalized_file_summary_output__score_id = []
+    normalized_file_summary_output__file = []
+    normalized_file_summary_output__job_id = []
+    normalized_file_summary_output__classifications = []
+    normalized_file_summary_output__file_name = []
     
-    normalized_file_forensic_output__file_score_object = []
-    normalized_file_forensic_output__scores = []
-    normalized_file_forensic_output__categories = []
-    normalized_file_forensic_output__score_id = []
-    normalized_file_forensic_output__file = []
-    normalized_file_forensic_output__job_id = []
     
+    def find_sha1_details(target_id, task_list):
+        '''
+        Attempt to find the detail object with a sha1
+        '''
+        for task in task_list:
+            if (target_id == task.get('ResourceID')
+                and task.get('Results',{}).get('Details', {}).get('sha1')):
+                task_result_details = task['Results']['Details']
+                task_result_details.pop('RootTaskID', None)
+                return task_result_details
+        return None
+
+        
     ## pair forensic job results with url detonated
     job_file_dict = {}
-
-    for orig_file, orig_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):
-        for filtered_job in filtered_result_0_data___jobid:
-            if orig_job == filtered_job:
-                job_file_dict[filtered_job] = orig_file
-                
-    for job, score_num, detections in zip(filtered_result_1_parameter_job_id, filtered_result_1_data___displayscore, filtered_result_1_data___detections):
+    for orig_file, orig_job, filtered_job in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid, filtered_result_1_parameter_job_id):
+        if orig_job == filtered_job:
+            job_file_dict[filtered_job] = orig_file
+    
+    for job, file_name, score_num, resources, verdict, tasks in zip(
+        filtered_result_1_parameter_job_id, 
+        filtered_result_1_data___submission_name, 
+        filtered_result_1_summary_score, 
+        filtered_result_1_data___resources, 
+        filtered_result_1_data___verdict,
+        filtered_result_1_data___tasks
+    ):
         
         ## translate scores
         score_id = int(score_num/10) if score_num > 0 else 0
         score = score_table[str(score_id)]
         file = job_file_dict[job]
-        categories = [item.get('Description') for item in detections]
+        attributes = {}
         
-        normalized_file_forensic_output__file_score_object.append({'value': file, 'base_score': score_num, 'score': score, 'score_id': score_id, 'categories': categories})
-        normalized_file_forensic_output__scores.append(score)
-        normalized_file_forensic_output__categories.append(", ".join(categories))
-        normalized_file_forensic_output__score_id.append(score_id)
-        normalized_file_forensic_output__file.append(file)
-        normalized_file_forensic_output__job_id.append(job)
+        ## build.a sub dictionary of high priority related observables
+        related_observables = []
+        for sub_observ in resources:
+            if sub_observ['Name'] != file_name:
+                        
+                details = find_sha1_details(sub_observ['ID'], tasks)
+                second_num = sub_observ['DisplayScore']
+                second_num_id = int(second_num/10) if second_num > 0 else 0
+                sub_observ_dict = {
+                    'value': sub_observ['Name'],
+                    'type': sub_observ['Type'].lower(),
+                    'reputation': {
+                        'score': score_table[str(second_num_id)],
+                        'orig_score': second_num,
+                        'score_id': second_num_id
+                    },
+                    'source': 'Splunk Attack Analyzer'
+                }
+                if details:
+                    details['name'] = sub_observ['Name']
+                    details.pop('exiftool', None)
+                    sub_observ_dict['attributes'] = details
+                # check if observ is already in related_observables
+                skip_observ = False
+                for idx, item in enumerate(related_observables):
+                    if (sub_observ.get('FileMetadata', {}).get('SHA256', 'null_one') 
+                        == item.get('attributes', {}).get('sha256', 'null_two')
+                        and sub_observ['DisplayScore'] > item['reputation']['orig_score']):
+                        related_observables[idx] = sub_observ_dict
+                        skip_observ = True
+                    elif sub_observ['Name'] == item['value']:
+                        skip_observ = True
+                if not skip_observ:
+                    related_observables.append(sub_observ_dict)
+            elif sub_observ['Name'] == file_name:
+                details = find_sha1_details(sub_observ['ID'], tasks)
+                if details:
+                    details.pop('exiftool', None)
+                    details['name'] = file_name
+                    attributes = details
+                else:
+                    file_metadata = sub_observ.get('FileMetadata', {})
+                    attributes = {
+                        'name': file_name,
+                        'sha256': file_metadata.get('SHA256'),
+                        'md5': file_metadata.get('MD5'),
+                        'size': file_metadata.get('Size')
+                    }
+                    if file_metadata.get('MimeType'):
+                        attributes['mime_type'] = file_metadata['MimeType']
         
+        normalized_file_summary_output__file_score_object.append({
+            'value': file, 
+            'orig_score': score_num, 
+            'score': score, 
+            'score_id': score_id, 
+            'classifications': [verdict if verdict else "Unknown"],
+            'classification_ids': [classification_ids.get(verdict, 99) if verdict else 0],
+            'related_observables': related_observables,
+            'attributes': attributes
+                
+        })
+        normalized_file_summary_output__scores.append(score)
+        normalized_file_summary_output__score_id.append(score_id)
+        normalized_file_summary_output__file.append(file)
+        normalized_file_summary_output__file_name.append(file_name)
+        normalized_file_summary_output__job_id.append(job)
+        normalized_file_summary_output__classifications.append([verdict if verdict else "Unknown"])
+    
+    
     ################################################################################
     ## Custom Code End
     ################################################################################
 
-    phantom.save_run_data(key="normalized_file_forensic_output:file_score_object", value=json.dumps(normalized_file_forensic_output__file_score_object))
-    phantom.save_run_data(key="normalized_file_forensic_output:scores", value=json.dumps(normalized_file_forensic_output__scores))
-    phantom.save_run_data(key="normalized_file_forensic_output:categories", value=json.dumps(normalized_file_forensic_output__categories))
-    phantom.save_run_data(key="normalized_file_forensic_output:score_id", value=json.dumps(normalized_file_forensic_output__score_id))
-    phantom.save_run_data(key="normalized_file_forensic_output:file", value=json.dumps(normalized_file_forensic_output__file))
-    phantom.save_run_data(key="normalized_file_forensic_output:job_id", value=json.dumps(normalized_file_forensic_output__job_id))
+    phantom.save_run_data(key="normalized_file_summary_output:file_score_object", value=json.dumps(normalized_file_summary_output__file_score_object))
+    phantom.save_run_data(key="normalized_file_summary_output:scores", value=json.dumps(normalized_file_summary_output__scores))
+    phantom.save_run_data(key="normalized_file_summary_output:categories", value=json.dumps(normalized_file_summary_output__categories))
+    phantom.save_run_data(key="normalized_file_summary_output:score_id", value=json.dumps(normalized_file_summary_output__score_id))
+    phantom.save_run_data(key="normalized_file_summary_output:file", value=json.dumps(normalized_file_summary_output__file))
+    phantom.save_run_data(key="normalized_file_summary_output:job_id", value=json.dumps(normalized_file_summary_output__job_id))
+    phantom.save_run_data(key="normalized_file_summary_output:classifications", value=json.dumps(normalized_file_summary_output__classifications))
+    phantom.save_run_data(key="normalized_file_summary_output:file_name", value=json.dumps(normalized_file_summary_output__file_name))
 
-    format_file_report(container=container)
+    join_format_file_report(container=container)
 
     return
 
 
 @phantom.playbook_block()
-def format_file_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def join_format_file_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("join_format_file_report() called")
+
+    if phantom.completed(action_names=["get_file_job_screenshots"]):
+        # call connected block "format_file_report"
+        format_file_report(container=container, handle=handle)
+
+    return
+
+
+@phantom.playbook_block()
+def format_file_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("format_file_report() called")
 
     ################################################################################
     # Format a summary table with the information gathered from the playbook.
     ################################################################################
 
-    template = """SOAR analyzed File(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| Vauld Id | Normalized Score | Score Id | Categories | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} | https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\n\n"""
+    template = """SOAR analyzed File(s) using Splunk Attack Analyzer.  The table below shows a summary of the information gathered.\n\n| File Name | Normalized Score | Score Id  | Classifications | Report Link | Source |\n| --- | --- | --- | --- | --- | --- |\n%%\n| `{0}` | {1} | {2} | {3} |https://app.twinwave.io/job/{4} | Splunk Attack Analyzer (SAA) |\n%%\n\nScreenshots associated with the detonated Files are shown below (if available):\n\n{5}\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
-        "normalized_file_forensic_output:custom_function:file",
-        "normalized_file_forensic_output:custom_function:score",
-        "normalized_file_forensic_output:custom_function:score_id",
-        "normalized_file_forensic_output:custom_function:categories",
-        "normalized_file_forensic_output:custom_function:job_id"
+        "normalized_file_summary_output:custom_function:file_name",
+        "normalized_file_summary_output:custom_function:scores",
+        "normalized_file_summary_output:custom_function:score_id",
+        "normalized_file_summary_output:custom_function:classifications",
+        "normalized_file_summary_output:custom_function:job_id",
+        "file_screenshot_formatting:custom_function:report"
     ]
 
     ################################################################################
@@ -580,7 +833,7 @@ def format_file_report(action=None, success=None, container=None, results=None, 
     ## Custom Code End
     ################################################################################
 
-    phantom.format(container=container, template=template, parameters=parameters, name="format_file_report")
+    phantom.format(container=container, template=template, parameters=parameters, name="format_file_report", drop_none=True)
 
     build_file_output(container=container)
 
@@ -588,7 +841,7 @@ def format_file_report(action=None, success=None, container=None, results=None, 
 
 
 @phantom.playbook_block()
-def build_file_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def build_file_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("build_file_output() called")
 
     ################################################################################
@@ -596,9 +849,9 @@ def build_file_output(action=None, success=None, container=None, results=None, h
     # the observables data path.
     ################################################################################
 
-    normalized_file_forensic_output__file = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_forensic_output:file")) != "" else "null")  # pylint: disable=used-before-assignment
-    normalized_file_forensic_output__job_id = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_forensic_output:job_id")) != "" else "null")  # pylint: disable=used-before-assignment
-    normalized_file_forensic_output__file_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_forensic_output:file_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
+    normalized_file_summary_output__file = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_summary_output:file")) != "" else "null")  # pylint: disable=used-before-assignment
+    normalized_file_summary_output__job_id = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_summary_output:job_id")) != "" else "null")  # pylint: disable=used-before-assignment
+    normalized_file_summary_output__file_score_object = json.loads(_ if (_ := phantom.get_run_data(key="normalized_file_summary_output:file_score_object")) != "" else "null")  # pylint: disable=used-before-assignment
 
     build_file_output__observable_array = None
 
@@ -608,25 +861,29 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 
     # Write your custom code here...
     build_file_output__observable_array = []
-
-    for _vault_id, external_id, file_object in zip(normalized_file_forensic_output__file, normalized_file_forensic_output__job_id, normalized_file_forensic_output__file_score_object):
+    for _vault_id, external_id, file_object in zip(normalized_file_summary_output__file, normalized_file_summary_output__job_id, normalized_file_summary_output__file_score_object):
         #phantom.debug("vault: {} id: {}".format(_vault_id, external_id))
         observable_object = {
-
-                "value": _vault_id,
-                "type": "hash",
-                "reputation": {
-                    "base_score": file_object['base_score'],
-                    "score": file_object['score'],
-                    "score_id": file_object['score_id'],
-                    "confidence": file_object['base_score'] #Attack Analyzer's score has confidence baked in.
-                },
-                "classifications": file_object['categories'],
-                "source": "Splunk Attack Analyzer",
-                "source_link":f"https://app.twinwave.io/job/{external_id}"
-            }
+            "value": _vault_id,
+            "type": "hash",
+            "attributes": file_object['attributes'],
+            "reputation": {
+                "orig_score": file_object['orig_score'],
+                "score": file_object['score'],
+                "score_id": file_object['score_id']
+            },
+            "malware": {
+                "classifications": file_object['classifications'],
+                "classification_ids": file_object['classification_ids']
+            },
+            "source": "Splunk Attack Analyzer",
+            "source_link":f"https://app.twinwave.io/job/{external_id}"
+        }
+        if file_object.get('related_observables'):
+            observable_object["related_observables"] = file_object['related_observables']
+            
         build_file_output__observable_array.append(observable_object)
-        #phantom.debug("build_file_output__observable_array: {}".format(build_file_output__observable_array))
+    
     ################################################################################
     ## Custom Code End
     ################################################################################
@@ -637,7 +894,7 @@ def build_file_output(action=None, success=None, container=None, results=None, h
 
 
 @phantom.playbook_block()
-def url_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def url_status_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("url_status_filter() called")
 
     ################################################################################
@@ -655,14 +912,14 @@ def url_status_filter(action=None, success=None, container=None, results=None, h
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        get_url_forensics_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+        get_url_summary_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     return
 
 
 @phantom.playbook_block()
-def file_forensics_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("file_forensics_filter() called")
+def file_summary_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("file_summary_filter() called")
 
     ################################################################################
     # Filters successful file detonation job forensic results.
@@ -672,14 +929,195 @@ def file_forensics_filter(action=None, success=None, container=None, results=Non
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["get_file_forensics_output:action_result.status", "==", "success"]
+            ["get_file_summary_output:action_result.status", "==", "success"]
         ],
-        name="file_forensics_filter:condition_1",
+        name="file_summary_filter:condition_1",
         delimiter=",")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        normalized_file_forensic_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+        get_file_job_screenshots(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+
+    return
+
+
+@phantom.playbook_block()
+def get_url_job_screenshots(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("get_url_job_screenshots() called")
+
+    # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
+
+    ################################################################################
+    # Add the job screenshots to the vault
+    ################################################################################
+
+    filtered_result_0_data_url_summary_filter = phantom.collect2(container=container, datapath=["filtered-data:url_summary_filter:condition_1:get_url_summary_output:action_result.parameter.job_id"])
+
+    parameters = []
+
+    # build parameters list for 'get_url_job_screenshots' call
+    for filtered_result_0_item_url_summary_filter in filtered_result_0_data_url_summary_filter:
+        if filtered_result_0_item_url_summary_filter[0] is not None:
+            parameters.append({
+                "job_id": filtered_result_0_item_url_summary_filter[0],
+            })
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.act("get job screenshots", parameters=parameters, name="get_url_job_screenshots", assets=["splunk_attack_analyzer"], callback=get_url_job_screenshots_callback)
+
+    return
+
+
+@phantom.playbook_block()
+def get_url_job_screenshots_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("get_url_job_screenshots_callback() called")
+
+    
+    normalized_url_summary_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    url_screenshot_formatting(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+
+
+    return
+
+
+@phantom.playbook_block()
+def get_file_job_screenshots(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("get_file_job_screenshots() called")
+
+    # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
+
+    ################################################################################
+    # Add the job screenshots to the vault
+    ################################################################################
+
+    filtered_result_0_data_file_summary_filter = phantom.collect2(container=container, datapath=["filtered-data:file_summary_filter:condition_1:get_file_summary_output:action_result.parameter.job_id"])
+
+    parameters = []
+
+    # build parameters list for 'get_file_job_screenshots' call
+    for filtered_result_0_item_file_summary_filter in filtered_result_0_data_file_summary_filter:
+        if filtered_result_0_item_file_summary_filter[0] is not None:
+            parameters.append({
+                "job_id": filtered_result_0_item_file_summary_filter[0],
+            })
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.act("get job screenshots", parameters=parameters, name="get_file_job_screenshots", assets=["splunk_attack_analyzer"], callback=get_file_job_screenshots_callback)
+
+    return
+
+
+@phantom.playbook_block()
+def get_file_job_screenshots_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("get_file_job_screenshots_callback() called")
+
+    
+    normalized_file_summary_output(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    file_screenshot_formatting(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+
+
+    return
+
+
+@phantom.playbook_block()
+def url_screenshot_formatting(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("url_screenshot_formatting() called")
+
+    ################################################################################
+    # Custom formatting for the markdown report that shows screenshots grouped by 
+    # detonated URL
+    ################################################################################
+
+    filtered_result_0_data_url_status_filter = phantom.collect2(container=container, datapath=["filtered-data:url_status_filter:condition_1:url_detonation:action_result.parameter.url","filtered-data:url_status_filter:condition_1:url_detonation:action_result.data.*.JobID"])
+    get_url_job_screenshots_result_data = phantom.collect2(container=container, datapath=["get_url_job_screenshots:action_result.parameter.job_id","get_url_job_screenshots:action_result.data.*.file_name","get_url_job_screenshots:action_result.data.*.id"], action_results=results)
+
+    filtered_result_0_parameter_url = [item[0] for item in filtered_result_0_data_url_status_filter]
+    filtered_result_0_data___jobid = [item[1] for item in filtered_result_0_data_url_status_filter]
+    get_url_job_screenshots_parameter_job_id = [item[0] for item in get_url_job_screenshots_result_data]
+    get_url_job_screenshots_result_item_1 = [item[1] for item in get_url_job_screenshots_result_data]
+    get_url_job_screenshots_result_item_2 = [item[2] for item in get_url_job_screenshots_result_data]
+
+    url_screenshot_formatting__report = None
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+    url_screenshot_formatting__report = ""
+    
+    for url, job_id in zip(filtered_result_0_parameter_url, filtered_result_0_data___jobid):
+        url_screenshot_formatting__report += f"#### {url}\n"
+        for screenshot_job, screenshot_name, screenshot_id in zip(get_url_job_screenshots_parameter_job_id, get_url_job_screenshots_result_item_1, get_url_job_screenshots_result_item_2):
+            if job_id == screenshot_job:
+                url_screenshot_formatting__report += f"![{screenshot_name}](/view?id={screenshot_id})\n"
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.save_run_data(key="url_screenshot_formatting:report", value=json.dumps(url_screenshot_formatting__report))
+
+    join_format_url_report(container=container)
+
+    return
+
+
+@phantom.playbook_block()
+def file_screenshot_formatting(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
+    phantom.debug("file_screenshot_formatting() called")
+
+    ################################################################################
+    # Custom formatting for the markdown report that shows screenshots grouped by 
+    # detonated file.
+    ################################################################################
+
+    filtered_result_0_data_detonation_status_filter = phantom.collect2(container=container, datapath=["filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.parameter.file","filtered-data:detonation_status_filter:condition_1:file_detonation:action_result.data.*.JobID"])
+    get_file_job_screenshots_result_data = phantom.collect2(container=container, datapath=["get_file_job_screenshots:action_result.parameter.job_id","get_file_job_screenshots:action_result.data.*.file_name","get_file_job_screenshots:action_result.data.*.id"], action_results=results)
+
+    filtered_result_0_parameter_file = [item[0] for item in filtered_result_0_data_detonation_status_filter]
+    filtered_result_0_data___jobid = [item[1] for item in filtered_result_0_data_detonation_status_filter]
+    get_file_job_screenshots_parameter_job_id = [item[0] for item in get_file_job_screenshots_result_data]
+    get_file_job_screenshots_result_item_1 = [item[1] for item in get_file_job_screenshots_result_data]
+    get_file_job_screenshots_result_item_2 = [item[2] for item in get_file_job_screenshots_result_data]
+
+    file_screenshot_formatting__report = None
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    file_screenshot_formatting__report = ""
+    
+    for file, job_id in zip(filtered_result_0_parameter_file, filtered_result_0_data___jobid):
+        file_screenshot_formatting__report += f"#### {file}\n"
+        for screenshot_job, screenshot_name, screenshot_id in zip(get_file_job_screenshots_parameter_job_id, get_file_job_screenshots_result_item_1, get_file_job_screenshots_result_item_2):
+            if job_id == screenshot_job:
+                file_screenshot_formatting__report += f"![{screenshot_name}](/view?id={screenshot_id})\n"
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.save_run_data(key="file_screenshot_formatting:report", value=json.dumps(file_screenshot_formatting__report))
+
+    join_format_file_report(container=container)
 
     return
 

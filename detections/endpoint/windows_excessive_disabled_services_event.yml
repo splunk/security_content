@@ -1,7 +1,7 @@
 name: Windows Excessive Disabled Services Event
 id: c3f85976-94a5-11ec-9a58-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-01-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,10 +14,12 @@ description: This analytic will identify suspicious excessive number of system e
   defense evasion.
 data_source:
 - Sysmon Event ID 7
-search: '`wineventlog_system` EventCode=7040 Message = "*service was changed from
-  demand start to disabled." | stats count values(Message) as MessageList dc(Message)
-  as MessageCount min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode  User
-  Sid | where MessageCount >=10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`wineventlog_system` EventCode=7040 Message = "*service was changed from demand start to disabled."
+  | rename ComputerName as src
+  | stats count values(Message) as MessageList dc(Message) as MessageCount min(_time) as firstTime max(_time) as lastTime by src EventCode  User Sid 
+  | where MessageCount >=10 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `windows_excessive_disabled_services_event_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
@@ -37,7 +39,7 @@ tags:
   - T1562.001
   - T1562
   observable:
-  - name: ComputerName
+  - name: src
     type: Endpoint
     role:
     - Victim
@@ -47,6 +49,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - src
   - ComputerName
   - EventCode
   - Message
