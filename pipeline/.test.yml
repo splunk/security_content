@@ -1,5 +1,8 @@
 save_pipeline_id:
   stage: test
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING != "True"'
+      when: on_success
   needs:
     - generate_escu
   artifacts:
@@ -9,6 +12,59 @@ save_pipeline_id:
     expire_in: 14 days
   script:
     - echo $CI_PIPELINE_ID > artifacts/security_content_pipeline_id.txt
+
+# Install contentctl w/ poetry
+.install_contentctl: &install_contentctl
+  - pip3 install poetry
+  - git submodule update --init contentctl
+  - cd contentctl
+  - git checkout main
+  - poetry install
+  - poetry env info --path
+  - source `poetry env info --path`/bin/activate
+  - cd ..
+
+# GitLab checks out the repo in a HEAD-less state, so we must checkout the source ref for dry-run 
+# to work
+.checkout_source_branch: &checkout_source_branch
+  - git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+  - git fetch origin $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+  - git checkout $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+  - GIT_HEAD=$(git rev-parse HEAD)
+  - > 
+    if [ $GIT_HEAD = $CI_COMMIT_SHA ]; then
+      echo "HEAD ${GIT_HEAD} matches pipline commit sha ${CI_COMMIT_SHA}";
+    else
+      echo "HEAD ${GIT_HEAD} DOES NOT match pipline commit sha ${CI_COMMIT_SHA}";
+      exit 1;
+    fi
+
+dry_run_escu:
+  stage: test
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: on_success
+  needs:
+    - generate_escu
+  artifacts:
+    when: always
+    paths:
+      - artifacts/*
+    reports:
+      dotenv: build.env
+    expire_in: 14 days
+  before_script:
+    - *checkout_source_branch
+    - *install_contentctl
+  script:
+    - contentctl test --dry_run --mode changes --target_branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME --test_branch $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+    - deactivate
+    - pip3 install PyYAML==6.0.1
+    - python pipeline/tools/check_num_detections.py -c dry_run_config/contentctl_test.yml -d build.env
+  after_script:
+    - cp dry_run_config/contentctl_test.yml artifacts/mr_contentctl_test.yml
 
 trigger_escu_test:
   stage: test
@@ -33,14 +89,13 @@ trigger_escu_test:
     branch: pex-263/triggered-by-upstream
     strategy: depend
 
-# TODO (PEX-325): re-enable (never -> on_success) MR trigger after diff-level testing is enabled in contentctl
 trigger_escu_test_mr:
   stage: test
   rules:
     - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
       when: never
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
+      when: on_success
   inherit:
     variables: false
   variables:
@@ -56,11 +111,14 @@ trigger_escu_test_mr:
     SECURITY_CONTENT_TARGET_BRANCH: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
     SECURITY_CONTENT_SOURCE_COMMIT: $CI_MERGE_REQUEST_SOURCE_BRANCH_SHA
     SECURITY_CONTENT_TARGET_COMMIT: $CI_MERGE_REQUEST_TARGET_BRANCH_SHA
+    SECURITY_CONTENT_MR_TEST_CONFIG_PATH: artifacts/mr_contentctl_test.yml
     ESCU_BUILD_PATH: artifacts/DA-ESS-ContentUpdate-latest.tar.gz
     BUILD_NAME: DA-ESS-ContentUpdate
+    NUM_INSTANCES: "-1"
   needs:
+    - dry_run_escu
     - save_pipeline_id
   trigger:
     project: securitycontent/security-content-automation
     branch: pex-263/triggered-by-upstream
-    # strategy: depend
+    strategy: depend
