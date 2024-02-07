@@ -13,7 +13,7 @@ import yaml
 
 # Setup logging defaults
 DEFAULT_LOG_LEVEL = logging.INFO
-DEFAULT_LOG_PATH = "trigger_pipeline.log"
+DEFAULT_LOG_PATH = "check_num_detections.log"
 
 # Create the share logging reference
 global_logger: Optional[logging.Logger] = None

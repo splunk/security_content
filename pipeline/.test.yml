@@ -1,3 +1,4 @@
+# Save pipeline ID to artifacts so the downstream can do a sanity check
 save_pipeline_id:
   stage: test
   rules:
@@ -39,6 +40,7 @@ save_pipeline_id:
       exit 1;
     fi
 
+# Generate the list of detections changed in an MR for the downstream
 dry_run_escu:
   stage: test
   rules:
@@ -66,6 +68,7 @@ dry_run_escu:
   after_script:
     - cp dry_run_config/contentctl_test.yml artifacts/mr_contentctl_test.yml
 
+# Trigger a downstream test (non-MR)
 trigger_escu_test:
   stage: test
   rules:
@@ -89,15 +92,14 @@ trigger_escu_test:
     branch: pex-263/triggered-by-upstream
     strategy: depend
 
+# Trigger a downstream test (MR) -> extends trigger_escu_test
 trigger_escu_test_mr:
-  stage: test
+  extends: trigger_escu_test
   rules:
     - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
       when: never
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: on_success
-  inherit:
-    variables: false
   variables:
     SECURITY_CONTENT_PIPELINE_ID: $CI_PIPELINE_ID
     SECURITY_CONTENT_PIPELINE_SOURCE: $CI_PIPELINE_SOURCE
@@ -118,7 +120,50 @@ trigger_escu_test_mr:
   needs:
     - dry_run_escu
     - save_pipeline_id
-  trigger:
-    project: securitycontent/security-content-automation
-    branch: pex-263/triggered-by-upstream
-    strategy: depend
+
+# Retrieve downstream results (non-MR)
+get_artifacts:
+  stage: test
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: always
+  needs:
+    - trigger_escu_test
+  artifacts:
+    when: always
+    paths:
+      - downstream_artifacts/*
+    reports:
+      junit: downstream_artifacts/contentctl_summary.xml
+    expire_in: 14 days
+  before_script:
+    - mkdir downstream_artifacts
+    - mkdir downstream_artifacts_tmp
+    - pip3 install requests==2.31.0
+  script:
+    - python3 pipeline/tools/get_artifacts.py -t trigger_escu_test --local-token $PIPELINE_READ_TOKEN --down-token $SCA_READ_TOKEN --down-job execute-testcases -o artifacts.zip
+  after_script:
+    - unzip artifacts.zip -d downstream_artifacts_tmp
+    - mv downstream_artifacts_tmp/artifacts/results/contentctl_summary.xml downstream_artifacts/contentctl_summary.xml
+    - mv downstream_artifacts_tmp/artifacts/results/contentctl_summary.yml downstream_artifacts/contentctl_summary.yml
+
+# Retrieve downstream results (MR) -> extends get_artifacts
+get_artifacts_mr:
+  extends: get_artifacts
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: always
+  needs:
+    - trigger_escu_test_mr
+    - dry_run_escu
+  script:
+    - | 
+      if [ $SKIP_TESTING == "True" ]; then
+        echo "Nothing was tested, skipping artifact retrieval. after_script commands will fail, but that's ok"
+      else
+        python3 pipeline/tools/get_artifacts.py -t trigger_escu_test_mr --local-token $PIPELINE_READ_TOKEN --down-token $SCA_READ_TOKEN --down-job execute-testcases-mr -o artifacts.zip
+      fi
