@@ -37,6 +37,7 @@ tags:
   - DarkGate Malware
   - AgentTesla
   - CISA AA23-347A
+  - Phemedrone Stealer
   asset_type: Endpoint
   confidence: 70
   impact: 50

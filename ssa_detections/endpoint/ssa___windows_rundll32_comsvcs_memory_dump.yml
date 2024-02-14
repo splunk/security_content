@@ -1,6 +1,6 @@
 name: Windows Rundll32 Comsvcs Memory Dump
 id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
-version: 7
+version: 8
 date: '2022-04-14'
 author: Jose Hernandez, Michael Haag, Splunk
 type: TTP

@@ -50,10 +50,6 @@ tags:
     type: Process
     role:
     - Attacker
-  - name: TargetImage
-    type: Process
-    role:
-    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

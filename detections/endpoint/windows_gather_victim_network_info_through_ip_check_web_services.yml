@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Azorult
   - DarkCrystal RAT
+  - Phemedrone Stealer
   asset_type: Endpoint
   confidence: 50
   impact: 50

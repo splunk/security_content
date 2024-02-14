@@ -44,7 +44,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: file_path
+  - name: file_name
     type: File
     role:
     - Attacker

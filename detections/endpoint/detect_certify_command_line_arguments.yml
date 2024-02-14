@@ -49,7 +49,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: process
+  - name: process_name
     type: Process
     role:
     - Attacker

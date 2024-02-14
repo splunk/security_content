@@ -50,14 +50,10 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: process_guid
+  - name: process_name
     type: Process
     role:
-    - Child Process
-  - name: file_path
-    type: File
-    role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

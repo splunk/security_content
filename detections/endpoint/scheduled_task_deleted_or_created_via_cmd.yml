@@ -60,6 +60,7 @@ tags:
   - Amadey
   - DarkCrystal RAT
   - CISA AA23-347A
+  - Phemedrone Stealer
   asset_type: Endpoint
   confidence: 80
   impact: 70

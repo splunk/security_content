@@ -46,49 +46,49 @@ attack_range_escu_app:
       when: on_success
 
 # Security Content API Update
-security_content_api:
-  stage: release
-  needs:
-  - app_inspect
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-    expire_in: 14 days
-  variables:
-    BUCKET: "security-content"
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-  script:
-    - poetry run contentctl -p ../ build -t api
-    - cd ..
-    - aws s3 rm s3://$BUCKET --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp stories s3://$BUCKET/stories --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp baselines s3://$BUCKET/baselines --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp detections s3://$BUCKET/detections --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp playbooks s3://$BUCKET/playbooks --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.csv"
-    - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.mlmodel"
-    - aws s3 cp macros s3://$BUCKET/macros --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp deployments s3://$BUCKET/deployments --recursive --exclude "*" --include "*.yml"
-    - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+# security_content_api:
+#   stage: release
+#   needs:
+#   - app_inspect
+#   artifacts:
+#     when: always
+#     paths:
+#       - artifacts/*
+#     expire_in: 14 days
+#   variables:
+#     BUCKET: "security-content"
+#   before_script:
+#     - pip3 install poetry
+#     - git submodule update --init contentctl
+#     - cd contentctl
+#     - git checkout main
+#     - poetry install
+#     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#     - unzip awscliv2.zip
+#     - ./aws/install
+#   script:
+#     - poetry run contentctl -p ../ build -t api
+#     - cd ..
+#     - aws s3 rm s3://$BUCKET --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp stories s3://$BUCKET/stories --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp baselines s3://$BUCKET/baselines --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp detections s3://$BUCKET/detections --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp playbooks s3://$BUCKET/playbooks --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.csv"
+#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.mlmodel"
+#     - aws s3 cp macros s3://$BUCKET/macros --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp deployments s3://$BUCKET/deployments --recursive --exclude "*" --include "*.yml"
+#     - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
 
 # Push SSE security content Json files to Artifactory
 push_sse_json_to_artifactory:
   stage: release
   needs:
-    - security_content_api
+    - app_inspect
   before_script:
     - pip3 install poetry
     - git submodule update --init contentctl

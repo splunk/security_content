@@ -1,7 +1,7 @@
 name: Elevated Group Discovery with PowerView
 id: 10d62950-0de5-4199-a710-cff9ea79b413
-version: 1
-date: '2021-08-25'
+version: 2
+date: '2024-02-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -61,3 +61,6 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
     source: WinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: wineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

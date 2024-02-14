@@ -1,7 +1,7 @@
 name: Executable File Written in Administrative SMB Share
 id: f63c34fe-a435-11eb-935a-acde48001122
-version: 2
-date: '2023-06-13'
+version: 3
+date: '2024-02-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -14,11 +14,9 @@ description: The following analytic identifies executable files (.exe or .dll) b
   this behavior to try to infect other machines in the infected network.
 data_source:
 - Windows Security 5145
-search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll")
-  Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
-  "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode
-  Share_Name Relative_Target_Name Object_Type Access_Mask user src_port Source_Address
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `executable_file_written_in_administrative_smb_share_filter`'
+search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.exe","*.dll") ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask= "0x2" 
+| stats min(_time) as firstTime max(_time) as lastTime count by EventCode ShareName RelativeTargetName ObjectType AccessMask src_user src_port IpAddress 
+| `security_content_ctime(firstTime)`  | `executable_file_written_in_administrative_smb_share_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also
   required. Also enable the object Audit access success/failure in your group policy.
@@ -44,13 +42,13 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 70
-  message: $user$ dropped or created an executable file in known sensitive SMB share.  Share
-    name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$
+  message: $src_user$ dropped or created an executable file in known sensitive SMB share.  Share
+    name=$ShareName$, Target name=$RelativeTargetName$, and Access mask=$AccessMask$
   mitre_attack_id:
   - T1021
   - T1021.002
   observable:
-  - name: user
+  - name: src_user
     type: User
     role:
     - Victim
@@ -73,6 +71,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

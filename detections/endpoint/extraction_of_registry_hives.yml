@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime from datamodel=Endpoint.Processes where `process_reg` (Processes.process=*save*
   OR Processes.process=*export*) AND (Processes.process="*\sam *" OR Processes.process="*\system
   *" OR Processes.process="*\security *") by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_name Processes.parent_process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `extraction_of_registry_hives_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
@@ -57,10 +57,9 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: parent_process_id
+  - name: parent_process_name
     type: Process
     role:
-    - Parent Process
     - Attacker
   product:
   - Splunk Enterprise
