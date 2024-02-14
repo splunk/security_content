@@ -12,7 +12,9 @@ search: >-
  | eval new_field=mvindex('properties.targetResources{}.modifiedProperties{}.newValue', 4)
  | rename properties.* as * 
  | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)"
- | stats count min(_time) as firstTime max(_time) as lastTime by operationName, user, targetResources{}.displayName, targetResources{}.id, ConsentType
+ | rex field=new_field "Scope: (?<Scope>[^\,]+)" 
+ | search  ConsentType = "AllPrincipals" 
+ | stats count min(_time) as firstTime max(_time) as lastTime by operationName, user, targetResources{}.displayName, targetResources{}.id, ConsentType, Scope
  | `security_content_ctime(firstTime)` 
  | `security_content_ctime(lastTime)`
  | `azure_ad_tenant_wide_admin_consent_granted_filter`
@@ -29,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
+  - NOBELIUM Group
   asset_type: Azure AD
   confidence: 50
   impact: 90

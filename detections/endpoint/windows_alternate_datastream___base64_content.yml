@@ -45,10 +45,6 @@ tags:
     type: User Name
     role:
     - Victim 
-  - name: process
-    type: Process Name
-    role:
-    - Attacker
   - name: file_name
     type: File Name
     role:

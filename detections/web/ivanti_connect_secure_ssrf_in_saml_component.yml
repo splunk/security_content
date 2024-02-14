@@ -1,0 +1,59 @@
+name: Ivanti Connect Secure SSRF in SAML Component
+id: 8e6ca490-7af3-4299-9a24-39fb69759925
+version: 1
+date: '2024-02-05'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+data_source: []
+description: The following analytic is designed to identify POST request activities targeting specific endpoints known to be vulnerable to the SSRF issue (CVE-2024-21893) in Ivanti's products. It aggregates data from the Web data model, focusing on endpoints /dana-ws/saml20.ws, /dana-ws/saml.ws, /dana-ws/samlecp.ws, and /dana-na/auth/saml-logout.cgi. The query filters for POST requests that received a HTTP 200 OK response, indicating successful request execution.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/dana-ws/saml20.ws*","*/dana-ws/saml.ws*","*/dana-ws/samlecp.ws*","*/dana-na/auth/saml-logout.cgi/*") Web.http_method=POST Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, Web.http_method
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `ivanti_connect_secure_ssrf_in_saml_component_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Suricata, Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto.
+known_false_positives: This analytic is limited to HTTP Status 200; adjust as necessary. False positives may occur if the HTTP Status is removed, as most failed attempts result in a 301. It's recommended to review the context of the alerts and adjust the analytic parameters to better fit the specific environment.
+references:
+ - https://attackerkb.com/topics/FGlK1TVnB2/cve-2024-21893/rapid7-analysis
+ - https://www.assetnote.io/resources/research/ivantis-pulse-connect-secure-auth-bypass-round-two 
+tags:
+  cve:
+  - CVE-2024-21893
+  analytic_story:
+  - Ivanti Connect Secure VPN Vulnerabilities
+  asset_type: VPN Appliance
+  atomic_guid: []
+  confidence: 90
+  impact: 90
+  message: Possible exploitation of CVE-2024-21893 against $dest$ from $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 81
+  required_fields:
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - Web.url
+  - Web.status
+  - Web.http_method
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_saml.log
+    source: suricata
+    sourcetype: suricata

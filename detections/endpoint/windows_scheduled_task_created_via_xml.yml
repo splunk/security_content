@@ -1,6 +1,6 @@
 name: Windows Scheduled Task Created Via XML
 id: 7e03b682-3965-4598-8e91-a60a40a3f7e4
-version: 1
+version: 2
 date: '2023-12-27'
 author: Teoderick Contreras, Splunk
 status: production

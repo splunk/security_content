@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation
+  - NOBELIUM Group
   asset_type: Azure Active Directory
   confidence: 50
   impact: 70

@@ -41,15 +41,7 @@ tags:
     type: User Name
     role:
     - Victim
-  - name: process
-    type: Process
-    role:
-    - Attacker
   - name: process_name
-    type: Process Name
-    role:
-    - Attacker
-  - name: parent_process_name
     type: Process Name
     role:
     - Attacker

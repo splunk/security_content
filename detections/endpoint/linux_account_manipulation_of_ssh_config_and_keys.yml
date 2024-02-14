@@ -45,10 +45,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: process_guid
-    type: Process
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

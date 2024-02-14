@@ -1,7 +1,7 @@
 name: Windows AD Replication Request Initiated from Unsanctioned Location
 id: 50998483-bb15-457b-a870-965080d9e3d3
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-01-05'
 author: Dean Luxton
 type: TTP
 status: production

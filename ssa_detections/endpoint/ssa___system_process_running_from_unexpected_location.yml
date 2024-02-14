@@ -1,6 +1,6 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 7
+version: 8
 date: '2022-03-24'
 author: Jose Hernadnez, Ignacio Bermudez Corrales, Splunk
 type: Anomaly

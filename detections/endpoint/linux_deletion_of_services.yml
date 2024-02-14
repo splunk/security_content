@@ -49,8 +49,8 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: process_guid
-    type: Process
+  - name: file_name
+    type: File Name
     role:
     - Attacker
   product:

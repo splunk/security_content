@@ -1,7 +1,7 @@
 name: Detect New Local Admin account
 id: b25f6f62-0712-43c1-b203-083231ffd97d
-version: 2
-date: '2020-07-08'
+version: 3
+date: '2024-02-14'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -10,10 +10,12 @@ description: |-
 data_source:
 - Windows Security 4732
 - Windows Security 4720
-search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
-  | transaction member_id connected=false maxspan=180m | rename member_id as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by user dest | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `detect_new_local_admin_account_filter`'
+search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators) 
+| transaction src_user connected=false maxspan=180m 
+| rename src_user as user 
+| stats count min(_time) as firstTime max(_time) as lastTime by user dest 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` | `detect_new_local_admin_account_filter`'
 how_to_implement: You must be ingesting Windows event logs using the Splunk Windows
   TA and collecting event code 4720 and 4732
 known_false_positives: The activity may be legitimate. For this reason, it's best
@@ -62,11 +64,9 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-    update_timestamp: true
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog
-    update_timestamp: true
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

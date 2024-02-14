@@ -18,7 +18,7 @@ data_source:
 search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
   "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) |  stats  min(_time) as
   firstTime max(_time) as lastTime count by dest ImageLoaded Hashes IMPHASH Signature
-  Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Signed| rename ImageLoaded as file_name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_driver_loaded_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the driver loaded and Signature from your endpoints. If you are using
@@ -37,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: Suspicious driver $ImageLoaded$ on $dest$
+  message: Suspicious driver $file_name$ on $dest$
   mitre_attack_id:
   - T1543.003
   - T1543
@@ -46,7 +46,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: ImageLoaded
+  - name: file_name
     type: File Name
     role:
     - Attacker

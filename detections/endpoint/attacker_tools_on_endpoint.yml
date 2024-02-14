@@ -1,7 +1,7 @@
 name: Attacker Tools On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 2
-date: '2021-11-04'
+version: 3
+date: '2024-01-01'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -54,14 +54,9 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_process
-    type: Process
-    role:
-    - Parent Process
   - name: process_name
     type: Process
     role:
-    - Child Process
     - Attacker
   product:
   - Splunk Enterprise
