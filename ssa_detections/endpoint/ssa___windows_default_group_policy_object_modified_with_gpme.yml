@@ -1,6 +1,6 @@
 name: Windows Default Group Policy Object Modified with GPME
 id: bcb55c13-067b-4648-98f3-627010f72520
-version: 3
+version: 5
 date: '2023-05-02'
 author: Mauricio Velazco, Splunk
 type: TTP

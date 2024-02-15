@@ -1,0 +1,61 @@
+name: Azure AD Admin Consent Bypassed by Service Principal
+id: 9d4fea43-9182-4c5a-ada8-13701fd5615d
+version: 1
+date: '2024-02-09'
+author: Mauricio Velazco, Splunk
+data_source: []
+type: TTP
+status: production
+description: This detection focuses on identifying instances in Azure Active Directory where a service principal assigns app roles without standard admin consent, using Entra ID logs. It operates on the azure_monitor_aad data source, scrutinizing the "Add app role assignment to service principal" operation, specifically from service principals. The query dissects details such as role ID, value, and description, important for understanding the nature of the roles being assigned. Monitoring this in a SOC is critical as it flags potential bypasses of vital administrative consent processes in Azure AD, which could result in unauthorized privileges being granted. A true positive detection suggests that a service principal may be exploiting automation to assign sensitive permissions without proper oversight.
+search: >- 
+  `azure_monitor_aad` operationName="Add app role assignment to service principal" src_user_type=servicePrincipal
+  | rename properties.* as * 
+  | eval roleId = mvindex('targetResources{}.modifiedProperties{}.newValue', 0)
+  | eval roleValue = mvindex('targetResources{}.modifiedProperties{}.newValue', 1)
+  | eval roleDescription = mvindex('targetResources{}.modifiedProperties{}.newValue', 2)
+  | eval dest_user = mvindex('targetResources{}.id', 0)
+  | rename initiatedBy.app.displayName as src_user
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime by src_user dest_user roleId roleValue roleDescription
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `azure_ad_admin_consent_bypassed_by_service_principal_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Auditlog log category
+known_false_positives: Service Principals are sometimes configured to legitimately bypass the consent process for purposes of automation. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/003/
+tags:
+  analytic_story:
+  - Azure Active Directory Privilege Escalation
+  - NOBELIUM Group
+  asset_type: Azure Active Directory
+  confidence: 60
+  impact: 90
+  message: Service principal $src_user$ bypassed the admin consent process and granted permissions to $dest_user$
+  mitre_attack_id:
+  - T1098.003
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - operationName
+  - targetResources{}.modifiedProperties{}.newValue
+  - targetResources{}.id
+  risk_score: 54
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_bypass_admin_consent/azure_ad_bypass_admin_consent.log
+    source: Azure AD
+    sourcetype: azure:monitor:aad
+    update_timestamp: true

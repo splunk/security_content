@@ -45,6 +45,7 @@ tags:
   - Data Destruction
   - IcedID
   - SysAid On-Prem Software CVE-2023-47246 Vulnerability
+  - Phemedrone Stealer
   asset_type: Endpoint
   confidence: 70
   impact: 80

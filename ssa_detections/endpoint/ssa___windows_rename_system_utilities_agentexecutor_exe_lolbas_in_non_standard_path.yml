@@ -1,6 +1,6 @@
 name: Windows Rename System Utilities Agentexecutor exe LOLBAS in Non Standard Path
 id: e124f71f-11bc-47e4-9931-6046d256005d
-version: 3
+version: 4
 date: '2022-10-18'
 author: Splunk Threat Research Bot, Splunk
 type: Anomaly

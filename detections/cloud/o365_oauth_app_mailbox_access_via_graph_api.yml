@@ -1,0 +1,55 @@
+name: O365 OAuth App Mailbox Access via Graph API
+id: 9db0d5b0-4058-4cb7-baaf-77d8143539a2
+version: 1
+date: '2024-01-31'
+author: Mauricio Velazco, Splunk
+status: production
+data_source: []
+type: TTP
+description: This Splunk analytic detects when emails are accessed in Office 365 Exchange via the Microsoft Graph API, identified by the client ID '00000003-0000-0000-c000-000000000000'. It tracks the 'MailItemsAccessed' operation within the Exchange workload, focusing on OAuth-authenticated applications. The query compiles statistics on access frequency, timing, and client IP addresses, organized by user, client application ID, and AppId. For defenders, it's crucial to maintain an inventory of all OAuth applications that read emails, using this data to scrutinize and identify any potential abusive access patterns.
+search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* AppId=00000003-0000-0000-c000-000000000000
+  |  stats count earliest(_time) as firstTime latest(_time) as lastTime values(ClientIPAddress) by user ClientAppId OperationCount AppId
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_oauth_app_mailbox_access_via_graph_api_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: OAuth applications may access mailboxes for legitimate purposes, you can use the ClientAppId to add trusted applications to an allow list.
+references:
+- https://attack.mitre.org/techniques/T1114/002/
+- https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
+- https://learn.microsoft.com/en-us/graph/permissions-reference
+tags:
+  analytic_story:
+  - Office 365 Collection Techniques
+  - NOBELIUM Group
+  asset_type: Office 365 tenant
+  confidence: 60
+  impact: 70
+  message: An OAuth application identified with id $ClientAppId$ accesed mailboxes through the Graph API.
+  mitre_attack_id:
+  - T1114.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - AppId
+  - ClientAppId
+  - OperationCount
+  risk_score: 42
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_oauth_app_graph_mailbox_access/o365_oauth_app_graph_mailbox_access.log
+    sourcetype: o365:management:activity
+    source: o365
+

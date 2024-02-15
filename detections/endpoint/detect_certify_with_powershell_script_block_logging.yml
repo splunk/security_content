@@ -42,10 +42,6 @@ tags:
     type: User
     role:
     - Victim
-  - name: command
-    type: Process
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

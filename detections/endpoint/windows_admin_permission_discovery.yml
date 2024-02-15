@@ -39,18 +39,13 @@ tags:
   mitre_attack_id:
   - T1069.001
   observable:
-  - name: user
-    type: User
+  - name: dest
+    type: Hostname
     role:
     - Victim
-  - name: process_id
-    type: Process
-    role:
-    - Attacker
   - name: file_name
     type: File Name
     role:
-    - Other
     - Attacker
   product:
   - Splunk Enterprise
