@@ -1,6 +1,6 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 7
+version: 8
 status: production
 detection_type: STREAMING
 description: An attacker tries might try to use different version of a system command
@@ -132,7 +132,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "System Process Running from Unexpected Location has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Windows Defense Evasion Tactics", "Masquerading - Rename System Utilities"],
