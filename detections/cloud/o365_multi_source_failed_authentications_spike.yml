@@ -24,6 +24,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
+  - NOBELIUM Group
   asset_type: O365 tenant
   atomic_guid: []
   confidence: 60

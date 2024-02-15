@@ -50,14 +50,9 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: process_id
-    type: Process
-    role:
-    - Attacker
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
     - Attacker
   product:
   - Splunk Enterprise

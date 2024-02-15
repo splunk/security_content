@@ -26,7 +26,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: Some legitimate applications may exhibit this behavior.
+known_false_positives: This detection may also be triggered by legitimate applications and numerous service accounts, which often end with a $ sign. To manage this, it's advised to check the service account's activities and, if they are valid, modify the filter macro to exclude them.
 references:
   - https://attack.mitre.org/techniques/T1059/
   - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
@@ -38,7 +38,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 70
-  message: cmd.exe launching script interpreters on $dest$
+  message: cmd.exe launching script interpreters $process_name$ on $dest$
   mitre_attack_id:
   - T1059
   - T1059.003

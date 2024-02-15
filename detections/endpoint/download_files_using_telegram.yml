@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - Phemedrone Stealer
   asset_type: Endpoint
   confidence: 70
   impact: 70

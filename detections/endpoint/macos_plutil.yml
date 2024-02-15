@@ -38,10 +38,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: process
-    type: Process
-    role:
-    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
+  - NOBELIUM Group
   asset_type: Azure Active Directory
   confidence: 90
   impact: 70

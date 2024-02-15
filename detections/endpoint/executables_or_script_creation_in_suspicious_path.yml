@@ -82,14 +82,9 @@ tags:
     type: User
     role:
     - Victim
-  - name: process_id
-    type: Process
-    role:
-    - Attacker
   - name: file_name
     type: File Name
     role:
-    - Other
     - Attacker
   product:
   - Splunk Enterprise

@@ -1,7 +1,7 @@
 name: Disabling ControlPanel
 id: 6ae0148e-9215-11eb-a94a-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-02-14'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -59,16 +59,8 @@ tags:
   risk_score: 25
   security_domain: endpoint
 tests:
-- name: True Positive Test
+- name: True Positive Test (XML)
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
-    update_timestamp: true
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
+  - NOBELIUM Group
   asset_type: Azure AD 
   atomic_guid: []
   confidence: 60

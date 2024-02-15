@@ -53,7 +53,7 @@ tags:
     type: User Name
     role:
     - Victim
-  - name: process
+  - name: process_name
     type: Process
     role:
     - Attacker

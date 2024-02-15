@@ -1,6 +1,6 @@
 name: Detect Prohibited Browsers Spawning cmd exe
 id: c10a18cb-fa70-4dfa-a944-25026e1b0c94
-version: 7
+version: 8
 date: '2023-12-11'
 author: Lou Stella, Splunk
 type: Anomaly
