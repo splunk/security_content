@@ -1,7 +1,7 @@
 name: Detect Excessive Account Lockouts From Endpoint
 id: c026e3dd-7e18-4abb-8f41-929e836efe74
-version: 6
-date: '2022-08-25'
+version: 7
+date: '2024-02-14'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,7 @@ description: This search identifies endpoints that have caused a relatively high
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where
-  All_Changes.result="*locked out*" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`
+  All_Changes.result="*lock*" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
 how_to_implement: "You must ingest your Windows security event logs in the `Change`\
@@ -72,4 +72,8 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog
+    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
     update_timestamp: true

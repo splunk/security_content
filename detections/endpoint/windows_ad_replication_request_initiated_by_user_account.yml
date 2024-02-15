@@ -1,7 +1,7 @@
 name: Windows AD Replication Request Initiated by User Account
 id: 51307514-1236-49f6-8686-d46d93cc2821
-version: 1
-date: '2022-09-08'
+version: 2
+date: '2024-01-05'
 author: Dean Luxton
 type: TTP
 status: production
@@ -68,6 +68,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/impacket/windows-security-xml.log
+  - data:  https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/mimikatz/xml-windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

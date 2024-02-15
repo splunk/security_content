@@ -1,21 +1,21 @@
 name: Windows Alternate DataStream - Executable Content
 id: a258bf2a-34fd-4986-8086-78f506e00206
-version: 1
-date: '2023-10-30'
-author: Steven Dick
+version: 2
+date: '2024-02-15'
+author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects when data is written to the contents of an NTFS file system alternate data stream that possess an IMPASH value. This indicates that the data written has a PE structure and can be executed. This behavior could indicate a threat actor staging malicious code within difficult to detect areas of the file system for later usage or persistence.Note - import hashing/imphash must be enabled within Sysmon.
+description: This analytic is designed to detect when data, possessing an IMPHASH value, is written to an Alternate Data Stream (ADS) in the NTFS file system. The presence of an IMPHASH value suggests that the written data has a Portable Executable (PE) structure, indicating its potential to be executed. Such behavior could be a sign of a threat actor staging malicious code within hard-to-detect areas of the file system for future use or persistence. It's important to note that for this analytic to function correctly, import hashing/imphash must be enabled within Sysmon. This allows the capture of the IMPHASH value, a unique identifier for the imported functions of a PE, providing a robust mechanism for detecting hidden malicious activity leveraging ADS.
 data_source:
 - Sysmon Event ID 15
 search: '`sysmon` EventCode=15 IMPHASH!=00000000000000000000000000000000 
-| regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
-| eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename, file_hash = case( EventCode IN ("15"), coalesce(SHA256,SHA1,MD5,Hash), EventCode IN ("23","26"), coalesce(SHA256,SHA1,MD5,Hashes))
-| stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by dest, process, process_guid, file_name, file_path, file_hash, IMPHASH
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `windows_alternate_datastream___executable_content_filter`'
-how_to_implement: Target environment must ingest sysmon data, specifically Event ID 15.
+  | regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
+  | eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename, file_hash = coalesce(SHA256,SHA1,MD5,Hash)
+  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by dest, process, process_guid, file_name, file_path, file_hash, IMPHASH
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_alternate_datastream___executable_content_filter`'
+how_to_implement: Target environment must ingest Sysmon data, specifically Event ID 15, and import hashing/imphash must be enabled within Sysmon.
 known_false_positives: Unknown 
 references:
 - https://car.mitre.org/analytics/CAR-2020-08-001/
@@ -40,10 +40,7 @@ tags:
     type: User Name
     role:
     - Victim
-  - name: process
-    type: Process Name
-    role:
-    - Attacker
+    
   - name: file_name
     type: File Name
     role:

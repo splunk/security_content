@@ -1,6 +1,6 @@
 name: Detect Prohibited Office Applications Spawning cmd exe
 id: c10a18cb-fd70-44fb-a8f4-25026a0b0c94
-version: 2
+version: 3
 date: '2023-12-11'
 author: Lou Stella, Splunk
 status: production

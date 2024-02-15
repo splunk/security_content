@@ -1,7 +1,7 @@
 name: Suspicious mshta child process
 id: 60023bb6-5500-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-12'
+version: 2
+date: '2024-01-01'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -55,10 +55,10 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: parent_process
-    type: Process Name
+  - name: process_name
+    type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

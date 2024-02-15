@@ -1,0 +1,66 @@
+name: Azure AD Privileged Graph API Permission Assigned
+id: 5521f8c5-1aa3-473c-9eb7-853701924a06
+version: 1
+date: '2024-01-30'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source: []
+description: This Splunk analytic flags the assignment of three high-risk Graph API permissions in Azure AD, Application.ReadWrite.All (1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9), AppRoleAssignment.ReadWrite.All (06b708a9-e830-4db3-a914-8e69da51d44f), and RoleManagement.ReadWrite.Directory (9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8). These permissions enable broad control over Azure AD, including application and directory settings. Utilizing azure_monitor_aad data, the query scans AuditLogs for 'Update application' operations, identifying when these permissions are assigned. It collects data on user, object, and user agent. Immediate attention is needed upon detection, as misuse of these permissions can lead to unauthorized Azure AD modifications and potential security breaches.
+search: >-
+ `azure_monitor_aad` category=AuditLogs operationName="Update application" 
+ | eval newvalue = mvindex('properties.targetResources{}.modifiedProperties{}.newValue',0)
+ | spath input=newvalue 
+ | search "{}.RequiredAppPermissions{}.EntitlementId"="1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9" OR "{}.RequiredAppPermissions{}.EntitlementId"="06b708a9-e830-4db3-a914-8e69da51d44f" OR "{}.RequiredAppPermissions{}.EntitlementId"="9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8" 
+ | eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId'
+ | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions) by user, object, user_agent, operationName
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)`  
+ | `azure_ad_privileged_graph_api_permission_assigned_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: Privileged Graph API permissions may be assigned for legitimate purposes. Filter as needed.
+references:
+- https://cloudbrothers.info/en/azure-attack-paths/
+- https://github.com/mandiant/Mandiant-Azure-AD-Investigator/blob/master/MandiantAzureADInvestigator.json
+- https://learn.microsoft.com/en-us/graph/permissions-reference
+- https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+- https://posts.specterops.io/azure-privilege-escalation-via-azure-api-permissions-abuse-74aee1006f48
+tags:
+  analytic_story:
+  - Azure Active Directory Persistence
+  - NOBELIUM Group
+  asset_type: Azure Active Directory
+  confidence: 60
+  impact: 90
+  message: User $user$ assigned privileged Graph API permissions to $object$
+  mitre_attack_id:
+  - T1003.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 54
+  required_fields:
+  - _time
+  - category
+  - operationName
+  - properties.targetResources{}.modifiedProperties{}.newValue
+  - user
+  - object
+  - user_agent
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_graph_perm_assigned/azure_ad_privileged_graph_perm_assigned.log
+    source: Azure AD
+    sourcetype: azure:monitor:aad
+    update_timestamp: true

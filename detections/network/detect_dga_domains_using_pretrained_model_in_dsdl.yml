@@ -73,14 +73,14 @@ tags:
   mitre_attack_id:
   - T1568.002
   observable:
-  - name: domain
-    type: URL String
-    role:
-    - Attacker
   - name: src
     type: Hostname
     role:
     - Victim
+  - name: domain
+    type: URL String
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

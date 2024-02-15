@@ -1,6 +1,6 @@
 name: Windows Findstr GPP Discovery
 id: 73ed0f19-080e-4917-b7c6-56e1760a50d4
-version: 3
+version: 4
 date: '2023-05-02'
 author: Mauricio Velazco, Splunk
 status: production

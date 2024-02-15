@@ -1,7 +1,7 @@
 name: Windows Rundll32 WebDav With Network Connection
 id: f03355e0-28b5-4e9b-815a-6adffc63b38c
 version: 1
-date: '2023-03-16'
+date: '2024-01-30'
 author: Michael Haag, Splunk
 type: TTP
 status: experimental
@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   [ | tstats `security_content_summariesonly` count latest(All_Traffic.dest) as dest
   latest(All_Traffic.dest_ip) as dest_ip latest(All_Traffic.dest_port) as dest_port
   FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port!=0 NOT (All_Traffic.dest_ip
-  IN (10.0.0.0/12, 172.16.0.0/12, 192.168.0.0/16))  by host All_Traffic.process_id
+  IN (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16))  by host All_Traffic.process_id
   | `drop_dm_object_name(All_Traffic)`] | `windows_rundll32_webdav_with_network_connection_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related

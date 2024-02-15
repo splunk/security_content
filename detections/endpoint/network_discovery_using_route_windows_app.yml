@@ -1,7 +1,7 @@
 name: Network Discovery Using Route Windows App
 id: dd83407e-439f-11ec-ab8e-acde48001122
-version: 1
-date: '2021-11-12'
+version: 2
+date: '2024-02-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -70,4 +70,4 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: WinEventLog
+    sourcetype: xmlwineventlog
