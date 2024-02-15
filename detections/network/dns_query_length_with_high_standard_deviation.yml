@@ -1,7 +1,7 @@
 name: DNS Query Length With High Standard Deviation
 id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 4
-date: '2021-10-06'
+version: 5
+date: '2024-02-14'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,7 @@ description: This search allows you to identify DNS requests and compute the sta
   standard deviation to show you those queries that are unusually large for your environment.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  where NOT DNS.message_type IN("Pointer","PTR") by DNS.query host| `drop_dm_object_name("DNS")`
+  where NOT DNS.record_type IN("Pointer","PTR") by DNS.query host| `drop_dm_object_name("DNS")`
   | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
   | search tld_len<=24 | eval query_length = len(query) | table host query query_length
   record_type count | eventstats stdev(query_length) AS stdev avg(query_length) AS

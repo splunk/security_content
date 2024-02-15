@@ -1,7 +1,7 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Using InfoTech Storage
   Handlers
 id: ba0c2450-caea-4086-ac3a-a71e2659754b
-version: 3
+version: 4
 date: '2022-09-02'
 author: Michael Haag, Splunk
 type: TTP

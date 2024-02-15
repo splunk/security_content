@@ -13,7 +13,7 @@ data_source:
 - Sysmon Event ID 1
 search: '`sysmon` EventCode=11 Image="*rundll32.exe" TargetFilename IN ("*.exe", "*.dll") 
 | stats count min(_time) as firstTime max(_time) as lastTime by Image TargetFilename Computer 
-| rename Computer as dest 
+| rename Computer as dest | rename TargetFilename as file_name
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `rundll32_process_creating_exe_dll_files_filter`'
@@ -31,7 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: rundll32 process drops a file $TargetFilename$ on host $dest$
+  message: rundll32 process drops a file $file_name$ on host $dest$
   mitre_attack_id:
   - T1218
   - T1218.011
@@ -40,7 +40,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: TargetFilename
+  - name: file_name
     type: File Name
     role:
     - Attacker

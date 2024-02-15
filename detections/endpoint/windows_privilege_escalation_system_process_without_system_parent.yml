@@ -1,0 +1,66 @@
+---
+name: Windows Privilege Escalation System Process Without System Parent
+id: 5a5351cd-ba7e-499e-ad82-2ce160ffa637
+version: 1
+date: '2023-11-30'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects any system integrity level process that was spawned by a process not running as a system account. This behavior is often seen when attackers successfully escalate privileges to SYSTEM from a user controlled process or service.
+data_source:
+  - Sysmon Event ID 1
+search: >-
+  `sysmon` EventCode=1 IntegrityLevel="system" ParentUser=* NOT ParentUser IN ("*SYSTEM","*LOCAL SERVICE","*NETWORK SERVICE","*DWM-*","*$","-") | eval src_user = replace(ParentUser,"^[^\\\]+\\\\","") | stats count min(_time) as firstTime max(_time) as lastTime values(process_name) as process_name values(process) as process, values(process_path) as process_path, values(process_current_directory) as process_current_directory values(parent_process) as parent_process by dest, user, src_user,
+  parent_process_name, parent_process_guid | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)` | `windows_privilege_escalation_system_process_without_system_parent_filter`
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID 1 with process integrity and parent user data.
+known_false_positives: Unknown
+references:
+  - https://attack.mitre.org/techniques/T1068/
+  - https://vuls.cert.org/confluence/display/Wiki/2021/06/21/Finding+Privilege+Escalation+Vulnerabilities+in+Windows+using+Process+Monitor
+  - https://redcanary.com/blog/getsystem-offsec/
+  - https://atomicredteam.io/privilege-escalation/T1134.001/
+tags:
+  analytic_story:
+    - Windows Privilege Escalation
+  asset_type: Endpoint
+  confidence: 80
+  impact: 100
+  message: The process [$process_name$] on $dest$ was launched with system level integrity by $src_user$.
+  mitre_attack_id:
+    - T1068
+    - T1548
+    - T1134
+  observable:
+    - name: dest
+      role:
+        - Victim
+      type: Hostname
+    - name: src_user
+      role:
+        - Victim
+      type: User
+    - name: process_name
+      role:
+        - Attacker
+      type: Other
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  required_fields:
+    - _time
+    - dest
+    - user
+    - ParentUser
+    - parent_process_name
+    - parent_process_guid
+    - IntegrityLevel
+  risk_score: 80
+  security_domain: endpoint
+tests:
+  - attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/windows_escalation_behavior/windows_escalation_behavior_sysmon.log
+        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        sourcetype: XmlWinEventLog
+        update_timestamp: true
+    name: True Positive Test

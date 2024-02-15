@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Compromised User Account
   - Azure Active Directory Account Takeover
+  - NOBELIUM Group
   asset_type: Azure AD
   confidence: 70
   impact: 50

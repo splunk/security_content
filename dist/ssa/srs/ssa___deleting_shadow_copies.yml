@@ -1,6 +1,6 @@
 name: Deleting Shadow Copies
 id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
-version: 4
+version: 5
 status: validation
 detection_type: STREAMING
 description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy
@@ -20,7 +20,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Deleting Shadow Copies has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Clop Ransomware", "Ransomware"],

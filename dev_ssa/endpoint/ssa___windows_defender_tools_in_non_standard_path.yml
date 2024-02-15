@@ -1,6 +1,6 @@
 name: Windows Defender Tools in Non Standard Path
 id: c205bd2e-cd5b-4224-8510-578a2a1f83d7
-version: 3
+version: 4
 date: '2022-07-18'
 author: Lou Stella, Splunk
 status: production

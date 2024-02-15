@@ -1,7 +1,7 @@
 name: Disabling SystemRestore In Registry
 id: f4f837e2-91fb-11eb-8bf6-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-02-14'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -68,11 +68,12 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-    update_timestamp: true
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog
-    update_timestamp: true
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

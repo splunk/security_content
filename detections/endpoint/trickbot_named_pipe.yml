@@ -11,7 +11,7 @@ description: this search is to detect potential trickbot infection through the c
 data_source: []
 search: '`sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" | stats  min(_time)
   as firstTime max(_time) as lastTime count by dest user_id EventCode PipeName
-  signature Image process_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  signature Image process_id | rename Image as process_name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `trickbot_named_pipe_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and pipename from your endpoints. If you are using Sysmon,
@@ -26,7 +26,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 70
-  message: Possible Trickbot namedpipe created on $dest$ by $Image$
+  message: Possible Trickbot namedpipe created on $dest$ by $process_name$
   mitre_attack_id:
   - T1055
   observable:
@@ -34,7 +34,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Image
+  - name: process_name
     type: Process
     role:
     - Attacker

@@ -16,12 +16,8 @@ description: This search is designed to detect high frequency of archive files d
   this detection cannot support archive that was encrypted or encoded before doing
   the exfiltration.
 data_source: []
-search: '`stream_http` http_method=POST |eval archive_hdr1=substr(form_data,1,2) |
-  eval archive_hdr2 = substr(form_data,1,4) |stats values(form_data) as http_request_body
-  min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent
-  uri_path url bytes_in bytes_out archive_hdr1 archive_hdr2 |where count >20 AND (archive_hdr1
-  = "7z" OR archive_hdr1 = "PK" OR archive_hdr2="Rar!") | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `multiple_archive_files_http_post_traffic_filter`'
+search: '`stream_http` http_method=POST |eval archive_hdr1=substr(form_data,1,2) | eval archive_hdr2 = substr(form_data,1,4) |stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by src_ip dest_ip http_method http_user_agent uri_path url bytes_in bytes_out archive_hdr1 archive_hdr2 |where count >20 AND (archive_hdr1 = "7z" OR archive_hdr1 = "PK" OR archive_hdr2="Rar!") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `multiple_archive_files_http_post_traffic_filter`
+  '
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the stream HTTP logs or network logs that catch network traffic. Make
   sure that the http-request-body, payload, or request field is enabled in stream
@@ -38,20 +34,19 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A http post $http_method$ sending packet with possible archive bytes header
-    $http_request_body$ in uri path $uri_path$
+  message: A http post $http_method$ sending packet with possible archive bytes header in uri path $uri_path$
   mitre_attack_id:
   - T1048.003
   - T1048
   observable:
-  - name: uri_path
+  - name: src_ip
+    type: IP Address
+    role:
+    - Victim
+  - name: url
     type: URL String
     role:
     - Attacker
-  - name: http_request_body
-    type: Other
-    role:
-    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

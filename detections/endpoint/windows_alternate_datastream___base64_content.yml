@@ -1,24 +1,24 @@
 name: Windows Alternate DataStream - Base64 Content
 id: 683f48de-982f-4a7e-9aac-9cec550da498
-version: 1
-date: '2023-10-30'
-author: Steven Dick
+version: 2
+date: '2024-02-15'
+author: Steven Dick, Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects when an uninterrupted string of base64 characters is written to the contents of an NTFS file system alternate data stream. This behavior could indicate a threat actor staging malicious code within difficult to detect areas of the file system for later use or persistence.
+description: This analytic leverages Sysmon Event ID 15, a critical file creation event, to detect the creation of Alternate Data Streams (ADS) on Windows systems. ADS is a feature of the NTFS file system that allows the storage of data in hidden streams attached to files. These streams are not visible in standard file listings, making them a popular technique for concealing malicious activity. Event ID 15 captures both the hash of the primary file content (unnamed stream) and the content of any additional named streams, which can include executables, scripts, or configuration data. Malware often exploits ADS to hide payloads, leveraging browser downloads to attach a Zone.Identifier stream, marking the file as originating from the Internet (Mark Of The Web, MOTW). This analytic is designed to identify such misuse by analyzing the content and creation patterns of named streams, including those under 1KB which may contain MOTW information. It is essential for detecting sophisticated threats that utilize non-executable file types or conceal malicious scripts within ADS, beyond the traditional focus on PE executables. The detection process involves monitoring for the creation of named streams, which are part of the NTFS structure and can be examined using tools like PowerShell for the presence of additional data streams or MOTW information. This approach helps in uncovering hidden payloads and tracking the origin of suspicious files downloaded via browsers or email clients, providing a comprehensive defense against ADS abuse.
 data_source:
 - Sysmon Event ID 15
 search: '`sysmon` EventCode=15 NOT Contents IN ("-","[ZoneTransfer]*")
-| regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
-| regex Contents="(?:[A-Za-z0-9+/]{128,})(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
-| eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename , base64 = Contents, file_hash = case( EventCode IN ("15"), coalesce(SHA256,SHA1,MD5,Hash), EventCode IN ("23","26"), coalesce(SHA256,SHA1,MD5,Hashes))
-| stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by dest, process, process_guid, file_name, file_path, file_hash, base64
-| `base64decode(base64)` 
-| fields - base64 
-| rename base64_decode as command 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `windows_alternate_datastream___base64_content_filter`'
+  | regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
+  | regex Contents="(?:[A-Za-z0-9+/]{128,})(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+  | eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename , base64 = Contents, file_hash = coalesce(SHA256,SHA1,MD5,Hash)
+  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by dest, process, process_guid, file_name, file_path, file_hash, base64
+  | `base64decode(base64)` 
+  | fields - base64 
+  | rename base64_decode as command 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_alternate_datastream___base64_content_filter`'
 how_to_implement: Target environment must ingest sysmon data, specifically Event ID 15.
 known_false_positives: Unknown 
 references:
@@ -26,6 +26,7 @@ references:
 - https://car.mitre.org/analytics/CAR-2020-08-001/
 - https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams 
 - https://blog.netwrix.com/2022/12/16/alternate_data_stream/
+- https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/file-stream-creation-hash.md
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -45,10 +46,6 @@ tags:
     type: User Name
     role:
     - Victim 
-  - name: process
-    type: Process Name
-    role:
-    - Attacker
   - name: file_name
     type: File Name
     role:
