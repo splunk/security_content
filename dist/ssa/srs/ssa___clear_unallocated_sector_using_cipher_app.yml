@@ -1,6 +1,6 @@
 name: Clear Unallocated Sector Using Cipher App
 id: 8f907d90-6173-11ec-9c23-acde48001122
-version: 3
+version: 4
 status: production
 detection_type: STREAMING
 description: this search is to detect execution of `cipher.exe` to clear the unallocated
@@ -19,7 +19,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     time = timestamp,
     evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Clear Unallocated Sector Using Cipher App has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Ransomware", "Information Sabotage"],
