@@ -19,7 +19,7 @@ known_false_positives: unknown
 references: []
 tags:
   analytic_story:
-  - Office 365 Persistence Mechanisms
+  - Office 365 Collection Techniques
   - Data Exfiltration
   asset_type: Office 365
   confidence: 60

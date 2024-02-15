@@ -1,6 +1,6 @@
 name: Windows PowerShell Start-BitsTransfer
 id: 0bafd086-8f61-11ec-996e-acde48001122
-version: 4
+version: 5
 date: '2022-02-16'
 author: Michael Haag, Splunk
 status: production

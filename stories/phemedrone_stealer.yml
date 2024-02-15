@@ -1,0 +1,29 @@
+name: Phemedrone Stealer
+id: 386f64dd-657b-4dcf-8eb3-5e297d30924c
+version: 2
+date: '2024-01-24'
+author: Teoderick Contreras, Splunk
+description: Phemedrone Stealer is a potent data-stealing malware designed to infiltrate systems discreetly, 
+  primarily targeting sensitive user information. Operating with a stealthy modus operandi, it covertly collects 
+  and exfiltrates critical data such as login credentials, personal details, and financial information. 
+  Notably evasive, Phemedrone employs sophisticated techniques to bypass security measures and remain undetected. 
+  Its capabilities extend to exploiting vulnerabilities, leveraging command and control infrastructure, and 
+  facilitating remote access. As a formidable threat, Phemedrone Stealer poses a significant risk to user 
+  privacy and system integrity, demanding vigilant cybersecurity measures to counteract its malicious activities.
+narrative: Phemedrone Stealer, spotlighted in a recent Trend Micro blog, unveils a concerning chapter in cyber threats. 
+  Leveraging the CVE-2023-36025 vulnerability for defense evasion, this malware exhibits a relentless pursuit of sensitive data. 
+  Originating from the shadows of the dark web, it capitalizes on forums where cybercriminals refine its evasive maneuvers. 
+  The blog sheds light on Phemedrone's exploitation of intricate tactics, illustrating its agility in sidestepping security protocols. 
+  As cybersecurity experts delve into the intricacies of CVE-2023-36025, the narrative surrounding Phemedrone Stealer underscores the 
+  urgency for heightened vigilance and proactive defense measures against this persistent and evolving digital adversary.
+references:
+  - https://www.trendmicro.com/en_vn/research/23/b/investigating-the-plugx-trojan-disguised-as-a-legitimate-windows.html
+tags:
+  analytic_story: Phemedrone Stealer
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

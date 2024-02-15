@@ -1,0 +1,60 @@
+name: O365 Multiple Service Principals Created by SP
+id: ef4c3f20-d1ad-4ad1-a3f4-d5f391c005fe
+version: 1
+date: '2024-02-07'
+author: Mauricio Velazco, Splunk
+data_source: []
+type: Anomaly
+status: production
+description: This detection aims to identify instances where a single service principal creates more than three unique OAuth applications within a 10-minute timeframe, using O365 logs from the Unified Audit Log. The focus is on tracking the 'Add service principal' operation within the Office 365 Azure Active Directory environment. The query effectively buckets events in 10-minute intervals, specifically scrutinizing the actions of service principals. By quantifying the number of distinct OAuth applications each service principal establishes, the analytic provides critical insights for SOC teams into potentially anomalous or malicious activities. These activities could include a compromised or malicious service principal being used to create multiple service principals, which might be indicative of an attempt to expand control or access within the network. Security teams are advised to adapt the threshold of three applications to align with their typical operational baseline
+search: >-
+ `o365_management_activity` Workload=AzureActiveDirectory Operation="Add service principal." 
+ | bucket span=10m _time
+ | eval len=mvcount('Actor{}.ID')
+ | eval userType = mvindex('Actor{}.ID',len-1)
+ | search userType = "ServicePrincipal"
+ | eval displayName = object
+ | stats count earliest(_time) as firstTime latest(_time) as lastTime values(displayName) as displayName dc(displayName) as unique_apps by src_user
+ | where unique_apps > 3
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)`
+ | `o365_multiple_service_principals_created_by_sp_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Certain users or applications may create multiple service principals in a short period of time for legitimate purposes. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1136/003/
+- https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  - NOBELIUM Group
+  asset_type: Office 365
+  confidence: 60
+  impact: 70
+  message: Multiple OAuth applications were created by $src_user$ in a short period of time
+  mitre_attack_id:
+  - T1136.003
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - Actor{}.ID
+  - src_user
+  - object
+  risk_score: 42
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_multiple_service_principals_created/o365_multiple_service_principals_created.log
+    source: o365
+    sourcetype: o365:management:activity

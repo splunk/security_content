@@ -12,7 +12,7 @@ description: This search is to detect potential plain HTTP POST method data exfi
 data_source: []
 search: '`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*",
   "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") |stats values(form_data)
-  as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method
+  as http_request_body min(_time) as firstTime max(_time) as lastTime count by src_ip dest_ip http_method
   http_user_agent uri_path url bytes_in bytes_out | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `plain_http_post_exfiltrated_data_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -28,20 +28,15 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A http post $http_method$ sending packet with plain text of information
-    $http_request_body$ in uri path $uri_path$
+  message: A http post $http_method$ sending packet with plain text of information in uri path $uri_path$
   mitre_attack_id:
   - T1048.003
   - T1048
   observable:
-  - name: uri_path
-    type: URL String
+  - name: src_ip
+    type: IP Address
     role:
-    - Attacker
-  - name: http_request_body
-    type: Other
-    role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

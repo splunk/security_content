@@ -21,6 +21,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
+  - NOBELIUM Group
   asset_type: Office 365 
   confidence: 70
   impact: 80

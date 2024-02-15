@@ -1,16 +1,16 @@
 name: Windows Account Discovery for None Disable User Account
 id: eddbf5ba-b89e-47ca-995e-2d259804e55e
-version: 1
+version: 2
 date: '2023-12-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
 - Powershell 4104
-description: The following analytic leverages Event ID 4104 to identify the execution of the PowerView powershell commandlets Get-NetUser. 
-  In the context of PowerView's Get-NetUser cmdlet as a filter or parameter 
-  to query Active Directory user accounts that are not disabled. This hunting query is a good pivot to look for suspicious process 
-  or malware that gather user account information in a host or within network system. 
+description: The following analytic utilizes PowerShell Script Block Logging to identify
+  the execution of the PowerView PowerShell commandlet Get-NetUser. In the context
+  of PowerView's Get-NetUser cmdlet as a filter or parameter to query Active Directory
+  user accounts that are not disabled. The full script block text based on the CISA-23-347A advisory is "Get-NetUser -UACFilter NOT_ACCOUNTDISABLE". Utilize this query to identify potential suspicious activity of user account enumeration.
 search: '`powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText = "*NOT_ACCOUNTDISABLE*" ScriptBlockText = "*-UACFilter*" 
   | rename Computer as dest, UserID as user
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText dest user
@@ -23,15 +23,19 @@ how_to_implement: To successfully implement this analytic, you will need to enab
 known_false_positives: Administrators may leverage PowerView for legitimate purposes, filter as needed.
 references:
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+- https://powersploit.readthedocs.io/en/stable/Recon/README/
+- https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters/powerview
+- https://atomicredteam.io/discovery/T1087.001/
 tags:
   analytic_story:
   - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 30
-  message: Windows Account Discovery for None Disable User Account on $dest$.
+  message: Windows Account Discovery for None Disable User Account using PowerView's Get-NetUser on $dest$.
   mitre_attack_id:
   - T1087
+  - T1087.001
   observable:
   - name: dest
     type: Hostname

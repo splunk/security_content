@@ -1,7 +1,7 @@
 name: Create Remote Thread In Shell Application
 id: 10399c1e-f51e-11eb-b920-acde48001122
-version: 1
-date: '2021-08-04'
+version: 2
+date: '2024-01-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -13,7 +13,7 @@ data_source:
 - Sysmon Event ID 8
 search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") | stats
   count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId
-  SourceProcessId  EventCode StartAddress SourceImage dest | `security_content_ctime(firstTime)`
+  SourceProcessId  EventCode StartAddress SourceImage dest |rename SourceImage as process_name| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `create_remote_thread_in_shell_application_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 70
-  message: process $SourceImage$ create a remote thread to shell app process $TargetImage$
+  message: process $process_name$ create a remote thread to shell app process $TargetImage$
     in host $dest$
   mitre_attack_id:
   - T1055
@@ -39,7 +39,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: SourceImage
+  - name: process_name
     type: Process
     role:
     - Attacker

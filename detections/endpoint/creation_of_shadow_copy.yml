@@ -1,7 +1,7 @@
 name: Creation of Shadow Copy
 id: eb120f5f-b879-4a63-97c1-93352b5df844
-version: 1
-date: '2019-12-10'
+version: 2
+date: '2024-01-01'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -52,14 +52,10 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_process
+  - name: parent_process_name
     type: Process
     role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

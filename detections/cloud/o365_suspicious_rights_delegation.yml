@@ -20,7 +20,7 @@ references:
 - https://attack.mitre.org/techniques/T1114/002/
 tags:
   analytic_story:
-  - Office 365 Persistence Mechanisms
+  - Office 365 Collection Techniques
   asset_type: Office 365
   confidence: 60
   impact: 80

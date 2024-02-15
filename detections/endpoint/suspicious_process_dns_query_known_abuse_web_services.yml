@@ -14,11 +14,13 @@ description: The following analytic detects a suspicious process making a DNS qu
   like telegram or discord are allowed in the corporate network.
 data_source:
 - Sysmon Event ID 22
-search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegram*",
-  "*t.me*") process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe",
-  "cscript.exe") | stats count min(_time) as firstTime max(_time) as lastTime by Image
-  QueryName QueryStatus process_name QueryResults Computer | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `suspicious_process_dns_query_known_abuse_web_services_filter`'
+search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*api.telegram*","*t.me*") 
+  process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe","cscript.exe") OR Image IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name QueryResults Computer 
+  | rename Computer as dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `suspicious_process_dns_query_known_abuse_web_services_filter`'
 how_to_implement: This detection relies on sysmon logs with the Event ID 22, DNS Query.
   We suggest you run this detection at least once a day over the last 14 days.
 known_false_positives: Noise and false positive can be seen if the following instant
@@ -32,6 +34,7 @@ tags:
   - Data Destruction
   - WhisperGate
   - Remcos
+  - Phemedrone Stealer
   asset_type: Endpoint
   confidence: 80
   impact: 80
