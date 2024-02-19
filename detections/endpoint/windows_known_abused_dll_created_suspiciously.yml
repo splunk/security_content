@@ -14,8 +14,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 | join max=0 process_guid dest
     [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\users\\*","*\\Windows\Temp\\*","*\\programdata\\*") Filesystem.file_name="*.dll" by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
     | `drop_dm_object_name(Filesystem)`
-    | lookup nh_hijacklibs library AS file_name OUTPUT islibrary, ttp, comment as desc
-    | lookup nh_hijacklibs library AS file_name excludes as file_path OUTPUT islibrary as excluded
+    | lookup hijacklibs library AS file_name OUTPUT islibrary, ttp, comment as desc
+    | lookup hijacklibs library AS file_name excludes as file_path OUTPUT islibrary as excluded
     | search islibrary = TRUE AND excluded != TRUE
     | stats latest(*) as * by dest process_guid ]
 | where isnotnull(file_name)
