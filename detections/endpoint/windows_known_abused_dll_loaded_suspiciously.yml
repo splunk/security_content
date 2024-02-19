@@ -10,8 +10,8 @@ data_source:
 - Sysmon 7
 search: 'process_name from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.user!=unknown NOT (Processes.process_path IN ("*\\Program Files*","*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*")) by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process_path
 | `drop_dm_object_name(Processes)` 
-| lookup nh_hijacklibs library AS process_name OUTPUT islibrary comment as desc
-| lookup nh_hijacklibs library AS process_name excludes as process_path OUTPUT islibrary as excluded
+| lookup hijacklibs library AS process_name OUTPUT islibrary comment as desc
+| lookup hijacklibs library AS process_name excludes as process_path OUTPUT islibrary as excluded
 | search islibrary = TRUE AND excluded != TRUE
 | stats sum(count) as count min(firstTime) as firstTime max(lastTime) as lastTime latest(*) as * by dest, process_name, process_path, parent_process_name
 | eval process = process_path, parent_process = parent_process_name
