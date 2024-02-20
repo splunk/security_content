@@ -95,7 +95,7 @@ push_sse_json_to_artifactory:
     - cd contentctl
     - git checkout main
     - poetry install
-    - poetry run contentctl -p ../ build -t api
+    - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
     - tar -czvf sse.tar.gz dist/api/*
   script:
@@ -154,9 +154,9 @@ update_gitlab_dist:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ build
-    - poetry run contentctl -p ../ build -t ssa
-    - poetry run contentctl -p ../ build -t api
+    - poetry run contentctl -p ../ --enable_enrichment build
+    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+    - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
     - echo "Updating dist build scripts in a branch"
     - git config --global user.email "research@splunk.com"
@@ -194,9 +194,9 @@ github_push_develop:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ build
-    - poetry run contentctl -p ../ build -t ssa
-    - poetry run contentctl -p ../ build -t api
+    - poetry run contentctl -p ../ --enable_enrichment build
+    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+    - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
     - git config user.email "research@splunk.com"
     - git config user.name "research bot"
