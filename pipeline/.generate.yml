@@ -14,7 +14,14 @@ generate_escu:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ build
+    - >
+      if [[ "$CI_COMMIT_TAG" =~ ^4\.[0-9]+\.[0-9]+$ ]]; then
+        echo "Tagged build - Enabling Enrichment"
+        poetry run contentctl -p ../ --enable_enrichment build
+      else
+        echo "Disabled Enrichment"
+        poetry run contentctl -p ../  build
+      fi
     - cd ..
     - mkdir artifacts
     - mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
@@ -35,7 +42,12 @@ generate_ba:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ build -t ssa
+    - >
+      if [[ "$CI_COMMIT_TAG" =~ ^4\.[0-9]+\.[0-9]+$ ]]; then
+        poetry run contentctl -p ../ --enable_enrichment build -t ssa
+      else
+        poetry run contentctl -p ../ build -t ssa
+      fi
     - cd ..
     - mkdir -p artifacts/ssa
     - cp -r dist/ssa/* artifacts/ssa
@@ -56,7 +68,12 @@ generate_api:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ build -t api
+    - >
+      if [[ "$CI_COMMIT_TAG" =~ ^4\.[0-9]+\.[0-9]+$ ]]; then
+        poetry run contentctl -p ../ --enable_enrichment build -t api
+      else
+        poetry run contentctl -p ../ build -t api
+      fi
     - cd ..
     - mkdir -p artifacts/api
     - cp -r dist/api/* artifacts/api
