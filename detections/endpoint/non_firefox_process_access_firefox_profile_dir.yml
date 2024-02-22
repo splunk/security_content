@@ -39,6 +39,7 @@ tags:
   - AgentTesla
   - CISA AA23-347A
   - Phemedrone Stealer
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 70
   impact: 50

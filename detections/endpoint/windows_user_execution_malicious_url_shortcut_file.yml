@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Chaos Ransomware
   - NjRAT
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 80
   impact: 80
