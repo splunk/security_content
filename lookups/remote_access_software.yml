@@ -4,4 +4,5 @@ name: remote_access_software
 default_match: 'false'
 match_type: WILDCARD(remote_utility),WILDCARD(remote_domain)
 min_matches: 1
+max_matches: 1
 case_sensitive_match: 'false'

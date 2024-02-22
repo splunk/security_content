@@ -52,8 +52,6 @@ CloudFlare Tunnel,,cloudflared.exe,TRUE,Remote Access,cloudflare.com/products/tu
 Comodo RMM,*.itsm-us1.comodo.com,itsmagent.exe,TRUE,RMM,"https://help.itarian.com/topic-459-1-1005-14776-Appendix-1b---Endpoint-Manager-Services---IP-Nos,-Host-Names-and-Port-Details---US-Customers.html",2/7/2024
 Comodo RMM,*mdmsupport.comodo.com,rviewer.exe,TRUE,RMM,"https://help.itarian.com/topic-459-1-1005-14776-Appendix-1b---Endpoint-Manager-Services---IP-Nos,-Host-Names-and-Port-Details---US-Customers.html",2/7/2024
 ConnectWise Control,*.connectwise.com,connectwise*.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
-ConnectWise Control,live.screenconnect.com,screenconnect.windowsclient.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
-ConnectWise Control,,screenconnect.clientservice.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
 CrossLoop,*.crossloop.com,crossloopservice.exe,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
 CrossLoop,,CrossLoopConnect.exe,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
 CrossLoop,,WinVNCStub.exe,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
@@ -258,7 +256,7 @@ N-Able Advanced Monitoring Agent,systemmonitor.us.cdn.cloudflare.net,BASupTSHelp
 N-Able Advanced Monitoring Agent,cloudbackup.management,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,systemmonitor.co.uk,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.n-able.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,*.beanywhere.com ,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*.beanywhere.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.pubnub.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.swi-tc.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 Naverisk,user_managed,AgentSetup-*.exe,TRUE,RMM,http://kb.naverisk.com/en/articles/2811223-deploying-naverisk-agents,2/9/2024
@@ -317,7 +315,7 @@ PSEXEC,user_managed,psexec.exe,TRUE,Remote Access,https://learn.microsoft.com/en
 PSEXEC,,psexecsvc.exe,TRUE,Remote Access,https://learn.microsoft.com/en-us/sysinternals/downloads/psexec,2/9/2024
 PSEXEC (Clone),user_managed,paexec.exe,TRUE,Remote Access,https://www.poweradmin.com/paexec/,2/9/2024
 PSEXEC (Clone),,PAExec-*.exe,TRUE,Remote Access,https://www.poweradmin.com/paexec/,2/9/2024
-PSEXEC (Clone),,csexec.exe ,TRUE,Remote Access,https://github.com/malcomvetter/CSExec,2/9/2024
+PSEXEC (Clone),,csexec.exe,TRUE,Remote Access,https://github.com/malcomvetter/CSExec,2/9/2024
 PSEXEC (Clone),,remcom.exe,TRUE,Remote Access,https://support.alertlogic.com/hc/en-us/articles/360034494351-Windows-Server-RemCom-Tool-Remote-Shell,2/9/2024
 PSEXEC (Clone),,remcomsvc.exe,TRUE,Remote Access,https://support.alertlogic.com/hc/en-us/articles/360034494351-Windows-Server-RemCom-Tool-Remote-Shell,2/9/2024
 PSEXEC (Clone),,xcmd.exe,TRUE,Remote Access,https://docs.bmc.com/docs/display/public/baob201204/xCmd+utility,2/9/2024
@@ -379,8 +377,10 @@ RuDesktop,*.rudesktop.ru,rd.exe,TRUE,RMM,https://rudesktop.ru,2/9/2024
 RuDesktop,,rudesktop*.exe,TRUE,RMM,https://asec.ahnlab.com/en/40263/,2/9/2024
 RustDesk,user_managed,rustdesk.exe,TRUE,RMM,https://rustdesk.com/docs/en/,2/9/2024
 RustDesk,,rustdesk*.exe,TRUE,RMM,https://rustdesk.com/docs/en/,2/9/2024
-ScreenConnect (ConnectWise),live.screenconnect.com,Remote Workforce Client.exe,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
-ScreenConnect (ConnectWise),,screenconnect*.exe,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
+ScreenConnect (ConnectWise),*.screenconnect.com,screenconnect.windowsclient.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
+ScreenConnect (ConnectWise),*instance.screenconnect.com,screenconnect.clientservice.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
+ScreenConnect (ConnectWise),,Remote Workforce Client.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
+ScreenConnect (ConnectWise),,screenconnect*.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
 ScreenMeet,*.screenmeet.com,ScreenMeetSupport.exe,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
 ScreenMeet,*.scrn.mt,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
 Seetrol,seetrol.co.kr,seetrolcenter.exe,TRUE,RMM,http://www.seetrol.com/en/features/features3.php,2/7/2024
@@ -431,7 +431,7 @@ Supremo,,supremosystem.exe,TRUE,RMM,https://www.supremocontrol.com/frequently-as
 Supremo,,supremohelper.exe,TRUE,RMM,https://www.supremocontrol.com/frequently-asked-questions/,2/13/2024
 Supremo,,supremo.exe,TRUE,RMM,https://www.supremocontrol.com/frequently-asked-questions/,2/13/2024
 Supremo,,supremosystem.exe,TRUE,RMM,https://www.supremocontrol.com/frequently-asked-questions/,2/13/2024
-Syncro,app.kabuto.io ,Kabuto.App.Runner.exe,TRUE,RMM,https://community.syncromsp.com/t/syncro-exceptions-and-allowlists/2004,2/13/2024
+Syncro,app.kabuto.io,Kabuto.App.Runner.exe,TRUE,RMM,https://community.syncromsp.com/t/syncro-exceptions-and-allowlists/2004,2/13/2024
 Syncro,*.syncromsp.com,Kabuto.Service.Runner.exe,TRUE,RMM,https://community.syncromsp.com/t/syncro-exceptions-and-allowlists/2004,2/13/2024
 Syncro,*.syncroapi.com,Kabuto.Installer.exe,TRUE,RMM,https://community.syncromsp.com/t/syncro-exceptions-and-allowlists/2004,2/13/2024
 Syncro,*.kabutoservices.com,KabutoSetup.exe,TRUE,RMM,https://community.syncromsp.com/t/syncro-exceptions-and-allowlists/2004,2/13/2024
