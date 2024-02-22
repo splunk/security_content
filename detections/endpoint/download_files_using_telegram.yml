@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - XMRig
   - Phemedrone Stealer
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 70
   impact: 70

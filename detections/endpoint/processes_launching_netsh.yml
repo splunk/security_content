@@ -40,6 +40,7 @@ tags:
   - DHS Report TA18-074A
   - Azorult
   - Volt Typhoon
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 70
   impact: 20

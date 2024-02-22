@@ -42,6 +42,7 @@ tags:
   - Suspicious Regsvcs Regasm Activity
   - Living Off The Land
   - DarkGate Malware
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 80
   impact: 80

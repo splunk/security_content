@@ -34,6 +34,7 @@ tags:
   - CISA AA22-320A
   - AgentTesla
   - BlackByte Ransomware
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 90
   impact: 70
