@@ -74,6 +74,7 @@ tags:
   - Amadey
   - BlackByte Ransomware
   - CISA AA23-347A
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 95
   impact: 80

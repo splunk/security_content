@@ -1,0 +1,61 @@
+name: Windows Non Discord App Access Discord LevelDB
+id: 1166360c-d495-45ac-87a6-8948aac1fa07
+version: 1
+date: '2024-02-16'
+author: Teoderick Contreras, Splunk
+data_source:
+- Windows Security 4663
+type: Anomaly
+status: production
+description: The following analytic detects suspicious file access within the Discord LevelDB database. 
+  This database contains critical data such as user profiles, messages, guilds, channels, settings, and cached information. 
+  Access to this data poses a risk of Discord credential theft or unauthorized access to sensitive information on the 
+  compromised system. Detecting such anomalies can serve as an effective pivot to identify non-Discord applications 
+  accessing this database, potentially indicating the presence of malware or trojan stealers aimed at data theft.
+search: '`wineventlog_security` EventCode=4663 object_file_path IN ("*\\discord\\Local Storage\\leveldb*") 
+  AND process_name != *\\discord.exe AND NOT (process_path IN ("*:\\Windows\\System32\\*", "*:\\Windows\\SysWow64\\*", "*:\\Program Files*", "*:\\Windows\\*"))
+  | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path process_name process_path  process_id EventCode dest 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_non_discord_app_access_discord_leveldb_filter`'
+how_to_implement: To successfully implement this search, you must ingest Windows Security
+  Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
+  Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+known_false_positives: unknown
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.404keylogger
+tags:
+  analytic_story:
+  - Snake Keylogger
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: A non-discord process $process_name$ accessing discord "leveldb" file on $dest$
+  mitre_attack_id:
+  - T1012
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - object_file_name
+  - object_file_path
+  - process_name
+  - process_path
+  - process_id
+  - EventCode
+  - dest
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552/snakey_keylogger_outlook_reg_access/snakekeylogger_4663.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

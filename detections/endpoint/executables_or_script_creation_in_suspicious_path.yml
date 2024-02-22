@@ -70,6 +70,7 @@ tags:
   - LockBit Ransomware
   - CISA AA23-347A
   - Data Destruction
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 50
   impact: 40

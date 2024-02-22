@@ -29,6 +29,7 @@ tags:
   - LockBit Ransomware
   - BlackByte Ransomware
   - Rhysida Ransomware
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 80
   impact: 90
