@@ -1,0 +1,24 @@
+name: WordPress Vulnerabilities
+id: baeaee14-e439-4c95-91e8-aaedd8265c1c
+version: 1
+date: '2024-02-22'
+author: Michael Haag, Splunk
+description: This analytic story provides a collection of analytics that detect potential exploitation of WordPress vulnerabilities. The analytics are focused on the detection of known vulnerabilities in WordPress plugins and themes.
+narrative: The following collection of analytics are focused on the detection of known vulnerabilities in WordPress plugins and themes. The analytics are focused on the detection of known vulnerabilities in WordPress plugins and themes.
+references:
+  - https://attack.mitre.org/techniques/T1190
+  - https://github.com/Tornad0007/CVE-2024-25600-Bricks-Builder-plugin-for-WordPress/blob/main/exploit.py
+  - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-25600
+  - https://op-c.net/blog/cve-2024-25600-wordpresss-bricks-builder-rce-flaw-under-active-exploitation/
+  - https://thehackernews.com/2024/02/wordpress-bricks-theme-under-active.html
+tags:
+  analytic_story: WordPress Vulnerabilities
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-25600
