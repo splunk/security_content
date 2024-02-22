@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - AgentTesla
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 30
   impact: 30

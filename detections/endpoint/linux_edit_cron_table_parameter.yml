@@ -23,7 +23,7 @@ description: 'The following analytic detects the suspicious editing of cron jobs
   Known false positives could stem from valid administrative tasks or automation processes
   using crontab. To reduce these, fine-tune the filter macros according to the benign
   activities within your environment. These adjustments ensure legitimate actions
-  aren''t mistaken for threats, allowing analysts to focus on genuine potential risks.\'
+  aren''t mistaken for threats, allowing analysts to focus on genuine potential risks.'
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

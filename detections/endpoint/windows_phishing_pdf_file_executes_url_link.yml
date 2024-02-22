@@ -37,6 +37,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 80
   impact: 80

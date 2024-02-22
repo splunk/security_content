@@ -40,6 +40,7 @@ tags:
   analytic_story:
   - Windows Post-Exploitation
   - Prestige Ransomware
+  - Snake Keylogger
   asset_type: Endpoint
   confidence: 30
   impact: 30
