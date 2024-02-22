@@ -1,0 +1,64 @@
+name: WordPress Bricks Builder plugin RCE
+id: 56a8771a-3fda-4959-b81d-2f266e2f679f
+version: 1
+date: '2024-02-22'
+author: Michael Haag, Splunk
+data_source: []
+type: TTP
+status: production
+description: The following analytic identifies potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability. The search is focused on the URL path "/wp-json/bricks/v1/render_element" with a status code of 200 and a POST method. It has been addressed by the theme developers in version 1.9.6.1 released on February 13, 2024. The vulnerability is tracked as CVE-2024-25600. The POC exploit is simple enough and will spawn commands on the target server. The exploit is actively being used in the wild.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/wp-json/bricks/v1/render_element") Web.status=200 Web.http_method=POST by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.uri_path, Web.status, Web.http_method, sourcetype, source
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `wordpress_bricks_builder_plugin_rce_filter`'
+how_to_implement: The search is based on data in the Web datamodel and was modeled from NGINX logs. Ensure that the Web datamodel is accelerated and that the data source for the Web datamodel is properly configured. If using other web sources, modify they query, or review the data, as needed.
+known_false_positives: False positives may be possible, however we restricted it to HTTP Status 200 and POST requests, based on the POC. Upon investigation review the POST body for the actual payload - or command - being executed. 
+references:
+  - https://attack.mitre.org/techniques/T1190
+  - https://github.com/Tornad0007/CVE-2024-25600-Bricks-Builder-plugin-for-WordPress/blob/main/exploit.py
+  - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-25600
+  - https://op-c.net/blog/cve-2024-25600-wordpresss-bricks-builder-rce-flaw-under-active-exploitation/
+  - https://thehackernews.com/2024/02/wordpress-bricks-theme-under-active.html
+tags:
+  analytic_story:
+  - WordPress Vulnerabilities
+  asset_type: Web
+  confidence: 100
+  impact: 100
+  message: Potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability on $dest$ by $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - Web.url
+  - Web.status
+  - Web.http_method
+  - sourcetype
+  - source
+  risk_score: 100
+  security_domain: network
+  cve:
+  - CVE-2024-25600
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/wordpress/bricks_cve_2024_25600.log
+    source: nginx:plus:kv
+    sourcetype: nginx:plus:kv
