@@ -51,6 +51,9 @@ Chrome Remote Desktop,*remotedesktop-pa.googleapis.com,remoting_host.exe,TRUE,RM
 CloudFlare Tunnel,,cloudflared.exe,TRUE,Remote Access,cloudflare.com/products/tunnel/,2/7/2024
 Comodo RMM,*.itsm-us1.comodo.com,itsmagent.exe,TRUE,RMM,"https://help.itarian.com/topic-459-1-1005-14776-Appendix-1b---Endpoint-Manager-Services---IP-Nos,-Host-Names-and-Port-Details---US-Customers.html",2/7/2024
 Comodo RMM,*mdmsupport.comodo.com,rviewer.exe,TRUE,RMM,"https://help.itarian.com/topic-459-1-1005-14776-Appendix-1b---Endpoint-Manager-Services---IP-Nos,-Host-Names-and-Port-Details---US-Customers.html",2/7/2024
+Connectwise Automate (LabTech),*.connectwise.com,ltsvc.exe,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
+Connectwise Automate (LabTech),*.hostedrmm.com,ltsvcmon.exe,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
+Connectwise Automate (LabTech),,lttray.exe,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
 ConnectWise Control,*.connectwise.com,connectwise*.exe,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
 CrossLoop,*.crossloop.com,crossloopservice.exe,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
 CrossLoop,,CrossLoopConnect.exe,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
@@ -188,9 +191,6 @@ Kaseya (VSA),,KaUpdHlp.exe,TRUE,RMM,https://helpdesk.kaseya.com/hc/en-gb/article
 Kaseya (VSA),,KaUsrTsk.exe,TRUE,RMM,https://helpdesk.kaseya.com/hc/en-gb/articles/229012608-Software-Deployment-URL-Port-Requirements,2/8/2024
 KickIdler,kickidler.com,grabberEM.*msi,TRUE,RMM,https://www.kickidler.com/for-it/faq/,2/8/2024
 KickIdler,my.kickidler.com,grabberTT*.msi,TRUE,RMM,https://www.kickidler.com/for-it/faq/,2/8/2024
-LabTech (Connectwise Automate),*.connectwise.com,ltsvc.exe,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
-LabTech (Connectwise Automate),,ltsvcmon.exe,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
-LabTech (Connectwise Automate),,lttray.exe,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
 LANDesk,*.ivanticloud.com,issuser.exe,TRUE,RMM,https://forums.ivanti.com/s/article/URL-exception-list-for-Ivanti-Security-Controls?language=en_US,2/8/2024
 LANDesk,*.ivanti.com,landeskagentbootstrap.exe,TRUE,RMM,https://forums.ivanti.com/s/article/URL-exception-list-for-Ivanti-Security-Controls?language=en_US,2/8/2024
 LANDesk,,LANDeskPortalManager.exe,TRUE,RMM,https://forums.ivanti.com/s/article/URL-exception-list-for-Ivanti-Security-Controls?language=en_US,2/8/2024
