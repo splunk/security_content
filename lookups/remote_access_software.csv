@@ -247,17 +247,16 @@ MSP360,,Remote Desktop.exe,TRUE,RMM,https://kb.msp360.com/managed-backup-service
 MSP360,,Connect.exe,TRUE,RMM,https://kb.msp360.com/managed-backup-service/mbs-tcp-ports-configuration#,2/9/2024
 MyIVO,,myivomgr.exe,TRUE,RMM,myivo.com - DOA as of 2024,2/9/2024
 MyIVO,,myivomanager.exe,TRUE,RMM,myivo.com - DOA as of 2024,2/9/2024
-N-Able Advanced Monitoring Agent,remote.management,Agent_*_RW.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,logicnow.com,BASEClient.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,systemmonitor.us,BASupApp.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,systemmonitor.eu.com,BASupSrvc.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,system-monitor.com,BASupSrvcCnfg.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*remote.management,Agent_*_RW.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*logicnow.com,BASEClient.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*systemmonitor.us,BASupApp.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*systemmonitor.eu.com,BASupSrvc.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*system-monitor.com,BASupSrvcCnfg.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,systemmonitor.us.cdn.cloudflare.net,BASupTSHelper.exe,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,cloudbackup.management,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,systemmonitor.co.uk,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*cloudbackup.management,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+N-Able Advanced Monitoring Agent,*systemmonitor.co.uk,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.n-able.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.beanywhere.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
-N-Able Advanced Monitoring Agent,*.pubnub.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.swi-tc.com,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 Naverisk,user_managed,AgentSetup-*.exe,TRUE,RMM,http://kb.naverisk.com/en/articles/2811223-deploying-naverisk-agents,2/9/2024
 Netop Remote Control (Impero Connect),*.connect.backdrop.cloud,nhostsvc.exe,TRUE,RMM,https://kb.netop.com/article/firewall-and-proxy-server-considerations-when-using-netop-portal-communication-373.html,2/9/2024
