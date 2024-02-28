@@ -2,6 +2,9 @@ default:
   image: docker-hub.repo.splunkdev.net/python:3.9
 
 variables:
+  EXTRACTO_VERSION:
+    value: "1.0.60"
+    description: "The version of extracto to use"
   SKIP_DOWNSTREAM_TESTING:
     value: "False"
     description: "If true, downstream testing will be suppressed (useful for debugging or forcing a release in an emergency)."
