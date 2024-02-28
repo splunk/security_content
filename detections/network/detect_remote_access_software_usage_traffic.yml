@@ -1,0 +1,57 @@
+name: Detect Remote Access Software Usage (Traffic)
+id: 885ea672-07ee-475a-879e-60d28aa5dd42
+version: 1
+date: '2024-02-22'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when a known remote access software application traffic is detected from within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
+data_source:
+- Palo Alto Traffic
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_port) as dest_port from datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app
+| `drop_dm_object_name("All_Traffic")` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| lookup remote_access_software remote_appid AS app OUTPUT isutility, description as signature, comment_reference as desc, category
+| search isutility = True
+| `detect_remote_access_software_usage_traffic_filter`'
+how_to_implement: The following analytic requires that Palo Alto traffic logs to be ingested and normalized into the CIM datamodels. 
+known_false_positives: Known or approved applications used by the organization or usage of built-in functions.
+references:
+- https://attack.mitre.org/techniques/T1219/
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+- https://applipedia.paloaltonetworks.com/
+tags:
+  analytic_story:
+  - Insider Threat
+  - Command And Control
+  - Ransomware
+  asset_type: Network
+  confidence: 50
+  impact: 50
+  message: Application traffic for a known remote access software [$signature$] was detected from $src$
+  mitre_attack_id:
+  - T1219
+  observable:
+  - name: src
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Traffic.src 
+  - All_Traffic.dest
+  - All_Traffic.app 
+  risk_score: 25
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo_traffic.log
+    source: screenconnect_palo_traffic
+    sourcetype: pan:traffic
