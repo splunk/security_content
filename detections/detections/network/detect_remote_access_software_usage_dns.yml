@@ -13,6 +13,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 | lookup remote_access_software remote_domain AS query OUTPUT isutility, description as signature, comment_reference as desc, category
+| eval dest = query
 | search isutility = True
 | `detect_remote_access_software_usage_dns_filter`'
 how_to_implement: The following analytic requires DNS logs to be imported and normalized into the CIM datamodels. Sysmon EID22 or other comparable logs.
