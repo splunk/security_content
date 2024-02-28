@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `drop_dm_object_name(Processes)` 
-| lookup remote_access_software remote_utility AS process_name OUTPUT isutility, description as app comment_reference as desc, category
+| lookup remote_access_software remote_utility AS process_name OUTPUT isutility, description as signature, comment_reference as desc, category
 | search isutility = True
 | `detect_remote_access_software_usage_process_filter`'
 how_to_implement: The following analytic requires process logs to be imported, Sysmon EID1 or Windows Security EID 4688.
@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A known remote access software [$app$] was detected on $dest$
+  message: A process for a known remote access software [$signature$] was detected on $dest$
   mitre_attack_id:
   - T1219
   observable:
