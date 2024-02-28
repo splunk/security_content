@@ -12,7 +12,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 | `drop_dm_object_name("DNS")` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
-| lookup remote_access_software remote_domain AS query OUTPUT isutility, description as app, comment_reference as desc, category
+| lookup remote_access_software remote_domain AS query OUTPUT isutility, description as signature, comment_reference as desc, category
 | search isutility = True
 | `detect_remote_access_software_usage_dns_filter`'
 how_to_implement: The following analytic requires DNS logs to be imported and normalized into the CIM datamodels. Sysmon EID22 or other comparable logs.
@@ -29,7 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A known remote access software [$app$] domain was contacted by $src$
+  message: A domain for a known remote access software [$signature$] was contacted by $src$
   mitre_attack_id:
   - T1219
   observable:
