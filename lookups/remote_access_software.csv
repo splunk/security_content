@@ -429,11 +429,11 @@ RustDesk,,rustdesk*.exe,,,TRUE,RMM,https://rustdesk.com/docs/en/,2/9/2024
 ScreenConnect (ConnectWise),*.connectwise.com,Remote Workforce Client.exe,ConnectWise*,screenconnect,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
 ScreenConnect (ConnectWise),*.screenconnect.com,screenconnect*.exe,ScreenConnect*,,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
 ScreenConnect (ConnectWise),,ConnectWiseControl*.exe,CONTINUUM MANAGED*,,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
-ScreenConnect (ConnectWise),,connectwise*.exe,ScreenMeet*,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
+ScreenConnect (ConnectWise),,connectwise*.exe,,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
 ScreenConnect (ConnectWise),,screenconnect.windowsclient.exe,,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
 ScreenConnect (ConnectWise),,screenconnect.clientservice.exe,,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
-ScreenMeet,*.screenmeet.com,ScreenMeetSupport.exe,,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
-ScreenMeet,*.scrn.mt,,,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
+ScreenMeet,*.screenmeet.com,ScreenMeetSupport.exe,ScreenMeet*,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
+ScreenMeet,*.scrn.mt,ScreenMeet.Support.exe,,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
 Seetrol,seetrol.co.kr,seetrolcenter.exe,,,TRUE,RMM,http://www.seetrol.com/en/features/features3.php,2/7/2024
 Seetrol,,seetrolclient.exe,,,TRUE,RMM,http://www.seetrol.com/en/features/features3.php,2/7/2024
 Seetrol,,seetrolmyservice.exe,,,TRUE,RMM,http://www.seetrol.com/en/features/features3.php,2/7/2024
@@ -457,7 +457,7 @@ Site24x7,plus*.site24x7.eu,MonitoringAgent.exe,,,TRUE,RMM,https://support.site24
 Site24x7,plus*.site24x7.in,Site24x7WindowsAgentTrayIcon.exe,,,TRUE,RMM,https://support.site24x7.com/portal/en/kb/articles/which-ports-do-i-need-to-allow-access-in-my-firewall-to-use-site24x7-agent,2/13/2024
 Site24x7,plus*.site24x7.cn,Site24x7PluginAgent.exe,,,TRUE,RMM,https://support.site24x7.com/portal/en/kb/articles/which-ports-do-i-need-to-allow-access-in-my-firewall-to-use-site24x7-agent,2/13/2024
 Site24x7,plus*.site24x7.net.au,,,,TRUE,RMM,https://support.site24x7.com/portal/en/kb/articles/which-ports-do-i-need-to-allow-access-in-my-firewall-to-use-site24x7-agent,2/13/2024
-SkyFex,skyfex.com,Deskroll.exe,,,TRUE,RMM,https://skyfex.com/,2/9/2024
+SkyFex,skyfex.com,Deskroll.exe,DeskRoll Remote Desktop*,,TRUE,RMM,https://skyfex.com/,2/9/2024
 SkyFex,deskroll.com,DeskRollUA.exe,,,TRUE,RMM,https://skyfex.com/,2/9/2024
 SkyFex,*.deskroll.com,,,,TRUE,RMM,https://skyfex.com/,2/9/2024
 Sophos-Remote Management System,*.sophos.com,clientmrinit.exe,,,TRUE,RMM,community.sophos.com/on-premise-endpoint/f/sophos-endpoint-software/5725/sophos-remote-management-system,2/9/2024
@@ -476,7 +476,7 @@ SpyAnywhere,*.spytech-web.com,sysdiag.exe,,,TRUE,RMM,https://www.spyanywhere.com
 SunLogin,sunlogin.oray.com,OrayRemoteShell.exe,Shanghai Best Oray*,sunlogin-remote-control,TRUE,RMM,https://sunlogin.oray.com/en/embed/software.html,2/26/2024
 SunLogin,client.oray.net,OrayRemoteService.exe,Remote control service,,TRUE,RMM,https://sunlogin.oray.com/en/embed/software.html,2/26/2024
 SunLogin,,sunlogin*.exe,,,TRUE,RMM,https://sunlogin.oray.com/en/embed/software.html,2/26/2024
-SuperOps,superops.ai,superopsticket.exe,,,TRUE,RMM,https://support.superops.com/en/articles/6632028-how-to-download-and-deploy-the-agent,2/7/2024
+SuperOps,superops.ai,superopsticket.exe,SuperOps*,,TRUE,RMM,https://support.superops.com/en/articles/6632028-how-to-download-and-deploy-the-agent,2/7/2024
 SuperOps,*.superops.ai,superops.exe,,,TRUE,RMM,https://support.superops.com/en/articles/6632028-how-to-download-and-deploy-the-agent,2/7/2024
 SuperOps,serv.superopsalpha.com,,,,TRUE,RMM,https://support.superops.com/en/articles/6632028-how-to-download-and-deploy-the-agent,2/7/2024
 SuperOps,*.superopsalpha.com,,,,TRUE,RMM,https://support.superops.com/en/articles/6632028-how-to-download-and-deploy-the-agent,2/7/2024
@@ -503,10 +503,10 @@ Syspectr,atled.syspectr.com,oo-syspectr*.exe,O&O Syspectr*,,TRUE,RMM,https://www
 Syspectr,app.syspectr.com,OOSysAgent.exe,,,TRUE,RMM,https://www.syspectr.com/en/installation-in-a-network,2/26/2024
 Tactical RMM,login.tailscale.com,tacticalrmm.exe,AmidaWare*,,TRUE,RMM,docs.tacticalrmm.com,2/14/2024
 Tactical RMM,login.tailscale.com,tacticalrmm.exe,Tactical Techs*,,TRUE,RMM,docs.tacticalrmm.com,2/14/2024
-Tailscale,*.tailscale.com,tailscale-*.exe,,,TRUE,Remote Access,https://tailscale.com/kb/1023/troubleshooting,2/14/2024
+Tailscale,*.tailscale.com,tailscale-*.exe,Tailscale*,,TRUE,Remote Access,https://tailscale.com/kb/1023/troubleshooting,2/14/2024
 Tailscale,*.tailscale.io,tailscaled.exe,,,TRUE,Remote Access,https://tailscale.com/kb/1023/troubleshooting,2/14/2024
 Tailscale,,tailscale-ipn.exe,,,TRUE,Remote Access,https://tailscale.com/kb/1023/troubleshooting,2/14/2024
-Tanium,cloud.tanium.com,TaniumClient.exe,,,TRUE,RMM,https://help.tanium.com/bundle/ug_client_cloud/page/client/platform_connections.html,2/14/2024
+Tanium,cloud.tanium.com,TaniumClient.exe,Tanium*,,TRUE,RMM,https://help.tanium.com/bundle/ug_client_cloud/page/client/platform_connections.html,2/14/2024
 Tanium,*.cloud.tanium.com,TaniumCX.exe,,,TRUE,RMM,https://help.tanium.com/bundle/ug_client_cloud/page/client/platform_connections.html,2/14/2024
 Tanium,,TaniumExecWrapper.exe,,,TRUE,RMM,https://help.tanium.com/bundle/ug_client_cloud/page/client/platform_connections.html,2/14/2024
 Tanium,,TaniumFileInfo.exe,,,TRUE,RMM,https://help.tanium.com/bundle/ug_client_cloud/page/client/platform_connections.html,2/14/2024
@@ -524,7 +524,8 @@ TigerVNC,,winvnc4.exe,,,TRUE,RMM,https://github.com/TigerVNC/tigervnc/releases,2
 TightVNC,user_managed,tvnviewer.exe,TightVNC*,,TRUE,RMM,https://www.tightvnc.com/doc/win/TightVNC_for_Windows-Installation_and_Getting_Started.pdf,2/14/2024
 TightVNC,,TightVNCViewerPortable*.exe,,,TRUE,RMM,https://www.tightvnc.com/doc/win/TightVNC_for_Windows-Installation_and_Getting_Started.pdf,2/14/2024
 TightVNC,,tvnserver.exe,,,TRUE,RMM,https://www.tightvnc.com/doc/win/TightVNC_for_Windows-Installation_and_Getting_Started.pdf,2/14/2024
-ToDesk,todesk.com,todesk.exe,,,TRUE,RMM,https://www.todesk.com/,2/14/2024
+ToDesk,todesk.com,todesk.exe,ToDesk*,,TRUE,RMM,https://www.todesk.com/,2/14/2024
+ToDesk,*.todesk.com,ToDesk_Service.exe,,,TRUE,RMM,https://www.todesk.com/,2/14/2024
 ToDesk,*.todesk.com,ToDesk_Setup.exe,,,TRUE,RMM,https://www.todesk.com/,2/14/2024
 TurboMeeting,user_managed,pcstarter.exe,,,TRUE,RMM,http://sourcing.rhubcom.com/v5/faqs.html#collapsetwentysix2-topdiv,2/14/2024
 TurboMeeting,,turbomeeting.exe,,,TRUE,RMM,http://sourcing.rhubcom.com/v5/faqs.html#collapsetwentysix2-topdiv,2/14/2024
@@ -546,14 +547,15 @@ VNC,,winvncsc.exe,,vnc-base,TRUE,Remote Access,https://realvnc.com/en/connect/do
 VNC,,,,vnc-http,TRUE,Remote Access,https://realvnc.com/en/connect/download/vnc,2/14/2024
 WebEx (Remote Access),,,,,TRUE,Remote Access,https://help.webex.com/en-us/article/nyc3q0b/Set-Up-a-Computer-for-Remote-Access,2/14/2024
 WebRDP,user_managed,webrdp.exe,,,TRUE,RMM,github.com/Mikej81/WebRDP,2/14/2024
-Weezo,*.weezo.me,weezohttpd.exe,,,TRUE,RMM,weezo.en.softonic.com,2/14/2024
-Weezo,weezo.net,weezo.exe,,,TRUE,RMM,weezo.en.softonic.com,2/14/2024
+Weezo,*.weezo.me,weezohttpd.exe,Peer 2 World,,TRUE,RMM,weezo.en.softonic.com,2/14/2024
+Weezo,weezo.net,weezo.exe,Weezo*,,TRUE,RMM,weezo.en.softonic.com,2/14/2024
 Weezo,*.weezo.net,weezo setup*.exe,,,TRUE,RMM,weezo.en.softonic.com,2/14/2024
 Xeox,xeox.com,xeox-agent_*.exe,,,TRUE,RMM,https://help.xeox.com/knowledge-base/gSuyNfDH6u79M82utnswf2/firewall-settings-xeox-agent-and-integrations/47T7S9tZJ2L1Z2W5gwuXoW,2/14/2024
 Xeox,*.xeox.com,xeox_service_windows.exe,,,TRUE,RMM,https://help.xeox.com/knowledge-base/gSuyNfDH6u79M82utnswf2/firewall-settings-xeox-agent-and-integrations/47T7S9tZJ2L1Z2W5gwuXoW,2/14/2024
-Zabbix Agent,user_managed,zabbix_agentd.exe,,,TRUE,RMM,https://www.zabbix.com/documentation/current/en/manual/appendix/install/windows_agent,2/14/2024
-ZeroTier,zerotier.com,zerotier*.msi,,,TRUE,RMM,https://my.zerotier.com/,2/14/2024
-ZeroTier,*.zerotier.com,zerotier*.exe,,,TRUE,RMM,https://my.zerotier.com/,2/14/2024
+Zabbix Agent,user_managed,zabbix_agent*.exe,Zabbix*,,TRUE,RMM,https://www.zabbix.com/documentation/current/en/manual/appendix/install/windows_agent,2/14/2024
+ZeroTier,zerotier.com,zerotier*.msi,ZeroTier*,,TRUE,RMM,https://my.zerotier.com/,2/14/2024
+ZeroTier,*.zerotier.com,zerotier*.exe,zero-powesrhell*,,TRUE,RMM,https://my.zerotier.com/,2/14/2024
+ZeroTier,,zero-powershell.exe,,,TRUE,RMM,https://my.zerotier.com/,2/14/2024
 Zoho Assist,*.zoho.com,za_connect.exe,Zoho*,,TRUE,RMM,https://www.zoho.com/assist/kb/firewall-configuration.html,2/14/2024
 Zoho Assist,*.zoho.eu,zaservice.exe,,,TRUE,RMM,https://www.zoho.com/assist/kb/firewall-configuration.html,2/14/2024
 Zoho Assist,*.zoho.in,zohotray.exe,,,TRUE,RMM,https://www.zoho.com/assist/kb/firewall-configuration.html,2/14/2024
