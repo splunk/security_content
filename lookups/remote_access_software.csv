@@ -10,32 +10,32 @@ Action1,*.action1.com,action1_agent.exe,Action1*,,TRUE,RMM,https://www.action1.c
 Action1,action1.com,action1_remote.exe,,,TRUE,RMM,https://www.action1.com/documentation/firewall-configuration/,2/7/2024
 Action1,a1-backend-packages.s3.amazonaws.com,action1_connector.exe,,,TRUE,RMM,https://www.action1.com/documentation/firewall-configuration/,2/7/2024
 Action1,server.action1.com,action1_update.exe,,,TRUE,RMM,https://www.action1.com/documentation/firewall-configuration/,2/7/2024
-Adobe Connect,*.adobeconnect.com,ConnectAppSetup*.exe,,adobe-connect,TRUE,RMM,https://helpx.adobe.com/adobe-connect/firewall-proxy-server-configuration-adobe-connect.html,2/27/2024
+Addigy,prod.addigy.com,addigy-*.pkg,Addigy*,,TRUE,RMM,https://addigy.com/,2/27/2024
+Addigy,grtmprod.addigy.com,,,,TRUE,RMM,https://addigy.com/,2/27/2024
+Addigy,agents.addigy.com,,,,TRUE,RMM,https://addigy.com/,2/27/2024
+Adobe Connect,*.adobeconnect.com,ConnectAppSetup*.exe,Adobe Connect,adobe-connect,TRUE,RMM,https://helpx.adobe.com/adobe-connect/firewall-proxy-server-configuration-adobe-connect.html,2/27/2024
 Adobe Connect,,ConnectShellSetup*.exe,,adobe-meeting-remote-control,TRUE,RMM,https://helpx.adobe.com/adobe-connect/firewall-proxy-server-configuration-adobe-connect.html,2/27/2024
 Adobe Connect,,Connect.exe,,adobe-connectnow,TRUE,RMM,https://helpx.adobe.com/adobe-connect/firewall-proxy-server-configuration-adobe-connect.html,2/27/2024
 Adobe Connect,,ConnectDetector.exe,,adobe-connectnow-remote-control,TRUE,RMM,https://helpx.adobe.com/adobe-connect/firewall-proxy-server-configuration-adobe-connect.html,2/27/2024
-Addigy,prod.addigy.com,,,,TRUE,RMM,https://addigy.com/,2/27/2024
-Addigy,grtmprod.addigy.com,,,,TRUE,RMM,https://addigy.com/,2/27/2024
-Addigy,agents.addigy.com,,,,TRUE,RMM,https://addigy.com/,2/27/2024
 AeroAdmin,auth*.aeroadmin.com,aeroadmin.exe,AeroAdmin*,aeroadmin,TRUE,RMM,https://support.aeroadmin.com/kb/faq.php?id=58,2/7/2024
 AeroAdmin,aeroadmin.com,,Aero Admin*,,TRUE,RMM,https://support.aeroadmin.com/kb/faq.php?id=58,2/7/2024
-AliWangWang-remote-control,wangwang.taobao.com,alitask.exe,,ali-wangwang,TRUE,RMM,https://github.com/KKomarov/AliWangWangEng/blob/master/chs.locale,2/7/2024
+AliWangWang-remote-control,wangwang.taobao.com,alitask.exe,AliWangWang*,ali-wangwang,TRUE,RMM,https://github.com/KKomarov/AliWangWangEng/blob/master/chs.locale,2/7/2024
 AliWangWang-remote-control,,,,ali-wangwang-remote-control,TRUE,RMM,https://github.com/KKomarov/AliWangWangEng/blob/master/chs.locale,2/7/2024
 Alpemix,*.alpemix.com,alpemix.exe,Alpemix*,alpemix,TRUE,RMM,https://www.alpemix.com/en/remote-access,2/7/2024
 Alpemix,*.teknopars.com,,Teknopars*,,TRUE,RMM,https://www.alpemix.com/en/remote-access,2/7/2024
 Ammyy Admin,*ammyy.com,aa_v*.exe,Ammyy*,ammyy-admin,TRUE,RMM,https://www.ammyy.com/en/admin_security.html,2/7/2024
 Ammyy Admin,,AMMYY_Admin.exe,,,TRUE,RMM,https://www.ammyy.com/en/admin_security.html,2/7/2024
+Any Support,*.anysupport.net,ManualLauncher.exe,AnySupport*,anysupport,TRUE,RMM,https://www.anysupport.net/introduce_howto.php,2/27/2024
+Any Support,,,"Koino Co., Ltd.",,TRUE,RMM,https://www.anysupport.net/introduce_howto.php,2/27/2024
 AnyDesk,net.anydesk.com,anydesk.exe,anydesk*,anydesk,TRUE,RMM,https://support.anydesk.com/knowledge/firewall,2/7/2024
 AnyDesk,,,philandro Software*,anydesk,TRUE,RMM,https://support.anydesk.com/knowledge/firewall,2/7/2024
 Anyplace Control,anyplace-control.com,apc_host.exe,Anyplace*,anyplace-remote-control,TRUE,RMM,http://www.anyplace-control.com/anyplace-control/help/faq.htm,2/7/2024
-Any Support,*.anysupport.net,ManualLauncher.exe,AnySupport*,anysupport,TRUE,RMM,https://www.anysupport.net/introduce_howto.php,2/27/2024
-Any Support,,,"Koino Co., Ltd.",,TRUE,RMM,https://www.anysupport.net/introduce_howto.php,2/27/2024
 AnyViewer,controlserver.anyviewer.com,AnyViewerSetup.exe,AOMEI*,,TRUE,RMM,https://www.anyviewer.com/how-to/how-to-open-firewall-ports-for-remote-desktop-0427-gc.html,2/7/2024
 AnyViewer,*.aomeisoftware.com,RCClient.exe,Anyviewer*,,TRUE,RMM,https://www.anyviewer.com/how-to/how-to-open-firewall-ports-for-remote-desktop-0427-gc.html,2/7/2024
 AnyViewer,aomeisoftware.com,RCService.exe,,,TRUE,RMM,https://www.anyviewer.com/how-to/how-to-open-firewall-ports-for-remote-desktop-0427-gc.html,2/7/2024
 Apple Remote Desktop,user_managed,ARDAgent.app,,apple-remote-desktop,TRUE,RMM,https://support.apple.com/guide/remote-desktop/install-and-set-up-remote-desktop-apdf49e03a4/mac,2/24/2024
 Atera RMM,agent-api.atera.com,atera_agent.exe,Atera Networks,,TRUE,RMM,https://support.atera.com/hc/en-us/articles/360015461139-Firewall-Settings-for-Atera-s-Integrations,2/7/2024
-Atera RMM,pubsub.atera.com,ateraagent.exe,,,TRUE,RMM,https://support.atera.com/hc/en-us/articles/360015461139-Firewall-Settings-for-Atera-s-Integrations,2/7/2024
+Atera RMM,pubsub.atera.com,ateraagent.exe,AteraAgent,,TRUE,RMM,https://support.atera.com/hc/en-us/articles/360015461139-Firewall-Settings-for-Atera-s-Integrations,2/7/2024
 Atera RMM,,syncrosetup.exe,,,TRUE,RMM,https://support.atera.com/hc/en-us/articles/360015461139-Firewall-Settings-for-Atera-s-Integrations,2/7/2024
 Auvik,*.my.auvik.com,auvik.engine.exe,,,TRUE,RMM,https://support.auvik.com/hc/en-us/articles/204315700-What-protocols-and-ports-does-the-Auvik-collector-use,2/7/2024
 Auvik,*.auvik.com,auvik.agent.exe,,,TRUE,RMM,https://support.auvik.com/hc/en-us/articles/204315700-What-protocols-and-ports-does-the-Auvik-collector-use,2/7/2024
@@ -72,10 +72,10 @@ Chrome Remote Desktop,*remotedesktop-pa.googleapis.com,remoting_host.exe,,,TRUE,
 CloudFlare Tunnel,,cloudflared.exe,,,TRUE,Remote Access,cloudflare.com/products/tunnel/,2/7/2024
 Comodo RMM,*.itsm-us1.comodo.com,itsmagent.exe,,,TRUE,RMM,"https://help.itarian.com/topic-459-1-1005-14776-Appendix-1b---Endpoint-Manager-Services---IP-Nos,-Host-Names-and-Port-Details---US-Customers.html",2/7/2024
 Comodo RMM,*mdmsupport.comodo.com,rviewer.exe,,,TRUE,RMM,"https://help.itarian.com/topic-459-1-1005-14776-Appendix-1b---Endpoint-Manager-Services---IP-Nos,-Host-Names-and-Port-Details---US-Customers.html",2/7/2024
-ConnectWise Control,*.connectwise.com,connectwise*.exe,ConnectWise*,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
-ConnectWise Control,live.screenconnect.com,screenconnect.windowsclient.exe,ScreenConnect*,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
-ConnectWise Control,,screenconnect.clientservice.exe,CONTINUUM MANAGED*,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
-CrossLoop,*.crossloop.com,crossloopservice.exe,,crossloop,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
+Connectwise Automate (LabTech),*.hostedrmm.com,ltsvc.exe,,,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
+Connectwise Automate (LabTech),,ltsvcmon.exe,,,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
+Connectwise Automate (LabTech),,lttray.exe,,,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
+CrossLoop,*.crossloop.com,crossloopservice.exe,Crossloop*,crossloop,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
 CrossLoop,,CrossLoopConnect.exe,,,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
 CrossLoop,,WinVNCStub.exe,,,TRUE,RMM,www.CrossLoop.com -> redirects to avast.com,2/7/2024
 CrossTec Remote Control,user_managed,PCIVIDEO.EXE,CrossTec,,TRUE,RMM,www.crosstecsoftware.com/supporthome.html - domain DOA 2/1/2024,2/7/2024
@@ -90,14 +90,14 @@ DameWare,,SolarWinds-Dameware-DRS*.exe,,,TRUE,RMM,https://documentation.solarwin
 DeskDay,deskday.ai,ultimate_*.exe,,,TRUE,RMM,https://support.deskday.ai/en/articles/8235973-installing-the-end-user-application-ultimate,2/7/2024
 DeskDay,app.deskday.ai,,,,TRUE,RMM,https://support.deskday.ai/en/articles/8235973-installing-the-end-user-application-ultimate,2/7/2024
 DeskNets,,,,desknets,TRUE,RMM,https://www.desknets.com/en/download.html,2/26/2024
-DesktopNow,*.nchuser.com,,DesktopNow*,,TRUE,RMM,https://forums.ivanti.com/s/article/Network-Ports-used-by-Environment-Manager?language=en_US,2/26/2024
-DesktopNow,,,NCH Software*,,TRUE,RMM,https://forums.ivanti.com/s/article/Network-Ports-used-by-Environment-Manager?language=en_US,2/26/2024
 DeskShare,user_managed,TeamTaskManager.exe,Team Task Manager*,deskshare,TRUE,RMM,https://www.deskshare.com/help/fml/Active-and-Passive-connection-mode.aspx,2/26/2024
-DeskShare,,,DeskShare*,,TRUE,RMM,https://www.deskshare.com/help/fml/Active-and-Passive-connection-mode.aspx,2/26/2024
+DeskShare,,DSGuest.exe,DeskShare*,,TRUE,RMM,https://www.deskshare.com/help/fml/Active-and-Passive-connection-mode.aspx,2/26/2024
+DesktopNow,*.nchuser.com,desktopnow.exe,DesktopNow*,,TRUE,RMM,https://forums.ivanti.com/s/article/Network-Ports-used-by-Environment-Manager?language=en_US,2/26/2024
+DesktopNow,,,NCH Software*,,TRUE,RMM,https://forums.ivanti.com/s/article/Network-Ports-used-by-Environment-Manager?language=en_US,2/26/2024
 Distant Desktop,*.distantdesktop.com,distant-desktop.exe,Distant Software*,,TRUE,RMM,https://www.distantdesktop.com/manual/first-start.htm,2/8/2024
 Distant Desktop,*signalserver.xyz,dd.exe,Distant Desktop*,,TRUE,RMM,https://www.distantdesktop.com/manual/first-start.htm,2/8/2024
 Distant Desktop,,ddsystem.exe,German Gorodokuplya*,,TRUE,RMM,https://www.distantdesktop.com/manual/first-start.htm,2/8/2024
-Domotz,*.domotz.co,domotz*.exe,,,TRUE,RMM,https://help.domotz.com/tips-tricks/unblock-outgoing-connections-on-firewall/,2/7/2024
+Domotz,*.domotz.co,domotz*.exe,Domotz*,,TRUE,RMM,https://help.domotz.com/tips-tricks/unblock-outgoing-connections-on-firewall/,2/7/2024
 Domotz,*cell-1.domotz.com,domotz_bash.exe,,,TRUE,RMM,https://help.domotz.com/tips-tricks/unblock-outgoing-connections-on-firewall/,2/7/2024
 Domotz,domotz.com,domotz-windows*.exe,,,TRUE,RMM,https://help.domotz.com/tips-tricks/unblock-outgoing-connections-on-firewall/,2/7/2024
 Domotz,,Domotz Pro Desktop App.exe,,,TRUE,RMM,https://help.domotz.com/tips-tricks/unblock-outgoing-connections-on-firewall/,2/7/2024
@@ -114,19 +114,20 @@ Encapto,,,,,TRUE,RMM,https://www.encapto.com - used to manage Cisco services,2/7
 Ericom AccessNow,user_managed,accessserver*.exe,,,TRUE,RMM,https://www.ericom.com/connect-accessnow/,2/7/2024
 Ericom Connect,user_managed,EricomConnectRemoteHost*.exe,,,TRUE,RMM,https://www.ericom.com/connect-accessnow/,2/7/2024
 Ericom Connect,,ericomconnnectconfigurationtool.exe,,,TRUE,RMM,https://www.ericom.com/connect-accessnow/,2/7/2024
-ESET Remote Administrator,user_managed,era.exe,,,TRUE,RMM,eset.com/me/business/remote-management/remote-administrator/,2/7/2024
+ESET Remote Administrator,user_managed,era.exe,ESET Management*,,TRUE,RMM,eset.com/me/business/remote-management/remote-administrator/,2/7/2024
 ESET Remote Administrator,,einstaller.exe,,,TRUE,RMM,eset.com/me/business/remote-management/remote-administrator/,2/7/2024
 ESET Remote Administrator,,ezhelp*.exe,,,TRUE,RMM,eset.com/me/business/remote-management/remote-administrator/,2/7/2024
 ESET Remote Administrator,,eratool.exe,,,TRUE,RMM,eset.com/me/business/remote-management/remote-administrator/,2/7/2024
 ESET Remote Administrator,,ERAAgent.exe,,,TRUE,RMM,eset.com/me/business/remote-management/remote-administrator/,2/7/2024
-ezHelp,*.ezhelp.co.kr,ezhelpclientmanager.exe,,ezhelp,TRUE,RMM,https://www.exhelp.co.kr,2/7/2024
+ezHelp,*.ezhelp.co.kr,ezhelpclientmanager.exe,Mastersoft Corp*,ezhelp,TRUE,RMM,https://www.exhelp.co.kr,2/7/2024
 ezHelp,,ezHelpManager.exe,,,TRUE,RMM,https://www.exhelp.co.kr,2/7/2024
 ezHelp,,ezhelpclient.exe,,,TRUE,RMM,https://www.exhelp.co.kr,2/7/2024
-FastViewer,*.fastviewer.com,fastclient.exe,,fastviewer,TRUE,RMM,https://fastviewer.com/demo/EN_FastViewer_Server%20Installation%20Configuration.pdf,2/7/2024
+FastViewer,*.fastviewer.com,fastclient.exe,Fastviewer*,fastviewer,TRUE,RMM,https://fastviewer.com/demo/EN_FastViewer_Server%20Installation%20Configuration.pdf,2/7/2024
 FastViewer,,fastmaster.exe,,,TRUE,RMM,https://fastviewer.com/demo/EN_FastViewer_Server%20Installation%20Configuration.pdf,2/7/2024
+FastViewer,,FastViewer.exe,,,TRUE,RMM,https://fastviewer.com/demo/EN_FastViewer_Server%20Installation%20Configuration.pdf,2/7/2024
 FixMe.it,*.fixme.it,FixMeit Unattended Access Setup.exe,FixMe*,techinline,TRUE,RMM,https://docs.fixme.it/general-questions/which-ports-and-servers-does-fixme-it-use,2/7/2024
 FixMe.it,*.techinline.net,TiExpertStandalone.exe,SetMe*,,TRUE,RMM,https://docs.fixme.it/general-questions/which-ports-and-servers-does-fixme-it-use,2/7/2024
-FixMe.it,fixme.it,FixMeitClient*.exe,,,TRUE,RMM,https://docs.fixme.it/general-questions/which-ports-and-servers-does-fixme-it-use,2/7/2024
+FixMe.it,fixme.it,FixMeitClient*.exe,FixMe.IT Helper,,TRUE,RMM,https://docs.fixme.it/general-questions/which-ports-and-servers-does-fixme-it-use,2/7/2024
 FixMe.it,*set.me,FixMeit Client.exe,,,TRUE,RMM,https://docs.fixme.it/general-questions/which-ports-and-servers-does-fixme-it-use,2/7/2024
 FixMe.it,*setme.net,FixMeit Expert Setup.exe,,,TRUE,RMM,https://docs.fixme.it/general-questions/which-ports-and-servers-does-fixme-it-use,2/7/2024
 FixMe.it,,TiExpertCore.exe,,,TRUE,RMM,https://docs.fixme.it/general-questions/which-ports-and-servers-does-fixme-it-use,2/7/2024
@@ -139,12 +140,12 @@ FleetDesk.io,fleetdeck.io,fleetdeck_installer.exe,,,TRUE,RMM,https://fleetdeck.i
 FleetDesk.io,,fleetdeck_agent.exe,,,TRUE,RMM,https://fleetdeck.io/faq/,2/7/2024
 FleetDesk.io,,fleetdeck_commander_launcher.exe,,,TRUE,RMM,https://fleetdeck.io/faq/,2/7/2024
 Fortra,,,,,TRUE,RMM,https://www.fortra.com - No free/cloud RMM softwars listed,2/7/2024
-GatherPlace-desktop sharing,*.gatherplace.com,gp3.exe,,,TRUE,RMM,https://www.gatherplace.com/kb?id=136377,2/7/2024
+GatherPlace-desktop sharing,*.gatherplace.com,gp3.exe,Gatherworks*,,TRUE,RMM,https://www.gatherplace.com/kb?id=136377,2/7/2024
 GatherPlace-desktop sharing,*.gatherplace.net,gp4.exe,,,TRUE,RMM,https://www.gatherplace.com/kb?id=136377,2/7/2024
 GatherPlace-desktop sharing,,gp5.exe,,,TRUE,RMM,https://www.gatherplace.com/kb?id=136377,2/7/2024
 GetScreen,*.getscreen.me,getscreen.exe,getscreen.me*,,TRUE,RMM,https://docs.getscreen.me/self-hosted/system-requirements/,2/7/2024
 GetScreen,getscreen.me,,Point B Ltd*,,TRUE,RMM,https://docs.getscreen.me/self-hosted/system-requirements/,2/7/2024
-GoToAssist,goto.com,gotoassist.exe,,gotoassist,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
+GoToAssist,goto.com,gotoassist.exe,GoToAssist*,gotoassist,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
 GoToAssist,*.getgo.com,g2a*.exe,,,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
 GoToAssist,*.fastsupport.com,GoTo Assist Opener.exe,,,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
 GoToAssist,*.gotoassist.com,,,,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
@@ -152,10 +153,10 @@ GoToAssist,helpme.net,,,,TRUE,RMM,https://help.gotoassist.com/remote-support/hel
 GoToAssist,*.gotoassist.me,,,,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
 GoToAssist,*.gotoassist.at,,,,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
 GoToAssist,*.desktopstreaming.com,,,,TRUE,RMM,https://help.gotoassist.com/remote-support/help/what-should-i-allow-on-my-firewall-for-gotoassist-remote-support-v5,2/7/2024
-GotoHTTP,gotohttp.com,gotohttp.exe,,,TRUE,RMM,https://gotohttp.com/goto/help.12x,2/8/2024
-GotoHTTP,*.gotohttp.com,GotoHTTP_x64.exe,,,TRUE,RMM,https://gotohttp.com/goto/help.12x,2/8/2024
-GoToMyPC,*.GoToMyPC.com,g2file*.exe,,gotomypc,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
-GoToMyPC,,g2quick.exe,,gotomypc-base,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
+GotoHTTP,gotohttp.com,gotohttp.exe,GotoHTTP*,,TRUE,RMM,https://gotohttp.com/goto/help.12x,2/8/2024
+GotoHTTP,*.gotohttp.com,GotoHTTP_x64.exe,Pingbo*,,TRUE,RMM,https://gotohttp.com/goto/help.12x,2/8/2024
+GoToMyPC,*.GoToMyPC.com,g2file*.exe,GoTo Opener,gotomypc,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
+GoToMyPC,,g2quick.exe,GoToOpener,gotomypc-base,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
 GoToMyPC,,g2svc.exe,,gotomypc-desktop-sharing,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
 GoToMyPC,,g2tray.exe,,gotomypc-remote-control,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
 GoToMyPC,,g2svc.exe,,gotomypc-printing,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
@@ -166,18 +167,19 @@ GoToMyPC,,gopcsrv.exe,,,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/wh
 GoToMyPC,,g2host.exe,,,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
 GoToMyPC,,g2comm.exe,,,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
 GoToMyPC,,g2mainh.exe,,,TRUE,RMM,https://support.logmeininc.com/gotomypc/help/what-are-the-optimal-firewall-configurations#,2/8/2024
-Goverlan,user_managed,goverrmc.exe,,goverlan,TRUE,RMM,https://www.goverlan.com/pdf/Goverlan-Remote-Control-Software.pdf,2/8/2024
+Goverlan,user_managed,goverrmc.exe,Goverlan*,goverlan,TRUE,RMM,https://www.goverlan.com/pdf/Goverlan-Remote-Control-Software.pdf,2/8/2024
 Goverlan,,govsrv*.exe,,,TRUE,RMM,https://www.goverlan.com/pdf/Goverlan-Remote-Control-Software.pdf,2/8/2024
 Goverlan,,GovAgentInstallHelper.exe,,,TRUE,RMM,https://www.goverlan.com/pdf/Goverlan-Remote-Control-Software.pdf,2/8/2024
+Goverlan,,GovAgentx64.exe,,,TRUE,RMM,https://www.goverlan.com/pdf/Goverlan-Remote-Control-Software.pdf,2/8/2024
+Goverlan,,GovReachClient.exe,,,TRUE,RMM,https://www.goverlan.com/pdf/Goverlan-Remote-Control-Software.pdf,2/8/2024
 Guacamole,user_managed,guacd.exe,,,TRUE,RMM,guacamole.apache.org,2/8/2024
+HelpBeam,,helpbeam*.exe,,,TRUE,RMM,https://www.helpbeam.com domain for sale in 2024,2/8/2024
 HelpU,helpu.co.kr,helpu_install.exe,helpU*,helpu,TRUE,RMM,https://helpu.co.kr/,2/8/2024
 HelpU,*.helpu.co.kr,HelpuUpdater.exe,Help Manager Program,,TRUE,RMM,https://helpu.co.kr/,2/8/2024
 HelpU,,HelpuManager.exe,,,TRUE,RMM,https://helpu.co.kr/,2/8/2024
-HelpBeam,,helpbeam*.exe,,,TRUE,RMM,https://www.helpbeam.com domain for sale in 2024,2/8/2024
-I'm InTouch,*.01com.com,iit.exe,,,TRUE,RMM,https://www.01com.com/mobile/imintouch-remote-pc-desktop/faqs/remote-access/,2/8/2024
+I'm InTouch,*.01com.com,iit.exe,I'm InTouch*,,TRUE,RMM,https://www.01com.com/mobile/imintouch-remote-pc-desktop/faqs/remote-access/,2/8/2024
 I'm InTouch,,intouch.exe,,,TRUE,RMM,https://www.01com.com/mobile/imintouch-remote-pc-desktop/faqs/remote-access/,2/8/2024
 I'm InTouch,,I'm InTouch Go Installer.exe,,,TRUE,RMM,https://www.01com.com/mobile/imintouch-remote-pc-desktop/faqs/remote-access/,2/8/2024
-Impero Connect,imperosoftware.com,ImperoClientSVC.exe,,,TRUE,RMM,https://support.imperosoftware.com/hc/en-us/articles/10590187549075-Firewall-and-Proxy-Server-considerations,2/8/2024
 Instant Housecall,*.instanthousecall.com,hsloader.exe,,,TRUE,RMM,https://instanthousecall.com/features/,2/8/2024
 Instant Housecall,*.instanthousecall.net,ihcserver.exe,,,TRUE,RMM,https://instanthousecall.com/features/,2/8/2024
 Instant Housecall,instanthousecall.com,instanthousecall.exe,,,TRUE,RMM,https://instanthousecall.com/features/,2/8/2024
@@ -223,9 +225,6 @@ KHelpDesk,*.khelpdesk.com.br,KHelpDesk.exe,KHELPDESK*,khelpdesk-remote-control,T
 KHelpDesk,,,Ferramenta de Acesso Remoto,,TRUE,RMM,https://www.khelpdesk.com.br/en-us,2/26/2024
 KickIdler,kickidler.com,grabberEM.*msi,,,TRUE,RMM,https://www.kickidler.com/for-it/faq/,2/8/2024
 KickIdler,my.kickidler.com,grabberTT*.msi,,,TRUE,RMM,https://www.kickidler.com/for-it/faq/,2/8/2024
-Connectwise Automate (LabTech),*.connectwise.com,ltsvc.exe,,,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
-Connectwise Automate (LabTech),*.hostedrmm.com,ltsvcmon.exe,,,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
-Connectwise Automate (LabTech),,lttray.exe,,,TRUE,RMM,https://www.connectwise.com/company/announcements/labtech-now-connectwise-automate,2/8/2024
 LANDesk,*.ivanticloud.com,issuser.exe,,,TRUE,RMM,https://forums.ivanti.com/s/article/URL-exception-list-for-Ivanti-Security-Controls?language=en_US,2/8/2024
 LANDesk,*.ivanti.com,landeskagentbootstrap.exe,,,TRUE,RMM,https://forums.ivanti.com/s/article/URL-exception-list-for-Ivanti-Security-Controls?language=en_US,2/8/2024
 LANDesk,,LANDeskPortalManager.exe,,,TRUE,RMM,https://forums.ivanti.com/s/article/URL-exception-list-for-Ivanti-Security-Controls?language=en_US,2/8/2024
@@ -282,9 +281,9 @@ MSP360,,CloudRaCmd.exe,,,TRUE,RMM,https://kb.msp360.com/managed-backup-service/m
 MSP360,,CloudRaUtilities.exe,,,TRUE,RMM,https://kb.msp360.com/managed-backup-service/mbs-tcp-ports-configuration#,2/9/2024
 MSP360,,Remote Desktop.exe,,,TRUE,RMM,https://kb.msp360.com/managed-backup-service/mbs-tcp-ports-configuration#,2/9/2024
 MSP360,,Connect.exe,,,TRUE,RMM,https://kb.msp360.com/managed-backup-service/mbs-tcp-ports-configuration#,2/9/2024
+MyGreenPC,*mygreenpc.com,mygreenpc.exe,,mygreenpc,TRUE,RMM,http://www.mygreenpc.com/,2/26/2024
 MyIVO,,myivomgr.exe,,,TRUE,RMM,myivo.com - DOA as of 2024,2/9/2024
 MyIVO,,myivomanager.exe,,,TRUE,RMM,myivo.com - DOA as of 2024,2/9/2024
-MyGreenPC,*mygreenpc.com,mygreenpc.exe,,mygreenpc,TRUE,RMM,http://www.mygreenpc.com/,2/26/2024
 N-Able Advanced Monitoring Agent,*remote.management,Agent_*_RW.exe,N-Able*,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.logicnow.com,BASEClient.exe,Remote Monitoring*,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*systemmonitor.us,BASupApp.exe,,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
@@ -296,6 +295,9 @@ N-Able Advanced Monitoring Agent,*systemmonitor.co.uk,,,,TRUE,RMM,https://docume
 N-Able Advanced Monitoring Agent,*.n-able.com,,,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.beanywhere.com ,,,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
 N-Able Advanced Monitoring Agent,*.swi-tc.com,,,,TRUE,RMM,https://documentation.n-able.com/takecontrol/troubleshooting/Content/kb/Take-Control-Standalone-Ports-and-Domains-Firewall-and-AV-Exclusions.htm,2/9/2024
+NateOn-desktop sharing,*.nate.com,nateon*.exe,,,TRUE,RMM,http://rsupport.nate.com/rview/r8/main/index.aspx,2/9/2024
+NateOn-desktop sharing,,nateon.exe,,,TRUE,RMM,http://rsupport.nate.com/rview/r8/main/index.aspx,2/9/2024
+NateOn-desktop sharing,,nateonmain.exe,,,TRUE,RMM,http://rsupport.nate.com/rview/r8/main/index.aspx,2/9/2024
 Naverisk,user_managed,AgentSetup-*.exe,naverisk*,,TRUE,RMM,http://kb.naverisk.com/en/articles/2811223-deploying-naverisk-agents,2/9/2024
 Naverisk,,,NavMK1 Limited*,,TRUE,RMM,http://kb.naverisk.com/en/articles/2811223-deploying-naverisk-agents,2/9/2024
 Netop Remote Control (Impero Connect),*.connect.backdrop.cloud,nhostsvc.exe,Impero Solutions*,netop-remote-control,TRUE,RMM,https://kb.netop.com/article/firewall-and-proxy-server-considerations-when-using-netop-portal-communication-373.html,2/9/2024
@@ -306,6 +308,7 @@ Netop Remote Control (Impero Connect),,nldrw32.exe,,,TRUE,RMM,https://kb.netop.c
 Netop Remote Control (Impero Connect),,rmserverconsolemediator.exe,,,TRUE,RMM,https://kb.netop.com/article/firewall-and-proxy-server-considerations-when-using-netop-portal-communication-373.html,2/9/2024
 Netop Remote Control (Impero Connect),,ImperoInit.exe,,,TRUE,RMM,https://kb.netop.com/article/firewall-and-proxy-server-considerations-when-using-netop-portal-communication-373.html,2/9/2024
 Netop Remote Control (Impero Connect),,Connect.Backdrop.cloud*.exe,,,TRUE,RMM,https://kb.netop.com/article/firewall-and-proxy-server-considerations-when-using-netop-portal-communication-373.html,2/9/2024
+Netop Remote Control (Impero Connect),,ImperoClientSVC.exe,,,TRUE,RMM,https://kb.netop.com/article/firewall-and-proxy-server-considerations-when-using-netop-portal-communication-373.html,2/8/2024
 Netreo,charon.netreo.net,,,,TRUE,RMM,https://solutions.netreo.com/docs/firewall-requirements,2/9/2024
 Netreo,activation.netreo.net,,,,TRUE,RMM,https://solutions.netreo.com/docs/firewall-requirements,2/9/2024
 Netreo,*.api.netreo.com,,,,TRUE,RMM,https://solutions.netreo.com/docs/firewall-requirements,2/9/2024
@@ -314,7 +317,7 @@ NetSupport Manager,,pcicfgui.exe,,,TRUE,RMM,https://www.netsupportmanager.com/re
 NetSupport Manager,,client32.exe,,,TRUE,RMM,https://www.netsupportmanager.com/resources/,2/9/2024
 Neturo,neturo.uplus.co.kr,neturo*.exe,,,TRUE,RMM,"Obscure, located an older copy here: http://www.iconpos.com/pos/home/iconpos/bbs.php?id=file&q=view&uid=2",2/9/2024
 Neturo,,ntrntservice.exe,,,TRUE,RMM,"Obscure, located an older copy here: http://www.iconpos.com/pos/home/iconpos/bbs.php?id=file&q=view&uid=2",2/9/2024
-Netviewer (GoToMeet),,nvClient.exe,,netviewer,TRUE,RMM,Obsolute - found copy here: https://www.enviolet.com/en/service/online-consultant.html,2/9/2024
+Netviewer (GoToMeet),,nvClient.exe,Algorius*,netviewer,TRUE,RMM,Obsolute - found copy here: https://www.enviolet.com/en/service/online-consultant.html,2/9/2024
 Netviewer (GoToMeet),,netviewer.exe,,,TRUE,RMM,Obsolute - found copy here: https://www.enviolet.com/en/service/online-consultant.html,2/9/2024
 ngrok,user_managed,ngrok.exe,,,TRUE,Developer Utility,https://ngrok.com/docs/guides/running-behind-firewalls/,2/9/2024
 NinjaRMM,*.ninjaone.com,ninjarmmagent.exe,NinjaRMM*,,TRUE,RMM,https://www.ninjaone.com/faq/,2/9/2024
@@ -322,19 +325,16 @@ NinjaRMM,*.ninjarmm.com,NinjaRMMAgenPatcher.exe,Ninja MSP*,,TRUE,RMM,https://www
 NoMachine,user_managed,nomachine*.exe,NoMachine*,nomachine,TRUE,RMM,https://kb.nomachine.com/AR04S01122,2/9/2024
 NoMachine,,nxservice*.ese,,,TRUE,RMM,https://kb.nomachine.com/AR04S01122,2/9/2024
 NoMachine,,nxd.exe,,,TRUE,RMM,https://kb.nomachine.com/AR04S01122,2/9/2024
-NateOn-desktop sharing,*.nate.com,nateon*.exe,,,TRUE,RMM,http://rsupport.nate.com/rview/r8/main/index.aspx,2/9/2024
-NateOn-desktop sharing,,nateon.exe,,,TRUE,RMM,http://rsupport.nate.com/rview/r8/main/index.aspx,2/9/2024
-NateOn-desktop sharing,,nateonmain.exe,,,TRUE,RMM,http://rsupport.nate.com/rview/r8/main/index.aspx,2/9/2024
 NTR Remote,*.ntrsupport.com,NTRsupportPro_EN.exe,Net Transmit & Receive SL,ntr-remote,TRUE,RMM,DOA as of 2024,2/26/2024
-OCS inventory,user_managed,ocsinventory.exe,,,TRUE,RMM,https://ocsinventory-ng.org/?page_id=878&lang=en,2/9/2024
-OCS inventory,,ocsservice.exe,,,TRUE,RMM,https://ocsinventory-ng.org/?page_id=878&lang=en,2/9/2024
+OCS inventory,user_managed,ocsinventory.exe,Ocs Inventory*,,TRUE,RMM,https://ocsinventory-ng.org/?page_id=878&lang=en,2/9/2024
+OCS inventory,,ocsservice.exe,OcsPackager*,,TRUE,RMM,https://ocsinventory-ng.org/?page_id=878&lang=en,2/9/2024
 OptiTune,*.optitune.us,OTService.exe,Bravura Software*,,TRUE,RMM,https://www.bravurasoftware.com/optitune/support/faq.aspx,2/26/2024
 OptiTune,*.opti-tune.com,OTPowerShell.exe,OptiTune*,,TRUE,RMM,https://www.bravurasoftware.com/optitune/support/faq.aspx,2/26/2024
 Pandora RC (eHorus),portal.ehorus.com,ehorus standalone.exe,eHorus*,,TRUE,RMM,https://pandorafms.com/manual/!current/en/documentation/09_pandora_rc/01_pandora_rc_introduction,2/7/2024
 Pandora RC (eHorus),,ehorus_agent.exe,,,TRUE,RMM,https://pandorafms.com/manual/!current/en/documentation/09_pandora_rc/01_pandora_rc_introduction,2/7/2024
 Panorama9,trusted.panorama9.com,p9agent*.exe,Panorama9*,,TRUE,RMM,https://support.panorama9.com/en/articles/1859605-what-ports-and-hosts-does-the-p9-agent-communicate-with,2/9/2024
 Panorama9,changes.panorama9.com,,,,TRUE,RMM,https://support.panorama9.com/en/articles/1859605-what-ports-and-hosts-does-the-p9-agent-communicate-with,2/9/2024
-Parallels Access,*.parallels.com,prl_deskctl_agent.exe,,parallels-access,TRUE,RMM,https://kb.parallels.com/en/129097,2/9/2024
+Parallels Access,*.parallels.com,prl_deskctl_agent.exe,Parallels Access*,parallels-access,TRUE,RMM,https://kb.parallels.com/en/129097,2/9/2024
 Parallels Access,,prl_deskctl_wizard.exe,,,TRUE,RMM,https://kb.parallels.com/en/129097,2/9/2024
 Parallels Access,,prl_pm_service.exe,,,TRUE,RMM,https://kb.parallels.com/en/129097,2/9/2024
 Parallels Access,,parallelsaccess-*.exe,,,TRUE,RMM,https://kb.parallels.com/en/129097,2/9/2024
@@ -350,34 +350,34 @@ Pcvisit,,pcvisit-easysupport.exe,,,TRUE,RMM,https://www.pcvisit.de/,2/9/2024
 Pcvisit,,pcvisit_service_client.exe,,,TRUE,RMM,https://www.pcvisit.de/,2/9/2024
 PDQ Connect,app.pdq.com,pdq-connect*.exe,PDQ.com*,,TRUE,RMM,https://connect.pdq.com/hc/en-us/articles/9518992071707-Network-Requirements,2/26/2024
 PDQ Connect,cfcdn.pdq.com,,PDQConnectAgent*,,TRUE,RMM,https://connect.pdq.com/hc/en-us/articles/9518992071707-Network-Requirements,2/26/2024
-Pilixo,*.pilixo.com,Pilixo_Installer*.exe,,,TRUE,RMM,https://pilixo.freshdesk.com/support/solutions/articles/9000141879-device-connectivity-and-firewalls,2/9/2024
+Pilixo,*.pilixo.com,Pilixo_Installer*.exe,Pilixo*,,TRUE,RMM,https://pilixo.freshdesk.com/support/solutions/articles/9000141879-device-connectivity-and-firewalls,2/9/2024
 Pilixo,pilixo.com,rdp.exe,,,TRUE,RMM,https://pilixo.freshdesk.com/support/solutions/articles/9000141862-pilixo-anti-virus-and-anti-malware-exclusion-recommendations,2/9/2024
 Pilixo,download.pilixo.com,,,,TRUE,RMM,pilixo domain DOA as of 2024,2/9/2024
-Pocket Controller (Soti Xsight),*soti.net,pocketcontroller.exe,,pocket-controller,TRUE,RMM,https://pulse.soti.net/support/soti-xsight/help/,2/9/2024
-Pocket Controller (Soti Xsight),,wysebrowser.exe,,,TRUE,RMM,https://pulse.soti.net/support/soti-xsight/help/,2/9/2024
-Pocket Controller (Soti Xsight),,XSightService.exe,,,TRUE,RMM,https://pulse.soti.net/support/soti-xsight/help/,2/9/2024
 Pocket Cloud (Wyse),,pocketcloud*.exe,PocketCloud*,pocket-cloud,TRUE,RMM,https://wyse-pocketcloud.informer.com/2.1/,2/9/2024
 Pocket Cloud (Wyse),,pocketcloudservice.exe,,,TRUE,RMM,https://wyse-pocketcloud.informer.com/2.1/,2/9/2024
-PSEXEC,user_managed,psexec.exe,psexec*,psexec,TRUE,Remote Access,https://learn.microsoft.com/en-us/sysinternals/downloads/psexec,2/9/2024
-PSEXEC,,psexecsvc.exe,,,TRUE,Remote Access,https://learn.microsoft.com/en-us/sysinternals/downloads/psexec,2/9/2024
-PSEXEC (Clone),user_managed,paexec.exe,,,TRUE,Remote Access,https://www.poweradmin.com/paexec/,2/9/2024
-PSEXEC (Clone),,PAExec-*.exe,,,TRUE,Remote Access,https://www.poweradmin.com/paexec/,2/9/2024
+Pocket Controller (Soti Xsight),*soti.net,pocketcontroller.exe,Pocket Controller*,pocket-controller,TRUE,RMM,https://pulse.soti.net/support/soti-xsight/help/,2/9/2024
+Pocket Controller (Soti Xsight),,wysebrowser.exe,,,TRUE,RMM,https://pulse.soti.net/support/soti-xsight/help/,2/9/2024
+Pocket Controller (Soti Xsight),,XSightService.exe,,,TRUE,RMM,https://pulse.soti.net/support/soti-xsight/help/,2/9/2024
+PSEXEC,user_managed,psexec.exe,Sysinternals PsExec,psexec,TRUE,Remote Access,https://learn.microsoft.com/en-us/sysinternals/downloads/psexec,2/9/2024
+PSEXEC,,psexecsvc.exe,PsExec*,,TRUE,Remote Access,https://learn.microsoft.com/en-us/sysinternals/downloads/psexec,2/9/2024
+PSEXEC (Clone),user_managed,paexec.exe,Power Admin*,,TRUE,Remote Access,https://www.poweradmin.com/paexec/,2/9/2024
+PSEXEC (Clone),,PAExec-*.exe,PAExec*,,TRUE,Remote Access,https://www.poweradmin.com/paexec/,2/9/2024
 PSEXEC (Clone),,csexec.exe ,,,TRUE,Remote Access,https://github.com/malcomvetter/CSExec,2/9/2024
-PSEXEC (Clone),,remcom.exe,,,TRUE,Remote Access,https://support.alertlogic.com/hc/en-us/articles/360034494351-Windows-Server-RemCom-Tool-Remote-Shell,2/9/2024
-PSEXEC (Clone),,remcomsvc.exe,,,TRUE,Remote Access,https://support.alertlogic.com/hc/en-us/articles/360034494351-Windows-Server-RemCom-Tool-Remote-Shell,2/9/2024
+PSEXEC (Clone),,remcom.exe,Remote System Deployment*,,TRUE,Remote Access,https://support.alertlogic.com/hc/en-us/articles/360034494351-Windows-Server-RemCom-Tool-Remote-Shell,2/9/2024
+PSEXEC (Clone),,remcomsvc.exe,Remote Command Executor*,,TRUE,Remote Access,https://support.alertlogic.com/hc/en-us/articles/360034494351-Windows-Server-RemCom-Tool-Remote-Shell,2/9/2024
 PSEXEC (Clone),,xcmd.exe,,,TRUE,Remote Access,https://docs.bmc.com/docs/display/public/baob201204/xCmd+utility,2/9/2024
 PSEXEC (Clone),,xcmdsvc.exe,,,TRUE,Remote Access,https://docs.bmc.com/docs/display/public/baob201204/xCmd+utility,2/9/2024
 PulseWay,user_managed,pcmonitorsrv.exe,Pulseway*,,TRUE,RMM,https://intercom.help/pulseway/en/,2/9/2024
 Pulseway,,PCMonitorManager.exe,MMSoft Design*,,TRUE,RMM,https://intercom.help/pulseway/en/,2/9/2024
-QQ IM-remote assistance,*.mdt.qq.com,qq.exe,,qq,TRUE,RMM,https://en.wikipedia.org/wiki/Tencent_QQ,2/9/2024
-QQ IM-remote assistance,*.desktop.qq.com,QQProtect.exe,,qq-rdp,TRUE,RMM,https://en.wikipedia.org/wiki/Tencent_QQ,2/9/2024
+QQ IM-remote assistance,*.mdt.qq.com,qq.exe,Tencent*,qq,TRUE,RMM,https://en.wikipedia.org/wiki/Tencent_QQ,2/9/2024
+QQ IM-remote assistance,*.desktop.qq.com,QQProtect.exe,QQ*,qq-rdp,TRUE,RMM,https://en.wikipedia.org/wiki/Tencent_QQ,2/9/2024
 QQ IM-remote assistance,upload_data.qq.com,qqpcmgr.exe,,,TRUE,RMM,https://en.wikipedia.org/wiki/Tencent_QQ,2/9/2024
-Quest KACE Agent (formerly Dell KACE),*.kace.com,konea.exe,,,TRUE,RMM,https://support.quest.com/kb/4211365/which-network-ports-and-urls-are-required-for-the-kace-sma-appliance-to-function,2/9/2024
+Quest KACE Agent (formerly Dell KACE),*.kace.com,konea.exe,KACE Agent*,,TRUE,RMM,https://support.quest.com/kb/4211365/which-network-ports-and-urls-are-required-for-the-kace-sma-appliance-to-function,2/9/2024
 RAdmin,user_managed,radmin.exe,famatech*,radmin,TRUE,RMM,https://radmin-club.com/radmin/how-to-establish-a-connection-outside-of-lan/,2/9/2024
 RAdmin,,famitrfc.exe,radmin*,,TRUE,RMM,https://radmin-club.com/radmin/how-to-establish-a-connection-outside-of-lan/,2/9/2024
 RAdmin,,radmin3.exe,,,TRUE,RMM,https://radmin-club.com/radmin/how-to-establish-a-connection-outside-of-lan/,2/9/2024
-Rapid7,*.analytics.insight.rapid7.com,ir_agent.exe,,,TRUE,RMM,https://docs.rapid7.com/insightvm/configure-communications-with-the-insight-platform/,2/14/2024
-Rapid7,*.endpoint.ingress.rapid7.com,rapid7_agent_core.exe,,,TRUE,RMM,https://docs.rapid7.com/insightvm/configure-communications-with-the-insight-platform/,2/14/2024
+Rapid7,*.analytics.insight.rapid7.com,ir_agent.exe,Insight Agent*,,TRUE,RMM,https://docs.rapid7.com/insightvm/configure-communications-with-the-insight-platform/,2/14/2024
+Rapid7,*.endpoint.ingress.rapid7.com,rapid7_agent_core.exe,Rapid7 Insight Agent*,,TRUE,RMM,https://docs.rapid7.com/insightvm/configure-communications-with-the-insight-platform/,2/14/2024
 Rapid7,,rapid7_endpoint_broker.exe,,,TRUE,RMM,https://docs.rapid7.com/insightvm/configure-communications-with-the-insight-platform/,2/14/2024
 rdp2tcp,user_managed,tdp2tcp.exe,,,TRUE,RMM,github.com/V-E-O/rdp2tcp,2/9/2024
 rdp2tcp,,rdp2tcp.py,,,TRUE,RMM,github.com/V-E-O/rdp2tcp,2/9/2024
@@ -411,8 +411,8 @@ RemotePC,remotepc.com,rpcsuite.exe,remotepc*,,TRUE,RMM,https://www.remotedesktop
 RemotePC,*.remotedesktop.com,Idrive.File-Transfer,,,TRUE,RMM,https://www.remotedesktop.com/helpdesk/faq-firewall,2/9/2024
 RemotePC,,idrive.RemotePCAgent,,,TRUE,RMM,https://www.remotedesktop.com/helpdesk/faq-firewall,2/9/2024
 RemotePC,,remotepchost.exe,,,TRUE,RMM,https://www.remotedesktop.com/helpdesk/faq-firewall,2/9/2024
-RemoteView,*content.rview.com,remoteview.exe,,remoteview,TRUE,RMM,https://help.rview.com/hc/en-us/articles/360005175994--RemoteView-Server-list-for-firewall,2/9/2024
-RemoteView,*.rview.com,rv.exe,,,TRUE,RMM,https://help.rview.com/hc/en-us/articles/360005175994--RemoteView-Server-list-for-firewall,2/9/2024
+RemoteView,*content.rview.com,remoteview.exe,RemoteView*,remoteview,TRUE,RMM,https://help.rview.com/hc/en-us/articles/360005175994--RemoteView-Server-list-for-firewall,2/9/2024
+RemoteView,*.rview.com,rv.exe,RsDoctor*,,TRUE,RMM,https://help.rview.com/hc/en-us/articles/360005175994--RemoteView-Server-list-for-firewall,2/9/2024
 RemoteView,,rvagent.exe,,,TRUE,RMM,https://help.rview.com/hc/en-us/articles/360005175994--RemoteView-Server-list-for-firewall,2/9/2024
 RemoteView,,rvagtray.exe,,,TRUE,RMM,https://help.rview.com/hc/en-us/articles/360005175994--RemoteView-Server-list-for-firewall,2/9/2024
 RES Automation Manager,user_managed,wisshell*.exe,,,TRUE,RMM,https://forums.ivanti.com/s/article/INFO-Which-ports-does-Ivanti-Automation-use?language=en_US&ui-force-components-controllers-recordGlobalValueProvider.RecordGvp.getRecord=1,2/9/2024
@@ -426,9 +426,13 @@ RuDesktop,*.rudesktop.ru,rd.exe,,rudesktop-remote-desktop,TRUE,RMM,https://rudes
 RuDesktop,,rudesktop*.exe,,,TRUE,RMM,https://asec.ahnlab.com/en/40263/,2/9/2024
 RustDesk,user_managed,rustdesk.exe,rustdesk*,rustdesk-remote-desktop,TRUE,RMM,https://rustdesk.com/docs/en/,2/9/2024
 RustDesk,,rustdesk*.exe,,,TRUE,RMM,https://rustdesk.com/docs/en/,2/9/2024
-ScreenConnect (ConnectWise),live.screenconnect.com,Remote Workforce Client.exe,,screenconnect,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
-ScreenConnect (ConnectWise),,screenconnect*.exe,,,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
-ScreenMeet,*.screenmeet.com,ScreenMeetSupport.exe,ScreenMeet*,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
+ScreenConnect (ConnectWise),*.connectwise.com,Remote Workforce Client.exe,ConnectWise*,screenconnect,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
+ScreenConnect (ConnectWise),*.screenconnect.com,screenconnect*.exe,ScreenConnect*,,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
+ScreenConnect (ConnectWise),,ConnectWiseControl*.exe,CONTINUUM MANAGED*,,TRUE,RMM,https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware-in-61-hours/,2/7/2024
+ScreenConnect (ConnectWise),,connectwise*.exe,ScreenMeet*,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
+ScreenConnect (ConnectWise),,screenconnect.windowsclient.exe,,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
+ScreenConnect (ConnectWise),,screenconnect.clientservice.exe,,,TRUE,RMM,https://cybir.com/2022/cve/bypasssing-connectwise-and-endpoint-controls/,2/7/2024
+ScreenMeet,*.screenmeet.com,ScreenMeetSupport.exe,,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
 ScreenMeet,*.scrn.mt,,,,TRUE,RMM,https://docs.screenmeet.com/docs/firewall-white-list,2/7/2024
 Seetrol,seetrol.co.kr,seetrolcenter.exe,,,TRUE,RMM,http://www.seetrol.com/en/features/features3.php,2/7/2024
 Seetrol,,seetrolclient.exe,,,TRUE,RMM,http://www.seetrol.com/en/features/features3.php,2/7/2024
