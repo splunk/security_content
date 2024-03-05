@@ -1,8 +1,8 @@
 name: Excessive File Deletion In WinDefender Folder
 id: b5baa09a-7a05-11ec-8da4-acde48001122
-version: 1
-date: '2023-04-14'
-author: Teoderick Contreras, Splunk
+version: 2
+date: '2024-03-05'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: This analytic will identify excessive file deletion events in the Windows
@@ -13,11 +13,14 @@ description: This analytic will identify excessive file deletion events in the W
   to corrupt a Windows Defender installation.
 data_source:
 - Sysmon Event ID 23
-search: '`sysmon` EventCode=23 TargetFilename = "*\\ProgramData\\Microsoft\\Windows
-  Defender*" | stats values(TargetFilename) as deleted_files min(_time) as firstTime
-  max(_time) as lastTime count by user EventCode Image ProcessID dest |where count
-  >=50 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `excessive_file_deletion_in_windefender_folder_filter`'
+- Sysmon Event ID 26
+search: '`sysmon` EventCode IN (23,26) TargetFilename = "*\\ProgramData\\Microsoft\\Windows Defender\\*"
+| stats count values(TargetFilename) as file_name min(_time) as firstTime max(_time) as lastTime by user, dest, signature, signature_id, Image, process_name, process_path, process_guid
+| rename Image as process
+| where count >=50
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_file_deletion_in_windefender_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, TargetFilename, and ProcessID executions from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -33,7 +36,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: High frequency file deletion activity detected on host $dest$
+  message: $process_name$ deleted $count$ files from the Windows Defender folder on host $dest$
   mitre_attack_id:
   - T1485
   observable:
@@ -45,7 +48,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: deleted_files
+  - name: file_name
     type: File Name
     role:
     - Target
@@ -55,12 +58,15 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - EventCode
   - TargetFilename
+  - user 
   - dest
-  - user
+  - signature
+  - signature_id
   - Image
-  - ProcessID
+  - process_name
+  - process_path
+  - process_guid
   risk_score: 25
   security_domain: endpoint
 tests:
