@@ -1,0 +1,387 @@
+{
+  "blockly": false,
+  "blockly_xml": "<xml></xml>",
+  "category": "Message Identifier Activity Analysis",
+  "coa": {
+    "data": {
+      "description": "Caution: This may run into performance or rate limiting issues at large scale because each mailbox is checked individually.\n\nAccepts an internet message id, and asks Office365 for a list of mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table.\n\nRef: D3-IAA: https://d3fend.mitre.org/technique/d3f:IdentifierActivityAnalysis/",
+      "edges": [
+        {
+          "id": "port_0_to_port_2",
+          "sourceNode": "0",
+          "sourcePort": "0_out",
+          "targetNode": "2",
+          "targetPort": "2_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_2_to_port_3",
+          "sourceNode": "2",
+          "sourcePort": "2_out",
+          "targetNode": "3",
+          "targetPort": "3_in"
+        },
+        {
+          "id": "port_3_to_port_4",
+          "sourceNode": "3",
+          "sourcePort": "3_out",
+          "targetNode": "4",
+          "targetPort": "4_in"
+        },
+        {
+          "id": "port_4_to_port_5",
+          "sourceNode": "4",
+          "sourcePort": "4_out",
+          "targetNode": "5",
+          "targetPort": "5_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_5_to_port_6",
+          "sourceNode": "5",
+          "sourcePort": "5_out",
+          "targetNode": "6",
+          "targetPort": "6_in"
+        },
+        {
+          "id": "port_6_to_port_7",
+          "sourceNode": "6",
+          "sourcePort": "6_out",
+          "targetNode": "7",
+          "targetPort": "7_in"
+        },
+        {
+          "id": "port_7_to_port_1",
+          "sourceNode": "7",
+          "sourcePort": "7_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        }
+      ],
+      "hash": "45d4a584a4ca07264994c6fc3fe8286338ad5d6c",
+      "nodes": {
+        "0": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_start",
+            "id": "0",
+            "type": "start"
+          },
+          "errors": {},
+          "id": "0",
+          "type": "start",
+          "warnings": {},
+          "x": 1000,
+          "y": 419.99999999999943
+        },
+        "1": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_finish",
+            "id": "1",
+            "type": "end"
+          },
+          "errors": {},
+          "id": "1",
+          "type": "end",
+          "warnings": {},
+          "x": 1000,
+          "y": 1420
+        },
+        "2": {
+          "data": {
+            "advanced": {
+              "customName": "artifact filter",
+              "customNameId": 0,
+              "join": []
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "playbook_input:message_id",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "Valid Input",
+                "logic": "and"
+              }
+            ],
+            "functionId": 1,
+            "functionName": "artifact_filter",
+            "id": "2",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "2",
+          "type": "filter",
+          "warnings": {},
+          "x": 1050,
+          "y": 544.5
+        },
+        "3": {
+          "data": {
+            "action": "list users",
+            "actionType": "investigate",
+            "advanced": {
+              "customName": "get mailboxes",
+              "customNameId": 0,
+              "description": "Currently a required step in order to search \"All\" of the mailboxes in an O365 tenant. This receives a list of mailboxes that are passed to the next action.",
+              "join": [],
+              "note": "Gets a list of mailboxes from O365 to search"
+            },
+            "connector": "MS Graph for Office 365",
+            "connectorConfigs": [
+              "ms_graph_for_office_365"
+            ],
+            "connectorId": "0a0a4087-10e8-4c96-9872-b740ff26d8bb",
+            "connectorVersion": "v1",
+            "functionId": 1,
+            "functionName": "get_mailboxes",
+            "id": "3",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "parameters": {},
+            "requiredParameters": [],
+            "type": "action"
+          },
+          "errors": {},
+          "id": "3",
+          "type": "action",
+          "warnings": {},
+          "x": 980,
+          "y": 704.5
+        },
+        "4": {
+          "data": {
+            "action": "run query",
+            "actionType": "investigate",
+            "advanced": {
+              "customName": "search mailboxes",
+              "customNameId": 0,
+              "join": [],
+              "note": "Searches mailboxes returned by the previous action for messages with an internet message ID matching the input"
+            },
+            "connector": "MS Graph for Office 365",
+            "connectorConfigs": [
+              "ms_graph_for_office_365"
+            ],
+            "connectorId": "0a0a4087-10e8-4c96-9872-b740ff26d8bb",
+            "connectorVersion": "v1",
+            "functionId": 1,
+            "functionName": "search_mailboxes",
+            "id": "4",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "parameters": {
+              "email_address": "get_mailboxes:action_result.data.*.mail",
+              "folder": "Inbox",
+              "get_folder_id": true,
+              "internet_message_id": "filtered-data:artifact_filter:condition_1:playbook_input:message_id",
+              "search_well_known_folders": true
+            },
+            "requiredParameters": [
+              {
+                "data_type": "string",
+                "default": "Inbox",
+                "field": "folder"
+              },
+              {
+                "data_type": "string",
+                "field": "email_address"
+              },
+              {
+                "data_type": "boolean",
+                "default": true,
+                "field": "get_folder_id"
+              }
+            ],
+            "type": "action"
+          },
+          "errors": {},
+          "id": "4",
+          "type": "action",
+          "warnings": {},
+          "x": 980,
+          "y": 840
+        },
+        "5": {
+          "data": {
+            "advanced": {
+              "customName": "results filter",
+              "customNameId": 0,
+              "description": "Filter results from mailbox search",
+              "join": [],
+              "note": "Remove mailboxes that couldn't be searched or where no results were found"
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "==",
+                    "param": "search_mailboxes:action_result.status",
+                    "value": "success"
+                  },
+                  {
+                    "op": ">",
+                    "param": "search_mailboxes:action_result.summary.emails_matched",
+                    "value": "0"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "Results Found",
+                "logic": "and"
+              }
+            ],
+            "functionId": 2,
+            "functionName": "results_filter",
+            "id": "5",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "5",
+          "type": "filter",
+          "warnings": {},
+          "x": 1040,
+          "y": 964.5
+        },
+        "6": {
+          "data": {
+            "advanced": {
+              "customName": "format message report",
+              "customNameId": 0,
+              "join": [],
+              "note": "Format the markdown table summary of this playbook execution"
+            },
+            "functionId": 1,
+            "functionName": "format_message_report",
+            "id": "6",
+            "parameters": [
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.parameter.internet_message_id",
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.toRecipients.*.emailAddress.address",
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.sender.emailAddress.address",
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.subject"
+            ],
+            "template": "SOAR searched for occurrences of `{0}` within your environment using MS Graph for O365. The table below shows a summary of the information gathered.\n\n| Recipient | Sender | Subject |\n| --- | --- | --- | --- |\n%%\n| {1} | {2} | {3} |\n%%\n",
+            "type": "format"
+          },
+          "errors": {},
+          "id": "6",
+          "type": "format",
+          "warnings": {},
+          "x": 980,
+          "y": 1140
+        },
+        "7": {
+          "data": {
+            "advanced": {
+              "customName": "build message output",
+              "customNameId": 0,
+              "description": "Logic regarding observable construction goes here",
+              "join": [],
+              "note": "Format the observable output object produced by this playbook"
+            },
+            "functionId": 1,
+            "functionName": "build_message_output",
+            "id": "7",
+            "inputParameters": [
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.parameter.internet_message_id",
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.parameter.email_address",
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.subject",
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.sender.emailAddress.address",
+              "filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.id"
+            ],
+            "outputVariables": [
+              "observable_array"
+            ],
+            "type": "code"
+          },
+          "errors": {},
+          "id": "7",
+          "type": "code",
+          "userCode": "\n    internet_message_ids = filtered_result_0_parameter_internet_message_id\n    mailboxes = filtered_result_0_parameter_email_address\n    subjects = filtered_result_0_data___subject\n    senders = filtered_result_0_data___sender_emailaddress_address\n    office365_ids = filtered_result_0_data___id\n    \n    build_message_output__observable_array = []\n    \n    for internet_message_id, recipient_address, subject, sender, office365_id in zip(internet_message_ids, mailboxes, subjects, senders, office365_ids):\n        record = {\n            \"subject\": subject,\n            \"sender\": sender,\n            \"recipient\": recipient_address,\n            \"o365_id\": office365_id,\n            \"value\": internet_message_id,\n            \"type\": \"internet message id\",\n            \"source\": \"MS Graph for Office365\"\n        }\n        \n        \n        \n        build_message_output__observable_array.append(record)\n    \n    \n\n",
+          "warnings": {},
+          "x": 1000,
+          "y": 1280
+        }
+      },
+      "notes": "Inputs: internet message id\nInteractions: MS Graph for Office 365\nActions: list users, run query\nOutputs: observable, markdown report"
+    },
+    "input_spec": [
+      {
+        "contains": [
+          "internet message id"
+        ],
+        "description": "An Internet Message ID to look for within an O365 environment",
+        "name": "message_id"
+      }
+    ],
+    "output_spec": [
+      {
+        "contains": [],
+        "datapaths": [
+          "build_message_output:custom_function:observable_array"
+        ],
+        "deduplicate": false,
+        "description": "An array of Observable objects ",
+        "metadata": {},
+        "name": "observables"
+      },
+      {
+        "contains": [],
+        "datapaths": [
+          "format_message_report:formatted_data"
+        ],
+        "deduplicate": false,
+        "description": "An array of markdown reports",
+        "metadata": {},
+        "name": "markdown_report"
+      }
+    ],
+    "playbook_type": "data",
+    "python_version": "3",
+    "schema": "5.0.11",
+    "version": "6.2.0.355"
+  },
+  "create_time": "2024-02-27T22:20:23.617239+00:00",
+  "draft_mode": false,
+  "labels": [
+    "*"
+  ],
+  "tags": [
+    "message_identifier_activity",
+    "internet_message_id",
+    "D3-IAA",
+    "ms_graph_for_o365"
+  ]
+}

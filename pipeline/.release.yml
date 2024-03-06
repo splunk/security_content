@@ -164,6 +164,10 @@ update_gitlab_dist:
     - git remote set-url origin https://PUSH_DIST_VIA_CI:$PUSH_DIST_VIA_CI@cd.splunkdev.com/threat-research/security_content.git
     - git fetch --all
     - git checkout develop
+    - 'echo "Current CI_COMMIT_TAG: $CI_COMMIT_TAG"'
+    - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
+    - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
+    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - git add dist/api/*
     - git add dist/DA-ESS-ContentUpdate/*
     - git add dist/ssa/*

@@ -1,0 +1,62 @@
+name: JetBrains TeamCity Authentication Bypass CVE-2024-27198
+id: fbcc04c7-8a79-453c-b3a9-c232c423bdd4
+version: 1
+date: '2024-03-04'
+author: Michael Haag, Splunk
+data_source: []
+type: TTP
+status: production
+description: 'The CVE-2024-27198 vulnerability presents a critical security risk for JetBrains TeamCity on-premises servers, allowing attackers to bypass authentication mechanisms and gain unauthorized access. This vulnerability can be exploited in several ways, each leading to the attacker gaining full control over the TeamCity server, including all associated projects, builds, agents, and artifacts. One method of exploitation involves creating a new administrator user. An attacker, without needing to authenticate, can send a specially crafted POST request to the `/app/rest/users` REST API endpoint. This request includes the desired username, password, email, and roles for the new user, effectively granting them administrative privileges upon successful execution. Alternatively, an attacker can generate a new administrator access token by targeting the `/app/rest/users/id:1/tokens` endpoint with a POST request. This method also does not require prior authentication and results in the creation of a token that grants administrative access. Both exploitation methods underscore the severity of the CVE-2024-27198 vulnerability and highlight the importance of securing TeamCity servers against such authentication bypass threats. The manipulation of URI paths `/app/rest/users` and `/app/rest/users/id:1/tokens` through malicious requests enables attackers to gain unauthorized access and control, emphasizing the need for immediate remediation measures.'
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where ((Web.url="*?jsp=*" AND Web.url="*;.jsp*") Web.status=200 Web.http_method=POST) OR (Web.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*") Web.status=200 Web.http_method=POST ) by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, Web.http_method, sourcetype, source
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`| `jetbrains_teamcity_authentication_bypass_cve_2024_27198_filter`'
+how_to_implement: The detection relies on the Web datamodel and a CIM compliant log source, that may include Nginx, TeamCity logs, or other web server logs. 
+known_false_positives: False positives are not expected, as this detection is based on the presence of specific URI paths and HTTP methods that are indicative of the CVE-2024-27198 vulnerability exploitation. Monitor, filter and tune as needed based on organization log sources.
+references:
+- https://github.com/projectdiscovery/nuclei-templates/pull/9279/files
+- https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/
+- https://blog.jetbrains.com/teamcity/2024/03/teamcity-2023-11-4-is-out/
+- https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/
+- https://github.com/yoryio/CVE-2024-27198/blob/main/CVE-2024-27198.py
+tags:
+  analytic_story:
+  - JetBrains TeamCity Vulnerabilities
+  asset_type: Web Server
+  confidence: 90
+  impact: 90
+  message: Possible JetBrains TeamCity Authentication Bypass CVE-2024-27198 Attempt against $dest$ from $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - Web.url
+  - Web.status
+  - Web.http_method
+  - sourcetype
+  - source
+  risk_score: 81
+  security_domain: network
+  cve:
+  - CVE-2024-27198
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
+    sourcetype: suricata
+    source: suricata

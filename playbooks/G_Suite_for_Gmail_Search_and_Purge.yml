@@ -1,0 +1,29 @@
+name: G Suite for Gmail Search and Purge
+id: 5294d3bd-e9c4-4bfa-b051-92cacd0ff925
+version: 1
+date: '2024-02-19'
+author: Lou Stella, Splunk
+type: Response
+description: Accepts an Internet Message ID, searches for its presence in up to 500 mailboxes, and then deletes the ones it finds. GMail does not have a "soft-delete" option, messages run through the Message Eviction playbook will be permanently deleted.
+playbook: G_Suite_for_Gmail_Search_and_Purge
+how_to_implement: This input playbook requires the G Suite for GMail connector to be configured. It is designed to work in environments that posess a maximum of 500 mailboxes at this time, due to a limitation in the G Suite for GMail connector. 
+references: []
+app_list: 
+  - G Suite for GMail
+tags:
+  platform_tags:
+    - message_eviction
+    - message_identifier_activity
+    - gmail_email_id
+    - internet_message_id
+    - gsuite_for_gmail
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Phishing
+  defend_technique_id: 
+    - D3-ER
+    - D3-IAA
