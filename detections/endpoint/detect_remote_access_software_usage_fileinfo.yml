@@ -1,0 +1,63 @@
+name: Detect Remote Access Software Usage FileInfo
+id: ccad96d7-a48c-4f13-8b9c-9f6a31cba454
+version: 1
+date: '2024-02-22'
+author: Steven Dick
+status: production
+type: Anomaly
+description: The following analytic detects when process with file or code signing attributes from a known remote access software is executed with the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
+data_source:
+- Sysmon Event ID 1
+search: '`sysmon` EventCode=1
+  | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product by dest, user, parent_process_name, process_name, process
+  | lookup remote_access_software remote_utility_fileinfo AS Product OUTPUT isutility, description as signature, comment_reference as desc, category
+  | search isutility = True
+  | `detect_remote_access_software_usage_fileinfo_filter`'
+how_to_implement: This analytic relies on Sysmon to be properly installed and utilized in the environment. Ensure that proper logging is setup for Sysmon and data is being ingested into Splunk.
+known_false_positives: Known or approved applications used by the organization or usage of built-in functions.
+references:
+- https://attack.mitre.org/techniques/T1219/
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+tags:
+  analytic_story:
+  - Insider Threat
+  - Command And Control
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: A file attributes for known a remote access software [$process_name$] was detected on $dest$
+  mitre_attack_id:
+  - T1219
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - EventCode
+  - Company
+  - Product
+  - user
+  - parent_process_name
+  - process_name
+  - process 
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
