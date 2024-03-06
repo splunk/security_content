@@ -1,0 +1,58 @@
+name: Windows Multiple Accounts Deleted
+id: 49c0d4d6-c55d-4d3a-b3d5-7709fafed70d
+version: 1
+date: '2024-02-21'
+author: Mauricio Velazco, Splunk
+data_source: []
+type: TTP
+status: production
+description: The following analytic flags when more than five unique Windows accounts are deleted within a 10-minute period, identified by Event Code 4726 in the Windows Security Event Log. Using the wineventlog_security dataset, it segments data into 10-minute intervals to monitor account deletions, a pattern that could suggest malicious intent like an attacker erasing traces. Teams should adjust the detection's threshold and timeframe to suit their specific environment.
+search: ' `wineventlog_security` EventCode=4726 status=success
+  | bucket span=10m _time
+  | stats count dc(user) as unique_users values(user) as user by EventCode signature _time src_user SubjectDomainName TargetDomainName Logon_ID
+  | where unique_users > 5
+  | `windows_multiple_accounts_deleted_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller events with the Windows TA. The Advanced Security Audit policy setting
+  `Audit User Account Management` within `Account Management` needs to be enabled.
+known_false_positives: Service accounts may be responsible for the creation, deletion or modification of accounts for legitimate purposes. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/
+tags:
+  analytic_story:
+  - Azure Active Directory Persistence
+  asset_type: Endpoint
+  confidence: 60
+  impact: 30
+  message: User $src_user$ deleted multiple accounts in a short period of time.
+  mitre_attack_id:
+  - T1098
+  - T1078
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - success
+  - TargetUserName
+  - SubjectUserName
+  - src_user
+  - SubjectDomainName
+  - TargetDomainName
+  - Logon_ID
+  - user
+  risk_score: 18
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/windows_multiple_accounts_deleted/windows_multiple_accounts_deleted.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
