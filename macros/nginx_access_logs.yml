@@ -1,0 +1,3 @@
+definition: (sourcetype="nginx:plus:kv" OR sourcetype="nginx:plus:access")
+description: This is the base macro for Nginx sourcetypes
+name: nginx_access_logs
