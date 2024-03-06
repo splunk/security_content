@@ -1,0 +1,60 @@
+name: JetBrains TeamCity Limited Auth Bypass Suricata CVE-2024-27199
+id: a1e68dcd-2e24-4434-bd0e-b3d4de139d58
+version: 1
+date: '2024-03-04'
+author: Michael Haag, Splunk
+data_source: []
+type: TTP
+status: production
+description: 'CVE-2024-27199 reveals a critical vulnerability in JetBrains TeamCity web server, allowing unauthenticated attackers to bypass authentication for a limited set of endpoints. This vulnerability exploits path traversal issues, enabling attackers to access and potentially modify system settings or disclose sensitive server information without proper authentication. Identified vulnerable paths include /res/, /update/, and /.well-known/acme-challenge/, among others. Attackers can manipulate these paths to reach restricted JSP pages and servlet endpoints, such as /app/https/settings/uploadCertificate, which could allow for the uploading of malicious HTTPS certificates or modification of server settings. This detection aims to identify potential exploitation attempts by monitoring for unusual access patterns to these endpoints, which could indicate an authentication bypass attempt in progress.'
+search: '`suricata` http.url IN ("*../admin/diagnostic.jsp*", "*../app/https/settings/*", "*../app/pipeline*", "*../app/oauth/space/createBuild.html*", "*../res/*", "*../update/*", "*../.well-known/acme-challenge/*", "*../app/availableRunners*", "*../app/https/settings/setPort*", "*../app/https/settings/certificateInfo*", "*../app/https/settings/defaultHttpsPort*", "*../app/https/settings/fetchFromAcme*", "*../app/https/settings/removeCertificate*", "*../app/https/settings/uploadCertificate*", "*../app/https/settings/termsOfService*", "*../app/https/settings/triggerAcmeChallenge*", "*../app/https/settings/cancelAcmeChallenge*", "*../app/https/settings/getAcmeOrder*", "*../app/https/settings/setRedirectStrategy*") http.status=200 http_method=GET 
+  | stats count min(_time) as firstTime max(_time) as lastTime by src, dest, http_user_agent, http.url, http.status, http_method
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `jetbrains_teamcity_limited_auth_bypass_suricata_cve_2024_27199_filter`'
+how_to_implement: The following detection relies on the Suricata TA and ensuring it is properly configured to monitor HTTP traffic. Modify the query for your environment and log sources as needed.
+known_false_positives: False positives are not expected, however, monitor, filter, and tune as needed based on organization log sources. The analytic is restricted to 200 and GET requests to specific URI paths, which should limit false positives.
+references:
+- https://github.com/projectdiscovery/nuclei-templates/blob/f644ec82dfe018890c6aa308967424d26c0f1522/http/cves/2024/CVE-2024-27199.yaml
+- https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/
+- https://blog.jetbrains.com/teamcity/2024/03/teamcity-2023-11-4-is-out/
+- https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/
+tags:
+  analytic_story:
+  - JetBrains TeamCity Vulnerabilities
+  asset_type: Web Server
+  confidence: 70
+  impact: 90
+  message: Possible JetBrains TeamCity Limited Authentication Bypass Attempt against $dest$ from $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - src
+  - dest
+  - http_user_agent
+  - http.url
+  - http.status
+  - http_method
+  risk_score: 63
+  security_domain: network
+  cve:
+  - CVE-2024-27199
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27199.log
+    sourcetype: suricata
+    source: suricata
+

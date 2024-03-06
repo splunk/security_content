@@ -1,0 +1,870 @@
+{
+  "blockly": false,
+  "blockly_xml": "<xml></xml>",
+  "category": "Search and Purge",
+  "coa": {
+    "data": {
+      "description": "Accepts an Internet Message ID, searches for its presence in up to 500 mailboxes, and then deletes the ones it finds. \n\nCaution: Emails deleted by running this playbook are deleted permanently and cannot be recovered",
+      "edges": [
+        {
+          "id": "port_11_to_port_12",
+          "sourceNode": "11",
+          "sourcePort": "11_out",
+          "targetNode": "12",
+          "targetPort": "12_in"
+        },
+        {
+          "id": "port_12_to_port_13",
+          "sourceNode": "12",
+          "sourcePort": "12_out",
+          "targetNode": "13",
+          "targetPort": "13_in"
+        },
+        {
+          "id": "port_13_to_port_1",
+          "sourceNode": "13",
+          "sourcePort": "13_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        },
+        {
+          "id": "port_5_to_port_14",
+          "sourceNode": "5",
+          "sourcePort": "5_out",
+          "targetNode": "14",
+          "targetPort": "14_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 1
+            }
+          ],
+          "id": "port_14_to_port_10",
+          "sourceNode": "14",
+          "sourcePort": "14_out",
+          "targetNode": "10",
+          "targetPort": "10_in"
+        },
+        {
+          "id": "port_0_to_port_16",
+          "sourceNode": "0",
+          "sourcePort": "0_out",
+          "targetNode": "16",
+          "targetPort": "16_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_16_to_port_17",
+          "sourceNode": "16",
+          "sourcePort": "16_out",
+          "targetNode": "17",
+          "targetPort": "17_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_17_to_port_5",
+          "sourceNode": "17",
+          "sourcePort": "17_out",
+          "targetNode": "5",
+          "targetPort": "5_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 1
+            }
+          ],
+          "id": "port_16_to_port_6",
+          "sourceNode": "16",
+          "sourcePort": "16_out",
+          "targetNode": "6",
+          "targetPort": "6_in"
+        },
+        {
+          "id": "port_18_to_port_19",
+          "sourceNode": "18",
+          "sourcePort": "18_out",
+          "targetNode": "19",
+          "targetPort": "19_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_19_to_port_11",
+          "sourceNode": "19",
+          "sourcePort": "19_out",
+          "targetNode": "11",
+          "targetPort": "11_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 1
+            }
+          ],
+          "id": "port_19_to_port_1",
+          "sourceNode": "19",
+          "sourcePort": "19_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_14_to_port_20",
+          "sourceNode": "14",
+          "sourcePort": "14_out",
+          "targetNode": "20",
+          "targetPort": "20_in"
+        },
+        {
+          "id": "port_20_to_port_18",
+          "sourceNode": "20",
+          "sourcePort": "20_out",
+          "targetNode": "18",
+          "targetPort": "18_in"
+        }
+      ],
+      "hash": "e9cce56fb0ba3db0c306520b32adfec5599309ac",
+      "nodes": {
+        "0": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_start",
+            "id": "0",
+            "type": "start"
+          },
+          "errors": {},
+          "id": "0",
+          "type": "start",
+          "warnings": {},
+          "x": 160,
+          "y": -6.394884621840902e-14
+        },
+        "1": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_finish",
+            "id": "1",
+            "type": "end"
+          },
+          "errors": {},
+          "id": "1",
+          "type": "end",
+          "warnings": {},
+          "x": 470,
+          "y": 1926
+        },
+        "10": {
+          "data": {
+            "advanced": {
+              "customName": "No Observable Found",
+              "customNameId": 0,
+              "description": "In the event the Message Identifier Activity Analysis playbook does not return an observable, inform the user.",
+              "join": [],
+              "note": "In the event the Message Identifier Activity Analysis playbook does not return an observable, inform the user."
+            },
+            "functionId": 2,
+            "functionName": "no_observable_found",
+            "id": "10",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "selectMore": false,
+            "tab": "apis",
+            "type": "utility",
+            "utilities": {
+              "comment": {
+                "description": "",
+                "fields": [
+                  {
+                    "description": "",
+                    "label": "comment",
+                    "name": "comment",
+                    "placeholder": "Enter a comment",
+                    "renderType": "datapath",
+                    "required": true
+                  },
+                  {
+                    "hidden": true,
+                    "name": "container",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "author",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "trace",
+                    "required": false
+                  }
+                ],
+                "label": "add comment",
+                "name": "comment"
+              }
+            },
+            "utilityType": "api",
+            "values": {
+              "comment": {
+                "_internal": [
+                  "container",
+                  "author",
+                  "trace"
+                ],
+                "comment": "No observable output found for dispatched playbook."
+              }
+            }
+          },
+          "errors": {},
+          "id": "10",
+          "type": "utility",
+          "warnings": {},
+          "x": 110,
+          "y": 868
+        },
+        "11": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionId": 1,
+            "functionName": "playbook_G_Suite_for_Gmail_Message_Eviction_1",
+            "id": "11",
+            "inputs": {
+              "email": {
+                "datapaths": [
+                  "filtered-data:filter_2:condition_1:g_suite_message_identifier_activity_analysis:playbook_output:observable.recipient"
+                ],
+                "deduplicate": false
+              },
+              "message_id": {
+                "datapaths": [
+                  "filtered-data:filter_2:condition_1:g_suite_message_identifier_activity_analysis:playbook_output:observable.gmail_id"
+                ],
+                "deduplicate": false
+              }
+            },
+            "loop": {
+              "conditions": [
+                {
+                  "comparisons": [
+                    {
+                      "conditionIndex": 0,
+                      "op": "==",
+                      "param": "",
+                      "value": ""
+                    }
+                  ],
+                  "conditionIndex": 0,
+                  "display": "If",
+                  "logic": "and",
+                  "type": "if"
+                }
+              ],
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "playbookName": "G_Suite_for_Gmail_Message_Eviction",
+            "playbookRepo": 2,
+            "playbookRepoName": "local",
+            "playbookType": "data",
+            "synchronous": true,
+            "type": "playbook"
+          },
+          "errors": {},
+          "id": "11",
+          "type": "playbook",
+          "userCode": "\n    \n\n",
+          "warnings": {},
+          "x": 360,
+          "y": 1406
+        },
+        "12": {
+          "data": {
+            "advanced": {
+              "customName": "format note",
+              "customNameId": 0,
+              "description": "Format the output of the Message Eviction playbook to provide a table to the user showing the deleted messages.",
+              "join": [],
+              "note": "Format the output of the Message Eviction playbook to provide a table to the user showing the deleted messages."
+            },
+            "functionId": 1,
+            "functionName": "format_note",
+            "id": "12",
+            "parameters": [
+              "playbook_g_suite_for_gmail_message_eviction_1:playbook_output:observable.mailbox",
+              "playbook_g_suite_for_gmail_message_eviction_1:playbook_output:observable.message_id",
+              "playbook_g_suite_for_gmail_message_eviction_1:playbook_output:observable.status",
+              "playbook_g_suite_for_gmail_message_eviction_1:playbook_output:observable.message"
+            ],
+            "template": "SOAR deleted messages in GMail. The table below shows a summary of the messages.\n\n| Mailbox | Message ID | Status | Message |\n| --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} |\n%%",
+            "type": "format"
+          },
+          "errors": {},
+          "id": "12",
+          "type": "format",
+          "warnings": {},
+          "x": 360,
+          "y": 1570
+        },
+        "13": {
+          "data": {
+            "advanced": {
+              "customName": "Update Workbook Task",
+              "customNameId": 0,
+              "description": "Upon completion, update the workbook task with the formatted output and mark task as complete.",
+              "join": [],
+              "note": "Upon completion, update the workbook task with the formatted output and mark task as complete."
+            },
+            "customFunction": {
+              "draftMode": false,
+              "name": "workbook_task_update",
+              "repoName": "community"
+            },
+            "functionId": 3,
+            "functionName": "update_workbook_task",
+            "id": "13",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "selectMore": false,
+            "type": "utility",
+            "utilities": {
+              "workbook_task_update": {
+                "description": "Update a workbook task by task name or the task where the currently running playbook appears. Requires a task_name, container_id, and a note_title, note_content, owner, or status.",
+                "fields": [
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "Name of a workbook task or keyword 'playbook' to update the task where the currently running playbook appears. (Required)",
+                    "inputType": "item",
+                    "label": "task_name",
+                    "name": "task_name",
+                    "placeholder": "my_task",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "Note title. (Optional)",
+                    "inputType": "item",
+                    "label": "note_title",
+                    "name": "note_title",
+                    "placeholder": "My Title",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "Note content. (Optional)",
+                    "inputType": "item",
+                    "label": "note_content",
+                    "name": "note_content",
+                    "placeholder": "My notes",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "Accepts 'incomplete', 'in_progress, or 'complete'. (Optional)",
+                    "inputType": "item",
+                    "label": "status",
+                    "name": "status",
+                    "placeholder": "in_progress",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "A user to assign as the task owner or keyword 'current\" to assign the task to the user that launched the playbook. (Optional)",
+                    "inputType": "item",
+                    "label": "owner",
+                    "name": "owner",
+                    "placeholder": "username",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "phantom container id"
+                    ],
+                    "description": "The ID of a SOAR Container. (Required)",
+                    "inputType": "item",
+                    "label": "container",
+                    "name": "container",
+                    "placeholder": "container:id",
+                    "renderType": "datapath",
+                    "required": false
+                  }
+                ],
+                "label": "workbook_task_update",
+                "name": "workbook_task_update"
+              }
+            },
+            "utilityType": "custom_function",
+            "values": {
+              "workbook_task_update": {
+                "container": "container:id",
+                "note_content": "format_note:formatted_data",
+                "note_title": "Search & Purge Results",
+                "owner": null,
+                "status": "complete",
+                "task_name": "playbook"
+              }
+            }
+          },
+          "errors": {},
+          "id": "13",
+          "type": "utility",
+          "warnings": {},
+          "x": 360,
+          "y": 1748
+        },
+        "14": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "g_suite_message_identifier_activity_analysis:playbook_output:observable",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "observable exists",
+                "logic": "and"
+              },
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 1,
+                    "op": "==",
+                    "param": "g_suite_message_identifier_activity_analysis:playbook_output:observable",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 1,
+                "customName": "observable does not exist",
+                "logic": "and"
+              }
+            ],
+            "functionId": 2,
+            "functionName": "filter_2",
+            "id": "14",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "14",
+          "type": "filter",
+          "warnings": {},
+          "x": 340,
+          "y": 688
+        },
+        "16": {
+          "data": {
+            "advanced": {
+              "customName": "input decision",
+              "customNameId": 0,
+              "join": []
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "artifact:*.cef.internet message id",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "internet message id exists",
+                "display": "If",
+                "logic": "and",
+                "type": "if"
+              },
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 1,
+                    "op": "==",
+                    "param": "",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 1,
+                "customName": "message id does not exist",
+                "display": "Else",
+                "logic": "and",
+                "type": "else"
+              }
+            ],
+            "functionId": 2,
+            "functionName": "input_decision",
+            "id": "16",
+            "type": "decision"
+          },
+          "errors": {},
+          "id": "16",
+          "type": "decision",
+          "warnings": {},
+          "x": 220,
+          "y": 148
+        },
+        "17": {
+          "data": {
+            "advanced": {
+              "customName": "input filter",
+              "customNameId": 0,
+              "join": []
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "artifact:*.cef.internet message id",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "internet message id exists",
+                "logic": "and"
+              }
+            ],
+            "functionId": 3,
+            "functionName": "input_filter",
+            "id": "17",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "17",
+          "type": "filter",
+          "warnings": {},
+          "x": 340,
+          "y": 328
+        },
+        "18": {
+          "data": {
+            "advanced": {
+              "customName": "Delete Email Prompt",
+              "customNameId": 0,
+              "join": []
+            },
+            "approver": {
+              "type": "user",
+              "value": "container_owner"
+            },
+            "functionId": 1,
+            "functionName": "delete_email_prompt",
+            "id": "18",
+            "message": "The following emails will be permanently deleted. This is a hard deletion. Only restoration from backups of your own will restore these.\n\n{0} ",
+            "parameters": [
+              "format_prompt:formatted_data"
+            ],
+            "responseTime": 30,
+            "responses": [
+              {
+                "responseOptions": [
+                  "Yes",
+                  "No"
+                ],
+                "responsePrompt": "Delete these messages?",
+                "responseType": "yes/no"
+              }
+            ],
+            "type": "prompt"
+          },
+          "errors": {},
+          "id": "18",
+          "type": "prompt",
+          "warnings": {},
+          "x": 530,
+          "y": 1046
+        },
+        "19": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "==",
+                    "param": "delete_email_prompt:action_result.summary.responses.0",
+                    "value": "yes"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "User confirm delete",
+                "display": "If",
+                "logic": "and",
+                "type": "if"
+              },
+              {
+                "comparisons": [
+                  {
+                    "op": "==",
+                    "param": "",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 1,
+                "customName": "User decline delete",
+                "display": "Else",
+                "logic": "and",
+                "type": "else"
+              }
+            ],
+            "functionId": 3,
+            "functionName": "decision_3",
+            "id": "19",
+            "type": "decision"
+          },
+          "errors": {},
+          "id": "19",
+          "type": "decision",
+          "warnings": {},
+          "x": 530,
+          "y": 1226
+        },
+        "20": {
+          "data": {
+            "advanced": {
+              "customName": "format prompt",
+              "customNameId": 0,
+              "join": []
+            },
+            "functionId": 2,
+            "functionName": "format_prompt",
+            "id": "20",
+            "parameters": [
+              "filtered-data:filter_2:condition_1:g_suite_message_identifier_activity_analysis:playbook_output:observable.recipient",
+              "filtered-data:filter_2:condition_1:g_suite_message_identifier_activity_analysis:playbook_output:observable.subject",
+              "filtered-data:filter_2:condition_1:g_suite_message_identifier_activity_analysis:playbook_output:observable.value"
+            ],
+            "template": "| Mailbox | Subject | Email ID |\n| --- | --- | --- |\n%%\n| {0} | {1} | {2} |\n%%\n",
+            "type": "format"
+          },
+          "errors": {},
+          "id": "20",
+          "type": "format",
+          "warnings": {},
+          "x": 450,
+          "y": 883
+        },
+        "5": {
+          "data": {
+            "advanced": {
+              "customName": "G_Suite_Message_Identifier_Activity_Analysis",
+              "customNameId": 0,
+              "join": []
+            },
+            "functionId": 2,
+            "functionName": "g_suite_message_identifier_activity_analysis",
+            "id": "5",
+            "inputs": {
+              "message_id": {
+                "datapaths": [
+                  "filtered-data:input_filter:condition_1:artifact:*.cef.internet message id"
+                ],
+                "deduplicate": false
+              }
+            },
+            "loop": {
+              "conditions": [
+                {
+                  "comparisons": [
+                    {
+                      "conditionIndex": 0,
+                      "op": "==",
+                      "param": "",
+                      "value": ""
+                    }
+                  ],
+                  "conditionIndex": 0,
+                  "display": "If",
+                  "logic": "and",
+                  "type": "if"
+                }
+              ],
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "playbookName": "G_Suite_for_GMail_Message_Identifier_Activity_Analysis",
+            "playbookRepo": 2,
+            "playbookRepoName": "local",
+            "playbookType": "data",
+            "synchronous": true,
+            "type": "playbook"
+          },
+          "errors": {},
+          "id": "5",
+          "type": "playbook",
+          "warnings": {
+            "config": [
+              "Reconfigure invalid datapath."
+            ]
+          },
+          "x": 280,
+          "y": 508
+        },
+        "6": {
+          "data": {
+            "advanced": {
+              "customName": "artifact does not exist",
+              "customNameId": 0,
+              "description": "In the event an artifact does not exist suitable for this usecase, inform the user.",
+              "join": [],
+              "note": "In the event an artifact does not exist suitable for this usecase, inform the user."
+            },
+            "functionId": 1,
+            "functionName": "artifact_does_not_exist",
+            "id": "6",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "selectMore": false,
+            "tab": "apis",
+            "type": "utility",
+            "utilities": {
+              "comment": {
+                "description": "",
+                "fields": [
+                  {
+                    "description": "",
+                    "label": "comment",
+                    "name": "comment",
+                    "placeholder": "Enter a comment",
+                    "renderType": "datapath",
+                    "required": true
+                  },
+                  {
+                    "hidden": true,
+                    "name": "container",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "author",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "trace",
+                    "required": false
+                  }
+                ],
+                "label": "add comment",
+                "name": "comment"
+              }
+            },
+            "utilityType": "api",
+            "values": {
+              "comment": {
+                "_internal": [
+                  "container",
+                  "author",
+                  "trace"
+                ],
+                "comment": "\"No Internet Message ID artifacts found\""
+              }
+            }
+          },
+          "errors": {},
+          "id": "6",
+          "type": "utility",
+          "warnings": {},
+          "x": 0,
+          "y": 329
+        }
+      },
+      "notes": "Inputs: internet message ID\nActions: Message Identifier Activity Analysis, Message Eviction\nOutputs: report, workbook update task"
+    },
+    "input_spec": null,
+    "output_spec": null,
+    "playbook_type": "automation",
+    "python_version": "3",
+    "schema": "5.0.11",
+    "version": "6.2.0.355"
+  },
+  "create_time": "2024-02-27T14:52:07.495914+00:00",
+  "draft_mode": false,
+  "labels": [
+    "*"
+  ],
+  "tags": [
+    "message_identifier_activity",
+    "message_eviction",
+    "D3-IAA",
+    "D3-ER",
+    "gsuite_for_gmail",
+    "internet_message_id"
+  ]
+}
