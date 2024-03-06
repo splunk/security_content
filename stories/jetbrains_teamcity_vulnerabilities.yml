@@ -1,0 +1,23 @@
+name: JetBrains TeamCity Vulnerabilities
+id: 3cd841e8-2f64-45e8-b148-7767255db111
+version: 1
+date: '2024-03-04'
+author: Michael Haag, Splunk
+description: This story provides a high-level overview of JetBrains TeamCity vulnerabilities and how to detect and respond to them using Splunk.
+narrative: JetBrains TeamCity is a continuous integration and deployment server that allows developers to automate the process of building, testing, and deploying code. It is a popular tool used by many organizations to streamline their development and deployment processes. However, like any software, JetBrains TeamCity is not immune to vulnerabilities.
+references:
+- https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/
+- https://blog.jetbrains.com/teamcity/2024/03/teamcity-2023-11-4-is-out/
+- https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/
+tags:
+  analytic_story: JetBrains TeamCity Vulnerabilities
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-27198
+  - CVE-2024-27199

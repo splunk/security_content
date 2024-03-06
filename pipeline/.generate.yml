@@ -48,9 +48,9 @@ generate_ba:
       else
         poetry run contentctl -p ../ build -t ssa
       fi
-    - cd ..
-    - mkdir -p artifacts/ssa
-    - cp -r dist/ssa/* artifacts/ssa
+    - cd ..  
+    - mkdir artifacts
+    - tar -czf artifacts/SSA-Content-latest.tar.gz -C dist/ssa .
 
 generate_api:
   stage: generate
