@@ -1,0 +1,298 @@
+{
+  "blockly": false,
+  "blockly_xml": "<xml></xml>",
+  "category": "Message Eviction",
+  "coa": {
+    "data": {
+      "description": "Accepts a gmail email ID and a mailbox, and then attempts to delete the email from the mailbox. \n\nCaution: Emails deleted by running this playbook are deleted permanently and cannot be recovered\n\nRef: D3-ER: https://d3fend.mitre.org/technique/d3f:EmailRemoval/",
+      "edges": [
+        {
+          "id": "port_0_to_port_3",
+          "sourceNode": "0",
+          "sourcePort": "0_out",
+          "targetNode": "3",
+          "targetPort": "3_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_3_to_port_4",
+          "sourceNode": "3",
+          "sourcePort": "3_out",
+          "targetNode": "4",
+          "targetPort": "4_in"
+        },
+        {
+          "id": "port_4_to_port_5",
+          "sourceNode": "4",
+          "sourcePort": "4_out",
+          "targetNode": "5",
+          "targetPort": "5_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_5_to_port_6",
+          "sourceNode": "5",
+          "sourcePort": "5_out",
+          "targetNode": "6",
+          "targetPort": "6_in"
+        },
+        {
+          "id": "port_6_to_port_1",
+          "sourceNode": "6",
+          "sourcePort": "6_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        }
+      ],
+      "hash": "aae97f6deeb8f0480b5cd73f61a2f691559961d8",
+      "nodes": {
+        "0": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_start",
+            "id": "0",
+            "type": "start"
+          },
+          "errors": {},
+          "id": "0",
+          "type": "start",
+          "warnings": {},
+          "x": 19.999999999999986,
+          "y": -2.5579538487363607e-13
+        },
+        "1": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_finish",
+            "id": "1",
+            "type": "end"
+          },
+          "errors": {},
+          "id": "1",
+          "type": "end",
+          "warnings": {},
+          "x": 19.999999999999986,
+          "y": 834
+        },
+        "3": {
+          "data": {
+            "advanced": {
+              "customName": "input filter",
+              "customNameId": 0,
+              "description": "Filter message_id and email inputs to route inputs to appropriate actions.",
+              "join": [],
+              "note": "Filter message_id and email inputs to route inputs to appropriate actions."
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "playbook_input:message_id",
+                    "value": ""
+                  },
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "playbook_input:email",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "inputs exist",
+                "logic": "and"
+              }
+            ],
+            "functionId": 1,
+            "functionName": "input_filter",
+            "id": "3",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "3",
+          "type": "filter",
+          "warnings": {},
+          "x": 60,
+          "y": 148
+        },
+        "4": {
+          "data": {
+            "action": "delete email",
+            "actionType": "contain",
+            "advanced": {
+              "customName": "purge email",
+              "customNameId": 0,
+              "description": "Remove  provided gmail email ID in provided mailbox.",
+              "join": [],
+              "note": "Remove  provided gmail email ID in provided mailbox."
+            },
+            "connector": "G Suite for GMail",
+            "connectorConfigs": [
+              "g_suite_for_gmail"
+            ],
+            "connectorId": "9c73f233-2c4a-406a-855e-41d8d2497d0e",
+            "connectorVersion": "v1",
+            "functionId": 1,
+            "functionName": "purge_email",
+            "id": "4",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "parameters": {
+              "email": "filtered-data:input_filter:condition_1:playbook_input:email",
+              "id": "filtered-data:input_filter:condition_1:playbook_input:message_id"
+            },
+            "requiredParameters": [
+              {
+                "data_type": "string",
+                "field": "id"
+              },
+              {
+                "data_type": "string",
+                "field": "email"
+              }
+            ],
+            "type": "action"
+          },
+          "errors": {},
+          "id": "4",
+          "type": "action",
+          "warnings": {},
+          "x": 0,
+          "y": 328
+        },
+        "5": {
+          "data": {
+            "advanced": {
+              "customName": "post delete filter",
+              "customNameId": 0,
+              "description": "Ensure that the email deletion occurred successfully.",
+              "join": [],
+              "note": "Ensure that the email deletion occurred successfully."
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "==",
+                    "param": "purge_email:action_result.status",
+                    "value": "success"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "Successful Deletion",
+                "logic": "and"
+              }
+            ],
+            "functionId": 2,
+            "functionName": "post_delete_filter",
+            "id": "5",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "5",
+          "type": "filter",
+          "warnings": {},
+          "x": 60,
+          "y": 500
+        },
+        "6": {
+          "data": {
+            "advanced": {
+              "customName": "observable output",
+              "customNameId": 0,
+              "description": "Format a normalized output for each deleted message.",
+              "join": [],
+              "note": "Format a normalized output for each deleted message."
+            },
+            "functionId": 1,
+            "functionName": "observable_output",
+            "id": "6",
+            "inputParameters": [
+              "filtered-data:post_delete_filter:condition_1:purge_email:action_result.parameter.email",
+              "filtered-data:post_delete_filter:condition_1:purge_email:action_result.parameter.id",
+              "filtered-data:post_delete_filter:condition_1:purge_email:action_result.status",
+              "filtered-data:post_delete_filter:condition_1:purge_email:action_result.message"
+            ],
+            "outputVariables": [
+              "observable_array"
+            ],
+            "type": "code"
+          },
+          "errors": {},
+          "id": "6",
+          "type": "code",
+          "userCode": "\n    \n    observable_output__observable_array = []\n    \n    emails = filtered_result_0_parameter_email\n    messageID = filtered_result_0_parameter_id\n    Statuses = filtered_result_0_status\n    Messages = filtered_result_0_message\n    \n    for email, message_id, status, message in zip(emails, messageID, Statuses, Messages):\n        observable = {\n            \"mailbox\": email,\n            \"message_id\": message_id,\n            \"status\": \"deleted\",\n            \"message\": message,\n            \"source\": \"GSuite for GMail\"\n        }\n        observable_output__observable_array.append(observable)\n\n",
+          "warnings": {},
+          "x": 0,
+          "y": 686
+        }
+      },
+      "notes": "Inputs: gmail email id, email\nActions: delete email\nOutputs: observable array"
+    },
+    "input_spec": [
+      {
+        "contains": [
+          "gmail email id"
+        ],
+        "description": "GMail Email ID that should be deleted",
+        "name": "message_id"
+      },
+      {
+        "contains": [
+          "email"
+        ],
+        "description": "Email Mailbox to that contains the GMail Email ID",
+        "name": "email"
+      }
+    ],
+    "output_spec": [
+      {
+        "contains": [],
+        "datapaths": [
+          "observable_output:custom_function:observable_array"
+        ],
+        "deduplicate": false,
+        "description": "An array of Observable objects ",
+        "metadata": {},
+        "name": "observable"
+      }
+    ],
+    "playbook_type": "data",
+    "python_version": "3",
+    "schema": "5.0.11",
+    "version": "6.2.0.355"
+  },
+  "create_time": "2024-02-27T14:51:16.635992+00:00",
+  "draft_mode": false,
+  "labels": [
+    "*"
+  ],
+  "tags": [
+    "message_eviction",
+    "D3-ER",
+    "gsuite_for_gmail",
+    "gmail_email_id",
+    "email"
+  ]
+}

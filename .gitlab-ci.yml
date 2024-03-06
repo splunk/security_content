@@ -12,8 +12,8 @@ variables:
 stages:
   - validate
   - generate
-  - app_inspect
   - test
+  - app_inspect
   - release
 
 include:

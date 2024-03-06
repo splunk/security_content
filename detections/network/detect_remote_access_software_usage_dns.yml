@@ -1,0 +1,61 @@
+name: Detect Remote Access Software Usage DNS
+id: a16b797d-e309-41bd-8ba0-5067dae2e4be
+version: 1
+date: '2024-02-22'
+author: Steven Dick
+status: production
+type: Anomaly
+description: The following analytic detects when a known remote access software domains are contacted from within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
+data_source:
+- Sysmon Event ID 22
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution by DNS.src DNS.query
+  | `drop_dm_object_name("DNS")` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | lookup remote_access_software remote_domain AS query OUTPUT isutility, description as signature, comment_reference as desc, category
+  | eval dest = query
+  | search isutility = True
+  | `detect_remote_access_software_usage_dns_filter`'
+how_to_implement: To implement this search, you must ingest logs that contain the DNS query and the source of the query. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the DNS logs. The logs must also be mapped to the `Network_Resolution` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: It is possible that legitimate remote access software is used within the environment. Ensure that the lookup is reviewed and updated with any additional remote access software that is used within the environment.
+references:
+- https://attack.mitre.org/techniques/T1219/
+- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+tags:
+  analytic_story:
+  - Insider Threat
+  - Command And Control
+  - Ransomware
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: A domain for a known remote access software $query$ was contacted by $src$.
+  mitre_attack_id:
+  - T1219
+  observable:
+  - name: src
+    type: Hostname
+    role:
+    - Victim
+  - name: query
+    type: Hostname
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.src
+  - DNS.query
+  - DNS.answer
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

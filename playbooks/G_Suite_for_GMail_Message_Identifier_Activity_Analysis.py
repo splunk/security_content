@@ -18,7 +18,7 @@ def on_start(container):
     return
 
 @phantom.playbook_block()
-def artifact_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def artifact_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("artifact_filter() called")
 
     # collect filtered artifact ids and results for 'if' condition 1
@@ -38,7 +38,7 @@ def artifact_filter(action=None, success=None, container=None, results=None, han
 
 
 @phantom.playbook_block()
-def get_mailboxes(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def get_mailboxes(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("get_mailboxes() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
@@ -71,7 +71,7 @@ def get_mailboxes(action=None, success=None, container=None, results=None, handl
 
 
 @phantom.playbook_block()
-def search_mailboxes(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def search_mailboxes(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("search_mailboxes() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
@@ -110,7 +110,7 @@ def search_mailboxes(action=None, success=None, container=None, results=None, ha
 
 
 @phantom.playbook_block()
-def format_message_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def format_message_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("format_message_report() called")
 
     template = """SOAR searched for occurrences of `{0}` within your environment using GSuite for GMail. The table below shows a summary of the information gathered.\n\n| Recipient | Addressed To | Subject | Sender |\n| --- | --- | --- | --- |\n%%\n| {1} | {2} | {3} | {4} |\n%%\n"""
@@ -141,20 +141,21 @@ def format_message_report(action=None, success=None, container=None, results=Non
 
 
 @phantom.playbook_block()
-def build_message_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def build_message_output(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("build_message_output() called")
 
     ################################################################################
     # Logic regarding observable construction goes here
     ################################################################################
 
-    filtered_result_0_data_results_filter = phantom.collect2(container=container, datapath=["filtered-data:results_filter:condition_1:search_mailboxes:action_result.parameter.internet_message_id","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.delivered_to","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.to","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.subject","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.from"])
+    filtered_result_0_data_results_filter = phantom.collect2(container=container, datapath=["filtered-data:results_filter:condition_1:search_mailboxes:action_result.parameter.internet_message_id","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.delivered_to","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.to","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.subject","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.from","filtered-data:results_filter:condition_1:search_mailboxes:action_result.data.*.id"])
 
     filtered_result_0_parameter_internet_message_id = [item[0] for item in filtered_result_0_data_results_filter]
     filtered_result_0_data___delivered_to = [item[1] for item in filtered_result_0_data_results_filter]
     filtered_result_0_data___to = [item[2] for item in filtered_result_0_data_results_filter]
     filtered_result_0_data___subject = [item[3] for item in filtered_result_0_data_results_filter]
     filtered_result_0_data___from = [item[4] for item in filtered_result_0_data_results_filter]
+    filtered_result_0_data___id = [item[5] for item in filtered_result_0_data_results_filter]
 
     build_message_output__observable_array = None
 
@@ -168,32 +169,29 @@ def build_message_output(action=None, success=None, container=None, results=None
     addressees = filtered_result_0_data___to
     subjects = filtered_result_0_data___subject
     senders = filtered_result_0_data___from
+    gmailIDs = filtered_result_0_data___id
     
     build_message_output__observable_array = []
-    recordList = []
     
-    for message_id in messageID:
+    
     
         # construct iterables for records
-        for recipient, addressee, subject, sender in zip(recipients, addressees, subjects, senders):
-            record = {
-                "recipient": recipient,
-                "addressee": addressee,
-                "subject": subject,
-                "sender": sender
-            }
-            recordList.append(record)
-        
-        # Create observable body
-        observable = {
+    for message_id, recipient, addressee, subject, sender, gmailID in zip(messageID, recipients, addressees, subjects, senders, gmailIDs):
+        record = {
+            "recipient": recipient,
+            "addressee": addressee,
+            "subject": subject,
+            "sender": sender,
+            "gmail_id": gmailID,
             "value": message_id,
             "type": "internet message ID",
-            "count": len(recordList),
-            "source": "GSuite for GMail",
-            "message_identifier_activity": recordList
+            "source": "GSuite for GMail"
         }
+            
+        
+        # Create observable body
     
-        build_message_output__observable_array.append(observable)
+        build_message_output__observable_array.append(record)
     
 
     ################################################################################
@@ -206,7 +204,7 @@ def build_message_output(action=None, success=None, container=None, results=None
 
 
 @phantom.playbook_block()
-def results_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+def results_filter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, loop_state_json=None, **kwargs):
     phantom.debug("results_filter() called")
 
     ################################################################################

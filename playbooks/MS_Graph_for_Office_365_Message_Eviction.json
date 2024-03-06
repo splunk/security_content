@@ -1,0 +1,416 @@
+{
+  "blockly": false,
+  "blockly_xml": "<xml></xml>",
+  "category": "Message Eviction",
+  "coa": {
+    "data": {
+      "description": "Accepts message ID that needs to be evicted from provided email mailbox in Microsoft Office365. Generates an observable output based on the status of message eviction.\n\nRef: D3-ER\nhttps://d3fend.mitre.org/technique/d3f:EmailRemoval/",
+      "edges": [
+        {
+          "id": "port_0_to_port_6",
+          "sourceNode": "0",
+          "sourcePort": "0_out",
+          "targetNode": "6",
+          "targetPort": "6_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_6_to_port_2",
+          "sourceNode": "6",
+          "sourcePort": "6_out",
+          "targetNode": "2",
+          "targetPort": "2_in"
+        },
+        {
+          "id": "port_4_to_port_1",
+          "sourceNode": "4",
+          "sourcePort": "4_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        },
+        {
+          "id": "port_2_to_port_7",
+          "sourceNode": "2",
+          "sourcePort": "2_out",
+          "targetNode": "7",
+          "targetPort": "7_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_7_to_port_3",
+          "sourceNode": "7",
+          "sourcePort": "7_out",
+          "targetNode": "3",
+          "targetPort": "3_in"
+        },
+        {
+          "id": "port_3_to_port_8",
+          "sourceNode": "3",
+          "sourcePort": "3_out",
+          "targetNode": "8",
+          "targetPort": "8_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_8_to_port_4",
+          "sourceNode": "8",
+          "sourcePort": "8_out",
+          "targetNode": "4",
+          "targetPort": "4_in"
+        }
+      ],
+      "hash": "4c161da025f50532d7da3e3fe1fa336b1f692eab",
+      "nodes": {
+        "0": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_start",
+            "id": "0",
+            "type": "start"
+          },
+          "errors": {},
+          "id": "0",
+          "type": "start",
+          "warnings": {},
+          "x": 19.999999999999986,
+          "y": -1.2789769243681803e-13
+        },
+        "1": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_finish",
+            "id": "1",
+            "type": "end"
+          },
+          "errors": {},
+          "id": "1",
+          "type": "end",
+          "warnings": {},
+          "x": 19.999999999999986,
+          "y": 1238
+        },
+        "2": {
+          "data": {
+            "action": "run query",
+            "actionType": "investigate",
+            "advanced": {
+              "customName": "search o365 for email",
+              "customNameId": 0,
+              "description": "Search for  provided message ID in provided mailbox from filtered playbook inputs.",
+              "join": [],
+              "note": "Search for  provided message ID in provided mailbox from filtered playbook inputs."
+            },
+            "connector": "MS Graph for Office 365",
+            "connectorConfigs": [
+              "ms_graph_for_office_365"
+            ],
+            "connectorId": "0a0a4087-10e8-4c96-9872-b740ff26d8bb",
+            "connectorVersion": "v1",
+            "functionId": 1,
+            "functionName": "search_o365_for_email",
+            "id": "2",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "parameters": {
+              "email_address": "filtered-data:input_validation_filter:condition_1:playbook_input:email",
+              "folder": "Inbox",
+              "get_folder_id": true,
+              "internet_message_id": "filtered-data:input_validation_filter:condition_1:playbook_input:message_id",
+              "search_well_known_folders": true
+            },
+            "requiredParameters": [
+              {
+                "data_type": "string",
+                "default": "Inbox",
+                "field": "folder"
+              },
+              {
+                "data_type": "string",
+                "field": "email_address"
+              },
+              {
+                "data_type": "boolean",
+                "default": true,
+                "field": "get_folder_id"
+              }
+            ],
+            "type": "action"
+          },
+          "errors": {},
+          "id": "2",
+          "type": "action",
+          "userCode": "\n    # Write your custom code here...\n    \n\n",
+          "warnings": {},
+          "x": 0,
+          "y": 328
+        },
+        "3": {
+          "data": {
+            "action": "delete email",
+            "actionType": "contain",
+            "advanced": {
+              "customName": "purge email",
+              "customNameId": 0,
+              "description": "Remove  provided message ID in provided mailbox from filtered query outputs.",
+              "join": [],
+              "note": "Search for  provided message ID in provided mailbox from filtered query outputs."
+            },
+            "connector": "MS Graph for Office 365",
+            "connectorConfigs": [
+              "ms_graph_for_office_365"
+            ],
+            "connectorId": "0a0a4087-10e8-4c96-9872-b740ff26d8bb",
+            "connectorVersion": "v1",
+            "functionId": 1,
+            "functionName": "purge_email",
+            "id": "3",
+            "loop": {
+              "enabled": false,
+              "exitAfterUnit": "m",
+              "exitAfterValue": 10,
+              "exitConditionEnabled": false,
+              "exitLoopAfter": 2,
+              "pauseUnit": "m",
+              "pauseValue": 2
+            },
+            "parameters": {
+              "email_address": "filtered-data:filter_run_query:condition_1:search_o365_for_email:action_result.parameter.email_address",
+              "id": "filtered-data:filter_run_query:condition_1:search_o365_for_email:action_result.data.*.id"
+            },
+            "requiredParameters": [
+              {
+                "data_type": "string",
+                "field": "id"
+              },
+              {
+                "data_type": "string",
+                "field": "email_address"
+              }
+            ],
+            "type": "action"
+          },
+          "errors": {},
+          "id": "3",
+          "type": "action",
+          "warnings": {},
+          "x": 0,
+          "y": 686
+        },
+        "4": {
+          "data": {
+            "advanced": {
+              "customName": "email deletion observable",
+              "customNameId": 0,
+              "description": "Format a normalized output for each message_id and mailbox.",
+              "join": [],
+              "note": "Format a normalized output for each message_id and mailbox."
+            },
+            "functionId": 1,
+            "functionName": "email_deletion_observable",
+            "id": "4",
+            "inputParameters": [
+              "filtered-data:purge_filter:condition_1:purge_email:action_result.parameter.email_address",
+              "filtered-data:purge_filter:condition_1:purge_email:action_result.parameter.id",
+              "filtered-data:purge_filter:condition_1:purge_email:action_result.status",
+              "filtered-data:purge_filter:condition_1:purge_email:action_result.message"
+            ],
+            "outputVariables": [
+              "observable_array"
+            ],
+            "type": "code"
+          },
+          "errors": {},
+          "id": "4",
+          "type": "code",
+          "userCode": "    \n    email_address = filtered_result_0_parameter_email_address\n    message_id = filtered_result_0_parameter_id\n    result_status = filtered_result_0_status\n    result_message = filtered_result_0_message\n    \n    email_deletion_observable__observable_array = []\n    \n    for message_id, email, result, message in zip(message_id, email_address, result_status, result_message):\n        email_status = {\n            \"type\": \"Internet Message ID\",\n            \"source\": \"MS Graph for Office365\",\n            \"value\": message_id,\n            \"mailbox\": email,\n            \"message\": message,\n            \"status\": \"deleted\"\n        }\n\n        email_deletion_observable__observable_array.append(email_status)\n\n",
+          "warnings": {},
+          "x": 0,
+          "y": 1044
+        },
+        "6": {
+          "data": {
+            "advanced": {
+              "customName": "input_validation_filter",
+              "customNameId": 0,
+              "description": "Filter message_id and email inputs to route inputs to appropriate actions.",
+              "join": [],
+              "note": "Filter message_id and email inputs to route inputs to appropriate actions."
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "playbook_input:email",
+                    "value": ""
+                  },
+                  {
+                    "conditionIndex": 0,
+                    "op": "!=",
+                    "param": "playbook_input:message_id",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "Inputs",
+                "logic": "and"
+              }
+            ],
+            "functionId": 1,
+            "functionName": "input_validation_filter",
+            "id": "6",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "6",
+          "type": "filter",
+          "warnings": {},
+          "x": 60,
+          "y": 148
+        },
+        "7": {
+          "data": {
+            "advanced": {
+              "customName": "filter run query",
+              "customNameId": 0,
+              "description": "filter check if the message is found in the mailbox.",
+              "join": [],
+              "note": "filter check if the message is found in the mailbox."
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": ">=",
+                    "param": "search_o365_for_email:action_result.summary.emails_matched",
+                    "value": "1"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "Found email",
+                "logic": "and"
+              }
+            ],
+            "functionId": 2,
+            "functionName": "filter_run_query",
+            "id": "7",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "7",
+          "type": "filter",
+          "warnings": {},
+          "x": 60,
+          "y": 506
+        },
+        "8": {
+          "data": {
+            "advanced": {
+              "customName": "purge filter",
+              "customNameId": 0,
+              "description": "filter check if the message is deleted from mailbox",
+              "join": [],
+              "note": "filter check if the message is deleted from mailbox"
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "==",
+                    "param": "purge_email:action_result.status",
+                    "value": "success"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "Purge Success",
+                "logic": "and"
+              }
+            ],
+            "functionId": 3,
+            "functionName": "purge_filter",
+            "id": "8",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "8",
+          "type": "filter",
+          "warnings": {},
+          "x": 60,
+          "y": 860
+        }
+      },
+      "notes": "Inputs: internet message id, email\nInteractions: MS Graph for O365\nActions: Run Query, Delete Email\nOutputs: observables"
+    },
+    "input_spec": [
+      {
+        "contains": [
+          "internet message id",
+          "msgoffice365 internet message id"
+        ],
+        "description": "An Internet Message ID to search for",
+        "name": "message_id"
+      },
+      {
+        "contains": [
+          "email"
+        ],
+        "description": "An email address for a specific inbox",
+        "name": "email"
+      }
+    ],
+    "output_spec": [
+      {
+        "contains": [],
+        "datapaths": [
+          "email_deletion_observable:custom_function:observable_array"
+        ],
+        "deduplicate": false,
+        "description": "An array of observable dictionaries ",
+        "metadata": {},
+        "name": "observable"
+      }
+    ],
+    "playbook_type": "data",
+    "python_version": "3",
+    "schema": "5.0.11",
+    "version": "6.2.0.355"
+  },
+  "create_time": "2024-02-27T15:03:19.322053+00:00",
+  "draft_mode": false,
+  "labels": [
+    "*"
+  ],
+  "tags": [
+    "internet_message_id",
+    "ms_graph_for_o365",
+    "D3-ER",
+    "message_eviction",
+    "Office365"
+  ]
+}

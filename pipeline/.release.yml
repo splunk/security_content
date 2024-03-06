@@ -164,6 +164,10 @@ update_gitlab_dist:
     - git remote set-url origin https://PUSH_DIST_VIA_CI:$PUSH_DIST_VIA_CI@cd.splunkdev.com/threat-research/security_content.git
     - git fetch --all
     - git checkout develop
+    - 'echo "Current CI_COMMIT_TAG: $CI_COMMIT_TAG"'
+    - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
+    - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
+    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - git add dist/api/*
     - git add dist/DA-ESS-ContentUpdate/*
     - git add dist/ssa/*
@@ -194,20 +198,24 @@ github_push_develop:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ --enable_enrichment build
-    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
-    - cd ..
     - git config user.email "research@splunk.com"
     - git config user.name "research bot"
     - git remote add github_origin git@github.com:splunk/security_content.git
     - git fetch --all
     - git checkout -b $BRANCH
+    - git fetch origin
+    - git merge origin/develop
+    - poetry run contentctl -p ../ --enable_enrichment build
+    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+    - poetry run contentctl -p ../ --enable_enrichment build -t api
+    - cd ..
     - git rm CODEOWNERS
-    - git add .
-    - git commit -m "removing CODEOWNERS"
-    - git push -u github_origin $BRANCH
-    # - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"develop\", \"base\":\"gitlab_release_$CI_COMMIT_TAG\"}" https://api.github.com/repos/splunk/security_content/pulls'
+    - git add dist/api/*
+    - git add dist/DA-ESS-ContentUpdate/*
+    - git add dist/ssa/*
+    - git commit -m "removing CODEOWNERS and add dist/ folders"
+    - git push --force -u github_origin $BRANCH
+    - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"develop\", \"base\":\"gitlab_release_$CI_COMMIT_TAG\"}" https://api.github.com/repos/splunk/security_content/pulls'
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
       when: on_success
