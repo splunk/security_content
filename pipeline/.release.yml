@@ -27,9 +27,9 @@ github_push_develop:
     - git config user.email "research@splunk.com"
     - git config user.name "research bot"
     - git remote add github_origin git@github.com:splunk/security_content.git
-    - git fetch --all
+    - git fetch github_origin
     - git checkout -b $BRANCH
-    - git merge develop -X theirs
+    - git merge github_origin/develop -X theirs
     - poetry run contentctl -p ../ build
     - git add .
     - git rm CODEOWNERS  
