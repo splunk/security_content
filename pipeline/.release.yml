@@ -30,7 +30,9 @@ github_push_develop:
     - git fetch github_origin
     - git checkout -b $BRANCH
     - git merge github_origin/develop -X theirs
+    - cd contentctl/
     - poetry run contentctl -p ../ build
+    - cd ..
     - git add .
     - git rm CODEOWNERS  
     - git commit -m "removing CODEOWNERS and updating dist"
