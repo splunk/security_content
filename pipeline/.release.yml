@@ -4,7 +4,7 @@ github_push_develop:
   # needs:
   # - update_gitlab_dist
   variables:
-    BRANCH: "bhavin_dp"
+    BRANCH: "bhavin_dp_1"
     CI_COMMIT_TAG: "v4.30.0_test"
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -37,7 +37,7 @@ github_push_develop:
     - git status
     - git commit -m " and updating dist"
     - git push -u github_origin $BRANCH
-    - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"develop\", \"base\":\"gitlab_release_$CI_COMMIT_TAG\"}" https://api.github.com/repos/splunk/security_content/pulls'
+    - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"develop\", \"base\":\"bhavin_dp_1\"}" https://api.github.com/repos/splunk/security_content/pulls'
   # rules:
   #   - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
   #     when: on_success
