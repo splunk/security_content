@@ -4,7 +4,7 @@ github_push_develop:
   # needs:
   # - update_gitlab_dist
   variables:
-    BRANCH: "daftpunk"
+    BRANCH: "powerwolf"
     CI_COMMIT_TAG: "v4.30.0_test2"
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
