@@ -15,7 +15,7 @@ search: '`ntlm_audit` EventCode = 8004 SChannelName=* WorkstationName=*
 | `windows_unusual_ntlm_authentication_destinations_by_source_filter`
 | stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(dest))) as unique_count by src
 | eventstats avg(unique_count) as unique_avg , stdev(unique_count) as unique_std
-| eval upperBound_unique=(unique_avg+unique_std*3) ``` adjust formula for sensitivity```
+| eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula for sensitivity```
 | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0)
 | where isOutlier==1
 | `security_content_ctime(firstTime)` 
