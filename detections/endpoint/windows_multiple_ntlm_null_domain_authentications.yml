@@ -21,7 +21,7 @@ search: '`ntlm_audit` EventCode IN (8004,8005,8006) DomainName=NULL UserName!=NU
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`'
 how_to_implement: The following analytic requires that NTLM Operational logs to be imported from the environment Domain Controllers. This requires configuration of specific auditing settings, see Microsoft references for further guidance. This analytic is specific to EventID 8004~8006.
-known_false_positives: Applications that deal with non-domain joined authentications.
+known_false_positives: Applications that deal with non-domain joined authentications. Recommend adjusting the upperBound_unique eval for tailoring the correlation to your environment, running with a 24hr search window will smooth out some statistical noise.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
