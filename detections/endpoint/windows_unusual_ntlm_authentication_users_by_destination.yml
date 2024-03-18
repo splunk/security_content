@@ -21,7 +21,7 @@ search: '`ntlm_audit` EventCode = 8004 SChannelName=* WorkstationName=*
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`'
 how_to_implement: The following analytic detects when an unusual number of NTLM authentications is attempted against the same destination. This activity generally results when an attacker attempts to brute force, password spray, or otherwise authenticate to a domain joined Windows device using an NTLM based process/attack. This same activity may also generate a large number of EventID 4776 events as well.
-known_false_positives: Vulnerability scanners, print servers, and applications that deal with non-domain joined authentications.
+known_false_positives: Vulnerability scanners, print servers, and applications that deal with non-domain joined authentications. Recommend adjusting the upperBound_unique eval for tailoring the correlation to your environment, running with a 24hr search window will smooth out some statistical noise.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
