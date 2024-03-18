@@ -15,7 +15,7 @@ search: '`ntlm_audit` EventCode IN (8004,8005,8006) DomainName=NULL UserName!=NU
 | `windows_multiple_ntlm_null_domain_authentications_filter`
 | stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user))) as unique_count by dest
 | eventstats avg(unique_count) as unique_avg , stdev(unique_count) as unique_std
-| eval upperBound_unique=(unique_avg+unique_std*3) ``` adjust formula for sensitivity```
+| eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula for sensitivity```
 | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0)
 | where isOutlier==1
 | `security_content_ctime(firstTime)` 
