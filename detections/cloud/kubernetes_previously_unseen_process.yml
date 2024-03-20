@@ -51,7 +51,7 @@ references:
 - https://github.com/signalfx/splunk-otel-collector-chart
 tags:
   analytic_story:
-  - Abnormal Kubernetes Behavior  using Splunk Infrastructure Monitoring
+  - Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
   asset_type: Kubernetes
   confidence: 50
   impact: 50

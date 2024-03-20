@@ -1,7 +1,7 @@
 name: Windows SOAPHound Binary Execution
 id: 8e53f839-e127-4d6d-a54d-a2f67044a57f
-version: 1
-date: '2024-02-12'
+version: 2
+date: '2024-03-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ references:
 - https://github.com/FalconForceTeam/SOAPHound
 tags:
   analytic_story:
-  - Discovery Techniques
+  - Windows Discovery Techniques
   asset_type: Endpoint
   atomic_guid: []
   confidence: 100

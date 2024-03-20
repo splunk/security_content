@@ -1,7 +1,7 @@
 name: Path traversal SPL injection
 id: dfe55688-82ed-4d24-a21b-ed8f0e0fda99
-version: 1
-date: '2022-04-29'
+version: 2
+date: '2024-03-19'
 author: Rod Soto, Splunk
 status: production
 type: TTP
@@ -11,7 +11,7 @@ description: On May 3rd, 2022, Splunk published a security advisory for a Path t
   such as running arbitrary SPL queries.
 data_source: []
 search: ' `path_traversal_spl_injection` | search "\/..\/..\/..\/..\/..\/..\/..\/..\/..\/"  |
-  stats count by status clientip method uri_path uri_query | `path_traversal_spl_injection_filter`'
+  stats count by host status clientip method uri_path uri_query | `path_traversal_spl_injection_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The
   detection does require the ability to search the _internal index. This search will
   provide search UI requests with path traversal parameter ("../../../../../../../../../")
@@ -34,6 +34,10 @@ tags:
   mitre_attack_id:
   - T1083
   observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
   - name: clientip
     type: IP Address
     role:

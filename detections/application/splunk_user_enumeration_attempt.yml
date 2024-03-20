@@ -1,7 +1,7 @@
 name: Splunk User Enumeration Attempt
 id: 25625cb4-1c4d-4463-b0f9-7cb462699cde
-version: 1
-date: '2022-04-29'
+version: 2
+date: '2024-03-19'
 author: Lou Stella, Splunk
 status: production
 type: TTP
@@ -11,7 +11,7 @@ description: On May 3rd, 2022, Splunk published a security advisory for  usernam
   as well as actual exploitation in unpatched version of Splunk.
 data_source: []
 search: ' `splunkd_failed_auths` | stats count(user) as auths by user, src | where
-  auths>5 | stats values(user) as "Users", sum(auths) as TotalFailedAuths by src |
+  auths>5 | stats values(user) as user, sum(auths) as TotalFailedAuths by src |
   `splunk_user_enumeration_attempt_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The
   detection does require the ability to search the _audit index. This detection may
@@ -33,6 +33,10 @@ tags:
   mitre_attack_id:
   - T1078
   observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   - name: src
     type: IP Address
     role:

@@ -20,5 +20,7 @@ tags:
   - Splunk SOAR
   use_cases:
   - Phishing
-  defend_technique_id: D3-DA
+  defend_technique_id: 
+  - D3-DA
+  - D3-SRA
   

@@ -17,7 +17,7 @@ app_inspect:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ build  --appinspect_api_username $APPINSPECT_USERNAME --appinspect_api_password $APPINSPECT_PASSWORD
+    - poetry run contentctl -p ../ --enable_enrichment build --splunk_api_username $APPINSPECT_USERNAME --splunk_api_password $APPINSPECT_PASSWORD
   after_script:
     - mkdir -p artifacts/app_inspect_report
     - cp -r dist/*.{json,html} artifacts/app_inspect_report

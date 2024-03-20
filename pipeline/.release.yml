@@ -177,7 +177,7 @@ update_gitlab_dist:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
       when: on_success
 
-# Sync changes to GitHub, by creating a branch and push the content
+# Sync changes to GitHub, by creating a branch and push the content and create a PR
 github_push_develop:
   stage: release
   needs:
@@ -198,20 +198,27 @@ github_push_develop:
     - git checkout main
     - poetry install
   script:
-    - poetry run contentctl -p ../ --enable_enrichment build
-    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
     - git config user.email "research@splunk.com"
     - git config user.name "research bot"
     - git remote add github_origin git@github.com:splunk/security_content.git
-    - git fetch --all
+    - git fetch github_origin
     - git checkout -b $BRANCH
-    - git rm CODEOWNERS
+    - git config merge.submodule ignore
+    - git merge github_origin/develop -X theirs || true
+    - cd contentctl && git checkout main && cd ..
+    - git add contentctl
+    - cd contentctl/
+    - poetry run contentctl -p ../ --enable_enrichment build
+    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+    - poetry run contentctl -p ../ --enable_enrichment build -t api
+    - cd ..
     - git add .
-    - git commit -m "removing CODEOWNERS"
+    - git status
+    - git commit -m "Updating Github with Content from ESCU - $CI_COMMIT_TAG"
     - git push -u github_origin $BRANCH
-    # - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"develop\", \"base\":\"gitlab_release_$CI_COMMIT_TAG\"}" https://api.github.com/repos/splunk/security_content/pulls'
+    # Automatically create a Github PR
+    - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"$BRANCH\", \"base\":\"develop\"}" https://api.github.com/repos/splunk/security_content/pulls'
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
       when: on_success

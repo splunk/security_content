@@ -1,7 +1,7 @@
 name: System Information Discovery Detection
 id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-version: 2
-date: '2021-09-07'
+version: 3
+date: '2024-03-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ references:
 - https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 tags:
   analytic_story:
-  - Discovery Techniques
+  - Windows Discovery Techniques
   asset_type: Windows
   confidence: 50
   impact: 30
