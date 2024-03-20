@@ -1,7 +1,7 @@
 name: Disabling Windows Local Security Authority Defences via Registry
 id: 45cd08f8-a2c9-4f4e-baab-e1a0c624b0ab
 version: 2
-date: '2023-11-07'
+date: '2024-03-14'
 author: Dean Luxton
 status: production
 type: TTP
@@ -35,7 +35,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage
 tags:
   analytic_story:
-  - Windows Defence Evasion Tactics
+  - Windows Defense Evasion Tactics
   - Windows Registry Abuse
   asset_type: Endpoint
   confidence: 100

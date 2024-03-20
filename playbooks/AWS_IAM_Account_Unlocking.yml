@@ -21,3 +21,5 @@ tags:
   playbook_fields: []
   product:
   - Splunk SOAR
+  defend_technique_id: 
+  - D3-RUAA

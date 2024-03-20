@@ -1,7 +1,7 @@
 name: Network Traffic to Active Directory Web Services Protocol
 id: 68a0056c-34cb-455f-b03d-df935ea62c4f
-version: 1
-date: '2024-02-12'
+version: 2
+date: '2024-03-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -24,7 +24,7 @@ references:
 - https://github.com/FalconForceTeam/SOAPHound
 tags:
   analytic_story:
-  - Discovery Techniques
+  - Windows Discovery Techniques
   asset_type: Network
   atomic_guid: []
   confidence: 50

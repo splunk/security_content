@@ -26,4 +26,5 @@ tags:
   use_cases:
   - Enrichment
   - Phishing
-  defend_technique_id: D3-IRA
+  defend_technique_id: 
+  - D3-IRA
