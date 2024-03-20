@@ -210,9 +210,9 @@ github_push_develop:
     - cd contentctl && git checkout main && cd ..
     - git add contentctl
     - cd contentctl/
-    - poetry run contentctl -p ../ --enable_enrichment build
-    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
+    - poetry run contentctl -p ../ build
+    # - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+    # - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
     - git add .
     - git status
@@ -220,6 +220,6 @@ github_push_develop:
     - git push -u github_origin $BRANCH
     # Automatically create a Github PR
     - 'curl -X POST -H "Authorization: token $CREATE_GH_RELEASE_PR" -H "Accept: application/vnd.github.v3+json" -d "{\"title\":\"Release $CI_COMMIT_TAG\", \"body\":\"This PR contains content for ESCU - $CI_COMMIT_TAG\", \"head\":\"$BRANCH\", \"base\":\"develop\"}" https://api.github.com/repos/splunk/security_content/pulls'
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+  # rules:
+  #   - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+  #     when: on_success
