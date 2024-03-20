@@ -204,9 +204,12 @@ github_push_develop:
     - git remote add github_origin git@github.com:splunk/security_content.git
     - git fetch github_origin
     - git checkout -b $BRANCH
-    - git merge github_origin/develop -X theirs
+    - git config merge.submodule ignore
+    - git merge github_origin/develop -X theirs || true
+    - cd contentctl && git checkout main && cd ..
+    - git add contentctl
     - cd contentctl/
-    - poetry run contentctl -p ../ --enable_enrichment build
+    - poetry run contentctl -p ../ build --enable_enrichment
     - poetry run contentctl -p ../ --enable_enrichment build -t ssa
     - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
