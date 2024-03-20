@@ -1,7 +1,7 @@
 name: Sneaky Active Directory Persistence Tricks
 id: f676c4c1-c769-4ecb-9611-5fd85b497c56
-version: 1
-date: '2022-08-29'
+version: 2
+date: '2024-03-14'
 author: Dean Luxton, Mauricio Velazco, Splunk
 description: Monitor for activities and techniques associated with Windows Active Directory persistence techniques. 
 narrative: Persistence consists of techniques that adversaries use to keep access to systems across restarts, changed credentials, and other interruptions that could cut off their access. 
@@ -24,7 +24,7 @@ references:
   - https://gist.github.com/gentilkiwi/dcc132457408cf11ad2061340dcb53c2
   - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
 tags:
-  analytic_story: Windows Domain Controller Attacks
+  analytic_story: Sneaky Active Directory Persistence Tricks
   category:
   - Adversary Tactics
   - Account Compromise

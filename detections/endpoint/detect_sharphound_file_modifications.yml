@@ -1,7 +1,7 @@
 name: Detect SharpHound File Modifications
 id: 42b4b438-beed-11eb-ba1d-acde48001122
-version: 2
-date: '2022-10-09'
+version: 3
+date: '2024-03-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
 tags:
   analytic_story:
-  - Discovery Techniques
+  - Windows Discovery Techniques
   - Ransomware
   asset_type: Endpoint
   confidence: 80

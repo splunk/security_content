@@ -1,7 +1,7 @@
 name: Detect AzureHound Command-Line Arguments
 id: 26f02e96-c300-11eb-b611-acde48001122
-version: 1
-date: '2021-06-01'
+version: 2
+date: '2024-03-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,7 +34,7 @@ references:
 - https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1
 tags:
   analytic_story:
-  - Discovery Techniques
+  - Windows Discovery Techniques
   asset_type: Endpoint
   confidence: 100
   impact: 80

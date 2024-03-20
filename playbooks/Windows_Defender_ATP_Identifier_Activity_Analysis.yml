@@ -23,4 +23,5 @@ tags:
   use_cases:
   - Enrichment
   - Endpoint
-  defend_technique_id: D3-IAA
+  defend_technique_id: 
+  - D3-IAA

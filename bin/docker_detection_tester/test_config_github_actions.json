@@ -7,13 +7,8 @@
     },
     "PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK": {
         "app_number": 2757,
-        "app_version": "8.0.1",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/palo-alto-networks-add-on-for-splunk_802.tgz"
-    },
-    "PYTHON_FOR_SCIENTIFIC_COMPUTING_FOR_LINUX_64_BIT": {
-        "app_number": 2882,
-        "app_version": "4.1.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/python-for-scientific-computing-for-linux-64-bit_410.tgz"
+        "app_version": "8.1.0",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/palo-alto-networks-add-on-for-splunk_810.tgz"
     },
     "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
         "app_number": 3719,
@@ -22,23 +17,23 @@
     },
     "SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM": {
         "app_number": 3088,
-        "app_version": "4.1.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-cloud-platform_410.tgz"
+        "app_version": "4.3.0",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-cloud-platform_430.tgz"
     },
     "SPLUNK_ADD_ON_FOR_GOOGLE_WORKSPACE": {
         "app_number": 3110,
-        "app_version": "2.4.1",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_251.tgz"
+        "app_version": "2.6.0",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_260.tgz"
     },
     "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365": {
         "app_number": 4055,
-        "app_version": "4.2.1",
+        "app_version": "4.3.0",
         "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_430.tgz"
     },
     "SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS": {
         "app_number": 742,
-        "app_version": "8.5.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_870.tgz"
+        "app_version": "8.8.0",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-windows_880.tgz"
     },
     "SPLUNK_ADD_ON_FOR_NGINX": {
         "app_number": 3258,
@@ -47,13 +42,13 @@
     },
     "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
         "app_number": 5238,
-        "app_version": "8.1.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_810.tgz"
+        "app_version": "8.1.1",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-forwarders_811.tgz"
     },
     "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
         "app_number": 5234,
-        "app_version": "8.1.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_810.tgz"
+        "app_version": "8.1.1",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-stream-wire-data_811.tgz"
     },
     "SPLUNK_ADD_ON_FOR_SYSMON": {
         "app_number": 5709,
@@ -62,18 +57,13 @@
     },
     "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
         "app_number": 833,
-        "app_version": "8.8.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_890.tgz"
-    },
-    "SPLUNK_APP_FOR_STREAM": {
-        "app_number": 1809,
-        "app_version": "8.1.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-app-for-stream_810.tgz"
+        "app_version": "9.0.0",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-unix-and-linux_900.tgz"
     },
     "SPLUNK_COMMON_INFORMATION_MODEL": {
         "app_number": 1621,
-        "app_version": "5.1.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_511.tgz"
+        "app_version": "5.2.0",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_520.tgz"
     },
     "SPLUNK_ES_CONTENT_UPDATE": {
         "app_number": 3449,
@@ -82,8 +72,8 @@
     },
     "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
         "app_number": 2890,
-        "app_version": "5.4.0",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-machine-learning-toolkit_540.tgz"
+        "app_version": "5.4.1",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-machine-learning-toolkit_541.tgz"
     },
     "SPLUNK_TA_FIX_WINDOWS": {
         "app_number": 9999,
@@ -96,8 +86,8 @@
         "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-iis_120.tgz"
     },
     "SPLUNK_TA_FOR_SURICATA": {
-        "app_number": 2760,
-        "app_version": "2.3.3",
+        "app_number": 4242,
+        "app_version": "2.3.4",
         "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-suricata_234.tgz"
     },
     "SPLUNK_TA_FOR_ZEEK": {
@@ -107,12 +97,12 @@
     },
     "SPLUNK_TA_MICROSOFT_CLOUD_SERVICES": {
         "app_number": 3110,
-        "app_version": "4.5.2",
-        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_510.tgz"
+        "app_version": "5.2.1",
+        "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_521.tgz"
     },
     "Splunk Add-on for CrowdStrike FDR": {
         "app_number": 5579,
-        "app_version": "1.3.0",
+        "app_version": "1.4.0",
         "http_path": "https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-crowdstrike-fdr_140.tgz"
     },
     "URL_TOOLBOX": {

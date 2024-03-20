@@ -1,7 +1,7 @@
 name: Detect AzureHound File Modifications
 id: 1c34549e-c31b-11eb-996b-acde48001122
-version: 1
-date: '2021-06-01'
+version: 2
+date: '2024-03-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ references:
 - https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1
 tags:
   analytic_story:
-  - Discovery Techniques
+  - Windows Discovery Techniques
   asset_type: Endpoint
   confidence: 90
   impact: 70
