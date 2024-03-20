@@ -209,7 +209,7 @@ github_push_develop:
     - cd contentctl && git checkout main && cd ..
     - git add contentctl
     - cd contentctl/
-    - poetry run contentctl -p ../ build --enable_enrichment
+    - poetry run contentctl -p ../ --enable_enrichment build
     - poetry run contentctl -p ../ --enable_enrichment build -t ssa
     - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
