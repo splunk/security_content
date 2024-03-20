@@ -1,7 +1,7 @@
 name: Detect SharpHound Command-Line Arguments
 id: a0bdd2f6-c2ff-11eb-b918-acde48001122
-version: 1
-date: '2021-06-01'
+version: 2
+date: '2024-03-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
 tags:
   analytic_story:
-  - Discovery Techniques
+  - Windows Discovery Techniques
   - Ransomware
   asset_type: Endpoint
   confidence: 80

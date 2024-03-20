@@ -1,7 +1,7 @@
 name: Kubernetes Nginx Ingress RFI
 id: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
-version: 1
-date: '2021-08-23'
+version: 3
+date: '2024-03-19'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -30,6 +30,10 @@ tags:
   mitre_attack_id:
   - T1212
   observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
   - name: src_ip
     type: IP Address
     role:

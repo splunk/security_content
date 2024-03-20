@@ -20,4 +20,5 @@ tags:
   use_cases:
   - Phishing
   - Endpoint
-  defend_technique_id: D3-OTF
+  defend_technique_id: 
+  - D3-OTF
