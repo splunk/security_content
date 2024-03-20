@@ -1,60 +1,8 @@
-# Run reporting
-reporting:
-  stage: release
-  needs:
-  - app_inspect
-  variables:
-    BUCKET: "security-content"
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-  script:
-    - poetry run contentctl -p ../ report
-    - cd ..
-    - aws s3 cp reporting s3://$BUCKET/reporting --recursive --exclude "*" --include "*.svg"
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
-
-# Update Attack Range ESCU App
-attack_range_escu_app:
-  stage: release
-  needs:
-  - app_inspect
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-    expire_in: 14 days
-  variables:
-    BUCKET: "attack-range-appbinaries"
-  before_script:
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-  script:
-    - aws s3 cp artifacts/DA-ESS-ContentUpdate-latest.tar.gz  s3://$BUCKET/
-    - aws s3api put-object-acl --bucket $BUCKET --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
-
-# Security Content API Update
-# security_content_api:
+# # Run reporting
+# reporting:
 #   stage: release
 #   needs:
 #   - app_inspect
-#   artifacts:
-#     when: always
-#     paths:
-#       - artifacts/*
-#     expire_in: 14 days
 #   variables:
 #     BUCKET: "security-content"
 #   before_script:
@@ -67,123 +15,176 @@ attack_range_escu_app:
 #     - unzip awscliv2.zip
 #     - ./aws/install
 #   script:
-#     - poetry run contentctl -p ../ build -t api
+#     - poetry run contentctl -p ../ report
 #     - cd ..
-#     - aws s3 rm s3://$BUCKET --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp stories s3://$BUCKET/stories --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp baselines s3://$BUCKET/baselines --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp detections s3://$BUCKET/detections --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp playbooks s3://$BUCKET/playbooks --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.csv"
-#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.mlmodel"
-#     - aws s3 cp macros s3://$BUCKET/macros --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp deployments s3://$BUCKET/deployments --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
+#     - aws s3 cp reporting s3://$BUCKET/reporting --recursive --exclude "*" --include "*.svg"
 #   rules:
 #     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
 #       when: on_success
 
-# Push SSE security content Json files to Artifactory
-push_sse_json_to_artifactory:
-  stage: release
-  needs:
-    - app_inspect
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
-    - cd ..
-    - tar -czvf sse.tar.gz dist/api/*
-  script:
-    - creds-helper init
-    - eval $(creds-helper artifactory --eval $ARTIFACTORY_GENERIC_WRITE_ROLE)
-    - curl -u $ARTIFACTORY_AUTHORIZATION -X PUT $ARTIFACTORY_BASE_URL/generic/threat-research-security-content/$CI_COMMIT_TAG/sse.tar.gz -T sse.tar.gz
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+# # Update Attack Range ESCU App
+# attack_range_escu_app:
+#   stage: release
+#   needs:
+#   - app_inspect
+#   artifacts:
+#     when: always
+#     paths:
+#       - artifacts/*
+#     expire_in: 14 days
+#   variables:
+#     BUCKET: "attack-range-appbinaries"
+#   before_script:
+#     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#     - unzip awscliv2.zip
+#     - ./aws/install
+#   script:
+#     - aws s3 cp artifacts/DA-ESS-ContentUpdate-latest.tar.gz  s3://$BUCKET/
+#     - aws s3api put-object-acl --bucket $BUCKET --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
 
-trigger_downstream_sse_json_release:
-  stage: release
-  needs:
-    - push_sse_json_to_artifactory
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-  inherit:
-    variables: false
-  variables:
-    UPSTREAM_ESCU_VERSION: $CI_COMMIT_TAG
-    IS_DOWNSTREAM_SSE_JSON_RELEASE: "True"
-  trigger:
-    project: securitycontent/security-content-automation
-    branch: main
-    strategy: depend
+# # Security Content API Update
+# # security_content_api:
+# #   stage: release
+# #   needs:
+# #   - app_inspect
+# #   artifacts:
+# #     when: always
+# #     paths:
+# #       - artifacts/*
+# #     expire_in: 14 days
+# #   variables:
+# #     BUCKET: "security-content"
+# #   before_script:
+# #     - pip3 install poetry
+# #     - git submodule update --init contentctl
+# #     - cd contentctl
+# #     - git checkout main
+# #     - poetry install
+# #     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+# #     - unzip awscliv2.zip
+# #     - ./aws/install
+# #   script:
+# #     - poetry run contentctl -p ../ build -t api
+# #     - cd ..
+# #     - aws s3 rm s3://$BUCKET --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp stories s3://$BUCKET/stories --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp baselines s3://$BUCKET/baselines --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp detections s3://$BUCKET/detections --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp playbooks s3://$BUCKET/playbooks --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.csv"
+# #     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.mlmodel"
+# #     - aws s3 cp macros s3://$BUCKET/macros --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp deployments s3://$BUCKET/deployments --recursive --exclude "*" --include "*.yml"
+# #     - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
+# #   rules:
+# #     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+# #       when: on_success
 
-# Create Package GitLab
-release_job:
-  stage: release
-  needs:
-  - app_inspect
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  script:
-    - echo "running release_job"
-  # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
-  release:
-    tag_name: '$CI_COMMIT_TAG'
-    description: '$CI_COMMIT_TAG'
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+# # Push SSE security content Json files to Artifactory
+# push_sse_json_to_artifactory:
+#   stage: release
+#   needs:
+#     - app_inspect
+#   before_script:
+#     - pip3 install poetry
+#     - git submodule update --init contentctl
+#     - cd contentctl
+#     - git checkout main
+#     - poetry install
+#     - poetry run contentctl -p ../ --enable_enrichment build -t api
+#     - cd ..
+#     - tar -czvf sse.tar.gz dist/api/*
+#   script:
+#     - creds-helper init
+#     - eval $(creds-helper artifactory --eval $ARTIFACTORY_GENERIC_WRITE_ROLE)
+#     - curl -u $ARTIFACTORY_AUTHORIZATION -X PUT $ARTIFACTORY_BASE_URL/generic/threat-research-security-content/$CI_COMMIT_TAG/sse.tar.gz -T sse.tar.gz
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
 
-# Updating Gitlab dist
-update_gitlab_dist:
-  stage: release
-  needs:
-  - release_job
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-    expire_in: 14 days
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-  script:
-    - poetry run contentctl -p ../ --enable_enrichment build
-    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
-    - cd ..
-    - echo "Updating dist build scripts in a branch"
-    - git config --global user.email "research@splunk.com"
-    - git config --global user.name "research-bot"
-    - git remote set-url origin https://PUSH_DIST_VIA_CI:$PUSH_DIST_VIA_CI@cd.splunkdev.com/threat-research/security_content.git
-    - git fetch --all
-    - git checkout develop
-    - 'echo "Current CI_COMMIT_TAG: $CI_COMMIT_TAG"'
-    - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
-    - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
-    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
-    - git add dist/api/*
-    - git add dist/DA-ESS-ContentUpdate/*
-    - git add dist/ssa/*
-    - git commit -m "Auto-update dist/* files for ESCU,BA,API via release job for tag $CI_COMMIT_TAG [skip ci]"
-    - git push origin develop
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-      when: on_success
+# trigger_downstream_sse_json_release:
+#   stage: release
+#   needs:
+#     - push_sse_json_to_artifactory
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#   inherit:
+#     variables: false
+#   variables:
+#     UPSTREAM_ESCU_VERSION: $CI_COMMIT_TAG
+#     IS_DOWNSTREAM_SSE_JSON_RELEASE: "True"
+#   trigger:
+#     project: securitycontent/security-content-automation
+#     branch: main
+#     strategy: depend
+
+# # Create Package GitLab
+# release_job:
+#   stage: release
+#   needs:
+#   - app_inspect
+#   image: registry.gitlab.com/gitlab-org/release-cli:latest
+#   script:
+#     - echo "running release_job"
+#   # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
+#   release:
+#     tag_name: '$CI_COMMIT_TAG'
+#     description: '$CI_COMMIT_TAG'
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
+
+# # Updating Gitlab dist
+# update_gitlab_dist:
+#   stage: release
+#   needs:
+#   - release_job
+#   artifacts:
+#     when: always
+#     paths:
+#       - artifacts/*
+#     expire_in: 14 days
+#   before_script:
+#     - pip3 install poetry
+#     - git submodule update --init contentctl
+#     - cd contentctl
+#     - git checkout main
+#     - poetry install
+#   script:
+#     - poetry run contentctl -p ../ --enable_enrichment build
+#     - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+#     - poetry run contentctl -p ../ --enable_enrichment build -t api
+#     - cd ..
+#     - echo "Updating dist build scripts in a branch"
+#     - git config --global user.email "research@splunk.com"
+#     - git config --global user.name "research-bot"
+#     - git remote set-url origin https://PUSH_DIST_VIA_CI:$PUSH_DIST_VIA_CI@cd.splunkdev.com/threat-research/security_content.git
+#     - git fetch --all
+#     - git checkout develop
+#     - 'echo "Current CI_COMMIT_TAG: $CI_COMMIT_TAG"'
+#     - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
+#     - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
+#     - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+#     - git add dist/api/*
+#     - git add dist/DA-ESS-ContentUpdate/*
+#     - git add dist/ssa/*
+#     - git commit -m "Auto-update dist/* files for ESCU,BA,API via release job for tag $CI_COMMIT_TAG [skip ci]"
+#     - git push origin develop
+#   rules:
+#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+#       when: on_success
 
 # Sync changes to GitHub, by creating a branch and push the content and create a PR
 github_push_develop:
   stage: release
-  needs:
-  - update_gitlab_dist
+  # needs:
+  # - update_gitlab_dist
   variables:
-    BRANCH: "gitlab_release_$CI_COMMIT_TAG"
+    CI_COMMIT_TAG: "v4.27.21"
+    BRANCH: "gitlab_release_v4.27.21"
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -204,7 +205,10 @@ github_push_develop:
     - git remote add github_origin git@github.com:splunk/security_content.git
     - git fetch github_origin
     - git checkout -b $BRANCH
-    - git merge github_origin/develop -X theirs
+    - git config merge.submodule ignore
+    - git merge github_origin/develop -X theirs || true
+    - cd contentctl && git checkout main && cd ..
+    - git add contentctl
     - cd contentctl/
     - poetry run contentctl -p ../ --enable_enrichment build
     - poetry run contentctl -p ../ --enable_enrichment build -t ssa
