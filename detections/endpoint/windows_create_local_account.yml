@@ -1,7 +1,7 @@
 name: Windows Create Local Account
 id: 3fb2e8e3-7bc0-4567-9722-c5ab9f8595eb
-version: 1
-date: '2022-10-05'
+version: 2
+date: '2024-03-19'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ references:
 - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
 tags:
   analytic_story:
-  - Account Monitoring and Controls
+  - Active Directory Password Spraying
   asset_type: Endpoint
   confidence: 90
   impact: 20

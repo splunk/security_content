@@ -34,7 +34,7 @@ references:
 tags:
   analytic_story:
   - Compromised User Account
-  - AWS Identity and Access Management Account
+  - AWS Identity and Access Management Account Takeover
   asset_type: AWS Account
   confidence: 60
   impact: 70
