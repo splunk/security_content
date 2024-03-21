@@ -24,25 +24,21 @@ jobs:
           sudo apt update -qq
           sudo apt install jq -qq
       
-
-      - name: Install Python Dependencies and ContentCTL
-        run: |
-          pip3 install poetry
-          git submodule update --init contentctl
-          cd contentctl
-          git checkout main
-          poetry install
       
       - name: content_ctl validate
         run: |
-          cd contentctl
-          poetry run contentctl -p ../ validate 
+          python3.9 -m venv .venv
+          source .venv/bin/activate
+          pip install contentctl==3.4.2
+          contentctl --enable_enrichment validate
+  
 
       - name: contentctl generate
         run: |
-          cd contentctl
-          poetry run contentctl -p ../ build
-          cd ..
+          python3.9 -m venv .venv
+          source .venv/bin/activate
+          pip install contentctl==3.4.2
+          contentctl --enable_enrichment build
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
