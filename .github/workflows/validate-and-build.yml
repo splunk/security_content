@@ -27,22 +27,18 @@ jobs:
 
       - name: Install Python Dependencies and ContentCTL
         run: |
-          pip3 install poetry
-          git submodule update --init contentctl
-          cd contentctl
-          git checkout main
-          poetry install
+          python3.9 -m venv .venv
+          source .venv/bin/activate
+          pip install contentctl==3.4.2
       
       - name: content_ctl validate
         run: |
-          cd contentctl
-          poetry run contentctl -p ../ validate 
+          contentctl --enable_enrichment validate
+  
 
       - name: contentctl generate
         run: |
-          cd contentctl
-          poetry run contentctl -p ../ build
-          cd ..
+          contentctl --enable_enrichment build
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
