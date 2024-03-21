@@ -34,7 +34,7 @@ references:
 - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
 tags:
   analytic_story:
-  - CyclopsBLink
+  - Cyclops Blink
   - Data Destruction
   - Industroyer2
   asset_type: Endpoint

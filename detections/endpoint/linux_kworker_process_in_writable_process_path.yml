@@ -40,7 +40,7 @@ references:
 tags:
   analytic_story:
   - Sandworm Tools
-  - CyclopsBLink
+  - Cyclops Blink
   asset_type: Endpoint
   confidence: 60
   impact: 60

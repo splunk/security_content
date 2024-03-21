@@ -1,7 +1,7 @@
 name: O365 Multiple Users Failing To Authenticate From Ip
 id: 8d486e2e-3235-4cfe-ac35-0d042e24ecb4
-version: 1
-date: '2023-10-10'
+version: 2
+date: '2024-03-19'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -34,6 +34,10 @@ tags:
   - T1110.003
   - T1110.004
   observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   - name: src_ip
     type: IP Address
     role:
