@@ -24,20 +24,20 @@ jobs:
           sudo apt update -qq
           sudo apt install jq -qq
       
-
-      - name: Install Python Dependencies and ContentCTL
+      
+      - name: content_ctl validate
         run: |
           python3.9 -m venv .venv
           source .venv/bin/activate
           pip install contentctl==3.4.2
-      
-      - name: content_ctl validate
-        run: |
           contentctl --enable_enrichment validate
   
 
       - name: contentctl generate
         run: |
+          python3.9 -m venv .venv
+          source .venv/bin/activate
+          pip install contentctl==3.4.2
           contentctl --enable_enrichment build
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
