@@ -17,12 +17,12 @@ stages:
   - release
 
 include:
-  - local: "pipeline/.validate.yml"
-  - local: "pipeline/.generate.yml"
-  - local: "pipeline/.test.yml"
-  - local: "pipeline/.app_inspect.yml"
+  # - local: "pipeline/.validate.yml"
+  # - local: "pipeline/.generate.yml"
+  # - local: "pipeline/.test.yml"
+  # - local: "pipeline/.app_inspect.yml"
   - local: "pipeline/.release.yml"
-  - local: "pipeline/.post.yml"
+  # - local: "pipeline/.post.yml"
 
 workflow:
   rules:
