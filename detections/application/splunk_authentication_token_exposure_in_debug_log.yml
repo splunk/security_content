@@ -1,0 +1,54 @@
+name: Splunk Authentication Token Exposure in Debug Log
+id: 9a67e749-d291-40dd-8376-d422e7ecf8b5
+version: 1
+date: '2024-03-18'
+author: Rod Soto, Chase Franklin
+type: TTP
+status: production
+data_source: []
+description: This detection search finds exposed authentication tokens in debug logs. This issue occurs in Splunk Enterprise versions below 9.2.1, 9.1.4, and 9.0.9, which may be affected by a vulnerability where JsonWebTokens can be exposed if the log level is set to DEBUG. 
+search: '`splunkd` component=JsonWebToken log_level=DEBUG eventtype="splunkd-log" event_message="Validating token:*" 
+  | rex "Validating token: (?<token>.*)\.$" 
+  | search token!=None 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(log_level) as log_level values(event_message) as event_message by index, sourcetype, host, token 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `splunk_authentication_token_exposure_in_debug_log_filter`'
+how_to_implement: Requires access to internal Splunk indexes. 
+known_false_positives: Only applies to affected versions of Splunk Enterprise below 9.2.1, 9.1.4, and 9.0.9
+references:
+- https://advisory.splunk.com/advisories/SVD-2024-0301
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: endpoint
+  confidence: 100
+  cve:
+  - CVE-2024-29945
+  impact: 50
+  message: Possible JsonWebToken exposure, please investigate affected $host$
+  mitre_attack_id:
+  - T1654
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Cloud
+  required_fields:
+  - component
+  - log_level
+  - eventtype
+  - event_message 
+  - host
+  risk_score: 50
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1654/splunk/jsonwebtokenplaintokensvd_splunkd.log
+    source: /opt/splunk/var/log/splunk/splunkd.log
+    sourcetype: splunkd
+    custom_index: _internal

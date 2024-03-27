@@ -48,6 +48,7 @@ known_false_positives: False positives will be present until properly filtered b
 references:
 - https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warning
 - https://www.github.com/splunk/security_content/blob/develop/workbooks/splunk_psa_0622.json
+- https://advisory.splunk.com/advisories/SVD-2024-0302
 tags:
   analytic_story:
   - Splunk Vulnerabilities
@@ -55,6 +56,7 @@ tags:
   confidence: 40
   cve:
   - CVE-2022-32154
+  - CVE-2024-29946
   impact: 50
   message: A risky Splunk command has ran by $user$ and should be reviewed.
   mitre_attack_id:
