@@ -1,7 +1,7 @@
 name: Detect Excessive User Account Lockouts
 id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
-version: 4
-date: '2022-08-25'
+version: 5
+date: '2024-03-19'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ known_false_positives: It is possible that a legitimate user is experiencing an 
 references: []
 tags:
   analytic_story:
-  - Account Monitoring and Controls
+  - Active Directory Password Spraying
   asset_type: Windows
   confidence: 60
   impact: 60

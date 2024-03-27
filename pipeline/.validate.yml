@@ -8,7 +8,7 @@ validate_escu:
     - poetry install
   script:
     - >
-      if [[ "$CI_COMMIT_TAG" =~ ^4\.[0-9]+\.[0-9]+$ ]]; then
+      if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
         echo "Tagged build - Enabling Enrichment"
         poetry run contentctl -p ../ --enable_enrichment validate
       else
@@ -26,7 +26,7 @@ validate_ba:
     - poetry install
   script:
      - >
-      if [[ "$CI_COMMIT_TAG" =~ ^4\.[0-9]+\.[0-9]+$ ]]; then
+      if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
         echo "Tagged build - Enabling Enrichment"
         poetry run contentctl -p ../ --enable_enrichment validate -t ssa
       else
