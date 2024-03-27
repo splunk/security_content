@@ -9,9 +9,9 @@ playbook: Active_Directory_Enable_Account_Dispatch
 how_to_implement: This automatic playbook requires the "enable_account" tag be present on each input playbook you want to launch.
 references: []
 app_list: 
-  - microsoft_ad_ldap
-  - azure_ad_graph
-  - aws_iam
+  - AD LDAP
+  - Azure AD Graph
+  - AWS IAM
 tags:
   platform_tags:
     - user
