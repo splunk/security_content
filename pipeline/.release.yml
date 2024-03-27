@@ -88,8 +88,11 @@ attack_range_escu_app:
 push_sse_json_to_artifactory:
   stage: release
   needs:
-    - app_inspect
+    - github_push_develop
   before_script:
+    - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
+    - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
+    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - pip3 install poetry
     - git submodule update --init contentctl
     - cd contentctl
@@ -101,7 +104,7 @@ push_sse_json_to_artifactory:
   script:
     - creds-helper init
     - eval $(creds-helper artifactory --eval $ARTIFACTORY_GENERIC_WRITE_ROLE)
-    - curl -u $ARTIFACTORY_AUTHORIZATION -X PUT $ARTIFACTORY_BASE_URL/generic/threat-research-security-content/$CI_COMMIT_TAG/sse.tar.gz -T sse.tar.gz
+    - curl -u $ARTIFACTORY_AUTHORIZATION -X PUT $ARTIFACTORY_BASE_URL/generic/threat-research-security-content/$CI_COMMIT_TAG/$CI_PIPELINE_ID/sse.tar.gz -T sse.tar.gz
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
 
@@ -116,6 +119,7 @@ trigger_downstream_sse_json_release:
   variables:
     UPSTREAM_ESCU_VERSION: $CI_COMMIT_TAG
     IS_DOWNSTREAM_SSE_JSON_RELEASE: "True"
+    PARENT_PIPELINE_ID: $CI_PIPELINE_ID
   trigger:
     project: securitycontent/security-content-automation
     branch: main
@@ -148,6 +152,10 @@ update_gitlab_dist:
       - artifacts/*
     expire_in: 14 days
   before_script:
+    - 'echo "Current CI_COMMIT_TAG: $CI_COMMIT_TAG"'
+    - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
+    - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
+    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - pip3 install poetry
     - git submodule update --init contentctl
     - cd contentctl
@@ -164,10 +172,7 @@ update_gitlab_dist:
     - git remote set-url origin https://PUSH_DIST_VIA_CI:$PUSH_DIST_VIA_CI@cd.splunkdev.com/threat-research/security_content.git
     - git fetch --all
     - git checkout develop
-    - 'echo "Current CI_COMMIT_TAG: $CI_COMMIT_TAG"'
-    - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
-    - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
-    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+    - git add contentctl.yml
     - git add dist/api/*
     - git add dist/DA-ESS-ContentUpdate/*
     - git add dist/ssa/*
@@ -206,6 +211,10 @@ github_push_develop:
     - git checkout -b $BRANCH
     - git config merge.submodule ignore
     - git merge github_origin/develop -X theirs || true
+    # Update contentctl.yml version after merge with theirs
+    - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
+    - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
+    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - cd contentctl && git checkout main && cd ..
     - git add contentctl
     - cd contentctl/
