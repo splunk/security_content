@@ -14,7 +14,7 @@ PyYAML>=5.4.1
 questionary==1.10.0
 requests==2.31.0
 six==1.16.0
-splunk-sdk==1.7.4
+splunk-sdk==2.0.1
 wrapt-timeout-decorator==1.5.1
 xmltodict==0.13.0
 
