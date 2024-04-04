@@ -1,0 +1,45 @@
+name: Windows Security 1102
+id: 248251ad-ef69-437e-8446-5a75818bd8a0
+date: '2024-01-29'
+author: Patrick Bareiss, Splunk
+type: wineventlog_security
+source: XmlWinEventLog:Security
+sourcetype: XmlWinEventLog
+service: security
+product: windows
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  version: 8.5.0
+  url: https://splunkbase.splunk.com/app/742
+references:
+- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=1102
+raw_fields: 
+- Caller_User_Name
+- Channel
+- Computer
+- DisplayName
+- Error_Code
+- EventID
+- EventRecordID
+- Guid
+- Keywords
+- Level
+- Name
+- Opcode
+- ProcessID
+- RecordNumber
+- SubjectDomainName
+- SubjectLogonId
+- SubjectUserName
+- SubjectUserSid
+- SystemTime
+- Task
+- ThreadID
+- Version
+field_mappings:
+  - data_model: ocsf
+    mapping:
+      Computer: device.hostname
+      EventID: metadata.event_code
+      SystemTime: metadata.original_time
+      
