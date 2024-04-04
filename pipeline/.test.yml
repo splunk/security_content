@@ -6,6 +6,7 @@ save_pipeline_id:
       when: on_success
   needs:
     - generate_escu
+    - generate_ba
   artifacts:
     when: always
     paths:
@@ -120,6 +121,33 @@ trigger_escu_test_mr:
   needs:
     - dry_run_escu
     - save_pipeline_id
+
+# Trigger SSA test
+trigger_ssa_test:
+  stage: test
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: on_success 
+  inherit:
+    variables: false
+  variables:
+    SECURITY_CONTENT_PIPELINE_ID: $CI_PIPELINE_ID
+    SECURITY_CONTENT_PIPELINE_SOURCE: $CI_PIPELINE_SOURCE
+    SECURITY_CONTENT_GIT_REF: $CI_COMMIT_REF_NAME
+    SECURITY_CONTENT_GIT_COMMIT_SHA: $CI_COMMIT_SHA
+    SECURITY_CONTENT_GIT_COMMIT_TAG: $CI_COMMIT_TAG
+    SSA_BUILD_PATH: artifacts/SSA-Content-latest.tar.gz
+    BUILD_NAME: SSA_Content
+  needs:
+    - save_pipeline_id
+  trigger:
+    project: securitycontent/security-content-automation
+    branch: main
+    strategy: depend
 
 # Retrieve downstream results (non-MR)
 get_artifacts:

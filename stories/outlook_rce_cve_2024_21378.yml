@@ -1,0 +1,20 @@
+name: Outlook RCE CVE-2024-21378
+id: d889fcf2-0265-4b44-b29f-4ec063c21880
+version: 1
+date: '2024-03-20'
+author: Michael Haag, Teoderick Contreras, Splunk
+description: CVE-2024-21378 exposes a critical vulnerability in Microsoft Outlook, allowing for authenticated remote code execution (RCE) through the manipulation of synced form objects. Discovered by NetSPI in 2023, this vulnerability capitalizes on the unchanged syncing capability of form objects, despite previous patches aimed at securing script code in custom forms. This technical blog delves into the discovery and weaponization of CVE-2024-21378, enhancing the Outlook penetration testing tool, Ruler, to exploit this flaw. A forthcoming pull request will provide a proof-of-concept code, aiding organizations in mitigating this security risk.
+narrative: CVE-2024-21378 is a weakness in Microsoft Outlook that lets hackers execute code remotely if they can authenticate themselves. Researchers at NetSPI found this issue in 2023. The problem started with a technique from 2017 by Etienne Stalmans at SensePost, who found a way to run code using VBScript in Outlook forms. Microsoft tried to fix it by only allowing approved script code in custom forms, but they didn't fix the main issue, which is how these forms sync. To exploit this vulnerability, you need to know how Outlook forms sync, using something called MAPI, and how they use certain properties and attachments when they're set up for the first time. Hackers can mess with these properties and attachments to run their own code. They do this by tricking the form's setup process, changing registry keys and files to get past Outlook's security. To show how this could be done, researchers modified Ruler, a tool for testing Outlook's security. They changed it so it could sync a harmful form with the right properties to run a specific type of file, a COM compliant native DLL. This not only showed that CVE-2024-21378 could be exploited but also that it could affect a lot of companies since so many use Microsoft Outlook. The discovery and the way it was exploited remind us that we always need to be on the lookout for security risks and work hard to protect against them. The cybersecurity world is always watching for the next big threat that could put our digital world at risk. As companies rush to fix this issue, it's a reminder of how important it is to stay ahead of these threats.
+references:
+- https://www.netspi.com/blog/technical/red-team-operations/microsoft-outlook-remote-code-execution-cve-2024-21378/
+tags:
+  analytic_story: Outlook RCE CVE-2024-21378
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-21378
