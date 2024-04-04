@@ -1,0 +1,72 @@
+name: Windows SqlWriter SQLDumper DLL Sideload
+id: 2ed89ba9-c6c7-46aa-9f08-a2a1c2955aa3
+version: 1
+date: '2024-03-25'
+author: Michael Haag, Teoderick Contreras, Splunk
+data_source:
+- Sysmon Event ID 7
+type: TTP
+status: production
+description: The following analytic identifies the abuse of SqlWriter and SQLDumper executables
+  to sideload the vcruntime140.dll library. This technique is commonly used by adversaries
+  to load malicious code into a legitimate process. The analytic searches for EventCode
+  7 from Sysmon logs where the Image is either SQLDumper.exe or SQLWriter.exe and the
+  ImageLoaded is vcruntime140.dll. The search also filters out the legitimate loading
+  of vcruntime140.dll from the System32 directory to reduce false positives.
+search: '`sysmon` EventCode=7 (Image="*\\SQLDumper.exe" OR Image="*\\SQLWriter.exe") ImageLoaded="*\\vcruntime140.dll" NOT ImageLoaded="C:\\Windows\\System32\\*" | stats values(ImageLoaded) count min(_time) as firstTime max(_time) as lastTime by Image,ImageLoaded, user, Computer, EventCode | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_sqlwriter_sqldumper_dll_sideload_filter`'
+how_to_implement: The analytic is designed to be run against Sysmon event logs collected
+  from endpoints. The analytic requires the Sysmon event logs to be ingested into Splunk.
+  The analytic searches for EventCode 7 where the Image is either SQLDumper.exe or SQLWriter.exe
+  and the ImageLoaded is vcruntime140.dll. The search also filters out the legitimate
+  loading of vcruntime140.dll from the System32 directory to reduce false positives.
+  The analytic can be modified to include additional known good paths for vcruntime140.dll
+  to further reduce false positives.
+known_false_positives: False positives are possible if legitimate processes are loading
+  vcruntime140.dll from non-standard directories. It is recommended to investigate the
+  context of the process loading vcruntime140.dll to determine if it is malicious or
+  not. Modify the search to include additional known good paths for vcruntime140.dll
+  to reduce false positives.
+references:
+- https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
+- https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
+tags:
+  analytic_story:
+  - APT29 Diplomatic Deceptions with WINELOADER
+  group:
+  - APT29
+  - Cozy Bear
+  - Midnight Blizzard
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: An instance of $Image$ loading $ImageLoaded$ was detected on $dest$.
+  mitre_attack_id:
+  - T1574.002
+  observable:
+  - name: Image
+    type: File Name
+    role:
+    - Attacker
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Image
+  - ImageLoaded
+  - user
+  - Computer
+  - EventCode
+  risk_score: 64
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/wineloader/sqlwriter_sqldumper_sideload_windows-sysmon.log
+    sourcetype: xmlwineventlog
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
