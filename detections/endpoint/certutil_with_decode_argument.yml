@@ -43,6 +43,11 @@ tags:
   - Deobfuscate-Decode Files or Information
   - Living Off The Land
   - Forest Blizzard
+  - APT29 Diplomatic Deceptions with WINELOADER
+  group:
+  - APT29
+  - Cozy Bear
+  - Midnight Blizzard
   asset_type: Endpoint
   confidence: 80
   impact: 50

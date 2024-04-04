@@ -1,0 +1,56 @@
+name: Windows New InProcServer32 Added
+id: 0fa86e31-0f73-4ec7-9ca3-dc88e117f1db
+version: 1
+date: '2024-03-20'
+author: Michael Haag, Splunk
+data_source:
+- Sysmon Event ID 13
+type: Hunting
+status: production
+description: This analytic is designed to detect the addition of new InProcServer32 registry keys, which could indicate suspicious or malicious activity on a Windows endpoint. The InProcServer32 registry key specifies the path to a COM object that can be loaded into the process space of calling processes. Malware often abuses this mechanism to achieve persistence or execute code by registering a new InProcServer32 key pointing to a malicious DLL. By monitoring for the creation of new InProcServer32 keys, this analytic helps identify potential threats that leverage COM hijacking or similar techniques for execution and persistence. Understanding the normal behavior of legitimate software in your environment will aid in distinguishing between benign and malicious use of InProcServer32 modifications.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\InProcServer32\\*" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.dest Registry.process_guid Registry.user 
+  | `drop_dm_object_name(Registry)`
+  |`security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `windows_new_inprocserver32_added_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: False positives are expected. Filtering will be needed to properly reduce legitimate applications from the results.
+references:
+- https://www.netspi.com/blog/technical/red-team-operations/microsoft-outlook-remote-code-execution-cve-2024-21378/
+tags:
+  analytic_story:
+  - Outlook RCE CVE-2024-21378
+  asset_type: Endpoint
+  confidence: 20
+  impact: 10
+  message: A new InProcServer32 registry key was added to a Windows endpoint. This could indicate suspicious or malicious activity on the $dest$ .
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.registry_value_data
+  - Registry.dest
+  - Registry.process_guid
+  - Registry.user
+  risk_score: 2
+  security_domain: endpoint
+  cve:
+  - cve-2024-21378
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/cve-2024-21378/inprocserver32_windows-sysmon.log
+    sourcetype: xmlwineventlog
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
