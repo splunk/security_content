@@ -1,0 +1,68 @@
+name: Windows Phishing Outlook Drop Dll In FORM Dir
+id: fca01769-5163-4b3a-ae44-de874adfc9bc
+version: 1
+date: '2024-03-20'
+author: Teoderick Contreras, Splunk
+data_source:
+- Sysmon Event ID 11
+type: TTP
+status: production
+description: The following analytic identifies a suspicious outlook.exe process dropped a dll file. 
+  This technique was seen in CVE-2024-21378, involves the loading of a custom MAPI form to execute a 
+  potentially malicious DLL. Detecting such TTPs serves as a crucial pivot point to identify potential adversaries, 
+  malware, or red team activity attempting to leverage this method within phishing campaigns.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=outlook.exe 
+  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid 
+  | `drop_dm_object_name(Processes)` 
+  | join process_guid, _time [ | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+  where Filesystem.file_name ="*.dll" Filesystem.file_path = "*\\AppData\\Local\\Microsoft\\FORMS\\IPM*"
+  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
+  | `drop_dm_object_name(Filesystem)`
+  | fields file_name file_path process_name process_path process dest file_create_time _time process_guid] 
+  | `windows_phishing_outlook_drop_dll_in_form_dir_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: unknown
+references:
+- https://www.netspi.com/blog/technical/red-team-operations/microsoft-outlook-remote-code-execution-cve-2024-21378/
+tags:
+  analytic_story:
+  - Outlook RCE CVE-2024-21378
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: an outlook process dropped dll file into $file_path$ on $dest$
+  mitre_attack_id:
+  - T1566
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - file_create_time
+  - file_name
+  - file_path
+  - process_name
+  - process_path
+  - process
+  risk_score: 49
+  security_domain: endpoint
+  cve:
+  - CVE-2024-21378
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/outlook_dropped_dll/outlook_phishing_form_dll.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
