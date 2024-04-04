@@ -51,6 +51,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_mailbox_forwarding_enabled/o365_mailbox_forwarding_enabled.json
     sourcetype: o365:management:activity
     source: o365
