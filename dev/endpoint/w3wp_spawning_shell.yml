@@ -17,16 +17,20 @@ data_source:
 - Sysmon Event ID 1
 search:
   selection1:
-    ParentImage: w3wp.exe
+      ParentProcessName: w3wp.exe
   selection2:
-    OriginalFileName: Cmd.Exe
+      ProcessName:
+          - cmd.exe
+          - powershell.exe
   selection3:
-    Image|endswith: cmd.exe
+      OriginalFileName:
+          - Cmd.exe
+          - Powershell.exe
   selection4:
-    OriginalFileName: Cmd.Exe
-  selection5:
-    Image|endswith: cmd.exe
-  condition: selection1 and selection2 and selection3 or selection4 or selection5
+      Image|endswith:
+          - cmd.exe
+          - powershell.exe
+  condition: selection1 and (selection2 or selection3 or selection4)
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
