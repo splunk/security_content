@@ -8,11 +8,14 @@ type: TTP
 description: The search looks for a batch file (.bat) written to the Windows system
   directory tree.
 data_source:
-- Sysmon Event ID 1
+- Sysmon Event ID 11
 search:
-  selection1:
-    Image|endswith: '*'
-  condition: selection1
+  selection:
+      TargetFilename|endswith: .bat
+      TargetFilename|contains:
+          - system32
+          - syswow64
+  condition: selection
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
