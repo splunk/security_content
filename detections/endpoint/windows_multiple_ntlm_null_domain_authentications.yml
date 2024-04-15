@@ -13,7 +13,7 @@ search: '`ntlm_audit` EventCode IN (8004,8005,8006) DomainName=NULL UserName!=NU
 | eval dest = SChannelName, user = UserName ``` CIM alignment```
 | where SChannelName!=src ``` Remove NTLM auths to self, improves accuracy for certain applications```
 | `windows_multiple_ntlm_null_domain_authentications_filter`
-| stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user))) as unique_count by dest
+| stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user))) as unique_count dc(eval(upper(src))) as src_count by dest
 | eventstats avg(unique_count) as unique_avg , stdev(unique_count) as unique_std
 | eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula for sensitivity```
 | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0)
