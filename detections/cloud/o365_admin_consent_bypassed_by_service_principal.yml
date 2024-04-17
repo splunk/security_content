@@ -24,7 +24,12 @@ search: >-
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Service Principals are sometimes configured to legitimately bypass the consent process for purposes of automation. Filter as needed.
 references:
-- REFERENCE
+- https://attack.mitre.org/techniques/T1098/003/
+- https://msrc.microsoft.com/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard/
+- https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+- https://attack.mitre.org/techniques/T1098/002/
+- https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+- https://winsmarts.com/how-to-grant-admin-consent-to-an-api-programmatically-e32f4a100e9d
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
@@ -33,7 +38,7 @@ tags:
   impact: 90
   message: Service principal $src_user$ bypassed the admin consent process and granted permissions to $dest_user$
   mitre_attack_id:
-  - T1003.002
+  - T1098.003
   observable:
   - name: src_user
     type: User
@@ -45,6 +50,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Workload
+  - Operation
+  - Actor{}.ID
+  - ModifiedProperties{}.NewValue
+  - src_user
+  - dest_user
   risk_score: 54
   security_domain: identity
 tests:

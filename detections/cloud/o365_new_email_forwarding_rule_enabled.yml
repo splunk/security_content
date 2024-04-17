@@ -1,0 +1,65 @@
+name: O365 New Email Forwarding Rule Enabled
+id: ac7c4d0a-06a3-4278-aa59-88a5e537f981
+version: 1
+date: '2024-03-28'
+author: Mauricio Velazco, Splunk
+data_source: []
+type: TTP
+status: production
+description: This detection aims to identify instances where new email forwarding rules are created through the UpdateInboxRules operation within an Office 365 environment. Despite the operation name suggesting an update, this specific scenario involves the addition of new rules that direct emails to external recipients, captured under the ForwardToRecipientsAction. The analytic examines the OperationProperties to extract and validate forwarding addresses, ensuring they adhere to the expected email format.
+search: >-
+  `o365_management_activity` Workload=Exchange Operation=UpdateInboxRules 
+  | eval match1=mvfind('OperationProperties{}.Value', "ForwardToRecipientsAction")
+  | eval match2=mvfind('OperationProperties{}.Value', "ForwardAsAttachmentToRecipientsAction")
+  | eval match3=mvfind('OperationProperties{}.Value', "RedirectToRecipientsAction")
+  | eval index = mvfind('OperationProperties{}.Name', "ServerRule")
+  | where match1>= 0 OR match2>= 0 OR match3>= 0
+  | eval ServerRule = mvindex('OperationProperties{}.Value', index-1)
+  | spath input=ServerRule path=Actions{}.Recipients{}.Values{}.Value output=valueExtracted
+  | mvexpand valueExtracted
+  | search valueExtracted="*@*.*"
+  | eval ForwardTo=if(match(valueExtracted, "^[^@]+@[^@]+\\.[^@]+$"), valueExtracted, null)
+  | dedup ForwardTo
+  | where isnotnull(ForwardTo)
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Name) as Name by user Operation ForwardTo
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_new_email_forwarding_rule_enabled_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Users may create email forwarding rules for legitimate purposes. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1114/003/
+tags:
+  analytic_story:
+  - Office 365 Collection Techniques
+  asset_type: O365 tenant
+  confidence: 60
+  impact: 70
+  message: A forwarding email inbox rule was created for $user$ 
+  mitre_attack_id:
+  - T1114
+  - T1114.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Operation
+  - Actions
+  - Name
+  - user
+  risk_score: 42
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule_created/o365_email_forwarding_rule_created.log
+    sourcetype: o365:management:activity
+    source: o365
+

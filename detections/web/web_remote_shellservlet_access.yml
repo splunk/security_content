@@ -1,21 +1,18 @@
 name: Web Remote ShellServlet Access
 id: c2a332c3-24a2-4e24-9455-0e80332e6746
-version: 1
-date: '2023-11-22'
+version: 2
+date: '2024-04-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source:
-- UPDATE_DATA_SOURCE
-description: The following analytic identifies an attempt to access the Remote ShellServlet
-  on a web server. This servlet is used to execute commands on the server. This activity
-  is often associated with web shells and other malicious activity. This activity was identified against a Confluence server related to CVE-2023-22518 and CVE-2023-22515. Activity prior to access to the shell servlet include adding a plugin to Confluence. In addition, monitor for ShellServlet?act=3, ShellServlet or obfuscated variations including Sh3llServlet1.
+data_source: []
+description: This analytic identifies attempts to access the Remote ShellServlet on a web server, which is utilized to execute commands. Such activity is commonly linked with web shells and other forms of malicious behavior. It was specifically detected on a Confluence server in relation to CVE-2023-22518 and CVE-2023-22515. Activities preceding access to the shell servlet include the addition of a plugin to Confluence. Additionally, it is advisable to monitor for ShellServlet?act=3, ShellServlet, or obfuscated variations such as Sh3llServlet1.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*plugins/servlet/com.jsos.shell/*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
   | `drop_dm_object_name("Web")` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` | `web_remote_shellservlet_access_filter`'
-how_to_implement: The following analytic requires collection of Web data. The data can be collected via Splunk Stream, or by using the Splunk Add-on for Apache Web Server. The analytic does not require any additional configuration.
-known_false_positives: False positives may be present based on the web server configuration. If the web server is configured to use the Remote ShellServlet, then this analytic will not be a true positive.
+how_to_implement: This analytic necessitates the collection of web data, which can be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web Server. No additional configuration is required for this analytic.
+known_false_positives: False positives may occur depending on the web server's configuration. If the web server is intentionally configured to utilize the Remote ShellServlet, then the detections by this analytic would not be considered true positives.
 references:
 - http://www.servletsuite.com/servlets/shell.htm
 tags:
@@ -55,6 +52,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/shellservlet.log
-    source: aws
-    sourcetype: aws:cloudfront:accesslogs
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/nginx_shellservlet.log
+    source: /var/log/nginx/access.log
+    sourcetype: nginx:plus:kv

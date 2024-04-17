@@ -1,12 +1,13 @@
 name: Windows Rename System Utilities Acccheckconsole exe LOLBAS in Non Standard Path
 id: c842931e-661f-42bc-a4df-0460d93cfb69
-version: 4
+version: 5
 status: production
 detection_type: STREAMING
 description: The following analytic identifies AccCheckConsole.exe which is a native
   living off the land binary or script (LOLBAS) within the Windows operating system
   that may be abused by adversaries by moving it to a new directory. The list of binaries
-  was derived from the https://lolbas-project.github.io site.
+  was derived from the https://lolbas-project.github.io site. The specific default
+  filepath for AccCheckConsole.exe is within "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\".
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
   = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
@@ -15,7 +16,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_file_name="acccheckconsole.exe"
-  AND (NOT match(process_file_path, /(?i)\\program files (x86)\\windows kits\\10\\bin\\10.0.22000.0\\arm64\\accchecker/)=true)
+  AND (NOT match(process_file_path, /(?i)\\program files \(x86\)\\windows kits\\10\\bin\\10.0.22000.0\\(x86|x64|arm|arm64)\\accchecker\\/)=true)
   
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
@@ -55,7 +56,7 @@ known_false_positives: False positives may be present and filtering may be requi
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
 - https://attack.mitre.org/techniques/T1036/003/
-- https://lolbas-project.github.io/
+- https://lolbas-project.github.io/lolbas/OtherMSBinaries/AccCheckConsole/
 tags:
   required_fields:
   - process.pid

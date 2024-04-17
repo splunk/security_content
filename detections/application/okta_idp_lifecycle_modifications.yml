@@ -1,0 +1,57 @@
+name: Okta IDP Lifecycle Modifications
+id: e0be2c83-5526-4219-a14f-c3db2e763d15
+version: 1
+date: '2024-03-14'
+author: Bhavin Patel, Splunk
+data_source: []
+type: Anomaly
+status: production
+description: This detection identifies modifications to Okta Identity Provider (IDP) lifecycle events, such as creation, activation, deactivation, and deletion of IDP configurations. Monitoring these events is crucial for maintaining the integrity and security of authentication mechanisms within an organization. By detecting unauthorized or anomalous changes, organizations can quickly respond to potential security breaches or misconfigurations, ensuring that their identity management systems remain secure and operational.
+search: '`okta` eventType IN ("system.idp.lifecycle.activate","system.idp.lifecycle.create","system.idp.lifecycle.delete","system.idp.lifecycle.deactivate") 
+  |  stats count  min(_time) as firstTime max(_time) as lastTime values(target{}.id) as target_id values(target{}.type) as target_modified by src dest src_user_id user user_agent command description | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_idp_lifecycle_modifications_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: It's possible for legitimate administrative actions or automated processes to trigger this detection, especially if there are bulk modifications to Okta IDP lifecycle events. Review the context of the modification, such as the user making the change and the specific lifecycle event modified, to determine if it aligns with expected behavior.
+references:
+- https://www.obsidiansecurity.com/blog/behind-the-breach-cross-tenant-impersonation-in-okta/
+- https://splunkbase.splunk.com/app/6553
+tags:
+  analytic_story:
+  - Suspicious Okta Activity
+  asset_type: Okta tenant
+  confidence: 90
+  impact: 90
+  message: A user [$user$] is attempting IDP lifecycle modification - [$description$] from IP Address - [$src$]"
+  mitre_attack_id:
+  - T1087.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - eventType
+  - target{}.id
+  - target{}.type
+  - src
+  - dest
+  - src_user_id
+  - user
+  - user_agent
+  - command
+  - description
+  risk_score: 81
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/okta_idp/okta.log
+    source: Okta
+    sourcetype: OktaIM2:log

@@ -3,16 +3,18 @@ id: 62b70968-a0a5-4724-8ac4-67871e6f544d
 version: 2
 date: '2022-09-19'
 author: Michael Haag, Rico Valdez, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
-description: The following anomaly will generate based on account lockout events utilizing
+description: 
+  '**DEPRECATION NOTE** - This search has been deprecated and replaced with `Okta Multiple Accounts Locked Out`.
+  The following anomaly will generate based on account lockout events utilizing
   Okta eventTypes of user.account.lock.limit or user.account.lock. Per the Okta docs
   site, this event is fired when a user account has reached the lockout limit. The
   account will not auto-unlock and a user or client cannot gain access to the account.
   This event indicates an account that will not be able to log in until remedial action
   is taken by the account admin. This event can be used to understand the specifics
   of an account lockout. Often this indicates a client application that is repeatedly
-  attempting to authenticate with invalid credentials such as an old password.
+  attempting to authenticate with invalid credentials such as an old password.'
 data_source: []
 search: '`okta` eventType IN (user.account.lock.limit,user.account.lock) | rename
   client.geographicalContext.country as country, client.geographicalContext.state
@@ -38,10 +40,10 @@ tags:
   - T1078
   - T1078.001
   observable:
-  - name: src_user
-    type: User
+  - name: src_ip
+    type: IP Address
     role:
-    - Victim
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -56,3 +58,9 @@ tags:
   - src_user
   risk_score: 25
   security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
+    source: Okta
+    sourcetype: OktaIM2:log
