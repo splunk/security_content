@@ -1,0 +1,23 @@
+name: Okta Account Takeover
+id: 83a48657-8153-4580-adba-eb0b3a83244e
+version: 1
+date: '2024-03-06'
+author: Michael Haag, Mauricio Velazco, Bhavin Patel, Splunk
+description: The Okta Account Takeover analytic story encompasses a comprehensive suite of detections aimed at identifying unauthorized access and potential takeover attempts of Okta accounts. This collection leverages diverse data points and behavioral analytics to safeguard user identities and access within cloud environments. Monitor for activities and techniques associated with Account Takeover attacks against Okta tenants.
+narrative: Okta is a cloud-based identity management service that provides organizations with a secure way to manage user access to various applications and services. It enables single sign-on (SSO), multi-factor authentication (MFA), lifecycle management, and more, helping organizations streamline the user authentication process. Account Takeover (ATO) is an attack whereby cybercriminals gain unauthorized access to online accounts by using different techniques like brute force, social engineering, phishing & spear phishing, credential stuffing, etc. By posing as the real user, cyber-criminals can change account details, send out phishing emails, access sensitive applications, or use any stolen information to access further accounts within the organization. This analytic story groups detections that can help security operations teams identify the potential compromise of Okta accounts.
+references:
+- https://attack.mitre.org/techniques/T1586/
+- https://www.imperva.com/learn/application-security/account-takeover-ato/
+- https://www.barracuda.com/glossary/account-takeover
+- https://www.okta.com/customer-identity/
+tags:
+  analytic_story: Okta Account Takeover
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Cloud Security  
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

@@ -1,0 +1,54 @@
+name: Windows AppLocker Execution from Uncommon Locations
+id: d57ce957-151a-4aec-ada5-5fb1eb555b6b
+version: 1
+date: '2024-03-21'
+author: Michael Haag, Splunk
+data_source: []
+type: Hunting
+status: production
+description: This analytic is designed to identify executions of applications or scripts from uncommon or suspicious file paths, which could be indicative of malware or unauthorized activity. By leveraging a simple statistical model, the query analyzes the frequency of application executions across different file paths. It calculates the average (avg) number of executions per file path and uses the standard deviation (stdev) to measure the variation or dispersion of the execution counts from the average. A file path is considered uncommon or suspicious if the number of executions from it is significantly higher than what is expected based on the calculated average and standard deviation. Specifically, the analytic flags any file path from which the number of executions exceeds the upper bound, defined as the average plus two times the standard deviation (avg+stdev*2). This approach helps in pinpointing anomalies in application execution patterns, potentially uncovering malicious activities or policy violations.
+search: '`applocker` 
+  | spath input=UserData_Xml | rename RuleAndFileData.* as *, Computer as dest, TargetUser AS user
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, PolicyName, RuleId, user, TargetProcessId, FilePath, FullFilePath
+  | eventstats avg(count) as avg, stdev(count) as stdev
+  | eval upperBound=(avg+stdev*2), anomaly=if(count > upperBound, "Yes", "No")
+  | where anomaly="Yes"
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_applocker_execution_from_uncommon_locations_filter`'
+how_to_implement: The analytic is designed to be run against Windows AppLocker event logs collected from endpoints with AppLocker enabled. If using Microsoft Defender for Endpoint (MDE), modify the analytic to use EventTypes/ActionTypes that match the block events for AppLocker. The analytic requires the AppLocker event logs to be ingested into Splunk. Note that, an additional method to reduce any false positives would be to add the specific EventCodes - 8003 or 8004 and filter from there. Upon tuning, modify to Anomaly or TTP.
+known_false_positives: False positives are possible if legitimate users are executing applications from file paths that are not permitted by AppLocker. It is recommended to investigate the context of the application execution to determine if it is malicious or not. Modify the threshold as needed to reduce false positives.
+references:
+- https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/operations/querying-application-control-events-centrally-using-advanced-hunting
+- https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/applocker/using-event-viewer-with-applocker
+tags:
+  analytic_story:
+  - Windows AppLocker
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: An application was executed from an uncommon location on a host $dest$.
+  mitre_attack_id:
+  - T1218
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - FullFilePath
+  - dest
+  - user
+  risk_score: 49
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
+    sourcetype: xmlwineventlog
+    source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script

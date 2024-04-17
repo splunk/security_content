@@ -5,10 +5,30 @@ infrastructure_config:
   full_image_path: registry.hub.docker.com/splunk/splunk:latest
 post_test_behavior: pause_on_failure
 mode: changes
-detections_list: null
+detections_list: null 
 splunkbase_username: null
 splunkbase_password: null
 apps:
+- uid: 1621
+  appid: Splunk_SA_CIM
+  title: Splunk Common Information Model (CIM)
+  description: null
+  release: 5.2.0
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_520.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
+- uid: 6553
+  appid: Splunk_TA_okta_identity_cloud
+  title: Splunk Add-on for Okta Identity Cloud
+  description: null
+  release: 2.1.0
+  local_path: null
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-okta-identity-cloud_210.tgz
+  splunkbase_path: null
+  environment_path: ENVIRONMENT_PATH_NOT_SET
+  force_local: false
 - uid: 6176
   appid: Splunk_TA_linux_sysmon
   title: Add-on for Linux Sysmon
@@ -45,9 +65,9 @@ apps:
   appid: Splunk_TA_microsoft_sysmon
   title: Splunk Add-on for Sysmon
   description: null
-  release: 3.1.0
+  release: 4.0.0
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_310.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_400.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -65,9 +85,9 @@ apps:
   appid: Splunk_TA_CrowdStrike_FDR
   title: Splunk Add-on for CrowdStrike FDR
   description: null
-  release: 1.4.0
+  release: 1.5.0
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-crowdstrike-fdr_140.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-crowdstrike-fdr_150.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -75,9 +95,9 @@ apps:
   appid: SPLUNK_TA_FOR_IIS
   title: Splunk Add-on for Microsoft IIS
   description: null
-  release: 1.2.0
+  release: 1.3.0
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-iis_120.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-iis_130.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -95,9 +115,9 @@ apps:
   appid: SPLUNK_TA_FOR_ZEEK
   title: TA for Zeek
   description: null
-  release: 1.0.5
+  release: 1.0.6
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-zeek_105.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/ta-for-zeek_106.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -105,9 +125,9 @@ apps:
   appid: SPLUNK_ADD_ON_FOR_NGINX
   title: Splunk Add-on for NGINX
   description: null
-  release: 3.2.1
+  release: 3.2.2
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-nginx_321.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-nginx_322.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -135,9 +155,9 @@ apps:
   appid: PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK
   title: Palo Alto Networks Add-on for Splunk
   description: null
-  release: 8.1.0
+  release: 8.1.1
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/palo-alto-networks-add-on-for-splunk_810.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/palo-alto-networks-add-on-for-splunk_811.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -165,9 +185,9 @@ apps:
   appid: Splunk_TA_aws
   title: Splunk Add-on for AWS
   description: null
-  release: 7.2.0
+  release: 7.5.0
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-amazon-web-services-aws_720.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-amazon-web-services-aws_750.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -175,9 +195,9 @@ apps:
   appid: SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM
   title: Splunk Add-on for Google Cloud Platform
   description: null
-  release: 4.3.0
+  release: 4.4.0
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-cloud-platform_430.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-cloud-platform_440.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -185,9 +205,9 @@ apps:
   appid: SPLUNK_ADD_ON_FOR_GOOGLE_WORKSPACE
   title: Splunk Add-on for Google Workspace
   description: null
-  release: 2.6.0
+  release: 2.6.3
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_260.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-google-workspace_263.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -195,9 +215,9 @@ apps:
   appid: SPLUNK_TA_MICROSOFT_CLOUD_SERVICES
   title: Splunk Add-on for Microsoft Cloud Services
   description: null
-  release: 5.2.1
+  release: 5.2.2
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_521.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-cloud-services_522.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -205,9 +225,9 @@ apps:
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365
   title: Splunk Add-on for Microsoft Office 365
   description: null
-  release: 4.3.0
+  release: 4.5.1
   local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_430.tgz
+  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-microsoft-office-365_451.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false
@@ -228,16 +248,6 @@ apps:
   release: 1.9.2
   local_path: null
   http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz
-  splunkbase_path: null
-  environment_path: ENVIRONMENT_PATH_NOT_SET
-  force_local: false
-- uid: 1621
-  appid: Splunk_SA_CIM
-  title: Splunk Common Information Model (CIM)
-  description: null
-  release: 5.2.0
-  local_path: null
-  http_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-common-information-model-cim_520.tgz
   splunkbase_path: null
   environment_path: ENVIRONMENT_PATH_NOT_SET
   force_local: false

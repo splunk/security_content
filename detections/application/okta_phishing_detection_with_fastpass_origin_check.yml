@@ -19,7 +19,7 @@ references:
 - https://sec.okta.com/fastpassphishingdetection
 tags:
   analytic_story:
-  - Suspicious Okta Activity
+  - Okta Account Takeover
   asset_type: Infrastructure
   confidence: 100
   impact: 100

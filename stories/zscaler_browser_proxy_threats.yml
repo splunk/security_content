@@ -1,0 +1,19 @@
+name: Zscaler Browser Proxy Threats
+id: 5d4ba315-39df-4309-982f-a7052efccffd
+version: 1
+date: '2023-10-25'
+author: Rod Soto, Gowthamaraj Rajendran
+description: Leverage searches that allow you to detect and investigate unusual activities that might relate to malicious activity from Zscaler. This also encompasses monitoring for events such as users downloading harmful files or accessing websites that pose a risk to system and network security. Additionally, the narrative extends to the detection of insider threats, ensuring comprehensive protection from both external and internal vulnerabilities. By leveraging Zscaler with Splunk, organizations can fortify their defenses, safeguarding against a wide spectrum of cyber threats and maintaining a secure operational environment.
+narrative: Zscaler Client Connector is an application installed on your device to ensure that your internet traffic and access to your organization's internal apps are secure and in compliance with your organization's policies, even when you're off your corporate network.
+references: 
+- https://threatlibrary.zscaler.com/
+- https://help.zscaler.com/zia/about-threat-categories
+tags:
+  analytic_story: Zscaler Browser Proxy Threats
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
