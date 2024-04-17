@@ -3,10 +3,12 @@ id: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 version: 1
 date: '2020-12-16'
 author: Patrick Bareiss, Splunk
-status: production
+status: deprecated
 type: Anomaly
-description: This search detects when an admin configured a forwarding rule for multiple
-  mailboxes to the same destination.
+description: 
+  '**DEPRECATION NOTE** - This search has been deprecated and replaced with `O365 Mailbox Email Forwarding Enabled`.
+  This search detects when an admin configured a forwarding rule for multiple
+  mailboxes to the same destination.'
 data_source: []
 search: '`o365_management_activity` Operation=Set-Mailbox | spath input=Parameters
   | rename Identity AS src_user | search ForwardingAddress=* | stats dc(src_user)

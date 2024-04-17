@@ -1,0 +1,51 @@
+name: Windows AppLocker Rare Application Launch Detection
+id: 9556f7b7-285f-4f18-8eeb-963d989f9d27
+version: 1
+date: '2024-03-21'
+author: Michael Haag, Splunk
+data_source: []
+type: Hunting
+status: production 
+description: This analytic is designed to detect the launch of applications that occur rarely within the environment, which could indicate the use of potentially malicious software or tools by attackers. It works by aggregating the count of application launches over time, then calculating the average and standard deviation of these counts. Applications whose launch counts significantly deviate from the norm, either by exceeding or falling below three standard deviations from the average, are flagged for further investigation. This approach helps in identifying unusual application activity that could be indicative of a security threat.
+search: '`applocker` 
+  | spath input=UserData_Xml | rename RuleAndFileData.* as *, Computer as dest, TargetUser AS user
+  | stats dc(_time) as days, count by FullFilePath dest user
+  | eventstats avg(count) as avg, stdev(count) as stdev
+  | eval upperBound=(avg+stdev*3), lowerBound=(avg-stdev*3)
+  | where count > upperBound OR count < lowerBound | `windows_applocker_rare_application_launch_detection_filter`'
+how_to_implement: The analytic is designed to be run against Windows AppLocker event logs collected from endpoints with AppLocker enabled. If using Microsoft Defender for Endpoint (MDE), modify the analytic to use EventTypes/ActionTypes that match the block events for AppLocker. The analytic requires the AppLocker event logs to be ingested into Splunk. Note that, an additional method to reduce any false positives would be to add the specific EventCodes - 8003 or 8004 and filter from there.
+known_false_positives: False positives are possible if legitimate users are launching applications that are not permitted by AppLocker. It is recommended to investigate the context of the application launch to determine if it is malicious or not. Modify the threshold as needed to reduce false positives.
+references:
+- https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/applocker/using-event-viewer-with-applocker
+- https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/operations/querying-application-control-events-centrally-using-advanced-hunting
+tags:
+  analytic_story:
+  - Windows AppLocker
+  asset_type: Endpoint
+  confidence: 30
+  impact: 50
+  message: An application launch that deviates from the norm was detected on a host $dest$.
+  mitre_attack_id:
+  - T1218
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - FullFilePath
+  - dest
+  - user
+  risk_score: 15
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
+    sourcetype: xmlwineventlog
+    source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script

@@ -3,14 +3,16 @@ id: d650c0ae-bdc5-400e-9f0f-f7aa0a010ef1
 version: 1
 date: '2022-09-21'
 author: Michael Haag, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
-description: The following analytic utilizes the user.acount.lock event to identify
+description: 
+  '**DEPRECATION NOTE** - This search has been deprecated and replaced with `Okta Multiple Accounts Locked Out`.
+  The following analytic utilizes the user.acount.lock event to identify
   associates who are locked out of Okta. An adversary attempting to brute force or
-  password spray account names may lock accounts out depending on the threshold.
+  password spray account names may lock accounts out depending on the threshold.'
 data_source: []
 search: '`okta` eventType=user.account.lock | stats count min(_time) as firstTime
-  max(_time) as lastTime values(displayMessage) by src_user src_ip eventType status
+  max(_time) as lastTime values(displayMessage) values(src_user) as user by src_ip eventType status
   | where count >=3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `okta_account_locked_out_filter`'
 how_to_implement: This analytic is specific to Okta and requires Okta logs to be ingested.
@@ -30,8 +32,8 @@ tags:
   mitre_attack_id:
   - T1110
   observable:
-  - name: src_user
-    type: User
+  - name: src_ip
+    type: IP Address
     role:
     - Attacker
   product:
@@ -46,3 +48,9 @@ tags:
   - status
   risk_score: 64
   security_domain: access
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
+    source: Okta
+    sourcetype: OktaIM2:log

@@ -32,7 +32,7 @@ references:
 - https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
 tags:
   analytic_story:
-  - blackMatter ransomware
+  - BlackMatter Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50

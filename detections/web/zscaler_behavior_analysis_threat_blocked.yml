@@ -1,0 +1,62 @@
+name: Zscaler Behavior Analysis Threat Blocked
+id: 289ad59f-8939-4331-b805-f2bd51d36fb8
+version: 1
+date: '2023-10-31'
+author: Rod Soto, Gowthamaraj Rajendran, Splunk
+status: production
+type: Anomaly
+data_source: []
+description: The analytic is built to identify threats blocked by the Zscaler proxy based on behavior analysis. It filters web proxy logs for entries where actions are blocked and threat names and classes are specified. The search further refines the results to include only those with reasons related to "block". It then aggregates the count, providing a clear view of the threat landscape as handled by the behavior analysis proxy.
+search: '`zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user threatname url src dest
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `zscaler_behavior_analysis_threat_blocked_filter`'
+how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
+known_false_positives: False positives are limited to Zscalar configuration.
+references:
+- https://help.zscaler.com/zia/nss-feed-output-format-web-logs
+tags:
+  analytic_story:
+  - Zscaler Browser Proxy Threats
+  asset_type: Web Server
+  confidence: 80
+  impact: 10
+  message: Potential Adware Behavior Analysis Threat from dest -[$dest$] on $src$ for user-[$user$].
+  mitre_attack_id:
+  - T1566
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: url
+    type: URL String
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 8
+  required_fields:
+  - action
+  - threatname
+  - deviceowner
+  - user
+  - urlcategory
+  - url 
+  - dest 
+  - dest_ip 
+  - action
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
+    source: zscaler
+    sourcetype: zscalernss-web

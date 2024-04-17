@@ -1,0 +1,56 @@
+name: Windows AppLocker Block Events
+id: e369afe8-cd35-47a3-9c1e-d813efc1f7dd
+version: 1
+date: '2024-03-26'
+author: Michael Haag, Splunk
+data_source: []
+type: Anomaly
+status: production
+description: The following analytic utilizes Windows AppLocker event logs to generate risk based on blocks related to AppLocker policy violations. The analytic is designed to identify attempts to bypass application restrictions.
+search: '`applocker`  EventCode IN (8007, 8004, 8022, 8025, 8029, 8040)
+  | spath input=UserData_Xml | rename RuleAndFileData.* as *, TargetUser as user, Computer as dest
+  | lookup applockereventcodes EventCode OUTPUT Description
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, PolicyName, RuleId, user, TargetProcessId, FilePath, FullFilePath
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `windows_applocker_block_events_filter`'
+how_to_implement: To implement this analytic, you must be ingesting Windows AppLocker logs into Splunk. Ensure proper logging is setup for AppLocker and data is being ingested into Splunk.
+known_false_positives: Administrators may legitimately use AppLocker to allow applications.
+references:
+- https://attack.mitre.org/techniques/T1218
+- https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/applocker/using-event-viewer-with-applocker
+- https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/operations/querying-application-control-events-centrally-using-advanced-hunting
+tags:
+  analytic_story:
+  - Windows AppLocker
+  asset_type: Endpoint
+  confidence: 80
+  impact: 20
+  message: An instance of AppLocker policy violation has been detected on $dest$.
+  mitre_attack_id:
+  - T1218
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - dest
+  - PolicyName
+  - RuleId
+  - user
+  - TargetProcessId
+  - FilePath
+  - FullFilePath
+  risk_score: 16
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
+    sourcetype: xmlwineventlog
+    source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script

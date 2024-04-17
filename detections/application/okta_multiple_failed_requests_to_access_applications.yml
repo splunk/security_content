@@ -25,8 +25,8 @@ references:
   - https://attack.mitre.org/techniques/T1550/004
 tags:
   analytic_story:
-    - Suspicious Okta Activity
-  asset_type: Infrastructure
+    - Okta Account Takeover
+  asset_type: Okta tenant
   confidence: 70
   impact: 80
   message: Multiple Failed Requests to Access Applications via Okta for $actor.alternateId$.
