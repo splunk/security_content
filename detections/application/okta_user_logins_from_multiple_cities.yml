@@ -1,38 +1,37 @@
-name: Okta User Logins From Multiple Cities
-id: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
-version: 2
-date: '2020-07-21'
-author: Rico Valdez, Splunk
-status: experimental
-type: Anomaly
-description: This search detects logins from the same user from different cities in
-  a 24 hour period.
+name: Okta User Logins from Multiple Cities
+id: a3d1df37-c2a9-41d0-aa8f-59f82d6192a8
+version: 1
+date: '2024-03-07'
+author: 'Bhavin Patel, Splunk'
 data_source: []
-search: '`okta` displayMessage="User login to Okta" client.geographicalContext.city!=null
-  | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city)
-  as locations values(client.geographicalContext.city) as cities values(client.geographicalContext.state)
-  as states by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `okta_user_logins_from_multiple_cities_filter` | search locations > 1'
-how_to_implement: This search is specific to Okta and requires Okta logs are being
-  ingested in your Splunk deployment.
-known_false_positives: Users in your environment may legitimately be travelling and
-  logging in from different locations. This search is useful for those users that should
-  *not* be travelling for some reason, such as the COVID-19 pandemic. The search also
-  relies on the geographical information being populated in the Okta logs. It is also
-  possible that a connection from another region may be attributed to a login from
-  a remote VPN endpoint.
-references: []
+type: Anomaly
+status: production
+description: This search identifies instances where the same user logs in from different cities within a 24-hour period, potentially indicating a compromised account. Such behavior may be indicative of an attacker attempting to gain unauthorized access to an Okta account from multiple locations. Investigating and responding to such incidents promptly is crucial to prevent account takeovers and data breaches.
+search: '| tstats  `security_content_summariesonly` values(Authentication.app) as app values(Authentication.action) as action values(Authentication.user) as user values(Authentication.reason) as reason values(Authentication.dest) as dest values(Authentication.signature) as signature  values(Authentication.method) as method  from datamodel=Authentication where  Authentication.signature=user.session.start by _time Authentication.src 
+  | `drop_dm_object_name("Authentication")` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | iplocation src
+  | stats count min(_time) as firstTime max(_time) as lastTime dc(src) as distinct_src dc(City) as distinct_city values(src) as src values(City) as City values(Country) as Country values(action) as action by user  
+  | where distinct_city > 1 | `okta_user_logins_from_multiple_cities_filter`'
+how_to_implement: This detection utilizes logs from Okta Identity Management (IM) environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: It is uncommon for a user to log in from multiple cities simultaneously, which may indicate a false positive.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
 tags:
   analytic_story:
-  - Suspicious Okta Activity
-  asset_type: Infrastructure
-  confidence: 50
-  impact: 50
-  message: tbd
+  - Okta Account Takeover
+  asset_type: Okta tenant
+  confidence: 90
+  impact: 90
+  message: A user [$user$] has logged in from multiple cities [$City$] from IP Address - [$src$]. Investigate further to determine if this was authorized.
   mitre_attack_id:
-  - T1078
-  - T1078.001
+  - T1586.003
   observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   - name: user
     type: User
     role:
@@ -43,9 +42,19 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - displayMessage
-  - client.geographicalContext.city
-  - client.geographicalContext.state
-  - user
-  risk_score: 25
-  security_domain: access
+  - Authentication.app
+  - Authentication.action
+  - Authentication.user
+  - Authentication.reason
+  - Authentication.dest
+  - Authentication.signature
+  - Authentication.method
+  - Authentication.src
+  risk_score: 81
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
+    source: Okta
+    sourcetype: OktaIM2:log

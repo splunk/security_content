@@ -1,28 +1,28 @@
 name: Excessive File Deletion In WinDefender Folder
 id: b5baa09a-7a05-11ec-8da4-acde48001122
-version: 1
-date: '2023-04-14'
-author: Teoderick Contreras, Splunk
+version: 2
+date: '2024-03-05'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
-description: This analytic will identify excessive file deletion events in the Windows
-  Defender folder. This technique was seen in the WhisperGate malware campaign in
-  which adversaries abused Nirsofts advancedrun.exe to gain administrative privilege
-  to then execute PowerShell commands to delete files within the Windows Defender
-  application folder. This behavior is a good indicator the offending process is trying
-  to corrupt a Windows Defender installation.
+description: This analytic identifies excessive file deletion events in the Windows
+  Defender folder. This technique was observed in the WhisperGate malware campaign,
+  where adversaries exploited Nirsoft's advancedrun.exe to gain administrative privileges
+  and then executed PowerShell commands to delete files within the Windows Defender
+  application folder. Such behavior is a strong indicator that the offending process
+  is attempting to corrupt a Windows Defender installation.
 data_source:
 - Sysmon Event ID 23
-search: '`sysmon` EventCode=23 TargetFilename = "*\\ProgramData\\Microsoft\\Windows
-  Defender*" | stats values(TargetFilename) as deleted_files min(_time) as firstTime
-  max(_time) as lastTime count by user EventCode Image ProcessID dest |where count
-  >=50 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+- Sysmon Event ID 26
+search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\ProgramData\\Microsoft\\Windows Defender\\*"
+  | stats count, values(TargetFilename) as deleted_files, min(_time) as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image, process_name, process_guid
+  | rename Image as process
+  | where count >=50
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
   | `excessive_file_deletion_in_windefender_folder_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, TargetFilename, and ProcessID executions from your endpoints.
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: Windows Defender AV updates may cause this alert. Please update
-  the filter macros to remove false positives.
+how_to_implement: To successfully implement this search, you must ingest logs that include the process name, TargetFilename, and ProcessID executions from your endpoints. If you are utilizing Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
+known_false_positives: Windows Defender AV updates may trigger this alert. Please adjust the filter macros to mitigate false positives.
 references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
@@ -33,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: High frequency file deletion activity detected on host $dest$
+  message: Excessive file deletion events were detected in the Windows Defender folder
+    on $dest$ by $user$. Investigate further to determine if this activity is malicious.
   mitre_attack_id:
   - T1485
   observable:
@@ -48,19 +49,22 @@ tags:
   - name: deleted_files
     type: File Name
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - EventCode
   - TargetFilename
+  - user 
   - dest
-  - user
+  - signature
+  - signature_id
   - Image
-  - ProcessID
+  - process_name
+  - process_path
+  - process_guid
   risk_score: 25
   security_domain: endpoint
 tests:

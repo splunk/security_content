@@ -40,7 +40,6 @@ tags:
   - Active Directory Password Spraying
   - Active Directory Kerberos Attacks
   - Volt Typhoon
-  - Volt Typhoon
   asset_type: Endpoint
   confidence: 70
   impact: 70
