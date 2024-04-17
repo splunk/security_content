@@ -1,0 +1,60 @@
+name: O365 Mailbox Email Forwarding Enabled
+id: 0b6bc75c-05d1-4101-9fc3-97e706168f24
+version: 1
+date: '2024-03-26'
+author: Patrick Bareiss, Mauricio Velazco, Splunk
+data_source: []
+type: TTP
+status: production
+description: This detection is designed to identify instances where email forwarding has been enabled on mailboxes within an Office 365 environment. By monitoring for the specific operation Set-Mailbox within the o365_management_activity logs, this analytic hones in on changes made to mailbox configurations that initiate the forwarding of emails. It specifically looks for the activation of ForwardingAddress or ForwardingSmtpAddress parameters, indicating that emails are being automatically sent to another email address from the user's mailbox.
+search: >-
+  `o365_management_activity` Operation=Set-Mailbox 
+  | eval match1=mvfind('Parameters{}.Name', "ForwardingAddress")
+  | eval match2=mvfind('Parameters{}.Name', "ForwardingSmtpAddress")
+  | where match1>= 0 OR match2>= 0
+  | eval ForwardTo=coalesce(ForwardingAddress, ForwardingSmtpAddress)
+  | search ForwardTo!="" 
+  | rename user_id as user
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime values(ForwardTo) as ForwardTo by user ObjectId
+  |`security_content_ctime(firstTime)` 
+  |`security_content_ctime(lastTime)`
+  | `o365_mailbox_email_forwarding_enabled_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Email forwarding may be configured for legitimate purposes, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1114/003/
+- https://learn.microsoft.com/en-us/exchange/recipients/user-mailboxes/email-forwarding?view=exchserver-2019
+tags:
+  analytic_story:
+  - Office 365 Collection Techniques
+  asset_type: O365 tenant
+  confidence: 60
+  impact: 70
+  message: Email forwarding configured by $user$ on mailbox $ObjectId$
+  mitre_attack_id:
+  - T1114
+  - T1114.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Operation
+  - Parameters{}.Name
+  - src_user
+  - DeliverToMailboxAndForward
+  - ObjectId
+  risk_score: 42
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_mailbox_forwarding_enabled/o365_mailbox_forwarding_enabled.json
+    sourcetype: o365:management:activity
+    source: o365

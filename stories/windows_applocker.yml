@@ -1,0 +1,23 @@
+name: Windows AppLocker
+id: 7911b245-e74d-48db-b1cf-69f3eb02ca55
+version: 1
+date: '2024-03-21'
+author: Michael Haag, Splunk
+description: Windows AppLocker is a feature that enhances security by allowing administrators to specify which users or groups can run particular applications in their organization based on unique identities of files. This story covers various aspects of monitoring and managing AppLocker policies, including detecting unauthorized software installations, enforcing best practices for software usage, and identifying potential security breaches through advanced threat detection techniques. Through the use of Splunk Enterprise, Splunk Enterprise Security, and Splunk Cloud, organizations can gain insights into AppLocker events, ensuring compliance with corporate security policies and mitigating risks associated with unauthorized applications.
+narrative: AppLocker, a built-in Windows security feature, provides organizations with the ability to control application usage across their networks. It enables administrators to define rules based on file names, publishers, and file hashes to allow or deny the execution of applications. This level of control helps in preventing malware and unlicensed software from running, thereby enhancing the security posture of an organization. \
+
+  Organizations should leverage AppLocker for several reasons. Firstly, it aids in the enforcement of software compliance policies by ensuring that only licensed and approved applications are run on the network. Secondly, by restricting the execution of unauthorized applications, AppLocker significantly reduces the attack surface, making it harder for attackers to exploit vulnerabilities in unapproved software. Thirdly, AppLocker's ability to log attempts to run unauthorized applications provides valuable insights for security monitoring and incident response activities. This logging capability enables organizations to detect and respond to potential security threats in real time. \
+
+  In summary, AppLocker is a critical security tool that helps organizations manage application usage, enforce compliance policies, and mitigate security risks. By implementing AppLocker policies, organizations can achieve a robust security posture, protecting their assets from unauthorized software and potential cyber threats.
+references: []
+tags:
+  analytic_story: Windows AppLocker
+  category:
+  - Unauthorized Software
+  - Best Practices
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve: []

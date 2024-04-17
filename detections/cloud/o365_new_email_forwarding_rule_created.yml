@@ -1,0 +1,58 @@
+name: O365 New Email Forwarding Rule Created
+id: 68469fd0-1315-44ba-b7e4-e92847bb76d6
+version: 1
+date: '2024-03-27'
+author: Mauricio Velazco, Splunk
+data_source: []
+type: TTP
+status: production
+description: This detection is crafted to monitor and identify the creation of new email forwarding rules in an Office 365 environment. It specifically targets events logged under New-InboxRule and Set-InboxRule operations within o365_management_activity, indicating the establishment or modification of inbox rules that forward emails. The detection checks for the presence of parameters such as ForwardTo, ForwardAsAttachmentTo, and RedirectTo, which are key indicators of email forwarding behavior.
+search: >-
+  `o365_management_activity` (Operation=New-InboxRule OR Operation=set-InboxRule)
+  | eval match1=mvfind('Parameters{}.Name', "ForwardTo")
+  | eval match2=mvfind('Parameters{}.Name', "ForwardAsAttachmentTo")
+  | eval match3=mvfind('Parameters{}.Name', "RedirectTo")
+  | where match1>= 0 OR match2>= 0 OR match3>= 0
+  | eval ForwardTo=coalesce(ForwardTo, ForwardAsAttachmentTo, RedirectTo)
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Name) as Name by user Operation ForwardTo
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_new_email_forwarding_rule_created_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Users may create email forwarding rules for legitimate purposes. Filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1114/003/
+tags:
+  analytic_story:
+  - Office 365 Collection Techniques
+  asset_type: O365 tenant
+  confidence: 60
+  impact: 70
+  message: A forwarding email inbox rule was created for $user$ 
+  mitre_attack_id:
+  - T1114
+  - T1114.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Operation
+  - Parameters{}.Name
+  - Name
+  - user
+  - UserId
+  risk_score: 42
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule_created/o365_email_forwarding_rule_created.log
+    sourcetype: o365:management:activity
+    source: o365

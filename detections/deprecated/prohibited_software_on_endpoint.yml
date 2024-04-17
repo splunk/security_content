@@ -27,7 +27,7 @@ references: []
 tags:
   analytic_story:
   - Monitor for Unauthorized Software
-  - 'Emotet Malware  DHS Report TA18-201A '
+  - Emotet Malware DHS Report TA18-201A
   - SamSam Ransomware
   asset_type: Endpoint
   confidence: 50

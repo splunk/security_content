@@ -1,0 +1,60 @@
+name: Okta Authentication Failed During MFA Challenge
+id: e2b99e7d-d956-411a-a120-2b14adfdde93
+version: 1
+date: '2024-03-11'
+author: Bhavin Patel, Splunk
+data_source: []
+type: TTP
+status: production
+description: The following analytic identifies an authentication attempt event against
+  an Okta tenant that fails during the Multi-Factor Authentication (MFA) challenge. This detection is written against the Authentication datamodel and we look for a specific failed events where the authentication signature is `user.authentication.auth_via_mfa`. This behavior may represent an adversary trying to authenticate with compromised credentials for an account that has multi-factor authentication enabled.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime  values(Authentication.app) as app values(Authentication.reason) as reason values(Authentication.signature) as signature  values(Authentication.method) as method  from datamodel=Authentication where  Authentication.signature=user.authentication.auth_via_mfa Authentication.action = failure by _time Authentication.src Authentication.user Authentication.dest Authentication.action | `drop_dm_object_name("Authentication")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| iplocation src | `okta_authentication_failed_during_mfa_challenge_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: A user may have accidentally entered the wrong credentials during the MFA challenge. If the user is new to MFA, they may have trouble authenticating. Ensure that the user is aware of the MFA process and has the correct credentials.
+references:
+- https://sec.okta.com/everythingisyes
+- https://splunkbase.splunk.com/app/6553
+tags:
+  analytic_story:
+  - Okta Account Takeover
+  asset_type: Okta tenant
+  confidence: 60
+  impact: 80
+  message: A user [$user$] has failed to authenticate via MFA from IP Address - [$src$]"
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1078
+  - T1078.004
+  - T1621
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Authentication.app
+  - Authentication.action
+  - Authentication.user
+  - Authentication.reason
+  - Authentication.dest
+  - Authentication.signature
+  - Authentication.method
+  - Authentication.src
+  risk_score: 48
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_mfa_login_failed/okta_mfa_login_failed.log
+    source: okta_log
+    sourcetype: OktaIM2:log

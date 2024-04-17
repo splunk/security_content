@@ -1,0 +1,56 @@
+name: O365 Compliance Content Search Exported
+id: 2ce9f31d-ab4f-4179-b2b7-c77a9652e1d8
+version: 1
+date: '2024-04-01'
+author: Mauricio Velazco, Splunk
+data_source: []
+type: TTP
+status: production
+description: This detection  targets activities where the results of a content search within the Office 365 Security and Compliance Center are exported, a crucial phase in the compliance and investigative workflows. By focusing on the SearchExported operation logged under the SecurityComplianceCenter workload in the o365_management_activity, this analytic flags instances that potentially move sensitive or critical organizational data outside its original storage locations.
+search: ' `o365_management_activity`  Workload=SecurityComplianceCenter Operation="SearchExported"
+  | rename user_id as user
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime by Operation, ObjectId, ExchangeLocations, user, Query  |`security_content_ctime(firstTime)` 
+  |`security_content_ctime(lastTime)`
+  | `o365_compliance_content_search_exported_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Compliance content searche exports may be executed for legitimate purposes, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1114/002/
+- https://learn.microsoft.com/en-us/purview/ediscovery-content-search-overview
+- https://learn.microsoft.com/en-us/purview/ediscovery-keyword-queries-and-search-conditions
+- https://learn.microsoft.com/en-us/purview/ediscovery-search-for-activities-in-the-audit-log
+tags:
+  analytic_story:
+  - Office 365 Collection Techniques
+  asset_type: O365 tenant
+  confidence: 70
+  impact: 60
+  message: A new compliance content search export was started by $user$
+  mitre_attack_id:
+  - T1114
+  - T1114.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - ObjectId
+  - ExchangeLocations
+  - Query
+  - user_id
+  risk_score: 42
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_compliance_content_search_exported/o365_compliance_content_search_exported.log
+    sourcetype: o365:management:activity
+    source: o365

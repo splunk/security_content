@@ -1,0 +1,62 @@
+name: Zscaler Phishing Activity Threat Blocked
+id: 68d3e2c1-e97f-4310-b080-dea180b48aa9
+version: 1
+date: '2023-10-30'
+author: Gowthamaraj Rajendran, Rod Soto, Splunk
+status: production
+type: Anomaly
+data_source: []
+description: The analytic is devised to detect likely phishing attempts within a network blocked by Zscaler. By leveraging Splunk search functionality, it evaluates web proxy logs for blocked actions correlated with phishing threats, specifically those tagged as HTML.Phish. Critical data points such as the user, threat name, URL, and hostname are analyzed to accentuate possible phishing activities. This anomaly-type detection serves as an early warning system, facilitating prompt investigation and mitigation of phishing threats, thereby bolstering network security.
+search: '`zscaler_proxy` action=blocked threatname="HTML.Phish*"  
+  | stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user threatname url src dest
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `zscaler_phishing_activity_threat_blocked_filter`'
+how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
+known_false_positives: False positives are limited to Zscalar configuration.
+references:
+- https://help.zscaler.com/zia/nss-feed-output-format-web-logs
+tags:
+  analytic_story:
+  - Zscaler Browser Proxy Threats
+  asset_type: Web Server
+  confidence: 80
+  impact: 20
+  message: Potential Phishing Activity from dest -[$dest$] on $src$ for user-[$user$].
+  mitre_attack_id:
+  - T1566
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: url
+    type: URL String
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 16
+  required_fields:
+  - action
+  - threatname
+  - deviceowner
+  - user
+  - urlcategory
+  - url 
+  - dest 
+  - dest_ip 
+  - action
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
+    source: zscaler
+    sourcetype: zscalernss-web

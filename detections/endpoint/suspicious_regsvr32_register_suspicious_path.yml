@@ -38,7 +38,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
-  - Icedid
+  - IcedID
   - Living Off The Land
   - Qakbot
   asset_type: Endpoint

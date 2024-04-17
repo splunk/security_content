@@ -26,7 +26,7 @@ references:
 tags:
   analytic_story:
   - APT29 Diplomatic Deceptions with WINELOADER
-  - Suspicious Mshta Activity
+  - Suspicious MSHTA Activity
   group:
   - APT29
   - Cozy Bear
