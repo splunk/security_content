@@ -9,7 +9,7 @@ description: The following analytic identifies the configuration of Azure Active
 data_source: 
 - Office 365 Universal Audit Log
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add application.","Update application.") ModifiedProperties{}.Name=AvailableToOtherTenants
-| eval result = case(match(mvindex('ModifiedProperties{}.NewValue',mvfind('ModifiedProperties{}.Name',"AvailableToOtherTenants")),"false"),"removed",true(),"added"), object_name=mvindex('Target{}.ID', 3), signature=Operation, object_attrs = "AvailableToOtherTenants", user = mvindex('Actor{}.ID',0)
+| eval result = case(match(mvindex('ModifiedProperties{}.NewValue',mvfind('ModifiedProperties{}.Name',"AvailableToOtherTenants")),"false"),"removed",true(),"added"), object_name=mvindex('Target{}.ID', 3), signature=Operation, object_attrs = "AvailableToOtherTenants", user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',1),true(),mvindex('Actor{}.ID',0))
 | search result = "added"
 | stats values(ActorIpAddress) as src, count, min(_time) as firstTime, max(_time) as lastTime by signature, user, object, object_name, object_attrs, result
 | `security_content_ctime(firstTime)` 
