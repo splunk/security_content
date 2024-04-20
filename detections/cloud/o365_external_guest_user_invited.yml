@@ -8,11 +8,11 @@ type: TTP
 description: The following analytic identifies the invitation of an external guest user within Azure AD. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations should be monitored by security teams as they could potentially lead to unauthorized access. An example of this attack vector was described at BlackHat 2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking Azure AD Accounts by Abusing External Identities`. This detection leverages the Universal Audit Log (UAL)/o365:management:activity sourcetype as a detection data source.
 data_source: 
 - Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add user*" ModifiedProperties{}.NewValue="[*Guest*]" ModifiedProperties{}.NewValue="[*Invitation*]"
-| eval user = (mvindex('ModifiedProperties{}.NewValue',5))
+search: '`o365_management_activity` Workload=AzureActiveDirectory AND Operation="Add user*" AND ModifiedProperties{}.NewValue="[*Guest*]" AND ModifiedProperties{}.NewValue="[*Invitation*]"
+| eval user = (mvindex('ModifiedProperties{}.NewValue',5)), src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',1),true(),mvindex('Actor{}.ID',0))
 | rex field=user "(?<user>[\\w\\.-]+@[\\w-]+\\.[\\w-]{2,4})"
-| stats values(user) as user, min(_time) as firstTime, max(_time) as lastTime, count by Operation,Id,UserId
-| rename Operation as signature, Id as signature_id, UserId as src_user  
+| stats values(user) as user, min(_time) as firstTime, max(_time) as lastTime, count by Operation,Id,src_user
+| rename Operation as signature, Id as signature_id
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 | `o365_external_guest_user_invited_filter`'
