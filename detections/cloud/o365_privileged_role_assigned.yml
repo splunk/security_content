@@ -9,7 +9,7 @@ description: The following analytic identifies the assignment of sensitive and p
 data_source: 
 - Office 365 Universal Audit Log
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add member to role.","Add eligible member to role.")
-| eval user = ObjectId, src_user = UserId, object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.DisplayName")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.TemplateId")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2)
+| eval user = ObjectId, src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',1),true(),mvindex('Actor{}.ID',0)), object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.DisplayName")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.TemplateId")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2)
 | stats count, min(_time) as firstTime, max(_time) as lastTime by src_user, user, category, result, object_name, object_id, signature
 | lookup privileged_azure_ad_roles azuretemplateid as object_id OUTPUT isprvilegedadrole
 | search isprvilegedadrole="TRUE" category="User"
