@@ -9,7 +9,7 @@ description: The following analytic identifies when changes are made to the exte
 data_source: 
 - Office 365 Universal Audit Log
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Update policy." Target{}.ID="B2BManagementPolicy"
-| eval object_attrs = mvindex('ModifiedProperties{}.NewValue',0), object_attrs_old = mvindex('ModifiedProperties{}.OldValue',0), object_name = mvindex('Target{}.ID',3), signature=Operation, user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',1),true(),mvindex('Actor{}.ID',0))
+| eval object_attrs = mvindex('ModifiedProperties{}.NewValue',0), object_attrs_old = mvindex('ModifiedProperties{}.OldValue',0), object_name = mvindex('Target{}.ID',3), signature=Operation, user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
 | spath input=object_attrs_old output=B2BOld path={}
 | spath input=B2BOld
 | rename B2BManagementPolicy.* as B2BManagementPolicyOld.*
