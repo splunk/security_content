@@ -9,7 +9,7 @@ description: The following analytic identifies the invitation of an external gue
 data_source: 
 - Office 365 Universal Audit Log
 search: '`o365_management_activity` Workload=AzureActiveDirectory AND Operation="Add user*" AND ModifiedProperties{}.NewValue="[*Guest*]" AND ModifiedProperties{}.NewValue="[*Invitation*]"
-| eval user = (mvindex('ModifiedProperties{}.NewValue',5)), src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',1),true(),mvindex('Actor{}.ID',0))
+| eval user = (mvindex('ModifiedProperties{}.NewValue',5)), src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
 | rex field=user "(?<user>[\\w\\.-]+@[\\w-]+\\.[\\w-]{2,4})"
 | stats values(user) as user, min(_time) as firstTime, max(_time) as lastTime, count by Operation,Id,src_user
 | rename Operation as signature, Id as signature_id
