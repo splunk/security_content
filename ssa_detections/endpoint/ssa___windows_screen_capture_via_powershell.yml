@@ -1,10 +1,10 @@
 name: Windows Screen Capture Via Powershell
-id: 678ae7c6-0e63-44db-9881-03202c312f66
+id: 3b49e58f-04c9-416b-96c9-016ac64e7e5f
 version: 1
 date: '2024-02-01'
 author: Teoderick Contreras, Splunk
 type: TTP
-status: production
+status: validation
 description: The following analytic identifies a potential PowerShell script that
   captures screen images on compromised or targeted hosts. This technique was observed
   in the Winter-Vivern malware, which attempts to capture desktop screens using a

@@ -1,9 +1,9 @@
 name: Impacket Lateral Movement WMIExec Commandline Parameters
-id: 9d07ff50-e968-456e-a3d9-c65c38ed0ab0
+id: d99fb1c3-9934-4fb8-9d00-ab82fc2a01ee
 version: 1
 date: '2024-02-01'
 author: Michael Haag, Splunk
-status: production
+status: validation
 type: TTP
 data_source:
 - Windows Security 4688

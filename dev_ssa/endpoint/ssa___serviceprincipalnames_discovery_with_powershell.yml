@@ -1,9 +1,9 @@
 name: ServicePrincipalNames Discovery with PowerShell
-id: 043f07a0-7fd8-40e2-b526-80406fb59abb
+id: 54d7a7b1-c60f-431e-992d-b61382ab6b64
 version: 2
 date: '2024-02-01'
 author: Michael Haag, Splunk
-status: production
+status: validation
 type: TTP
 description: 'The following analytic identifies `powershell.exe` usage, using Script
   Block Logging EventCode 4104, related to querying the domain for Service Principle

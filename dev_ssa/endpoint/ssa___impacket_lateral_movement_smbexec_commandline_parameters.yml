@@ -1,9 +1,9 @@
 name: Impacket Lateral Movement smbexec CommandLine Parameters
-id: c1238942-2715-41ee-b371-0475da48029c
+id: bc7d91c3-8693-4899-808b-1bfc88d58cfa
 version: 1
 date: '2024-01-01'
 author: Michael Haag, Splunk
-status: production
+status: validation
 type: TTP
 data_source:
 - Windows Security 4688
