@@ -2,13 +2,15 @@ lolbas_file_name,lolbas_file_path,description
 eventvwr.exe,c:\windows\system32\*,Displays Windows Event Logs in a GUI window.
 eventvwr.exe,c:\windows\syswow64\*,Displays Windows Event Logs in a GUI window.
 rasautou.exe,c:\windows\system32\*,Windows Remote Access Dialer
-regedit.exe,c:\windows\system32\*,Used by Windows to manipulate registry
+regedit.exe,c:\windows\*,Used by Windows to manipulate registry
 regedit.exe,c:\windows\syswow64\*,Used by Windows to manipulate registry
 regsvr32.exe,c:\windows\system32\*,Used by Windows to register dlls
 regsvr32.exe,c:\windows\syswow64\*,Used by Windows to register dlls
 control.exe,c:\windows\system32\*,Binary used to launch controlpanel items in Windows
 control.exe,c:\windows\syswow64\*,Binary used to launch controlpanel items in Windows
-configsecuritypolicy.exe,c:\programdata\microsoft\windows defender\platform\4.18.2008.9-0\*,Binary part of Windows Defender. Used to manage settings in Windows Defender. you can configure different pilot collections for each of the co-management workloads. Being able to use different pilot collections allows you to take a more granular approach when shifting workloads.
+configsecuritypolicy.exe,c:\programdata\microsoft\windows defender\platform\*,Binary part of Windows Defender. Used to manage settings in Windows Defender. you can configure different pilot collections for each of the co-management workloads. Being able to use different pilot collections allows you to take a more granular approach when shifting workloads.
+configsecuritypolicy.exe,c:\program files\windows defender\*,Binary part of Windows Defender. Used to manage settings in Windows Defender. you can configure different pilot collections for each of the co-management workloads. Being able to use different pilot collections allows you to take a more granular approach when shifting workloads.
+configsecuritypolicy.exe,c:\program files\microsoft security client\*,Binary part of Windows Defender. Used to manage settings in Windows Defender. you can configure different pilot collections for each of the co-management workloads. Being able to use different pilot collections allows you to take a more granular approach when shifting workloads.
 scriptrunner.exe,c:\windows\system32\*,Execute binary through proxy binary to evade defensive counter measures
 scriptrunner.exe,c:\windows\syswow64\*,Execute binary through proxy binary to evade defensive counter measures
 offlinescannershell.exe,c:\program files\windows defender\offline\*,Windows Defender Offline Shell
@@ -61,8 +63,8 @@ msbuild.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,Used to compile an
 msbuild.exe,c:\program files (x86)\msbuild\14.0\bin\*,Used to compile and execute code
 certutil.exe,c:\windows\system32\*,Windows binary used for handling certificates
 certutil.exe,c:\windows\syswow64\*,Windows binary used for handling certificates
-vbc.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,Binary file used for compile vbs code
-vbc.exe,c:\windows\microsoft.net\framework64\v3.5\*,Binary file used for compile vbs code
+vbc.exe,c:\windows\microsoft.net\framework\v*\*,Binary file used for compile vbs code
+vbc.exe,c:\windows\microsoft.net\framework64\v*\*,Binary file used for compile vbs code
 psr.exe,c:\windows\system32\*,"Windows Problem Steps Recorder, used to record screen and clicks."
 psr.exe,c:\windows\syswow64\*,"Windows Problem Steps Recorder, used to record screen and clicks."
 extexport.exe,c:\program files\internet explorer\*,Load a DLL located in the c:\test folder with a specific name.
@@ -71,162 +73,7 @@ rpcping.exe,c:\windows\system32\*,Used to verify rpc connection
 rpcping.exe,c:\windows\syswow64\*,Used to verify rpc connection
 msdt.exe,c:\windows\system32\*,Microsoft diagnostics tool
 msdt.exe,c:\windows\syswow64\*,Microsoft diagnostics tool
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\64kb6472.inf_amd64_3daef03bbe98572b\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_comp.inf_amd64_0e9c57ae3396e055\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_comp.inf_amd64_209bd95d56b1ac2d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_comp.inf_amd64_3fa2a843f8b7f16d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_comp.inf_amd64_85c860f05274baa0\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_comp.inf_amd64_f7412e3e3404de80\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_comp.inf_amd64_feb9f1cf05b0de58\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_component.inf_amd64_0219cc1c7085a93f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_component.inf_amd64_df4f60b1cae9b14a\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dc_comp.inf_amd64_16eb18b0e2526e57\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dc_comp.inf_amd64_1c77f1231c19bc72\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dc_comp.inf_amd64_31c60cc38cfcca28\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dc_comp.inf_amd64_82f69cea8b2d928f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dc_comp.inf_amd64_b4d94f3e41ceb839\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_0606619cc97463de\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_0e95edab338ad669\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_22aac1442d387216\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_2461d914696db722\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_29d727269a34edf5\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_2caf76dbce56546d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_353320edb98da643\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_4ea0ed0af1507894\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_56a48f4f1c2da7a7\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_64f23fdadb76a511\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_668dd0c6d3f9fa0e\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_6be8e5b7f731a6e5\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_6dad7e4e9a8fa889\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_6df442103a1937a4\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_767e7683f9ad126c\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_8644298f665a12c4\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_868acf86149aef5d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_92cf9d9d84f1d3db\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_93239c65f222d453\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_9de8154b682af864\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_a7428663aca90897\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_ad7cb5e55a410add\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_afbf41cf8ab202d7\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_d193c96475eaa96e\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_db953c52208ada71\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_e7523682cc7528cc\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_e9f341319ca84274\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_f3a64c75ee4defb7\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch.inf_amd64_f51939e52b944f4b\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch_comp.inf_amd64_4938423c9b9639d7\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch_comp.inf_amd64_c8e108d4a62c59d5\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\cui_dch_comp.inf_amd64_deecec7d232ced2b\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_01ee1299f4982efe\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_02edfc87000937e4\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_0541b698fc6e40b0\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_0707757077710fff\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_0b3e3ed3ace9602a\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_0cff362f9dff4228\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_16ed7d82b93e4f68\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_1a33d2f73651d989\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_1aca2a92a37fce23\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_1af2dd3e4df5fd61\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_1d571527c7083952\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_23f7302c2b9ee813\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_24de78387e6208e4\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_250db833a1cd577e\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_25e7c5a58c052bc5\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_28d80681d3523b1c\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_2dda3b1147a3a572\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_31ba00ea6900d67d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_329877a66f240808\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_42af9f4718aa1395\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_4645af5c659ae51a\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_48c2e68e54c92258\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_48e7e903a369eae2\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_491d20003583dabe\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_4b34c18659561116\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_51ce968bf19942c2\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_555cfc07a674ecdd\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_561bd21d54545ed3\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_579a75f602cc2dce\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_57f66a4f0a97f1a3\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_587befb80671fb38\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_62f096fe77e085c0\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_6ae0ddbb4a38e23c\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_6bb02522ea3fdb0d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_6d34ac0763025a06\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_712b6a0adbaabc0a\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_78b09d9681a2400f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_842874489af34daa\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_88084eb1fe7cebc3\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_89033455cb08186f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_8a9535cd18c90bc3\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_8c1fc948b5a01c52\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_9088b61921a6ff9f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_90f68cd0dc48b625\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_95cb371d046d4b4c\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_a58de0cf5f3e9dca\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_abe9d37302f8b1ae\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_acb3edda7b82982f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_aebc5a8535dd3184\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_b5d4c82c67b39358\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_b846bbf1e81ea3cf\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_babb2e8b8072ff3b\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_bc75cebf5edbbc50\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_be91293cf20d4372\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_c11f4d5f0bc4c592\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_c4e5173126d31cf0\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_c4f600ffe34acc7b\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_c8634ed19e331cda\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_c9081e50bcffa972\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_ceddadac8a2b489e\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_d4406f0ad6ec2581\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_d5877a2e0e6374b6\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_d8ca5f86add535ef\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_e8abe176c7b553b5\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_eabb3ac2c517211f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_f8d8be8fea71e1a0\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_fe5e116bb07c0629\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64.inf_amd64_fe73d2ebaa05fb95\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\igdlh64_kbl_kit127397.inf_amd64_e1da8ee9e92ccadb\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\k127153.inf_amd64_364f43f2a27f7bd7\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\k127153.inf_amd64_3f3936d8dec668b8\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\k127793.inf_amd64_3ab7883eddccbf0f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki129523.inf_amd64_32947eecf8f3e231\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki126950.inf_amd64_fa7f56314967630d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki126951.inf_amd64_94804e3918169543\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki126973.inf_amd64_06dde156632145e3\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki126974.inf_amd64_9168fc04b8275db9\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127005.inf_amd64_753576c4406c1193\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127018.inf_amd64_0f67ff47e9e30716\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127021.inf_amd64_0d68af55c12c7c17\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127171.inf_amd64_368f8c7337214025\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127176.inf_amd64_86c658cabfb17c9c\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127390.inf_amd64_e1ccb879ece8f084\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127678.inf_amd64_8427d3a09f47dfc1\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127727.inf_amd64_cf8e31692f82192e\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127807.inf_amd64_fc915899816dbc5d\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki127850.inf_amd64_6ad8d99023b59fd5\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki128602.inf_amd64_6ff790822fd674ab\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki128916.inf_amd64_3509e1eb83b83cfb\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki129407.inf_amd64_f26f36ac54ce3076\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki129633.inf_amd64_d9b8af875f664a8c\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki129866.inf_amd64_e7cdca9882c16f55\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki130274.inf_amd64_bafd2440fa1ffdd6\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki130350.inf_amd64_696b7c6764071b63\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki130409.inf_amd64_0d8d61270dfb4560\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki130471.inf_amd64_26ad6921447aa568\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki130624.inf_amd64_d85487143eec5e1a\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki130825.inf_amd64_ee3ba427c553f15f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki130871.inf_amd64_382f7c369d4bf777\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki131064.inf_amd64_5d13f27a9a9843fa\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki131176.inf_amd64_fb4fe914575fdd15\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki131191.inf_amd64_d668106cb6f2eae0\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki131622.inf_amd64_0058d71ace34db73\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki132032.inf_amd64_f29660d80998e019\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki132337.inf_amd64_223d6831ffa64ab1\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki132535.inf_amd64_7875dff189ab2fa2\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki132544.inf_amd64_b8c1f31373153db4\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki132574.inf_amd64_54c9b905b975ee55\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\ki132869.inf_amd64_052eb72d070df60f\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
-gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\kit126731.inf_amd64_1905c9d5f38631d9\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
+gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
 dnscmd.exe,c:\windows\system32\*,A command-line interface for managing DNS servers
 dnscmd.exe,c:\windows\syswow64\*,A command-line interface for managing DNS servers
 wab.exe,c:\program files\windows mail\*,Windows address book manager
@@ -247,9 +94,9 @@ ilasm.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,used for compile c# co
 ilasm.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,used for compile c# code into dll or exe.
 rdrleakdiag.exe,c:\windows\system32\*,Microsoft Windows resource leak diagnostic tool
 rdrleakdiag.exe,c:\windows\syswow64\*,Microsoft Windows resource leak diagnostic tool
-mpcmdrun.exe,c:\programdata\microsoft\windows defender\platform\4.18.2008.4-0\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
-mpcmdrun.exe,c:\programdata\microsoft\windows defender\platform\4.18.2008.7-0\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
-mpcmdrun.exe,c:\programdata\microsoft\windows defender\platform\4.18.2008.9-0\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
+mpcmdrun.exe,c:\program files\windows defender\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
+mpcmdrun.exe,c:\programdata\microsoft\windows defender\platform\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
+mpcmdrun.exe,c:\program files\microsoft security client\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
 jsc.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,Binary file used by .NET to compile javascript code to .exe or .dll format
 jsc.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,Binary file used by .NET to compile javascript code to .exe or .dll format
 jsc.exe,c:\windows\microsoft.net\framework\v2.0.50727\*,Binary file used by .NET to compile javascript code to .exe or .dll format
@@ -339,8 +186,8 @@ verclsid.exe,c:\windows\system32\*,Used to verify a COM object before it is inst
 verclsid.exe,c:\windows\syswow64\*,Used to verify a COM object before it is instantiated by Windows Explorer
 certreq.exe,c:\windows\system32\*,Used for requesting and managing certificates
 certreq.exe,c:\windows\syswow64\*,Used for requesting and managing certificates
-csc.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,Binary file used by .NET to compile C# code
-csc.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,Binary file used by .NET to compile C# code
+csc.exe,c:\windows\microsoft.net\framework\v*\*,Binary file used by .NET to compile C# code
+csc.exe,c:\windows\microsoft.net\framework64\v*\*,Binary file used by .NET to compile C# code
 imewdbld.exe,c:\windows\system32\ime\shared\*,Microsoft IME Open Extended Dictionary Module
 presentationhost.exe,c:\windows\system32\*,File is used for executing Browser applications
 presentationhost.exe,c:\windows\syswow64\*,File is used for executing Browser applications
@@ -407,6 +254,8 @@ mftrace.exe,c:\program files (x86)\windows kits\10\bin\10.0.16299.0\*,Trace log 
 mftrace.exe,c:\program files (x86)\windows kits\10\bin\*,Trace log generation tool for Media Foundation Tools.
 adplus.exe,c:\program files (x86)\windows kits\10\debuggers\x64\*,Debugging tool included with Windows Debugging Tools
 adplus.exe,c:\program files (x86)\windows kits\10\debuggers\x86\*,Debugging tool included with Windows Debugging Tools
+excel.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary
 excel.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary
 excel.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary
 excel.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary
@@ -422,15 +271,14 @@ excel.exe,c:\program files\microsoft office\office14\*,Microsoft Office binary
 excel.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office binary
 excel.exe,c:\program files\microsoft office\office12\*,Microsoft Office binary
 dotnet.exe,c:\program files\dotnet\*,dotnet.exe comes with .NET Framework
-sqlps.exe,c:\program files (x86)\microsoft sql server\100\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
-sqlps.exe,c:\program files (x86)\microsoft sql server\110\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
-sqlps.exe,c:\program files (x86)\microsoft sql server\120\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
-sqlps.exe,c:\program files (x86)\microsoft sql server\130\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
-sqlps.exe,c:\program files (x86)\microsoft sql server\150\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
+sqlps.exe,c:\program files (x86)\microsoft sql server\*\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
+sqlps.exe,c:\program files\microsoft sql server\*\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
 acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\x86\accchecker\*,Verifies UI accessibility requirements
 acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\x64\accchecker\*,Verifies UI accessibility requirements
 acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\arm\accchecker\*,Verifies UI accessibility requirements
 acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\arm64\accchecker\*,Verifies UI accessibility requirements
+powerpnt.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary.
 powerpnt.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary.
 powerpnt.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary.
 powerpnt.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary.
@@ -445,7 +293,7 @@ powerpnt.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office
 powerpnt.exe,c:\program files\microsoft office\office14\*,Microsoft Office binary.
 powerpnt.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office binary.
 powerpnt.exe,c:\program files\microsoft office\office12\*,Microsoft Office binary.
-sqldumper.exe,c:\program files\microsoft sql server\90\shared\*,Debugging utility included with Microsoft SQL.
+sqldumper.exe,c:\program files\microsoft sql server\*\shared\*,Debugging utility included with Microsoft SQL.
 sqldumper.exe,c:\program files (x86)\microsoft office\root\vfs\programfilesx86\microsoft analysis\as oledb\140\*,Debugging utility included with Microsoft SQL.
 remote.exe,c:\program files (x86)\windows kits\10\debuggers\x64\*,Debugging tool included with Windows Debugging Tools
 remote.exe,c:\program files (x86)\windows kits\10\debuggers\x86\*,Debugging tool included with Windows Debugging Tools
@@ -459,7 +307,8 @@ cdb.exe,c:\program files (x86)\windows kits\10\debuggers\x86\*,Debugging tool in
 defaultpack.exe,c:\program files (x86)\microsoft\defaultpack\*,This binary can be downloaded along side multiple software downloads on the microsoft website. It gets downloaded when the user forgets to uncheck the option to set Bing as the default search provider.
 devtoolslauncher.exe,c:\windows\system32\*,Binary will execute specified binary. Part of VS/VScode installation.
 vsiisexelauncher.exe,c:\program files (x86)\microsoft visual studio\2019\community\common7\ide\extensions\microsoft\web tools\projectsystem\*,Binary will execute specified binary. Part of VS/VScode installation.
-winword.exe,c:\program files\microsoft office\root\office16\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary
 winword.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary
 winword.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary
 winword.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary
@@ -478,3 +327,150 @@ fsianycpu.exe,c:\program files (x86)\microsoft visual studio\2019\professional\c
 vsjitdebugger.exe,c:\windows\system32\*,Just-In-Time (JIT) debugger included with Visual Studio
 wfc.exe,c:\program files (x86)\microsoft sdks\windows\v10.0a\bin\netfx 4.8 tools\*,The Workflow Command-line Compiler tool is included with the Windows Software Development Kit (SDK).
 msdeploy.exe,c:\program files (x86)\iis\microsoft web deploy v3\*,Microsoft tool used to deploy Web Applications.
+addinutil.exe,c:\windows\microsoft.net\framework\*\*,.NET Tool used for updating cache files for Microsoft Office Add-Ins.
+addinutil.exe,c:\windows\microsoft.net\framework64\*\*,.NET Tool used for updating cache files for Microsoft Office Add-Ins.
+appcert.exe,c:\program files (x86)\windows kits\10\app certification kit\*,Windows App Certification Kit command-line tool.
+appcert.exe,c:\program files\windows kits\10\app certification kit\*,Windows App Certification Kit command-line tool.
+bginfo.exe,*,Background Information Utility included with SysInternals Suite
+code.exe,c:\users\*\appdata\local\programs\microsoft vs code\*,"VSCode binary, also portable (CLI) version"
+code.exe,c:\program files\microsoft vs code\*,"VSCode binary, also portable (CLI) version"
+code.exe,c:\program files (x86)\microsoft vs code\*,"VSCode binary, also portable (CLI) version"
+colorcpl.exe,c:\windows\system32\*,Binary that handles color management
+colorcpl.exe,c:\windows\syswow64\*,Binary that handles color management
+createdump.exe,c:\program files\dotnet\shared\microsoft.netcore.app\*\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+createdump.exe,c:\program files (x86)\dotnet\shared\microsoft.netcore.app\*\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+createdump.exe,c:\program files\microsoft visual studio\*\community\dotnet\runtime\shared\microsoft.netcore.app\6.0.0\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+createdump.exe,c:\program files (x86)\microsoft visual studio\*\community\dotnet\runtime\shared\microsoft.netcore.app\6.0.0\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+customshellhost.exe,c:\windows\system32\*,A host process that is used by custom shells when using Windows in Kiosk mode.
+devicecredentialdeployment.exe,c:\windows\system32\*,Device Credential Deployment
+devinit.exe,c:\program files\microsoft visual studio\*\community\common7\tools\devinit\*,Visual Studio 2019 tool
+devinit.exe,c:\program files (x86)\microsoft visual studio\*\community\common7\tools\devinit\*,Visual Studio 2019 tool
+devtunnel.exe,c:\users\*\appdata\local\temp\.net\devtunnel\*,Binary to enable forwarded ports on windows operating systems.
+devtunnel.exe,c:\users\*\appdata\local\temp\devtunnels\*,Binary to enable forwarded ports on windows operating systems.
+dnx.exe,*,.Net Execution environment file included with .Net.
+dsdbutil.exe,c:\windows\system32\*,Dsdbutil is a command-line tool that is built into Windows Server. It is available if you have the AD LDS server role installed. Can be used as a command line utility to export Active Directory.
+dsdbutil.exe,c:\windows\syswow64\*,Dsdbutil is a command-line tool that is built into Windows Server. It is available if you have the AD LDS server role installed. Can be used as a command line utility to export Active Directory.
+dumpminitool.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\extensions\testplatform\extensions\*,Dump tool part Visual Studio 2022
+fsutil.exe,c:\windows\system32\*,File System Utility
+fsutil.exe,c:\windows\syswow64\*,File System Utility
+iediagcmd.exe,c:\program files\internet explorer\*,Diagnostics Utility for Internet Explorer
+launch-vsdevshell.ps1,c:\program files (x86)\microsoft visual studio\2019\community\common7\tools\*,Locates and imports a Developer PowerShell module and calls the Enter-VsDevShell cmdlet
+launch-vsdevshell.ps1,c:\program files\microsoft visual studio\2022\community\common7\tools\*,Locates and imports a Developer PowerShell module and calls the Enter-VsDevShell cmdlet
+ldifde.exe,c:\windows\system32\*,"Creates, modifies, and deletes LDAP directory objects."
+ldifde.exe,c:\windows\syswow64\*,"Creates, modifies, and deletes LDAP directory objects."
+microsoft.nodejstools.pressanykey.exe,c:\program files\microsoft visual studio\*\community\common7\ide\extensions\microsoft\nodejstools\nodejstools\*,Part of the NodeJS Visual Studio tools.
+microsoft.nodejstools.pressanykey.exe,c:\program files (x86)\microsoft visual studio\*\community\common7\ide\extensions\microsoft\nodejstools\nodejstools\*,Part of the NodeJS Visual Studio tools.
+msaccess.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office16\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office15\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office14\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office12\*,Microsoft Office component
+msedge.exe,c:\users\*\appdata\local\microsoft\edge\*,Microsoft Edge browser
+msedge.exe,c:\program files\microsoft\edge\application\*,Microsoft Edge browser
+msedge.exe,c:\program files (x86)\microsoft\edge\application\*,Microsoft Edge browser
+msedgewebview2.exe,c:\program files (x86)\microsoft\edge\application\*,"msedgewebview2.exe is the executable file for Microsoft Edge WebView2, which is a web browser control used by applications to display web content."
+msedge_proxy.exe,c:\\program files (x86)\microsoft\edge\application\*,Microsoft Edge Browser
+msohtmed.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office12\*,Microsoft Office component
+mspub.exe,c:\program files\microsoft office\root\office*\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office\office16\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office\office15\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office\office14\*,Microsoft Publisher
+msxsl.exe,*,Command line utility used to perform XSL transformations.
+onedrivestandaloneupdater.exe,c:\users\*\appdata\local\microsoft\onedrive\*,OneDrive Standalone Updater
+openconsole.exe,c:\program files (x86)\microsoft visual studio\2019\community\common7\ide\commonextensions\microsoft\terminal\servicehub\os64\*,Console Window host for Windows Terminal
+openconsole.exe,c:\program files (x86)\microsoft visual studio\2019\community\common7\ide\commonextensions\microsoft\terminal\servicehub\os86\*,Console Window host for Windows Terminal
+openconsole.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\commonextensions\microsoft\terminal\servicehub\os64\*,Console Window host for Windows Terminal
+procdump.exe,*,SysInternals Memory Dump Tool
+protocolhandler.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office\office15\*,Microsoft Office binary
+provlaunch.exe,c:\windows\system32\*,Launcher process
+rcsi.exe,*,Non-Interactive command line inerface included with Visual Studio.
+runexehelper.exe,c:\windows\system32\*,Launcher process
+scrobj.dll,c:\windows\system32\*,Windows Script Component Runtime
+scrobj.dll,c:\windows\syswow64\*,Windows Script Component Runtime
+setres.exe,c:\windows\system32\*,Configures display settings
+shimgvw.dll,c:\windows\system32\*,Photo Gallery Viewer
+shimgvw.dll,c:\windows\syswow64\*,Photo Gallery Viewer
+squirrel.exe,c:\users\*\appdata\local\microsoft\teams\current\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+squirrel.exe,c:\users\*\appdata\local\microsoft\teams\stage\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+squirrel.exe,c:\programdata\*\microsoft\teams\current\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+ssh.exe,c:\windows\system32\openssh\*,Ssh.exe is the OpenSSH compatible client can be used to connect to Windows 10 (build 1809 and later) and Windows Server 2019 devices.
+tar.exe,c:\windows\system32\*,Used by Windows to extract and create archives.
+tar.exe,c:\windows\syswow64\*,Used by Windows to extract and create archives.
+te.exe,*,Testing tool included with Microsoft Test Authoring and Execution Framework (TAEF).
+teams.exe,c:\users\*\appdata\local\microsoft\teams\current\*,Electron runtime binary which runs the Teams application
+teams.exe,c:\users\*\appdata\local\microsoft\teams\stage\*,Electron runtime binary which runs the Teams application
+teams.exe,c:\programdata\*\microsoft\teams\current\*,Electron runtime binary which runs the Teams application
+testwindowremoteagent.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\commonextensions\microsoft\testwindow\remoteagent\*,TestWindowRemoteAgent.exe is the command-line tool to establish RPC
+tracker.exe,*,Tool included with Microsoft .Net Framework.
+unregmp2.exe,c:\windows\system32\*,Microsoft Windows Media Player Setup Utility
+unregmp2.exe,c:\windows\syswow64\*,Microsoft Windows Media Player Setup Utility
+update.exe,c:\users\*\appdata\local\microsoft\teams\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+update.exe,c:\users\*\appdata\local\squirreltemp\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+update.exe,c:\programdata\*\microsoft\teams\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+vsdiagnostics.exe,c:\program files\microsoft visual studio\2022\community\team tools\diagnosticshub\collector\*,Command-line tool used for performing diagnostics.
+vshadow.exe,c:\program files (x86)\windows kits\10\bin\10.0.xxxxx.0\x64\*,VShadow is a command-line tool that can be used to create and manage volume shadow copies.
+vsls-agent.exe,c:\program files (x86)\microsoft visual studio\2019\professional\common7\ide\extensions\microsoft\liveshare\agent\*,Agent for Visual Studio Live Share (Code Collaboration)
+vstest.console.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\commonextensions\microsoft\testwindow\*,VSTest.Console.exe is the command-line tool to run tests
+vstest.console.exe,c:\program files (x86)\microsoft visual studio\2022\testagent\common7\ide\commonextensions\microsoft\testwindow\*,VSTest.Console.exe is the command-line tool to run tests
+wbadmin.exe,c:\windows\system32\*,Windows Backup Administration utility
+winget.exe,c:\users\*\appdata\local\microsoft\windowsapps\*,Windows Package Manager tool
+winproj.exe,c:\program files\microsoft office\root\office*\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\office16\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\root\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\root\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office16\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\root\office16\*,Microsoft Project Executable
+wt.exe,c:\program files\windowsapps\microsoft.windowsterminal_*,Windows Terminal
