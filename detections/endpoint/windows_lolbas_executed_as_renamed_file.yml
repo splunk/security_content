@@ -36,15 +36,15 @@ tags:
   - T1218.011
   observable: 
   - name: dest
-    type: system
+    type: Hostname
     role:
     - Victim
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   - name: process_name
-    type: process_name
+    type: Process Name
     role:
     - Attacker
   product: 
