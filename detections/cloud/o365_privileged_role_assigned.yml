@@ -34,11 +34,11 @@ tags:
   - T1098.003
   observable: 
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   - name: src_user
-    type: user
+    type: User
     role:
     - Victim
   product: 
