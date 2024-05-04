@@ -39,7 +39,7 @@ tags:
   - T1136.003
   observable: 
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   product: 
