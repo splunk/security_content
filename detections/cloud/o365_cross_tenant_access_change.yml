@@ -33,11 +33,11 @@ tags:
   - T1484.002
   observable: 
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   - name: object_attrs
-    type: object
+    type: Other
     role:
     - Attacker
   product: 
