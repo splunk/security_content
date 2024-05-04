@@ -35,11 +35,11 @@ tags:
   - T1098
   observable: 
   - name: user
-    type: user
+    type: User
     role:
     - Victim
   - name: object_name
-    type: object
+    type: Other
     role:
     - Attacker
   product: 
