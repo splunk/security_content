@@ -1,6 +1,5 @@
 # Ignore example files from contentctl tool
 apps/
-dist/
 test_results/
 detections/*/.yml.example
 stories/*.yml.example

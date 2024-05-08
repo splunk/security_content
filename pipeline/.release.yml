@@ -15,7 +15,9 @@ reporting:
     - unzip awscliv2.zip
     - ./aws/install
   script:
-    - poetry run contentctl -p ../ report
+    # Temporary workaround until we use pip based install for contentctl, moving the file to contentctl directory
+    - cp ../contentctl.yml .
+    - poetry run contentctl report  --path ../ 
     - cd ..
     - aws s3 cp reporting s3://$BUCKET/reporting --recursive --exclude "*" --include "*.svg"
   rules:
