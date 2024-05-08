@@ -1,7 +1,7 @@
 name: Windows Screen Capture Via Powershell
-id: 3b49e58f-04c9-416b-96c9-016ac64e7e5f
+id: 678ae7c6-0e63-44db-9881-03202c312f66
 version: 1
-status: validation
+status: production
 detection_type: STREAMING
 description: The following analytic identifies a potential PowerShell script that
   captures screen images on compromised or targeted hosts. This technique was observed
@@ -37,7 +37,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 2,
     risk_score = 49,
     severity_id = 0,
-    rule = {"name": "Windows Screen Capture Via Powershell", "uid": "3b49e58f-04c9-416b-96c9-016ac64e7e5f", "type": "Streaming"},
+    rule = {"name": "Windows Screen Capture Via Powershell", "uid": "678ae7c6-0e63-44db-9881-03202c312f66", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -61,7 +61,7 @@ tags:
   risk_score: 49
   security_domain: endpoint
   risk_severity: low
-  research_site_url: https://research.splunk.com/endpoint/3b49e58f-04c9-416b-96c9-016ac64e7e5f/
+  research_site_url: https://research.splunk.com/endpoint/678ae7c6-0e63-44db-9881-03202c312f66/
   event_schema: ocsf
   mappings:
   - ocsf: device.hostname
