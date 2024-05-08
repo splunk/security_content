@@ -1,5 +1,5 @@
 default:
-  image: docker-hub.repo.splunkdev.net/python:3.9
+  image: docker-hub.repo.splunkdev.net/python:3.11
 
 variables:
   EXTRACTO_VERSION:

@@ -18,7 +18,7 @@ description: The following analytic leverages Event ID 4672 to identify a source
   organizations, security teams should customize the thresholds of this detection
   as needed.
 search: ' `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL SERVICE","NETWORK SERVICE","SYSTEM","*$")) | bucket span=5m _time | stats dc(Computer)
-  AS unique_targets values(Computer) as host_targets values(PrivilegeList) as privileges
+  AS unique_targets values(Computer) as dest values(PrivilegeList) as privileges
   by _time, Caller_User_Name | rename Caller_User_Name as user| where unique_targets > 30 | `windows_special_privileged_logon_on_multiple_hosts_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   special logon events. The Advanced Security Audit policy setting `Audit Special
@@ -37,21 +37,16 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A source user $user$ obtained special privileges on a large
-    number of endpoints $host_targets$ within 5 minutes.
+  message: 'A user $user$ obtained special privileges on a large number of endpoints (Count: $unique_targets$) within 5 minutes.'
   mitre_attack_id:
   - T1087
   - T1021.002
   - T1135
   observable:
-  - name: host_targets
-    type: Hostname
-    role:
-    - Victim
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

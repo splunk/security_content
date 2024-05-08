@@ -3,13 +3,14 @@ id: 8cb1ad38-8f6d-11ec-87a3-acde48001122
 version: 4
 status: production
 detection_type: STREAMING
-description: Certutil.exe may download a file from a remote destination using `-urlcache`.
+description: 'Certutil.exe may download a file from a remote destination using `-urlcache`.
   This behavior does require a URL to be passed on the command-line. In addition,
   `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will
   be used. It is not entirely common for `certutil.exe` to contact public IP space.
-  However, it is uncommon for `certutil.exe` to write files to world writeable paths.\
+  However, it is uncommon for `certutil.exe` to write files to world writeable paths.
+
   During triage, capture any files on disk and review. Review the reputation of the
-  remote IP or domain in question.
+  remote IP or domain in question.'
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
   = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line

@@ -10,15 +10,15 @@ description: 'The following analytic detects the suspicious editing of cron jobs
   or malware to schedule execution of their malicious code, potentially leading to
   system compromise or unauthorized persistent access. It pinpoints this activity
   by monitoring command-line executions involving ''crontab'' and the edit parameter
-  (-e).\
+  (-e).
 
   Recognizing such activity is vital for a SOC as cron job manipulations might signal
   unauthorized persistence attempts or scheduled malicious actions, potentially resulting
   in substantial harm. A true positive signifies an active threat, with implications
-  ranging from unauthorized access to broader network compromise.\
+  ranging from unauthorized access to broader network compromise.
 
   To implement this analytic, logs capturing process name, parent process, and command-line
-  executions from your endpoints must be ingested.\
+  executions from your endpoints must be ingested.
 
   Known false positives could stem from valid administrative tasks or automation processes
   using crontab. To reduce these, fine-tune the filter macros according to the benign

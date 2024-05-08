@@ -16,7 +16,6 @@ references:
 - https://success.trendmicro.com/dcx/s/solution/000146108-azorult-malware-information?language=en_US&sfdcIFrameOrigin=null
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 tags:
-  analytic_story: Azorult
   category:
   - Malware
   product:

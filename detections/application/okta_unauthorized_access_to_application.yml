@@ -19,7 +19,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 90
   impact: 90
   message: A user [$user$] is attempting to access an unauthorized application from IP Address - [$src$]

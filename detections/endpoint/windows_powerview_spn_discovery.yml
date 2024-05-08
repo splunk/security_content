@@ -36,7 +36,7 @@ tags:
   - CISA AA23-347A
   - Rhysida Ransomware
   - Active Directory Kerberos Attacks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 90
   impact: 30
   message: PowerView commandlets used for SPN discovery executed on $dest$

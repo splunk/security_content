@@ -21,7 +21,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 60
   impact: 50
   message: MFA was disabled for User [$user$] initiated by [$src$]. Investigate further to determine if this was authorized.

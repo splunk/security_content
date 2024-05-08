@@ -11,7 +11,6 @@ narrative: AppLocker, a built-in Windows security feature, provides organization
   In summary, AppLocker is a critical security tool that helps organizations manage application usage, enforce compliance policies, and mitigate security risks. By implementing AppLocker policies, organizations can achieve a robust security posture, protecting their assets from unauthorized software and potential cyber threats.
 references: []
 tags:
-  analytic_story: Windows AppLocker
   category:
   - Unauthorized Software
   - Best Practices

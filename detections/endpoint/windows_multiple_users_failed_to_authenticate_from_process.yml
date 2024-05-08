@@ -9,13 +9,13 @@ description: 'The following analytic identifies a source process name failing to
   on the organization. Users should test this detection and customize the arbitrary
   threshold when needed. Event 4625 generates on domain controllers, member servers,
   and workstations when an account fails to logon. Logon Type 2 describes an iteractive
-  logon attempt.\
+  logon attempt.
 
   This logic can be used for real time security monitoring as well as threat hunting
   exercises. This detection will trigger on the potenfially malicious host, perhaps
   controlled via a trojan or operated by an insider threat, from where a password
   spraying attack is being executed. This could be a domain controller as well as
-  a member server or workstation.\
+  a member server or workstation.
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source process name, source account and attempted user accounts.'

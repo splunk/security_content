@@ -18,7 +18,6 @@ narrative: SVR cyber operations pose a persistent threat to public and private o
 references:
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
 tags:
-  analytic_story: CISA AA23-347A
   category:
   - Data Destruction
   - Malware

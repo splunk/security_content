@@ -35,7 +35,7 @@ tags:
   analytic_story:
   - Compromised User Account
   - Azure Active Directory Account Takeover
-  asset_type: Azure AD
+  asset_type: Azure Tenant
   confidence: 60
   impact: 70
   message: User $user$ has concurrent sessions from more than one unique

@@ -19,7 +19,8 @@ search: '`cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR u
   requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write
   requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_new_open_s3_buckets_over_aws_cli_filter` '
-how_to_implement: ''
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
+  this data. The search requires AWS Cloudtrail logs.
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has legitimately created a public bucket for a specific purpose.
   That said, AWS strongly advises against granting full control to the "All Users"
@@ -40,10 +41,6 @@ tags:
   observable:
   - name: userIdentity.userName
     type: User
-    role:
-    - Attacker
-  - name: bucketName
-    type: Other
     role:
     - Victim
   product:

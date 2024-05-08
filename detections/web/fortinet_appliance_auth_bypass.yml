@@ -15,13 +15,13 @@ description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is activel
   also have a URL containing /api/v2/ should be cause for concern. Further investigation
   of any matching log entries can reveal any damage an attack has done. Additionally,
   an attacker may perform the following actions to further compromise a system Modify
-  the admin SSH key to enable the attacker to login to the compromised system. \
+  the admin SSH key to enable the attacker to login to the compromised system. 
 
-  Add new local users. \
+  Add new local users. 
 
-  Update networking configurations to reroute traffic. \
+  Update networking configurations to reroute traffic. 
 
-  Download the system configuration. \
+  Download the system configuration. 
 
   Initiate packet captures to capture other sensitive system information. Reference
   Horizon3.ai'

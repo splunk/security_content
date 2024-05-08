@@ -36,7 +36,7 @@ tags:
   asset_type: Google Cloud Platform tenant
   confidence: 90
   impact: 60
-  message: Multiple failed login attempts against users $tried_accounts$ seen from $src$
+  message: 'Multiple failed login attempts (Count: $unique_accounts$) against users seen from $src$'
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -44,14 +44,14 @@ tags:
   - T1110.003
   - T1110.004
   observable:
-  - name: src
-    type: IP Address
-    role:
-    - Attacker
   - name: tried_accounts
     type: User
     role:
     - Victim
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -14,7 +14,6 @@ references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
 - https://www.netskope.com/blog/asyncrat-using-fully-undetected-downloader
 tags:
-  analytic_story: AsyncRAT
   category:
   - Malware
   product:

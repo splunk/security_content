@@ -1,7 +1,7 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,10 +15,10 @@ description: This search is to detect an anomaly event of a non-firefox process 
   and `explorer.exe` to make this detection more stable.
 data_source:
 - Windows Security 4663
-search: '`wineventlog_security` EventCode=4663 NOT (process_name IN ("*\\firefox.exe",
-  "*\\explorer.exe", "*sql*")) Object_Name="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by Object_Name Object_Type
-  process_name Access_Mask Accesses process_id EventCode dest user | `security_content_ctime(firstTime)`
+search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\firefox.exe",
+  "*\\explorer.exe", "*sql*")) ObjectName="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType
+  ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `non_firefox_process_access_firefox_profile_dir_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
@@ -43,17 +43,13 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: a non firefox browser process $process_name$ accessing $Object_Name$
+  message: a non firefox browser process $ProcessName$ accessing $ObjectName$
   mitre_attack_id:
   - T1555
   - T1555.003
   observable:
   - name: dest
     type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
     role:
     - Victim
   product:
@@ -76,6 +72,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_sacl/security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

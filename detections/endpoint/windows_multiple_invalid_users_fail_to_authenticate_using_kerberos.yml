@@ -12,11 +12,11 @@ description: 'The following analytic identifies one source endpoint failing to a
   may execute a password spraying attack using an invalid list of users. Event 4768
   is generated every time the Key Distribution Center issues a Kerberos Ticket Granting
   Ticket (TGT). Failure code 0x6 stands for `client not found in Kerberos database`
-  (the attempted user is not a valid domain user).\
+  (the attempted user is not a valid domain user).
 
   This logic can be used for real time security monitoring as well as threat hunting
   exercises. This detection will only trigger on domain controllers, not on member
-  servers or workstations.\
+  servers or workstations.
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
@@ -33,7 +33,7 @@ references:
 - https://attack.mitre.org/techniques/T1110/003/
 search: '`wineventlog_security` EventCode=4768 TargetUserName!=*$ Status=0x6 | bucket
   span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, IpAddress | where unique_accounts > 30 | `windows_multiple_invalid_users_fail_to_authenticate_using_kerberos_filter` '
+  as user by _time, IpAddress | where unique_accounts > 30 | `windows_multiple_invalid_users_fail_to_authenticate_using_kerberos_filter` '
 status: production
 tags:
   analytic_story:
@@ -48,10 +48,14 @@ tags:
   - T1110.003
   - T1110
   observable:
-  - name: IpAddress
+  - name: user
+    type: User
     role:
-    - Attacker
+    - Victim
+  - name: IpAddress
     type: Endpoint
+    role:
+    - Attacker   
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

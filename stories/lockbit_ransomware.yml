@@ -18,7 +18,6 @@ references:
 - https://www.cybereason.com/blog/threat-analysis-report-lockbit-2.0-all-paths-lead-to-ransom
 - https://www.trendmicro.com/en_us/research/22/g/lockbit-ransomware-group-augments-its-latest-variant--lockbit-3-.html
 tags:
-  analytic_story: LockBit Ransomware
   category:
   - Malware
   product:

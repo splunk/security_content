@@ -13,7 +13,7 @@ narrative: 'It is critical to identify unauthorized software and processes runni
   this data, adding information on processes thought to be malicious. This search
   requires data from endpoint detection-and-response solutions, endpoint data sources
   (such as Sysmon), or Windows Event Logs--assuming that the Active Directory administrator
-  has enabled process tracking within the System Event Audit Logs.\
+  has enabled process tracking within the System Event Audit Logs.
 
   It is important to investigate any software identified as suspicious, in order to
   understand how it was installed or executed. Analyzing authentication logs or any
@@ -22,7 +22,6 @@ narrative: 'It is critical to identify unauthorized software and processes runni
 references:
 - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 tags:
-  analytic_story: Monitor for Unauthorized Software
   category:
   - Best Practices
   product:

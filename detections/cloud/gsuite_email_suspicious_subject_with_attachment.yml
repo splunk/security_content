@@ -40,13 +40,17 @@ tags:
   asset_type: GSuite
   confidence: 50
   impact: 50
-  message: suspicious email from $source.address$ to $destination{}.address$
+  message: Suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:
   - T1566.001
   - T1566
   observable:
+  - name: destination{}.address
+    type: Email Address
+    role:
+    - Victim
   - name: source.address
-    type: User
+    type: Email Address
     role:
     - Attacker
   product:

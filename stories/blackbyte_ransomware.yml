@@ -16,7 +16,6 @@ narrative: BlackByte ransomware campaigns targeting business operations,
 references:
 - https://www.microsoft.com/en-us/security/blog/2023/07/06/the-five-day-job-a-blackbyte-ransomware-intrusion-case-study/
 tags:
-  analytic_story: BlackByte Ransomware
   category:
   - Malware
   product:

@@ -31,7 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 60
-  message: powershell script $ScriptBlockText$ to enumerate camera in $Computer$
+  message: A Powershell script to enumerate camera detected on host - $dest$
   mitre_attack_id:
   - T1592.001
   - T1592

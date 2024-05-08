@@ -14,7 +14,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*CreateInstance([type]::GetTypeFromCLSID*"
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_execute_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -33,14 +33,13 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 10
-  message: A suspicious powershell script contains COM CLSID command in $ScriptBlockText$
-    with EventCode $EventCode$ in host $Computer$
+  message: A suspicious powershell script contains COM CLSID command on host $dest$
   mitre_attack_id:
   - T1546.015
   - T1546
   - T1059.001
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

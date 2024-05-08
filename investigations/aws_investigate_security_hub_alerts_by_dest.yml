@@ -19,7 +19,6 @@ known_false_positives: ''
 references: []
 tags:
   analytic_story:
-  - Cloud Compute Instance
   - Cloud Cryptomining
   - Suspicious AWS EC2 Activities
   - AWS Suspicious Provisioning Activities

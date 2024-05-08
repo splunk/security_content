@@ -17,14 +17,15 @@ how_to_implement: 'This search requires you to be ingesting web-traffic logs. Yo
   requested, the IP address of the host initiating the request, and the destination
   IP. This search also leverages a lookup file, `dynamic_dns_providers_default.csv`,
   which contains a non-exhaustive list of dynamic DNS providers. Consider periodically
-  updating this local lookup file with new domains.\
+  updating this local lookup file with new domains.
 
   This search produces fields (`isDynDNS`) that are not yet supported by ES Incident
   Review and therefore cannot be viewed when a notable event is raised. These fields
   contribute additional context to the notable. To see the additional metadata, add
   the following fields, if not already present, to Incident Review - Event Attributes
-  (Configure > Incident Management > Incident Review Settings > Add New Entry):\\n1.
-  **Label:** IsDynamicDNS, **Field:** isDynDNS\
+  (Configure > Incident Management > Incident Review Settings > Add New Entry):
+  
+  * **Label:** IsDynamicDNS, **Field:** isDynDNS
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`

@@ -18,7 +18,6 @@ tags:
   cve:
   - CVE-2023-46805
   - CVE-2024-21887
-  analytic_story: Ivanti Connect Secure VPN Vulnerabilities
   category:
   - Adversary Tactics
   product:

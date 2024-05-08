@@ -8,19 +8,18 @@ description: Monitor for suspicious activities associated with DHS Technical Ale
   included spearfishing attacks, malware, watering-hole domains, many and more.
 narrative: 'The frequency of nation-state cyber attacks has increased significantly
   over the last decade. Employing numerous tactics and techniques, these attacks continue
-  to escalate in complexity. \
+  to escalate in complexity. 
 
   There is a wide range of motivations for these state-sponsored hacks, including
   stealing valuable corporate, military, or diplomatic data&#1151;all of which could
   confer advantages in various arenas. They may also target critical infrastructure.
-  \
 
   One joint Technical Alert (TA) issued by the Department of Homeland and the FBI
   in mid-March of 2018 attributed some cyber activity targeting utility infrastructure
   to operatives sponsored by the Russian government. The hackers executed spearfishing
   attacks, installed malware, employed watering-hole domains, and more. While they
   caused no physical damage, the attacks provoked fears that a nation-state could
-  turn off water, redirect power, or compromise a nuclear power plant.\
+  turn off water, redirect power, or compromise a nuclear power plant.
 
   Suspicious activities--spikes in SMB traffic, processes that launch netsh (to modify
   the network configuration), suspicious registry modifications, and many more--may
@@ -31,7 +30,6 @@ narrative: 'The frequency of nation-state cyber attacks has increased significan
 references:
 - https://www.us-cert.gov/ncas/alerts/TA18-074A
 tags:
-  analytic_story: DHS Report TA18-074A
   category:
   - Malware
   product:

@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
-  asset_type: Azure AD Tenant
+  asset_type: Azure Tenant
   confidence: 80
   impact: 60
   message: $user$ authenticated in a short periof of time with more than 5 different user agents across 3 or more unique application ids.

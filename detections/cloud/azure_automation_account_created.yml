@@ -43,7 +43,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
-  asset_type: Azure
+  asset_type: Azure Tenant
   confidence: 90
   impact: 70
   message: A new Azure Automation account $object$ was created by $user$
@@ -51,14 +51,10 @@ tags:
   - T1136
   - T1136.003
   observable:
-  - name: object
-    type: Other
-    role:
-    - Victim
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

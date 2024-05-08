@@ -31,7 +31,7 @@ tags:
   - name: host
     type: Hostname
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

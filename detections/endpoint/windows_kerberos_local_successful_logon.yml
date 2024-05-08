@@ -1,7 +1,7 @@
 name: Windows Kerberos Local Successful Logon
 id: 8309c3a8-4d34-48ae-ad66-631658214653
-version: 1
-date: '2022-04-27'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -13,9 +13,9 @@ description: The following analytic identifies a local successful authentication
   accounts added to Active Directory and other anomolous AD events.
 data_source:
 - Windows Security 4624
-search: '`wineventlog_security`  EventCode=4624 Logon_Type=3 Authentication_Package=Kerberos
-  action=success src_ip=127.0.0.1 | stats count min(_time) as firstTime max(_time)
-  as lastTime by dest, subject, action, Security_ID, user, Account_Name, src_ip |
+search: '`wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos
+  action=success src=127.0.0.1 | stats count min(_time) as firstTime max(_time)
+  as lastTime by dest, subject, action, SubjectLogonId, user, TargetUserName, src |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_kerberos_local_successful_logon_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4624 EventCode enabled. The Windows TA is also
@@ -51,13 +51,13 @@ tags:
   - action
   - Security_ID
   - user
-  - Account_Name
+  - TargetUserName
   - src_ip
   risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/krbrelayup/krbrelayup.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_kerberos_local_successful_logon/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

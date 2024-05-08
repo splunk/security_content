@@ -31,7 +31,7 @@ tags:
   asset_type: AWS Account
   confidence: 80
   impact: 90
-  message: User $user_arn$ is attempting to create a login profile for $requestParameters.userName$
+  message: User $user_arn$ is attempting to create a login profile for $new_login_profile$
     and did a console login from this IP $src_ip$
   mitre_attack_id:
   - T1136.003
@@ -44,7 +44,7 @@ tags:
   - name: user_arn
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

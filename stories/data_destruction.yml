@@ -25,7 +25,6 @@ references:
 - https://www.splunk.com/en_us/blog/security/threat-update-industroyer2.html
 - https://www.splunk.com/en_us/blog/security/threat-advisory-swiftslicer-wiper-strt-ta03.html
 tags:
-  analytic_story: Data Destruction
   category:
   - Malware
   product:

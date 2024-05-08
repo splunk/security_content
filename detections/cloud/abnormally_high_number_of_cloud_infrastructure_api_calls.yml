@@ -22,7 +22,7 @@ search: '| tstats count as api_calls values(All_Changes.command) as command from
 how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
   run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to
   create the probability density function.
-known_false_positives: ''
+known_false_positives: 'None.'
 references: []
 tags:
   analytic_story:

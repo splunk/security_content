@@ -8,7 +8,7 @@ type: TTP
 description: 'The following analytic is designed to identify possible lateral movement
   attacks that involve the spawning of a PowerShell process as a child or grandchild
   process of commonly abused processes. These processes include services.exe, wmiprsve.exe,
-  svchost.exe, wsmprovhost.exe, and mmc.exe.\
+  svchost.exe, wsmprovhost.exe, and mmc.exe.
 
   Such behavior is indicative of legitimate Windows features such as the Service Control
   Manager, Windows Management Instrumentation, Task Scheduler, Windows Remote Management,

@@ -32,7 +32,7 @@ tags:
   analytic_story:
   - CISA AA23-347A
   - Active Directory Kerberos Attacks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 90
   impact: 60
   message: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $dest$

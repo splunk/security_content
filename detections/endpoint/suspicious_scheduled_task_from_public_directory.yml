@@ -10,7 +10,7 @@ description: 'The following analytic, "Suspicious Scheduled Task from Public Dir
   from public directories, a behavior often associated with malware deployment. It
   utilizes the Sysmon Event ID 1 data source, searching for instances where schtasks.exe
   is connected with the directories users\public, \programdata\, or \windows\temp
-  and involves the /create command.\
+  and involves the /create command.
 
   The registration of such scheduled tasks in public directories could suggest that
   an attacker is trying to maintain persistence or execute malicious scripts. If confirmed
