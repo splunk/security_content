@@ -22,7 +22,7 @@ tags:
     - Okta Account Takeover
     - Okta MFA Exhaustion
     - Suspicious Okta Activity
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 80
   impact: 70
   message: Okta Risk threshold exceeded for user [$risk_object$]. Investigate further to determine if this was authorized.

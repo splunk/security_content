@@ -9,7 +9,6 @@ references:
 - https://threatlibrary.zscaler.com/
 - https://help.zscaler.com/zia/about-threat-categories
 tags:
-  analytic_story: Zscaler Browser Proxy Threats
   category:
   - Adversary Tactics
   product:

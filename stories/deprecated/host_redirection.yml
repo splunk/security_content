@@ -19,7 +19,6 @@ narrative: Attackers will often attempt to manipulate client communications for 
 references:
 - https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
 tags:
-  analytic_story: Host Redirection
   category:
   - Abuse
   product:

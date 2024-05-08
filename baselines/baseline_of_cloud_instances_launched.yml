@@ -28,7 +28,7 @@ how_to_implement: 'You must have Enterprise Security 6.0 or later, if not you wi
   in a reasonable timeframe. By default, the search builds the model using the past
   90 days of data. You can modify the search window to build the model over a longer
   period of time, which may give you better results. You may also want to periodically
-  re-run this search to rebuild the model with the latest data.\
+  re-run this search to rebuild the model with the latest data.
 
   More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.'
 known_false_positives: none

@@ -1,7 +1,7 @@
 name: Windows Service Created Within Public Path
 id: 3abb2eda-4bb8-11ec-9ae4-3e22fbd008af
-version: 1
-date: '2021-11-22'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,10 +12,10 @@ description: The following analytc uses Windows Event Id 7045, `New Service Was 
   or remote code execution
 data_source:
 - Sysmon Event ID 7
-search: '`wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe" NOT (Service_File_Name
-  IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode
-  Service_File_Name Service_Name Service_Start_Type Service_Type | `security_content_ctime(firstTime)`
+search: '`wineventlog_system` EventCode=7045 ImagePath = "*.exe" NOT (ImagePath
+  IN ("*:\\Windows\\*", "*:\\Program File*", "*:\\Programdata\\*", "*%systemroot%\\*"))
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ImagePath
+  ServiceName ServiceType StartType Computer UserID | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_service_created_within_public_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
@@ -32,17 +32,17 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 90
-  message: A Windows Service $Service_File_Name$ with a public path was created on
-    $ComputerName
+  message: A Windows Service $ServiceName$ with a public path was created on
+    $dest$
   mitre_attack_id:
   - T1543
   - T1543.003
   observable:
-  - name: Service_File_Name
+  - name: ServiceName
     type: Other
     role:
     - Other
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -62,6 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_suspicious_path/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/windows_service_created_with_suspicious_service_path/windows-xml.log
+    source: XmlWinEventLog:System
+    sourcetype: XmlWinEventLog

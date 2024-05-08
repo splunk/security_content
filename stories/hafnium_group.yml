@@ -9,7 +9,7 @@ narrative: 'On Tuesday, March 2, 2021, Microsoft released a set of security patc
   for its mail server, Microsoft Exchange. These patches respond to a group of vulnerabilities
   known to impact Exchange 2013, 2016, and 2019. It is important to note that an Exchange
   2010 security update has also been issued, though the CVEs do not reference that
-  version as being vulnerable.\
+  version as being vulnerable.
 
   While the CVEs do not shed much light on the specifics of the vulnerabilities or
   exploits, the first vulnerability (CVE-2021-26855) has a remote network attack vector
@@ -18,7 +18,7 @@ narrative: 'On Tuesday, March 2, 2021, Microsoft released a set of security patc
   and CVE-2021-27065) were also identified as part of this activity. When chained
   together along with CVE-2021-26855 for initial access, the attacker would have complete
   control over the Exchange server. This includes the ability to run code as SYSTEM
-  and write to any path on the server.\
+  and write to any path on the server.
 
   The following Splunk detections assist with identifying the HAFNIUM groups tradecraft
   and methodology.'
@@ -28,7 +28,6 @@ references:
 - https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
 - https://blog.rapid7.com/2021/03/03/rapid7s-insightidr-enables-detection-and-response-to-microsoft-exchange-0-day/
 tags:
-  analytic_story: HAFNIUM Group
   category:
   - Adversary Tactics
   product:

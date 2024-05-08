@@ -38,10 +38,10 @@ tags:
   - Data Destruction
   - Network Discovery
   - Industroyer2
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: A commandline $process$ executed on $dest$
+  message: Network discovery process $process_name_list$ executed on $dest$
   mitre_attack_id:
   - T1016
   observable:

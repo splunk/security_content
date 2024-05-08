@@ -23,7 +23,7 @@ references:
 tags:
   analytic_story:
   - WordPress Vulnerabilities
-  asset_type: Web
+  asset_type: Web Server
   confidence: 100
   impact: 100
   message: Potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability on $dest$ by $src$.

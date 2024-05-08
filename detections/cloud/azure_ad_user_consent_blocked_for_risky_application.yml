@@ -35,7 +35,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
-  asset_type: Azure AD tenant
+  asset_type: Azure Tenant
   confidence: 100
   impact: 30
   message: Azure AD has blocked $user$ attempt to grant to consent to an application deemed risky.

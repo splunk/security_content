@@ -34,7 +34,7 @@ tags:
   analytic_story:
   - AcidRain
   - Data Destruction
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 70
   impact: 70
   message: Init daemon script deleted on host $dest$ by process GUID- $process_guid$

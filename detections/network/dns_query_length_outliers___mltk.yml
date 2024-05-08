@@ -24,22 +24,20 @@ how_to_implement: 'To successfully implement this search, you will need to ensur
   this search. It is important that this search is run in the same app context as
   the associated support search, so that the model created by the support search is
   available for use. You should periodically re-run the support search to rebuild
-  the model with the latest data available in your environment.\
+  the model with the latest data available in your environment.
 
   This search produces fields (`query`,`query_length`,`count`) that are not yet supported
   by ES Incident Review and therefore cannot be viewed when a notable event is raised.
   These fields contribute additional context to the notable. To see the additional
   metadata, add the following fields, if not already present, to Incident Review -
   Event Attributes (Configure > Incident Management > Incident Review Settings > Add
-  New Entry):\\n1. **Label:** DNS Query, **Field:** query\
+  New Entry):
+  
+  * **Label:** DNS Query, **Field:** query
 
-  1. \
+  * **Label:** DNS Query Length, **Field:** query_length
 
-  1. **Label:** DNS Query Length, **Field:** query_length\
-
-  1. \
-
-  1. **Label:** Number of events, **Field:** count\
+  * **Label:** Number of events, **Field:** count
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'

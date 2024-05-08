@@ -31,10 +31,14 @@ tags:
   asset_type: S3 Bucket
   confidence: 50
   impact: 50
-  message: tbd
+  message: New S3 access from a new IP - $src_ip$
   mitre_attack_id:
   - T1530
   observable:
+  - name: bucketName
+    type: Other
+    role:
+    - Victim
   - name: src_ip
     type: IP Address
     role:

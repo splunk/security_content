@@ -1,7 +1,7 @@
 name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
 version: 4
-date: 2023-2-07
+date: '2023-02-07'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP

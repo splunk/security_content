@@ -5,7 +5,7 @@ date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic is designed to detect suspicious file creation within the systemd timer directory on Linux platforms. Systemd is a system and service manager for Linux, similar to the combination of wininit.exe and services.exe on Windows. This process initializes a Linux system and starts defined services in unit files. Malicious actors, such as adversaries, malware, or red teamers, can exploit this feature by embedding a systemd service file for persistence on the targeted or compromised host.\
+description: The following analytic is designed to detect suspicious file creation within the systemd timer directory on Linux platforms. Systemd is a system and service manager for Linux, similar to the combination of wininit.exe and services.exe on Windows. This process initializes a Linux system and starts defined services in unit files. Malicious actors, such as adversaries, malware, or red teamers, can exploit this feature by embedding a systemd service file for persistence on the targeted or compromised host.
 
   The analytic works by monitoring logs with file name, file path, and process GUID data from your endpoints. If a .service file is created in certain systemd directories, the analytic triggers an alert. This behavior is significant for a Security Operations Center (SOC) as it may indicate a persistent threat within the network, with a potential impact of system compromise or data exfiltration.
 data_source:

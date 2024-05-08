@@ -1,7 +1,7 @@
 name: High Frequency Copy Of Files In Network Share
 id: 40925f12-4709-11ec-bb43-acde48001122
-version: 1
-date: '2021-11-16'
+version: 2
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -13,20 +13,16 @@ description: This analytic is to detect a suspicious high frequency copying/movi
   share is a common place for classified or internal document processing.
 data_source:
 - Sysmon Event ID 5
-search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key")
-  Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
-  "0x2" |  bucket _time span=5m | stats values(Relative_Target_Name) as valRelativeTargetName,
-  values(Share_Name) as valShareName, values(Object_Type) as valObjectType, values(Access_Mask)
-  as valAccessmask, values(src_port) as valSrcPort, values(Source_Address) as valSrcAddress
-  count as numShareName by dest, _time, EventCode, user | eventstats avg(numShareName)
-  as avgShareName, stdev(numShareName) as stdShareName, count as numSlots by dest,
-  _time, EventCode, user |  eval upperThreshold=(avgShareName + stdShareName *3) |  eval
-  isOutlier=if(avgShareName > 20 and avgShareName >= upperThreshold, 1, 0) |  search
-  isOutlier=1 | `high_frequency_copy_of_files_in_network_share_filter`'
-how_to_implement: o successfully implement this search, you need to be ingesting Windows
+search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key") ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask= "0x2" |  bucket _time span=5m 
+  | stats values(RelativeTargetName) as valRelativeTargetName, values(ShareName) as valShareName, values(ObjectType) as valObjectType, values(AccessMask) as valAccessmask, values(src_port) as valSrcPort, values(SourceAddress) as valSrcAddress count as numShareName by dest, _time, EventCode, src_user, src_ip 
+  | eventstats avg(numShareName) as avgShareName, stdev(numShareName) as stdShareName, count as numSlots by dest, _time, EventCode, src_user
+  |  eval upperThreshold=(avgShareName + stdShareName *3) 
+  |  eval isOutlier=if(avgShareName > 20 and avgShareName >= upperThreshold, 1, 0) 
+  |  search isOutlier=1  | `high_frequency_copy_of_files_in_network_share_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows
   Security Event Logs with 5145 EventCode enabled. The Windows TA is also required.
   Also enable the object Audit access success/failure in your group policy.
-known_false_positives: this behavior may seen in normal transfer of file within network
+known_false_positives: This behavior may seen in normal transfer of file within network
   if network share is common place for sharing documents.
 references:
 - https://attack.mitre.org/techniques/T1537/
@@ -37,15 +33,18 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: high frequency copy of document in network share $Share_Name$ from $Source_Address$
-    by $user$
+  message: High frequency copy of document into a network share from $src_ip$ by $src_user$
   mitre_attack_id:
   - T1537
   observable:
-  - name: user
+  - name: src_user
     type: User
     role:
     - Victim
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -65,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_copy_files_in_net_share/security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_frequency_copy_of_files_in_network_share/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

@@ -23,7 +23,7 @@ tags:
   - Outlook RCE CVE-2024-21378
   cve:
   - CVE-2024-21378
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 70
   impact: 70
   message: A registry key associated with a new Outlook form installation was created or modified. This could indicate exploitation of CVE-2024-21378 on $dest$.

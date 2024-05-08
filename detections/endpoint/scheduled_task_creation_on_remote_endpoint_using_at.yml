@@ -12,7 +12,7 @@ description: 'The following analytic detects the creation of suspicious tasks on
   may still work on previous versions of Windows. Attackers can enable this protocol
   on demand by modifying a system registry key. It is important to consider potential
   false positives. While administrators may create scheduled tasks on remote systems,
-  this activity is typically limited to a small set of hosts or users.\
+  this activity is typically limited to a small set of hosts or users.
 
   Identifying the creation of scheduled tasks on remote endpoints is crucial for a
   Security Operations Center (SOC) because it indicates potential unauthorized activity

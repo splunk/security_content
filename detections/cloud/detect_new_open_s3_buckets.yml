@@ -37,7 +37,7 @@ tags:
   - name: user_arn
     type: User
     role:
-    - Attacker
+    - Victim
   - name: bucketName
     type: Other
     role:

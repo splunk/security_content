@@ -45,60 +45,26 @@ attack_range_escu_app:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
       when: on_success
 
-# Security Content API Update
-# security_content_api:
-#   stage: release
-#   needs:
-#   - app_inspect
-#   artifacts:
-#     when: always
-#     paths:
-#       - artifacts/*
-#     expire_in: 14 days
-#   variables:
-#     BUCKET: "security-content"
-#   before_script:
-#     - pip3 install poetry
-#     - git submodule update --init contentctl
-#     - cd contentctl
-#     - git checkout main
-#     - poetry install
-#     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-#     - unzip awscliv2.zip
-#     - ./aws/install
-#   script:
-#     - poetry run contentctl -p ../ build -t api
-#     - cd ..
-#     - aws s3 rm s3://$BUCKET --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp stories s3://$BUCKET/stories --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp baselines s3://$BUCKET/baselines --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp detections s3://$BUCKET/detections --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp playbooks s3://$BUCKET/playbooks --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.csv"
-#     - aws s3 cp lookups s3://$BUCKET/lookups --recursive --exclude "*" --include "*.mlmodel"
-#     - aws s3 cp macros s3://$BUCKET/macros --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp deployments s3://$BUCKET/deployments --recursive --exclude "*" --include "*.yml"
-#     - aws s3 cp dist/api s3://$BUCKET/json --recursive --exclude "*" --include "*.json"
-#   rules:
-#     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
-#       when: on_success
-
 # Push SSE security content Json files to Artifactory
 push_sse_json_to_artifactory:
   stage: release
   needs:
     - github_push_develop
   before_script:
+    - git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
     - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
     - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
-    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+    # - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+    - 'sed -i "/app:/,/apps:/s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - pip3 install poetry
     - git submodule update --init contentctl
     - cd contentctl
     - git checkout main
     - poetry install
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
+    # Temporary workaround until we use pip based install for contentctl, moving the file from root to contentctl directory
+    - cp ../contentctl.yml .
+    # - poetry run contentctl -p ../ --enable_enrichment build -t api
+    - poetry run contentctl build --path ../ --enrichments
     - cd ..
     - tar -czvf sse.tar.gz dist/api/*
   script:
@@ -152,19 +118,25 @@ update_gitlab_dist:
       - artifacts/*
     expire_in: 14 days
   before_script:
+    - git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
     - 'echo "Current CI_COMMIT_TAG: $CI_COMMIT_TAG"'
     - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
     - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
-    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+    # - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+    - 'sed -i "/app:/,/apps:/s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - pip3 install poetry
     - git submodule update --init contentctl
     - cd contentctl
     - git checkout main
     - poetry install
+    
   script:
-    - poetry run contentctl -p ../ --enable_enrichment build
-    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
+    # - poetry run contentctl -p ../ --enable_enrichment build
+    # - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+    # - poetry run contentctl -p ../ --enable_enrichment build -t api
+    # Temporary workaround until we use pip based install for contentctl, moving the file from root to contentctl directory
+    - cp ../contentctl.yml .
+    - poetry run contentctl build --path ../ --enrichments
     - cd ..
     - echo "Updating dist build scripts in a branch"
     - git config --global user.email "research@splunk.com"
@@ -190,6 +162,7 @@ github_push_develop:
   variables:
     BRANCH: "gitlab_release_$CI_COMMIT_TAG"
   before_script:
+    - git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | ssh-add -
@@ -214,13 +187,17 @@ github_push_develop:
     # Update contentctl.yml version after merge with theirs
     - 'NEW_VERSION=$(echo $CI_COMMIT_TAG | sed "s/^v//")'
     - 'echo "Updating contentctl.yml version: $NEW_VERSION"'
-    - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+    # - 'sed -i "s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
+    - 'sed -i "/app:/,/apps:/s/version: [0-9]*\.[0-9]*\.[0-9]*/version: $NEW_VERSION/" contentctl.yml'
     - cd contentctl && git checkout main && cd ..
     - git add contentctl
     - cd contentctl/
-    - poetry run contentctl -p ../ --enable_enrichment build
-    - poetry run contentctl -p ../ --enable_enrichment build -t ssa
-    - poetry run contentctl -p ../ --enable_enrichment build -t api
+    # Temporary workaround until we use pip based install for contentctl, moving the file from root to contentctl directory
+    - cp ../contentctl.yml .
+    - poetry run contentctl build --path ../ --enrichments
+    # - poetry run contentctl -p ../ --enable_enrichment build
+    # - poetry run contentctl -p ../ --enable_enrichment build -t ssa
+    # - poetry run contentctl -p ../ --enable_enrichment build -t api
     - cd ..
     - git add .
     - git status

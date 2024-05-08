@@ -54,7 +54,7 @@ tags:
   - WinRAR Spoofing Attack CVE-2023-38831
   cve:
   - CVE-2023-38831
-  asset_type: endpoint
+  asset_type: Endpoint
   atomic_guid: []
   confidence: 70
   impact: 100

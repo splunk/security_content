@@ -33,7 +33,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
-  asset_type: Azure AD
+  asset_type: Azure Tenant
   confidence: 50
   impact: 60
   message: A new MFA method was registered for user $user$

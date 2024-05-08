@@ -32,7 +32,7 @@ references:
 tags:
   analytic_story:
   - AcidRain
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 70
   impact: 70
   message: SSH Config and keys are deleted on $dest$ by Process GUID - $process_guid$

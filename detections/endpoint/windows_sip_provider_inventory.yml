@@ -15,7 +15,7 @@ references:
 tags:
   analytic_story:
   - Subvert Trust Controls SIP and Trust Provider Hijacking
-  asset_type: endpoint
+  asset_type: Endpoint
   atomic_guid: []
   confidence: 50
   impact: 50

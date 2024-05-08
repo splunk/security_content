@@ -9,7 +9,6 @@ references:
   - https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
   - https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
 tags:
-  analytic_story: APT29 Diplomatic Deceptions with WINELOADER
   group:
   - APT29
   - Cozy Bear

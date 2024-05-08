@@ -18,7 +18,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 60
   impact: 80
   message: A user [$user$] has successfully logged in to Okta Dashboard with single factor authentication from IP Address - [$src_ip$].

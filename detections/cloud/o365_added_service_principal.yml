@@ -25,7 +25,7 @@ tags:
   - Office 365 Persistence Mechanisms
   - Cloud Federated Credential Abuse
   - NOBELIUM Group
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 70
   message: User $src_user$ has created new service principal $new_value$ in AzureActiveDirectory

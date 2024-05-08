@@ -10,16 +10,16 @@ description: 'The following hunting analytic identifies `msi.dll` being loaded b
   behavior is most recently related to InstallerFileTakeOver, or CVE-2021-41379, and
   DLL side-loading. CVE-2021-41379 requires a binary to be dropped and `msi.dll` to
   be loaded by it. To Successful exploitation of this issue happens in four parts
-  \
+  
 
-  1. Generation of an MSI that will trigger bad behavior. \
+  1. Generation of an MSI that will trigger bad behavior. 
 
-  1. Preparing a directory for MSI installation. \
+  1. Preparing a directory for MSI installation. 
 
-  1. Inducing an error state. \
+  1. Inducing an error state. 
 
   1. Racing to introduce a junction and a symlink to trick msiexec.exe to modify the
-  attacker specified file. \
+  attacker specified file. 
 
   In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded
   by non-system binaries.'

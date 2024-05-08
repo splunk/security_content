@@ -29,8 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: mailsniper.ps1 functions $ScriptBlockText$ executed on a $dest$ by
-    user $user$.
+  message: Potential mailsniper.ps1 functions executed on dest $dest$ by user $user$.
   mitre_attack_id:
   - T1114
   - T1114.001

@@ -39,14 +39,14 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: The Program Compatability Assistant (pcalua.exe) launched the process $process_name$
+  message: The forfiles command (forfiles.exe) launched the process name -  $process_name$
   mitre_attack_id:
   - T1202
   observable:
-  - name: process_name
-    type: Process
+  - name: dest
+    type: Hostname
     role:
-    - Child Process
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

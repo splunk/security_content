@@ -21,7 +21,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
-  asset_type: endpoint
+  asset_type: Endpoint
   atomic_guid: []
   confidence: 70
   impact: 100

@@ -16,7 +16,6 @@ references:
 - https://www.bleepingcomputer.com/news/security/blackmatter-ransomware-gang-rises-from-the-ashes-of-darkside-revil/
 - https://blog.malwarebytes.com/ransomware/2021/07/blackmatter-a-new-ransomware-group-claims-link-to-darkside-revil/
 tags:
-  analytic_story: BlackMatter Ransomware
   category:
   - Malware
   product:

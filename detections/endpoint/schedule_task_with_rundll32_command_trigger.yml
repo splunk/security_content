@@ -5,11 +5,11 @@ date: '2021-04-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of suspicious tasks in Windows, specifically tasks using the rundll32 command. It's implemented using Windows Security EventCode 4698 for A scheduled task was created, and looks for tasks executed either via schtasks.exe or TaskService. This behavior is worth identifying as it is commonly used by malware, such as TrickBot, that leverages rundll32 to execute its downloader.\
+description: The following analytic detects the creation of suspicious tasks in Windows, specifically tasks using the rundll32 command. It's implemented using Windows Security EventCode 4698 for A scheduled task was created, and looks for tasks executed either via schtasks.exe or TaskService. This behavior is worth identifying as it is commonly used by malware, such as TrickBot, that leverages rundll32 to execute its downloader.
 
-  If a true positive is found, it suggests an attacker is trying to persist within the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes.\
+  If a true positive is found, it suggests an attacker is trying to persist within the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes.
 
-  To implement this analytic, ensure you are ingesting logs with task schedule information from your endpoints. Be aware of potential false positives - legitimate uses of Task Scheduler in your environment may cause benign activities to be flagged.\
+  To implement this analytic, ensure you are ingesting logs with task schedule information from your endpoints. Be aware of potential false positives - legitimate uses of Task Scheduler in your environment may cause benign activities to be flagged.
 
   Upon triage, review the scheduled task's source and the command to be executed. Capture and inspect any relevant on-disk artifacts, and look for concurrent processes to identify the attack source. This approach helps analysts detect potential threats earlier and mitigate the risks.
 data_source:

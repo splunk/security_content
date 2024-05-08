@@ -21,7 +21,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 70
   impact: 60
   message: Multiple failed MFA requests for user [$src_user$] from IP Address - [$src_ip$]. Investigate further to determine if this was authorized.

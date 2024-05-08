@@ -7,10 +7,10 @@ status: production
 type: Anomaly
 description: 'This search looks for system processes that typically execute from `C:\Windows\System32\`
   or `C:\Windows\SysWOW64`.  This may indicate a malicious process that is trying
-  to hide as a legitimate process.\
+  to hide as a legitimate process.
 
   This detection utilizes a lookup that is deduped `system32` and `syswow64` directories
-  from Server 2016 and Windows 10.\
+  from Server 2016 and Windows 10.
 
   During triage, review the parallel processes - what process moved the native Windows
   binary? identify any artifacts on disk and review. If a remote destination is contacted,

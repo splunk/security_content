@@ -15,7 +15,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 40
   impact: 30
   message: Possible XSS attack against from $user$

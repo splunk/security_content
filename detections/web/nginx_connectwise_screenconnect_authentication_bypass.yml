@@ -22,7 +22,7 @@ references:
 tags:
   analytic_story:
   - ConnectWise ScreenConnect Vulnerabilities
-  asset_type: Web
+  asset_type: Web Proxy
   confidence: 100
   impact: 100
   message: An authentication bypass attempt against ScreenConnect has been detected on $dest$.

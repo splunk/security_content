@@ -35,7 +35,7 @@ tags:
   - name: src_user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

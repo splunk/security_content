@@ -6,9 +6,9 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source: []
-description: The following analytic detects potential exploitation of the critical Adobe ColdFusion vulnerability, CVE-2023-26360. This flaw, rooted in the deserialization of untrusted data, enables Unauthenticated Arbitrary File Read. Exploitation often targets specific ColdFusion paths, especially related to CKEditor's file manager. \
+description: The following analytic detects potential exploitation of the critical Adobe ColdFusion vulnerability, CVE-2023-26360. This flaw, rooted in the deserialization of untrusted data, enables Unauthenticated Arbitrary File Read. Exploitation often targets specific ColdFusion paths, especially related to CKEditor's file manager. 
 
-  Our analytic pinpoints exploitation by monitoring web requests to the "/cf_scripts/scripts/ajax/ckeditor/*" path. This focus helps differentiate malicious activity from standard ColdFusion traffic. For SOCs, detecting such attempts is vital given the vulnerability's CVSS score of 9.8, signaling its severity. Successful exploitation can lead to unauthorized data access, further attacks, or severe operational disruptions. \
+  Our analytic pinpoints exploitation by monitoring web requests to the "/cf_scripts/scripts/ajax/ckeditor/*" path. This focus helps differentiate malicious activity from standard ColdFusion traffic. For SOCs, detecting such attempts is vital given the vulnerability's CVSS score of 9.8, signaling its severity. Successful exploitation can lead to unauthorized data access, further attacks, or severe operational disruptions. 
 
   If a true positive arises, it indicates an active breach attempt, potentially causing data theft, operational disruption, or reputational damage. In essence, this analytic provides a targeted approach to identify attempts exploiting a high-risk ColdFusion vulnerability. While false positives may occur from legitimate accesses, any alerts should be treated as high-priority, warranting immediate investigation to ensure security.
 search: '| tstats count min(_time) as firstTime max(_time)

@@ -20,7 +20,7 @@ references:
 tags:
   analytic_story:
   - Forest Blizzard
-  asset_type: endpoint
+  asset_type: Endpoint
   atomic_guid: []
   confidence: 50
   impact: 30

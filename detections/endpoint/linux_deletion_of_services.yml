@@ -36,7 +36,7 @@ tags:
   - AwfulShred
   - AcidRain
   - Data Destruction
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 80
   impact: 80
   message: A services file $file_name$ deteted on host $dest$ by process GUID -  $process_guid$

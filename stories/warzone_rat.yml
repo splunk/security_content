@@ -17,7 +17,6 @@ references:
 - https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
 - https://tccontre.blogspot.com/2020/02/2-birds-in-one-stone-ave-maria-wshrat.html
 tags:
-  analytic_story: Warzone RAT
   category:
   - Malware
   - Adversary Tactics

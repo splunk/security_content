@@ -23,7 +23,7 @@ tags:
   - Office 365 Persistence Mechanisms
   - Office 365 Collection Techniques
   - NOBELIUM Group
-  asset_type: Office 365 
+  asset_type: O365 Tenant
   confidence: 70
   impact: 80
   message: $user$ granted the ApplicationImpersonation role to $target_user$
@@ -31,10 +31,14 @@ tags:
   - T1098
   - T1098.002
   observable:
+  - name: target_user
+    type: User
+    role:
+    - Victim
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

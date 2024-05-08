@@ -10,7 +10,8 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   `Get-DomainUser` is part of PowerView, a PowerShell tool used to perform enumeration
   on Windows Active Directory networks. As the name suggests, `Get-DomainUser` is
   used to identify domain users and combining it with `-PreauthNotRequired` allows
-  adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\
+  adversaries to discover domain accounts with Kerberos Pre Authentication disabled.
+
   Red Teams and adversaries alike use may leverage PowerView to enumerate these accounts
   and attempt to crack their passwords offline.
 data_source:
@@ -29,7 +30,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 90
   impact: 60
   message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest$

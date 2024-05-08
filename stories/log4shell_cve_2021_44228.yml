@@ -24,7 +24,6 @@ references:
 - https://www.lunasec.io/docs/blog/log4j-zero-day/
 - https://www.splunk.com/en_us/blog/security/log-jammin-log4j-2-rce.html
 tags:
-  analytic_story: Log4Shell CVE-2021-44228
   category:
   - Adversary Tactics
   product:

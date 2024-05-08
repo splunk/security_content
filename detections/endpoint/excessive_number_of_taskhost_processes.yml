@@ -1,7 +1,7 @@
 name: Excessive number of taskhost processes
 id: f443dac2-c7cf-11eb-ab51-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-04-26'
 author: Michael Hart
 status: production
 type: Anomaly
@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process_id) 
   "taskhost.exe", pid_count, 0) | eval taskhostex_count_=if(process_name == "taskhostex.exe",
   pid_count, 0) | stats sum(taskhost_count_) as taskhost_count, sum(taskhostex_count_)
   as taskhostex_count by _time, dest, firstTime, lastTime | where taskhost_count >
-  10 and taskhostex_count > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  10 or taskhostex_count > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `excessive_number_of_taskhost_processes_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -65,7 +65,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
