@@ -1,7 +1,7 @@
 name: ServicePrincipalNames Discovery with PowerShell
-id: 54d7a7b1-c60f-431e-992d-b61382ab6b64
+id: 043f07a0-7fd8-40e2-b526-80406fb59abb
 version: 2
-status: validation
+status: production
 detection_type: STREAMING
 description: 'The following analytic identifies `powershell.exe` usage, using Script
   Block Logging EventCode 4104, related to querying the domain for Service Principle
@@ -47,7 +47,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 4,
     risk_score = 80,
     severity_id = 0,
-    rule = {"name": "ServicePrincipalNames Discovery with PowerShell", "uid": "54d7a7b1-c60f-431e-992d-b61382ab6b64", "type": "Streaming"},
+    rule = {"name": "ServicePrincipalNames Discovery with PowerShell", "uid": "043f07a0-7fd8-40e2-b526-80406fb59abb", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -83,7 +83,7 @@ tags:
   risk_score: 80
   security_domain: endpoint
   risk_severity: high
-  research_site_url: https://research.splunk.com/endpoint/54d7a7b1-c60f-431e-992d-b61382ab6b64/
+  research_site_url: https://research.splunk.com/endpoint/043f07a0-7fd8-40e2-b526-80406fb59abb/
   event_schema: ocsf
   mappings:
   - ocsf: device.hostname
