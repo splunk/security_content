@@ -7,7 +7,6 @@ description: Monitor for activities and anomalies indicative of potential collec
 narrative: Office 365 (O365) is Microsoft's cloud-based suite of productivity tools, encompassing email, collaboration platforms, and office applications, all integrated with Azure Active Directory for identity and access management. O365's centralized storage of sensitive data and widespread adoption make it a key asset, yet also a prime target for security threats. The 'Office 365 Collection Techniques' analytic story focuses on the strategies and methodologies that attackers might use to gather critical information within the O365 ecosystem. 'Collection' in this context refers to the various techniques adversaries deploy to accumulate data that are essential for advancing their malicious objectives. This could include tactics such as intercepting communications, accessing sensitive documents, or extracting data from collaboration tools and email platforms. By identifying and monitoring these collection activities, organizations can more effectively spot and counteract attempts to illicitly gather information
 references: []
 tags:
-  analytic_story: Office 365 Collection Techniques
   category:
   - Adversary Tactics
   - Cloud Security

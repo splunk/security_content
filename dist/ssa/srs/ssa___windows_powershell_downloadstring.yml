@@ -1,7 +1,7 @@
 name: Windows Powershell DownloadString
-id: 04d76f1c-af1e-4732-a365-24a4e59d6e73
+id: e4a2cc58-59d4-480a-8992-9dfb95a4bacd
 version: 1
-status: validation
+status: production
 detection_type: STREAMING
 description: The following analytic identifies the use of PowerShell downloading a
   file using `DownloadString` method. This particular method is utilized in many different
@@ -40,7 +40,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 2,
     risk_score = 56,
     severity_id = 0,
-    rule = {"name": "Windows Powershell DownloadString", "uid": "04d76f1c-af1e-4732-a365-24a4e59d6e73", "type": "Streaming"},
+    rule = {"name": "Windows Powershell DownloadString", "uid": "e4a2cc58-59d4-480a-8992-9dfb95a4bacd", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -78,7 +78,7 @@ tags:
   risk_score: 56
   security_domain: endpoint
   risk_severity: medium
-  research_site_url: https://research.splunk.com/endpoint/04d76f1c-af1e-4732-a365-24a4e59d6e73/
+  research_site_url: https://research.splunk.com/endpoint/e4a2cc58-59d4-480a-8992-9dfb95a4bacd/
   event_schema: ocsf
   mappings:
   - ocsf: process.pid

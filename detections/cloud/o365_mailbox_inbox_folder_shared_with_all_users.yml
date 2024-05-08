@@ -25,8 +25,8 @@ references:
 - https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxodlgt/5610c6e6-3268-44e3-adff-8804f5315946
 tags:
   analytic_story:
-  - Office 365 Collection Techniques
-  asset_type: Office 365 Tenant
+  - Office 365 Persistence Mechanisms
+  asset_type: O365 Tenant
   confidence: 70
   impact: 80
   message: Inbox folder for the $MailboxOwnerUPN$ mailbox was shared with all users.

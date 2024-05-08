@@ -42,7 +42,7 @@ tags:
   - ProxyShell
   - BlackByte Ransomware
   - ProxyNotShell
-  asset_type: Web server
+  asset_type: Web Server
   confidence: 80
   cve:
   - CVE-2021-34523

@@ -32,7 +32,7 @@ tags:
   - name: dest
     type: Hostname
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

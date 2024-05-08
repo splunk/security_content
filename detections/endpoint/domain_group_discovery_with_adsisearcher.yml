@@ -1,7 +1,7 @@
 name: Domain Group Discovery with Adsisearcher
 id: 089c862f-5f83-49b5-b1c8-7e4ff66560c7
-version: 1
-date: '2021-08-25'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -11,9 +11,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   domain groups for situational awareness and Active Directory Discovery.
 data_source:
 - Powershell 4104
-search: '`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*(objectcategory=group)*"
-  AND Message = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Message ComputerName User | rename ComputerName as dest |rename User as user | `security_content_ctime(firstTime)`
+search: '`powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*"
+  AND ScriptBlockText = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)`
   | `domain_group_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -52,6 +52,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: wineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/domain_group_discovery_with_adsisearcher/windows-powershell-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

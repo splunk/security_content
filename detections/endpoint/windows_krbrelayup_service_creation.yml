@@ -1,7 +1,7 @@
 name: Windows KrbRelayUp Service Creation
 id: e40ef542-8241-4419-9af4-6324582ea60a
-version: 1
-date: '2022-05-02'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -10,9 +10,9 @@ description: The following analytic identifies the default service name created 
   service name of the KrbRelayUp tool and bypass this detection.
 data_source:
 - Sysmon Event ID 7
-search: '`wineventlog_system` EventCode=7045 Service_Name IN ("KrbSCM") | stats count
-  min(_time) as firstTime max(_time) as lastTime by dest EventCode Service_File_Name Service_Name
-  Service_Start_Type Service_Type | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`wineventlog_system` EventCode=7045 ServiceName IN ("KrbSCM") | stats count
+  min(_time) as firstTime max(_time) as lastTime by dest EventCode ImagePath ServiceName
+  StartType ServiceType | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_krbrelayup_service_creation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows System Event Logs with 7045 EventCode enabled. The Windows TA is also required.
@@ -50,6 +50,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/krbrelayup/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/windows_krbrelayup_service_creation/windows-xml.log
+    source: XmlWinEventLog:System
+    sourcetype: XmlWinEventLog

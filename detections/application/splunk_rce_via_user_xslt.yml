@@ -31,7 +31,7 @@ cve:
 tags:
   analytic_story:
     - Splunk Vulnerabilities
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 80
   impact: 80
   message: Potential Remote Code Execution via XLST from $src$ using useragent - $useragent$

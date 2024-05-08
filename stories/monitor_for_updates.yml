@@ -9,11 +9,11 @@ description: Monitor your enterprise to ensure that your endpoints are being pat
 narrative: 'It is a common best practice to ensure that endpoints are being patched
   and updated in a timely manner, in order to reduce the risk of compromise via a
   publicly disclosed vulnerability. Timely application of updates/patches is important
-  to eliminate known vulnerabilities that may be exploited by various threat actors.\
+  to eliminate known vulnerabilities that may be exploited by various threat actors.
 
   Searches in this analytic story are designed to help analysts monitor endpoints
   for system patches and/or updates. This helps analysts identify any systems that
-  are not successfully updated in a timely matter.\
+  are not successfully updated in a timely matter.
 
   Microsoft releases updates for Windows systems on a monthly cadence. They should
   be installed as soon as possible after following internal testing and validation
@@ -22,7 +22,6 @@ narrative: 'It is a common best practice to ensure that endpoints are being patc
 references:
 - https://learn.cisecurity.org/20-controls-download
 tags:
-  analytic_story: Monitor for Updates
   category:
   - Best Practices
   product:

@@ -33,7 +33,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 90
   impact: 50
   message: Kerberos Pre Authentication was Disabled using PowerShell on $dest$

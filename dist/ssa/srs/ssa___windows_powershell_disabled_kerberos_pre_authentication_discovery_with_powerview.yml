@@ -3,14 +3,15 @@ id: dc3f2af7-ca69-47ce-a122-9f9787e19417
 version: 4
 status: production
 detection_type: STREAMING
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainUser` commandlet with specific parameters.
   `Get-DomainUser` is part of PowerView, a PowerShell tool used to perform enumeration
   on Windows Active Directory networks. As the name suggests, `Get-DomainUser` is
   used to identify domain users and combining it with `-PreauthNotRequired` allows
-  adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\
+  adversaries to discover domain accounts with Kerberos Pre Authentication disabled.
+
   Red Teams and adversaries alike use may leverage PowerView to enumerate these accounts
-  and attempt to crack their passwords offline.
+  and attempt to crack their passwords offline.'
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval device_hostname = device.hostname | eval process_file = process.file | eval
   process_file_path = process_file.path | eval process_uid = process.uid | eval process_cmd_line

@@ -23,22 +23,20 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
   the Asset and Identity framework to be able to look up users in your identity table
   in Enterprise Security (ES). Leverage the support search called "Create a list of
   approved AWS service accounts": run it once every 30 days to create and validate
-  a list of service accounts.\
+  a list of service accounts.
 
   This search produces fields (`eventName`,`firstTime`,`lastTime`) that are not yet
   supported by ES Incident Review and therefore cannot be viewed when a notable event
   is raised. These fields contribute additional context to the notable. To see the
   additional metadata, add the following fields, if not already present, to Incident
   Review - Event Attributes (Configure > Incident Management > Incident Review Settings
-  > Add New Entry):\\n1. **Label:** AWS Event Name, **Field:** eventName\
+  > Add New Entry):
+  
+  * **Label:** AWS Event Name, **Field:** eventName
 
-  1. \
+  * **Label:** First Time, **Field:** firstTime
 
-  1. **Label:** First Time, **Field:** firstTime\
-
-  1. \
-
-  1. **Label:** Last Time, **Field:** lastTime\
+  * **Label:** Last Time, **Field:** lastTime
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'

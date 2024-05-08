@@ -28,7 +28,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities 
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 70
   impact: 50
   message: Possible attack against splunk_server $splunk_server$ through abuse of the runshellscript command

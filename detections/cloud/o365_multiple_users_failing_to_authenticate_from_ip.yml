@@ -23,7 +23,7 @@ tags:
   analytic_story:
   - Office 365 Account Takeover
   - NOBELIUM Group
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 90
   impact: 70
   message: Source Ip $src_ip$ failed to authenticate with 20 users within 5 minutes.

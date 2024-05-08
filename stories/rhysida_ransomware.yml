@@ -25,7 +25,6 @@ narrative: This story addresses Rhysida ransomware. Rhysida Ransomware emerges a
 references:
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a
 tags:
-  analytic_story: Rhysida Ransomware
   category:
   - Malware
   product:

@@ -10,7 +10,8 @@ description: The following analytic identifies a process attempting to delete a 
   occur from a non-standard process running and may not come from reg.exe. This particular
   behavior will remove the actual Task Name from the Task Scheduler GUI and from the
   command-line query - schtasks.exe /query. In addition, in order to perform this
-  action, the user context will need to be SYSTEM.\
+  action, the user context will need to be SYSTEM.
+  
   Identifying the deletion of a scheduled task's Security Descriptor from the registry is significant for a SOC as it may indicate malicious activity attempting to remove evidence of a scheduled task, potentially for defense evasion purposes. If a true positive is detected, it suggests an attacker with privileged access attempting to remove traces of their activities, which can have a significant impact on the security and functionality of affected systems. Immediate investigation and response are required to mitigate further risks and preserve the integrity of the environment.
 data_source:
 - Sysmon Event ID 13

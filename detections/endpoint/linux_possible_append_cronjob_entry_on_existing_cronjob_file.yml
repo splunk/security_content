@@ -10,13 +10,13 @@ description: 'The following analytic is designed to detect potential tampering w
   may be used to append code to existing cronjob files, a technique often employed
   by adversaries, malware, and red teamers for persistence or privilege escalation.
   Altering existing or sometimes normal cronjob script files allows malicious code
-  to be executed automatically.\
+  to be executed automatically.
 
   The analytic operates by monitoring logs for specific process names, parent processes,
   and command-line executions from your endpoints. It specifically checks for any
   ''echo'' command which modifies files in directories commonly associated with cron
   jobs such as ''/etc/cron*'', ''/var/spool/cron/'', and ''/etc/anacrontab''. If such
-  activity is detected, an alert is triggered.\
+  activity is detected, an alert is triggered.
 
   This behavior is worth identifying for a SOC because malicious cron jobs can lead
   to system compromises and unauthorized data access, impacting business operations

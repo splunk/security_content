@@ -8,7 +8,6 @@ narrative: Compromised User Account occurs when cybercriminals gain unauthorized
 references:
 - https://www.proofpoint.com/us/threat-reference/compromised-account
 tags:
-  analytic_story: Compromised User Account
   category:
   - Adversary Tactics
   product:

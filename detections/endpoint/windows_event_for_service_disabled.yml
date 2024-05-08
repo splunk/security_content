@@ -1,7 +1,7 @@
 name: Windows Event For Service Disabled
 id: 9c2620a8-94a1-11ec-b40c-acde48001122
-version: 2
-date: '2023-04-25'
+version: 3
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -11,9 +11,8 @@ description: This analytic will identify suspicious system event of services tha
   systems on the compromised host
 data_source:
 - Sysmon Event ID 7
-search: '`wineventlog_system` EventCode=7040  Message = "*service was changed from
-  demand start to disabled." | stats count min(_time) as firstTime max(_time) as lastTime
-  by ComputerName EventCode Message User Sid service service_name | `security_content_ctime(firstTime)`
+search: '`wineventlog_system` EventCode=7040  EventData_Xml="*disabled*" | stats count min(_time) as firstTime max(_time) as lastTime
+  by Computer EventCode Name UserID service ServiceName | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_event_for_service_disabled_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
@@ -29,12 +28,12 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: Service was disabled on $Computer$
+  message: Service $ServiceName$ was disabled on $dest$
   mitre_attack_id:
   - T1562.001
   - T1562
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -54,6 +53,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
+    source: XmlWinEventLog:System
+    sourcetype: XmlWinEventLog

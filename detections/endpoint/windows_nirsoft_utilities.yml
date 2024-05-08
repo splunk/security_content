@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime FROM datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.original_file_name Processes.process_path
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `is_nirsoft_software`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `is_nirsoft_software_macro`
   | `windows_nirsoft_utilities_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related

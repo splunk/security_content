@@ -10,11 +10,11 @@ description: 'The following analytic identifies one source endpoint failing to a
   this detection and customize the arbitrary threshold when needed. Event 4771 is
   generated when the Key Distribution Center fails to issue a Kerberos Ticket Granting
   Ticket (TGT). Failure code 0x18 stands for `wrong password provided` (the attempted
-  user is a legitimate domain user).\
+  user is a legitimate domain user).
 
   This logic can be used for real time security monitoring as well as threat hunting
   exercises. This detection will only trigger on domain controllers, not on member
-  servers or workstations.\
+  servers or workstations.
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
@@ -33,7 +33,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771
 search: '`wineventlog_security` EventCode=4771 TargetUserName!="*$" Status=0x18 |
   bucket span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, IpAddress | where unique_accounts > 30 | `windows_multiple_users_failed_to_authenticate_using_kerberos_filter`'
+  as user by _time, IpAddress | where unique_accounts > 30 | `windows_multiple_users_failed_to_authenticate_using_kerberos_filter`'
 status: production
 tags:
   analytic_story:
@@ -48,6 +48,10 @@ tags:
   - T1110.003
   - T1110
   observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   - name: IpAddress
     role:
     - Attacker

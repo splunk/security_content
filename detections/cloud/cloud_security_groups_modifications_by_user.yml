@@ -6,26 +6,26 @@ author: Bhavin Patel, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic identifies users who are unsually modifying security group in your cloud enriovnment,focusing on actions such as modifications, deletions, or creations performed by users over 30-minute intervals. Analyzing patterns of modifications to security groups can help in identifying anomalous behavior that may indicate a compromised account or an insider threat.\
+description: The following analytic identifies users who are unsually modifying security group in your cloud enriovnment,focusing on actions such as modifications, deletions, or creations performed by users over 30-minute intervals. Analyzing patterns of modifications to security groups can help in identifying anomalous behavior that may indicate a compromised account or an insider threat.
 
   The detection calculates the standard deviation for each host and leverages the
   3-sigma statistical rule to identify an unusual number of users. To customize this
   analytic, users can try different combinations of the `bucket` span time and the
   calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.\
+  monitoring as well as threat hunting exercises.
 
-  This detection will only trigger on all user and service accounts that have created/modified/deleted a security group .\
+  This detection will only trigger on all user and service accounts that have created/modified/deleted a security group .
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source ip and values of the security objects affected.
 search: '| tstats dc(All_Changes.object) as unique_security_groups values(All_Changes.src) as src values(All_Changes.user_type) as user_type values(All_Changes.object_category) as object_category values(All_Changes.object) as objects
     values(All_Changes.action) as action  values(All_Changes.user_agent) as user_agent values(All_Changes.command) as command from datamodel=Change WHERE All_Changes.object_category = "security_group" (All_Changes.action = modified OR All_Changes.action = deleted OR All_Changes.action = created)  by All_Changes.user  _time span=30m 
-|  `drop_dm_object_name("All_Changes")` 
-| eventstats avg(unique_security_groups) as avg_changes
+  |  `drop_dm_object_name("All_Changes")` 
+  | eventstats avg(unique_security_groups) as avg_changes
     , stdev(unique_security_groups) as std_changes by user 
-| eval upperBound=(avg_changes+std_changes*3) 
-| eval isOutlier=if(unique_security_groups > 2 and unique_security_groups >= upperBound, 1, 0) 
-| where isOutlier=1| `cloud_security_groups_modifications_by_user_filter`'
+  | eval upperBound=(avg_changes+std_changes*3) 
+  | eval isOutlier=if(unique_security_groups > 2 and unique_security_groups >= upperBound, 1, 0) 
+  | where isOutlier=1| `cloud_security_groups_modifications_by_user_filter`'
 how_to_implement: This search requries the Cloud infrastructure logs such as AWS Cloudtrail, GCP Pubsub Message logs, Azure Audit logs to be ingested into an accelerated Change datamodel. It is also recommended that users can try different combinations of the `bucket` span time and outlier conditions to better suit with their environment. 
 known_false_positives: It is possible that legitimate user/admin may modify a number of security groups  
 references:

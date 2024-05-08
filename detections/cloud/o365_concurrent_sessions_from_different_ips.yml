@@ -23,7 +23,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: O365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 70
   message: User $user$ has logged in with the same session id from more than one unique IP address

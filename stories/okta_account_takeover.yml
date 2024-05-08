@@ -11,7 +11,6 @@ references:
 - https://www.barracuda.com/glossary/account-takeover
 - https://www.okta.com/customer-identity/
 tags:
-  analytic_story: Okta Account Takeover
   category:
   - Adversary Tactics
   - Account Compromise

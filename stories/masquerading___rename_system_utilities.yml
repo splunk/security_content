@@ -10,10 +10,10 @@ narrative: 'Security monitoring and control mechanisms may be in place for syste
   security mechanisms by renaming the utility prior to utilization (ex: rename rundll32.exe).
   An alternative case occurs when a legitimate utility is copied or moved to a different
   directory and renamed to avoid detections based on system utilities executing from
-  non-standard paths.\
+  non-standard paths.
 
   The following content is here to assist with binaries within `system32` or `syswow64`
-  being moved to a new location or an adversary bringing a the binary in to execute.\
+  being moved to a new location or an adversary bringing a the binary in to execute.
 
   There will be false positives as some native Windows processes are moved or ran
   by third party applications from different paths. If file names are mismatched between
@@ -27,7 +27,6 @@ narrative: 'Security monitoring and control mechanisms may be in place for syste
 references:
 - https://attack.mitre.org/techniques/T1036/003/
 tags:
-  analytic_story: Masquerading - Rename System Utilities
   category:
   - Adversary Tactics
   product:

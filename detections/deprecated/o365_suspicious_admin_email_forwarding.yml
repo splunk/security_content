@@ -23,7 +23,7 @@ tags:
   analytic_story:
   - Office 365 Collection Techniques
   - Data Exfiltration
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 80
   message: User $user$ has configured a forwarding rule for multiple mailboxes to
@@ -35,7 +35,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

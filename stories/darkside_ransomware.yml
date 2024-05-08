@@ -18,7 +18,6 @@ references:
 - https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
 - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 tags:
-  analytic_story: DarkSide Ransomware
   category:
   - Malware
   product:

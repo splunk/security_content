@@ -1,25 +1,24 @@
 name: WinEvent Scheduled Task Created to Spawn Shell
 id: 203ef0ea-9bd8-11eb-8201-acde48001122
-version: 2
-date: '2023-04-05'
+version: 3
+date: '2024-04-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 datamodel: []
-description: The following query utilizes Windows Security EventCode 4698, indicating 'a scheduled task was created', to identify potentially suspicious tasks. These tasks may be registered on Windows through either schtasks.exe or TaskService, and are set up to execute a command with a native Windows shell such as PowerShell, Cmd, Wscript, or Cscript.\
+description: The following query utilizes Windows Security EventCode 4698, indicating 'a scheduled task was created', to identify potentially suspicious tasks. These tasks may be registered on Windows through either schtasks.exe or TaskService, and are set up to execute a command with a native Windows shell such as PowerShell, Cmd, Wscript, or Cscript.
 
-  The search will return the initial and final times the task was registered, along with details like the 'Command' set to be executed, 'Task Name', 'Author', whether it's 'Enabled', and if it is 'Hidden'.\
+  The search will return the initial and final times the task was registered, along with details like the 'Command' set to be executed, 'Task Name', 'Author', whether it's 'Enabled', and if it is 'Hidden'.
 
-  Schtasks.exe is typically found in C:\Windows\system32 and C:\Windows\syswow64. The DLL 'taskschd.dll' is loaded when either schtasks.exe or TaskService is launched. If this DLL is found loaded by another process, it's possible that a scheduled task is being registered within the context of that process in memory.\
+  Schtasks.exe is typically found in C:\Windows\system32 and C:\Windows\syswow64. The DLL 'taskschd.dll' is loaded when either schtasks.exe or TaskService is launched. If this DLL is found loaded by another process, it's possible that a scheduled task is being registered within the context of that process in memory.
 
   During triage, it's essential to identify the source of the scheduled task. Was it registered via schtasks.exe or TaskService? Review the job that was created and the command set to be executed. It's also recommended to capture and review any artifacts on disk, and identify any parallel processes within the same timeframe to locate the source.
 data_source:
 - Windows Security 4698
-search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
+search: '`wineventlog_security` EventCode=4698 TaskContent IN
   ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*",
   "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*") | stats count
-  min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author,
-  Enabled, Hidden | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  min(_time) as firstTime max(_time) as lastTime by Computer, TaskName, TaskContent | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `winevent_scheduled_task_created_to_spawn_shell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
@@ -44,8 +43,8 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 70
-  message: 'A windows scheduled task was created (task name=$Task_Name$) on $dest$
-    by the following command: $Command$'
+  message: 'A windows scheduled task was created (task name=$TaskName$) on $dest$
+    by the following command: $TaskContent$'
   mitre_attack_id:
   - T1053.005
   - T1053
@@ -54,10 +53,6 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Command
-    type: Unknown
-    role:
-    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -73,8 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_created_to_spawn_shell/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
 

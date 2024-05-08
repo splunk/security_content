@@ -31,7 +31,7 @@ tags:
   analytic_story:
   - Compromised User Account
   - Azure Active Directory Account Takeover
-  asset_type: Azure AD
+  asset_type: Azure Tenant
   confidence: 70
   impact: 50
   message: User $user$ failed to authenticate more than 20 times in the

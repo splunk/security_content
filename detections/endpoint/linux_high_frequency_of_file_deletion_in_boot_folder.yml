@@ -33,7 +33,7 @@ tags:
   analytic_story:
   - Data Destruction
   - Industroyer2
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 80
   impact: 100
   message: Multiple files detection in /boot/ folder on $dest$ by process GUID -  $process_guid$

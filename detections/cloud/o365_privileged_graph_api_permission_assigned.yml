@@ -29,7 +29,7 @@ tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
   - NOBELIUM Group
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 60
   impact: 90
   message: User $user$ assigned privileged Graph API permissions to $object$
@@ -39,7 +39,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

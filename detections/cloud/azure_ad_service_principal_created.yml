@@ -46,13 +46,9 @@ tags:
   - T1136.003
   observable:
   - name: displayName
-    type: Other
-    role:
-    - Victim
-  - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

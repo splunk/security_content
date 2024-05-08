@@ -30,26 +30,26 @@ how_to_implement: 'Steps to deploy DGA detection model into Splunk App DSDL.\ Th
   be found here - https://splunkbase.splunk.com/app/4607/ and the Network Resolution
   datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. The
   detection uses a pre-trained deep learning model that needs to be deployed in DSDL
-  app. Follow the steps for deployment here - https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU.\
-  * Download the artifacts .tar.gz file from the link  `https://seal.splunkresearch.com/pretrained_dga_model_dsdl.tar.gz`\
+  app. Follow the steps for deployment here - https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU.
+  * Download the artifacts .tar.gz file from the link  `https://seal.splunkresearch.com/pretrained_dga_model_dsdl.tar.gz`
 
-  * Download the pretrained_dga_model_dsdl.ipynb Jupyter notebook from `https://github.com/splunk/security_content/notebooks`\
+  * Download the pretrained_dga_model_dsdl.ipynb Jupyter notebook from `https://github.com/splunk/security_content/notebooks`
 
   * Login to the Jupyter Lab for pretrained_dga_model_dsdl container. This container
-  should be listed on Containers page for DSDL app.\
+  should be listed on Containers page for DSDL app.
 
-  * Below steps need to be followed inside Jupyter lab \
+  * Below steps need to be followed inside Jupyter lab 
 
   * Upload the pretrained_dga_model_dsdl.tar.gz file into `app/model/data` path using
-  the upload option in the jupyter notebook.\
+  the upload option in the jupyter notebook.
 
   *  Untar the artifact `pretrained_dga_model_dsdl.tar.gz` using `tar -xf app/model/data/pretrained_dga_model_dsdl.tar.gz
-  -C app/model/data`\
+  -C app/model/data`
 
   * Upload `pretrained_dga_model_dsdl.pynb` into Jupyter lab notebooks folder using
-  the upload option in Jupyter lab\
+  the upload option in Jupyter lab
 
-  * Save the notebook using the save option in jupyter notebook.\
+  * Save the notebook using the save option in jupyter notebook.
 
   * Upload `pretrained_dga_model_dsdl.json` into `notebooks/data` folder.'
 known_false_positives: False positives may be present if domain name is similar to
@@ -92,4 +92,4 @@ tags:
   - firstTime
   - lastTime
   risk_score: 63
-  security_domain: Network
+  security_domain: network

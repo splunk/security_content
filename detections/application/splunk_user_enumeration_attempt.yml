@@ -24,7 +24,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 80
   cve:
   - CVE-2021-33845

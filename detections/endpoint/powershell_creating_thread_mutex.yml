@@ -15,7 +15,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Threading.Mutex*" | stats
   count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  Computer UserID | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_creating_thread_mutex_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -34,18 +34,17 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 50
-  message: A suspicious powershell script contains Thread Mutex in $ScriptBlockText$
-    with EventCode $EventCode$ in host $Computer$
+  message: A suspicious powershell script contains Thread Mutex on host $dest$
   mitre_attack_id:
   - T1027
   - T1027.005
   - T1059.001
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: UserID
+  - name: user
     type: User
     role:
     - Victim

@@ -9,10 +9,10 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   to identify suspicious PowerShell execution. Script Block Logging captures the command
   sent to PowerShell, the full command to be executed. Upon enabling, logs will output
   to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  \
+  
 
   This analytic identifies specific PowerShell modules typically used to enumerate
-  an organizations domain or users. \
+  an organizations domain or users. 
 
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review

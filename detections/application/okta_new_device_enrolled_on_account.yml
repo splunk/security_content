@@ -1,7 +1,7 @@
 name: Okta New Device Enrolled on Account
 id: bb27cbce-d4de-432c-932f-2e206e9130fb
 version: 2
-date: '2024-03-8'
+date: '2024-03-08'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -21,7 +21,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 60
   impact: 40
   message: A new device was enrolled on an Okta account for user [$user$]. Investigate further to determine if this was authorized.

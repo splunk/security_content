@@ -23,7 +23,7 @@ tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
   - NOBELIUM Group
-  asset_type: Office 365
+  asset_type: O365 Tenant
   atomic_guid: []
   confidence: 50
   impact: 60
@@ -34,7 +34,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

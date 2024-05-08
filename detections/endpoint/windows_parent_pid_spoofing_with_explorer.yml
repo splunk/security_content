@@ -40,7 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: an explorer.exe process with process commandline $process% in $dest$
+  message: An explorer.exe process with process commandline $process$ on dest $dest$
   mitre_attack_id:
   - T1134.004
   - T1134
