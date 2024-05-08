@@ -17,7 +17,6 @@ references:
 - https://www.sans.org/reading-room/whitepapers/dns/splunk-detect-dns-tunneling-37022
 - https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 tags:
-  analytic_story: Data Protection
   category:
   - Abuse
   product:

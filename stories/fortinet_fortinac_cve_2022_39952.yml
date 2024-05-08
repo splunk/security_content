@@ -13,7 +13,6 @@ references:
    - https://viz.greynoise.io/tag/fortinac-rce-attempt?days=30
    - https://www.bleepingcomputer.com/news/security/fortinet-fixes-critical-rce-flaws-in-fortinac-and-fortiweb/
 tags:
-  analytic_story: Fortinet FortiNAC CVE-2022-39952
   category:
   - Adversary Tactics
   product:

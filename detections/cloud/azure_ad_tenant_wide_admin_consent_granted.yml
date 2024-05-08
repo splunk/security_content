@@ -32,7 +32,7 @@ tags:
   analytic_story:
   - Azure Active Directory Persistence
   - NOBELIUM Group
-  asset_type: Azure AD
+  asset_type: Azure Tenant
   confidence: 50
   impact: 90
   message: Administrator $user$ consented an OAuth application for the tenant.
@@ -43,7 +43,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,30 +1,33 @@
 name: Office Document Executing Macro Code
 id: b12c89bc-9d06-11eb-a592-acde48001122
-version: 4
-date: '2023-01-24'
+version: 5
+date: '2024-03-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: this detection was designed to identifies suspicious office documents
-  that using macro code. Macro code is known to be one of the prevalent weaponization
-  or attack vector of threat actor. This malicious macro code is embed to a office
-  document as an attachment that may execute malicious payload, download malware payload
-  or other malware component. It is really good practice to disable macro by default
-  to avoid automatically execute macro code while opening or closing a office document
+description: This detection is designed to identify suspicious office documents
+  that utilize macro code. Macro code is known to be a prevalent weaponization
+  or attack vector for threat actors. This malicious macro code can be embedded in an office
+  document as an attachment, potentially executing a malicious payload, downloading malware,
+  or other malicious components. It is a good practice to disable macros by default
+  to prevent the automatic execution of macro code when opening or closing office document
   files.
 data_source:
 - Sysmon Event ID 7
-search: '`sysmon` EventCode=7 parent_process_name IN ("WINWORD.EXE", "EXCEL.EXE",
+search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE",
   "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
-  ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") | stats min(_time)
-  as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count
-  by Computer EventCode Image process_name ProcessId ProcessGuid | rename Computer as dest| `security_content_ctime(firstTime)`
+  loaded_file_path IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") | stats min(_time)
+  as firstTime max(_time) as lastTime values(loaded_file) as loaded_file count
+  by dest EventCode process_name process_guid | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `office_document_executing_macro_code_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
   Also be sure to include those monitored dll to your own sysmon config.
-known_false_positives: Normal Office Document macro use for automation
+known_false_positives: False positives may occur if legitimate office documents are
+  executing macro code. Ensure to investigate the macro code and the command to be
+  executed. If the macro code is benign, add the document name to the exclusion list.
+  Some applications may legitimately load VBE7INTL.DLL, VBE7.DLL, or VBEUI.DLL.
 references:
 - https://www.joesandbox.com/analysis/386500/0/html
 - https://www.joesandbox.com/analysis/702680/0/html

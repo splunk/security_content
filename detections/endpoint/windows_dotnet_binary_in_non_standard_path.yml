@@ -9,7 +9,7 @@ description: The following analytic identifies native .net binaries within the W
   operating system that may be abused by adversaries by moving it to a new directory.
   The analytic identifies the .net binary by using a lookup and compares the process
   name and original file name (internal name). The analytic utilizes a lookup with
-  the is_net_windows_file macro to identify the binary process name and original file
+  the is_net_windows_file_macro macro to identify the binary process name and original file
   name. if one or the other matches an alert will be generated. Adversaries abuse
   these binaries as they are native to windows and native DotNet. Note that not all
   SDK (post install of Windows) are captured in the lookup.
@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process
   Processes.original_file_name Processes.process_path Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `is_net_windows_file` | `windows_dotnet_binary_in_non_standard_path_filter`'
+  | `is_net_windows_file_macro` | `windows_dotnet_binary_in_non_standard_path_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

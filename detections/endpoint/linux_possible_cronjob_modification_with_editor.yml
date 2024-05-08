@@ -13,15 +13,15 @@ description: 'The following analytic detects potential unauthorized modification
   critical to monitor.\ The identified behavior is significant for a Security Operations
   Center (SOC) as it could indicate an ongoing attempt at establishing persistent
   access or privilege escalation, leading to data breaches, system compromise, or
-  other malicious activities.\
+  other malicious activities.
 
   In case of a true positive, the impact could be severe. An attacker with escalated
   privileges or persistent access could carry out damaging actions, such as data theft,
-  sabotage, or further network penetration.\
+  sabotage, or further network penetration.
 
   To implement this analytic, ensure ingestion of logs tracking process name, parent
   process, and command-line executions from your endpoints. Utilize the Add-on for
-  Linux Sysmon from Splunkbase if you''re using Sysmon.\
+  Linux Sysmon from Splunkbase if you''re using Sysmon.
 
   Known false positives include legitimate administrative tasks, as these commands
   may also be used for benign purposes. Careful tuning and filtering based on known

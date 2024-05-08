@@ -1,7 +1,7 @@
 name: Disabling Firewall with Netsh
 id: 6860a62c-9203-11eb-9e05-acde48001122
-version: 2
-date: '2021-03-31'
+version: 3
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -71,14 +71,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
-    update_timestamp: true
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

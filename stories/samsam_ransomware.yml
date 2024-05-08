@@ -10,7 +10,7 @@ description: Leverage searches that allow you to detect and investigate unusual 
 narrative: 'The first version of the SamSam ransomware (a.k.a. Samas or SamsamCrypt)
   was launched in 2015 by a group of Iranian threat actors. The malicious software
   has affected and continues to affect thousands of victims and has raised almost
-  $6M in ransom.\
+  $6M in ransom.
 
   Although categorized under the heading of ransomware, SamSam campaigns have some
   importance distinguishing characteristics. Most notable is the fact that conventional
@@ -18,24 +18,24 @@ narrative: 'The first version of the SamSam ransomware (a.k.a. Samas or SamsamCr
   phishing campaigns or other mechanisms, charging a small ransom (typically under
   $1,000). The goal is to find a large number of victims willing to pay these mini-ransoms,
   adding up to a lucrative payday. They use relatively simple methods for infecting
-  systems.\
+  systems.
 
   SamSam attacks are different beasts. They have become progressively more targeted
   and skillful than typical ransomware attacks. First, malicious actors break into
   a victim''s network, surveil it, then run the malware manually. The attacks are
   tailored to cause maximum damage and the threat actors usually demand amounts in
-  the tens of thousands of dollars.\
+  the tens of thousands of dollars.
 
   In a typical attack on one large healthcare organization in 2018, the company ended
   up paying a ransom of four Bitcoins, then worth $56,707. Reports showed that access
-  to the company''s files was restored within two hours of paying the sum.\
+  to the company''s files was restored within two hours of paying the sum.
 
   According to Sophos, SamSam previously leveraged  RDP to gain access to targeted
   networks via brute force. SamSam is not spread automatically, like other malware.
   It requires skill because it forces the attacker to adapt their tactics to the individual
   environment. Next, the actors escalate their privileges to admin level. They scan
   the networks for worthy targets, using conventional tools, such as PsExec or PaExec,
-  to deploy/execute, quickly encrypting files.\
+  to deploy/execute, quickly encrypting files.
 
   This Analytic Story includes searches designed to help detect and investigate signs
   of the SamSam ransomware, such as the creation of fileswrites to system32, writes
@@ -46,7 +46,6 @@ references:
 - https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
 - https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
 tags:
-  analytic_story: SamSam Ransomware
   category:
   - Malware
   product:

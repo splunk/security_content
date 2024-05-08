@@ -16,7 +16,7 @@ search: '`cloudtrail` eventName=TerminateInstances errorCode=success `ec2_excess
   | fit DensityFunction instances_terminated threshold=0.0005 into ec2_excessive_terminateinstances_v1'
 how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs.\
+  inputs.
 
   In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed,
   along with any required dependencies. Depending on the number of users in your environment,
@@ -25,7 +25,7 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
   timeframe. By default, the search builds the model using the past 30 days of data.
   You can modify the search window to build the model over a longer period of time,
   which may give you better results. You may also want to periodically re-run this
-  search to rebuild the model with the latest data.\
+  search to rebuild the model with the latest data.
 
   More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.'
 known_false_positives: none

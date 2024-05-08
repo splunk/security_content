@@ -1,7 +1,7 @@
 name: Create local admin accounts using net exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
-version: 8
-date: '2023-11-07'
+version: 9
+date: '2024-04-26'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -83,12 +83,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: xmlwineventlog
+    sourcetype: XmlWinEventLog

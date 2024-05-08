@@ -1,7 +1,7 @@
 name: Svchost LOLBAS Execution Process Spawn
 id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
-version: 2
-date: '2021-11-22'
+version: 3
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -87,6 +87,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement_lolbas/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/svchost_lolbas_execution_process_spawn/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

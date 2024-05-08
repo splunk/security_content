@@ -26,8 +26,8 @@ tags:
   analytic_story:
   - JetBrains TeamCity Unauthenticated RCE
   - CISA AA23-347A
-  - JetBrains TeamCity Vulnerabilities 
-  asset_type: Web server
+  - JetBrains TeamCity Vulnerabilities
+  asset_type: Web Server
   atomic_guid: []
   confidence: 90
   impact: 90

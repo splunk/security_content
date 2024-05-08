@@ -38,7 +38,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 80
-  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
+  message: Registry path $registry_path$ was modified, added, or deleted in $dest$.
   mitre_attack_id:
   - T1546
   - T1546.002

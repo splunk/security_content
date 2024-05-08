@@ -1,7 +1,7 @@
 name: Detect Excessive User Account Lockouts
 id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 version: 5
-date: '2024-03-19'
+date: '2024-04-26'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -9,8 +9,7 @@ description: This search detects user accounts that have been locked out a relat
   high number of times in a short period.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*locked
-  out*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
+  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*lock*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
 how_to_implement: ou must ingest your Windows security event logs in the `Change`
@@ -49,11 +48,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-xml-1.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

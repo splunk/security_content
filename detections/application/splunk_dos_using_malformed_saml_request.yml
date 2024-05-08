@@ -15,7 +15,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities 
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 30
   impact: 50
   message: Possible DoS attack against Splunk Server $splunk_server$

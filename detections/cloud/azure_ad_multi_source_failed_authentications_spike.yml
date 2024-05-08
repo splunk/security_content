@@ -11,7 +11,7 @@ search: ' `azure_monitor_aad` category=SignInLogs properties.status.errorCode=50
  | rename properties.* as * 
  | bucket span=5m _time 
  | eval uniqueIPUserCombo = src_ip . "-" . user
- | stats count min(_time) as firstTime max(_time) as lastTime dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, dc(user_agent) as uniqueUserAgents, dc(location.countryOrRegion) as uniqueCountries values(user) as users, values(src_ip) as ips, values(user_agent) as user_agents, values(location.countryOrRegion) as countries
+ | stats count min(_time) as firstTime max(_time) as lastTime dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, dc(user_agent) as uniqueUserAgents, dc(location.countryOrRegion) as uniqueCountries values(user) as user, values(src_ip) as ips, values(user_agent) as user_agents, values(location.countryOrRegion) as countries
  | where uniqueIpUserCombinations > 20 AND uniqueUsers > 20 AND uniqueIPs > 20 AND uniqueUserAgents = 1
  | `security_content_ctime(firstTime)`
  | `security_content_ctime(lastTime)`
@@ -30,7 +30,7 @@ tags:
   analytic_story:
   - Azure Active Directory Account Takeover
   - NOBELIUM Group
-  asset_type: Azure AD 
+  asset_type: Azure Tenant
   atomic_guid: []
   confidence: 60
   impact: 70
@@ -41,6 +41,11 @@ tags:
   - T1110
   - T1110.003
   - T1110.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

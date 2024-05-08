@@ -1,7 +1,7 @@
 name: Windows RDP Connection Successful
 id: ceaed840-56b3-4a70-b8e1-d762b1c5c08c
-version: 1
-date: '2023-04-17'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -9,9 +9,9 @@ data_source: []
 description: The following analytic identifies successful remote desktop connections. Utilize this analytic to hunt for successful attempts. In addition, the query may be modified for EventCode=1148 to potentially identify failed attempts. In testing, 1148 would not generate based on a failed logon attempt.
   Note this analytic requires enabling and a stanza in a inputs.conf.
 search: '`remoteconnectionmanager` EventCode=1149
-  | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName, Source_Network_Address, User, Message
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, user_id
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | rename ComputerName as dest | `windows_rdp_connection_successful_filter`'
+  | `security_content_ctime(lastTime)` | rename Computer as dest | `windows_rdp_connection_successful_filter`'
 how_to_implement: The following analyic requires the WIndows TerminalServices RemoteConnectionManager Operational log to be enabled and ingested into Splunk. For the inputs, review https://gist.github.com/MHaggis/138c6bf563bacbda4a2524f089773706. 
 known_false_positives: False positives will be present, filter as needed or restrict to critical assets on the perimeter.
 references:
@@ -33,10 +33,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: Source_Network_Address
-    type: IP Address
-    role:
-    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -52,6 +48,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1563.002/rdphijack/remoteconnectionmanager.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1563.002/windows_rdp_connection_successful/windows-xml.log
     source: WinEventLog:Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational
-    sourcetype: wineventlog
+    sourcetype: XmlWinEventLog

@@ -35,8 +35,8 @@ references:
 - https://graphpermissions.merill.net/permission/Mail.Read
 tags:
   analytic_story:
-  - Office 365 Collection Techniques
-  asset_type: Office 365 tenant
+  - Office 365 Persistence Mechanisms
+  asset_type: O365 Tenant
   confidence: 50
   impact: 90
   message: Application registration $object$ was grandes mailbox read access by $user$
@@ -49,7 +49,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

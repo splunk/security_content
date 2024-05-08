@@ -1,7 +1,7 @@
 name: Suspicious Ticket Granting Ticket Request
 id: d77d349e-6269-11ec-9cfe-acde48001122
-version: 1
-date: '2021-12-21'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -16,12 +16,11 @@ description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain 
   attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
 data_source:
 - Windows Security 4768
-search: ' `wineventlog_security` (EventCode=4781 Old_Account_Name="*$" New_Account_Name!="*$")
-  OR (EventCode=4768 Account_Name!="*$") | eval RenamedComputerAccount = coalesce(New_Account_Name,
-  mvindex(Account_Name,0)) | transaction RenamedComputerAccount startswith=(EventCode=4781)
+search: ' `wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$")
+  OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName, TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781)
   endswith=(EventCode=4768) | eval short_lived=case((duration<2),"TRUE") | search
-  short_lived = TRUE | table _time, ComputerName, EventCode, Account_Name,RenamedComputerAccount,
-  short_lived |`suspicious_ticket_granting_ticket_request_filter`'
+  short_lived = TRUE | table _time, Computer, EventCode, TargetUserName, RenamedComputerAccount,
+  short_lived | rename Computer as dest | `suspicious_ticket_granting_ticket_request_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
@@ -40,12 +39,12 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 100
-  message: A suspicious TGT was requested was requested
+  message: A suspicious TGT was requested was requested by $dest$
   mitre_attack_id:
   - T1078
   - T1078.002
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -65,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/samaccountname_spoofing/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_ticket_granting_ticket_request/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

@@ -1,7 +1,7 @@
 name: Kerberos TGT Request Using RC4 Encryption
 id: 18916468-9c04-11ec-bdc6-acde48001122
-version: 1
-date: '2022-03-04'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -17,10 +17,10 @@ description: The following analytic leverages Event 4768, A Kerberos authenticat
   ticket may be used to obtain unauthorized access to systems and other network resources.
 data_source:
 - Windows Security 4768
-search: ' `wineventlog_security` EventCode=4768 Ticket_Encryption_Type=0x17 Account_Name!=*$ 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Account_Name Client_Address dest
+search: ' `wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$ 
+  | stats count min(_time) as firstTime max(_time) as lastTime by ServiceName src_ip dest 
   | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)`
   | `kerberos_tgt_request_using_rc4_encryption_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
@@ -38,12 +38,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A Kerberos TGT request with RC4 encryption was requested for $Account_Name$
-    from $Client_Address$
+  message: A Kerberos TGT request with RC4 encryption was requested for $ServiceName$
+    from $src_ip$
   mitre_attack_id:
   - T1550
   observable:
-  - name: Client_Address
+  - name: src_ip
     type: Endpoint
     role:
     - Victim
@@ -54,14 +54,13 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Ticket_Encryption_Type
-  - Account_Name
-  - Client_Address
+  - TicketEncryptionType
+  - ServiceName
   risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/impacket/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/kerberos_tgt_request_using_rc4_encryption/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

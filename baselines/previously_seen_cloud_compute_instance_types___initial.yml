@@ -1,7 +1,7 @@
 name: Previously Seen Cloud Compute Instance Types - Initial
 id: 3c78025c-1ffe-4976-a640-75ef604842be
 version: 1
-date: 2020-9-03
+date: '2020-09-03'
 author: David Dorsey, Splunk
 type: Baseline
 datamodel:

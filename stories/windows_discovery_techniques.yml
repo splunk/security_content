@@ -16,7 +16,6 @@ references:
 - https://cyberd.us/penetration-testing
 - https://attack.mitre.org/software/S0521/
 tags:
-  analytic_story: Windows Discovery Techniques
   category:
   - Adversary Tactics
   product:

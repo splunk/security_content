@@ -7,16 +7,16 @@ status: production
 type: Hunting
 description: 'The following analytic identifies the use of the EncodedCommand PowerShell
   parameter. This is typically used by Administrators to run complex scripts, but
-  commonly used by adversaries to hide their code. \
+  commonly used by adversaries to hide their code. 
 
   The analytic identifies all variations of EncodedCommand, as PowerShell allows the
   ability to shorten the parameter. For example enc, enco, encod and so forth. In
   addition, through our research it was identified that PowerShell will interpret
   different command switch types beyond the hyphen. We have added endash, emdash,
-  horizontal bar, and forward slash. \
+  horizontal bar, and forward slash. 
 
   During triage, review parallel events to determine legitimacy. Tune as needed based
-  on admin scripts in use. \
+  on admin scripts in use. 
 
   Alternatively, may use regex per matching here https://regexr.com/662ov.'
 data_source:

@@ -18,20 +18,24 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   [| tstats count `security_content_summariesonly` values(Web.url) as url from datamodel=Web.Web
   by Web.dest Web.site | rename "Web.*" as * | rex field=site ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
   | table dest domain url] | table count src dest query answer domain url | `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter`'
-how_to_implement: "You need to ingest data from your DNS logs in the Network_Resolution\
-  \ datamodel. Specifically you must ingest the domain that is being queried and the\
-  \ IP of the host originating the request. Ideally, you should also be ingesting\
-  \ the answer to the query and the query type. This approach allows you to also create\
-  \ your own localized passive DNS capability which can aid you in future investigations.\
-  \ You will have to add legitimate domain names to the `legit_domains.csv` file shipped\
-  \ with the app. \\\n **Splunk>Phantom Playbook Integration**\\\nIf Splunk>Phantom\
-  \ is also configured in your environment, a Playbook called `Lets Encrypt Domain\
-  \ Investigate` can be configured to run when any results are found by this detection\
-  \ search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`,\
-  \ add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response\
-  \ Actions when configuring this detection search, and set the corresponding Playbook\
-  \ to active. \\\n(Playbook link:`https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/`).\\\
-  \n"
+how_to_implement: 'You need to ingest data from your DNS logs in the Network_Resolution
+  datamodel. Specifically you must ingest the domain that is being queried and the
+  IP of the host originating the request. Ideally, you should also be ingesting
+  the answer to the query and the query type. This approach allows you to also create
+  your own localized passive DNS capability which can aid you in future investigations.
+  You will have to add legitimate domain names to the `legit_domains.csv` file shipped
+  with the app.
+  
+  **Splunk>Phantom Playbook Integration**
+  
+  If Splunk>Phantom is also configured in your environment, a Playbook called `Lets Encrypt Domain
+  Investigate` can be configured to run when any results are found by this detection
+  search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`,
+  add the correct hostname to the "Phantom Instance" field in the Adaptive Response
+  Actions when configuring this detection search, and set the corresponding Playbook
+  to active.
+  
+  (Playbook link:`https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/`)'
 known_false_positives: If a known good domain is not listed in the legit_domains.csv
   file, then the search could give you false postives. Please update that lookup file
   to filter out DNS requests to legitimate domains.

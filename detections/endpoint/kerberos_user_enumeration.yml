@@ -1,7 +1,7 @@
 name: Kerberos User Enumeration
 id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
-version: 1
-date: '2022-03-10'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -18,12 +18,13 @@ description: The following analytic leverages Event Id 4768, A Kerberos authenti
   combinations of the `bucket` span time and the calculation of the `upperBound` field.
 data_source:
 - Windows Security 4768
-search: ' `wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$"
-  | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
-  as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
-  comp_avg , stdev(unique_accounts) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
-  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `kerberos_user_enumeration_filter`'
+search: ' `wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$" 
+  | bucket span=2m _time 
+  | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, src_ip 
+  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by src_ip 
+  | eval upperBound=(comp_avg+comp_std*3) 
+  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+  | search isOutlier=1| `kerberos_user_enumeration_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
@@ -39,12 +40,12 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 30
-  message: Potential Kerberos based user enumeration attack $Client_Address$
+  message: Potential Kerberos based user enumeration attack $src_ip$
   mitre_attack_id:
   - T1589
   - T1589.002
   observable:
-  - name: Client_Address
+  - name: src_ip
     type: Endpoint
     role:
     - Victim
@@ -63,6 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1589.002/kerbrute/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1589.002/kerberos_user_enumeration/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

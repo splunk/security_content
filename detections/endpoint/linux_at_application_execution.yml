@@ -16,13 +16,13 @@ description: 'The following analytic detects the execution of the "At" applicati
   the Endpoint datamodel. When a true positive is detected, it suggests that an attacker
   is attempting to establish persistence or deliver additional malicious payloads
   by leveraging the "At" application. This behavior can lead to data theft, ransomware
-  attacks, or other damaging outcomes.\
+  attacks, or other damaging outcomes.
 
   During triage, the SOC analyst should review the context surrounding the execution
   of the "At" application. This includes identifying the user, the parent process
   responsible for invoking the application, and the specific command-line arguments
   used. It is important to consider whether the execution is expected behavior by
-  an administrator or network operator for legitimate automation purposes.\
+  an administrator or network operator for legitimate automation purposes.
 
   The presence of "At" application execution may indicate an attacker''s attempt to
   maintain unauthorized access to the environment. Immediate investigation and response

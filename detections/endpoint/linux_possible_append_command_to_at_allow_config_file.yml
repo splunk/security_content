@@ -8,7 +8,7 @@ type: Anomaly
 description: 'The following analytic is designed to identify suspicious command lines
   that may append user entries to either /etc/at.allow or /etc/at.deny. These files
   can be exploited by malicious actors for persistence on a compromised Linux host
-  by altering permissions for scheduled tasks using the at command.\
+  by altering permissions for scheduled tasks using the at command.
 
   In this context, an attacker can create a user or add an existing user to these
   configuration files to execute their malicious code through scheduled tasks. The

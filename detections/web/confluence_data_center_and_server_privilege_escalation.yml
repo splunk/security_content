@@ -26,7 +26,7 @@ tags:
   - Confluence Data Center and Confluence Server Vulnerabilities
   cve:
   - CVE-2023-22518
-  asset_type: Web server
+  asset_type: Web Server
   atomic_guid: []
   confidence: 80
   impact: 90

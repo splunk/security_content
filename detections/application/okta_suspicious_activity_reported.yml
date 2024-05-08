@@ -20,7 +20,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 50
   impact: 50
   message: A user [$user$] reported suspicious activity in Okta. Investigate further to determine if this was authorized.

@@ -11,7 +11,6 @@ references:
   - https://content.fireeye.com/apt-41/rpt-apt41
   - https://medium.com/chronicle-blog/winnti-more-than-just-windows-and-gates-e4f03436031a
 tags:
-  analytic_story: Linux Rootkit
   category:
   - Adversary Tactics
   product:

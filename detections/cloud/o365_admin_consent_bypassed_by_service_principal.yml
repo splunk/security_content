@@ -33,17 +33,17 @@ references:
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 90
   message: Service principal $src_user$ bypassed the admin consent process and granted permissions to $dest_user$
   mitre_attack_id:
   - T1098.003
   observable:
-  - name: src_user
+  - name: dest_user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

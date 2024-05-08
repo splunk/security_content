@@ -8,7 +8,6 @@ narrative: CVE-2024-21378 is a weakness in Microsoft Outlook that lets hackers e
 references:
 - https://www.netspi.com/blog/technical/red-team-operations/microsoft-outlook-remote-code-execution-cve-2024-21378/
 tags:
-  analytic_story: Outlook RCE CVE-2024-21378
   category:
   - Adversary Tactics
   product:

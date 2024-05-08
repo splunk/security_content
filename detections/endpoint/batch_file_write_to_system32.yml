@@ -1,7 +1,7 @@
 name: Batch File Write to System32
 id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 version: 4
-date: '2023-4-11'
+date: '2023-04-11'
 author: Steven Dick, Michael Haag, Rico Valdez, Splunk
 status: production
 type: TTP

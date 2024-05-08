@@ -1,7 +1,7 @@
 name: AWS IAM Account Unlocking
 id: f15a4db3-b157-4225-86ae-c36ab78b50f2
 version: 1
-date: '2023-6-21'
+date: '2023-06-21'
 author: Lou Stella, Splunk
 type: Response
 description: "Accepts user, to be enabled using AWS IAM connector. Enabling an account involves reattaching their login profile which will require setting a new password. This playbook produces a normalized observables output for each user. "

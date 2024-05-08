@@ -30,7 +30,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
-  asset_type: Azure AD
+  asset_type: Azure Tenant
   confidence: 50
   impact: 60
   message: User $user$ disabled the BlockUserConsentForRiskyApps Azure AD setting.
@@ -40,7 +40,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

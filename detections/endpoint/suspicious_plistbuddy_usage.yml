@@ -7,25 +7,19 @@ status: experimental
 type: TTP
 description: 'The following analytic identifies the use of a native MacOS utility,
   PlistBuddy, creating or modifying a properly list (.plist) file. In the instance
-  of Silver Sparrow, the following commands were executed:\
+  of Silver Sparrow, the following commands were executed:
 
-  - PlistBuddy -c "Add :Label string init_verx" ~/Library/Launchagents/init_verx.plist
-  \
+  * PlistBuddy -c "Add :Label string init_verx" ~/Library/Launchagents/init_verx.plist
 
-  - PlistBuddy -c "Add :RunAtLoad bool true" ~/Library/Launchagents/init_verx.plist
-  \
+  * PlistBuddy -c "Add :RunAtLoad bool true" ~/Library/Launchagents/init_verx.plist
 
-  - PlistBuddy -c "Add :StartInterval integer 3600" ~/Library/Launchagents/init_verx.plist
-  \
+  * PlistBuddy -c "Add :StartInterval integer 3600" ~/Library/Launchagents/init_verx.plist
 
-  - PlistBuddy -c "Add :ProgramArguments array" ~/Library/Launchagents/init_verx.plist
-  \
+  * PlistBuddy -c "Add :ProgramArguments array" ~/Library/Launchagents/init_verx.plist
 
-  - PlistBuddy -c "Add :ProgramArguments:0 string /bin/sh" ~/Library/Launchagents/init_verx.plist
-  \
+  * PlistBuddy -c "Add :ProgramArguments:0 string /bin/sh" ~/Library/Launchagents/init_verx.plist
 
-  - PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist
-  \
+  * PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist
 
   Upon triage, capture the property list file being written to disk and review for
   further indicators. Contain the endpoint and triage further.'

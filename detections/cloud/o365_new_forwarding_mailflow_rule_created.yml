@@ -28,7 +28,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Collection Techniques
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 60
   impact: 70
   message: A new forwarding mailflow rule was created by $user$

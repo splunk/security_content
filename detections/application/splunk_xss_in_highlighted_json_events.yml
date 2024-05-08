@@ -25,7 +25,7 @@ cve:
 tags:
   analytic_story:
   - Splunk Vulnerabilities
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 50
   impact: 30
   message: Possible XSS exploitation from $clientip$

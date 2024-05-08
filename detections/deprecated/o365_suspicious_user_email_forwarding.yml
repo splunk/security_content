@@ -22,7 +22,7 @@ tags:
   analytic_story:
   - Office 365 Collection Techniques
   - Data Exfiltration
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 80
   message: User $user$ configured multiple users $src_user$ with a count of $count_src_user$,
@@ -34,7 +34,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   - name: ForwardingSmtpAddress
     type: Email Address
     role:

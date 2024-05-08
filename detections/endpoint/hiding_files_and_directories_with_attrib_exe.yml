@@ -33,7 +33,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Windows Persistence Techniques
   - Azorult
-  asset_type: ''
+  asset_type: Endpoint
   confidence: 80
   impact: 90
   message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected.

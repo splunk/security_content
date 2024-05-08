@@ -19,7 +19,7 @@ search: '`github` branches{}.name = main OR branches{}.name = master |  stats co
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to github logs having the fork, commit, push metadata that can be use
   to monitor the changes in a github project.
-known_false_positives: admin can do changes directly to master branch
+known_false_positives: Admin can do changes directly to master branch
 references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 tags:
@@ -28,14 +28,14 @@ tags:
   asset_type: GitHub
   confidence: 30
   impact: 30
-  message: suspicious commit by $commit.commit.author.email$ to main branch
+  message: Suspicious commit by $commit.commit.author.email$ to main branch
   mitre_attack_id:
   - T1199
   observable:
   - name: commit.commit.author.email
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

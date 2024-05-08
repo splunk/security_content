@@ -8,17 +8,17 @@ type: TTP
 description: 'The following analytic identifies the usage of Exchange PowerShell modules
   that were recently used for a proof of concept related to ProxyShell. Adversaries
   may abuse a limited set of PwSh Modules related to Exchange once gained access via
-  ProxyShell or ProxyNotShell.\
+  ProxyShell or ProxyNotShell.
 
   Inherently, the usage of the modules is not malicious, but reviewing parallel processes,
-  and user, of the session will assist with determining the intent. \
+  and user, of the session will assist with determining the intent. 
 
   Module - New-MailboxExportRequest will begin the process of exporting contents of
-  a primary mailbox or archive to a .pst file. \
+  a primary mailbox or archive to a .pst file. 
 
   Module - New-managementroleassignment can assign a management role to a management
   role group, management role assignment policy, user, or universal security group
-  (USG). \
+  (USG). 
 
   Module - New-MailboxSearch cmdlet to create a mailbox search and either get an estimate
   of search results, place search results on In-Place Hold or copy them to a Discovery

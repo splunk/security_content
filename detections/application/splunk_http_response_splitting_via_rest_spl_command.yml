@@ -16,7 +16,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities 
-  asset_type: endpoint
+  asset_type: Endpoint
   atomic_guid: []
   confidence: 50
   impact: 50

@@ -12,7 +12,6 @@ references:
 - https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
 - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
 tags:
-  analytic_story: NOBELIUM Group
   category:
   - Adversary Tactics
   product:

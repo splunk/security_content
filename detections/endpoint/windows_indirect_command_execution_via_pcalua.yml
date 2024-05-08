@@ -41,10 +41,10 @@ tags:
   mitre_attack_id:
   - T1202
   observable:
-  - name: process_name
-    type: Process
+  - name: dest
+    type: Hostname
     role:
-    - Child Process
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
