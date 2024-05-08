@@ -5,8 +5,7 @@ save_pipeline_id:
     - if: '$SKIP_DOWNSTREAM_TESTING != "True"'
       when: on_success
   needs:
-    - generate_escu
-    - generate_ba
+    - generate_all_builds
   artifacts:
     when: always
     paths:
@@ -50,7 +49,7 @@ dry_run_escu:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: on_success
   needs:
-    - generate_escu
+    - generate_all_builds
   artifacts:
     when: always
     paths:
@@ -90,7 +89,7 @@ trigger_escu_test:
     - save_pipeline_id
   trigger:
     project: securitycontent/security-content-automation
-    branch: pex-263/triggered-by-upstream
+    branch: main
     strategy: depend
 
 # Trigger a downstream test (MR) -> extends trigger_escu_test

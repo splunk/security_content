@@ -1,7 +1,7 @@
 name: Suspicious Computer Account Name Change
 id: 35a61ed8-61c4-11ec-bc1e-acde48001122
-version: 1
-date: '2021-12-20'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,8 +15,8 @@ description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain 
   attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
 data_source:
 - Windows Security 4781
-search: '`wineventlog_security` EventCode=4781 Old_Account_Name="*$" New_Account_Name!="*$"
-  | table _time, ComputerName, Account_Name, Old_Account_Name, New_Account_Name |
+search: '`wineventlog_security` EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$"
+  | table _time, Computer, Caller_User_Name, OldTargetUserName, NewTargetUserName | rename Computer as dest |
   `suspicious_computer_account_name_change_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
@@ -36,14 +36,18 @@ tags:
   - CVE-2021-42287
   - CVE-2021-42278
   impact: 100
-  message: A computer account $Old_Account_Name$ was renamed with a suspicious computer
-    name
+  message: A computer account $OldTargetUserName$ was renamed with a suspicious computer
+    name on $dest$
   mitre_attack_id:
   - T1078
   - T1078.002
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
+    role:
+    - Victim
+  - name: OldTargetUserName
+    type: User
     role:
     - Victim
   product:
@@ -53,16 +57,16 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - ComputerName
-  - Account_Name
-  - Old_Account_Name
-  - New_Account_Name
+  - Computer
+  - Caller_User_Name
+  - OldTargetUserName
+  - NewTargetUserName
   risk_score: 70
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/samaccountname_spoofing/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_computer_account_name_change/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
     update_timestamp: true

@@ -32,7 +32,7 @@ tags:
   analytic_story:
   - AcidRain
   - Data Destruction
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 70
   impact: 70
   message: Multiple files delted in /etc/ folder on $dest$ by process GUID -  $process_guid$

@@ -17,7 +17,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 60
   impact: 80
   message: A user [$user$] has failed to authenticate via MFA from IP Address - [$src$]"

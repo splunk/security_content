@@ -35,8 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: A remote instance execution of wmic.exe that will spawn $parent_process_name$
-    in host $dest$
+  message: A remote instance execution of wmic.exe by WmiPrvSE.exe detected on host - $dest$
   mitre_attack_id:
   - T1047
   observable:

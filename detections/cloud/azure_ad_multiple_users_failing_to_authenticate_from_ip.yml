@@ -10,19 +10,19 @@ description: 'The following analytic identifies one source Ip failing to authent
   performing a Password Spraying attack against an Azure Active Directory tenant to
   obtain initial access or elevate privileges. Error Code 50126 represents an invalid
   password. This logic can be used for real time security monitoring as well as threat
-  hunting exercises.\
+  hunting exercises.
 
   Azure AD tenants can be very different depending on the organization. Users should
   test this detection and customize the arbitrary threshold if needed.'
 data_source: []
 search: ' `azure_monitor_aad`  category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
-| rename properties.* as *
-| bucket span=5m _time
-| stats count min(_time) as firstTime max(_time) as lastTime dc(user) AS unique_accounts values(user) as user by src_ip
-| where unique_accounts > 30
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`'
+  | rename properties.* as *
+  | bucket span=5m _time
+  | stats count min(_time) as firstTime max(_time) as lastTime dc(user) AS unique_accounts values(user) as user by src_ip
+  | where unique_accounts > 30
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.

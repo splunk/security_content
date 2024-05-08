@@ -1,7 +1,7 @@
 name: SAM Database File Access Attempt
 id: 57551656-ebdb-11eb-afdf-acde48001122
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -13,9 +13,9 @@ description: The following analytic identifies access to SAM, SYSTEM or SECURITY
   8.1 and 10 that stores users' passwords.
 data_source:
 - Windows Security 4663
-search: '`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name
+search: '`wineventlog_security` (EventCode=4663)  ProcessName!=*\\dllhost.exe ObjectName
   IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*")
-  | stats values(Accesses) count by process_name Object_Name  dest user | `sam_database_file_access_attempt_filter`'
+  | stats values(AccessList) count by ProcessName ObjectName dest src_user | rename ProcessName as process_name | `sam_database_file_access_attempt_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
@@ -39,13 +39,12 @@ tags:
   cve:
   - CVE-2021-36934
   impact: 80
-  message: The following process $process_name$ accessed the object $Object_Name$
-    attempting to gain access to credentials on $dest$ by user $user$.
+  message: The following process $process_name$ accessed the object $ObjectName$ attempting to gain access to credentials on $dest$ by user $src_user$.
   mitre_attack_id:
   - T1003.002
   - T1003
   observable:
-  - name: user
+  - name: src_user
     type: User
     role:
     - Victim
@@ -56,11 +55,11 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
-  - name: Object_Name
+    - Attacker
+  - name: ObjectName
     type: File
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -76,6 +75,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

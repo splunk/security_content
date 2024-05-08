@@ -9,12 +9,12 @@ description: Quickly identify systems running new or unusual processes in your e
   of activities that may warrant deeper investigation.
 narrative: 'Being able to profile a host''s processes within your environment can
   help you more quickly identify processes that seem out of place when compared to
-  the rest of the population of hosts or asset types.\
+  the rest of the population of hosts or asset types.
 
   This Analytic Story lets you identify processes that are either a) not typically
   seen running or b) have some sort of suspicious command-line arguments associated
   with them. This Analytic Story will also help you identify the user running these
-  processes and the associated process activity on the host.\
+  processes and the associated process activity on the host.
 
   In the event an unusual process is identified, it is imperative to better understand
   how that process was able to execute on the host, when it first executed, and whether
@@ -25,7 +25,6 @@ references:
 - https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
 - https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
 tags:
-  analytic_story: Unusual Processes
   category:
   - Malware
   product:

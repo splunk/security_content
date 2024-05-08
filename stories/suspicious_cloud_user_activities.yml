@@ -9,7 +9,7 @@ narrative: 'It seems obvious that it is critical to monitor and control the user
   who have access to your cloud infrastructure. Nevertheless, it''s all too common
   for enterprises to lose track of ad-hoc accounts, leaving their servers vulnerable
   to attack. In fact, this was the very oversight that led to Tesla''s cryptojacking
-  attack in February, 2018.\
+  attack in February, 2018.
 
   In addition to compromising the security of your data, when bad actors leverage
   your compute resources, it can incur monumental costs, since you will be billed
@@ -18,7 +18,6 @@ references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 - https://redlock.io/blog/cryptojacking-tesla
 tags:
-  analytic_story: Suspicious Cloud User Activities
   category:
   - Cloud Security
   product:

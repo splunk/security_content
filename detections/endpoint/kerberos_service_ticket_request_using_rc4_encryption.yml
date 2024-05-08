@@ -1,7 +1,7 @@
 name: Kerberos Service Ticket Request Using RC4 Encryption
 id: 7d90f334-a482-11ec-908c-acde48001122
-version: 1
-date: '2022-03-15'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -19,10 +19,10 @@ description: The following analytic leverages Kerberos Event 4769, A Kerberos se
   may be bypassed.
 data_source:
 - Windows Security 4769
-search: ' `wineventlog_security` EventCode=4769 Service_Name="*$" (Ticket_Options=0x40810000
-  OR Ticket_Options=0x40800000 OR Ticket_Options=0x40810010) Ticket_Encryption_Type=0x17
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
-  Ticket_Encryption_Type, Ticket_Options | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+search: ' `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000 OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17 
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id, TicketEncryptionType, TicketOptions 
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)`
   | `kerberos_service_ticket_request_using_rc4_encryption_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
@@ -70,6 +70,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.001/impacket/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.001/kerberos_service_ticket_request_using_rc4_encryption/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

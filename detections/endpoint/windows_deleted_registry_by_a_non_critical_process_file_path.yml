@@ -45,8 +45,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: registry was deleted by a suspicious $process_name$ with proces path $process_path
-    in $dest$
+  message: The registry was deleted by a suspicious process named $process_name$ with the process path $process_path$ on dest $dest$.
   mitre_attack_id:
   - T1112
   observable:

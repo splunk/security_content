@@ -14,14 +14,15 @@ search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS de
   `clients_connecting_to_multiple_dns_servers_filter` '
 how_to_implement: 'This search requires that DNS data is being ingested and populating
   the `Network_Resolution` data model. This data can come from DNS logs or from solutions
-  that parse network traffic for this data, such as Splunk Stream or Bro.\
+  that parse network traffic for this data, such as Splunk Stream or Bro.
 
   This search produces fields (`dest_count`) that are not yet supported by ES Incident
   Review and therefore cannot be viewed when a notable event is raised. These fields
   contribute additional context to the notable. To see the additional metadata, add
   the following fields, if not already present, to Incident Review - Event Attributes
-  (Configure > Incident Management > Incident Review Settings > Add New Entry):\\n1.
-  **Label:** Distinct DNS Connections, **Field:** dest_count\
+  (Configure > Incident Management > Incident Review Settings > Add New Entry):
+  
+  * **Label:** Distinct DNS Connections, **Field:** dest_count
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'

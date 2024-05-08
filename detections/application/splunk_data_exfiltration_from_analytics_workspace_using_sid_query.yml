@@ -1,7 +1,7 @@
 name: Splunk Data exfiltration from Analytics Workspace using sid query
 id: b6d77c6c-f011-4b03-8650-8f10edb7c4a8
 version: 1
-date: 2022-11-1
+date: '2022-11-01'
 author: Rod Soto, Eric McGinnis
 status: production
 type: Hunting

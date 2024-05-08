@@ -1,7 +1,7 @@
 name: Windows Get-AdComputer Unconstrained Delegation Discovery
 id: c8640777-469f-4638-ab44-c34a3233ffac
-version: 1
-date: '2022-03-28'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -12,9 +12,9 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   Discovery.
 data_source:
 - Powershell 4104
-search: ' `powershell` EventCode=4104 (Message = "*Get-ADComputer*" AND Message =
+search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText =
   "*TrustedForDelegation*") | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_get_adcomputer_unconstrained_delegation_discovery_filter`'
 how_to_implement: The following  analytic requires PowerShell operational logs to
   be imported. Modify the powershell macro as needed to match the sourcetype or add
@@ -33,15 +33,15 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: Suspicious PowerShell Get-ADComputer was identified on endpoint $ComputerName$
+  message: Suspicious PowerShell Get-ADComputer was identified on endpoint $dest$
   mitre_attack_id:
   - T1018
   observable:
-  - name: ComputerName
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
@@ -52,14 +52,14 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
+  - ScriptBlockText
+  - Computer
   - User
   risk_score: 35
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/unconstrained2/windows-powershell.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/windows_get_adcomputer_unconstrained_delegation_discovery/windows-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

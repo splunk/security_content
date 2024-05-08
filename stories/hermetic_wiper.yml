@@ -11,7 +11,6 @@ references:
 - https://www.sentinelone.com/labs/hermetic-wiper-ukraine-under-attack/
 - https://www.cisa.gov/uscert/ncas/alerts/aa22-057a
 tags:
-  analytic_story: Hermetic Wiper
   category:
   - Data Destruction
   - Malware

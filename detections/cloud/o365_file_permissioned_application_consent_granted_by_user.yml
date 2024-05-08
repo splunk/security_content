@@ -29,7 +29,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 50
   impact: 80
   message: User $user$ consented an OAuth application that requests file-related permissions.

@@ -1,7 +1,7 @@
 name: Enumerate Users Local Group Using Telegram
 id: fcd74532-ae54-11eb-a5ab-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -11,10 +11,10 @@ description: This analytic will detect a suspicious Telegram process enumerating
   a process enumerates a user's security-enabled local groups on a computer or device.
 data_source:
 - Windows Security 4798
-search: '`wineventlog_security` EventCode=4798  Process_Name = "*\\telegram.exe" |
-  stats count min(_time) as firstTime max(_time) as lastTime by user dest EventCode
-  Process_Name  Process_ID Account_Name Account_Domain Logon_ID Security_ID Message
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `enumerate_users_local_group_using_telegram_filter`'
+search: '`wineventlog_security` EventCode=4798  CallerProcessName = "*\\telegram.exe" |
+  stats count min(_time) as firstTime max(_time) as lastTime by user Computer EventCode
+  CallerProcessName  ProcessID SubjectUserSid SubjectDomainName  SubjectLogonId
+  | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `enumerate_users_local_group_using_telegram_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Task Schedule (Exa. Security Log EventCode 4798) endpoints. Tune and
   filter known instances of process like logonUI used in your environment.
@@ -61,6 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/enumerate_users_local_group_using_telegram/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

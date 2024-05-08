@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: O365 tenant
+  asset_type: O365 Tenant
   atomic_guid: []
   confidence: 50
   impact: 60
@@ -38,7 +38,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

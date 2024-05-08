@@ -25,7 +25,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 100
   impact: 30
   message: User $user$ denifed consent for an OAuth application.

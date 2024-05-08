@@ -24,7 +24,7 @@ search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=17
   baseline_blocked_outbound_connections | eval dataPointThreshold = 5, deviationThreshold
   = 3 | eval isSpike=if((latestCount > avgBlockedConnections+deviationThreshold*stdevBlockedConnections)
   AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | table src_ip]
-  | stats values(dest_ip) as "Blocked Destination IPs", values(interface_id) as "resourceId"
+  | stats values(dest_ip) as dest_ip, values(interface_id) as "resourceId"
   count as numberOfBlockedConnections, dc(dest_ip) as uniqueDestConnections by src_ip
   | `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
@@ -49,10 +49,10 @@ tags:
   asset_type: AWS Instance
   confidence: 50
   impact: 50
-  message: tbd
+  message: Blocked outbound traffic from your AWS 
   observable:
-  - name: dest
-    type: Hostname
+  - name: resourceId
+    type: Other
     role:
     - Victim
   product:

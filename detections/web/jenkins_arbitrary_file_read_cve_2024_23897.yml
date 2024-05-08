@@ -26,7 +26,7 @@ tags:
   - CVE-2024-23897
   analytic_story:
   - Jenkins Server Vulnerabilities
-  asset_type: Web server
+  asset_type: Web Server
   atomic_guid: []
   confidence: 90
   impact: 90

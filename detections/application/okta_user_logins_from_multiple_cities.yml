@@ -21,7 +21,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 90
   impact: 90
   message: A user [$user$] has logged in from multiple cities [$City$] from IP Address - [$src$]. Investigate further to determine if this was authorized.

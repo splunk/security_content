@@ -31,7 +31,7 @@ references:
 tags:
   analytic_story:
   - BlackByte Ransomware
-  asset_type: endpoint
+  asset_type: Endpoint
   atomic_guid:
   - 4f4e2f9f-6209-4fcf-9b15-3b7455706f5b
   confidence: 70

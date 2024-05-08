@@ -54,7 +54,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -66,6 +66,8 @@ tags:
   - Authentication.src
   risk_score: 42
   security_domain: threat
+  manual_test: This search needs the baseline to be run first to create a lookup. 
+    It also requires that the timestamps in the dataset be updated.
 tests:
 - name: True Positive Test
   attack_data:

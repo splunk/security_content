@@ -25,14 +25,14 @@ tags:
   asset_type: CircleCI
   confidence: 90
   impact: 80
-  message: disable security step $mandatory_step$ in job $job_name$ from user $user$
+  message: Disable security step $mandatory_step$ in job $job_name$ from user $user$
   mitre_attack_id:
   - T1554
   observable:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

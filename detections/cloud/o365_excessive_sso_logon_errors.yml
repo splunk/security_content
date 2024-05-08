@@ -19,7 +19,7 @@ tags:
   analytic_story:
   - Office 365 Account Takeover
   - Cloud Federated Credential Abuse
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 80
   impact: 80
   message: Excessive number of SSO logon errors from $src_ip$ using UserAgent $user_agent$.

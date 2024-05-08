@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
-  asset_type: Azure AD
+  asset_type: Azure Tenant
   confidence: 60
   impact: 60
   message: User $user$ denied consent for an OAuth application.

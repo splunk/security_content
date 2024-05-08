@@ -19,7 +19,7 @@ references:
 tags:
   analytic_story:
   - Windows Attack Surface Reduction
-  asset_type: endpoint
+  asset_type: Endpoint
   atomic_guid: []
   confidence: 90
   impact: 50

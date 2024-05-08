@@ -12,33 +12,33 @@ description: 'The following hunting query assists with quickly assessing CVE-202
   in the HTTP headers using _raw. Modify the first line to use the same pattern matching
   against other log sources. Scoring is based on a simple rubric of 0-5. 5 being the
   best match, and less than 5 meant to identify additional patterns that will equate
-  to a higher total score. \
+  to a higher total score. 
 
-  The first jndi match identifies the standard pattern of `{jndi:` \
+  The first jndi match identifies the standard pattern of `{jndi:` 
 
   jndi_fastmatch is meant to identify any jndi in the logs. The score is set low and
-  is meant to be the "base" score used later. \
+  is meant to be the "base" score used later. 
 
   jndi_proto is a protocol match that identifies `jndi` and one of `ldap, ldaps, rmi,
-  dns, nis, iiop, corba, nds, http, https.` \
+  dns, nis, iiop, corba, nds, http, https.` 
 
   all_match is a very well written regex by https://gist.github.com/Schvenn that identifies
-  nearly all patterns of this attack behavior. \
+  nearly all patterns of this attack behavior. 
 
   env works to identify environment variables in the header, meant to capture `AWS_ACCESS_KEY_ID`,
-  `AWS_SECRET_ACCESS_KEY` and `env`. \
+  `AWS_SECRET_ACCESS_KEY` and `env`. 
 
   uri_detect is string match looking for the common uri paths currently being scanned/abused
-  in the wild. \
+  in the wild. 
 
   keywords matches on enumerated values that, like `$ctx:loginId`, that may be found
-  in the header used by the adversary. \
+  in the header used by the adversary. 
 
   lookup matching is meant to catch some basic obfuscation that has been identified
-  using upper, lower and date. \
+  using upper, lower and date. 
 
   Scoring will then occur based on any findings. The base score is meant to be 2 ,
-  created by jndi_fastmatch. Everything else is meant to increase that score. \
+  created by jndi_fastmatch. Everything else is meant to increase that score. 
 
   Finally, a simple table is created to show the scoring and the _raw field. Sort
   based on score or columns of interest.'

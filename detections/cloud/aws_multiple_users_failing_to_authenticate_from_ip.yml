@@ -11,8 +11,8 @@ description: The following analytic identifies one source Ip failing to authenti
   environment tenant to obtain initial access or elevate privileges.
 data_source: []
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
-  | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by
-  _time, src_ip, eventName, action, user_agent |  where unique_accounts > 30 |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
+  | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time,
+  src_ip |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
   We recommend the users to try different combinations of the bucket span time and
   the tried account threshold to tune this search according to their environment.
@@ -29,8 +29,7 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 60
-  message: Multiple failed console login attempts against users $tried_accounts$ seen
-    from $src_ip$
+  message: 'Multiple failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src_ip$'
   mitre_attack_id:
   - T1110
   - T1110.003

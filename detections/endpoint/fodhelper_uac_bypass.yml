@@ -8,13 +8,13 @@ type: TTP
 description: 'Fodhelper.exe has a known UAC bypass as it attempts to look for specific
   registry keys upon execution, that do not exist. Therefore, an attacker can write
   its malicious commands in these registry keys to be executed by fodhelper.exe with
-  the highest privilege. \
+  the highest privilege.
 
-  1. `HKCU:\Software\Classes\ms-settings\shell\open\command`\
+  * `HKCU:\Software\Classes\ms-settings\shell\open\command`
 
-  1. `HKCU:\Software\Classes\ms-settings\shell\open\command\DelegateExecute`\
+  * `HKCU:\Software\Classes\ms-settings\shell\open\command\DelegateExecute`
 
-  1. `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`\
+  * `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`
 
   Upon triage, fodhelper.exe will have a child process and read access will occur
   on the registry keys. Isolate the endpoint and review parallel processes for additional
@@ -48,7 +48,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: Suspcious registy keys added by process fodhelper.exe (process_id- $process_id),
+  message: Suspicious registy keys added by process fodhelper.exe
     with a parent_process of $parent_process_name$ that has been executed on $dest$
     by $user$.
   mitre_attack_id:
@@ -67,7 +67,6 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
     - Attacker
   product:
   - Splunk Enterprise

@@ -17,7 +17,7 @@ tags:
     - sandbox
     - ip
     - vault_id
-  playbook_type: Automatic
+  playbook_type: Automation
   vpe_type: Modern
   playbook_fields: []
   product:

@@ -15,7 +15,6 @@ narrative: This story addresses Prestige ransomware. This ransomware payload see
 references:
 - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
 tags:
-  analytic_story: Prestige Ransomware
   category:
   - Malware
   - Adversary Tactics

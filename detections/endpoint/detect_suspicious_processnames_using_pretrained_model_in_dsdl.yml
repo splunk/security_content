@@ -76,4 +76,4 @@ tags:
   - Processes.user
   - Processes.dest
   risk_score: 45
-  security_domain: Endpoint
+  security_domain: endpoint

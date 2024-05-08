@@ -8,11 +8,11 @@ type: TTP
 description: 'The following analytic identifies new printer drivers being load by
   utilizing the Windows PrintService operational logs, EventCode 316. This was identified
   during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare.
-  \
+  
 
   Within the proof of concept code, the following event will occur - "Printer driver
   1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll,
-  evil.dll. No user action is required." \
+  evil.dll. No user action is required." 
 
   During triage, isolate the endpoint and review for source of exploitation. Capture
   any additional file modification events and review the source of where the exploitation

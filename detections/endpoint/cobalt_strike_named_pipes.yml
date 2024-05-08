@@ -11,7 +11,7 @@ description: 'The following analytic identifies the use of default or publicly k
   Strike uses named pipes in many ways and has default values used with the Artifact
   Kit and Malleable C2 Profiles. The following query assists with identifying these
   default named pipes. Each EDR product presents named pipes a little different. Consider
-  taking the values and generating a query based on the product of choice. \
+  taking the values and generating a query based on the product of choice. 
 
   Upon triage, review the process performing the named pipe. If it is explorer.exe,
   It is possible it was injected into by another process. Review recent parallel processes

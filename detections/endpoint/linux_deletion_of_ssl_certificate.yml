@@ -33,7 +33,7 @@ references:
 tags:
   analytic_story:
   - AcidRain
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 70
   impact: 70
   message: SSL certificate deleted on host $dest$ by process GUID- $process_guid$

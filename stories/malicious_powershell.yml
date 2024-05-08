@@ -13,20 +13,18 @@ narrative: 'The searches in this Analytic Story monitor for parameters often use
   events. These factors may provide clues about whether this is a common occurrence
   of minimal concern or a rare event that may require more extensive investigation.
   Likewise, it is important to determine whether the issue is restricted to a single
-  user/system or is broader in scope. \
+  user/system or is broader in scope. 
 
   The following factors may assist you in determining whether the event is malicious:
-  \
+  
+  1. Country of origin 
 
-  1. Country of origin \
+  1. Responsible party 
 
-  1. Responsible party \
-
-  1. Fully qualified domain names associated with the external IP address \
+  1. Fully qualified domain names associated with the external IP address 
 
   1. Registration of fully qualified domain names associated with external IP address
-  \
-
+  
   Determining whether it is a dynamic domain frequently visited by others and/or how
   third parties categorize it can also help you answer some questions surrounding
   the attacker and details related to the external system. In addition, there are
@@ -34,7 +32,7 @@ narrative: 'The searches in this Analytic Story monitor for parameters often use
   on the IP address or domain name, which can assist in determining whether the event
   is malicious. Finally, determining whether there are other events associated with
   the IP address may help connect data points or show other events that should be
-  brought into scope. \
+  brought into scope. 
 
   Gathering data on the system of interest can sometimes help you quickly determine
   whether something suspicious is happening. Some of these items include finding out
@@ -43,7 +41,7 @@ narrative: 'The searches in this Analytic Story monitor for parameters often use
   are modifications to sensitive registry keys, and whether there are any known vulnerabilities
   on the system. This information can often highlight other activity commonly seen
   in attack scenarios or give more information about how the system may have been
-  targeted. \
+  targeted. 
 
   Often, a simple inspection of the process name and path can tell you if the system
   has been compromised. For example, if `svchost.exe` is found running from a location
@@ -51,19 +49,19 @@ narrative: 'The searches in this Analytic Story monitor for parameters often use
   in plain sight when cursorily reviewing process names. Similarly, if the process
   itself seems legitimate, but the parent process is running from the temporary browser
   cache, that could be indicative of activity initiated via a compromised website
-  a user visited. \
+  a user visited. 
 
   It can also be very helpful to examine various behaviors of the process of interest
   or the parent of the process of interest. For example, if it turns out the process
   of interest is malicious, it would be good to see if the parent to that process
   spawned other processes that might be worth further scrutiny. If a process is suspect,
   a review of the network connections made in and around the time of the event and/or
-  whether the process spawned any child processes could be helpful, as well. \
+  whether the process spawned any child processes could be helpful, as well. 
 
   In the event a system is suspected of having been compromised via a malicious website,
   we suggest reviewing the browsing activity from that system around the time of the
   event. If categories are given for the URLs visited, that can help you zero in on
-  possible malicious sites. \
+  possible malicious sites. 
 
   Most recently we have added new content related to PowerShell Script Block logging,
   Windows EventCode 4104. Script block logging presents the deobfuscated and raw script
@@ -81,7 +79,6 @@ references:
 - https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 tags:
-  analytic_story: Malicious PowerShell
   category:
   - Adversary Tactics
   product:

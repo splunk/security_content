@@ -17,7 +17,7 @@ search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath inpu
   key_policy_action_2) | spath input=key_policy_statements output=key_policy_principal
   path=Principal.AWS | search key_policy_action="kms:Encrypt" AND key_policy_principal="*"
   | stats count min(_time) as firstTime max(_time) as lastTime by eventName eventSource
-  eventID awsRegion userIdentity.principalId | `security_content_ctime(firstTime)`|
+  eventID awsRegion userIdentity.principalId user | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` |`aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs
@@ -32,15 +32,15 @@ tags:
   asset_type: AWS Account
   confidence: 50
   impact: 50
-  message: AWS account is potentially compromised and user $userIdentity.principalId$
+  message: AWS account is potentially compromised and user $user$
     is trying to compromise other accounts.
   mitre_attack_id:
   - T1486
   observable:
-  - name: userIdentity.principalId
+  - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

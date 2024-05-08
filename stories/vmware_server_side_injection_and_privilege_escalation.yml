@@ -11,7 +11,6 @@ references:
   - https://attackerkb.com/topics/BDXyTqY1ld/cve-2022-22954/rapid7-analysis
   - https://www.cisa.gov/uscert/ncas/alerts/aa22-138b 
 tags:
-  analytic_story: VMware Server Side Injection and Privilege Escalation
   category:
   - Adversary Tactics
   product:

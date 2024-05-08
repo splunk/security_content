@@ -14,7 +14,6 @@ narrative: Monitoring your cloud infrastructure logs allows you enable governanc
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytic_story: Suspicious Cloud Instance Activities
   category:
   - Cloud Security
   product:

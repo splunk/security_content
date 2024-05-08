@@ -1,33 +1,32 @@
 name: Detect Outbound SMB Traffic
 id: 1bed7774-304a-4e8f-9d72-d80e45ff492b
-version: 3
-date: '2020-07-21'
-author: Bhavin Patel, Stuart Hopkins from Splunk
+version: 4
+date: '2024-02-27'
+author: Bhavin Patel, Stuart Hopkins, Patrick Bareiss 
 status: experimental
 type: TTP
-description: This search looks for outbound SMB connections made by hosts within your
-  network to the Internet. SMB traffic is used for Windows file-sharing activity.
-  One of the techniques often used by attackers involves retrieving the credential
-  hash using an SMB request made to a compromised server controlled by the threat
-  actor.
+description: The following analytic detects outbound SMB (Server Message Block) connections from internal hosts to external servers, 
+  a method commonly exploited for Windows file-sharing activities. It identifies this behavior by monitoring network traffic for SMB requests 
+  directed towards the Internet, which are not typical for standard operations. This detection is crucial for a Security Operations Center (SOC) 
+  as it can indicate an attackers attempt to retrieve credential hashes through compromised servers, a key step in lateral movement and 
+  privilege escalation. The impact of such an attack includes unauthorized access to sensitive data and potential full system compromise.
 data_source: []
-search: '| tstats `security_content_summariesonly` earliest(_time) as start_time latest(_time)
-  as end_time values(All_Traffic.action) as action values(All_Traffic.app) as app
-  values(All_Traffic.dest_ip) as dest_ip values(All_Traffic.dest_port) as dest_port
-  values(sourcetype) as sourcetype count from datamodel=Network_Traffic where ((All_Traffic.dest_port=139
-  OR All_Traffic.dest_port=445 OR All_Traffic.app="smb") AND NOT (All_Traffic.action="blocked"
-  OR All_Traffic.dest_category="internal" OR All_Traffic.dest_ip=10.0.0.0/8 OR All_Traffic.dest_ip=172.16.0.0/12
-  OR All_Traffic.dest_ip=192.168.0.0/16 OR All_Traffic.dest_ip=100.64.0.0/10)) by
-  All_Traffic.src_ip | `drop_dm_object_name("All_Traffic")` | `security_content_ctime(start_time)`
-  | `security_content_ctime(end_time)` | `detect_outbound_smb_traffic_filter`'
-how_to_implement: 'In order to run this search effectively, we highly recommend that
-  you leverage the Assets and Identity framework. It is important that you have good
-  understanding of how your network segments are designed, and be able to distinguish
-  internal from external address space. Add a category named `internal` to the CIDRs
-  that host the companys assets in `assets_by_cidr.csv` lookup file, which is located
-  in `$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/`. More information on updating
-  this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata.
-  This search also requires you to be ingesting your network traffic and populating
+search: '| tstats `security_content_summariesonly` earliest(_time) as start_time latest(_time) as end_time values(All_Traffic.action) as action values(All_Traffic.app) as app 
+  values(All_Traffic.dest_ip) as dest_ip values(All_Traffic.dest_port) as dest_port values(sourcetype) as sourcetype count from datamodel=Network_Traffic 
+  where (All_Traffic.action=allowed All_Traffic.direction=outbound All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app="smb") by All_Traffic.src_ip 
+  | `drop_dm_object_name("All_Traffic")` 
+  | eval match=case(
+      cidrmatch("10.0.0.0/8" ,dest_ip) ,"1",
+      cidrmatch("172.16.0.0/12" ,dest_ip) ,"1",
+      cidrmatch("192.168.0.0/16" ,dest_ip) ,"1",
+      cidrmatch("100.64.0.0/10" ,dest_ip) ,"1",
+      1=1,"0")
+  | search match=0
+  | fields -  match 
+  | `security_content_ctime(start_time)`
+  | `security_content_ctime(end_time)` 
+  | `detect_outbound_smb_traffic_filter`'
+how_to_implement: 'This search also requires you to be ingesting your network traffic and populating
   the Network_Traffic data model'
 known_false_positives: It is likely that the outbound Server Message Block (SMB) traffic
   is legitimate, if the company's internal networks are not well-defined in the Assets
@@ -45,15 +44,19 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: tbd
+  message: An outbound SMB connection from $src_ip$ in your infrastructure connecting to dest ip $dest_ip$
   mitre_attack_id:
   - T1071.002
   - T1071
   observable:
-  - name: dest
-    type: Hostname
+  - name: src_ip
+    type: IP Address
     role:
     - Victim
+  - name: dest_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -65,7 +68,13 @@ tags:
   - All_Traffic.dest_ip
   - All_Traffic.dest_port
   - sourcetype
-  - All_Traffic.dest_category
   - All_Traffic.src_ip
+  - All_Traffic.direction
   risk_score: 25
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.002/outbound_smb_traffic/zeek_conn.log
+    sourcetype: bro:conn:json
+    source: conn.log

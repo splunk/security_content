@@ -37,7 +37,7 @@ tags:
   - T1195
   observable:
   - name: repository
-    type: Unknown
+    type: Other
     role:
     - Victim
   product:

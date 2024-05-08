@@ -46,8 +46,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: registry with binary data $registry_path$ created by $process_name$ in
-    $dest$
+  message: Registry with binary data created by $process_name$ on $dest$
   mitre_attack_id:
   - T1112
   observable:

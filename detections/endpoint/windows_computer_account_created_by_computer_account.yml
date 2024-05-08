@@ -1,7 +1,7 @@
 name: Windows Computer Account Created by Computer Account
 id: 97a8dc5f-8a7c-4fed-9e3e-ec407fd0268a
-version: 1
-date: '2022-04-27'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -11,10 +11,10 @@ description: The following analytic identifes a Computer Account creating a new 
   do not have the identity of the service but have the server name.
 data_source:
 - Windows Security 4741
-search: '`wineventlog_security` EventCode=4741 user_type=computer Subject_Account_Domain!="NT
-  AUTHORITY"  Message=*RestrictedKrbHost* | stats  count min(_time) as firstTime max(_time)
-  as lastTime by dest, subject, action ,src_user, user, Account_Name, Subject_Account_Name,Subject_Account_Domain
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_computer_account_created_by_computer_account_filter`'
+search: '`wineventlog_security` EventCode=4741 user_type=computer SubjectDomainName!="NT AUTHORITY" ServicePrincipalNames=*RestrictedKrbHost* 
+  | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action ,src_user, user, user_type, SubjectUserName,SubjectDomainName 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `windows_computer_account_created_by_computer_account_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4741 EventCode enabled. The Windows TA is also
   required.
@@ -30,8 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 50
-  message: A Computer Account created a Computer Account on $dest$, possibly indicative
-    of Kerberos relay attack.
+  message: A Computer Account on $dest$ created by a computer account (possibly indicative of Kerberos relay attack).
   mitre_attack_id:
   - T1558
   observable:
@@ -58,6 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/krbrelayup/krbrelayup.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_created_by_computer_account/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

@@ -1,0 +1,3 @@
+definition: lookup update=true is_nirsoft_software filename as process_name OUTPUT nirsoftFile | search nirsoftFile=true
+description: This macro is related to potentially identifiable software related to NirSoft. Remove or filter as needed based.
+name: is_nirsoft_software_macro
