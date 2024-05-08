@@ -15,7 +15,6 @@ narrative:
 references:
   - https://kubernetes.io/docs/concepts/security/
 tags:
-  analytic_story: Kubernetes Security
   category:
   - Cloud Security
   product:

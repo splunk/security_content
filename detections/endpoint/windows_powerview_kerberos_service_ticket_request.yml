@@ -35,7 +35,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   - Rhysida Ransomware
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 90
   impact: 30
   message: PowerView commandlets used for requesting SPN service ticket executed on

@@ -8,18 +8,18 @@ type: TTP
 description: 'The following analytic identifies `powershell.exe` usage, using Script
   Block Logging EventCode 4104, related to querying the domain for Service Principle
   Names. typically, this is a precursor activity related to kerberoasting or the silver
-  ticket attack. \
+  ticket attack. 
 
-  What is a ServicePrincipleName? \
+  What is a ServicePrincipleName? 
 
   A service principal name (SPN) is a unique identifier of a service instance. SPNs
   are used by Kerberos authentication to associate a service instance with a service
   logon account. This allows a client application to request that the service authenticate
-  an account even if the client does not have the account name.\
+  an account even if the client does not have the account name.
 
   The following analytic identifies the use of KerberosRequestorSecurityToken class
   within the script block. Using .NET System.IdentityModel.Tokens.KerberosRequestorSecurityToken
-  class in PowerShell is the equivelant of using setspn.exe. \
+  class in PowerShell is the equivelant of using setspn.exe. 
 
   During triage, review parallel processes for further suspicious activity.'
 data_source:

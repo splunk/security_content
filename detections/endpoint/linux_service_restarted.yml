@@ -12,11 +12,11 @@ description: 'The following analytic detects the restarting or re-enabling of se
   during boot to perform background system functions. However, administrators may
   also create legitimate services for specific tools or applications as part of task
   automation. In such cases, it is recommended to verify the service path of the registered
-  script or executable and identify the creator of the service for further validation.\
+  script or executable and identify the creator of the service for further validation.
 
   It''s important to be aware that this analytic may generate false positives as administrators
   or network operators may use the same command-line for legitimate automation purposes.
-  Filter macros should be updated accordingly to minimize false positives.\
+  Filter macros should be updated accordingly to minimize false positives.
 
   Identifying restarted or re-enabled services is valuable for a SOC as it can indicate
   potential malicious activities attempting to maintain persistence or execute unauthorized

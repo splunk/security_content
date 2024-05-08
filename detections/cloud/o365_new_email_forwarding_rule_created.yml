@@ -25,7 +25,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Collection Techniques
-  asset_type: O365 tenant
+  asset_type: O365 Tenant
   confidence: 60
   impact: 70
   message: A forwarding email inbox rule was created for $user$ 

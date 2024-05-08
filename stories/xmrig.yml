@@ -25,7 +25,6 @@ references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://blog.checkpoint.com/2021/03/11/february-2021s-most-wanted-malware-trickbot-takes-over-following-emotet-shutdown/
 tags:
-  analytic_story: XMRig
   category:
   - Malware
   product:

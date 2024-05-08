@@ -9,7 +9,6 @@ narrative: Amazon Web Services provides a web service known as Identity and Acce
 references:
 - https://attack.mitre.org/tactics/TA0006/
 tags:
-  analytic_story: AWS Identity and Access Management Account Takeover
   category:
   - Cloud Security
   product:

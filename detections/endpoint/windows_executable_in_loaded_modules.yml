@@ -30,7 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: An executable $Imageloaded$ loaded by $Image$ on $dest$
+  message: An executable $ImageLoaded$ loaded by $Image$ on $dest$
   mitre_attack_id:
   - T1129
   observable:

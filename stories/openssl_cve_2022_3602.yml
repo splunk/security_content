@@ -26,7 +26,6 @@ references:
   - https://community.emergingthreats.net/t/out-of-band-ruleset-update-summary-2022-11-01/117
   - https://github.com/corelight/CVE-2022-3602/tree/master/scripts
 tags:
-  analytic_story: OpenSSL CVE-2022-3602
   category:
   - Adversary Tactics
   product:

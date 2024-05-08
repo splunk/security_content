@@ -13,11 +13,11 @@ description: 'The following analytic identifies one source endpoint failing to a
   that is authoritative for the provided credentials. For domain accounts, the domain
   controller is authoritative. For local accounts, the local computer is authoritative.
   Error code 0xC0000064 stands for `The username you typed does not exist` (the attempted
-  user is a legitimate domain user).\
+  user is a legitimate domain user).
 
   This logic can be used for real time security monitoring as well as threat hunting
   exercises. This detection will only trigger on domain controllers, not on member
-  servers or workstations.\
+  servers or workstations.
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source workstation name and attempted user accounts.'
@@ -53,7 +53,7 @@ tags:
   observable:
   - name: Workstation
     role:
-    - Attacker
+    - Victim
     type: Endpoint
   product:
   - Splunk Enterprise

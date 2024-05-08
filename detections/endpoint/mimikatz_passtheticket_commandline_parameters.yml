@@ -39,7 +39,7 @@ tags:
   - CISA AA23-347A
   - CISA AA22-320A
   - Active Directory Kerberos Attacks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 60
   impact: 60
   message: Mimikatz command line parameters for pass the ticket attacks were used

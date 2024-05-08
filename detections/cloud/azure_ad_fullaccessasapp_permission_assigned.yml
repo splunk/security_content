@@ -41,7 +41,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -55,4 +55,5 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/full_access_as_app_permission_assigned/full_access_as_app_permission_assigned.log
     sourcetype: azure:monitor:aad
+    source: Azure AD
     update_timestamp: true

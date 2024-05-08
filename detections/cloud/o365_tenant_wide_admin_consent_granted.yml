@@ -29,7 +29,7 @@ tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
   - NOBELIUM Group
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 50
   impact: 90
   message: The $object$ application registration was granted tenant wide admin consent.
@@ -40,7 +40,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

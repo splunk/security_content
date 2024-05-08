@@ -1,7 +1,7 @@
 name: Excessive distinct processes from Windows Temp
 id: 23587b6a-c479-11eb-b671-acde48001122
-version: 2
-date: '2022-02-28'
+version: 3
+date: '2024-04-26'
 author: Michael Hart, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -60,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

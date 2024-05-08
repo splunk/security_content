@@ -41,8 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: A suspicious powershell script contains AV recon command in $ScriptBlockText$
-    with EventCode $EventCode$ in host $dest$
+  message: A suspicious powershell script contains AV recon command on host $dest$
   mitre_attack_id:
   - T1592
   observable:

@@ -8,7 +8,7 @@ type: Anomaly
 status: production
 description: The following analytic utilizes the user.acount.lock event to identify multiple Okta accounts locking out in a short period of time. An adversary attempting to brute force or password spray account names may lock accounts out depending on the threshold set by the organization. Monitoring for multiple account lockouts can help detect potential account takeover attempts or unauthorized access to Okta accounts.
 search: '| tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime values(All_Changes.user) as user
-  from datamodel=Change where All_Changes.change_type=AAA All_Changes.object_category=User AND All_Changes.action=modified AND All_Changes.command=user.account.lock by _time span=5m All_Changes.result All_Changes.command sourcetype All_Changes.src
+  from datamodel=Change where All_Changes.change_type=AAA All_Changes.object_category=User AND All_Changes.action=lockout AND All_Changes.command=user.account.lock by _time span=5m All_Changes.result All_Changes.command sourcetype All_Changes.src
   | where count > 5
   | `drop_dm_object_name("All_Changes")`
   | `security_content_ctime(firstTime)` 
@@ -22,7 +22,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 70
   impact: 70
   message: Multiple accounts locked out in Okta from [$src$]. Investigate further to determine if this was authorized.

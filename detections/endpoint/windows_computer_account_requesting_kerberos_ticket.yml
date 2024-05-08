@@ -1,7 +1,7 @@
 name: Windows Computer Account Requesting Kerberos Ticket
 id: fb3b2bb3-75a4-4279-848a-165b42624770
-version: 1
-date: '2022-04-27'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -11,9 +11,9 @@ description: The following analytic identifies a ComputerAccount requesting a Ke
   behavior.
 data_source:
 - Windows Security 4768
-search: '`wineventlog_security`  EventCode=4768 Account_Name="*$"  src_ip!="::1" |
-  stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action,
-  Supplied_Realm_Name, user, Account_Name, src_ip | `security_content_ctime(firstTime)`
+search: '`wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1" 
+  | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action, user, TargetUserName, src_ip 
+  | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` | `windows_computer_account_requesting_kerberos_ticket_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4768 EventCode enabled. The Windows TA is also
@@ -56,6 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/krbrelayup/krbrelayup.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_requesting_kerberos_ticket/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

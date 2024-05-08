@@ -30,7 +30,7 @@ references:
 tags:
   analytic_story:
     - Sneaky Active Directory Persistence Tricks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 100
   impact: 100
   message: Active Directory Replication Traffic from Unknown Source - $src$

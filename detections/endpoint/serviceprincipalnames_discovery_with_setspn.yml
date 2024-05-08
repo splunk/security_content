@@ -7,25 +7,25 @@ status: production
 type: TTP
 description: 'The following analytic identifies `setspn.exe` usage related to querying
   the domain for Service Principle Names. typically, this is a precursor activity
-  related to kerberoasting or the silver ticket attack. \
+  related to kerberoasting or the silver ticket attack. 
 
-  What is a ServicePrincipleName? \
+  What is a ServicePrincipleName? 
 
   A service principal name (SPN) is a unique identifier of a service instance. SPNs
   are used by Kerberos authentication to associate a service instance with a service
   logon account. This allows a client application to request that the service authenticate
-  an account even if the client does not have the account name.\
+  an account even if the client does not have the account name.
 
-  Example usage includes the following \
+  Example usage includes the following 
 
-  1. setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn
-  -Q */* > allspns.txt 1. setspn -q \
+  * setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn
+  -Q */* > allspns.txt 1. setspn -q 
 
-  Values \
+  Values 
 
-  1. -F = perform queries at the forest, rather than domain level 1. -T = perform
+  * -F = perform queries at the forest, rather than domain level 1. -T = perform
   query on the specified domain or forest (when -F is also used) 1. -Q = query for
-  existence of SPN \
+  existence of SPN
 
   During triage, review parallel processes for further suspicious activity.'
 data_source:

@@ -20,7 +20,6 @@ references:
 - https://attack.mitre.org/wiki/Technique/T1050
 - https://attack.mitre.org/wiki/Technique/T1031
 tags:
-  analytic_story: Windows Service Abuse
   category:
   - Malware
   product:

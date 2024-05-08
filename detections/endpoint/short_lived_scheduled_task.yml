@@ -11,15 +11,15 @@ description: 'The following analytic utilizes Windows Security EventCode 4698, "
   of less than 30 seconds. This behavior is indicative of a potential lateral movement
   attack where the Task Scheduler is abused to achieve code execution. Both red teams
   and adversaries may exploit the Task Scheduler for lateral movement and remote code
-  execution.\
+  execution.
 
   To implement this analytic, ensure that you are ingesting Windows Security Event
   Logs with EventCode 4698 enabled. Additionally, the Windows TA (Technology Add-on)
-  is required to parse and extract the necessary information from the logs.\
+  is required to parse and extract the necessary information from the logs.
 
   It''s important to note that while uncommon, legitimate applications may create
   and delete scheduled tasks within a short duration. Analysts should filter the results
-  based on the specific context and environment to reduce false positives.\
+  based on the specific context and environment to reduce false positives.
 
   Identifying short-lived scheduled tasks is valuable for a SOC as it can indicate
   malicious activities attempting to move laterally or execute unauthorized code on

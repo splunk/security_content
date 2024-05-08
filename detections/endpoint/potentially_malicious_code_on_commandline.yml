@@ -46,8 +46,7 @@ tags:
   asset_type: Endpoint
   confidence: 20
   impact: 60
-  message: Unusual command-line execution with hallmarks of malicious activity run
-    by $user$ found on $dest$ with commandline $process$
+  message: Unusual command-line execution with command line length greater than 200 found on $dest$ with commandline value - [$process$]
   mitre_attack_id:
   - T1059.003
   observable:

@@ -27,14 +27,14 @@ tags:
   asset_type: GitHub
   confidence: 30
   impact: 30
-  message: suspicious commit by $commit.commit.author.email$ to develop branch
+  message: Suspicious commit by $commit.commit.author.email$ to develop branch
   mitre_attack_id:
   - T1199
   observable:
   - name: commit.commit.author.email
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

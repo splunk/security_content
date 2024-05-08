@@ -22,7 +22,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Collection Techniques
-  asset_type: O365 tenant
+  asset_type: O365 Tenant
   confidence: 70
   impact: 60
   message: A new compliance content search export was started by $user$

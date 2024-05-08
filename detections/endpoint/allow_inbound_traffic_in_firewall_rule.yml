@@ -1,7 +1,7 @@
 name: Allow Inbound Traffic In Firewall Rule
 id: a5d85486-b89c-11eb-8267-acde48001122
-version: 1
-date: '2021-05-19'
+version: 2
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -11,9 +11,9 @@ description: The following analytic identifies suspicious PowerShell command to 
   allowing the traffic in firewall rule.
 data_source:
 - Powershell 4104
-search: '`powershell` EventCode=4104 Message = "*firewall*" Message = "*Inbound*"
-  Message = "*Allow*"  Message = "*-LocalPort*" | stats count min(_time) as firstTime
-  max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*firewall*" ScriptBlockText = "*Inbound*"
+  ScriptBlockText = "*Allow*"  ScriptBlockText = "*-LocalPort*" | stats count min(_time) as firstTime
+  max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `allow_inbound_traffic_in_firewall_rule_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
@@ -28,17 +28,17 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 10
-  message: Suspicious firewall modification detected on endpoint $ComputerName$ by
+  message: Suspicious firewall modification detected on endpoint $dest$ by
     user $user$.
   mitre_attack_id:
   - T1021.001
   - T1021
   observable:
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
-  - name: ComputerName
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -57,6 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/allow_inbound_traffic_in_firewall_rule/windows-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

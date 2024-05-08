@@ -46,10 +46,10 @@ tags:
   mitre_attack_id:
   - T1489
   observable:
-  - name: process_name
-    type: Process
+  - name: dest
+    type: Endpoint
     role:
-    - Child Process
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

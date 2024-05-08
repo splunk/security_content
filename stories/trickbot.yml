@@ -15,7 +15,6 @@ references:
 - https://en.wikipedia.org/wiki/Trickbot
 - https://blog.checkpoint.com/2021/03/11/february-2021s-most-wanted-malware-trickbot-takes-over-following-emotet-shutdown/
 tags:
-  analytic_story: Trickbot
   category:
   - Malware
   product:

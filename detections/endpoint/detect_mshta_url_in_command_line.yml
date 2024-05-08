@@ -43,7 +43,7 @@ tags:
   confidence: 100
   impact: 80
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $est$ by user $user$ attempting to access a remote destination to
+    on endpoint $dest$ by user $user$ attempting to access a remote destination to
     download an additional payload.
   mitre_attack_id:
   - T1218

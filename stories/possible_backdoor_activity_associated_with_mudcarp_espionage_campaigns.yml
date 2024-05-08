@@ -5,81 +5,78 @@ date: '2020-01-22'
 author: iDefense Cyber Espionage Team, iDefense
 description: Monitor your environment for suspicious behaviors that resemble the techniques
   employed by the MUDCARP threat group.
-narrative: 'This story was created as a joint effort between iDefense and Splunk.\
+narrative: 'This story was created as a joint effort between iDefense and Splunk.
 
   iDefense analysts have recently discovered a Windows executable file that, upon
   execution, spoofs a decryption tool and then drops a file that appears to be the
   custom-built javascript backdoor, "Orz," which is associated with the threat actors
   known as MUDCARP (as well as "temp.Periscope" and "Leviathan"). The file is executed
-  using Wscript.\
+  using Wscript.
 
   The MUDCARP techniques include the use of the compressed-folders module from Microsoft,
   zipfldr.dll, with RouteTheCall export to run the malicious process or command. After
   a successful reboot, the malware is made persistent by a manipulating `[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]''help''=''c:\\windows\\system32\\rundll32.exe
   c:\\windows\\system32\\zipfldr.dll,RouteTheCall c:\\programdata\\winapp.exe''`.
   Though this technique is not exclusive to MUDCARP, it has been spotted in the group''s
-  arsenal of advanced techniques seen in the wild.\
+  arsenal of advanced techniques seen in the wild.
 
   This Analytic Story searches for evidence of tactics, techniques, and procedures
   (TTPs) that allow for the use of a endpoint detection-and-response (EDR) bypass
   technique to mask the true parent of a malicious process. It can also be set as
   a registry key for further sandbox evasion and to allow the malware to launch only
-  after reboot.\
+  after reboot.
 
   If behavioral searches included in this story yield positive hits, iDefense recommends
-  conducting IOC searches for the following:\
+  conducting IOC searches for the following:
 
-  \
+  1. www.chemscalere[.]com
 
-  1. www.chemscalere[.]com\
+  1. chemscalere[.]com
 
-  1. chemscalere[.]com\
+  1. about.chemscalere[.]com
 
-  1. about.chemscalere[.]com\
+  1. autoconfig.chemscalere[.]com
 
-  1. autoconfig.chemscalere[.]com\
+  1. autodiscover.chemscalere[.]com
 
-  1. autodiscover.chemscalere[.]com\
+  1. catalog.chemscalere[.]com
 
-  1. catalog.chemscalere[.]com\
+  1. cpanel.chemscalere[.]com
 
-  1. cpanel.chemscalere[.]com\
+  1. db.chemscalere[.]com
 
-  1. db.chemscalere[.]com\
+  1. ftp.chemscalere[.]com
 
-  1. ftp.chemscalere[.]com\
+  1. mail.chemscalere[.]com
 
-  1. mail.chemscalere[.]com\
+  1. news.chemscalere[.]com
 
-  1. news.chemscalere[.]com\
+  1. update.chemscalere[.]com
 
-  1. update.chemscalere[.]com\
+  1. webmail.chemscalere[.]com
 
-  1. webmail.chemscalere[.]com\
+  1. www.candlelightparty[.]org
 
-  1. www.candlelightparty[.]org\
+  1. candlelightparty[.]org
 
-  1. candlelightparty[.]org\
+  1. newapp.freshasianews[.]com
+  
+  In addition, iDefense also recommends that organizations
+  review their environments for activity related to the following hashes:
 
-  1. newapp.freshasianews[.]comIn addition, iDefense also recommends that organizations
-  review their environments for activity related to the following hashes:\
+  1. cd195ee448a3657b5c2c2d13e9c7a2e2
 
-  \
+  1. b43ad826fe6928245d3c02b648296b43
 
-  1. cd195ee448a3657b5c2c2d13e9c7a2e2\
+  1. 889a9b52566448231f112a5ce9b5dfaf
 
-  1. b43ad826fe6928245d3c02b648296b43\
-
-  1. 889a9b52566448231f112a5ce9b5dfaf\
-
-  1. b8ec65dab97cdef3cd256cc4753f0c54\
+  1. b8ec65dab97cdef3cd256cc4753f0c54
 
   1. 04d83cd3813698de28cfbba326d7647c'
 references:
 - https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 - http://blog.amossys.fr/badflick-is-not-so-bad.html
 tags:
-  analytic_story: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   category:
   - Adversary Tactics
   product:

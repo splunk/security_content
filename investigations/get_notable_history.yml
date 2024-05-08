@@ -20,7 +20,6 @@ tags:
   - AWS Cryptomining
   - AWS Network ACL Activity
   - AWS User Monitoring
-  - Account Monitoring and Controls
   - Apache Struts Vulnerability
   - Asset Tracking
   - Brand Monitoring
@@ -32,7 +31,7 @@ tags:
   - Data Protection
   - Disabling Security Tools
   - Dynamic DNS
-  - 'Emotet Malware  DHS Report TA18-201A '
+  - Emotet Malware DHS Report TA18-201A
   - Hidden Cobra Malware
   - Host Redirection
   - JBoss Vulnerability
@@ -51,8 +50,6 @@ tags:
   - SQL Injection
   - SamSam Ransomware
   - Spectre And Meltdown Vulnerabilities
-  - Splunk Enterprise Vulnerability
-  - Splunk Enterprise Vulnerability CVE-2018-11409
   - Suspicious AWS EC2 Activities
   - Suspicious AWS S3 Activities
   - Suspicious AWS Traffic

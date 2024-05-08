@@ -23,7 +23,7 @@ tags:
   analytic_story:
   - Office 365 Collection Techniques
   - NOBELIUM Group
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 60
   impact: 70
   message: An OAuth application identified with id $ClientAppId$ accesed mailboxes through the Graph API.

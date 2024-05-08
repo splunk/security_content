@@ -36,7 +36,7 @@ tags:
   analytic_story:
   - Data Destruction
   - Industroyer2
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 80
   impact: 80
   message: A commandline $process$ executed on $dest$

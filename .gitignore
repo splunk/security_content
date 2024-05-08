@@ -10,7 +10,7 @@ dist/DA-ESS-ContentUpdate-*.tar.gz
 dist/DA-ESS-ContentUpdate.tar.gz
 dist/ContentPack-*.appinspect_api_results.html
 dist/ContentPack-*.appinspect_api_results.json
-
+atomic-red-team/
 
 # IDE
 .vscode/

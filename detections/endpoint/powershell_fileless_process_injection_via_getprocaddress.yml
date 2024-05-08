@@ -9,14 +9,14 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   to identify suspicious PowerShell execution. Script Block Logging captures the command
   sent to PowerShell, the full command to be executed. Upon enabling, logs will output
   to Windows event logs. Dependent upon volume, enable no critical endpoints or all.
-  \
+  
 
   This analytic identifies `GetProcAddress` in the script block. This is not normal
   to be used by most PowerShell scripts and is typically unsafe/malicious. Many attack
-  toolkits use GetProcAddress to obtain code execution. \
+  toolkits use GetProcAddress to obtain code execution. 
 
   In use, `$var_gpa = $var_unsafe_native_methods.GetMethod(GetProcAddress` and later
-  referenced/executed elsewhere. \
+  referenced/executed elsewhere. 
 
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
@@ -25,7 +25,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText=*getprocaddress* | stats count
   min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
-  ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_fileless_process_injection_via_getprocaddress_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -45,14 +45,13 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 60
-  message: A suspicious powershell script contains GetProcAddress API in $ScriptBlockText$
-    with EventCode $EventCode$ in host $Computer$
+  message: A suspicious powershell script contains GetProcAddress API on host $dest$
   mitre_attack_id:
   - T1059
   - T1055
   - T1059.001
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

@@ -16,7 +16,6 @@ references:
 - https://www.cisa.gov/uscert/ncas/alerts/aa22-216a
 - https://www.joesandbox.com/analysis/702680/0/html
 tags:
-  analytic_story: AgentTesla
   category:
   - Malware
   product:

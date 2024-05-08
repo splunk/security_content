@@ -5,27 +5,26 @@ date: '2023-06-12'
 author: Michael Haag, Splunk
 description: The MITRE ATT&CK technique T1053 refers to Scheduled Task/Job. Adversaries might use task scheduling utilities to execute programs or scripts at a predefined date and time. This method is often used for persistence but can also be used for privilege escalation or to execute tasks under certain conditions. Scheduling tasks can be beneficial for an attacker as it can allow them to execute actions at times when the system is less likely to be monitored actively. Different operating systems have different utilities for task scheduling, for example, Unix-like systems have Cron, while Windows has Scheduled Tasks and At Jobs.
 
-narrative: MITRE ATT&CK technique T1053, labeled "Scheduled Task/Job", is a categorization of methods that adversaries use to execute malicious code by scheduling tasks or jobs on a system. This technique is widely utilized for persistence, privilege escalation, and the remote execution of tasks. The technique is applicable across various environments and platforms, including Windows, Linux, and macOS.\
+narrative: MITRE ATT&CK technique T1053, labeled "Scheduled Task/Job", is a categorization of methods that adversaries use to execute malicious code by scheduling tasks or jobs on a system. This technique is widely utilized for persistence, privilege escalation, and the remote execution of tasks. The technique is applicable across various environments and platforms, including Windows, Linux, and macOS.
 
-  The technique consists of multiple sub-techniques, each highlighting a distinct mechanism for scheduling tasks or jobs. These sub-techniques include T1053.001 (Scheduled Task), T1053.002 (At for Windows), T1053.003 (Cron), T1053.004 (Launchd), T1053.005 (At for Linux), and T1053.006 (Systemd Timers).\
+  The technique consists of multiple sub-techniques, each highlighting a distinct mechanism for scheduling tasks or jobs. These sub-techniques include T1053.001 (Scheduled Task), T1053.002 (At for Windows), T1053.003 (Cron), T1053.004 (Launchd), T1053.005 (At for Linux), and T1053.006 (Systemd Timers).
 
-  Scheduled Task (T1053.001) focuses on adversaries' methods for scheduling tasks on a Windows system to maintain persistence or escalate privileges. These tasks can be set to execute at specified times, in response to particular events, or after a defined time interval.\
+  Scheduled Task (T1053.001) focuses on adversaries' methods for scheduling tasks on a Windows system to maintain persistence or escalate privileges. These tasks can be set to execute at specified times, in response to particular events, or after a defined time interval.
 
-  The At command for Windows (T1053.002) enables administrators to schedule tasks on a Windows system. Adversaries may exploit this command to execute programs at system startup or at a predetermined schedule for persistence.\
+  The At command for Windows (T1053.002) enables administrators to schedule tasks on a Windows system. Adversaries may exploit this command to execute programs at system startup or at a predetermined schedule for persistence.
 
-  Cron (T1053.003) is a built-in job scheduler found in Unix-like operating systems. Adversaries can use cron jobs to execute programs at system startup or on a scheduled basis for persistence.\
+  Cron (T1053.003) is a built-in job scheduler found in Unix-like operating systems. Adversaries can use cron jobs to execute programs at system startup or on a scheduled basis for persistence.
 
-  Launchd (T1053.004) is a service management framework present in macOS. Adversaries may utilize launchd to maintain persistence on macOS systems by setting up daemons or agents to execute at specific times or in response to defined events.\
+  Launchd (T1053.004) is a service management framework present in macOS. Adversaries may utilize launchd to maintain persistence on macOS systems by setting up daemons or agents to execute at specific times or in response to defined events.
 
-  The At command for Linux (T1053.005) enables administrators to schedule tasks on a Linux system. Adversaries can use this command to execute programs at system startup or on a scheduled basis for persistence.\
+  The At command for Linux (T1053.005) enables administrators to schedule tasks on a Linux system. Adversaries can use this command to execute programs at system startup or on a scheduled basis for persistence.
 
-  Systemd Timers (T1053.006) offer a means of scheduling tasks on Linux systems using systemd. Adversaries can use systemd timers to execute programs at system startup or on a scheduled basis for persistence.\
+  Systemd Timers (T1053.006) offer a means of scheduling tasks on Linux systems using systemd. Adversaries can use systemd timers to execute programs at system startup or on a scheduled basis for persistence.
 
   Detection and mitigation strategies vary for each sub-technique. For instance, monitoring the creation of scheduled tasks or looking for uncorrelated changes to tasks that do not align with known software or patch cycles can be effective for detecting malicious activity related to this technique. Mitigation strategies may involve restricting permissions and applying application control solutions to prevent adversaries from scheduling tasks.
 references:
 - https://attack.mitre.org/techniques/T1053/
 tags:
-  analytic_story: Scheduled Tasks
   category:
   - Adversary Tactics
   product:

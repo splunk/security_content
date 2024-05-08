@@ -18,7 +18,6 @@ references:
 - https://marcoramilli.com/2021/06/14/the-allegedly-ryuk-ransomware-builder-ryukjoke/
 - https://www.trendmicro.com/en_us/research/21/h/chaos-ransomware-a-dangerous-proof-of-concept.html
 tags:
-  analytic_story: Chaos Ransomware
   category:
   - Malware
   product:

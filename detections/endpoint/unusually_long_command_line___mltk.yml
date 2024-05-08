@@ -41,7 +41,7 @@ tags:
   - Unusual Processes
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
-  asset_type: ''
+  asset_type: Endpoint
   confidence: 50
   impact: 50
   message: tbd

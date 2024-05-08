@@ -33,7 +33,7 @@ tags:
   analytic_story:
   - Okta Account Takeover
   - Okta MFA Exhaustion
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 60
   impact: 30
   message: $user$ account has rejected multiple Okta pushes.

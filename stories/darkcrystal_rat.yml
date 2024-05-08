@@ -14,7 +14,6 @@ references:
 - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
 tags:
-  analytic_story: DarkCrystal RAT
   category:
   - Malware
   product:

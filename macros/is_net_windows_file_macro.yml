@@ -1,0 +1,3 @@
+definition: lookup update=true is_net_windows_file filename as process_name OUTPUT netFile | lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile | search netFile=true
+description: This macro limits the output to process names that are .net binaries on Windows Server 2016 and Windows 11.
+name: is_net_windows_file_macro

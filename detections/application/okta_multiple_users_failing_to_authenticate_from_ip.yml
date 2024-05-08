@@ -22,7 +22,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 90
   impact: 60
   message: Multiple users failing to authenticate from a single source IP Address - [$src$]. Investigate further to determine if this was authorized.

@@ -41,13 +41,13 @@ how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cl
   https://docs.splunk.com/observability/en/infrastructure/network-explorer/network-explorer-setup.html#network-explorer-setup 
   In order to access those metrics from within Splunk Enterprise and ES, the Splunk Infrastructure Monitoring add-on must be installed and 
   configured on a Splunk Search Head.  Once installed, first configure the add-on with your O11y Cloud Org ID and Access Token. 
-  Lastly set up the add-on to ingest metrics from O11y cloud using the following settings, and any other settings left at default:\
+  Lastly set up the add-on to ingest metrics from O11y cloud using the following settings, and any other settings left at default:
   
-  * Name sim_npm_metrics_to_metrics_index \
+  * Name sim_npm_metrics_to_metrics_index 
 
-  * Org ID <Your O11y Cloud Org Id> \
+  * Org ID <Your O11y Cloud Org Id> 
   
-  * Signal Flow Program data(''tcp.packets'').publish(label=''A''); data(''tcp.bytes'').publish(label=''B''); data(''tcp.new_sockets'').publish(label=''C''); data(''udp.packets'').publish(label=''D''); data(''udp.bytes'').publish(label=''E'') \
+  * Signal Flow Program data(''tcp.packets'').publish(label=''A''); data(''tcp.bytes'').publish(label=''B''); data(''tcp.new_sockets'').publish(label=''C''); data(''udp.packets'').publish(label=''D''); data(''udp.bytes'').publish(label=''E'') 
   
   * Metric Resolution 10000'
 known_false_positives: unknown
@@ -66,7 +66,7 @@ tags:
   - name: host
     type: Hostname
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

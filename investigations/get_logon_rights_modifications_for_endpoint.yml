@@ -16,7 +16,7 @@ known_false_positives: ''
 references: []
 tags:
   analytic_story:
-  - Account Monitoring and Controls
+  - AWS Cryptomining
   product:
   - Splunk Phantom
   required_fields:

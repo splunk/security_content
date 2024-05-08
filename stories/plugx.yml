@@ -25,7 +25,6 @@ references:
   - https://www.mandiant.com/resources/blog/infected-usb-steal-secrets
   - https://attack.mitre.org/software/S0013/
 tags:
-  analytic_story: PlugX
   category:
   - Malware
   product:

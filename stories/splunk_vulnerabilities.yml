@@ -8,7 +8,6 @@ narrative:  This analytic story includes detections that focus on attacker behav
 references: 
 - https://www.splunk.com/en_us/product-security/announcements.html
 tags:
-  analytic_story: Splunk Vulnerabilities
   category:
   - Best Practices
   product:
