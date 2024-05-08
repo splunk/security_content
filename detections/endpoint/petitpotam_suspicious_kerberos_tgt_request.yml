@@ -1,7 +1,7 @@
 name: PetitPotam Suspicious Kerberos TGT Request
 id: e3ef244e-0a67-11ec-abf2-acde48001122
-version: 1
-date: '2021-08-31'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,9 +16,9 @@ description: The following analytic identifes Event Code 4768, A `Kerberos authe
   to Domain Controllers for your environment.
 data_source:
 - Windows Security 4768
-search: '`wineventlog_security` EventCode=4768 Client_Address!="::1" Certificate_Thumbprint!=""
-  Account_Name=*$ | stats count min(_time) as firstTime max(_time) as lastTime by
-  dest, Account_Name, Client_Address, action, Message | `security_content_ctime(firstTime)`
+search: '`wineventlog_security` EventCode=4768 src!="::1" TargetUserName=*$ CertThumbprint!=""
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, TargetUserName, src, action 
+  | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` | `petitpotam_suspicious_kerberos_tgt_request_filter`'
 how_to_implement: The following analytic requires Event Code 4768. Ensure that it
   is logging no Domain Controllers and appearing in Splunk.
@@ -61,7 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-xml-1.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

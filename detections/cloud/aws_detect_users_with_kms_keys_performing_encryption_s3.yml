@@ -36,11 +36,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
-  - name: dest_file
-    type: File
-    role:
-    - Target
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

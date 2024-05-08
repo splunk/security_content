@@ -8,16 +8,16 @@ description: 'The following analytic identifies a source host failing to authent
   obtain initial access or elevate privileges. Event 4625 documents each and every
   failed attempt to logon to the local computer. This event generates on domain controllers,
   member servers, and workstations. Logon Type 3 describes an remote authentication
-  attempt.\
+  attempt.
 
   The detection calculates the standard deviation for each host and leverages the
   3-sigma statistical rule to identify an unusual number of users. To customize this
   analytic, users can try different combinations of the `bucket` span time and the
   calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.\
+  monitoring as well as threat hunting exercises.
 
   This detection will trigger on the host that is the target of the password spraying
-  attack. This could be a domain controller as well as a member server or workstation.\
+  attack. This could be a domain controller as well as a member server or workstation.
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source process name, source account and attempted user accounts.'
@@ -57,7 +57,7 @@ tags:
   observable:
   - name: Computer
     role:
-    - Attacker
+    - Victim
     type: Endpoint
   product:
   - Splunk Enterprise

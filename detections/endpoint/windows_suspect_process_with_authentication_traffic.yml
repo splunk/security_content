@@ -9,7 +9,7 @@ description: >-
   This analytic identifies executables running from public or temporary locations that are communicating over windows domain
   authentication ports/protocol. The ports/protocols include LDAP(389), LDAPS(636), and Kerberos(88). Authentications from applications 
   running from user controlled locations may not be malicious, however actors often attempt to access domain resources after initial 
-  compromise from executables in these locations.
+  compromise from executables in these locations. Most attacker toolkits offer some degree of interaction with AD/LDAP.
 data_source:
   - Sysmon Event ID 3
 search: >-
@@ -30,7 +30,6 @@ known_false_positives: >-
   Known applications running from these locations for legitimate purposes. Targeting only kerberos (port 88)
   may significantly reduce noise.
 references:
-  - Most attacker toolkits offer some degree of interaction with AD/LDAP.
   - https://attack.mitre.org/techniques/T1069/002/
   - https://book.hacktricks.xyz/network-services-pentesting/pentesting-kerberos-88 
 tags:

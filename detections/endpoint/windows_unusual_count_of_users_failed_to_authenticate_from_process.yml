@@ -7,18 +7,18 @@ description: 'The following analytic identifies a source process name failing to
   Spraying attack against an Active Directory environment to obtain initial access
   or elevate privileges. Event 4625 generates on domain controllers, member servers,
   and workstations when an account fails to logon. Logon Type 2 describes an iteractive
-  logon attempt.\
+  logon attempt.
 
   The detection calculates the standard deviation for each host and leverages the
   3-sigma statistical rule to identify an unusual number of users. To customize this
   analytic, users can try different combinations of the `bucket` span time and the
   calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.\
+  monitoring as well as threat hunting exercises.
 
   This detection will trigger on the potenfially malicious host, perhaps controlled
   via a trojan or operated by an insider threat, from where a password spraying attack
   is being executed. This could be a domain controller as well as a member server
-  or workstation.\
+  or workstation.
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source process name, source account and attempted user accounts.'
@@ -38,7 +38,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
 search: ' `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-" | bucket
   span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, ProcessName, SubjectUserName, Computer | eventstats
+  as user by _time, ProcessName, SubjectUserName, Computer | eventstats
   avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by ProcessName,
   SubjectUserName, Computer | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts
   > 10 and unique_accounts >= upperBound, 1, 0) | search isOutlier=1 | `windows_unusual_count_of_users_failed_to_authenticate_from_process_filter` '
@@ -56,6 +56,10 @@ tags:
   - T1110.003
   - T1110
   observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   - name: Computer
     role:
     - Attacker

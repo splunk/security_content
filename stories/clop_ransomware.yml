@@ -16,7 +16,6 @@ references:
 - https://securityaffairs.co/wordpress/115250/data-breach/qualys-clop-ransomware.html
 - https://www.darkreading.com/attacks-breaches/qualys-is-the-latest-victim-of-accellion-data-breach/d/d-id/1340323
 tags:
-  analytic_story: Clop Ransomware
   category:
   - Malware
   product:

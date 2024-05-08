@@ -8,13 +8,13 @@ type: Anomaly
 description: 'The following analytic identifies one source Ip failing to authenticate
   with multiple valid users. This behavior could represent an adversary performing
   a Password Spraying attack against an Azure Active Directory tenant to obtain initial
-  access or elevate privileges. Error Code 50126 represents an invalid password.\
+  access or elevate privileges. Error Code 50126 represents an invalid password.
 
   The detection calculates the standard deviation for source Ip and leverages the
   3-sigma statistical rule to identify an unusual number of failed authentication
   attempts. To customize this analytic, users can try different combinations of the
   `bucket` span time and the calculation of the `upperBound` field. This logic can
-  be used for real time security monitoring as well as threat hunting exercises.\
+  be used for real time security monitoring as well as threat hunting exercises.
 
   While looking for anomalies using statistical methods like the standard deviation
   can have benefits, we also recommend using threshold-based detections to complement

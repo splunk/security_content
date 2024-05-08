@@ -1,7 +1,7 @@
 name: Suspicious Kerberos Service Ticket Request
 id: 8b1297bc-6204-11ec-b7c4-acde48001122
-version: 1
-date: '2021-12-20'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,9 +16,10 @@ description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain 
   for privilege escalation.
 data_source:
 - Windows Security 4769
-search: ' `wineventlog_security` EventCode=4769 | eval isSuspicious = if(lower(Service_Name)
-  = lower(mvindex(split(Account_Name,"@"),0)+"$"),1,0) | where isSuspicious = 1 | rename ComputerName as dest| rename Account_Name as user  |
-  table _time, dest, Client_Address, Account_Name, Service_Name, Failure_Code, isSuspicious
+search: ' `wineventlog_security` EventCode=4769
+  | eval isSuspicious = if(lower(ServiceName) = lower(mvindex(split(TargetUserName,"@"),0)),1,0) 
+  | where isSuspicious = 1 | rename Computer as dest| rename TargetUserName as user  
+  | table _time, dest, src_ip, user, ServiceName, Error_Code, isSuspicious
   | `suspicious_kerberos_service_ticket_request_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
@@ -67,7 +68,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/samaccountname_spoofing/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_kerberos_service_ticket_request/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

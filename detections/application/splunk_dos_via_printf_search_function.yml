@@ -17,7 +17,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 100
   impact: 100
   message: Possible denial of service attack against $host$

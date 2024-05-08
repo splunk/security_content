@@ -1,7 +1,7 @@
 name: Windows Excessive Disabled Services Event
 id: c3f85976-94a5-11ec-9a58-acde48001122
-version: 2
-date: '2024-01-24'
+version: 3
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,10 +14,8 @@ description: This analytic will identify suspicious excessive number of system e
   defense evasion.
 data_source:
 - Sysmon Event ID 7
-search: '`wineventlog_system` EventCode=7040 Message = "*service was changed from demand start to disabled."
-  | rename ComputerName as src
-  | stats count values(Message) as MessageList dc(Message) as MessageCount min(_time) as firstTime max(_time) as lastTime by src EventCode  User Sid 
-  | where MessageCount >=10 
+search: '`wineventlog_system` EventCode=7040 "disabled" | stats count values(EventData_Xml) as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time) as lastTime by Computer EventCode UserID | rename Computer as dest
+  | where count >=10 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `windows_excessive_disabled_services_event_filter`'
@@ -34,12 +32,12 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: Service was disabled in $Computer$
+  message: An excessive number (Count - $MessageCount$) of Windows services were disabled on dest - $dest$.
   mitre_attack_id:
   - T1562.001
   - T1562
   observable:
-  - name: src
+  - name: dest
     type: Endpoint
     role:
     - Victim
@@ -60,6 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/olympic_destroyer/system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
+    source: XmlWinEventLog:System
+    sourcetype: XmlWinEventLog

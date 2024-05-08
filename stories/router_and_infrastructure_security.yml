@@ -10,7 +10,7 @@ narrative: 'Networking devices, such as routers and switches, are often overlook
   as resources that attackers will leverage to subvert an enterprise. Advanced threats
   actors have shown a proclivity to target these critical assets as a means to siphon
   and redirect network traffic, flash backdoored operating systems, and implement
-  cryptographic weakened algorithms to more easily decrypt network traffic.\
+  cryptographic weakened algorithms to more easily decrypt network traffic.
 
   This Analytic Story helps you gain a better understanding of how your network devices
   are interacting with your hosts. By compromising your network devices, attackers
@@ -20,7 +20,6 @@ references:
 - https://web.archive.org/web/20210420020040/https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
 - https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
 tags:
-  analytic_story: Router and Infrastructure Security
   category:
   - Best Practices
   product:

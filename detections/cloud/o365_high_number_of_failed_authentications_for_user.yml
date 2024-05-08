@@ -20,7 +20,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: O365 tenant
+  asset_type: O365 Tenant
   confidence: 70
   impact: 50
   message: User $user$ failed to authenticate more than 10 times in the span of 5 minutes.

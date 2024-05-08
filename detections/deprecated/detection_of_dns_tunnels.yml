@@ -11,7 +11,7 @@ description: 'This search is used to detect DNS tunneling, by calculating the su
   originating from internal DNS, Web, and Email servers. Endpoints using DNS as a
   method of transmission for data exfiltration, Command And Control, or evasion of
   security controls can often be detected by noting an unusually large volume of DNS
-  traffic. \
+  traffic.
 
   NOTE:Deprecated because existing detection is doing the same. This detection is
   replaced with two other variations, if you are using MLTK then you can use this

@@ -6,18 +6,18 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 description: 'The following analytic identifies the use of Windows Curl.exe uploading
-  a file to a remote destination. \
+  a file to a remote destination. 
 
   `-T` or `--upload-file` is used when a file is to be uploaded to a remotge destination.
-  \
+  
 
   `-d` or `--data` POST is the HTTP method that was invented to send data to a receiving
   web application, and it is, for example, how most common HTML forms on the web work.
-  \
+  
 
   HTTP multipart formposts are done with `-F`, but this appears to not be compatible
   with the Windows version of Curl. Will update if identified adversary tradecraft.
-  \
+  
 
   Adversaries may use one of the three methods based on the remote destination and
   what they are attempting to upload (zip vs txt). During triage, review parallel

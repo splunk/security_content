@@ -23,7 +23,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 80
   impact: 80
   message: User $user$ has caused excessive number of authentication failures from

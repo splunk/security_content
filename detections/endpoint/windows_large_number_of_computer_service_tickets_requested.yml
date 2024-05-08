@@ -13,7 +13,7 @@ description: The following analytic leverages Event ID 4769, `A Kerberos
   endpoint, it will first request a Kerberos Service Ticket with the computer name as the
   Service Name. A user requesting a large number of computer service tickets
   for different endpoints could represent malicious behavior like lateral movement,
-  malware staging, reconnaissance, etc.\
+  malware staging, reconnaissance, etc.
 
   Active Directory environments can be very different depending on the organization. Users should test this detection and customize 
   the arbitrary threshold as needed.

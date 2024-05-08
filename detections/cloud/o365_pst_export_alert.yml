@@ -21,7 +21,7 @@ tags:
   analytic_story:
   - Office 365 Collection Techniques
   - Data Exfiltration
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 80
   message: User $Source$ has exported a PST file from the search using this operation-
@@ -32,7 +32,7 @@ tags:
   - name: Source
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

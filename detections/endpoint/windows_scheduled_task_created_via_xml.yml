@@ -16,7 +16,7 @@ description: 'The following analytic detects the creation of suspicious schedule
   this activity is crucial to mitigate potential security risks. It is important to
   be aware that scripts or administrators may trigger this analytic, leading to potential
   false positives. To minimize false positives, adjust the filter based on the parent
-  process or application.\
+  process or application.
 
   When a true positive is detected, it suggests an attacker''s attempt to gain persistence
   or execute additional malicious payloads, potentially resulting in data theft, ransomware,

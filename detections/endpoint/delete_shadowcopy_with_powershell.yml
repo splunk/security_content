@@ -14,7 +14,7 @@ data_source:
 - Powershell 4104
 search: '`powershell` EventCode=4104 ScriptBlockText= "*ShadowCopy*" (ScriptBlockText
   = "*Delete*" OR ScriptBlockText = "*Remove*") | stats count min(_time) as firstTime
-  max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
+  max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText |rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `delete_shadowcopy_with_powershell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
@@ -32,16 +32,16 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: An attempt to delete ShadowCopy was performed using PowerShell on $Computer$
-    by $User$.
+  message: An attempt to delete ShadowCopy was performed using PowerShell on $dest$
+    by $user$.
   mitre_attack_id:
   - T1490
   observable:
-  - name: UserID
+  - name: user
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim

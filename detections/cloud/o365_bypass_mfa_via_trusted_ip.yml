@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 70
   message: User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a
@@ -43,7 +43,7 @@ tags:
   - name: user_id
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

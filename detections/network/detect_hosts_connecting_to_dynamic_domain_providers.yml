@@ -21,22 +21,20 @@ how_to_implement: 'First, you''ll need to ingest data from your DNS operations. 
   being queried and the IP of the host originating the request must be populating
   the `Network_Resolution` data model. This search also leverages a lookup file, `dynamic_dns_providers_default.csv`,
   which contains a non-exhaustive list of Dynamic DNS providers. Please consider updating
-  the local lookup periodically by adding new domains to the list of `dynamic_dns_providers_local.csv`.\
+  the local lookup periodically by adding new domains to the list of `dynamic_dns_providers_local.csv`.
 
   This search produces fields (query, answer, isDynDNS) that are not yet supported
   by ES Incident Review and therefore cannot be viewed when a notable event is raised.
   These fields contribute additional context to the notable event. To see the additional
   metadata, add the following fields, if not already present, to Incident Review.
   Event Attributes (Configure > Incident Management > Incident Review Settings > Add
-  New Entry):\\n1. **Label:** DNS Query, **Field:** query\
+  New Entry):
+  
+  * **Label:** DNS Query, **Field:** query
 
-  1. \
+  * **Label:** DNS Answer, **Field:** answer
 
-  1. **Label:** DNS Answer, **Field:** answer\
-
-  1. \
-
-  1. **Label:** IsDynamicDNS, **Field:** isDynDNS\
+  * **Label:** IsDynamicDNS, **Field:** isDynDNS
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'

@@ -22,7 +22,7 @@ references:
 tags:
   analytic_story:
   - Okta Account Takeover
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 80
   impact: 80
   message: A new API token was created in Okta by [$user$]. Investigate further to determine if this was authorized.

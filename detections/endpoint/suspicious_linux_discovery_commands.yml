@@ -8,7 +8,7 @@ type: TTP
 description: 'This search, detects execution of suspicious bash commands from various
   commonly leveraged bash scripts like (AutoSUID, LinEnum, LinPeas) to perform discovery
   of possible paths of privilege execution, password files, vulnerable directories,
-  executables and file permissions on a Linux host.\
+  executables and file permissions on a Linux host.
 
   The search logic specifically looks for high number of distinct commands run in
   a short period of time.'

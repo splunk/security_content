@@ -47,7 +47,7 @@ tags:
   - T1098
   observable:
   - name: displayName
-    type: Other
+    type: User
     role:
     - Victim
   - name: initiatedBy

@@ -19,7 +19,7 @@ search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure 
   | dedup object
   | rename claims.ipaddr as src_ip
   | rename caller as user
-  | stats count min(_time) as firstTime max(_time) as lastTime values(object) as object by user, src_ip, resourceGroupName, object_path 
+  | stats count min(_time) as firstTime max(_time) as lastTime by object user, src_ip, resourceGroupName, object_path 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `azure_automation_runbook_created_filter`'
@@ -40,22 +40,18 @@ references:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
-  asset_type: Azure
+  asset_type: Azure Tenant
   confidence: 90
   impact: 70
-  message: A new Azure Automation Runbook $object$ was created by $caller$
+  message: A new Azure Automation Runbook $object$ was created by $user$
   mitre_attack_id:
   - T1136
   - T1136.003
   observable:
-  - name: object
-    type: Other
-    role:
-    - Victim
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Print Processor Registry Autostart
 id: 1f5b68aa-2037-11ec-898e-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: experimental
 type: TTP
@@ -67,6 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/print_reg/sysmon_print.log
-    source: WinEventLog:Microsoft-Windows-PrintService/Operational
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/1f5b68aa-2037-11ec-898e-acde48001122.txt
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

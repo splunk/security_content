@@ -12,7 +12,6 @@ references:
   - https://github.com/assetnote/exploits/tree/main/citrix/CVE-2023-4966
   - https://github.com/projectdiscovery/nuclei-templates/blob/b815d23b908de52996060163091395d1c89fbeea/http/cves/2023/CVE-2023-4966.yaml
 tags:
-  analytic_story: Citrix NetScaler ADC and NetScaler Gateway CVE-2023-4966
   category:
   - Adversary Tactics
   product:

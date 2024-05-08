@@ -11,7 +11,7 @@ description: This search provides specific SAML access from specific Service Pro
   environments using SAML protocol inside the perimeter or cloud provider.
 data_source: []
 search: '`cloudtrail` eventName=Assumerolewithsaml | stats count min(_time) as firstTime
-  max(_time) as lastTime by requestParameters.principalArn requestParameters.roleArn
+  max(_time) as lastTime by eventName requestParameters.principalArn requestParameters.roleArn
   requestParameters.roleSessionName recipientAccountId responseElements.issuer sourceIPAddress
   userAgent | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`aws_saml_access_by_provider_user_and_principal_filter`'
@@ -47,7 +47,6 @@ tags:
     type: Other
     role:
     - Victim
-    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

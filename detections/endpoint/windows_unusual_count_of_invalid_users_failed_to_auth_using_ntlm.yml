@@ -11,16 +11,16 @@ description: 'The following analytic identifies one source endpoint failing to a
   on the computer that is authoritative for the provided credentials. For domain accounts,
   the domain controller is authoritative. For local accounts, the local computer is
   authoritative. Error code 0xC0000064 stands for `The username you typed does not
-  exist` (the attempted user is a legitimate domain user).\
+  exist` (the attempted user is a legitimate domain user).
 
   The detection calculates the standard deviation for each host and leverages the
   3-sigma statistical rule to identify an unusual number of users. To customize this
   analytic, users can try different combinations of the `bucket` span time and the
   calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.\
+  monitoring as well as threat hunting exercises.
 
   This detection will only trigger on domain controllers, not on member servers or
-  workstations.\
+  workstations.
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source workstation name and attempted user accounts.'
@@ -40,7 +40,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
 search: ' `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xc0000064
   | bucket span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, Workstation | eventstats avg(unique_accounts) as comp_avg
+  as user by _time, Workstation | eventstats avg(unique_accounts) as comp_avg
   , stdev(unique_accounts) as comp_std by Workstation | eval upperBound=(comp_avg+comp_std*3)
   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
   | search isOutlier=1
@@ -59,6 +59,10 @@ tags:
   - T1110.003
   - T1110
   observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   - name: src
     type: Endpoint
     role:

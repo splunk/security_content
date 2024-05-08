@@ -16,7 +16,6 @@ narrative: An example of obfuscated files is `Certutil.exe` usage to encode a po
 references:
 - https://attack.mitre.org/techniques/T1140/
 tags:
-  analytic_story: Deobfuscate-Decode Files or Information
   category:
   - Adversary Tactics
   product:

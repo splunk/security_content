@@ -6,24 +6,24 @@ author: John Murphy and Jordan Ruocco, Okta, Michael Haag, Splunk
 type: TTP
 status: experimental
 data_source: []
-description: 'The following analytic identifies variations in client-based values for source and response events to identify suspicious request behavior. The detection is enhanced if the org is evaluating behavior conditions in sign-on policies using Okta Behavior Detection. NOTE: This detection requires the use of Okta Identity Engine (OIE) and will not function on Okta Classic.\
+description: 'The following analytic identifies variations in client-based values for source and response events to identify suspicious request behavior. The detection is enhanced if the org is evaluating behavior conditions in sign-on policies using Okta Behavior Detection. NOTE: This detection requires the use of Okta Identity Engine (OIE) and will not function on Okta Classic.
 
-  For each Okta Verify Push challenge, the following two events are recorded in Okta System Log \
+  For each Okta Verify Push challenge, the following two events are recorded in Okta System Log 
   
-  Source of Push (Sign-In) \
+  Source of Push (Sign-In) 
 
-  eventType eq \"system.push.send_factor_verify_push\" \
+  eventType eq \"system.push.send_factor_verify_push\" 
 
-  User Push Response (Okta Verify client) \
+  User Push Response (Okta Verify client) 
 
-  eventType eq "user.authentication.auth_via_mfa" AND debugContext.debugData.factor eq "OKTA_VERIFY_PUSH" \
+  eventType eq "user.authentication.auth_via_mfa" AND debugContext.debugData.factor eq "OKTA_VERIFY_PUSH" 
 
-  In sequence, the logic for the analytic - \
+  In sequence, the logic for the analytic - 
   
-  * Groups by SessionID and retrieves any system.push.send_factor_verify_push events (the source of the push) and user.authentication.auth_via_mfa events where the factor is OKTA_VERIFY_PUSH - (the user response to the push) \
+  * Groups by SessionID and retrieves any system.push.send_factor_verify_push events (the source of the push) and user.authentication.auth_via_mfa events where the factor is OKTA_VERIFY_PUSH - (the user response to the push) 
 
-  * Counts the total number of push events, successful authentication events, and any push sources where the client is a new device. \
-  * Creates a ratio of successful sign-ins to pushes. \
+  * Counts the total number of push events, successful authentication events, and any push sources where the client is a new device. 
+  * Creates a ratio of successful sign-ins to pushes. 
 
   * If the ratio (currently tuned aggressively) indicates push spam, or if a user has rejected a push, the detection proceeds to evaluate whether there is more than one IP address used during the session (session roaming) and the presence of both a new IP and new device during the session.'
 search: '`okta` eventType IN (system.push.send_factor_verify_push) OR
@@ -64,7 +64,7 @@ tags:
   analytic_story:
   - Okta Account Takeover
   - Okta MFA Exhaustion
-  asset_type: Okta tenant
+  asset_type: Okta Tenant
   confidence: 80
   impact: 80
   message: A mismatch between source and response for verifying a push request has occurred for $actor.alternateId$

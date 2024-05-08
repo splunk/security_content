@@ -13,12 +13,12 @@ narrative: 'Amazon Web Services (AWS) admins manage access to AWS resources and 
   (such as EC2 instances, the AWS Management Console, API, or the command-line interface).
   Unlike conventional (human) users, IAM roles are assumable by anyone in the organization.
   They provide users with dynamically created temporary security credentials that
-  expire within a set time period.\
+  expire within a set time period.
 
   Herein lies the rub. In between the time between when the temporary credentials
   are issued and when they expire is a period of opportunity, where a user could leverage
   the temporary credentials to wreak havoc-spin up or remove instances, create new
-  users, elevate privileges, and other malicious activities-throughout the environment.\
+  users, elevate privileges, and other malicious activities-throughout the environment.
 
   This Analytic Story includes searches that will help you monitor your AWS CloudTrail
   logs for evidence of suspicious cross-account activity.  For example, while accessing
@@ -29,7 +29,6 @@ narrative: 'Amazon Web Services (AWS) admins manage access to AWS resources and 
 references:
 - https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 tags:
-  analytic_story: AWS Cross Account Activity
   category:
   - Cloud Security
   product:

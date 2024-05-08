@@ -27,7 +27,7 @@ tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
   - Cloud Federated Credential Abuse
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 30
   message: User $user$ has created a new federation setting $modified_properties_name$ on $dest$

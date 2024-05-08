@@ -12,7 +12,6 @@ references:
   - https://op-c.net/blog/cve-2024-25600-wordpresss-bricks-builder-rce-flaw-under-active-exploitation/
   - https://thehackernews.com/2024/02/wordpress-bricks-theme-under-active.html
 tags:
-  analytic_story: WordPress Vulnerabilities
   category:
   - Adversary Tactics
   product:

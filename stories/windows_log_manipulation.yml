@@ -13,7 +13,7 @@ narrative: 'Because attackers often modify system logs to cover their tracks and
   and in what way they manipulated them (determining which accesses, tools, or utilities
   were employed). Even if no malicious activity is detected, the knowledge of an attempt
   to manipulate system logs may be indicative of a broader security risk that should
-  be thoroughly investigated.\
+  be thoroughly investigated.
 
   The Analytic Story gives users two different ways to detect manipulation of Windows
   Event Logs and one way to detect deletion of the Update Sequence Number (USN) Change
@@ -25,7 +25,6 @@ references:
 - https://zeltser.com/security-incident-log-review-checklist/
 - http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html
 tags:
-  analytic_story: Windows Log Manipulation
   category:
   - Adversary Tactics
   product:

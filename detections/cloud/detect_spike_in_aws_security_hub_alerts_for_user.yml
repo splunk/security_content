@@ -25,7 +25,7 @@ tags:
   asset_type: AWS Instance
   confidence: 50
   impact: 50
-  message: tbd
+  message: Spike in AWS Security Hub alerts for user - $user$
   observable:
   - name: user
     type: User

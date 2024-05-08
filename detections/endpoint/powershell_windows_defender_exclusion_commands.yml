@@ -1,7 +1,7 @@
 name: Powershell Windows Defender Exclusion Commands
 id: 907ac95c-4dd9-11ec-ba2c-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -13,9 +13,9 @@ description: This analytic will detect a suspicious process commandline related 
   to look further for events after this behavior.
 data_source:
 - Powershell 4104
-search: '`powershell` EventCode=4104 (Message = "*Add-MpPreference *" OR Message =
-  "*Set-MpPreference *") AND Message = "*-exclusion*" | stats count min(_time) as
-  firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Add-MpPreference *" OR ScriptBlockText =
+  "*Set-MpPreference *") AND ScriptBlockText = "*-exclusion*" | stats count min(_time) as
+  firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `powershell_windows_defender_exclusion_commands_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -38,16 +38,16 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: exclusion command $Message$ executed on $ComputerName$
+  message: exclusion command $ScriptBlockText$ executed on $Computer$
   mitre_attack_id:
   - T1562.001
   - T1562
   observable:
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
-  - name: ComputerName
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -66,6 +66,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_powershell/powershell.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/powershell_windows_defender_exclusion_commands/windows-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: XmlWinEventLog

@@ -71,7 +71,7 @@ tags:
   - src_ip
   - dest_host
   risk_score: 80
-  security_domain: Endpoint
+  security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:

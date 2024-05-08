@@ -15,7 +15,6 @@ references:
   - https://www.us-cert.gov/sites/default/files/AA22-257A.stix.xml
   - https://www.us-cert.cisa.gov/iran
 tags:
-  analytic_story: CISA AA22-257A
   category:
   - Adversary Tactics
   product:

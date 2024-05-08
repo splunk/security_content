@@ -1,26 +1,26 @@
 name: MSHTML Module Load in Office Product
 id: 5f1c168e-118b-11ec-84ff-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-03-14'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following detection identifies the module load of mshtml.dll into
-  an Office product. This behavior has been related to CVE-2021-40444, whereas the
-  malicious document will load ActiveX, which activates the MSHTML component. The
-  vulnerability resides in the MSHTML component. During triage, identify parallel
-  processes and capture any file modifications for analysis.
+description: This detection identifies the loading of the mshtml.dll module into
+  an Office product. This behavior is associated with CVE-2021-40444, where a
+  malicious document loads ActiveX, thereby activating the MSHTML component. The
+  vulnerability is found within the MSHTML component itself. During triage, it is important to identify concurrent
+  processes and document any file modifications for further analysis.
 data_source:
 - Sysmon Event ID 7
-search: '`sysmon` EventID=7  parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
-  "msaccess.exe","Graph.exe","winproj.exe") ImageLoaded IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, process_name,
-  ImageLoaded, OriginalFileName, ProcessGuid  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `mshtml_module_load_in_office_product_filter`'
+search: '`sysmon` EventID=7 process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe", "msaccess.exe","Graph.exe","winproj.exe") loaded_file_path IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by user_id, dest, process_name, loaded_file, loaded_file_path, original_file_name, process_guid 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `mshtml_module_load_in_office_product_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process names and image loads from your endpoints. If you are using
   Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: Limited false positives will be present, however, tune as necessary.
+known_false_positives: Limited false positives will be present, however, tune as necessary. Some applications may legitimately load mshtml.dll.
 references:
 - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
@@ -48,7 +48,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
