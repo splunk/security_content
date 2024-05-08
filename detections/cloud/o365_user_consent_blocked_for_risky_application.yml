@@ -28,7 +28,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 100
   impact: 30
   message: O365 has blocked $user$ attempt to grant to consent to an application deemed risky.

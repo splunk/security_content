@@ -22,7 +22,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 50
   impact: 50
   message: Ip address $src_ip$ failed to authenticate more than 10 times in a 5 minute

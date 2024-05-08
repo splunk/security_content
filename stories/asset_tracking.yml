@@ -16,7 +16,6 @@ narrative: This Analytic Story is designed to help you develop a better understa
 references:
 - https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
 tags:
-  analytic_story: Asset Tracking
   category:
   - Best Practices
   product:

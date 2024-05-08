@@ -1,7 +1,7 @@
 name: Known Services Killed by Ransomware
 id: 3070f8e0-c528-11eb-b2a0-acde48001122
-version: 1
-date: '2021-06-04'
+version: 2
+date: '2024-04-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -12,14 +12,13 @@ description: This search detects a suspicioous termination of known services kil
   to the targetted file.
 data_source:
 - Sysmon Event ID 7
-search: '`wineventlog_system` EventCode=7036 Message IN ("*Volume Shadow Copy*","*VSS*",
+search: '`wineventlog_system` EventCode=7036 param1 IN ("*Volume Shadow Copy*","*VSS*",
   "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*", "DefWatch",
   "ccEvtMgr", "ccSetMgr", "SavRoam", "RTVscan", "QBFCService", "QBIDPService", "Intuit.QuickBooks.FCS",
   "QBCFMonitorService" "YooBackup", "YooIT", "*Veeam*", "PDVFSService", "BackupExecVSSProvider",
   "BackupExecAgentAccelerator", "BackupExec*", "WdBoot", "WdFilter", "WdNisDrv", "WdNisSvc",
-  "WinDefend", "wscsvc", "Sense", "sppsvc", "SecurityHealthService") Message="*service
-  entered the stopped state*" | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode Message dest Type | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  "WinDefend", "wscsvc", "Sense", "sppsvc", "SecurityHealthService") param2="stopped" | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode param1 dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `known_services_killed_by_ransomware_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
@@ -38,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: Known services $Message$ terminated by a potential ransomware on $dest$
+  message: Known services $param1$ terminated by a potential ransomware on $dest$
   mitre_attack_id:
   - T1490
   observable:
@@ -46,7 +45,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Message
+  - name: param1
     type: Other
     role:
     - Other
@@ -65,6 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/known_services_killed_by_ransomware/windows-xml.log
+    source: XmlWinEventLog:System
+    sourcetype: XmlWinEventLog

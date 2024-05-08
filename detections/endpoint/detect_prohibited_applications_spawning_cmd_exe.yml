@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_cmd` by Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` |search [`prohibited_apps_launching_cmd`] | `detect_prohibited_applications_spawning_cmd_exe_filter`'
+  `security_content_ctime(lastTime)` |search [`prohibited_apps_launching_cmd_macro`] | `detect_prohibited_applications_spawning_cmd_exe_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

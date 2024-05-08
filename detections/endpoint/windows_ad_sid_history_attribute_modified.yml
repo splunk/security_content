@@ -11,7 +11,7 @@ description: The following analytic leverages event code `5136` to identify a mo
   The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
   continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory OperationType="%%14674"
-  | stats values(ObjectDN) by _time, Computer, SubjectUserName, AttributeValue
+  | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue | rename Computer as dest 
   | `windows_ad_sid_history_attribute_modified_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
@@ -28,15 +28,15 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 80
-  message: SID History AD attribute modified by $SubjectUserName$ for $ObjectDN$
+  message: SID History AD attribute modified by $SubjectUserName$ for $ObjectDN$ on $dest$
   mitre_attack_id:
   - T1134
   - T1134.005
   observable:
-  - name: SubjectUserName
-    type: User
+  - name: dest
+    type: Hostname
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

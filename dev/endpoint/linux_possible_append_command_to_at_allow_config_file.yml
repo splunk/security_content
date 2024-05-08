@@ -5,7 +5,7 @@ date: '2022-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic is designed to identify suspicious command lines that may append user entries to either /etc/at.allow or /etc/at.deny. These files can be exploited by malicious actors for persistence on a compromised Linux host by altering permissions for scheduled tasks using the at command.\
+description: The following analytic is designed to identify suspicious command lines that may append user entries to either /etc/at.allow or /etc/at.deny. These files can be exploited by malicious actors for persistence on a compromised Linux host by altering permissions for scheduled tasks using the at command.
 
   In this context, an attacker can create a user or add an existing user to these configuration files to execute their malicious code through scheduled tasks. The detection of such anomalous behavior can serve as an effective indicator warranting further investigation to validate if the activity is indeed malicious or a false positive.
 data_source:

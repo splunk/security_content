@@ -28,14 +28,14 @@ known_false_positives: A user with successful authentication events from differe
   Ips may also represent the legitimate use of more than one device. Filter as needed
   and/or customize the threshold to fit your environment.
 references:
-- T1110
-- T1110.001
-- T1110.003
+- https://attack.mitre.org/techniques/T1110
+- https://attack.mitre.org/techniques/T1110.001
+- https://attack.mitre.org/techniques/T1110.003
 tags:
   analytic_story:
   - Compromised User Account
   - Azure Active Directory Account Takeover
-  asset_type: Azure AD
+  asset_type: Azure Tenant
   confidence: 80
   impact: 70
   message: User $user$ has had successful authentication events from

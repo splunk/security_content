@@ -22,7 +22,6 @@ references:
 - https://attack.mitre.org/techniques/T1197/
 - https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
 tags:
-  analytic_story: BITS Jobs
   category:
   - Adversary Tactics
   product:

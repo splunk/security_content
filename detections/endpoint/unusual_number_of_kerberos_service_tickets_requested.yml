@@ -1,7 +1,7 @@
 name: Unusual Number of Kerberos Service Tickets Requested
 id: eb3e6702-8936-11ec-98fe-acde48001122
-version: 1
-date: '2022-02-08'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -9,7 +9,7 @@ description: 'The following hunting analytic leverages Kerberos Event 4769, A Ke
   service ticket was requested, to identify a potential kerberoasting attack against
   Active Directory networks. Kerberoasting allows an adversary to request kerberos
   tickets for domain accounts typically used as service accounts and attempt to crack
-  them offline allowing them to obtain privileged access to the domain.\
+  them offline allowing them to obtain privileged access to the domain.
 
   The detection calculates the standard deviation for each host and leverages the
   3-sigma statistical rule to identify an unusual number service ticket requests.
@@ -17,10 +17,9 @@ description: 'The following hunting analytic leverages Kerberos Event 4769, A Ke
   span time and the calculation of the `upperBound` field.'
 data_source:
 - Windows Security 4769
-search: ' `wineventlog_security` EventCode=4769 Service_Name!="*$" Ticket_Encryption_Type=0x17
-  | bucket span=2m _time | stats dc(Service_Name) AS unique_services values(Service_Name)
-  as requested_services by _time, Client_Address | eventstats avg(unique_services)
-  as comp_avg , stdev(unique_services) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
+search: ' `wineventlog_security` EventCode=4769 ServiceName!="*$" TicketEncryptionType=0x17 | bucket span=2m _time | stats dc(ServiceName) AS unique_services values(ServiceName)
+  as requested_services by _time, src | eventstats avg(unique_services)
+  as comp_avg , stdev(unique_services) as comp_std by src | eval upperBound=(comp_avg+comp_std*3)
   | eval isOutlier=if(unique_services > 2 and unique_services >= upperBound, 1, 0)
   | search isOutlier=1 | `unusual_number_of_kerberos_service_tickets_requested_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -44,7 +43,7 @@ tags:
   - T1558
   - T1558.003
   observable:
-  - name: Client_Address
+  - name: src
     type: Endpoint
     role:
     - Victim
@@ -66,6 +65,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/rubeus/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/unusual_number_of_kerberos_service_tickets_requested/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

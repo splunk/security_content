@@ -14,7 +14,6 @@ references:
 - https://www.imperva.com/learn/application-security/account-takeover-ato/
 - https://www.barracuda.com/glossary/account-takeover
 tags:
-  analytic_story: GCP Account Takeover
   category:
   - Account Compromise
   product:

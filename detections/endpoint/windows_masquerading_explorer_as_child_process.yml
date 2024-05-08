@@ -1,7 +1,7 @@
 name: Windows Masquerading Explorer As Child Process
 id: 61490da9-52a1-4855-a0c5-28233c88c481
 version: 1
-date: '2022-10-20'
+date: '2024-04-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN("cmd.exe", "powershell.exe", "regsvr32.exe") AND Processes.process_name = "explorer.exe"
+  IN("cmd.exe", "powershell.exe", "regsvr32.exe") AND Processes.process_name = "explorer.exe" AND Processes.process IN ("*\\explorer.exe")
   by Processes.parent_process Processes.parent_process_name Processes.process_name
   Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
   Processes.parent_process_id | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`

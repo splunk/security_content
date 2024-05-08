@@ -8,7 +8,6 @@ narrative: The analytic story of Confluence Data Center and Confluence Server en
 references:
 - https://confluence.atlassian.com/security/cve-2023-22527-rce-remote-code-execution-vulnerability-in-confluence-data-center-and-confluence-server-1333990257.html
 tags:
-  analytic_story: Confluence Data Center and Confluence Server Vulnerabilities
   category:
   - Adversary Tactics
   product:

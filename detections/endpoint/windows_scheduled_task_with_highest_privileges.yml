@@ -12,7 +12,7 @@ description: 'The following analytic detects the creation of a new task with the
   this technique. It''s a strong indicator of potential malware or adversaries seeking
   to establish persistence and escalate privileges through scheduled tasks. This is
   crucial for a Security Operations Center (SOC) as it can prevent unauthorized system
-  access and potential data breaches.\
+  access and potential data breaches.
 
   The analytic works by monitoring logs for process name, parent process, and command-line
   executions. In the presence of the ''*/rl '' and '' highest *'' commands in a schtasks.exe

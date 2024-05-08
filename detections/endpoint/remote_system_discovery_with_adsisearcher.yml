@@ -14,7 +14,7 @@ data_source:
 search: '`powershell` EventCode=4104 ScriptBlockText = "*adsisearcher*" AND ScriptBlockText
   = "*objectcategory=computer*" AND ScriptBlockText IN ("*findAll()*","*findOne()*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | `security_content_ctime(firstTime)` | `remote_system_discovery_with_adsisearcher_filter`'
+  Computer UserID | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)` | `remote_system_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -28,11 +28,11 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 30
-  message: Remote system discovery enumeration on $Computer$ by $user$
+  message: Remote system discovery enumeration with adsisearcher on $dest$ by $user$
   mitre_attack_id:
   - T1018
   observable:
-  - name: Computer
+  - name: dest
     type: Endpoint
     role:
     - Victim

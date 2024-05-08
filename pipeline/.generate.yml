@@ -1,79 +1,85 @@
-generate_escu:
+
+generate_all_builds:
   stage: generate
   needs:
-  - validate_escu
+  - validate_escu_and_ba
   artifacts:
     when: always
     paths:
       - artifacts/*
     expire_in: 14 days
   before_script:
+    - git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
     - pip3 install poetry
     - git submodule update --init contentctl
     - cd contentctl
     - git checkout main
     - poetry install
+    # Temporary workaround until we use pip based install for contentctl, moving the file from root to contentctl directory
+    - cp ../contentctl.yml .
   script:
     - >
       if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
         echo "Tagged build - Enabling Enrichment"
-        poetry run contentctl -p ../ --enable_enrichment build
+        poetry run contentctl build --path ../ --enrichments
       else
         echo "Disabled Enrichment"
-        poetry run contentctl -p ../  build
-      fi
-    - cd ..
-    - mkdir artifacts
-    - mv dist/DA-ESS-ContentUpdate-* artifacts/
-
-generate_ba:
-  stage: generate
-  needs:
-  - validate_ba
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-    expire_in: 14 days
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-  script:
-    - |
-      if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
-        poetry run contentctl -p ../ --enable_enrichment build -t ssa
-      else
-        poetry run contentctl -p ../ build -t ssa
-      fi
-    - cd .. 
-    - mkdir artifacts
-    - tar -czf artifacts/SSA-Content-latest.tar.gz -C dist/ssa .
-   
-generate_api:
-  stage: generate
-  needs:
-  - validate_escu
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-    expire_in: 14 days
-  before_script:
-    - pip3 install poetry
-    - git submodule update --init contentctl
-    - cd contentctl
-    - git checkout main
-    - poetry install
-  script:
-    - >
-      if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
-        poetry run contentctl -p ../ --enable_enrichment build -t api
-      else
-        poetry run contentctl -p ../ build -t api
+        poetry run contentctl build --path ../
       fi
     - cd ..
     - mkdir -p artifacts/api
-    - cp -r dist/api/* artifacts/api
+    - mv dist/DA-ESS-ContentUpdate-* artifacts/
+    - tar -czf artifacts/SSA-Content-latest.tar.gz -C dist/ssa .
+    - tar -czf artifacts/SSE-API-latest.tar.gz -C dist/api .
+    
+# generate_ba:
+#   stage: generate
+#   needs:
+#   - validate_ba
+#   artifacts:
+#     when: always
+#     paths:
+#       - artifacts/*
+#     expire_in: 14 days
+#   before_script:
+#     - pip3 install poetry
+#     - git submodule update --init contentctl
+#     - cd contentctl
+#     - git checkout main
+#     - poetry install
+#   script:
+#     - |
+#       if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
+#         poetry run contentctl -p ../ --enable_enrichment build -t ssa
+#       else
+#         poetry run contentctl -p ../ build -t ssa
+#       fi
+#     - cd .. 
+#     - mkdir artifacts
+#     - tar -czf artifacts/SSA-Content-latest.tar.gz -C dist/ssa .
+   
+# generate_api:
+#   stage: generate
+#   needs:
+#   - validate_escu
+#   artifacts:
+#     when: always
+#     paths:
+#       - artifacts/*
+#     expire_in: 14 days
+#   before_script:
+#     - pip3 install poetry
+#     - git submodule update --init contentctl
+#     - cd contentctl
+#     - git checkout main
+#     - poetry install
+#   script:
+#     - >
+#       if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
+#         poetry run contentctl -p ../ --enable_enrichment build -t api
+#       else
+#         poetry run contentctl -p ../ build -t api
+#       fi
+#     - cd ..
+#     - mkdir -p artifacts/api
+#     - cp -r dist/api/* artifacts/api

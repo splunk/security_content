@@ -15,7 +15,6 @@ references:
 - https://cert.gov.ua/article/39518
 - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
 tags:
-  analytic_story: Industroyer2
   category:
   - Malware
   product:

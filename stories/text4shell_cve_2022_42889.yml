@@ -14,7 +14,6 @@ narrative: Apache Commons Text is a Java library described as "a library focused
 references:
   - https://sysdig.com/blog/cve-2022-42889-text4shell/
 tags:
-  analytic_story: Text4Shell CVE-2022-42889
   category:
   - Adversary Tactics
   product:

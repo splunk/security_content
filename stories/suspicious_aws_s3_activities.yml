@@ -7,17 +7,15 @@ description: Use the searches in this Analytic Story using Cloudtrail logs to to
   for evidence of anomalous activity and suspicious behaviors, such as detecting open
   S3 buckets and buckets being accessed from a new IP, permission and policy updates to the bucket, potential misuse of other services leading to data being leaked.  
 
-narrative: 'One of the most common ways that attackers attempt to steal data from S3 is by gaining unauthorized access to S3 buckets and copying or exfiltrating data to external locations.\
+narrative: 'One of the most common ways that attackers attempt to steal data from S3 is by gaining unauthorized access to S3 buckets and copying or exfiltrating data to external locations.
 
-  However, suspicious S3 activities can refer to any unusual behavior detected within an Amazon Web Services (AWS) Simple Storage Service (S3) bucket, including unauthorized access, unusual data transfer patterns, and access attempts from unknown IP addresses. \
+  However, suspicious S3 activities can refer to any unusual behavior detected within an Amazon Web Services (AWS) Simple Storage Service (S3) bucket, including unauthorized access, unusual data transfer patterns, and access attempts from unknown IP addresses. 
 
  It is important for organizations to regularly monitor S3 activities for suspicious behavior and implement security best practices, such as using access controls, encryption, and strong authentication mechanisms, to protect sensitive data stored within S3 buckets. By staying vigilant and taking proactive measures, organizations can help prevent potential security breaches and minimize the impact of attacks if they do occur.'
 references:
 - https://github.com/nagwww/s3-leaks
 - https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
-- 
 tags:
-  analytic_story: Suspicious AWS S3 Activities
   category:
   - Cloud Security
   product:

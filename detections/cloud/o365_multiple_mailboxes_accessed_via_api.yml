@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
 status: production
-description: The following analytic is designed to trigger when a high number of Office 365 Exchange mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) in a short time, hinting at possible unauthorized mass email access. It tracks 'MailItemsAccessed' operations in Exchange, using AppId and regex to identify API interactions. Crucial for SOC teams, this analytic focuses on spotting abnormal access patterns, often signaling data exfiltration or account compromise. Security teams should tailor the threshold — set here to flag over five unique mailboxes accessed within 10 minutes — to align with their environment's norms, ensuring effective detection of potential security incidents while maintaining operational efficiency.
+description: The following analytic is designed to trigger when a high number of Office 365 Exchange mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) in a short time, hinting at possible unauthorized mass email access. It tracks 'MailItemsAccessed' operations in Exchange, using AppId and regex to identify API interactions. Crucial for SOC teams, this analytic focuses on spotting abnormal access patterns, often signaling data exfiltration or account compromise. Security teams should tailor the threshold - set here to flag over five unique mailboxes accessed within 10 minutes - to align with their environment's norms, ensuring effective detection of potential security incidents while maintaining operational efficiency.
 search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* ClientAppId=* 
   | bucket span=10m _time
   | eval matchRegex=if(match(ClientInfoString, "^Client=WebServices;ExchangeWebServices"), 1, 0) 
@@ -27,7 +27,7 @@ tags:
   analytic_story:
   - Office 365 Collection Techniques
   - NOBELIUM Group
-  asset_type: Office 365 tenant
+  asset_type: O365 Tenant
   confidence: 60
   impact: 70
   message: An Oauth application identified with id $ClientAppId$ accessed multiple mailboxes in a short period of time via an API.

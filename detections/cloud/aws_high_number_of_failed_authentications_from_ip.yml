@@ -14,7 +14,7 @@ data_source: []
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=5m _time
   | stats dc(_raw) AS failed_attempts values(user_name) as tried_accounts values(user_agent)
   by _time, src_ip, eventName, eventSource aws_account_id | where failed_attempts
-  > 20 | `aws_high_number_of_failed_authentications_from_ip_filter`'
+  > 20 |  `aws_high_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
   We recommend the users to try different combinations of the bucket span time and
   the tried account threshold to tune this search according to their environment.
@@ -31,17 +31,12 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 60
-  message: Multiple failed console login attempts against users $tried_accounts$ seen
-    from $src_ip$
+  message: 'Multiple failed console login attempts (Count: $failed_attempts$) against users from IP Address - $src_ip$'
   mitre_attack_id:
   - T1110
   - T1110.003
   - T1110.004
   observable:
-  - name: src_ip
-    type: IP Address
-    role:
-    - Attacker
   - name: tried_accounts
     type: User
     role:

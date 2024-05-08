@@ -27,7 +27,7 @@ tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
   - NOBELIUM Group
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 80
   message: User $user$ assigned the full_access_as_app permission to the app registration $object$
@@ -38,7 +38,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

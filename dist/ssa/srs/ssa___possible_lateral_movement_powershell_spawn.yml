@@ -1,7 +1,7 @@
 name: Possible Lateral Movement PowerShell Spawn
-id: 1151391e-9633-4675-a115-5ec15adcf2ff
+id: 22282a2d-dc19-4b88-ac61-6c86ff92904f
 version: 1
-status: validation
+status: production
 detection_type: STREAMING
 description: 'The following analytic is designed to identify possible lateral movement
   attacks that involve the spawning of a PowerShell process as a child or grandchild
@@ -46,7 +46,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 2,
     risk_score = 45,
     severity_id = 0,
-    rule = {"name": "Possible Lateral Movement PowerShell Spawn", "uid": "1151391e-9633-4675-a115-5ec15adcf2ff", "type": "Streaming"},
+    rule = {"name": "Possible Lateral Movement PowerShell Spawn", "uid": "22282a2d-dc19-4b88-ac61-6c86ff92904f", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -84,7 +84,7 @@ tags:
   risk_score: 45
   security_domain: endpoint
   risk_severity: low
-  research_site_url: https://research.splunk.com/endpoint/1151391e-9633-4675-a115-5ec15adcf2ff/
+  research_site_url: https://research.splunk.com/endpoint/22282a2d-dc19-4b88-ac61-6c86ff92904f/
   event_schema: ocsf
   mappings:
   - ocsf: process.pid

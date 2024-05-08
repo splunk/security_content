@@ -28,7 +28,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Account Takeover
-  asset_type: O365 tenant
+  asset_type: O365 Tenant
   confidence: 80
   impact: 60
   message: Security and Compliance triggered an alert for $user$

@@ -1,7 +1,7 @@
 name: Windows Computer Account With SPN
 id: 9a3e57e7-33f4-470e-b25d-165baa6e8357
-version: 1
-date: '2022-04-28'
+version: 2
+date: '2024-04-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -10,10 +10,9 @@ description: The following analytic identifies two SPNs, HOST and RestrictedKrbH
   other Kerberos based attacks.
 data_source:
 - Windows Security 4741
-search: '`wineventlog_security` EventCode=4741 MSADChangedAttributes IN ("*HOST/*","*RestrictedKrbHost/*")
-  AND New_UAC_Value=0x80 | eval Effecting_Account=mvindex(Security_ID,1) | eval New_Computer_Account_Name=mvindex(Security_ID,0)
-  | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode),values(Account_Domain),values(Security_ID),
-  values(Effecting_Account), values(New_Computer_Account_Name),values(SAM_Account_Name),values(DNS_Host_Name),values(MSADChangedAttributes)
+search: '`wineventlog_security` EventCode=4741 NewUacValue="0x80" ServicePrincipalNames IN ("*HOST/*","*RestrictedKrbHost/*")
+  | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode),values(TargetDomainName),values(PrimaryGroupId),
+  values(OldUacValue), values(NewUacValue),values(SamAccountName),values(DnsHostName),values(ServicePrincipalNames)
   by dest Logon_ID subject | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_computer_account_with_spn_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -59,6 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/krbrelayup/krbrelayup.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_with_spn/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

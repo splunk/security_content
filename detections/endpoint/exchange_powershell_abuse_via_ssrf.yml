@@ -7,17 +7,17 @@ status: experimental
 type: TTP
 description: 'This analytic identifies suspicious behavior related to ProxyShell against
   on-premise Microsoft Exchange servers. This analytic has been replaced by GUID d436f9e7-0ee7-4a47-864b-6dea2c4e2752
-  which utilizes the Web Datamodel. \
+  which utilizes the Web Datamodel. 
 
   Modification of this analytic is requried to ensure fields are mapped accordingly.
-  \
+  
 
   A suspicious event will have `PowerShell`, the method `POST` and `autodiscover.json`.
   This is indicative of accessing PowerShell on the back end of Exchange with SSRF.
-  \
+  
 
   An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...`
-  (abbreviated) \
+  (abbreviated) 
 
   Review the source attempting to perform this activity against your environment.
   In addition, review PowerShell logs and access recently granted to Exchange roles.'

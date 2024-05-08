@@ -37,8 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 50
-  message: A PowerShell script contains memorystream command in $ScriptBlockText$
-    as new object backstore with EventCode $EventCode$ on host $dest$.
+  message: A PowerShell script contains memorystream command on host $dest$.
   mitre_attack_id:
   - T1059.001
   - T1059

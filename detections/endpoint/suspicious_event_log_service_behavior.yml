@@ -1,10 +1,10 @@
 name: Suspicious Event Log Service Behavior
 id: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
-version: 1
-date: '2021-06-17'
+version: 2
+date: '2024-04-26'
 author: Mauricio Velazco, Splunk
 status: production
-type: TTP
+type: Hunting
 description: The following analytic utilizes Windows Event ID 1100 to identify when
   Windows event log service is shutdown. Note that this is a voluminous analytic that
   will require tuning or restricted to specific endpoints based on criticality. This
@@ -14,8 +14,9 @@ description: The following analytic utilizes Windows Event ID 1100 to identify w
   and other data sources to determine what else may have occurred.
 data_source:
 - Sysmon Event ID 1
-search: (`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime
-  max(_time) as lastTime by dest Message EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_event_log_service_behavior_filter`
+search: '(`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime max(_time) as lastTime by dest name EventCode 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`| `suspicious_event_log_service_behavior_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
 known_false_positives: It is possible the Event Logging service gets shut down due
@@ -55,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-    update_timestamp: true
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_event_log_service_behavior/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

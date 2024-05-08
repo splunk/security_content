@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 50
   impact: 60
   message: A Servince Principal Name for $ObjectDN$ was set by $user$

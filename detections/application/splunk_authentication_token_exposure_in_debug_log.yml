@@ -21,7 +21,7 @@ references:
 tags:
   analytic_story:
   - Splunk Vulnerabilities
-  asset_type: endpoint
+  asset_type: Splunk Server
   confidence: 100
   cve:
   - CVE-2024-29945

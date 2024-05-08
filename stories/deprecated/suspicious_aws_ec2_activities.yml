@@ -19,7 +19,6 @@ narrative: AWS CloudTrail is an AWS service that helps you enable governance, co
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytic_story: Suspicious AWS EC2 Activities
   category:
   - Cloud Security
   product:

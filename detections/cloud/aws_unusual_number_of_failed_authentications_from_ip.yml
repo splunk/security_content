@@ -38,8 +38,7 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 60
-  message: Unusual number of failed console login attempts against users $tried_accounts$
-    seen from $src_ip$
+  message: 'Unusual number of failed console login attempts (Count: $distinct_attempts$) against users from IP Address - $src_ip$'
   mitre_attack_id:
   - T1586
   - T1586.003
