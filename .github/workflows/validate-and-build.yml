@@ -29,17 +29,16 @@ jobs:
         run: |
           python3.11 -m venv .venv
           source .venv/bin/activate
-          pip install contentctl==4.0.1
+          pip install contentctl
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
-      - name: content_ctl validate
+      - name: content_ctl validate and generate
         run: |
           contentctl validate 
 
       - name: contentctl generate
         run: |
-          contentctl -p ../ build
-          cd ..
+          contentctl build --enrichments
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
