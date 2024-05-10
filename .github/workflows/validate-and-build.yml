@@ -32,12 +32,14 @@ jobs:
           pip install contentctl
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
-      - name: content_ctl validate and generate
+      - name: content_ctl validate
         run: |
+          source .venv/bin/activate
           contentctl validate 
 
       - name: contentctl generate
         run: |
+          source .venv/bin/activate
           contentctl build --enrichments
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
