@@ -14,7 +14,7 @@
         "company": "Splunk"
       }
     ], 
-    "releaseDate": "2024-05-08", 
+    "releaseDate": "2024-05-10", 
     "description": "Explore the Analytic Stories included with ES Content Updates.", 
     "classification": {
       "intendedAudience": null, 
