@@ -181,16 +181,16 @@ def main() -> None:
     contentctl_test = ContentctlConfig(args.config_path)
 
     # Ensure a list of detections was present
-    if "detections_list" not in contentctl_test.config:
+    if ("mode" not in contentctl_test.config) or ("files" not in contentctl_test.config["mode"]):
         msg = (
-            "The field 'detections_list' is not specified in the provided config: "
+            "Either `mode` or `mode.files` is not specified in the provided config: "
             f"{args.config_path}"
         )
         logger.error(msg)
         raise ValueError(msg)
 
     # If the list of detections is empty, exit with an error
-    num_detections = len(contentctl_test.config["detections_list"])
+    num_detections = len(contentctl_test.config["mode"]["files"])
     if num_detections == 0:
         logger.info("No detections to test; telling downstream to skip testing.")
         disable_testing(args.dotenv_path)
