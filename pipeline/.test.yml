@@ -30,6 +30,7 @@ save_pipeline_id:
 .checkout_source_branch: &checkout_source_branch
   - git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   - git fetch origin $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+  - git checkout $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   - git checkout $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
   - GIT_HEAD=$(git rev-parse HEAD)
   - > 
@@ -40,9 +41,12 @@ save_pipeline_id:
       exit 1;
     fi
 
-# Generate the list of detections changed in an MR for the downstream
-dry_run_escu:
+# Generate the list of detections changed in an MR for the downstream; we disable shallow cloning
+# here to support diff operations
+get_detections_changed:
   stage: test
+  variables:
+    GIT_DEPTH: 0
   rules:
     - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
       when: never
@@ -61,12 +65,14 @@ dry_run_escu:
     - *checkout_source_branch
     - *install_contentctl
   script:
-    - contentctl test --dry_run --mode changes --target_branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME --test_branch $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+    - contentctl test --plan-only mode:changes --mode.target-branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
     - deactivate
+    - virtualenv .venv
+    - source .venv/bin/activate
     - pip3 install PyYAML==6.0.1
-    - python pipeline/tools/check_num_detections.py -c dry_run_config/contentctl_test.yml -d build.env
+    - python pipeline/tools/check_num_detections.py -c test_plan.yml -d build.env
   after_script:
-    - cp dry_run_config/contentctl_test.yml artifacts/mr_contentctl_test.yml
+    - cp test_plan.yml artifacts/mr_contentctl_test.yml
 
 # Trigger a downstream test (non-MR)
 trigger_escu_test:
@@ -118,7 +124,7 @@ trigger_escu_test_mr:
     BUILD_NAME: DA-ESS-ContentUpdate
     NUM_INSTANCES: "-1"
   needs:
-    - dry_run_escu
+    - get_detections_changed
     - save_pipeline_id
 
 # Trigger SSA test
@@ -186,7 +192,7 @@ get_artifacts_mr:
       when: always
   needs:
     - trigger_escu_test_mr
-    - dry_run_escu
+    - get_detections_changed
   script:
     - | 
       if [ $SKIP_TESTING == "True" ]; then
