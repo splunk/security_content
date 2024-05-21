@@ -12,7 +12,7 @@ pysigma-backend-splunk==1.1.0
 pytest==7.4.4
 PyYAML>=5.4.1
 questionary==1.10.0
-requests==2.31.0
+requests==2.32.0
 six==1.16.0
 splunk-sdk==1.7.4
 wrapt-timeout-decorator==1.5.1
