@@ -12,7 +12,7 @@ description: The following analytic identifies a unix shell command that can wip
   a good indicator that a user or a process wants to wipe roots directory files in
   Linux host.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "rm"  AND
   Processes.process IN ("* -rf*", "* -fr*") AND Processes.process = "* --no-preserve-root"

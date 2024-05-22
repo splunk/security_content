@@ -12,7 +12,8 @@ description: 'This search will enumerate all Splunk Accounts with administrative
   View allows for Cross-Site Scripting in an XML View through the ''layoutPanel''
   attribute in the ''module'' tag. The vulnerability affects instances with Splunk
   Web enabled.'
-data_source: []
+data_source: 
+- Splunk
 search: '| rest splunk_server=local /services/authentication/users |search capabilities=admin*
   OR imported_capabilities=admin* title!=admin | table title roles capabilities splunk_server
   | `splunk_list_all_nonstandard_admin_accounts_filter`'

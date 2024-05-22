@@ -6,7 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows Error Reporting registry to DontShowUI.
   DarkGate malware modify this registry as part of its malicious installation in a targeted host for its remote desktop capabilities.
   When this registry value is present and set to a specific configuration, it can influence the behavior of error reporting dialogs or prompts, 

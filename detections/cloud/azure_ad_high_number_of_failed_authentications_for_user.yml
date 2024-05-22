@@ -9,7 +9,8 @@ description: The following analytic identifies an Azure AD account with more tha
   20 failed authentication events in the span of 10 minutes. This behavior could represent
   a brute force attack against the account. As environments differ across organizations,
   security teams should customize the threshold of this detection.
-data_source: []
+data_source: 
+- Azure Active Directory
 search: ' `azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
   | rename properties.* as * 
   | bucket span=10m _time

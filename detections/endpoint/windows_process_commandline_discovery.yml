@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic detects Windows Management Instrumentation Command-line (WMIC) command 
   used to retrieve information about running processes and specifically fetches the command lines used to launch those processes.
   This Hunting detection can be a good indicator for possible suspicious user or process getting list of process with its command line using wmic application which is not a 

@@ -14,7 +14,7 @@ description: This search looks for events where `PsExec.exe` is run with the `ac
   the end-user license agreement (EULA), which can be passed as the argument `accepteula`
   within the command line.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_psexec` Processes.process=*accepteula* by Processes.dest Processes.user

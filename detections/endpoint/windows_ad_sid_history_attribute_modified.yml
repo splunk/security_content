@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source: 
-- Windows Security 5136
+- Windows Event Log Security 5136
 description: The following analytic leverages event code `5136` to identify a modification of the SID History AD attribute. 
   The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
   continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 

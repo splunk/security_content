@@ -9,7 +9,7 @@ description: This search detects the suspicious commandline argument of revil ra
   to encrypt specific or all local drive and network shares of the compromised machine
   or host.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process = "*-m local*"
   OR Processes.process = "*-m net*" OR Processes.process = "*-m all*" OR Processes.process

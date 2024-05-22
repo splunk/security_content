@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic aims to detect unauthorized activities through suspicious file creation in recognized cron table directories, prevalent Unix-based locations for scheduling tasks. This behavior is often exploited by nefarious entities like malware or threat actors, including red teamers, to establish persistence on a targeted or compromised host. The analogy to Windows-based scheduled tasks helps explain the utility of a crontab or cron job. To enhance clarity and actionable intelligence, the anomaly query flags the anomaly, urging further investigation into the added file's details. A cybersecurity analyst should consider additional data points such as the user identity involved, the file's nature and purpose, file origin, timestamp, and any changes in system behavior post file execution. This comprehensive understanding aids in accurately determining the file's legitimacy, facilitating prompt and effective response actions.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/cron*",
   "*/var/spool/cron/*") by Filesystem.dest Filesystem.file_create_time Filesystem.file_name

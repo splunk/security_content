@@ -9,7 +9,8 @@ description: This search looks for AWS CloudTrail events from AWS Elastic Contai
   Service (ECR). A upload of a new container is normally done from only a few known
   users. When the user was never seen before, we should have a closer look into the
   event.
-data_source: []
+data_source: 
+- AWS CloudTrail PutImage
 search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage NOT `aws_ecr_users`
   | rename requestParameters.* as * | rename repositoryName AS image | eval phase="release"
   | eval severity="high" | stats min(_time) as firstTime max(_time) as lastTime by

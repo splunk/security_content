@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic detects the execution of Windows shell processes
   initiated by WinRAR, specifically looking for instances where WinRAR spawns processes
   like "cmd.exe", "powershell.exe", "certutil.exe", "mshta.exe", or "bitsadmin.exe".

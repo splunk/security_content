@@ -9,7 +9,7 @@ description: This search is to detect dropping a suspicious file named as "licen
   in %appdata%. This behavior seen in latest IcedID malware that contain the actual
   core bot that will be injected in other process to do banking stealing.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 1
 search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*"
   OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time)
   as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`

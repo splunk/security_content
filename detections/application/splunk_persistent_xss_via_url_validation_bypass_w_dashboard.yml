@@ -6,7 +6,7 @@ author: Rod Soto
 status: production
 type: Hunting
 data_source:
-- splunk_web_access
+- Splunk
 description: In Splunk Enterprise versions below 9.0.4, 8.2.10, and 8.1.13, a low-privileged user can bypass URL validation to perform a path traversal and access restricted and confidential information by targeting other users on the instance, including the admin user.  The only affected version of bootstrap which shipped with Splunk was version 2.3.1, so the search is targeted at that version alone.
 search: '`splunkd_web` method=GET uri_path="*bootstrap-2.3.1*" file="*.js" | table _time clientip uri_path file status | `splunk_persistent_xss_via_url_validation_bypass_w_dashboard_filter`'
 how_to_implement: This search does not require additional data to be ingested. This search requires ability to search _internal index. This search helps discover access to vulnerable bootstrap versions. 

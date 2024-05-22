@@ -11,7 +11,7 @@ description: This analytic looks for the execution of `dsquery.exe` with command
   engage in remote system discovery for situational awareness and Active Directory
   Discovery.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="dsquery.exe")
   (Processes.process="*computer*") by Processes.dest Processes.user Processes.parent_process

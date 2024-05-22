@@ -4,7 +4,7 @@ version: 1
 date: '2024-03-20'
 author: Michael Haag, Splunk
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 13
 type: Hunting
 status: production
 description: This analytic is designed to detect the addition of new InProcServer32 registry keys, which could indicate suspicious or malicious activity on a Windows endpoint. The InProcServer32 registry key specifies the path to a COM object that can be loaded into the process space of calling processes. Malware often abuses this mechanism to achieve persistence or execute code by registering a new InProcServer32 key pointing to a malicious DLL. By monitoring for the creation of new InProcServer32 keys, this analytic helps identify potential threats that leverage COM hijacking or similar techniques for execution and persistence. Understanding the normal behavior of legitimate software in your environment will aid in distinguishing between benign and malicious use of InProcServer32 modifications.

@@ -5,7 +5,8 @@ date: '2024-01-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: This analytic is designed to identify the exploit phase of the CVE-2023-46805 and CVE-2024-21887 vulnerabilities. During this phase, a POST request is made to the /api/v1/totp/user-backup-code/../../system/maintenance/archiving/cloud-server-test-connection URI. This request exploits the command injection vulnerability to execute arbitrary commands. A successful request, indicated by a 200 OK response, suggests that the system is vulnerable.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN("*/api/v1/totp/user-backup-code/../../system/maintenance/archiving/cloud-server-test-connection*","*/api/v1/totp/user-backup-code/../../license/keys-status/*") Web.http_method IN ("POST", "GET") Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.http_method, Web.status
   | `drop_dm_object_name("Web")`

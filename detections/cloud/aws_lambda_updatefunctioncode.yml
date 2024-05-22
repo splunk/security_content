@@ -10,7 +10,8 @@ description: This analytic is designed to detect IAM users attempting to update/
   environment and to facilitate planting backdoors. In this instance, an attacker
   may upload malicious code/binary to a lambda function which will be executed automatically
   when the funnction is triggered.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '`cloudtrail` eventSource=lambda.amazonaws.com eventName=UpdateFunctionCode*  errorCode
   = success  user_type=IAMUser | stats  count min(_time) as firstTime max(_time) as
   lastTime  values(requestParameters.functionName) as function_updated by src_ip user_arn

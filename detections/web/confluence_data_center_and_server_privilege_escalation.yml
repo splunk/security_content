@@ -5,7 +5,8 @@ date: '2023-10-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Nginx Access
 description: The following analytic identifies potential exploitation attempts on a known vulnerability in Atlassian Confluence, targeting the /setup/*.action* URL pattern. By analyzing web logs within the Splunk 'Web' Data Model, it filters for successful accesses (HTTP status 200) to these vulnerable endpoints. Such behavior is crucial for a SOC to monitor, as it suggests attackers might be exploiting a privilege escalation flaw in Confluence. A true positive implies a possible unauthorized access or account creation with escalated privileges. Key details captured include user-agent, HTTP methods, URL length, and source and destination IPs. These insights aid SOCs in swiftly detecting and responding to threats, ensuring vulnerabilities are mitigated before substantial compromise.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/setup/setupadministrator.action*", "*/setup/finishsetup.action*", "*/json/setup-restore-local.action*", "*/json/setup-restore-progress.action*", "*/json/setup-restore.action*", "*/bootstrap/selectsetupstep.action*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
   | `drop_dm_object_name("Web")` 

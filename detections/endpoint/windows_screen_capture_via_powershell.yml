@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic identifies a potential PowerShell script that captures screen images on compromised or targeted hosts. This technique was observed in the Winter-Vivern malware, which attempts to capture desktop screens using a PowerShell script and send the images to its C2 server as part of its exfiltration strategy. This TTP serves as a useful indicator that a PowerShell process may be gathering desktop screenshots from a host system, potentially signaling malicious activity.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" 
   AND ScriptBlockText = "*.CopyFromScreen*"

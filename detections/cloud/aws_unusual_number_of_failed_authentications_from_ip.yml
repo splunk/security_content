@@ -17,7 +17,8 @@ description: The following analytic identifies one source IP failing to authenti
   standard deviation can have benefits, we also recommend using threshold-based detections
   to complement coverage. A similar analytic following the threshold model is `AWS
   Multiple Users Failing To Authenticate From Ip`.
-data_source: []
+data_source: 
+- AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
   | stats  dc(_raw) AS distinct_attempts values(user_name) as tried_accounts by _time,
   src_ip | eventstats  avg(distinct_attempts) as avg_attempts , stdev(distinct_attempts) as

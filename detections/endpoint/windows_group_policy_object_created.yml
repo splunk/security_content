@@ -6,8 +6,8 @@ author: Mauricio Velazco
 status: production
 type: TTP
 data_source:
-- Windows Security 5136
-- Windows Security 5137
+- Windows Event Log Security 5136
+- Windows Event Log Security 5137
 description: The following analytic leverages Event IDs 5136 and 51137 to identify
   the creation of a new Group Policy Object. With GPOs, system administrators can
   manage and configure applications, software operations, and user settings throughout

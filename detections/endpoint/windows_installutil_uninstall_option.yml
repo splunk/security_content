@@ -1,7 +1,7 @@
 name: Windows InstallUtil Uninstall Option
 id: cfa7b9ac-43f0-11ec-9b48-acde48001122
-version: 1
-date: '2021-11-12'
+version: 2
+date: '2024-04-29'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -24,13 +24,13 @@ description: 'The following analytic identifies the Windows InstallUtil.exe bina
   During triage review resulting network connections, file modifications, and parallel
   processes. Capture any artifacts and review further.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_installutil` Processes.process
-  IN ("*/u*", "*uninstall*") by Processes.dest Processes.user Processes.parent_process_name
+  IN ("*/u*", "*uninstall*") NOT (Processes.process IN ("*C:\\WINDOWS\\CCM\\*")) NOT (Processes.parent_process_name IN ("Microsoft.SharePoint.Migration.ClientInstaller.exe")) by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.original_file_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_installutil_uninstall_option_filter`'
+  | `security_content_ctime(lastTime)`| `windows_installutil_uninstall_option_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

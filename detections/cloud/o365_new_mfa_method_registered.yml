@@ -5,7 +5,8 @@ date: '2023-10-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 Update user.
 description: This analytic detects the registration of a new Multi-Factor Authentication (MFA) method associated with a user account within Office 365 by monitoring O365 audit logs and configurations. While adding a new MFA method can be a routine and legitimate action, it can also be indicative of an attacker's attempt to maintain persistence on a compromised account. By registering a new MFA method, attackers can potentially bypass existing security measures, allowing them to authenticate using stolen credentials without raising alarms. Monitoring for such changes is crucial, especially if the addition is not preceded by a user request or if it deviates from typical user behavior. If an attacker successfully registers a new MFA method on a compromised account, they can solidify their access, making it harder for legitimate users to regain control. The attacker can then operate with the privileges of the compromised account, potentially accessing sensitive data, making unauthorized changes, or even escalating their privileges further. Immediate action would be required to verify the legitimacy of the MFA change and, if malicious, to remediate and secure the affected account.
 search: >-
   `o365_management_activity` Workload=AzureActiveDirectory  Operation="Update user." 

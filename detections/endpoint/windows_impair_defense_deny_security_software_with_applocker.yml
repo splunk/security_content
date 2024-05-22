@@ -11,7 +11,8 @@ description: The following analytic identifies a modification in the Windows reg
   malware where it drops an xml Applocker policy that will deny several AV products
   and then loaded by using PowerShell Applocker commandlet.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group
   Policy Objects\\*" AND Registry.registry_path= "*}Machine\\Software\\Policies\\Microsoft\\Windows\\SrpV2*")

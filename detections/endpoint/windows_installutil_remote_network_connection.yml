@@ -20,7 +20,7 @@ description: 'The following analytic identifies the Windows InstallUtil.exe bina
   During triage review resulting network connections, file modifications, and parallel
   processes. Capture any artifacts and review further.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_installutil` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name

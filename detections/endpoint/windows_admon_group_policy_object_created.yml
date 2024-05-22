@@ -5,7 +5,8 @@ date: '2023-04-06'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source : []
+data_source : 
+- Windows Active Directory Admon
 description: The following analytic leverages Splunks Admon to identify the creation of a new Group Policy Object. With GPOs, system administrators can manage and configure 
   applications, software operations, and user settings throughout an entire organization. GPOs can be abused and leveraged by adversaries to escalate privileges or 
   deploy malware across an Active Directory network. As an example, the Lockbit ransomware malware will create new group policies on the domain controller that are then pushed out to every device on the network.

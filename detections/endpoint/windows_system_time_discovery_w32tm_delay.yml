@@ -11,7 +11,7 @@ description: The following analytic identifies DCRat delay time tactics using w3
   and execution. This anomaly detection may help the analyst to check other possible
   event like the process who execute this command that may lead to DCRat attack.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = w32tm.exe Processes.process= "* /stripchart *" Processes.process=

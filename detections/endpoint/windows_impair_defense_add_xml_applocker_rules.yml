@@ -10,7 +10,7 @@ description: The following analytic is to identify a process that imports apploc
   where it drop an xml Applocker policy that will deny several AV products and further
   executed the PowerShell Applocker commandlet.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_powershell` AND Processes.process="*Import-Module Applocker*" AND

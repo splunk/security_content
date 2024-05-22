@@ -9,7 +9,7 @@ description: The vssadmin.exe utility is used to interact with the Volume Shadow
   Service.  Wmic is an interface to the Windows Management Instrumentation.  This
   search looks for either of these tools being used to delete shadow copies.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe

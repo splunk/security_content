@@ -11,7 +11,8 @@ description: This analytic identifies a suspicious registry modification to hide
   screen to avoid noticing by the user that they already compromise and to persist
   on that said machine.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*"
   AND Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.dest Registry.user Registry.registry_path

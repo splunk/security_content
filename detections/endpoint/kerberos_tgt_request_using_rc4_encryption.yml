@@ -16,7 +16,7 @@ description: The following analytic leverages Event 4768, A Kerberos authenticat
   a Kerberos TGT ticket. Depending on the privileges of the compromised account, this
   ticket may be used to obtain unauthorized access to systems and other network resources.
 data_source:
-- Windows Security 4768
+- Windows Event Log Security 4768
 search: ' `wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$ 
   | stats count min(_time) as firstTime max(_time) as lastTime by ServiceName src_ip dest 
   | `security_content_ctime(firstTime)` 

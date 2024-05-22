@@ -11,7 +11,7 @@ description: The following analytic identifies the use of a delivered ISO file t
   name>\ path. The analytic identifies .iso.lnk written to the path. The name of the
   ISO file is prepended.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\Microsoft\\Windows\\Recent\\*")
   Filesystem.file_name IN ("*.iso.lnk", "*.img.lnk", "*.vhd.lnk", "*vhdx.lnk") by

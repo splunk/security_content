@@ -4,7 +4,7 @@ version: 1
 date: '2024-02-16'
 author: Teoderick Contreras, Splunk
 data_source:
-- Windows Security 4663
+- Windows Event Log Security 4663
 type: Anomaly
 status: production
 description: The following analytic detects suspicious file access within the Discord LevelDB database. 

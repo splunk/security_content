@@ -14,7 +14,8 @@ description: The following analytic uses the Windows Event log - Microsoft-IIS-C
   and site level for unauthorized modules. Regular monitoring of these locations for
   such modules and comparing against a known good list can help detect and identify
   malicious IIS modules.
-data_source: []
+data_source:
+- Windows IIS 29
 search: '`iis_operational_logs` EventCode=29 | stats  count min(_time) as firstTime
   max(_time) as lastTime by OpCode EventCode ComputerName Message | rename ComputerName
   AS dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

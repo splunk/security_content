@@ -5,7 +5,8 @@ date: '2023-09-27'
 author: Michael Haag, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic detects potential exploitation attempts against Microsoft SharePoint Server vulnerability CVE-2023-29357. This vulnerability pertains to an elevation of privilege due to improper handling of authentication tokens. By monitoring for suspicious activities related to SharePoint Server, the analytic identifies attempts to exploit this vulnerability. If a true positive is detected, it indicates a serious security breach where an attacker might have gained privileged access to the SharePoint environment, potentially leading to data theft or other malicious activities.
 search: '| tstats count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where Web.url IN ("/_api/web/siteusers*","/_api/web/currentuser*") Web.status=200 Web.http_method=GET

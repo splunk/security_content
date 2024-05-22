@@ -6,7 +6,8 @@ author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
 description: This analytic detects multiple failed login attempts in Office365 Azure Active Directory from a single source IP address. Specifically, it identifies scenarios where there are more than 10 unsuccessful login attempts within a short time frame. The detection leverages Office365 management activity logs, specifically the AzureActiveDirectoryStsLogon records from the AzureActiveDirectory workload. It aggregates these logs in 5-minute intervals to count the number of failed login attempts and associates them with the originating source IP address. Multiple failed login attempts from a single source can be indicative of brute-force attacks, password spraying, or other malicious authentication attempts. Identifying and responding to these patterns promptly can prevent unauthorized access and potential breaches. If this detection represents a true positive, an attacker might be attempting to gain unauthorized access to an Office365 account. Successful compromise could lead to unauthorized access to sensitive data, potential lateral movement within the organization, or further malicious activities using the compromised account.
-data_source: []
+data_source: 
+- O365 UserLoginFailed
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed record_type=AzureActiveDirectoryStsLogon 
   | bucket span=5m _time
   | stats dc(_raw) AS failed_attempts values(user) as user values(LogonError) as LogonError values(signature) as signature values(UserAgent) as UserAgent by _time, src_ip

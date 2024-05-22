@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic identifies multiple failed multi-factor authentication requests for a single user within a PingID (PingOne) environment. Specifically, the analytic triggers when 10 or more MFA user prompts fail within 10 minutes. PingID environments can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds. The detected behavior may represent an adversary who has obtained legitimate credentials for a user and continuously repeats login attempts in order to bombard users with MFA push notifications, SMS messages, and phone calls potentially resulting in the user finally accepting the authentication request. Threat actors like the Lapsus team and APT29 have leveraged this technique to bypass multi-factor authentication controls as reported by Mandiant and others.
 data_source:
-- PINGID JSON
+- PingID
 search: >-
   `pingid` "result.status" IN ("FAILURE,authFail","UNSUCCESSFUL_ATTEMPT") | eval time = _time, src = coalesce('resources{}.ipaddress','resources{}.devicemodel'), user = upper('actors{}.name'), object = 'resources{}.devicemodel', reason = 'result.message'| bucket span=10m _time | stats dc(_raw) AS mfa_prompts min(time) as firstTime, max(time) as lastTime values(src) as src by user, reason, _time | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | where mfa_prompts >= 10 | `pingid_multiple_failed_mfa_requests_for_user_filter`
 how_to_implement: Target environment must ingest JSON logging from a PingID(PingOne) enterprise environment, either via Webhook or Push Subscription.

@@ -1,25 +1,26 @@
 name: ASL AWS Multi-Factor Authentication Disabled
 id: 4d2df5e0-1092-4817-88a8-79c7fa054668
-version: 1
-date: '2023-06-02'
+version: 2
+date: '2024-02-13'
 author: Patrick Bareiss, Splunk
-status: experimental
+status: production
 type: TTP
-description: The following analytic identifies an attempt to disable multi-factor
-  authentication for an AWS IAM user. An adversary who has obtained access to an AWS
-  tenant may disable multi-factor authentication as a way to plant a backdoor and
-  maintain persistence using a valid account. This way the attackers can keep persistance
-  in the environment without adding new users.
+description: The following analytic detects when multi-factor authentication (MFA) is disabled for an AWS IAM user. It operates by monitoring for 
+  specific API calls that deactivate MFA, signaling a potential unauthorized attempt to weaken account security. This behavior is critical for a 
+  Security Operations Center (SOC) to identify, as disabling MFA removes a significant barrier against unauthorized access, making accounts more 
+  vulnerable to compromise. The impact of such an attack is substantial, as it allows adversaries to maintain access within the environment with 
+  less risk of detection, facilitating further malicious activities.
 data_source: []
-search: '`amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice) 
-  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation 
-    api.service.name identity.user.account_uid identity.user.credential_uid identity.user.name identity.user.type 
-    identity.user.uid identity.user.uuid
-    http_request.user_agent src_endpoint.ip cloud.region
+search: '`amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice) | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `asl_aws_multi_factor_authentication_disabled_filter`'
-how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
 known_false_positives: AWS Administrators may disable MFA but it is highly unlikely
   for this event to occur without prior notice to the company
 references:
@@ -31,8 +32,7 @@ tags:
   asset_type: AWS Account
   confidence: 80
   impact: 80
-  message: User $user_name$ has disabled Multi-Factor authentication for AWS account
-    $aws_account_id$
+  message: User $user$ has disabled Multi-Factor authentication for AWS account $aws_account_id$
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -40,39 +40,31 @@ tags:
   - T1556
   - T1556.006
   observable:
-  - name: identity.user.account_uid
-    type: Other
-    role:
-    - Victim
-  - name: identity.user.name
-    type: User
-    role:
-    - Victim
-  - name: src_endpoint.ip
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - api.service.name
   - api.operation
-  - identity.user.account_uid
-  - identity.user.credential_uid
-  - identity.user.name
-  - identity.user.type
-  - identity.user.uid
-  - identity.user.uuid
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
   - http_request.user_agent
   - src_endpoint.ip
+  - cloud.region
   risk_score: 64
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/amazon_security_lake.json
-    sourcetype: aws:asl
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/asl_ocsf_cloudtrail.json
+    sourcetype: aws:cloudtrail:lake
     source: aws_asl
-    update_timestamp: true

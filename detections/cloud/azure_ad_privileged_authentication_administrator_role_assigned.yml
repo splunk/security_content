@@ -5,7 +5,8 @@ date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Azure Active Directory Add member to role
 description: The following analytic identifies the assignment of the Privileged Authentication Administrato role to an Azure AD user. Users in this role can set or reset authentication
   methods for any user in Azure Active Directory, including privileged roles like Global Administrators. Users with this role can change credentials for people who may have access to sensitive
   or private information or critical configuration inside and outside of Azure Active Directory. Changing the credentials of a user may mean the ability to assume that users identity and permissions.

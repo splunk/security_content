@@ -10,7 +10,7 @@ description: This analytic identifies the suspicious Remote Thread execution of 
   code in normal process for defense evasion and to steal sensitive information in
   the compromised host.
 data_source:
-- Sysmon Event ID 8
+- Sysmon EventID 8
 search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe"
   | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage
   TargetProcessId SourceProcessId StartAddress EventCode dest | `security_content_ctime(firstTime)`

@@ -9,7 +9,7 @@ description: The following analytic identifies process that attempts to connect 
   a known IP web services. This technique is commonly used by trickbot and other malware
   to perform reconnaissance against the infected machine and look for its IP address.
 data_source:
-- Sysmon Event ID 22
+- Sysmon EventID 22
 search: '`sysmon` EventCode=22  QueryName IN ("*wtfismyip.com", "*checkip.*", "*ipecho.net", "*ipinfo.io", 
   "*api.ipify.org", "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", 
   "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org", "*dnsbl-1.uceprotect.net", 

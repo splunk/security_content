@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic identifies the use of RemCom.exe - The open source psexec.
   This utility provides the ability to move laterally and run scripts or commands
   remotely.

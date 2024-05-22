@@ -11,7 +11,7 @@ description: The following Hunting analytic assists with identifying suspicious 
   This analytic is a combination of work completed by Alex Teixeira and Splunk Threat
   Research Team.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 | eval DoIt = if(match(ScriptBlockText,"(?i)(\$doit)"),
   "4", 0) | eval enccom=if(match(ScriptBlockText,"[A-Za-z0-9+\/]{44,}([A-Za-z0-9+\/]{4}|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{2}==)")
   OR match(ScriptBlockText, "(?i)[-]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]"),4,0) |

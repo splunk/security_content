@@ -11,7 +11,7 @@ description: This search is to detect a COM CLSID execution through powershell. 
   network operator at some cases but a good indicator if some application want to
   gain privilege escalation or bypass uac.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*CreateInstance([type]::GetTypeFromCLSID*"
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
   Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

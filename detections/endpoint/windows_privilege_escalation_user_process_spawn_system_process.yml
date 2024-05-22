@@ -8,7 +8,7 @@ status: production
 type: TTP
 description: The following analytic detects when any process low->high integrity level process spawns a system integrity process from a user controlled location. This behavior is often seen when attackers successfully escalate privileges to SYSTEM from a user controlled process or service.
 data_source:
-  - Sysmon Event ID 1
+- Sysmon EventID 1
 search: >-
   | tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("low","medium","high") NOT Processes.user IN ("*SYSTEM","*LOCAL SERVICE","*NETWORK SERVICE","DWM-*","*$") AND Processes.process_path IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*") by Processes.dest, Processes.user, Processes.parent_process_guid, Processes.parent_process, Processes.parent_process_name Processes.process_name
   Processes.process, Processes.process_path, Processes.process_guid, Processes.process_integrity_level, Processes.process_current_directory | `drop_dm_object_name(Processes)` | eval join_guid = process_guid | join max=0 dest join_guid  [| tstats `security_content_summariesonly` count max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("system") AND Processes.parent_process_path IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*") by

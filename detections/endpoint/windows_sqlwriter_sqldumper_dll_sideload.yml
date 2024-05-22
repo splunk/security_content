@@ -4,7 +4,7 @@ version: 1
 date: '2024-03-25'
 author: Michael Haag, Teoderick Contreras, Splunk
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 type: TTP
 status: production
 description: The following analytic identifies the abuse of SqlWriter and SQLDumper executables

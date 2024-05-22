@@ -3,7 +3,8 @@ id: a1e68dcd-2e24-4434-bd0e-b3d4de139d58
 version: 1
 date: '2024-03-04'
 author: Michael Haag, Splunk
-data_source: []
+data_source: 
+- Suricata
 type: TTP
 status: production
 description: 'CVE-2024-27199 reveals a critical vulnerability in JetBrains TeamCity web server, allowing unauthenticated attackers to bypass authentication for a limited set of endpoints. This vulnerability exploits path traversal issues, enabling attackers to access and potentially modify system settings or disclose sensitive server information without proper authentication. Identified vulnerable paths include /res/, /update/, and /.well-known/acme-challenge/, among others. Attackers can manipulate these paths to reach restricted JSP pages and servlet endpoints, such as /app/https/settings/uploadCertificate, which could allow for the uploading of malicious HTTPS certificates or modification of server settings. This detection aims to identify potential exploitation attempts by monitoring for unusual access patterns to these endpoints, which could indicate an authentication bypass attempt in progress.'

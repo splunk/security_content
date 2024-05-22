@@ -5,12 +5,13 @@ date: '2023-04-28'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- AWS CloudTrail PutBucketReplication
 description: The following analytic detects API calls made to an S3 bucket when bucket replication services are enabled. S3 bucket replication is a feature offered by Amazon Web Services (AWS) that allows you to automatically and asynchronously copy data from one S3 bucket to another in the same or different region.
 
   S3 bucket replication can also be used for cross-account replication, where data is replicated from a source bucket owned by one AWS account to a destination bucket owned by a different AWS account. 
 search: '`cloudtrail`  eventName = PutBucketReplication eventSource = s3.amazonaws.com
-  |  rename requestParameters.* as * 
+  | rename requestParameters.* as * 
   | stats count values(bucketName) as source_bucket values(ReplicationConfiguration.Rule.ID) as rule_id values(ReplicationConfiguration.Rule.Destination.Bucket) as destination_bucket by _time user_arn userName user_type src_ip aws_account_id userIdentity.principalId user_agent | `aws_exfiltration_via_ec2_snapshot_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.

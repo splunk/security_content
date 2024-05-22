@@ -8,7 +8,7 @@ type: Hunting
 description: This search looks for Event Code 4742 (Computer Change) or EventCode
   4624 (An account was successfully logged on) with an anonymous account.
 data_source:
-- Windows Security 4624
+- Windows Event Log Security 4624
 search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS
   LOGON" LogonType=3 | stats count values(host) as host, values(TargetDomainName)
   as Domain, values(user) as user | `detect_computer_changed_with_anonymous_account_filter`'

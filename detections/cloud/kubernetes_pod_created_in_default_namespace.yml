@@ -10,7 +10,8 @@ description: The following analytic detects the creation of pods in the default,
   This behavior is worth identifying for a SOC as it may indicate an attacker attempting to hide their presence or evade defenses. 
   Only administrators should typically create pods in the kube-system namespace, and the default and kube-public namespaces should not be used in production. 
   The impact of the attack could be significant, as it may indicate a successful cluster breach and ongoing malicious activity.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` objectRef.resource=pods verb=create objectRef.namespace IN ("default", "kube-system", "kube-public") 
   | fillnull
   | stats count by objectRef.name objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI responseStatus.code sourceIPs{} stage user.groups{} user.uid user.username userAgent verb 

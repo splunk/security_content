@@ -10,7 +10,7 @@ description: This analytic looks for the execution of `wmic.exe` with command-li
   to leverage WMI to return a list of all local users. Red Teams and adversaries alike
   use net.exe to enumerate users for situational awareness and Active Directory Discovery.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_wmic` (Processes.process=*useraccount*)
   by Processes.dest Processes.user Processes.parent_process Processes.process_name

@@ -14,7 +14,7 @@ description: 'The following analytic identifies the use of Windows Curl.exe down
   During triage, review parallel processes for further behavior. In addition, identify
   if the download was successful. If a file was downloaded, capture and analyze.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_curl` Processes.process
   IN ("*-O *","*--output*") Processes.process IN ("*\\appdata\\*","*\\programdata\\*","*\\public\\*")

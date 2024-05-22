@@ -13,7 +13,8 @@ description: The following analytic is to identify a modification in the Windows
   check who and why the user want to enable this feature through registry which is
   un-common.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Control\\Terminal
   Server\\fDenyTSConnections*" Registry.registry_value_data="0x00000000" by Registry.registry_key_name

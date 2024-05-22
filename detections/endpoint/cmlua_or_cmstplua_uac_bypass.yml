@@ -9,7 +9,7 @@ description: The following analytic detects a potential process using COM Object
   or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries
   to gain administrative privileges to its running process.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll",
   "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe")) NOT(Image IN("*\\windows\\*",
   "*\\program files*")) | stats count min(_time) as firstTime max(_time) as lastTime

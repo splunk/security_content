@@ -12,7 +12,9 @@ description: The following analytic identifies a suspicious wermgr.exe process c
   and Qakbot to execute their malicious code. This anomaly detection can be a good
   pivot on possible wermgr.exe processes having injected malicious code that might
   be related to qakbot infection that communicates via named pipe.
-data_source: []
+data_source:
+- Sysmon EventID 17
+- Sysmon EventID 18
 search: '`sysmon` EventCode IN (17, 18) Image= "*\\wermgr.exe" EventType IN ( "CreatePipe",
   "ConnectPipe") | stats  min(_time) as firstTime max(_time) as lastTime count by
   Image EventType ProcessGuid ProcessId PipeName SecurityID EventCode dest UserID

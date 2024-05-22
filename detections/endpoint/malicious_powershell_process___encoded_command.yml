@@ -20,7 +20,7 @@ description: 'The following analytic identifies the use of the EncodedCommand Po
 
   Alternatively, may use regex per matching here https://regexr.com/662ov.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name
@@ -39,7 +39,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: System administrators may use this option, but it's not common.
 references:
 - https://regexr.com/662ov
-- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/Windows/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
 - https://ss64.com/ps/powershell.html
 - https://twitter.com/M_haggis/status/1440758396534214658?s=20
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/

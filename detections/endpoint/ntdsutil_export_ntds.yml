@@ -17,7 +17,7 @@ description: 'Monitor for signs that Ntdsutil is being used to Extract Active Di
   Active Directory database. A successful export of the Active Directory database
   will yield a file modification named ntds.dit to the destination.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=ntdsutil.exe
   Processes.process=*ntds* Processes.process=*create*) by Processes.dest Processes.user

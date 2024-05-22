@@ -9,7 +9,7 @@ description: The following analytic detects the creation of suspicious configura
 
   Identifying the creation of these configuration files is valuable for a SOC as it indicates potential unauthorized activities or an attacker attempting to establish persistence. If a true positive is found, further investigation is necessary to examine the contents of the created configuration file and determine the source of creation. The impact of a true positive can vary but could result in unauthorized execution of malicious code, data theft, or other detrimental consequences. Analysts should review the file path, creation time, and associated processes to assess the extent of the attack and initiate appropriate response actions.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/at.allow",
   "*/etc/at.deny") by Filesystem.dest Filesystem.file_create_time Filesystem.file_name

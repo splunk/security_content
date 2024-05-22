@@ -6,8 +6,8 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-- Windows Security 5136
-- Windows Security 4624
+- Windows Event Log Security 5136
+- Windows Event Log Security 4624
 description: The following analytic identifies when either a global catalog SPN or a DRS RPC SPN are temporarily added to an Active Directory computer object, both of which can be evidence of a DCShadow attack.  
   DCShadow allows an attacker who has obtained privileged access to register a rogue Domain Controller (DC). Once registered, the rogue DC may be able to inject
   and replicate changes into the AD infrastructure for any domain object, including credentials and keys. This technique was initially released in 2018 by security researchers Benjamin Delpy and Vincent Le Toux.

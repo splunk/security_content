@@ -11,7 +11,7 @@ description: The following analytic identifies a powershell script command to re
   powershell commandlet, adversaries can be able collect data stored in clipboard
   that might be a copied user name, password or other sensitive information.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-Clipboard*" | stats count
   min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
   UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

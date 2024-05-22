@@ -14,7 +14,8 @@ description: 'The following analytic identifies one source Ip failing to authent
 
   Azure AD tenants can be very different depending on the organization. Users should
   test this detection and customize the arbitrary threshold if needed.'
-data_source: []
+data_source: 
+- Azure Active Directory
 search: ' `azure_monitor_aad`  category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
   | rename properties.* as *
   | bucket span=5m _time

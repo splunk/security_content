@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a non-service searchindexer.exe process. 
   QakBot, a notorious banking trojan and information stealer, often deploys a process named "searchindexer.exe" 
   as part of its malicious activities. This legitimate Windows process, "Search Indexer," is manipulated by 

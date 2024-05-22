@@ -12,7 +12,7 @@ description: This search looks for processes launching netsh.exe. Netsh is a com
   executed. In this search, we are looking for processes spawned by netsh.exe and
   executing commands via the command line.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   AS Processes.process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_netsh` by Processes.parent_process_name Processes.parent_process

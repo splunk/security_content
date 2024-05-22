@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
-- Windows System 7045
+- Windows Event Log System 7045
 description: When an adversary utilizes SliverC2 to laterally move with the Psexec module, it will create a service with the name and description of "Sliver" and "Sliver Implant". Note that these may be easily changed and are specific to only SliverC2.
   We have also created the same regex as Microsoft has outlined to attempt to capture the suspicious service path (regex101 reference).
 search: '`wineventlog_system` EventCode=7045 ServiceName="sliver"

@@ -14,7 +14,7 @@ description: The following analytic identifies Regsvr32.exe utilizing the silent
   and capture any artifacts that may have landed on disk. Isolate and contain the
   endpoint as necessary.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name

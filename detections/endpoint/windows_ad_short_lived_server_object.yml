@@ -6,8 +6,8 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source: 
-- Windows Security 5137
-- Windows Security 5141
+- Windows Event Log Security 5137
+- Windows Event Log Security 5141
 description: 'The following analytic identifies a change in an Active Directory environment that could represent evidence of the DCShadow attack.  
   DCShadow allows an attacker who has obtained privileged access to register a rogue Domain Controller (DC). Once registered, the rogue DC may be able to inject
   and replicate changes in the AD infrastructure for any domain object, including credentials and keys. This technique was initially released in 2018 by security 

@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: experimental
 type: TTP
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 description: The following analytic detects the creation of new ASPX files in the MOVEit Transfer application's "wwwroot" directory. This activity is indicative of the recent critical vulnerability found in MOVEit Transfer, where threat actors have been observed exploiting a zero-day vulnerability to install a malicious ASPX file (e.g., "human2.aspx") in the wwwroot directory. The injected file could then be used to exfiltrate sensitive data, including user credentials and file metadata. The vulnerability affects the MOVEit Transfer managed file transfer software developed by Progress, a subsidiary of US-based Progress Software Corporation. This analytic requires endpoint data reflecting process and filesystem activity. The identified process must be responsible for the creation of new ASPX or ASHX files in the specified directory.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=System  by _time span=1h Processes.process_id Processes.process_name

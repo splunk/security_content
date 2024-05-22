@@ -10,7 +10,7 @@ description: This analytic identifies suspicious modification of registry to def
   was commonly seen in ransomware like REVIL where it create a bitmap file contain
   a note that the machine was compromised and make it as a wallpaper.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 13
 search: '`sysmon` EventCode =13  (TargetObject IN ("*\\Control Panel\\Desktop\\Wallpaper","*\\Control Panel\\Desktop\\WallpaperStyle") AND Image != "*\\explorer.exe") 
   OR (TargetObject IN ("*\\Control Panel\\Desktop\\Wallpaper","*\\Control Panel\\Desktop\\WallpaperStyle") AND Details IN ("*\\temp\\*", "*\\users\\public\\*")) 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Image TargetObject Details Computer process_guid process_id user_id 

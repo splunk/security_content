@@ -12,7 +12,7 @@ description: The following analytic is designed to detect when a Windows Schedul
   process name, parent process, and command-line executions, sourced from endpoint
   logs. The search criteria focus on 'schtasks.exe' with an associated 'run' command.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "schtasks.exe"

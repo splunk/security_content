@@ -23,7 +23,7 @@ description: 'The following analytic identifies `powershell.exe` usage, using Sc
 
   During triage, review parallel processes for further suspicious activity.'
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText="*KerberosRequestorSecurityToken*"
   | stats count min(_time) as firstTime max(_time) as lastTime by ScriptBlockText
   Opcode Computer UserID EventCode | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

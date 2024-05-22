@@ -10,7 +10,8 @@ description: This search is to detect a modification to registry to enable rdp t
   tries to do lateral movement and remote access to a compromised machine to gain
   control of it.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal
   Server\\WinStations\\RDP-Tcp*" Registry.registry_value_name = "PortNumber") BY _time

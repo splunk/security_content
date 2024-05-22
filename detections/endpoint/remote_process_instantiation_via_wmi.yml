@@ -9,7 +9,7 @@ description: This analytic identifies wmic.exe being launched with parameters to
   a process on a remote system. Red Teams and adversaries alike may abuse WMI and
   this binary for lateral movement and remote code execution.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_wmic` (Processes.process="*/node:*"
   AND Processes.process="*process*" AND Processes.process="*call*" AND  Processes.process="*create*")

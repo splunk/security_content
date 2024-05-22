@@ -9,7 +9,8 @@ description: This search provides detection of updates to SAML provider in AWS. 
   to SAML provider need to be monitored closely as they may indicate possible perimeter
   compromise of federated credentials, or backdoor access from another cloud provider
   set by attacker.
-data_source: []
+data_source: 
+- AWS CloudTrail UpdateSAMLProvider
 search: '`cloudtrail` eventName=UpdateSAMLProvider | stats count min(_time) as firstTime
   max(_time) as lastTime by eventType eventName requestParameters.sAMLProviderArn
   userIdentity.sessionContext.sessionIssuer.arn sourceIPAddress userIdentity.accessKeyId

@@ -9,7 +9,7 @@ description: The following analytic is focused on CertUtil.exe performing a back
   of the Certificate Store. Typically, administrators may perform this task to migrate
   or perform backups of the store, however it may be found uncommon in most organizations.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_certutil` Processes.process
   IN ("*-backupdb *", "*-backup *") by Processes.dest Processes.user Processes.parent_process_name

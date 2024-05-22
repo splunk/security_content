@@ -15,7 +15,8 @@ description: This detection rule monitors for the creation of AWS Identity and A
   unusual activity or are created by users who don't typically perform these actions. This hunting query identifies when a potentially compromised user 
   creates a IAM access key for another user who may have higher privilleges, which can be a sign for privilege escalation. Hunting queries are designed to be executed 
   manual during threat hunting.
-data_source: []
+data_source: 
+- AWS CloudTrail CreateAccessKey
 search: '`cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com
   errorCode = success | eval match=if(match(userIdentity.userName,requestParameters.userName),1,0)
   | search match=0 | stats count min(_time) as firstTime max(_time) as lastTime by

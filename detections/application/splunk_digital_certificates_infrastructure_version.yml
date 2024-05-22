@@ -9,7 +9,8 @@ description: This search will check the TLS validation is properly configured on
   search head it is run from as well as its search peers after Splunk version 9. Other
   components such as additional search heads or anything this rest command cannot
   be distributed to will need to be manually checked.
-data_source: []
+data_source: 
+- Splunk
 search: '| rest /services/server/info | table splunk_server version server_roles |
   join splunk_server [| rest /servicesNS/nobody/search/configs/conf-server/ search="sslConfig"|
   table splunk_server sslVerifyServerCert sslVerifyServerName serverCert] | fillnull

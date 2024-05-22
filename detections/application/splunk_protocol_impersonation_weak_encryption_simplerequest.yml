@@ -8,7 +8,8 @@ type: Hunting
 description: On Splunk version 9 on Python3 client libraries verify server certificates
   by default and use CA certificate store. This search warns a user about a failure
   to validate a certificate using python3 request.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunk_python` "simpleRequest SSL certificate validation is enabled without
   hostname verification" | stats count by host path | `splunk_protocol_impersonation_weak_encryption_simplerequest_filter`'
 how_to_implement: Must upgrade to Splunk version 9 and Configure TLS host name validation

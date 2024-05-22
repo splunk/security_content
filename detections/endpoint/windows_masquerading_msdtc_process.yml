@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a suspicious msdtc.exe with specific command-line parameters, particularly -a or -b, 
   which are regarded as potential indicators of the presence of the insidious PlugX malware. This malware is notorious for its covert 
   operations and is frequently utilized by threat actors for unauthorized access, data exfiltration, and espionage.

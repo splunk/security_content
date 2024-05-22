@@ -1,0 +1,68 @@
+name: ASL AWS Defense Evasion Stop Logging Cloudtrail
+id: 0b78a8f9-1d31-4d23-85c8-56ad13d5b4c1
+version: 2
+date: '2024-02-12'
+author: Patrick Bareiss, Splunk
+status: production
+type: TTP
+description: The following analytic detects `StopLogging` events within AWS CloudTrail logs, a critical action that adversaries 
+  may use to evade detection. By halting the logging of their malicious activities, attackers aim to operate undetected within a 
+  compromised AWS environment. This detection is achieved by monitoring for specific CloudTrail log entries that indicate the cessation 
+  of logging activities. Identifying such behavior is crucial for a Security Operations Center (SOC), as it signals an attempt to 
+  undermine the integrity of logging mechanisms, potentially allowing malicious activities to proceed without observation. 
+  The impact of this evasion tactic is significant, as it can severely hamper incident response and forensic investigations by obscuring 
+  the attacker's actions.
+data_source: []
+search: '`amazon_security_lake` api.operation=StopLogging | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id  
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` 
+  | `asl_aws_defense_evasion_stop_logging_cloudtrail_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has stopped cloudtrail logging. Please investigate this activity.
+references:
+- https://attack.mitre.org/techniques/T1562/008/
+tags:
+  analytic_story:
+  - AWS Defense Evasion
+  asset_type: AWS Account
+  confidence: 90
+  impact: 100
+  message: User $user$ has stopped Cloudtrail logging for account id $aws_account_id$
+    from IP $src_ip$
+  mitre_attack_id:
+  - T1562.008
+  - T1562
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.operation
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
+  - http_request.user_agent
+  - src_endpoint.ip
+  - cloud.region
+  risk_score: 90
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/asl_ocsf_cloudtrail_2.json
+    sourcetype: aws:cloudtrail:lake
+    source: aws_asl

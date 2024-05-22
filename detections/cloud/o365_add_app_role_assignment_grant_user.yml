@@ -9,7 +9,8 @@ description: This search is designed to detect the creation of a new Federation 
   By monitoring for this event, the search can identify any instances where a Federation setting is being created within the system. 
   This can help in detecting and monitoring any unauthorized or suspicious changes to the Federation settings, 
   providing an additional layer of security for your environment.
-data_source: []
+data_source: 
+- O365 Add app role assignment grant to user.
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user." 
   | stats count min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type values(ModifiedProperties{}.Name) as modified_properties_name by user dest ResultStatus Operation
   | `security_content_ctime(firstTime)`

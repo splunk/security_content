@@ -20,7 +20,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = *system.management.automation.amsi*
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
   Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

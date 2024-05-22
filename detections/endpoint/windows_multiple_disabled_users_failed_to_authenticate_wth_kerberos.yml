@@ -1,6 +1,6 @@
 author: Mauricio Velazco, Splunk
 data_source:
-- Windows Security 4768
+- Windows Event Log Security 4768
 date: '2021-04-14'
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with 30 unique disabled domain users using the Kerberos protocol within 5 minutes.

@@ -11,7 +11,7 @@ description: The following analytics identifies a big number of instance of rans
   industry or the ransomware note filename is not in your ransomware lookup table
   list for monitoring.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 11
 search: '`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") |bin _time
   span=10s | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename)
   as unique_readme_path_count values(TargetFilename) as list_of_readme_path by Computer

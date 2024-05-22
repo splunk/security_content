@@ -10,7 +10,7 @@ description: The fsutil.exe application is a legitimate Windows utility used to 
   sequence number (USN) change journal provides a log of all changes made to the files
   on the disk. This search looks for fsutil.exe deleting the USN journal.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe

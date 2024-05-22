@@ -14,7 +14,7 @@ description: The following analytic is designed to detect suspicious command-lin
   the parent process name, the target destination, and the user involved. Also, timestamp
   data gives context to when these activities occurred.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = schtasks.exe
   OR Processes.original_file_name=schtasks.exe) (Processes.process="*/create*" AND

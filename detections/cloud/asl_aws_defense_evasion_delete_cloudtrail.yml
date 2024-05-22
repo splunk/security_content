@@ -1,21 +1,26 @@
 name: ASL AWS Defense Evasion Delete Cloudtrail
 id: 1f0b47e5-0134-43eb-851c-e3258638945e
-version: 1
-date: '2023-05-31'
+version: 3
+date: '2024-02-12'
 author: Patrick Bareiss, Splunk
-status: experimental
+status: production
 type: TTP
-description: This analytic identifies AWS `DeleteTrail` events within CloudTrail logs.
-  Adversaries often try to impair their target's defenses by stopping their malicious
-  activity from being logged, so that they may operate with stealth and avoid detection.
-  When the adversary has the right type of permissions in the compromised AWS environment,
-  they may delete the the entire cloudtrail that is logging activities in the environment.
+description: The following analytic detects the deletion of AWS CloudTrail logs, a critical event that could indicate 
+  an adversary's attempt to evade detection. By identifying `DeleteTrail` events within CloudTrail logs, this analytic helps
+  in uncovering efforts to impair defense mechanisms by preventing the logging of malicious activities. Such actions allow adversaries 
+  to operate undetected within a compromised AWS environment. Recognizing these deletion events is crucial for a 
+  Security Operations Center (SOC) as it signals a potential compromise and the attacker's intent to hide their tracks, 
+  making it a significant threat to the integrity and security of cloud environments. The impact of this attack is substantial, 
+  as it can lead to a complete loss of visibility into the activities within the environment, hindering incident response and forensics efforts.
 data_source: []
-search: '`amazon_security_lake` api.operation=DeleteTrail 
-  | stats count min(_time) as firstTime max(_time) as lastTime by identity.user.account_uid identity.user.credential_uid identity.user.name 
-  identity.user.type identity.user.uid identity.user.uuid http_request.user_agent src_endpoint.ip cloud.region | `security_content_ctime(firstTime)`|
+search: '`amazon_security_lake` api.operation=DeleteTrail | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id   | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `asl_aws_defense_evasion_delete_cloudtrail_filter`'
-how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has stopped cloudTrail logging. Please investigate this activity.
 references:
@@ -26,16 +31,16 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 100
-  message: User $identity.user.name$ has delete a CloudTrail logging for account id $identity.user.account_uid$
+  message: User $user$ has deleted a CloudTrail logging for account id $aws_account_id$
   mitre_attack_id:
   - T1562.008
   - T1562
   observable:
-  - name: src_endpoint.ip 
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
-  - name: identity.user.name
+  - name: user
     type: User
     role:
     - Victim
@@ -44,21 +49,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - api.service.name
   - api.operation
-  - identity.user.account_uid
-  - identity.user.credential_uid
-  - identity.user.name
-  - identity.user.type
-  - identity.user.uid
-  - identity.user.uuid
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
   - http_request.user_agent
   - src_endpoint.ip
+  - cloud.region
   risk_score: 90
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/amazon_security_lake.json
-    sourcetype: aws:asl
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/asl_ocsf_cloudtrail.json
+    sourcetype: aws:cloudtrail:lake
     source: aws_asl

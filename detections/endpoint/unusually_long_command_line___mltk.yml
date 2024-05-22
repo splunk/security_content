@@ -9,7 +9,7 @@ description: Command lines that are extremely long may be indicative of maliciou
   activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK)
   to help identify command lines with lengths that are unusual for a given user.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name
   Processes.process | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|

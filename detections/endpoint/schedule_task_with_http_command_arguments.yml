@@ -13,7 +13,7 @@ description: The following analytic detects the registration of suspicious tasks
 
   Detecting the registration of suspicious tasks with HTTP command arguments is valuable for a SOC as it indicates potential malicious activity or an attempt to establish persistence on the system. If a true positive is found, further investigation is warranted to analyze the nature and purpose of the scheduled task, identify any downloaded files or payloads, and mitigate the associated risks. The impact of a true positive can vary but may include data exfiltration, malware propagation, or unauthorized access to sensitive information.
 data_source:
-- Windows Security 4698
+- Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message| search Arguments IN
   ("*http*") | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Task_Name, Command, Author, Enabled, Hidden, Arguments | `security_content_ctime(firstTime)`

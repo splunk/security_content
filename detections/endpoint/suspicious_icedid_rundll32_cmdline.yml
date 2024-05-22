@@ -9,7 +9,7 @@ description: This search is to detect a suspicious rundll32.exe commandline to e
   dll file. This technique was seen in IcedID malware to load its payload dll with
   the following parameter to load encrypted dll payload which is the license.dat.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*/i:*
   by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process

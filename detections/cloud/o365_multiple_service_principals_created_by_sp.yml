@@ -3,7 +3,8 @@ id: ef4c3f20-d1ad-4ad1-a3f4-d5f391c005fe
 version: 1
 date: '2024-02-07'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- O365 Add service principal.
 type: Anomaly
 status: production
 description: This detection aims to identify instances where a single service principal creates more than three unique OAuth applications within a 10-minute timeframe, using O365 logs from the Unified Audit Log. The focus is on tracking the 'Add service principal' operation within the Office 365 Azure Active Directory environment. The query effectively buckets events in 10-minute intervals, specifically scrutinizing the actions of service principals. By quantifying the number of distinct OAuth applications each service principal establishes, the analytic provides critical insights for SOC teams into potentially anomalous or malicious activities. These activities could include a compromised or malicious service principal being used to create multiple service principals, which might be indicative of an attempt to expand control or access within the network. Security teams are advised to adapt the threshold of three applications to align with their typical operational baseline

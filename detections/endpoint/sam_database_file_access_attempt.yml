@@ -12,7 +12,7 @@ description: The following analytic identifies access to SAM, SYSTEM or SECURITY
   Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7,
   8.1 and 10 that stores users' passwords.
 data_source:
-- Windows Security 4663
+- Windows Event Log Security 4663
 search: '`wineventlog_security` (EventCode=4663)  ProcessName!=*\\dllhost.exe ObjectName
   IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*")
   | stats values(AccessList) count by ProcessName ObjectName dest src_user | rename ProcessName as process_name | `sam_database_file_access_attempt_filter`'

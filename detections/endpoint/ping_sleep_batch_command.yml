@@ -12,7 +12,7 @@ description: This analytic will identify the possible execution of ping sleep ba
   This  detection can be a good indicator of a process delaying its execution for
   malicious purposes.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_ping` (Processes.parent_process
   = "*ping*" Processes.parent_process = *-n* Processes.parent_process="* Nul*"Processes.parent_process="*&gt;*")

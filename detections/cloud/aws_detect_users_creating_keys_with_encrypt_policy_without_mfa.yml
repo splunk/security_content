@@ -9,7 +9,9 @@ description: This search provides detection of KMS keys where action kms:Encrypt
   accessible for everyone (also outside of your organization). This is an indicator
   that your account is compromised and the attacker uses the encryption key to compromise
   another company.
-data_source: []
+data_source: 
+- AWS CloudTrail CreateKey
+- AWS CloudTrail PutKeyPolicy
 search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath input=requestParameters.policy
   output=key_policy_statements path=Statement{} | mvexpand key_policy_statements |
   spath input=key_policy_statements output=key_policy_action_1 path=Action | spath

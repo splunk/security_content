@@ -10,7 +10,7 @@ description: The following analytic identifies a process requesting access to wi
   to gain privileges for their process. Winlogon.exe is the common targeted process
   of this technique because it contains high privileges and security tokens.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*")
   GrantedAccess = 0x1040 | stats count min(_time) as firstTime max(_time) as lastTime
   by SourceImage TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId

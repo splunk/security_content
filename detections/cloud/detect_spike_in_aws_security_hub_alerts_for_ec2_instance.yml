@@ -7,7 +7,8 @@ status: production
 type: Anomaly
 description: This search looks for a spike in number of of AWS security Hub alerts
   for an EC2 instance in 4 hours intervals
-data_source: []
+data_source: 
+- AWS Security Hub
 search: '`aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance | bucket span=4h
   _time | stats count AS alerts values(Title) as Title values(Types{}) as Types values(vendor_account)
   as vendor_account values(vendor_region) as vendor_region values(severity) as severity

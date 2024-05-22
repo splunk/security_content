@@ -27,7 +27,7 @@ description: 'The following analytic detects potential unauthorized modification
   may also be used for benign purposes. Careful tuning and filtering based on known
   benign activity in your environment can minimize these instances.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name IN("nano","vim.basic")
   OR Processes.process IN ("*nano *", "*vi *", "*vim *")) AND Processes.process IN("*/etc/cron*",

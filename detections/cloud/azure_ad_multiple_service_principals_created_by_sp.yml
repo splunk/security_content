@@ -3,7 +3,8 @@ id: 66cb378f-234d-4fe1-bb4c-e7878ff6b017
 version: 1
 date: '2024-02-07'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- Azure Active Directory Add service principal
 type: Anomaly
 status: production
 description: This detection identifies when a single service principal in Azure AD creates more than three unique OAuth applications within a 10-minute span, potentially signaling malicious activity. It monitors the 'Add service principal' operation, focusing on the activity of service principals rather than individual users. By aggregating the creation events over a 10-minute period, the analytic tracks how many distinct OAuth applications are created by each service principal. This is key for SOC teams to pinpoint potential attack staging, where an attacker might use a compromised or malicious service principal to rapidly establish multiple service principals, facilitating network infiltration or expansion. While the default threshold is set to trigger on more than three applications, security teams should adjust this to fit their specific environment's norm

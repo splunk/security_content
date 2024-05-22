@@ -8,7 +8,9 @@ type: TTP
 description: this search is to detect potential trickbot infection through the create/connected
   named pipe to the system. This technique is used by trickbot to communicate to its
   c2 to post or get command during infection.
-data_source: []
+data_source:
+- Sysmon EventID 17
+- Sysmon EventID 18
 search: '`sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" | stats  min(_time)
   as firstTime max(_time) as lastTime count by dest user_id EventCode PipeName
   signature Image process_id | rename Image as process_name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

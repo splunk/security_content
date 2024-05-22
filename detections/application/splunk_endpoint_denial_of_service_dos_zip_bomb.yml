@@ -12,7 +12,8 @@ description: This search allows operator to identify Splunk search app crashes r
   files (zip compression) which are used for this attack. If an analyst sees results
   from this search we suggest you investigate and triage what zip file was uploaded,
   zip compressed files may have different extensions.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunkd` component=FileClassifierManager event_message=*invalid* event_message=*binary*
   |stats count by host component event_message | `splunk_endpoint_denial_of_service_dos_zip_bomb_filter`'
 how_to_implement: Need to monitor Splunkd data from Universal Forwarders.

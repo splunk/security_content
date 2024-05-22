@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies headless browser activity accessing mockbin.org or mocky.io. Mockbin.org and mocky.io are web services that allow users to mock HTTP requests and responses. The detection is based on the presence of "--headless" and "--disable-gpu" command line arguments which are commonly used in headless browsing and the presence of mockbin.org or mocky.io in the process.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where 

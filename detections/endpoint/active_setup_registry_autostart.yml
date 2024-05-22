@@ -13,7 +13,8 @@ description: This analytic is to detect a suspicious modification of the active 
   the legitimacy of the file and process involve in this rules to check if it is a
   valid setup installer that creating or modifying this registry.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.dest Registry.user 
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)` 

@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 12
-- Sysmon Event ID 13
-- Sysmon Event ID 14
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to define the threat action of Windows Defender. 
   The ThreatSeverityDefaultAction registry setting in Windows Defender is used to define the default action taken by Windows Defender 
   when it encounters threats of specific severity levels.

@@ -12,7 +12,7 @@ description: This analytic looks for suspicious commandline that modify the ipta
   where it modifies the firewall setting of the compromised machine to allow traffic
   to its tcp port that will be used to communicate with its C2 server.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*iptables *" AND Processes.process = "* --dport *" AND Processes.process = "* ACCEPT*" AND Processes.process = "*&amp;&gt;/dev/null*" AND Processes.process = "* tcp *" AND NOT(Processes.parent_process_path IN("/bin/*", "/lib/*", "/usr/bin/*", "/sbin/*")) by Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid Processes.dest _time span=10s Processes.user Processes.parent_process_name Processes.parent_process_path Processes.process_path 
 | rex field=Processes.process "--dport (?<port>3269|636|989|994|995|8443)" 
 | stats values(Processes.process) as processes_exec values(port) as ports values(Processes.process_guid) as guids values(Processes.process_id) as pids dc(port) as port_count count by Processes.process_name Processes.parent_process_name Processes.parent_process_id Processes.dest Processes.user Processes.parent_process_path Processes.process_path 

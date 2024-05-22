@@ -5,7 +5,8 @@ date: '2023-08-23'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic detects potential exploitation attempts against Adobe ColdFusion vulnerabilities CVE-2023-29298 and CVE-2023-26360. These vulnerabilities pertain to an access control bypass and an arbitrary file read due to deserialization, respectively. By monitoring for requests to specific ColdFusion Administrator endpoints, especially those with an unexpected additional forward slash, the analytic identifies attempts to bypass access controls. Such behavior is crucial for a Security Operations Center (SOC) to identify, as exploitation can grant unauthorized access to ColdFusion administration endpoints, potentially leading to information leakage, brute force attacks, or further exploitation of other vulnerabilities. If a true positive is detected, it indicates a serious security breach where an attacker might have gained privileged access to the ColdFusion environment, potentially leading to data theft or other malicious activities. SOCs must be vigilant in monitoring for these patterns, ensuring timely detection and response to such threats, thus safeguarding the integrity and security of their ColdFusion deployments.
 search: '| tstats count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where Web.url IN ("//restplay*", "//CFIDE/restplay*", "//CFIDE/administrator*", "//CFIDE/adminapi*", "//CFIDE/main*", "//CFIDE/componentutils*", "//CFIDE/wizards*", "//CFIDE/servermanager*","/restplay*", "/CFIDE/restplay*", "/CFIDE/administrator*", "/CFIDE/adminapi*", "/CFIDE/main*", "/CFIDE/componentutils*", "/CFIDE/wizards*", "/CFIDE/servermanager*") Web.status=200

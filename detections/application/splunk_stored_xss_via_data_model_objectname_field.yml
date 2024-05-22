@@ -9,7 +9,8 @@ description: Splunk Enterprise versions 8.1.12, 8.2.9, 9.0.2 are vulnerable to p
   cross site scripting via Data Model object name. An authenticated user can inject
   and store arbitrary scripts that can lead to persistent cross-site scripting (XSS)
   in the object name Data Model.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunkd_webx` uri=/en-US/splunkd/__raw/servicesNS/*/launcher/datamodel/model*
   uri_query!=null | stats count by _time host status clientip user uri | `splunk_stored_xss_via_data_model_objectname_field_filter`'
 how_to_implement: This vulnerability only affects Splunk Web enabled instances. This

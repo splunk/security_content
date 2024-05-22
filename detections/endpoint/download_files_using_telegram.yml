@@ -11,7 +11,7 @@ description: The following analytic will identify a suspicious download by the T
   different network scanners (port, bruteforcer, masscan) to the system and later
   used to mapped the whole network and further move laterally.
 data_source:
-- Sysmon Event ID 15
+- Sysmon EventID 15
 search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
   |stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode
   process_name process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
