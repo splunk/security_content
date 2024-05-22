@@ -13,7 +13,7 @@ description: The following analytic identifies a suspicious remote thread execut
   child process execution, file access and many more that helps to verify the indication
   of malware infection.
 data_source:
-- Sysmon Event ID 8
+- Sysmon EventID 8
 search: '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe",
   "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe",
   "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe","*\\cmd.exe", "*\\powershell.exe") | stats count

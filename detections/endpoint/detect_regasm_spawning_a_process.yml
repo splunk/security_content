@@ -1,7 +1,7 @@
 name: Detect Regasm Spawning a Process
 id: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-04-29'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -14,9 +14,9 @@ description: The following analytic identifies regasm.exe spawning a process. Th
   regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=regasm.exe
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=regasm.exe NOT (Processes.process_name IN ("conhost.exe"))
   by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_regasm_spawning_a_process_filter`'

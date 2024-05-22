@@ -16,7 +16,7 @@ description: 'Detect procdump.exe dumping the lsass process. This query looks fo
   the command line. Review other endpoint data sources for cross process (injection)
   into lsass.exe.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_procdump` (Processes.process=*-ma*
   OR Processes.process=*-mm*) Processes.process=*lsass* by Processes.user Processes.parent_process_name Processes.process_name

@@ -11,7 +11,7 @@ description: The following analytic utilizes EventCode 2282 which generates when
   thousands of events until the issue is resolved. Review the module that is failing
   and determine if it is legitimate or not.
 data_source:
-- Sysmon Event ID 22
+- Windows Event Log Application 2282
 search: '`wineventlog_application` EventCode=2282 | stats  count min(_time) as firstTime
   max(_time) as lastTime by  EventCode dest Name ModuleDll | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_iis_components_module_failed_to_load_filter`'

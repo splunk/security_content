@@ -5,7 +5,8 @@ date: '2023-10-01'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: 'The following analytic is designed to detect a Remote Code Execution (RCE) vulnerability (CVE-2023-40044) in WS_FTP, a managed file transfer software by Progress. The search specifically looks for HTTP requests to the "/AHT/AhtApiService.asmx/AuthUser" URL with a status of 200, which could indicate an exploitation attempt.'
 search: '| tstats count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where Web.url IN ("/AHT/AhtApiService.asmx/AuthUser") Web.status=200 Web.http_method=POST

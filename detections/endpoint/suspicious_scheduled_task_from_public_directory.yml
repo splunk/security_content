@@ -8,7 +8,7 @@ type: Anomaly
 description: 'The following analytic, "Suspicious Scheduled Task from Public Directory",
   detects the registration of scheduled tasks aimed to execute a binary or script
   from public directories, a behavior often associated with malware deployment. It
-  utilizes the Sysmon Event ID 1 data source, searching for instances where schtasks.exe
+  utilizes the Sysmon EventID 1 data source, searching for instances where schtasks.exe
   is connected with the directories users\public, \programdata\, or \windows\temp
   and involves the /create command.
 
@@ -17,7 +17,7 @@ description: 'The following analytic, "Suspicious Scheduled Task from Public Dir
   as a true positive, this could lead to data compromise, unauthorized access, and
   potential lateral movement within the network.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
   (Processes.process=*\\users\\public\\* OR Processes.process=*\\programdata\\* OR

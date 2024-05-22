@@ -9,7 +9,8 @@ description: The following analytic detects the creation of a Kubernetes cron jo
   It identifies this behavior by monitoring Kubernetes Audit logs for creation of a cron job. 
   This behavior is worth identifying for a SOC as it could potentially allow an attacker to execute malicious tasks repeatedly and automatically, posing a significant threat to the integrity and security of the Kubernetes infrastructure. 
   The impact of such an attack could be severe, leading to persistent attacks, service disruptions, or unauthorized access to sensitive information.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` verb=create "objectRef.resource"=cronjobs
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 

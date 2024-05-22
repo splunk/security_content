@@ -13,7 +13,7 @@ description: The following analytic detects a suspicious process making a DNS qu
   false positives if the following instant messaging is allowed or common applications
   like telegram or discord are allowed in the corporate network.
 data_source:
-- Sysmon Event ID 22
+- Sysmon EventID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*api.telegram*","*t.me*") 
   process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe","cscript.exe") OR Image IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")
   | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name QueryResults Computer 

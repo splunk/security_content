@@ -6,7 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry related to DisableRestrictedAdmin.
   This registry entry is used to control the behavior of Restricted Admin mode, which is a security feature that limits 
   the exposure of sensitive credentials when connecting remotely to another computer. When this registry value is set to 0 it 

@@ -29,7 +29,7 @@ description: 'The following analytic identifies `setspn.exe` usage related to qu
 
   During triage, review parallel processes for further suspicious activity.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_setspn` (Processes.process="*-t*"
   AND Processes.process="*-f*") OR (Processes.process="*-q*" AND Processes.process="**/**")

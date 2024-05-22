@@ -9,14 +9,15 @@ description: The following query uses IAM events to track the success of a group
   deleted on AWS. This is typically not indicative of malicious behavior, but a precurser
   to additional events thay may unfold. Review parallel IAM events - recently added
   users, new groups and so forth. Inversely, review failed attempts in a similar manner.
-data_source: []
+data_source: 
+- AWS CloudTrail DeleteGroup
 search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success
   (userAgent!=*.amazonaws.com) | stats count min(_time) as firstTime max(_time) as
   lastTime values(requestParameters.groupName) as group_deleted by src eventName eventSource
   errorCode user_agent awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_iam_successful_group_deletion_filter`'
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
-  this data. The search requires AWS Cloudtrail logs.
+  this data. The search requires AWS CloudTrail logs.
 known_false_positives: This detection will require tuning to provide high fidelity
   detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
   or by groups of users. Not every user with AWS access should have permission to

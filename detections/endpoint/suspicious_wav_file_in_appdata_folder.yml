@@ -12,7 +12,8 @@ description: This analytic is to detect a suspicious creation of .wav file in ap
   of wav files in this folder path is not a ussual disk place used by user to save
   audio format file.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=*.exe Processes.process_path="*\\appdata\\Roaming\\*"
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest

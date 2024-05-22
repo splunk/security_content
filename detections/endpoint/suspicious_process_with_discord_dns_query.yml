@@ -11,7 +11,7 @@ description: This analytic identifies a process making a DNS query to Discord, a
   external files. A process resolving a Discord DNS name could be an indicator of
   malware trying to download files from Discord for further execution.
 data_source:
-- Sysmon Event ID 22
+- Sysmon EventID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*discord*") Image != "*\\AppData\\Local\\Discord\\*"
   AND Image != "*\\Program Files*" AND Image != "discord.exe" | stats count min(_time)
   as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name

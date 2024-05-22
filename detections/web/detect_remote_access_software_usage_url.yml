@@ -6,7 +6,8 @@ author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic detects when a known remote access software is executed with the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
-data_source: []
+data_source: 
+- Palo Alto Network Threat
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime latest(Web.http_method) as http_method latest(Web.http_user_agent) as http_user_agent latest(Web.url) as url latest(Web.user) as user latest(Web.dest) as dest from datamodel=Web by Web.action Web.src Web.category Web.url_domain
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

@@ -13,7 +13,7 @@ description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Si
   processes and process lineage. Capture any files on disk and review. For the remote
   domain or IP, what is the reputation?
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` Processes.process=*start-bitstransfer*
   by Processes.dest Processes.user Processes.parent_process Processes.process_name

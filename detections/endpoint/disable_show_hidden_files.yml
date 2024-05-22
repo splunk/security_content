@@ -10,12 +10,13 @@ description: The following analytic is to identify a modification in the Windows
   techniques are known on some worm and trojan spy malware that will drop hidden files
   on the infected machine.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden" OR (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt" Registry.registry_value_data = "0x00000001") OR (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden" Registry.registry_value_data = "0x00000000" )) BY _time span=1h Registry.user Registry.dest Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-| `drop_dm_object_name(Registry)`
-| where isnotnull(registry_value_data) 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` | `disable_show_hidden_files_filter`'
+  | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `disable_show_hidden_files_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical

@@ -12,7 +12,8 @@ description: The following analytic identifies a process that is attempting to d
   stops unexpectedly because of a Stop error (also known as a blue screen, system
   crash, or bug check).
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where (Registry.registry_path="*\\CurrentControlSet\\Control\\CrashControl\\CrashDumpEnabled")
   AND Registry.registry_value_data="0x00000000" by _time span=1h Registry.dest Registry.user

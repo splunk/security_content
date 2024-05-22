@@ -10,7 +10,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
   domain organizational unit for situational awareness and Active Directory Discovery.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText
   = "*objectcategory=organizationalunit*" ScriptBlockText = "*findAll()*" | stats
   count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText

@@ -14,7 +14,7 @@ description: The following detection identifies rundll32.exe with `control_rundl
   broad by not including .cpl. The paths are specified, add more as needed. During
   triage, review parallel processes to identify any further suspicious behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*Control_RunDLL*
   AND Processes.process IN ("*\\appdata\\*", "*\\windows\\temp\\*", "*\\programdata\\*")  by

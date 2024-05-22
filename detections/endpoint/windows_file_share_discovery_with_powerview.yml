@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic identifies the use of the Invoke-ShareFinder PowerShell commandlet part of PowerView. This module obtains the list of all
   active domain computers and lists the active shares on each computer. Network file shares in Active Directory environments may contain sensitive information
   like backups, scripts, credentials, etc. Adversaries who have obtained a foothold in an AD network may leverage PowerView to identify secrets and leverage them 

@@ -9,7 +9,8 @@ description: This search looks for AWS CloudTrail events where a user has set a 
   policy versions. Attackers have been know to use this technique for Privilege Escalation
   in case the previous versions of the policy had permissions to access more resources
   than the current version of the policy
-data_source: []
+data_source: 
+- AWS CloudTrail SetDefaultPolicyVersion
 search: '`cloudtrail` eventName=SetDefaultPolicyVersion eventSource = iam.amazonaws.com
   | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
   as policy_arn by src requestParameters.versionId eventName eventSource aws_account_id

@@ -13,7 +13,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   elevated domain groups for situational awareness and Active Directory Discovery
   to identify high privileged users.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (Message = "*Get-DomainGroupMember*") AND Message
   IN ("*Domain Admins*","*Enterprise Admins*", "*Schema Admins*", "*Account Operators*"
   , "*Server Operators*", "*Protected Users*",  "*Dns Admins*") | stats count min(_time)

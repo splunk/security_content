@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 12
-- Sysmon Event ID 13
-- Sysmon Event ID 14
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to change Windows Defender 
   Quick Scan Interval. The "QuickScanInterval" in Windows Defender, specifically within the context of antivirus software, 
   typically refers to the interval or frequency at which the system conducts quick scans for malware or potential threats.

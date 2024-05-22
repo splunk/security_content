@@ -10,7 +10,7 @@ description: This search is to detect a suspicious modification to the firewall 
   (revil, reddot) to discover other machine connected to the compromised host to encrypt
   more files.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process=
   "*firewall*" Processes.process= "*group=\"Network Discovery\"*"  Processes.process="*enable*"

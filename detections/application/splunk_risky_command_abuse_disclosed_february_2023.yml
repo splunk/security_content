@@ -8,7 +8,8 @@ type: Hunting
 description: This search looks for a variety of high-risk commands throughout
   a number of different Splunk Vulnerability Disclosures.  Please refer to the
   following URL for additional information on these disclosures - https://advisory.splunk.com
-data_source: []
+data_source: 
+- Splunk
 search: '| tstats fillnull_value="N/A" count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity
   where Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
   by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user

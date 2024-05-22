@@ -3,7 +3,8 @@ id: d3f7a803-e802-448b-8eb2-e796b223bfff
 version: 2
 date: '2024-02-23'
 author: Michael Haag, Splunk
-data_source: []
+data_source: 
+- Suricata
 type: TTP
 status: production
 description: This analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1709 vulnerability, which allows an attacker to bypass authentication using an alternate path or channel. The vulnerability, identified as critical with a CVSS score of 10, enables unauthorized users to access the SetupWizard.aspx page on already-configured ScreenConnect instances, potentially leading to the creation of administrative users and remote code execution. The search query provided looks for web requests to the SetupWizard.aspx page that could indicate exploitation attempts. This detection is crucial for identifying and responding to active exploitation of this vulnerability in environments running affected versions of ScreenConnect (23.9.7 and prior). It is recommended to update to version 23.9.8 or above immediately to remediate the issue, as detailed in the ConnectWise security advisory and further analyzed by Huntress researchers.

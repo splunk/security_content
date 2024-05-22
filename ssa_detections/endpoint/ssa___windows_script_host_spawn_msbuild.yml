@@ -32,7 +32,7 @@ known_false_positives: False positives should be limited as developers do not sp
   MSBuild via a WSH.
 references:
 - https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
-- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1127.001_MSBuild/InvokeMSBuild.ps1
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/Windows/TestHarnesses/T1127.001_MSBuild/InvokeMSBuild.ps1
 tags:
   analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild

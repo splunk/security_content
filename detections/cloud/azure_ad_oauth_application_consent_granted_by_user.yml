@@ -5,7 +5,8 @@ date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Azure Active Directory Consent to application
 description: This analytic detects when a user in an Azure AD environment grants consent to an OAuth application, capturing any consent granted regardless of the specific permissions requested. Utilizing Azure AD audit logs, it focuses on events related to OAuth application consents, alerting security teams to instances where users actively grant consent to applications. This monitoring is crucial as it highlights potential risks associated with third-party applications gaining access to organizational data, a tactic often exploited by malicious actors to gain unauthorized access. A true positive from this analytic necessitates immediate investigation to validate the application's legitimacy, review the granted permissions, and assess potential risks, helping to prevent unauthorized access and protect sensitive data and resources. While false positives may occur with legitimate application integrations, ensuring alignment with organizational policies and security best practices is paramount.
 search: >-
   `azure_monitor_aad` operationName="Consent to application" properties.result=success

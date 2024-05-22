@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies rundll32.exe with the commandline arguments
   loading davclnt.dll function - davsetcookie - to be used to access a remote WebDav
   instance. This particular behavior was recently showcased in CVE-2023-23397.

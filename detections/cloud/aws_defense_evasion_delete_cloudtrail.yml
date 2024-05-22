@@ -10,7 +10,8 @@ description: This analytic identifies AWS `DeleteTrail` events within CloudTrail
   activity from being logged, so that they may operate with stealth and avoid detection.
   When the adversary has the right type of permissions in the compromised AWS environment,
   they may delete the the entire cloudtrail that is logging activities in the environment.
-data_source: []
+data_source: 
+- AWS CloudTrail DeleteTrail
 search: '`cloudtrail` eventName = DeleteTrail eventSource = cloudtrail.amazonaws.com
   userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
   firstTime max(_time) as lastTime values(requestParameters.name) as deleted_cloudtrail_name

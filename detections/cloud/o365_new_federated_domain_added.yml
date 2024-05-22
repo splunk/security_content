@@ -6,7 +6,8 @@ author: Rod Soto, Mauricio Velazco Splunk
 status: production
 type: TTP
 description: The following analytic identifies the addition of a new federated domain in an organization's Office 365 environment. This behavior is detected by analyzing the Office 365 management activity logs using the Splunk query o365_management_activity, specifically filtering for the Workload=Exchange and Operation="Add-FederatedDomain" parameters. The addition of a new federated domain can be a significant security concern, as it might indicate unauthorized changes or potential compromises within the Office 365 setup. Attackers, upon gaining sufficient privileges, could add a federated domain to establish a backdoor, bypass security measures, or exfiltrate data. Such unauthorized changes can lead to data breaches, unauthorized access to sensitive data, and potential compromise of organizational infrastructure. When this analytic is triggered, immediate steps should include reviewing the details of the added federated domain, such as the organization name, originating server, user ID, and user key. Concurrent processes or other indicators of compromise should also be investigated to pinpoint the source of the potential breach.
-data_source: []
+data_source: 
+- O365
 search: '`o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*"
   | stats count values(ModifiedProperties{}.NewValue) as new_value by  user user_agent
   authentication_service action Workload Operation | `security_content_ctime(firstTime)`

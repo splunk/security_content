@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: This analytic is designed to detect when data, possessing an IMPHASH value, is written to an Alternate Data Stream (ADS) in the NTFS file system. The presence of an IMPHASH value suggests that the written data has a Portable Executable (PE) structure, indicating its potential to be executed. Such behavior could be a sign of a threat actor staging malicious code within hard-to-detect areas of the file system for future use or persistence. It's important to note that for this analytic to function correctly, import hashing/imphash must be enabled within Sysmon. This allows the capture of the IMPHASH value, a unique identifier for the imported functions of a PE, providing a robust mechanism for detecting hidden malicious activity leveraging ADS.
 data_source:
-- Sysmon Event ID 15
+- Sysmon EventID 15
 search: '`sysmon` EventCode=15 IMPHASH!=00000000000000000000000000000000 
   | regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
   | eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename, file_hash = coalesce(SHA256,SHA1,MD5,Hash)

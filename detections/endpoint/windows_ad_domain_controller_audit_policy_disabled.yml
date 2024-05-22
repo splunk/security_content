@@ -6,7 +6,7 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-- Windows Security 4719
+- Windows Event Log Security 4719
 description: The following analytic detects the disabling of audit policies on a domain controller. The detection is made by identifying changes made to audit policies and checks for the removal of success or failure auditing, which are common indicators of policy tampering. The detection is important because it indicates that an attacker has gained access to the domain controller and is attempting to evade detection and cover up malicious activity. The impact of such an attack can be severe, including data theft, privilege escalation, and compromise of the entire network. False positives might occur since legitimate changes to audit policies might also trigger the analytic. Upon triage, review the audit policy change event and investigate the source of the change. Additionally, you must capture and inspect any relevant on-disk artifacts and review concurrent processes to identify the attack source."
 search: '`wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448","%%8450","%%8448,
   %%8450") OR Changes IN ("Failure removed","Success removed","Success removed, Failure

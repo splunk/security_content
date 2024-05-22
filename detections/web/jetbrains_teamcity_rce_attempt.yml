@@ -5,7 +5,8 @@ date: '2023-10-01'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: 'The following analytic is designed to detect attempts to exploit the CVE-2023-42793 vulnerability in TeamCity On-Premises. It focuses on identifying suspicious POST requests to /app/rest/users/id:1/tokens/RPC2, which is the initial point of exploitation. This could indicate an unauthenticated attacker trying to gain administrative access through Remote Code Execution (RCE).'
 search: '| tstats count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where Web.url IN ("/app/rest/users/id:1/tokens/RPC2*") Web.status=200 Web.http_method=POST

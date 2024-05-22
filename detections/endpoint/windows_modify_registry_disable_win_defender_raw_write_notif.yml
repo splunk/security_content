@@ -11,7 +11,8 @@ description: The following analytic identifies a modification in the Windows reg
   registry was recently identified in Azorult malware to bypass Windows Defender detections
   or behavior monitoring in terms of volume write.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
   Defender\\Real-Time Protection\\DisableRawWriteNotification*" Registry.registry_value_data="0x00000001"

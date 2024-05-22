@@ -12,7 +12,7 @@ description: This query detects the Nishang Invoke-PowerShellTCPOneLine utility 
   suspicious. Review the reputation of the remote IP or domain contacted by the powershell
   process.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` (Processes.process=*Net.Sockets.TCPClient*
   AND Processes.process=*System.Text.ASCIIEncoding*) by Processes.dest Processes.user

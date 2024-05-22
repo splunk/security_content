@@ -9,7 +9,7 @@ description: The following analytic identifies the use of `wmic.exe` using `dele
   to remove a executable path. This is typically ran via a batch file during beginning
   stages of an adversary setting up for mining on an endpoint.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where `process_wmic` AND Processes.process="*process*"

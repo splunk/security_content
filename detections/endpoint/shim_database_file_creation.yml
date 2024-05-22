@@ -11,7 +11,7 @@ description: This search looks for shim database files being written to default 
   the parameters passed, handles the operation itself, or redirects the operation
   elsewhere.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count values(Filesystem.action)
   values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path  min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*Windows\\AppPatch\\Custom*

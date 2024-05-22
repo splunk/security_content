@@ -11,7 +11,7 @@ description: This analytic is to look for possible ssh key file creation on ~/.s
   and public key and passing the public key to the attacker server. threat actor can
   access remotely the machine using openssh daemon service.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/.ssh*")
   by Filesystem.dest Filesystem.file_name Filesystem.process_guid Filesystem.file_path

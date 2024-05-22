@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: "The following analytic detects potential malicious activities related to PowerShell's task scheduling cmdlets. It looks for anomalies in PowerShell logs, specifically EventCode 4104, associated with script block logging. The analytic flags unusual or suspicious use patterns of key task-related cmdlets such as 'New-ScheduledTask', 'Set-ScheduledTask', and others, which are often used by attackers for persistence and remote execution of malicious code.
   If a true positive is found, it suggests an possible attacker is attempting to persist within the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes. To implement this analytic, PowerShell Script Block Logging needs to be enabled on some or all endpoints. Analysts should be aware of benign administrative tasks that can trigger alerts and tune the analytic accordingly to reduce false positives.
   Upon triage, review the PowerShell logs for any unusual or unexpected cmdlet usage, IP addresses, user accounts, or timestamps. If these factors align with known malicious behavior patterns, immediate mitigation steps, such as isolation of the affected systems, user account changes, and relevant threat hunting activities, should be initiated. This proactive analysis significantly enhances an organization's capacity to swiftly respond to, and potentially prevent, the execution of advanced persistent threats in their network."

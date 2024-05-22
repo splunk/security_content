@@ -13,7 +13,7 @@ description: This analytic is to looks for file creation of sudoers.tmp file cau
   you need a password for particular commands. The file is composed of aliases (basically
   variables) and user specifications (which control who can run what).
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*sudoers.tmp*")
   by Filesystem.dest Filesystem.file_name Filesystem.process_guid Filesystem.file_path

@@ -13,7 +13,7 @@ description: The following analytic identifies a suspicious process enabling the
   their malicious software to be able to access or debug a process to dump credentials
   or to inject malicious code.
 data_source:
-- Windows Security 4703
+- Windows Event Log Security 4703
 search: '`wineventlog_security` EventCode=4703 EnabledPrivilegeList = "*SeDebugPrivilege*"
   AND NOT(ProcessName IN ("*\\Program File*", "*\\System32\\lsass.exe*", "*\\SysWOW64\\lsass.exe*",
   "*\\SysWOW64\\svchost.exe*", "*\\System32\\svchost.exe*")) | stats count min(_time)

@@ -15,7 +15,7 @@ description: The following analytic identifies the creation of a new task to sta
   and look for concurrent processes to identify the attack source. This approach helps
   analysts detect potential threats earlier and mitigate the risks.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_schtasks` Processes.process="*/create
   *" AND Processes.process="*/ru *" AND Processes.process="*system*" by Processes.dest

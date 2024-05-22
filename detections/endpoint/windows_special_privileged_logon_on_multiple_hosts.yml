@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
-- Windows Security 4672
+- Windows Event Log Security 4672
 description: The following analytic leverages Event ID 4672 to identify a source user
   authenticating with special privileges across a large number remote endpoints. Specifically,
   the logic will trigger when a source user obtains special privileges across 30 or

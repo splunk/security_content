@@ -9,7 +9,7 @@ description: The following analytic uses the Exchange Management logs, that are 
   by default, to identify suspicious Cmdlet usage related to ProxyShell and ProxyNotShell
   abuse.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '`msexchange_management` EventCode=1 Message IN ("*New-MailboxExportRequest*",
   "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "*Search-Mailbox*")
   | stats count min(_time) as firstTime max(_time) as lastTime by host Message | `security_content_ctime(firstTime)`

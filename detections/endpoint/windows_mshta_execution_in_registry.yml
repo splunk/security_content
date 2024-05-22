@@ -13,7 +13,8 @@ description: The following analytic identifies the usage of mshta.exe Windows bi
   malware or other adversaries or threat actors leveraging fileless detection that
   survive system reboot.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_value_data
   = "*mshta*" OR Registry.registry_value_data IN ("*javascript:*", "*vbscript:*","*WScript.Shell*")

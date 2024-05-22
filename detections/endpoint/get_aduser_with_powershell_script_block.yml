@@ -11,7 +11,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   this commandlet to enumerate domain groups for situational awareness and Active
   Directory Discovery.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-aduser*" ScriptBlockText
   = "*-filter*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
   ScriptBlockText Computer UserID | rename Computer as dest, UserID as user| `security_content_ctime(firstTime)`

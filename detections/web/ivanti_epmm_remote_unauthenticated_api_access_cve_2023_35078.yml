@@ -5,7 +5,8 @@ date: '2023-07-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The given analytic is designed to detect the exploitation of CVE-2023-35078, a vulnerability in Ivanti Endpoint Manager Mobile (EPMM) affecting versions up to 11.4. Specifically, the query searches web logs for HTTP requests to the potentially vulnerable endpoint "/mifs/aad/api/v2/authorized/users?*" with a successful status code of 200. This analytic is instrumental in detecting unauthorized remote access to restricted functionalities or resources within the application, a behavior worth identifying for a Security Operations Center (SOC). By monitoring specific patterns and successful access indicators, it reveals an active attempt to exploit the vulnerability, potentially leading to data theft, unauthorized modifications, or further system compromise. If successfully executed, the impact can be severe, necessitating immediate action.
 search: '| tstats count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where Web.url IN ("/mifs/aad/api/v2/authorized/users?*") Web.status=200

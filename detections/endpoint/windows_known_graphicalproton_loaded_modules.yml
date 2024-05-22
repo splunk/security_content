@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 description: The following analytic identifies a potential suspicious process loading dll modules related to Graphicalproton backdoor implant of SVR.
   These DLL modules have been observed in SVR attacks, commonly used to install backdoors on targeted hosts. 
   This anomaly detection highlights the need for thorough investigation and immediate mitigation measures to safeguard the network against potential breaches.

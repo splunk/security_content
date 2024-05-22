@@ -10,7 +10,8 @@ description: The following analytic identifies an attempt to disable multi-facto
   Azure AD tenant may disable multi-factor authentication as a way to plant a backdoor
   and maintain persistence using a valid account. This way the attackers can keep
   persistance in the environment without adding new users.
-data_source: []
+data_source: 
+- Azure Active Directory Disable Strong Authentication
 search: '`azure_monitor_aad` category=AuditLogs operationName="Disable Strong Authentication"
   | rename properties.* as *
   | rename targetResources{}.type as type 

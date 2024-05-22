@@ -12,7 +12,7 @@ description: The following analytic identifies rundll32.exe loading an export fu
   or false positives from normal operations. Utilizing ordinal values makes it a bit
   more complicated for analysts to understand the behavior until the DLL is reviewed.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_rundll32` by Processes.dest Processes.user Processes.parent_process_name

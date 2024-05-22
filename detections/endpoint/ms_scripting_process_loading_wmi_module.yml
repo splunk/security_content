@@ -13,7 +13,7 @@ description: This search is to detect a suspicious MS scripting process such as 
   give you good information regarding process that are commonly using wmi query or
   modules or might be an attacker using this technique.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
   IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" ,
   "*\\wmiutils.dll", "*\\wbemcomn.dll") | stats min(_time) as firstTime max(_time)

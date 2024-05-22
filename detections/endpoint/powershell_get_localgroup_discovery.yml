@@ -9,7 +9,7 @@ description: The following hunting analytic identifies the use of `get-localgrou
   being used with PowerShell to identify local groups on the endpoint. During triage,
   review parallel processes and identify any further suspicious behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=powershell.exe
   OR Processes.process_name=cmd.exe) (Processes.process="*get-localgroup*") by Processes.dest

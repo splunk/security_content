@@ -6,7 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry
   to disable security settings of Terminal Services. altering or disabling security
   settings within Terminal Services. Terminal Services, now known as Remote Desktop

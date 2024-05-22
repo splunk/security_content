@@ -29,7 +29,7 @@ description: 'The following analytic detects the execution of the "At" applicati
   are necessary to mitigate further risks, identify the attacker''s intentions, and
   prevent potential harm to the organization.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
   where  Processes.process_name IN ("at", "atd") OR Processes.parent_process_name
   IN ("at", "atd") by Processes.dest Processes.user Processes.parent_process_name

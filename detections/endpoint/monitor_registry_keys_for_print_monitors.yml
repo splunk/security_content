@@ -11,7 +11,8 @@ description: This search looks for registry activity associated with modificatio
   by giving the full path name to the after.dll. The system will execute the .dll
   with elevated (SYSTEM) permissions and will persist after reboot.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.action=modified AND Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*")
   BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name

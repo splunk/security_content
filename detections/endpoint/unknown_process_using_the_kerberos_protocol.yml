@@ -12,7 +12,7 @@ description: The following analytic identifies a process performing an outbound 
   an unknown process using this protocol may be evidence of an adversary abusing the
   Kerberos protocol.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name!=lsass.exe by _time Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id dest [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port = 88 by All_Traffic.src All_Traffic.process_id  All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename src as dest ] |  table _time dest parent_process_name process_name process_path process process_id dest_port | `unknown_process_using_the_kerberos_protocol_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related

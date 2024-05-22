@@ -16,7 +16,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   Teams and adversaries alike who have obtained privileges in an Active Directory
   network may use this technique as a backdoor or a way to escalate privileges.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Set-ADAccountControl*" AND
   ScriptBlockText="*DoesNotRequirePreAuth:$true*") | stats count min(_time) as firstTime
   max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | rename Computer as dest | `security_content_ctime(firstTime)`

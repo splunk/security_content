@@ -7,7 +7,9 @@ status: production
 type: TTP
 description: |-
   The following analytic detects the creation and deletion of accounts in a short time period to identify potential threats earlier and take appropriate actions to mitigate the risks. Helps prevent or minimize the potential damage caused by unauthorized access or malicious activities within the environment. This detection is made by a Splunk query that searches for events with the result IDs 4720 and 4726 in the "Change" data model. The query then groups the results by time, user, and destination. The result is filtered to only include events with the specified result IDs. The "transaction" command is used to group events that occur within a specified time span and have the same user but are not connected. Finally, the relevant information such as the first and last time of the event, the count, user, destination, and result ID are displayed in a table. This detection is important because it suggests that an attacker is attempting to create and delete accounts rapidly, potentially to cover their tracks or gain unauthorized access. The impact of such an attack can include unauthorized access to sensitive data, privilege escalation, or the ability to carry out further malicious activities within the environment. Next steps include investigating the events flagged by the analytic, review the account creation and deletion activities, and analyze any associated logs or artifacts to determine the intent and impact of the attack.
-data_source: []
+data_source:
+- Windows Event Log System 4720
+- Windows Event Log System 4726
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
   result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
   where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h

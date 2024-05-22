@@ -12,7 +12,7 @@ description: The following analytic assists with viewing all drivers being loade
   with scrutiny until the ability to prove the driver is legitimate and has a purpose
   in the environment.
 data_source:
-- Sysmon Event ID 6
+- Sysmon EventID 6
 search: '`sysmon` EventCode=6 | stats min(_time) as firstTime max(_time) as lastTime
   values(ImageLoaded) count by dest Signed Signature service_signature_verified
   service_signature_exists Hashes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

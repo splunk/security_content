@@ -8,7 +8,8 @@ type: TTP
 description: The following analytic identifies the registration of a new Multi Factor
   authentication method for an Azure AD account. Adversaries who have obtained unauthorized
   access to an Azure AD account may register a new MFA method to maintain persistence.
-data_source: []
+data_source: 
+- Azure Active Directory User registered security info
 search: ' `azure_monitor_aad` category=AuditLogs operationName="User registered security info" properties.operationType=Add 
   | rename properties.* as *
   | rename targetResources{}.* as *

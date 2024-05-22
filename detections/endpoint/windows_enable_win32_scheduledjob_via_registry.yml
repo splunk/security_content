@@ -6,7 +6,8 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: 'This analytic searches for a registry modification that enables the use of the at.exe or wmi Win32_ScheduledJob command to add scheduled tasks on a Windows endpoint. Specifically, it looks for the creation of a new DWORD value named "EnableAt" in the following registry path: "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Configuration". If this value is set to 1, it enables the at.exe and wmi Win32_ScheduledJob commands to schedule tasks on the system. Detecting this registry modification is important because it may indicate that an attacker has enabled the ability to add scheduled tasks to the system, which can be used to execute malicious code at specific times or intervals.'
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)

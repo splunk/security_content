@@ -19,7 +19,8 @@ description: The following analytic identifies the modification of the SourceAnc
   may leverage this technique to establish persistence and be able to authenticate
   to Azure AD impersonating any user and bypassing the requirement to have a valid
   password and/or perform MFA.
-data_source: []
+data_source: 
+- Azure Active Directory Update user
 search: ' `azure_monitor_aad`  operationName="Update user" properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
   | rename properties.* as * 
   | rename initiatedBy.user.userPrincipalName as initiatedBy 

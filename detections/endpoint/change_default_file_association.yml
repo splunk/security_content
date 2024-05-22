@@ -11,7 +11,8 @@ description: This analytic is developed to detect suspicious registry modificati
   like .txt to notepad.exe. Instead notepad.exe it will point to a Script or other
   payload that will load malicious commands to the compromised host.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   ="*\\shell\\open\\command\\*" Registry.registry_path = "*HKCR\\*" by Registry.dest  Registry.user

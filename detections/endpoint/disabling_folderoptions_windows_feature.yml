@@ -11,7 +11,8 @@ description: This search is to identify registry modification to disable folder 
   files and also to hide the file extension to lure the user base on file icons or
   fake file extensions.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFolderOptions"
   Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user

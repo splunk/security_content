@@ -1,6 +1,6 @@
 author: Mauricio Velazco, Splunk
 data_source:
-- Windows Security 4625
+- Windows Event Log Security 4625
 date: '2021-04-13'
 description: 'The following analytic identifies a source host failing to authenticate
   against a remote host with 30 unique users. This behavior could represent an adversary

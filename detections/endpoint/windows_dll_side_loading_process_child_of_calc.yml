@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies the suspicious child process of calc.exe
   due to dll side loading technique to execute another executable. This technique
   was seen in qakbot malware that uses dll side loading technique to calc applications

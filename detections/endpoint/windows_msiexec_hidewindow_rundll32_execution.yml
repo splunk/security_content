@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a msiexec.exe process with hidewindow rundll32 process commandline.  
   One such tactic involves utilizing system processes like "msiexec," "hidewindow," and "rundll32" through command-line execution. 
   By leveraging these legitimate processes, QakBot masks its malicious operations, hiding behind seemingly normal system activities. 

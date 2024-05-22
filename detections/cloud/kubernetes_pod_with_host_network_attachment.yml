@@ -8,7 +8,8 @@ type: Anomaly
 description: The following analytic detects the creation of a pod with host network attachment in Kubernetes. It identifies this behavior by monitoring Kubernetes Audit logs for the creation or update of pods with host network configuration. 
   This behavior is worth identifying for a SOC as it could potentially allow an attacker to listen to all network traffic on the node and other compute on the network namespace, capturing secrets passed in arguments or connections to escalate their privileges. 
   The impact of such an attack could be severe, leading to unauthorized access to sensitive information, data breaches, and service disruptions.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` objectRef.resource=pods verb=create OR verb=update requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration=*\"hostNetwork\":true*
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 

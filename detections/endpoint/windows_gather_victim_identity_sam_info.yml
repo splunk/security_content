@@ -11,7 +11,7 @@ description: The following analytic identifies a process that loads the samlib.d
   hunting query can be a good indicator that a process is capable of accessing the
   SAM object.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileName
   = "samlib.dll") OR (ImageLoaded = "*\\samcli.dll" AND OriginalFileName = "SAMCLI.DLL")
   AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats

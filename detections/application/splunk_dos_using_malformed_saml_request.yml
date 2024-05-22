@@ -5,7 +5,8 @@ date: '2023-09-05'
 author: Rod Soto
 status: production
 type: Hunting
-data_source: []
+data_source: 
+- Splunk
 description: In Splunk Enterprise versions lower than 9.0.6, and 8.2.12, an attacker can send a malformed security assertion markup language SAML request to the /saml/acs REST endpoint which can cause a denial of service through a crash or hang of the Splunk daemon.The SAML extensible markup language (XML) parser does not fail SAML signature validation when the attacker modifies the URI in the SAML request. Instead it attempts to access the modified URI, which causes the Splunk daemon to crash or hang.
 search: '`splunkd` event_message=*error* expr=*xpointer* | stats count min(_time) as firstTime max(_time) as lastTime by component expr splunk_server event_message | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `splunk_dos_using_malformed_saml_request_filter`'
 how_to_implement: To run this search, you must have access to the _internal index. 

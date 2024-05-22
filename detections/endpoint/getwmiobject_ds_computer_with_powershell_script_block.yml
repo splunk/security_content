@@ -11,7 +11,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   may leverage this commandlet to enumerate domain computers for situational awareness
   and Active Directory Discovery.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace
   root\\directory\\ldap*" AND ScriptBlockText="*class ds_computer*") | stats count
   min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode

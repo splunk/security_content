@@ -9,7 +9,7 @@ description: The following analytic identifies when the Active Directory Certifi
   Services store is backed up utilizing Event ID 4876. This event triggers whenever
   the backup occurs in the UI of CertSrv.msc or via CertUtil.exe -BackupDB occurs.
 data_source:
-- Windows Security 4876
+- Windows Event Log Security 4876
 search: '`wineventlog_security` EventCode=4876| stats count min(_time) as firstTime
   max(_time) as lastTime by dest, name, action, Caller_Domain ,Caller_User_Name |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_steal_authentication_certificates_cs_backup_filter`'

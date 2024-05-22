@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Security Event ID 4663
+- Windows Event Log Security 4663
 description: The following analytic identifies a suspicious query on uninstall application list in Windows OS registry. 
   This registry  is commonly used by legitimate software to store information about installed applications on a Windows system, such as their name, version, publisher, and installation path.
   However, malware, adversaries or even red-teamers can abuse this registry key to retrieve information stored in the "Uninstall" key to gather data about installed applications in the target host.

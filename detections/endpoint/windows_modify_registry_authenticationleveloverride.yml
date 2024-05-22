@@ -6,7 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry related to authentication level settings.
   This registry is the configuration for authentication level settings within the Terminal Server Client settings in Windows.
   AuthenticationLevelOverride might be used to control or override the authentication level used by the Terminal Server Client for remote connections.

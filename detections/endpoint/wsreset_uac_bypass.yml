@@ -10,7 +10,7 @@ description: This search is to detect a suspicious modification of registry rela
   a registry value with the path of the payload and run WSreset.exe to bypass User
   account Control.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
   AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
   Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name

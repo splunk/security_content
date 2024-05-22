@@ -9,7 +9,7 @@ description: The following analytic identifies the use of the Windows Disk Image
   `dism.exe`, to remove Windows Defender. Adversaries may use `dism.exe` to disable
   Defender before completing their objective.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=dism.exe
   (Processes.process="*/online*" AND Processes.process="*/disable-feature*" AND Processes.process="*Windows-Defender*"

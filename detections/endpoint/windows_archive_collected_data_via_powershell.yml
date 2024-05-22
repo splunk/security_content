@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic identifies suspicious PowerShell script that archive files to a temp folder. 
   This anomaly detection serves as a valuable indicator to uncover threats from adversaries utilizing PowerShell scripts 
   for data archiving purposes. Identifying this method becomes pivotal in flagging and investigating potential threats, 

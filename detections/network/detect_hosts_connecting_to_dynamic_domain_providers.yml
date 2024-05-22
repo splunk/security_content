@@ -11,7 +11,8 @@ description: Malicious actors often abuse legitimate Dynamic DNS services to hos
   circumvent firewall blocks, block lists as well as frustrate a network defenders
   analytic and investigative processes. This search will look for DNS queries made
   from within your infrastructure to suspicious dynamic domains.
-data_source: []
+data_source: 
+- Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
   min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
   | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'

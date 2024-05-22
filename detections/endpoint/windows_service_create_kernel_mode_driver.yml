@@ -9,7 +9,7 @@ description: The following analytic identifes a new kernel driver being added to
   using sc.exe. Adding a Kernel driver is not common day to day and should be investigated
   to further understand the source.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sc.exe
   Processes.process="*kernel*" by Processes.dest Processes.user Processes.parent_process_name

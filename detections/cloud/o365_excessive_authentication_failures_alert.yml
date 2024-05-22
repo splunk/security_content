@@ -7,7 +7,8 @@ status: production
 type: Anomaly
 description: This search detects when an excessive number of authentication failures
   occur this search also includes attempts against MFA prompt codes
-data_source: []
+data_source: 
+- O365
 search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=*
   status=failure | stats count earliest(_time) AS firstTime latest(_time) AS lastTime
   values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS

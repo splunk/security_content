@@ -11,7 +11,7 @@ description: This analytic identifies a suspicious behavior related to PrintNigh
   to elevate privilege. This detection is to look for suspicious process access made
   by the spoolsv.exe that may related to the attack.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 10
 search: '`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*"
   TargetImage IN ("*\\rundll32.exe", "*\\spoolsv.exe") GrantedAccess = 0x1fffff |
   stats  count min(_time) as firstTime max(_time) as lastTime by dest SourceImage

@@ -9,7 +9,7 @@ description: The following analytic identifies the default service name created 
   KrbRelayUp. Defenders should be aware that attackers could change the hardcoded
   service name of the KrbRelayUp tool and bypass this detection.
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7045
 search: '`wineventlog_system` EventCode=7045 ServiceName IN ("KrbSCM") | stats count
   min(_time) as firstTime max(_time) as lastTime by dest EventCode ImagePath ServiceName
   StartType ServiceType | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

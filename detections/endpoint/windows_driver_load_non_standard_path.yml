@@ -12,7 +12,7 @@ description:
   is that this analytic provides visibility into drivers loading in non-standard file
   paths.
 data_source:
-  - Sysmon Event ID 7
+  - Windows Event Log System 7045
 search: '`wineventlog_system` EventCode=7045 ServiceType="kernel mode driver" NOT (ImagePath IN ("*\\Windows\\*", "*\\Program File*", "*\\systemroot\\*","%SystemRoot%*", "system32\*"))
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ImagePath ServiceName ServiceType | rename Computer as dest
   | `security_content_ctime(firstTime)`

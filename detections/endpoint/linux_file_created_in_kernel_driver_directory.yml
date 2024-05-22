@@ -14,7 +14,7 @@ description: This analytic looks for suspicious file creation in kernel/driver d
   or legitimate 3rd party tool may install driver or linux kernel module as part of
   its installation.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/kernel/drivers/*")
   by Filesystem.dest Filesystem.file_name Filesystem.process_guid Filesystem.file_path

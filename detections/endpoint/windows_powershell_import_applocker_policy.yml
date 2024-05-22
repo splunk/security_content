@@ -10,7 +10,7 @@ description: The following analytic is to identify the imports of Windows PowerS
   an xml Applocker policy that will deny several AV product and then loaded using
   PowerShell Applocker commandlet.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy
   *" ScriptBlockText="* -XMLPolicy *" | stats count min(_time) as firstTime max(_time)
   as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`

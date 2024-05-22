@@ -5,7 +5,8 @@ date: '2023-10-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 Consent to application.
 description: The following analytic identifies instances where a user grants consent to an application that requests mail related permissions within the Office 365 environment. This could involve permissions to read, send, or manage mail settings. It leverages the O365 audit logs, specifically events related to application permissions and user consent actions. By filtering for mail-related permissions and user-granted consents, the analytic pinpoints potential security concerns. While many legitimate applications request mail permissions for valid reasons, malicious actors can exploit these permissions for data exfiltration, spear phishing, or other malicious activities. By monitoring for user-granted mail permissions, security teams can identify and review potentially risky consents, ensuring that only trusted applications have access to sensitive email data. If the detection is a true positive, it indicates that an application now has access to the users mail data as permitted. In the hands of a malicious actor, this could lead to unauthorized data access, email forwarding, or even the sending of malicious emails from the compromised account. Its crucial to validate the legitimacy of the application and the context of the consent to prevent potential data breaches or further malicious activities.
 search: >-
   `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application." ResultStatus=Success

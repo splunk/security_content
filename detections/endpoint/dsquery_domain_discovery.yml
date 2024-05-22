@@ -27,7 +27,7 @@ description: 'The following analytic identifies "dsquery.exe" execution with arg
   performed. Identify the parent process and capture any files (batch files, for example)
   being used.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=dsquery.exe
   Processes.process=*trustedDomain* by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process

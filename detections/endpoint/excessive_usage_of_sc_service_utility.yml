@@ -10,7 +10,7 @@ description: This search is to detect a suspicious excessive usage of sc.exe in 
   to create, modify, delete or disable a service may related to security application
   or to gain privilege escalation.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '`sysmon` EventCode = 1 process_name = "sc.exe" |  bucket _time span=15m |
   stats values(process) as process count as numScExe by dest, _time |  eventstats
   avg(numScExe) as avgScExe, stdev(numScExe) as stdScExe, count as numSlots by dest

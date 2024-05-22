@@ -9,7 +9,8 @@ description: 'The following analytic detects instances of suspicious image pulli
   It identifies this behavior by monitoring Kubernetes audit logs for image pull requests that do not match a predefined list of allowed images. 
   This behavior is worth identifying for a SOC as it could indicate an attacker attempting to deploy malicious software or infiltrate the system. 
   The impact of such an attack could be severe, potentially leading to unauthorized access to sensitive systems or data.'
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` requestObject.message="Pulling image*"
   | search NOT `kube_allowed_images`
   | fillnull

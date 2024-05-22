@@ -13,7 +13,7 @@ description: This hunting analytic identifies known Windows libraries
   as required. The lookup includes Microsoft native libraries cataloged in the
   Hijacklibs.net project.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 NOT (process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*")) 
   | lookup hijacklibs library AS loaded_file OUTPUT islibrary 
   | search islibrary = True 

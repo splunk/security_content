@@ -11,7 +11,8 @@ description: This particular behavior is typically executed when an adversary or
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" Registry.registry_value_name IN ("DisableAntiSpyware","DisableAntiVirus") Registry.registry_value_data = 0x00000001) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.user Registry.dest 
   | `drop_dm_object_name(Registry)`
   | where isnotnull(registry_value_data)

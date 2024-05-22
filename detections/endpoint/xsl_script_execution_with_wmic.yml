@@ -11,7 +11,7 @@ description: This search is to detect a suspicious wmic.exe process or renamed w
   This TTP is really a good indicator for you to hunt further for FIN7 or other attacker
   that known to used this technique.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process
   = "*os get*" Processes.process="*/format:*" Processes.process = "*.xsl*" by Processes.parent_process_name

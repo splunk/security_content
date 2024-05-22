@@ -8,7 +8,8 @@ type: TTP
 description: Detect usage of plutil to modify plist files. Adversaries can modiy plist
   files to executed binaries or add command line arguments. Plist files in auto-run
   locations are executed upon user logon or system startup.
-data_source: []
+data_source:
+- osquery
 search: '`osquery` name=es_process_events columns.path=/usr/bin/plutil | rename columns.*
   as * | stats count  min(_time) as firstTime max(_time) as lastTime by username host
   cmdline pid path parent signing_id | rename username as user, cmdline as process,

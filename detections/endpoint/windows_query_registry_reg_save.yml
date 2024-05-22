@@ -13,7 +13,7 @@ description: The following analytic identifies a process execution of reg.exe wi
   restore" to check registry modification restriction in targeted host after gaining
   access to it.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where  `process_reg` AND Processes.process
   = "* save *" by Processes.process_name Processes.original_file_name Processes.process

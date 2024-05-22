@@ -13,7 +13,8 @@ description: The following analytic identifies the creation of a Service Princip
   access policies. Adversaries and red teams alike who have obtained administrative
   access may create a Service Principal to establish Persistence and obtain single-factor
   access to an Azure AD environment.
-data_source: []
+data_source: 
+- Azure Active Directory Add service principal
 search: '`azure_monitor_aad`  operationName="Add service principal" properties.initiatedBy.user.id=*
   | rename properties.* as * 
   | rename targetResources{}.displayName as displayName

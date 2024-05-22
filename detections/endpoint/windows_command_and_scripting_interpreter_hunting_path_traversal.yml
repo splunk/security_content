@@ -13,7 +13,7 @@ description: The following analytic identifies path traversal command-line execu
   execute path traversal technique to run malicious code. This may help you to find
   possible downloaded malware or other lolbin execution.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes  by Processes.original_file_name Processes.process_id
   Processes.parent_process_id Processes.process_hash Processes.dest Processes.user

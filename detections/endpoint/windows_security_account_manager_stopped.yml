@@ -8,7 +8,7 @@ type: TTP
 description: The search looks for a Windows Security Account Manager (SAM) was stopped
   via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe"
   "Processes.process"="*stop \"samss\"*") BY Processes.dest Processes.user Processes.process Processes.process_guid Processes.process_name

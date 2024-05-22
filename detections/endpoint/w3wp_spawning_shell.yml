@@ -14,7 +14,7 @@ description: This query identifies a shell, PowerShell.exe or Cmd.exe, spawning 
   child processes, that may highlight further commands executed. After triaging, work
   to contain the threat and patch the system that is vulnerable.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=w3wp.exe

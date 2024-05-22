@@ -6,7 +6,9 @@ author: Bhavin Patel, Patrick Bareiss, Splunk
 status: production
 type: TTP
 description: The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
-data_source: []
+data_source: 
+- AWS CloudTrail CreateNetworkAclEntry
+- AWS CloudTrail ReplaceNetworkAclEntry
 search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
   requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
   | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry

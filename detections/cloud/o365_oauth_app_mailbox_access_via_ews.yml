@@ -4,7 +4,8 @@ version: 1
 date: '2024-01-31'
 author: Mauricio Velazco, Splunk
 status: production
-data_source: []
+data_source: 
+- O365 MailItemsAccessed
 type: TTP
 description: The following analytic detects when emails are accessed in Office 365 Exchange via Exchange Web Services (EWS), as indicated by the ClientInfoString field starting with "Client=WebServices;ExchangeWebServices". It monitors mailbox activities, focusing on OAuth-authenticated applications that interact with EWS. The query aggregates key metrics such as access counts, timing, and client IP addresses, categorized by user, ClientAppId, OperationCount, and AppId. For defenders, it is critical to keep track of OAuth applications using EWS to access emails, as this information is instrumental in identifying and preventing potential abuse or unauthorized data access.
 search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* ClientAppId=*

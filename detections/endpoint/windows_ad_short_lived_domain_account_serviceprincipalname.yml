@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
-- Windows Security 5136
+- Windows Event Log Security 5136
 description: The following analytic identifies the addition of a Service Principal Name to a domain account that is quickly deleted within 5 minutes or less. While this event may be part of a legitimate action part of certain administrative operations,
   it may also be evidence of a persistence attack. Domain accounts with Service Principal Names are vulnerable to a technique called Kerberoasting that enables attackers to potentially obtain the cleartext password 
   of the account by performing offline cracking. An adversary who has obtained privileged access to a domain environment may add an SPN to a privileged account to then leverage the Kerberoasting technique and attempt

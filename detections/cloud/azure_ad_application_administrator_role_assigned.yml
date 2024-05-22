@@ -5,7 +5,8 @@ date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Azure Active Directory Add member to role
 description: The following analytic identifies the assignment of the Application Administrator role to an Azure AD user. Users in this role can create and manage all 
   aspects of enterprise applications, application registrations, and application proxy settings. This role also grants the ability to manage application credentials.
   Users assigned this role can add credentials to an application, and use those credentials to impersonate the applications identity. If the applications identity has 

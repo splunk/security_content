@@ -11,7 +11,7 @@ description: This analytic is to look for suspicious raw access read to device d
   as part of their impact payload for example the "hermeticwiper" malware. This detection
   is a good indicator that there is a process try to read or write on boot sector.
 data_source:
-- Sysmon Event ID 9
+- Sysmon EventID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
   lastTime by dest signature signature_id process_guid process_name process_path Device | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'

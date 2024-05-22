@@ -11,7 +11,8 @@ description: This search is to identify modification of registry to disable run 
   technique is used malware to make cleaning of its infection more harder by preventing
   known application run easily through run shortcut.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun"
   Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path
