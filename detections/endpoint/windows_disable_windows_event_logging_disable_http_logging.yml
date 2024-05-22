@@ -9,7 +9,7 @@ description: The following analytic identifies AppCmd.exe being utilized to disa
   HTTP logging on IIS. Adversaries may perform this action to disable logging and
   delete the logs so remove any trace or events on disk.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where NOT (Processes.parent_process_name  IN
   ("msiexec.exe", "iissetup.exe")) Processes.process_name=appcmd.exe Processes.process

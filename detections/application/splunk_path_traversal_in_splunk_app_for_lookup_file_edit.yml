@@ -6,7 +6,7 @@ author: Rod Soto, Eric McGinnis
 status: production
 type: Hunting
 data_source:
-- splunkd_access 
+- Splunk
 description: In Splunk Enterprise versions below 9.0.5, 8.2.11, and 8.1.14, a low-privilege user with access to the Splunk App for Lookup File Editing can, with a specially crafted web request, trigger a path traversal exploit that can then be used to read and write to restricted areas of the Splunk installation directory, including but not limited to the password hash file for the instance.
 search: '`splunkda` uri_query=*lookup_file* | table clientip uri_query lookup_file owner namespace  version | stats count by clientip namespace lookup_file uri_query | `splunk_path_traversal_in_splunk_app_for_lookup_file_edit_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _internal index. This detection is meant for on premise environments,

@@ -7,7 +7,8 @@ status: production
 type: TTP
 description: This search uses the Kubernetes logs from Splunk Connect from Kubernetes
   to detect Kubernetes Security Scanner.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling
   image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
   | rename object.* AS * | rename involvedObject.* AS * | rename source.host AS host

@@ -14,7 +14,7 @@ description: this analytic is to detect a suspicious compile before delivery app
   from that, powershell is capable of using this compiler in executing .net code in
   a powershell script so filter on that case is needed.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_csc` Processes.process
   = "*/noconfig*" Processes.process = "*/fullpaths*" Processes.process = "*@*" by

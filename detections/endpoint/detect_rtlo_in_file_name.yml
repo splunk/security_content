@@ -10,19 +10,17 @@ description: This search is used to detect the abuse of the right-to-left overri
   file name to make it appear benign. The RTLO character is a non-printing Unicode 
   character that causes the text that follows it to be displayed in reverse.
 data_source:
-- Sysmon Event ID 11
-- Sysmon Event ID 23
-- Sysmon Event ID 26
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_create_time) as file_create_time from datamodel=Endpoint.Filesystem where Filesystem.file_name!=unknown by Filesystem.dest Filesystem.user Filesystem.process_id Filesystem.file_name Filesystem.file_path
-| `drop_dm_object_name(Filesystem)`
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`
-| regex file_name =  "\\x{202E}"
-| rex field=file_name "(?<RTLO_file_1>.+)(?<RTLO_exist_file>\\x{202E})(?<RTLO_file_2>.+)"
-| eval file_name_with_RTLO=file_name
-| eval file_name=RTLO_file_1.RTLO_file_2
-| fields - RTLO*
-| `detect_rtlo_in_file_name_filter`'
+  | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | regex file_name =  "\\x{202E}"
+  | rex field=file_name "(?<RTLO_file_1>.+)(?<RTLO_exist_file>\\x{202E})(?<RTLO_file_2>.+)"
+  | eval file_name_with_RTLO=file_name
+  | eval file_name=RTLO_file_1.RTLO_file_2
+  | fields - RTLO*
+  | `detect_rtlo_in_file_name_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that includes the full command line of the process being launched on
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,

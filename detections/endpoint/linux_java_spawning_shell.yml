@@ -12,7 +12,7 @@ description: The following analytic identifies the process name of Java, Apache,
   "fish", "csh', "tcsh', "ion", "eshell". Upon triage, review parallel processes and
   command-line arguments to determine legitimacy.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=java
   OR Processes.parent_process_name=apache OR Processes.parent_process_name=tomcat

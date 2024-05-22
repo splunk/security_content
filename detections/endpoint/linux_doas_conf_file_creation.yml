@@ -13,7 +13,7 @@ description: This analytic is to detect the creation of doas.conf file in linux 
   On the other hand this can also be executed by administrator for a certain task
   that needs admin rights. In this case filter is needed.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/doas.conf")
   by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid

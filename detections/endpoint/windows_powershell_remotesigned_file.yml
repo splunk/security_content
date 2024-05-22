@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic identifies the use of "remotesigned" execution policy for
   a file. This security setting determines whether PowerShell scripts can be executed
   on a computer. When the execution policy is set to "remotesigned," it allows locally

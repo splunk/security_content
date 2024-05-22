@@ -11,7 +11,7 @@ description: This search is to detect a suspicious rundll32.exe process having a
   internet connect and to communicate to its C&C server to download config and other
   file component.
 data_source:
-- Sysmon Event ID 22
+- Sysmon EventID 22
 search: '`sysmon` EventCode=22 process_name="rundll32.exe" | stats count min(_time)
   as firstTime max(_time) as lastTime values(query) as query values(answer) as answer values(QueryResults) as query_results values(QueryStatus) as query_status by process_name process_guid Computer | rename Computer as dest
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_dnsquery_filter`'

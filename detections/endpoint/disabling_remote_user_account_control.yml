@@ -8,7 +8,8 @@ type: TTP
 description: The search looks for modifications to registry keys that control the
   enforcement of Windows User Account Control (UAC).
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA*
   Registry.registry_value_data="0x00000000" by Registry.dest, Registry.registry_key_name

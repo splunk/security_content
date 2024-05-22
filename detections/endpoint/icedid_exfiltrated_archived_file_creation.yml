@@ -9,7 +9,7 @@ description: This search is to detect a suspicious file creation namely passff.t
   and cookie.tar. This files are possible archived of stolen browser information like
   history and cookies in a compromised machine with IcedID.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 1
 search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename
   = "*\\cookie.tar") |stats count min(_time) as firstTime max(_time) as lastTime by
   TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`

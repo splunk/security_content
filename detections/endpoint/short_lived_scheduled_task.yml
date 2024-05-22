@@ -28,7 +28,8 @@ description: 'The following analytic utilizes Windows Security EventCode 4698, "
   The impact of a true positive could range from unauthorized access to data exfiltration
   or the execution of malicious payloads.'
 data_source:
-- Windows Security 4698
+- Windows Event Log Security 4698
+- Windows Event Log Security 4699
 search: ' `wineventlog_security` EventCode=4698 OR EventCode=4699 | xmlkv Message
   | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699) |
   eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | rename

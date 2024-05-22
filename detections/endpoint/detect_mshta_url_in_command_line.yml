@@ -13,7 +13,7 @@ description: This analytic identifies when Microsoft HTML Application Host (msht
   time and last time these command-line arguments were used for these executions,
   as well as the target system, the user, process "rundll32.exe" and its parent process.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where `process_mshta` (Processes.process="*http://*"

@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a process execute rmdir commandline to delete files and directory tree. 
   This technique has been observed in the actions of various malware strains, such as DarkGate, 
   as they attempt to eliminate specific files or components during their cleanup operations within compromised hosts. 

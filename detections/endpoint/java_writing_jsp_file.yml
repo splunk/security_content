@@ -10,7 +10,7 @@ description: The following analytic identifies the process java writing a .jsp t
   and tune the analytic based on data ingested. For instance, it may be worth running
   a broad query for jsp file writes first before performing a join.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name IN ("java","java.exe", "javaw.exe") by _time Processes.process_id
   Processes.process_name Processes.dest Processes.process_guid Processes.user | `drop_dm_object_name(Processes)`

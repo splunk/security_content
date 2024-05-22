@@ -8,7 +8,7 @@ type: Hunting
 description: This search looks for executions of cmd.exe spawned by a process that
   is often abused by attackers and that does not typically launch cmd.exe.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_cmd` by Processes.parent_process_name Processes.process_name Processes.original_file_name

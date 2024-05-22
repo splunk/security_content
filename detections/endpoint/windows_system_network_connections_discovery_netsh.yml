@@ -14,7 +14,7 @@ description: The following analytic identifies a process execution of Windows OS
   name execute this command. Also check the process file path for verification that
   may lead to further TTP's threat behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_netsh`AND Processes.process
   = "* show *" Processes.process IN ("*state*", "*config*", "*wlan*", "*profile*")

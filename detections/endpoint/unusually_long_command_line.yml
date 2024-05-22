@@ -8,7 +8,7 @@ type: Anomaly
 description: |-
   The following analytic detects command lines that are extremely long, which might be indicative of malicious activity on your hosts because attackers often use obfuscated or complex command lines to hide their actions and evade detection. This helps to mitigate the risks associated with long command lines to enhance your overall security posture and reduce the impact of attacks. This detection is important because it suggests that an attacker might be attempting to execute a malicious command or payload on the host, which can lead to various damaging outcomes such as data theft, ransomware, or further compromise of the system. False positives might occur since legitimate processes or commands can sometimes result in long command lines. Next steps include conducting extensive triage and investigation to differentiate between legitimate and malicious activities. Review the source of the command line and the command itself during the triage. Additionally, capture and inspect any relevant on-disk artifacts and review concurrent processes to identify the source of the attack.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name
   Processes.process | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|

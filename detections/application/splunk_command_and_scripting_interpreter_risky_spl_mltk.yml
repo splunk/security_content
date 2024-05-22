@@ -12,7 +12,8 @@ description: This detection utilizes machine learning model named "risky_command
   with abnormally long running time in the past one hour, comparing with his/her past
   seven days history. This search uses the trained baseline to infer whether a search
   is an outlier (isOutlier ~= 1.0) or not (isOutlier~= 0.0)
-data_source: []
+data_source: 
+- Splunk
 search: '| tstats sum(Search_Activity.total_run_time) AS run_time, values(Search_Activity.search)
   as searches, count FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="")
   AND (Search_Activity.total_run_time>1) AND (earliest=-1h@h latest=now) AND (Search_Activity.search

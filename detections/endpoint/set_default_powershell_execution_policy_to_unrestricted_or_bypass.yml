@@ -8,7 +8,9 @@ type: TTP
 description: Monitor for changes of the ExecutionPolicy in the registry to the values
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
   AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
   Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name

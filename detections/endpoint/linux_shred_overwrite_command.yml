@@ -13,7 +13,7 @@ description: This analytic is to detect a shred process to overwrite a files in 
   it is recommended to check what files, disk or folder it tries to shred that might
   be good pivot for incident response in this type of destructive malware.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name =shred
   AND Processes.process IN ("*-n*", "*-u*", "*-z*", "*-s*") by Processes.parent_process_name

@@ -8,7 +8,6 @@ type: Anomaly
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-- Sysmon EventID 14
 description: The following analytic identifies a suspicious registry modification of Windows long path enable configuration. 
   This technique was being abused by several adversaries, malware like BlackByte to enable long file path support in the operating system. 
   By default, Windows has a limitation on the maximum length of a file path, which is set to 260 characters. 

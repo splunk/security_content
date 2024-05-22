@@ -8,7 +8,7 @@ type: TTP
 description: |-
   The following analytic detects the creation or deletion of hidden shares using the net.exe command for prompt response and mitigation to enhance the overall security posture of the organization and protect against potential data breaches, malware infections, and other damaging outcomes. This detection is made by searching for processes that involve the use of net.exe and filters for actions related to creation or deletion of shares. This detection is important because it suggests that an attacker is attempting to manipulate or exploit the network by creating or deleting hidden shares. The creation or deletion of hidden shares can indicate malicious activity since attackers might use hidden shares to exfiltrate data, distribute malware, or establish persistence within a network. The impact of such an attack can vary, but it often involves unauthorized access to sensitive information, disruption of services, or the introduction of malware. False positives might occur since legitimate actions can also involve the use of net.exe. An extensive triage and investigation is necessary to determine the intent and nature of the detected activity. Next steps include reviewing the details of the process involving the net.exe command, including the user, parent process, and timestamps during the triage. Additionally, capture and inspect any relevant on-disk artifacts and review concurrent processes to identify the source of the attack.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as
   user values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where `process_net` by

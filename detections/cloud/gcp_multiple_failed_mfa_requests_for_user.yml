@@ -16,7 +16,8 @@ description: The following analytic identifies multiple failed multi-factor auth
   finally accepting the authentication request. Threat actors like the Lapsus team
   and APT29 have leveraged this technique to bypass multi-factor authentication controls
   as reported by Mandiant and others.
-data_source: []
+data_source: 
+- Google Workspace login_failure
 search: "`gws_reports_login` event.name=login_failure `gws_login_mfa_methods` | bucket span=5m _time | stats dc(_raw) AS mfa_prompts values(user) AS user by src_ip, login_challenge_method,  _time | where mfa_prompts >= 10 | `gcp_multiple_failed_mfa_requests_for_user_filter`"
 how_to_implement: You must install the latest version of Splunk Add-on for Google
   Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows

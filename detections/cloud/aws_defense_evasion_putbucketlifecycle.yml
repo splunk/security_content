@@ -10,7 +10,8 @@ description: This analytic identifies `PutBucketLifecycle` events in CloudTrail 
   period. Attackers may use this API call to impair the CloudTrail logging by removing
   logs from the S3 bucket by changing the object expiration day to 1 day, in which
   case the CloudTrail logs will be deleted.
-data_source: []
+data_source: 
+- AWS CloudTrail PutBucketLifecycle
 search: '`cloudtrail` eventName=PutBucketLifecycle user_type=IAMUser errorCode=success
   |  spath path=requestParameters{}.LifecycleConfiguration{}.Rule{}.Expiration{}.Days
   output=expiration_days |  spath path=requestParameters{}.bucketName output=bucket_name

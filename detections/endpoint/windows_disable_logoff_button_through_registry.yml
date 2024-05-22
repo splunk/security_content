@@ -15,7 +15,8 @@ description: This analytic is to detect a suspicious registry modification to di
   implement by administrator in some server where shutdown is critical. In that scenario
   filter of machine and users that can modify this registry is needed.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
   Registry.registry_value_name IN ("NoLogOff", "StartMenuLogOff") Registry.registry_value_data

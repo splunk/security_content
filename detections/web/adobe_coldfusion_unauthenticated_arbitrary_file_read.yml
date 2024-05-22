@@ -5,7 +5,8 @@ date: '2023-08-23'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic detects potential exploitation of the critical Adobe ColdFusion vulnerability, CVE-2023-26360. This flaw, rooted in the deserialization of untrusted data, enables Unauthenticated Arbitrary File Read. Exploitation often targets specific ColdFusion paths, especially related to CKEditor's file manager. 
 
   Our analytic pinpoints exploitation by monitoring web requests to the "/cf_scripts/scripts/ajax/ckeditor/*" path. This focus helps differentiate malicious activity from standard ColdFusion traffic. For SOCs, detecting such attempts is vital given the vulnerability's CVSS score of 9.8, signaling its severity. Successful exploitation can lead to unauthorized data access, further attacks, or severe operational disruptions. 

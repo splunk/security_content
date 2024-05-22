@@ -11,7 +11,7 @@ description: This search is used to detect the abuse of the right-to-left overri
   is a non-printing Unicode character that causes the text that follows it to be displayed
   in reverse.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process!=unknown AND
   Processes.action=allowed by Processes.dest Processes.user Processes.original_file_name

@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Security Event ID 4663
+- Windows Event Log Security 4663
 description: The following analytic identifies a suspicious process accessing default internet browsers registry entry. 
   This registry is used by Windows to store information about default internet browsers installed on a system. 
   Malware, adversaries or red-teamers can abuse this registry key to collect data about the installed internet browsers and their associated settings.

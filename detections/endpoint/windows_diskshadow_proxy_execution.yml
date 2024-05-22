@@ -12,7 +12,7 @@ description: DiskShadow.exe is a Microsoft Signed binary present on Windows Serv
   to known backup behavior in your environment and then review the scripts called
   by diskshadow.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_diskshadow` (Processes.process=*-s*
   OR Processes.process=*/s*) by Processes.dest Processes.user Processes.parent_process

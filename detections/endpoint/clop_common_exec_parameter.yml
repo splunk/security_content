@@ -13,7 +13,7 @@ description: The following analytics are designed to identifies some CLOP ransom
   can be also identified as an anti-sandbox technique to make its code non-responsive
   since it is waiting for some parameter to execute properly.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name != "*temp.dat*"
   Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" by Processes.dest

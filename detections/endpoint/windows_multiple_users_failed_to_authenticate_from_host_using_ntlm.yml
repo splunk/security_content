@@ -1,6 +1,6 @@
 author: Mauricio Velazco, Splunk
 data_source:
-- Windows Security 4776
+- Windows Event Log Security 4776
 date: '2021-04-13'
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with 30 unique valid users using the NTLM protocol. This behavior could represent

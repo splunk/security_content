@@ -24,7 +24,7 @@ description: 'The following analytic identifies the use of Windows Curl.exe uplo
   processes for further behavior. In addition, identify if the upload was successful
   in network logs. If a file was uploaded, isolate the endpoint and review.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_curl` Processes.process
   IN ("*-T *","*--upload-file *", "*-d *", "*--data *", "*-F *") by Processes.dest

@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 12
-- Sysmon Event ID 13
-- Sysmon Event ID 14
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to override windows defender 
   smartscreen prompt. The "PreventSmartScreenPromptOverride" registry setting is associated with the Windows SmartScreen feature, 
   specifically related to controlling whether users can override SmartScreen prompts.

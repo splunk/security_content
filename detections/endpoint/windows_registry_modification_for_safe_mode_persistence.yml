@@ -12,7 +12,8 @@ description: The following analytic identifies a modification or registry add to
   Network it will provide the service or drive the ability to perform network connections
   in Safe Mode.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\*","*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\*")
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name

@@ -5,7 +5,8 @@ date: '2024-01-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 Update application.
 description: This Splunk analytic detects the assignment of critical Graph API permissions in Azure AD using O365 Unified Audit Log as its data source. It focuses on three permissions, Application.ReadWrite.All (Entitlement ID 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9), AppRoleAssignment.ReadWrite.All (06b708a9-e830-4db3-a914-8e69da51d44f), and RoleManagement.ReadWrite.Directory (9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8). These permissions, crucial for controlling Azure AD settings, pose a high risk if misused. The query monitors Azure Active Directory workload events in the Office 365 Management Activity, specifically 'Update application' operations. It extracts and analyzes data to spot when these permissions are granted, gathering details about the user, object, and user agent involved. Due to the significant control these permissions provide, immediate investigation is crucial upon detection to prevent unauthorized modifications.
 search: >-
  `o365_management_activity` Workload=AzureActiveDirectory Operation="Update application."

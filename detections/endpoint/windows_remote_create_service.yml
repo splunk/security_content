@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic identifies an endpoint that remotely connects to another
   endpoint to create a new service using sc.exe. On the remote endpoint, the new service
   will be created and this action will trigger the creation of EventCode 7045 along

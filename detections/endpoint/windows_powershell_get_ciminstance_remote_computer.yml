@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: This analytic identifies the use of Get-CimInstance cmdlet with the -ComputerName parameter, which indicates that the cmdlet is being used to retrieve information from a remote computer. This can be useful for detecting instances of remote access, such as when an attacker uses PowerShell to connect to a remote system and gather information. By monitoring for this cmdlet with the -ComputerName parameter, security analysts can identify potential malicious activity on remote systems and take appropriate action to mitigate any threats.
 search: '`powershell` EventCode=4104 ScriptBlockText="*get-ciminstance*" AND ScriptBlockText="*computername*"  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id 
   | `security_content_ctime(firstTime)`

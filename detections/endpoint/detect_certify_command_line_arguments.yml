@@ -10,7 +10,7 @@ description: The following analytic identifies when the attacker tool Certify or
   The default command line arguments of these tools are similar and perform near identical
   enumeration or exploitation functions.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("* find
   *","* auth *","* request *","* req *","* download *",) AND Processes.process IN

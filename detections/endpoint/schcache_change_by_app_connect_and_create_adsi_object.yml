@@ -15,7 +15,7 @@ description: This analytic is to detect an application try to connect and create
   query. having a good list of ldap or normal AD query tool used within the network
   is a good start to reduce the noise.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 11
 search: '`sysmon` EventCode=11  TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
   = "*.sch*" NOT (Image IN ("*\\Windows\\system32\\mmc.exe")) |stats count min(_time)
   as firstTime max(_time) as lastTime by Image TargetFilename EventCode process_id  process_name

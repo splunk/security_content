@@ -13,7 +13,7 @@ description: The following analytic identifies rundll32.exe using dllregisterser
   parrellel processes executing. Capture the DLL being loaded and inspect further.
   Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*dllregisterserver*
   by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.original_file_name

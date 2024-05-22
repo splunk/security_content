@@ -8,7 +8,7 @@ status: production
 type: TTP
 description: The following analytic detects when any low->high integrity level process running from a user account spawns an elevated (high/system integrity) process in a suspicious location or with system level process integrity. This behavior may indicate when a threat actor has successfully elevated privileges.
 data_source:
-  - Sysmon Event ID 1
+- Sysmon EventID 1
 search: >-
   | tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("low","medium","high") NOT Processes.user IN ("*SYSTEM","*LOCAL SERVICE","*NETWORK SERVICE","DWM-*","*$") by Processes.dest, Processes.user, Processes.parent_process_guid, Processes.parent_process, Processes.parent_process_name Processes.process_name Processes.process, Processes.process_path, Processes.process_guid,
   Processes.process_integrity_level, Processes.process_current_directory | `drop_dm_object_name(Processes)` | eval join_guid = process_guid, integrity_level = CASE(match(process_integrity_level,"low"),1,match(process_integrity_level,"medium"),2,match(process_integrity_level,"high"),3,match(process_integrity_level,"system"),4,true(),0) | rename user as src_user, parent_process* as orig_parent_process*, process* as parent_process* | join max=0 dest join_guid  [| tstats

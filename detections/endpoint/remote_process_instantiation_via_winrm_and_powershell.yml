@@ -11,7 +11,7 @@ description: This analytic looks for the execution of `powershell.exe` with argu
   Red Teams and adversaries alike may abuse WinRM and `powershell.exe` for lateral
   movement and remote code execution.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` (Processes.process="*Invoke-Command*"
   AND Processes.process="*-ComputerName*") by Processes.dest Processes.user Processes.parent_process_name

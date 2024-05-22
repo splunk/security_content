@@ -15,7 +15,8 @@ description: CVE-2021-44228 Log4Shell payloads can be injected via various metho
   Specifically it has been successfully exploited via headers like X-Forwarded-For,
   User-Agent, Referer, and X-Api-Version. In this detection we match the invocation
   function with a network connection to a malicious ip address.
-data_source: []
+data_source: 
+- Splunk Stream IP
 search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)"
   | join affected_host type=inner [| tstats `security_content_summariesonly` count
   min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic

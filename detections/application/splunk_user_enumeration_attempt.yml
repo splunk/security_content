@@ -9,7 +9,8 @@ description: On May 3rd, 2022, Splunk published a security advisory for  usernam
   enumeration stemming from verbose login failure messages present on some REST endpoints.
   This detection will alert on attempted exploitation in patched versions of Splunk
   as well as actual exploitation in unpatched version of Splunk.
-data_source: []
+data_source: 
+- Splunk
 search: ' `splunkd_failed_auths` | stats count(user) as auths by user, src | where
   auths>5 | stats values(user) as user, sum(auths) as TotalFailedAuths by src |
   `splunk_user_enumeration_attempt_filter`'

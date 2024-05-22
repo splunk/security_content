@@ -11,7 +11,7 @@ description: This search is to detect a suspicious 7z process with commandline p
   is a good hunting query that may give analyst a hint why specific user try to archive
   a file pointing to SMB user which is un usual.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name ="7z.exe"
   OR Processes.process_name = "7za.exe" OR Processes.original_file_name = "7z.exe"

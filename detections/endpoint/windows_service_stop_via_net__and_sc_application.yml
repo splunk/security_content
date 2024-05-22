@@ -11,7 +11,7 @@ description: This analytic identifies suspicious attempts to stop services on a 
   detections. This technique is also commonly used by ransomware threat actors to
   successfully encrypt databases or files being processed or used by Windows OS Services.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where `process_net` OR  Processes.process_name
   = "sc.exe" OR Processes.original_file_name= "sc.exe" AND Processes.process="*stop*"

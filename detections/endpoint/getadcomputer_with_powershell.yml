@@ -10,7 +10,7 @@ description: This analytic looks for the execution of `powershell.exe` with comm
   a list of all domain computers. Red Teams and adversaries alike may use this commandlet
   to identify remote systems for situational awareness and Active Directory Discovery.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="powershell.exe")
   (Processes.process=*Get-AdComputer*) by Processes.dest Processes.user Processes.parent_process

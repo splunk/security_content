@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 23
+- Sysmon EventID 23
 description: The following analytic identifies a suspicious process that delete mark-of-the-web data stream. 
   This technique has been observed in various instances of malware and adversarial activities aimed at circumventing 
   security restrictions within the Windows Operating System, particularly pertaining to files downloaded from the internet. 

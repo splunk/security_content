@@ -9,7 +9,7 @@ description: This search is to identifies suspicious firewall disabling using ne
   application. this technique is commonly seen in malware that tries to communicate
   or download its component or other payload to its C2 server.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process=
   "*firewall*" (Processes.process= "*off*" OR  Processes.process= "*disable*") by

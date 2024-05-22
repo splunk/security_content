@@ -11,14 +11,15 @@ description: The following analytic identifies an authentication attempt event a
   logs information regarding usage of MFA. This behavior may represent an adversary
   trying to authenticate with compromised credentials for an account that has multi-factor
   authentication enabled.
-data_source: []
+data_source: 
+- AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName= ConsoleLogin errorMessage="Failed authentication"
   additionalEventData.MFAUsed = "Yes" | stats count min(_time) as firstTime max(_time)
   as lastTime by src eventName eventSource aws_account_id errorCode errorMessage userAgent
   eventID awsRegion user_name userIdentity.arn | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `aws_console_login_failed_during_mfa_challenge_filter`'
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search
-  requires AWS Cloudtrail logs.
+  requires AWS CloudTrail logs.
 known_false_positives: Legitimate users may miss to reply the MFA challenge within
   the time window or deny it by mistake.
 references:

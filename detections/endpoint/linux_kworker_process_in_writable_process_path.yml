@@ -15,7 +15,7 @@ description: This analytic looks for suspicious process kworker commandline in a
   as normal kworker on the compromised machine. This detection might be a good pivot
   to look for other IOC related to cyclopsblink malware or attacks.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where  Processes.parent_process =
   "*[kworker/*" Processes.parent_process_path IN ("/home/*", "/tmp/*", "/var/log/*")

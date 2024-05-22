@@ -5,7 +5,8 @@ date: '2023-10-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365
 description: The following analytic identifies instances where a user has actively denied consent to an OAuth application seeking permissions within the Office 365 environment. This suggests that the user either recognized something suspicious about the application or chose not to grant it the requested permissions for other reasons. This detection leverages the O365 audit logs, specifically focusing on events related to user consent actions. By filtering for denied consent actions associated with OAuth applications, the analytic captures instances where users have actively rejected permission requests. While user-denied consents can be routine, they can also be indicative of users spotting potentially suspicious or unfamiliar applications. By monitoring these denied consent attempts, security teams can gain insights into applications that might be perceived as risky or untrusted by users. It can also serve as a feedback loop for security awareness training, indicating that users are being cautious about granting permissions. If the detection is a true positive, it indicates that a user has actively prevented an OAuth application from gaining the permissions it requested. While this is a proactive security measure on the user's part, it's essential for security teams to review the context of the denial. Understanding why certain applications are being denied can help in refining application whitelisting policies and ensuring that no malicious applications are attempting to gain access.
 search: ' `o365_graph` status.errorCode=65004
   | rename userPrincipalName as user 

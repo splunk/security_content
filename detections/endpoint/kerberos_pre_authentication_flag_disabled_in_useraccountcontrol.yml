@@ -13,7 +13,7 @@ description: The following analytic leverages Windows Security Event 4738, `A us
   Red Teams and adversaries alike who have obtained privileges in an Active Directory
   network may use this technique as a backdoor or a way to escalate privileges.
 data_source:
-- Windows Security 4738
+- Windows Event Log Security 4738
 search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
   Preauth'' - Enabled*" |rename Account_Name as user | table EventCode, user, dest, Security_ID, MSADChangedAttributes
   | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'

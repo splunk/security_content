@@ -13,7 +13,7 @@ description: This analytic is to detect a process loading version.dll that is no
   red teaming tools to serve as remote admin tool to collect and compromise target
   host.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 ImageLoaded = "*\\version.dll" AND (Signed = "false"
   OR NOT(ImageLoaded IN("*\\windows\\system32*",  "*\\windows\\syswow64\\*"))) | stats
   count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name

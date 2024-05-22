@@ -11,7 +11,7 @@ description: The following analytic identifies when a new certificate is request
   When an account requests a certificate, the CA generates event ID (EID) 4886 "Certificate
   Services received a certificate request".
 data_source:
-- Windows Security 4886
+- Windows Event Log Security 4886
 search: '`wineventlog_security` EventCode=4886 | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, name, Requester, action, Attributes | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_steal_authentication_certificates_certificate_request_filter`'

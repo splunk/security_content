@@ -15,7 +15,7 @@ description: The following PowerShell Script Block analytic identifies the nativ
   method may be to look for W3WP.exe spawning PowerShell that includes the same CommandLine
   as identified in this analytic.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN("*system.enterpriseservices.internal.publish*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
   Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

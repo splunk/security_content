@@ -5,7 +5,8 @@ date: '2023-10-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic is designed to detect attempts to exploit the CVE-2023-46747 vulnerability, a critical authentication bypass flaw in F5 BIG-IP that can lead to unauthenticated remote code execution (RCE). This vulnerability specifically affects the BIG-IP Configuration utility (TMUI) and has been assigned a high severity CVSSv3 score of 9.8. The analytic identifies this behavior by monitoring for a specific URI path - "*/mgmt/tm/auth/user/*", with the PATCH method and 200 status. Additional URI's will occur around the same time include "*/mgmt/shared/authn/login*" and "*/tmui/login.jsp*", which are associated with the exploitation of this vulnerability. This behavior is significant for a Security Operations Center (SOC) as it indicates an attempt to bypass authentication mechanisms, potentially leading to unauthorized access and control over the system. If a true positive is identified, it suggests that an attacker is attempting to exploit a known vulnerability to gain unauthorized access and execute arbitrary code, which could lead to data theft, system disruption, or further malicious activities within the network.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/mgmt/tm/auth/user/*") Web.http_method=PATCH Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
   | `drop_dm_object_name("Web")` 

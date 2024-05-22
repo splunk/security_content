@@ -14,7 +14,7 @@ description: This analytic is to look for process commandline that contains name
   false positive which is the program files. False positive may still be arise if
   the normal application is in other folder path.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process = "*\\\\.\\pipe\\*"
   NOT (Processes.process_path IN ("*\\program files*")) by Processes.parent_process_name

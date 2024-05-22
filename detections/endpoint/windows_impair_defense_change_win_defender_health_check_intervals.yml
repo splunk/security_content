@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 12
-- Sysmon Event ID 13
-- Sysmon Event ID 14
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to change the health check interval of Windows Defender.
   Specifically, a value of 1 typically signifies that Windows Defender would perform health checks at a much higher frequency than the default settings. 
   However, it's important to note that modifying this value to 1 might not necessarily conform to the actual behavior, as certain registry settings may 

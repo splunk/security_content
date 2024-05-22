@@ -6,7 +6,8 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: This analytic monitors the BootExecute registry key for any modifications from its default value, which could indicate potential malicious activity. The BootExecute registry key, located at HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager, manages the list of applications and services that are executed during system boot. By default, the BootExecute value is set to "autocheck autochk *". Attackers might attempt to modify this value to achieve persistence, load malicious code, or tamper with the system's boot process.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE Registry.registry_path="HKLM\\System\\CurrentControlSet\\Control\\Session Manager\\BootExecute" BY _time span=1h Registry.dest Registry.registry_path Registry.registry_key_name

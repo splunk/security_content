@@ -9,7 +9,8 @@ description: On March 24th, 2022, Splunk published a security advisory for a pos
   Denial of Service stemming from the lack of validation in a specific key-value field
   in the Splunk-to-Splunk (S2S) protocol. This detection will alert on attempted exploitation
   in patched versions of Splunk.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunkd` log_level="ERROR" component="TcpInputProc" thread_name="FwdDataReceiverThread"
   "Invalid _meta atom" | table host, src | `splunk_dos_via_malformed_s2s_request_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The

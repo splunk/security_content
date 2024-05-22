@@ -1,21 +1,26 @@
 name: ASL AWS Defense Evasion Delete CloudWatch Log Group
 id: 0f701b38-a0fb-43fd-a83d-d12265f71f33
-version: 1
-date: '2023-05-31'
+version: 2
+date: '2024-02-12'
 author: Patrick Bareiss, Splunk
-status: experimental
+status: production
 type: TTP
-description: This analytic identifies AWS `DeleteLogGroup` events in CloudTrail logs.
-  Attackers may evade the logging capability by deleting the log group in CloudWatch.
-  This will stop sending the logs and metrics to CloudWatch. When the adversary has
-  the right type of permissions within the compromised AWS environment, they may delete
-  the CloudWatch log group that is logging activities in the environment.
+description: The following analytic detects the deletion of CloudWatch Log Groups within AWS CloudTrail logs. 
+  This action is indicative of an attacker's attempt to evade detection by disrupting the logging and monitoring capabilities of CloudWatch. 
+  By identifying and analyzing `DeleteLogGroup` events, this analytic helps in uncovering efforts to obscure malicious activities within a 
+  compromised AWS environment. Such evasion tactics are critical for a Security Operations Center (SOC) to identify as they signal an 
+  attacker's intent to operate undetected, posing a significant threat to the integrity and security of cloud environments. 
+  The impact of this attack is substantial, as it can lead to a loss of visibility into potentially malicious activities, 
+  hindering incident response and forensics efforts.
 data_source: []
-search: '`amazon_security_lake` api.operation=DeleteLogGroup
-  | stats count min(_time) as firstTime max(_time) as lastTime by identity.user.account_uid identity.user.credential_uid identity.user.name 
-  identity.user.type identity.user.uid identity.user.uuid http_request.user_agent src_endpoint.ip cloud.region | `security_content_ctime(firstTime)`|
+search: '`amazon_security_lake` api.operation=DeleteLogGroup | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id   | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `asl_aws_defense_evasion_delete_cloudwatch_log_group_filter`'
-how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has deleted CloudWatch logging. Please investigate this activity.
 references:
@@ -26,16 +31,16 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 100
-  message: User $identity.user.name$ has deleted a CloudWatch logging group for account id $identity.user.account_uid$
+  message: User $user$ has deleted a CloudWatch logging group for account id $aws_account_id$
   mitre_attack_id:
   - T1562
   - T1562.008
   observable:
-  - name: src_endpoint.ip 
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
-  - name: identity.user.name
+  - name: user
     type: User
     role:
     - Victim
@@ -44,22 +49,18 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - api.service.name
   - api.operation
-  - identity.user.account_uid
-  - identity.user.credential_uid
-  - identity.user.name
-  - identity.user.type
-  - identity.user.uid
-  - identity.user.uuid
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
   - http_request.user_agent
   - src_endpoint.ip
+  - cloud.region
   risk_score: 90
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/amazon_security_lake.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/asl_ocsf_cloudtrail.json
     source: aws_asl
-    sourcetype: aws:asl
-    update_timestamp: true
+    sourcetype: aws:cloudtrail:lake

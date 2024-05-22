@@ -13,7 +13,7 @@ description: This analytic is to looks for suspicious commandline that add entry
   you need a password for particular commands. The file is composed of aliases (basically
   variables) and user specifications (which control who can run what).
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = visudo
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name

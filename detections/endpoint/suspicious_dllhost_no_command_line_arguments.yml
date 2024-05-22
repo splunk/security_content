@@ -12,7 +12,7 @@ description: The following analytic identifies DLLHost.exe with no command line 
   any suspicious module loads related to credential dumping or file writes. DLLHost.exe
   is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_dllhost` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name

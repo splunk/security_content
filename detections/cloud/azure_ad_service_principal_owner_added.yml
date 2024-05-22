@@ -14,7 +14,8 @@ description: The following analytic identifies the addition of a new owner for a
   access may add a new owner for an existing Service Principal to establish Persistence
   and obtain single-factor access to an Azure AD environment. Attackers who are looking to
   escalate their privileges by leveraging a Service Principals permissions may also add a new owner.
-data_source: []
+data_source: 
+- Azure Active Directory Add owner to application
 search: ' `azure_monitor_aad`  operationName="Add owner to application"
   | rename properties.* as *
   | rename initiatedBy.user.userPrincipalName as initiatedBy

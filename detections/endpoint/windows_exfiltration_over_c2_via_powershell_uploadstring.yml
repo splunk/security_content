@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic identifies potential data exfiltration using the PowerShell net.webclient command. This technique was observed in the Winter-Vivern malware, which uploads desktop screenshots and files from compromised or targeted hosts. Detecting this TTP can serve as a valuable indicator that a process is attempting to upload files to an external or internal URI link. We recommend examining the process, the files it is trying to upload, and the URL link or C2 destination where the data is being uploaded.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Net.webclient*" AND ScriptBlockText = "*.UploadString*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID

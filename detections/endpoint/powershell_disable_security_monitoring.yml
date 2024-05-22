@@ -9,7 +9,7 @@ description: This search identifies a modification in registry to disable the wi
   defender real time behavior monitoring. This event or technique is commonly seen
   in RATs, bots, or Trojans to disable AV to evade detections.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` Processes.process="*set-mppreference*"
   AND Processes.process IN ("*disablerealtimemonitoring*","*disableioavprotection*","*disableintrusionpreventionsystem*","*disablescriptscanning*","*disableblockatfirstseen*","*DisableBehaviorMonitoring*","*drtm

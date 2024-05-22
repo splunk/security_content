@@ -10,7 +10,8 @@ description: 'The following analytic identifies an authentication attempt event 
   Error Code 500121 represents a failed attempt to authenticate using a second factor.
   This behavior may represent an adversary trying to authenticate with compromised
   credentials for an account that has multi-factor authentication enabled. '
-data_source: []
+data_source: 
+- Azure Active Directory
 search: ' `azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121
   | rename properties.* as * 
   | stats count min(_time) as firstTime max(_time) as lastTime by user, src_ip, status.additionalDetails, appDisplayName, user_agent

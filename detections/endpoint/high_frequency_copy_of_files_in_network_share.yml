@@ -12,7 +12,7 @@ description: This analytic is to detect a suspicious high frequency copying/movi
   of insider attack to other user. This behavior may catch several noise if network
   share is a common place for classified or internal document processing.
 data_source:
-- Sysmon Event ID 5
+- Windows Event Log Security 5145
 search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key") ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask= "0x2" |  bucket _time span=5m 
   | stats values(RelativeTargetName) as valRelativeTargetName, values(ShareName) as valShareName, values(ObjectType) as valObjectType, values(AccessMask) as valAccessmask, values(src_port) as valSrcPort, values(SourceAddress) as valSrcAddress count as numShareName by dest, _time, EventCode, src_user, src_ip 
   | eventstats avg(numShareName) as avgShareName, stdev(numShareName) as stdShareName, count as numSlots by dest, _time, EventCode, src_user

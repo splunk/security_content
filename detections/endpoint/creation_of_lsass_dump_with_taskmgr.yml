@@ -11,7 +11,7 @@ description: Detect the hands on keyboard behavior of Windows Task Manager creat
   cannot be renamed, however if the dump occurs more than once, it will be named lsass
   (2).dmp.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '`sysmon` EventID=11 process_name=taskmgr.exe TargetFilename=*lsass*.dmp |
   stats count min(_time) as firstTime max(_time) as lastTime by dest, object_category,
   process_name, TargetFilename  | `security_content_ctime(firstTime)`

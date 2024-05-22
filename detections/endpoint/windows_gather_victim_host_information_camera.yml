@@ -11,7 +11,7 @@ description: The following analytic detects a powershell script that enumerate c
   its C2 server. This anomaly detection can be a good pivot to check who and why this
   enumeration is needed and what parent process execute this powershell script command.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText=
   "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText
   IN ("*Image*", "*Camera*") | stats count min(_time) as firstTime max(_time) as lastTime

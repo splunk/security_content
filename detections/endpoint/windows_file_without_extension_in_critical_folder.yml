@@ -12,7 +12,7 @@ description: This analytic is to look for suspicious file creation in the critic
   .sys file extension). This TTP is really a good indication that a host might be
   compromised by this destructive malware that wipes the boot sector of the system.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
   where Filesystem.file_path IN ("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*")
   by _time span=5m Filesystem.dest Filesystem.user Filesystem.file_name Filesystem.file_path

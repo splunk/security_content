@@ -15,7 +15,7 @@ description: This analytic looks for suspicious chmod utility execution to enabl
   change group membership, usually to execute a program. The SGID bit is set if an
   s or an S appears in the group section of permissions.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes WHERE (Processes.process_name = chmod
   OR Processes.process = "*chmod *") AND Processes.process IN("* g+s *", "* u+s *",

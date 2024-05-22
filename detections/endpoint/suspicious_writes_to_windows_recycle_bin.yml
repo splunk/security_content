@@ -8,14 +8,15 @@ type: TTP
 description: |-
   The following analytic detects when a process other than explorer.exe writes to the Windows Recycle Bin to detect potential threats earlier and mitigate the risks. This detection is made by a Splunk query that utilizes the Endpoint.Filesystem data model and the Endpoint.Processes data model. The query looks for any process writing to the "*$Recycle.Bin*" file path, excluding explorer.exe. This detection is important because it suggests that an attacker is attempting to hide their activities by using the Recycle Bin, which can lead to data theft, ransomware, or other damaging outcomes. Detecting writes to the Recycle Bin by a process other than explorer.exe can help to investigate and determine if the activity is malicious or benign. False positives might occur since there might be legitimate uses of the Recycle Bin by processes other than explorer.exe. Next steps include reviewing the process writing to the Recycle Bin and any relevant on-disk artifacts upon triage.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 1
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*" by Filesystem.process_name Filesystem.process_id Filesystem.dest 
-| `drop_dm_object_name("Filesystem")` 
-| join  process_id
+  | `drop_dm_object_name("Filesystem")` 
+  | join  process_id
     [| tstats `security_content_summariesonly` values(Processes.user) as user values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name != "explorer.exe" by Processes.process_id Processes.dest 
     | `drop_dm_object_name("Processes")` 
     | table user process_name process_id dest] 
-| `suspicious_writes_to_windows_recycle_bin_filter`'
+  | `suspicious_writes_to_windows_recycle_bin_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on filesystem and process logs responsible for the changes from your endpoints into
   the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.

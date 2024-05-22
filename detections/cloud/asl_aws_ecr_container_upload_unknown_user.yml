@@ -1,0 +1,65 @@
+name: ASL AWS ECR Container Upload Unknown User
+id: 886a8f46-d7e2-4439-b9ba-aec238e31732
+version: 2
+date: '2024-02-14'
+author: Patrick Bareiss, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects unauthorized container uploads to AWS Elastic Container Service (ECR) by monitoring AWS CloudTrail events. 
+  It identifies instances where a new container is uploaded by a user not previously recognized as authorized. This detection is crucial for a SOC 
+  as it can indicate a potential compromise or misuse of AWS ECR, which could lead to unauthorized access to sensitive data or the deployment of 
+  malicious containers. By identifying and investigating these events, organizations can mitigate the risk of data breaches or other security 
+  incidents resulting from unauthorized container uploads. The impact of such an attack could be significant, compromising the integrity and 
+  security of the organization's cloud environment.
+data_source: []
+search: '`amazon_security_lake` api.operation=PutImage NOT `aws_ecr_users_asl`
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region 
+  | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `asl_aws_ecr_container_upload_unknown_user_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
+known_false_positives: unknown
+references:
+- https://attack.mitre.org/techniques/T1204/003/
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: AWS Account
+  confidence: 70
+  impact: 70
+  message: Container uploaded from unknown user $user$
+  mitre_attack_id:
+  - T1204.003
+  - T1204
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.operation
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
+  - http_request.user_agent
+  - src_endpoint.ip
+  - cloud.region
+  risk_score: 49
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_container_upload/asl_ocsf_cloudtrail.json
+    sourcetype: aws:cloudtrail:lake
+    source: aws_asl

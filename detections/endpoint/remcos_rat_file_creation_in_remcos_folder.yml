@@ -10,7 +10,7 @@ description: This search is to detect file creation in remcos folder in appdata 
   a good TTP indicator that there is a remcos rat in the system that do keylogging,
   clipboard grabbing and audio recording.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.dat")
   Filesystem.file_path = "*\\remcos\\*" by _time Filesystem.file_name Filesystem.file_path

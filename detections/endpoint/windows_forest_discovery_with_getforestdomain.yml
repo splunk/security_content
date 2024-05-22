@@ -6,7 +6,7 @@ author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: This analytic utilizes PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Get-ForestDomain` commandlet. `Get-ForestDomain` is a component of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Detecting the use of `Get-ForestDomain` is essential as adversaries and Red Teams might employ it to gain insights into the forest and domain configurations of an Active Directory environment.  Such information can provide attackers with a broader understanding of the domain structure and potential avenues for lateral movement or privilege escalation.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user

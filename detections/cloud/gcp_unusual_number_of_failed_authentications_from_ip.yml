@@ -17,7 +17,8 @@ description: The following analytic identifies one source IP failing to authenti
   like the standard deviation can have benefits, we also recommend using threshold-based
   detections to complement coverage. A similar analytic following the threshold model
   is `GCP Multiple Users Failing To Authenticate From Ip`
-data_source: []
+data_source: 
+- Google Workspace login_failure
 search: '`gws_reports_login` event.type = login event.name = login_failure| bucket
   span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts
   values(authentication_method) AS authentication_method by _time, src | eventstats  avg(unique_accounts)

@@ -11,7 +11,8 @@ description: This analytic is to detect a suspicious modification or new registr
   This is done by adding the malicious dll payload on the new created key in this
   registry that will be executed as it restarted the spoolsv.exe process and services.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   ="*\\Control\\Print\\Environments\\Windows x64\\Print Processors*" by Registry.dest  Registry.user

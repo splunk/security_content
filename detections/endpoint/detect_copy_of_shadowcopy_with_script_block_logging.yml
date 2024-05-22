@@ -19,7 +19,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*copy*","*[System.IO.File]::Copy*")
   AND ScriptBlockText IN ("*System32\\config\\SAM*", "*System32\\config\\SYSTEM*","*System32\\config\\SECURITY*")  
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer

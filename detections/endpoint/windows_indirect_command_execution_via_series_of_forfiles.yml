@@ -11,7 +11,7 @@ description: This analytic is developed to detect suspicious excessive usage of 
   to multiple files. This Windows OS built-in tool being abused to list all files
   in specific directory or drive.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_guid) as process_guid  values(Processes.process_name) as
   process_name count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes

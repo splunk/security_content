@@ -12,7 +12,8 @@ description: The following analytic identifies activity related to the web appli
   it, but for filtering you can add Web.status=500. The exploit data itself (based
   on all the POCs) is located in the form_data field. This field will include all
   class.modules being called.
-data_source: []
+data_source: 
+- Splunk Stream HTTP
 search: '| tstats count from datamodel=Web where Web.http_method IN ("POST") Web.url="*/functionRouter*"
   by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest
   Web.status sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`

@@ -6,14 +6,14 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Windows Security 4732
+- Windows Event Log Security 4732
 description: The following analytic leverages Event ID 4732 to identify the addition of a new member to the DnsAdmins group within Active Directory. . Members of the DnsAdmin group can manage
   the DNS service which most of the times runs on the Domain Controller. By abusing legitimate DNS management functionality, a member of the DnsAdmins group can escalate privileges by
   executing malicious code on a Domain Controller as SYSTEM. Security teams should monitor the modification of the DnsAdmins group and validate the changes are legitimate.
 search: ' `wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins | stats min(_time) as firstTime max(_time) as lastTime values(TargetUserName) as target_users_added values(user) as user by  dest src_user 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| `windows_dnsadmins_new_member_added_filter`'
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_dnsadmins_new_member_added_filter`'
 how_to_implement: To successfully implement this search, Domain Controller events need to be ingested. The Advanced Security Audit policy setting `Audit Security Group Management`
   within `Account Management` needs to be enabled.
 known_false_positives: New members can be added to the DnsAdmins group as part of legitimate administrative tasks. Filter as needed.

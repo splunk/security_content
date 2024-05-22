@@ -12,7 +12,8 @@ description: this search is to detect a suspicious registry modification to impl
   really a suspicious TTP or alert need to be consider if found within then network
   premise.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon*" AND Registry.registry_value_name=AutoAdminLogon AND Registry.registry_value_data=1) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.dest
   | `drop_dm_object_name(Registry)`
   | where isnotnull(registry_value_data)

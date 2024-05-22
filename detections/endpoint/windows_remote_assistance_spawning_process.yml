@@ -12,7 +12,7 @@ description: The following analytic identifies the use of Microsoft Remote Assis
   another process injected into msra.exe. Review the parent process or cross process
   events to identify source.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=msra.exe
   `windows_shells` by Processes.dest Processes.user Processes.parent_process_name

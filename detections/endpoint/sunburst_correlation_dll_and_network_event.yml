@@ -9,7 +9,8 @@ description: The malware sunburst will load the malicious dll by SolarWinds.Busi
   After a period of 12-14 days, the malware will attempt to resolve a subdomain of
   avsvmcloud.com. This detections will correlate both events.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
+- Sysmon EventID 22
 search: '(`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.dll)
   OR (`sysmon` EventCode=22 QueryName=*avsvmcloud.com) | eventstats dc(EventCode)
   AS dc_events | where dc_events=2 | stats min(_time) as firstTime max(_time) as lastTime

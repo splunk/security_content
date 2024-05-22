@@ -6,8 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
-- Windows Security 4688
+- Sysmon EventID 1
 description: This analytic looks for the presence of suspicious commandline parameters
   typically present when using Impacket tools. Impacket is a collection of python
   classes meant to be used with Microsoft network protocols. There are multiple scripts

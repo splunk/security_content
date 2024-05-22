@@ -8,7 +8,8 @@ type: TTP
 description: The following analytic utilizes AWS CloudTrail events to identify when
   an EC2 snapshot permissions are modified to be shared with a different AWS account.
   This method is used by adversaries to exfiltrate the EC2 snapshot.
-data_source: []
+data_source: 
+- AWS CloudTrail ModifySnapshotAttribute
 search: '`cloudtrail` eventName=ModifySnapshotAttribute | rename requestParameters.createVolumePermission.add.items{}.userId
   as requested_account_id | search requested_account_id != NULL | eval match=if(requested_account_id==aws_account_id,"Match","No Match") | table _time user_arn src_ip requestParameters.attributeType requested_account_id aws_account_id match vendor_region user_agent userIdentity.principalId | where match = "No Match" | `aws_ec2_snapshot_shared_externally_filter` '
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This

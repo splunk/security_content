@@ -4,7 +4,7 @@ version: 1
 date: '2024-03-20'
 author: Michael Haag, Splunk
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 13
 type: Anomaly
 status: production
 description: The following analytic identifies the creation or modification of registry keys associated with new Outlook form installations that could indicate exploitation of CVE-2024-21378. The vulnerability allows for authenticated remote code execution via synced form objects by abusing the InProcServer32 registry key. The attack involves syncing malicious form objects that carry special properties and attachments used to "install" the form on a client, potentially leading to arbitrary file and registry key creation under HKEY_CLASSES_ROOT (HKCR), and ultimately, remote code execution. This detection focuses on monitoring for registry modifications involving InProcServer32 keys or equivalent that are linked to Outlook form installations, which are indicative of an attempt to exploit this vulnerability.

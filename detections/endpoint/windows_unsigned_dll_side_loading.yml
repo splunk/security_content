@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 description: This analytic focuses on detecting potentially malicious unsigned DLLs created in either the c:\windows\system32 or c:\windows\syswow64 folders. 
   This particular technique was observed in the context of the Warzone (Ave Maria) RAT, where it employed a method known as DLL hijacking (dll-side-loading) 
   by dropping the "dismcore.dll" to achieve privilege escalation.

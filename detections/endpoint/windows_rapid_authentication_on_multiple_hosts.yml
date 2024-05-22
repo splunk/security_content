@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
-- Windows  Security 4624
+- Windows Event Log Security 4624
 description: The following analytic leverages Event ID 4624 to identify a source computer authenticating to a large number of remote endpoints within an Active Directory network.
   Specifically, the logic will trigger when a source endpoint authenticates to 30 or more target computers within a 5 minute timespan. This behavior could represent an adversary who is
   moving laterally across the environment or enumerating network shares in the search for sensitive files.

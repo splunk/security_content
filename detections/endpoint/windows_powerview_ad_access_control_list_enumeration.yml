@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic leverages Event ID 4104 to identify the execution of the PowerView powershell commandlets `Get-ObjectAcl` or `Get-DomainObjectAcl`. This commandlets
   are used to enumerate Access Control List permissions given to Active Directory objects. In an active directory environment, an object is an entity that represents an available resource within 
   the organizations network, such as domain controllers, users, groups, computers, shares, etc.  Maintaining Active Directory permissions is complicated and hard to manage, especially in complex 

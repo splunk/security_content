@@ -13,7 +13,7 @@ description: The following analytic identifies wmiprvse.exe spawning msbuild.exe
   have no command line arguments. For example, MSBuild.exe spawning from explorer.exe,
   powershell.exe is far less common and should be investigated.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wmiprvse.exe

@@ -9,7 +9,7 @@ description: The following analytic identifies two SPNs, HOST and RestrictedKrbH
   added using the KrbRelayUp behavior. This particular behavior has been found in
   other Kerberos based attacks.
 data_source:
-- Windows Security 4741
+- Windows Event Log Security 4741
 search: '`wineventlog_security` EventCode=4741 NewUacValue="0x80" ServicePrincipalNames IN ("*HOST/*","*RestrictedKrbHost/*")
   | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode),values(TargetDomainName),values(PrimaryGroupId),
   values(OldUacValue), values(NewUacValue),values(SamAccountName),values(DnsHostName),values(ServicePrincipalNames)

@@ -10,7 +10,7 @@ description: The following analtyic identifies the use of get-WebConfigurationPr
   Adversaries may perform this action to disable HTTP logging to cover tracks and
   delete logs on disk.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN("*get-WebConfigurationProperty*","*Set-ItemProperty*")
   AND ScriptBlockText IN ("*httpLogging*","*Logfile.enabled*") AND ScriptBlockText
   IN ("*dontLog*", "*false*")   | stats count min(_time) as firstTime max(_time) as

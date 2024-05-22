@@ -5,7 +5,8 @@ date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran,  Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Azure Active Directory
 description: The following analytic identifies the execution of the Azure Device Code Phishing attack, 
   which can lead to Azure Account Take-Over (ATO). The detection leverages Azure AD logs specifically 
   focusing on authentication requests to identify the attack. This technique involves creating malicious 

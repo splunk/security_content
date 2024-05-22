@@ -12,7 +12,7 @@ description: This analytic look for a spawned runas.exe process with a administr
   like lateral movement but take note that administrator may use this command in purpose
   so its better to see other event context before and after this analytic.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_runas` AND Processes.process
   = "*/user:*" AND Processes.process = "*admin*" by Processes.dest Processes.user

@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies instances of the WinDBG process spawning AutoIt3. This behavior may indicate malicious activity as AutoIt3 is often used by threat actors for scripting malicious automation. The search specifically looks for instances where the parent process name is 'windbg.exe' and the process name is 'autoit3.exe' or 'autoit*.exe'. During the triage process, it is recommended to review the file path for additional artifacts that may provide further insights into the event.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes  where Processes.parent_process_name=windbg.exe  AND (Processes.process_name IN ("autoit3.exe", "autoit*.exe") OR Processes.original_file_name IN ("autoit3.exe", "autoit*.exe")) by Processes.dest, Processes.user, Processes.parent_process_name, Processes.process_name, Processes.original_file_name, Processes.process, Processes.process_id, Processes.parent_process_id
   | `drop_dm_object_name(Processes)` 

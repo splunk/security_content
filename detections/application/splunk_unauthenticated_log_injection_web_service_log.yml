@@ -5,7 +5,8 @@ date: '2023-07-13'
 author: Rod Soto
 status: production
 type: Hunting
-data_source: []
+data_source: 
+- Splunk
 description: An attacker can use a specially crafted web URL in their browser to cause log file injection, in which the attack inserts American National Standards Institute (ANSI) escape codes into specific files using a terminal program that supports those escape codes. The attack requires a terminal program that supports the translation of ANSI escape codes and requires additional user interaction to successfully execute. This following analytic detects potential log injection attempts into the Splunk server.
 search: '`splunkd_webx`  uri_path IN ("*\x1B*", "*\u001b*", "*\033*", "*\0x9*", "*\0x8*") | stats count by uri_path method host status clientip | `splunk_unauthenticated_log_injection_web_service_log_filter`'
 how_to_implement: This only affects web enabled Splunk instances. The detection does require the ability to search the _internal index.

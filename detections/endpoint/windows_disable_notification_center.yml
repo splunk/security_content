@@ -11,7 +11,8 @@ description: The following search identifies a modification of registry to disab
   the task bar. This modification are seen in RAT malware to cover their tracks upon
   downloading other of its component or other payload.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_value_name= "DisableNotificationCenter" Registry.registry_value_data
   = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path

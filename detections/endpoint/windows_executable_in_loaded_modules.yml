@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 description: This analytic identifies potentially malicious 'ImageLoaded' events, particularly when they involve executable files. 
   This behavior was observed in NjRAT instances, where, during each instance of loading a module from its C2 server onto the compromised host, 
   Sysmon recorded the path of the actual Image or Process as an 'ImageLoaded' event, rather than the typical tracking of dynamically loaded DLL modules in memory.

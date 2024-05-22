@@ -13,7 +13,7 @@ description: The following analytic detects the creation of suspicious tasks in 
 
   Upon triage, review the scheduled task's source and the command to be executed. Capture and inspect any relevant on-disk artifacts, and look for concurrent processes to identify the attack source. This approach helps analysts detect potential threats earlier and mitigate the risks.
 data_source:
-- Windows Security 4698
+- Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
   ("*rundll32*") | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Task_Name, Command, Author, Enabled, Hidden, Arguments | `security_content_ctime(firstTime)`

@@ -12,7 +12,7 @@ description: This analytic looks for a commandline that change the file owner to
   in corporate network except from the administrator doing normal task that needs
   high privilege.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = chown
   OR Processes.process = "*chown *") AND Processes.process = "* root *" by Processes.dest

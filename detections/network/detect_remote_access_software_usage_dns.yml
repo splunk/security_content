@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic detects when a known remote access software domains are contacted from within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
 data_source:
-- Sysmon Event ID 22
+- Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution by DNS.src DNS.query
   | `drop_dm_object_name("DNS")` 
   | `security_content_ctime(firstTime)` 

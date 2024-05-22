@@ -9,14 +9,15 @@ description: The following detection identifies excessive AccessDenied events wi
   an hour timeframe. It is possible that an access key to AWS may have been stolen
   and is being misused to perform discovery events. In these instances, the access
   is not available with the key stolen therefore these events will be generated.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
   | bucket _time span=1h | stats count as failures min(_time) as firstTime max(_time)
   as lastTime, dc(eventName) as methods, dc(eventSource) as sources by src_ip, userIdentity.arn,
   _time | where failures >= 5 and methods >= 1 and sources >= 1 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_iam_accessdenied_discovery_events_filter`'
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
-  this data. The search requires AWS Cloudtrail logs.
+  this data. The search requires AWS CloudTrail logs.
 known_false_positives: It is possible to start this detection will need to be tuned
   by source IP or user. In addition, change the count values to an upper threshold
   to restrict false positives.

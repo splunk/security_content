@@ -12,7 +12,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   and adversaries may leverage this function to enumerate domain groups for situational
   awareness and Active Directory Discovery.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroup*") | stats
   count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
   ScriptBlockText | `security_content_ctime(firstTime)` | `getdomaingroup_with_powershell_script_block_filter`'

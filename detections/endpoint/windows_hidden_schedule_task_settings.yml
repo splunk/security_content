@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic detects creation of hidden scheculed tasks such that it this task is not visible on the UI. Such behavior is indicative of certain malware, such as Industroyer2, or attacks leveraging living-off-the-land binaries (LOLBINs) to download additional payloads to a compromised machine. This analytic relies on the Windows Security EventCode 4698, indicating the creation of a scheduled task. The search focuses on identifying instances where the 'Hidden' setting is enabled, signaling potential nefarious activity. To implement this search, you need to ingest logs with task scheduling details from your endpoints. As false positives are currently unknown, it is advised to tune and filter based on the known use of task scheduling in your environment. This analytic provides crucial visibility into stealthy, potentially harmful scheduled tasks on Windows systems.
 data_source:
-- Windows Security 4698
+- Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Hidden = true
   | stats count min(_time) as firstTime max(_time) as lastTime by  Task_Name, Command,
   Author, Hidden, dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

@@ -14,7 +14,7 @@ description: DynamicWrapperX is an ActiveX component that can be used in a scrip
   modifications meant to load dynwrapx.dll. Identify any suspicious module loads of
   dynwrapx.dll. This will identify the process that will invoke vbs/wscript/cscript.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
   Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats

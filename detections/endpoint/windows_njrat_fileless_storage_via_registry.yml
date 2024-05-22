@@ -8,7 +8,6 @@ type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-- Sysmon EventID 14
 description: The following analytic identifies a suspicious registry modification associated with NjRat, 
   a telltale sign of its fileless technique. NjRat employs this method to manage its keylogs and execute downloaded DLL module plugins discreetly on the compromised host. 
   This approach is particularly effective at evading conventional file-based detection systems, as it stores indicators of compromise (IOCs) in the registry. 

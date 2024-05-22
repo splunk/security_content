@@ -6,7 +6,7 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-- Windows Security 4662
+- Windows Event Log Security 4662
 description: This alert was written to detect activity associated with the DCSync attack. 
  When a domain controller receives a replication request, the user account permissions are validated, however no checks are performed to validate the request was initiated by a Domain Controller.
  Once an attacker gains control of an account with the necessary privileges, they can request password hashes for any or all users within the domain.
