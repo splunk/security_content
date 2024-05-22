@@ -10,7 +10,7 @@ description: Microsoft Windows contains accessibility features that can be launc
   these programs so they can get a command prompt or backdoor without logging in to
   the system. This search looks for modifications to these binaries.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
   as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe*

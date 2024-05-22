@@ -10,7 +10,7 @@ description: The following analytic identifes a Computer Account creating a new 
   service class allows client applications to use Kerberos authentication when they
   do not have the identity of the service but have the server name.
 data_source:
-- Windows Security 4741
+- Windows Event Log Security 4741
 search: '`wineventlog_security` EventCode=4741 user_type=computer SubjectDomainName!="NT AUTHORITY" ServicePrincipalNames=*RestrictedKrbHost* 
   | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action ,src_user, user, user_type, SubjectUserName,SubjectDomainName 
   | `security_content_ctime(firstTime)` 

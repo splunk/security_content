@@ -15,7 +15,7 @@ description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain 
   behavior could represent an exploitation attempt of CVE-2021-42278 and CVE-2021-42287
   for privilege escalation.
 data_source:
-- Windows Security 4769
+- Windows Event Log Security 4769
 search: ' `wineventlog_security` EventCode=4769
   | eval isSuspicious = if(lower(ServiceName) = lower(mvindex(split(TargetUserName,"@"),0)),1,0) 
   | where isSuspicious = 1 | rename Computer as dest| rename TargetUserName as user  

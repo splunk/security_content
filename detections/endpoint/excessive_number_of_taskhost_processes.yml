@@ -12,7 +12,7 @@ description: This detection targets behaviors observed in post exploit kits like
   of normal operations to see so many distinct taskhost and taskhostex processes running
   concurrently in a short time frame.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
   process_ids  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
   WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe"

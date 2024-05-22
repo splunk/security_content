@@ -11,7 +11,7 @@ description: The following analytic detects a potential suspicious modification 
   targetted host. Take note that this event or command can run by administrator during
   testing or allowing legitimate tool or application.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process = "*firewall*"
   Processes.process = "*allow*" Processes.process = "*add*" Processes.process = "*ENABLE*"

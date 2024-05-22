@@ -6,7 +6,7 @@ author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: This analytic leverages PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Find-InterestingDomainAcl` commandlet. `Find-InterestingDomainAcl` is part of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Detecting the use of `Find-InterestingDomainAcl` is crucial as adversaries and Red Teams might employ it to identify unusual or misconfigured Access Control Lists (ACLs) within the domain. Such ACLs can provide attackers with insights into potential privilege escalation opportunities or weak security postures within Active Directory.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-InterestingDomainAcl*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user

@@ -8,7 +8,7 @@ type: Anomaly
 description: This search looks for child processes spawned by zoom.exe or zoom.us
   that has not previously been seen.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime values(Processes.parent_process_name)
   as parent_process_name values(Processes.parent_process_id) as parent_process_id
   values(Processes.process_name) as process_name values(Processes.process) as process

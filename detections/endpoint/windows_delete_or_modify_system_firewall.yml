@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic identifies potentially malicious 'netsh' processes that manipulate firewall configurations. 
   This behavior has been observed in the NJRAT malware, which deletes its added firewall rules as part of its cleanup process. 
   Leveraging this anomaly detection can be a valuable approach for detecting malware, such as NJRAT, 

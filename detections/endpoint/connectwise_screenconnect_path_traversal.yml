@@ -4,7 +4,7 @@ version: 1
 date: '2024-02-21'
 author: Michael Haag, Splunk
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 type: TTP
 status: production
 description: This analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1708 vulnerability, which allows an attacker to perform path traversal attacks by manipulating the file_path and file_name parameters in the URL. The vulnerability, identified as critical with a CVSS score of 9.8, enables unauthorized users to access sensitive files and directories on the host system, potentially leading to the exfiltration of sensitive data or the execution of arbitrary code. The search query provided looks for file system events that could indicate exploitation attempts. This detection is crucial for identifying and responding to active exploitation of this vulnerability in environments running affected versions of ScreenConnect (23.9.7 and prior). It is recommended to update to version 23.9.8 or above immediately to remediate the issue, as detailed in the ConnectWise security advisory and further analyzed by Huntress researchers.

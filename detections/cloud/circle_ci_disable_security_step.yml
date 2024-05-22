@@ -7,7 +7,8 @@ status: experimental
 type: Anomaly
 description: |-
   The following analytic detects the disablement of security steps in a CircleCI pipeline. Addressing instances of security step disablement in CircleCI pipelines can mitigate the risks associated with potential security vulnerabilities and unauthorized changes. A proactive approach helps protect the organization's infrastructure, data, and overall security posture. The detection is made by a Splunk query that searches for specific criteria within CircleCI logs through a combination of field renaming, joining, and statistical analysis to identify instances where security steps are disabled. It retrieves information such as job IDs, job names, commit details, and user information from the CircleCI logs.  The detection is important because it indicates potential security vulnerabilities or unauthorized changes to the pipeline caused by someone within the organization intentionally or unintentionally disabling security steps in the CircleCI pipeline.Disabling security steps can leave the pipeline and the associated infrastructure exposed to potential attacks, data breaches, or the introduction of malicious code into the pipeline. Investigate by reviewing the job name, commit details, and user information associated with the disablement of security steps. You must also examine any relevant on-disk artifacts and identify concurrent processes that might indicate the source of the attack or unauthorized change.
-data_source: []
+data_source: 
+- CircleCI
 search: '`circleci` | rename workflows.job_id AS job_id | join job_id [ | search `circleci`
   | stats values(name) as step_names count by job_id job_name ] | stats count by step_names
   job_id job_name vcs.committer_name vcs.subject vcs.url owners{} | rename vcs.* as

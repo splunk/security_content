@@ -11,7 +11,7 @@ description: The following analytic identifies non SYSTEM accounts requesting ac
   the GrantedAccess from the SourceImage. In addition, whether the account is privileged
   or not. Review the process requesting permissions and review parallel processes.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe NOT (SourceUser="NT AUTHORITY\\*")
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,
   parent_process_path ,parent_process_id, TargetImage, GrantedAccess, SourceUser,

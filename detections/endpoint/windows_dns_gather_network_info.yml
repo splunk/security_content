@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 status: production
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a process command line used to enumerate
   DNS records. Adversaries, threat actors, or red teamers may employ this technique
   to gather information about a victim's DNS, which can be utilized during targeting.

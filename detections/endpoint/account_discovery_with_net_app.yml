@@ -13,7 +13,7 @@ description: This search is to detect a potential account discovery series of co
   the machines within a none technical user or department (HR, finance, ceo and etc)
   network.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes

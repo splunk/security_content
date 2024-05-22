@@ -12,7 +12,7 @@ description: The following analytic identifies the process AppCmd.exe installing
   An administrator may run this to install new modules for a web site or during IIS
   updates.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where NOT (Processes.parent_process_name  IN
   ("msiexec.exe", "iissetup.exe")) Processes.process_name=appcmd.exe Processes.process

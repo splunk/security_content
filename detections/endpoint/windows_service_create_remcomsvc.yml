@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
-- Windows System 7045
+- Windows Event Log System 7045
 description: The following analytic identifies RemComSvc installed on an endpoint. This typically occurs when someone is moving laterally with RemCom.exe.
 search: '`wineventlog_system` EventCode=7045 ServiceName="RemCom Service" | stats count min(_time) as firstTime max(_time) as lastTime by
   dest ImagePath ServiceName ServiceType   | `security_content_ctime(firstTime)`

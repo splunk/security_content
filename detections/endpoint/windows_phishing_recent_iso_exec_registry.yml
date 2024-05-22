@@ -12,7 +12,8 @@ description: The following hunting analytic identifies registry artifacts when a
   controls. Once the ISO is clicked or mounted it will create a registry artifact
   related to this event as a recent application executed or opened.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso"
   OR Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.img"

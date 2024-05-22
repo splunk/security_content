@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic utilizes PowerShell Script Block Logging to identify
   the execution of the PowerView PowerShell commandlet Get-NetUser. In the context
   of PowerView's Get-NetUser cmdlet as a filter or parameter to query Active Directory

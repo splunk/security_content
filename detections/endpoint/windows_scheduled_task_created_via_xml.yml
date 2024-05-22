@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: 'The following analytic detects the creation of suspicious scheduled
   tasks in Windows, specifically tasks created using schtasks.exe with the -create
   flag and an XML parameter in the command-line. This technique is commonly employed

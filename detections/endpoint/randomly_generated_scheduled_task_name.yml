@@ -17,7 +17,7 @@ description: The following hunting analytic leverages Event ID 4698, `A schedule
   by users. The Command field can be used to determine if the task has malicious intent
   or not.
 data_source:
-- Windows Security 4698
+- Windows Event Log Security 4698
 search: ' `wineventlog_security` EventCode=4698 | xmlkv Message | lookup ut_shannon_lookup
   word as Task_Name | where ut_shannon > 3 | table  _time, dest, Task_Name, ut_shannon,
   Command, Author, Enabled, Hidden | `randomly_generated_scheduled_task_name_filter`'

@@ -11,7 +11,7 @@ description: This search detects a suspicioous termination of known services kil
   the targetted files it wants to encrypts because of the open handle of those services
   to the targetted file.
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7036
 search: '`wineventlog_system` EventCode=7036 param1 IN ("*Volume Shadow Copy*","*VSS*",
   "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*", "DefWatch",
   "ccEvtMgr", "ccSetMgr", "SavRoam", "RTVscan", "QBFCService", "QBIDPService", "Intuit.QuickBooks.FCS",

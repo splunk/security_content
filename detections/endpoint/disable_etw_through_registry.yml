@@ -10,7 +10,8 @@ description: This search is to identify modification in registry to disable ETW 
   and even APT to impaire defenses of the compromise machine and to be able to execute
   payload with minimal alert as much as possible.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\.NETFramework\\ETWEnabled"
   Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.dest Registry.registry_path

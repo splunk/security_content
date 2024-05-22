@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a process execute a rar utilities to archive files. 
   This method has been exploited by various threat actors, including red-teamers and malware like DarkGate, 
   to gather and compress collected data on compromised hosts. Subsequently, these archives are transmitted to 

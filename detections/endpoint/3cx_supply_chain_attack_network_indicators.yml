@@ -5,7 +5,8 @@ date: "2023-03-30"
 author: Michael Haag, Splunk
 type: TTP
 status: experimental
-data_source: []
+data_source:
+- Sysmon EventID 22
 description: The analytic provided below employs the Network_Resolution datamodel to detect domain indicators associated with the 3CX supply chain attack. By leveraging this query, you can efficiently conduct retrospective analysis of your data to uncover potential compromises.
 search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query
   | `drop_dm_object_name(DNS)`

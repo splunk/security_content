@@ -14,7 +14,7 @@ description: This search is to detect an anomaly event of a non-firefox process 
   the access to the folder, we have obsevered noise and hence added `sqlite db browser`
   and `explorer.exe` to make this detection more stable.
 data_source:
-- Windows Security 4663
+- Windows Event Log Security 4663
 search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\firefox.exe",
   "*\\explorer.exe", "*sql*")) ObjectName="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*"
   | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType

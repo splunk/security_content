@@ -11,7 +11,7 @@ description: This search is to detect a suspicious creation of msmpeng.exe or mp
   of msmpeng.exe to load the actual payload name as mspvc.dll which will load the
   revil ransomware to the compromise machine
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 1
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND NOT 

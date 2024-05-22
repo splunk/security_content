@@ -14,7 +14,7 @@ description: The following analytic identifies a non-standard parent process (no
   This TTP is a good indicator for an adversary gathering host information, but one
   possible false positive might be an automated tool used by a system administator.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = "ipconfig.exe"
   OR Processes.process_name = "systeminfo.exe" OR Processes.process_name = "net.exe"

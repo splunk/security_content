@@ -6,7 +6,7 @@ author: Rod Soto, Chase Franklin
 status: production
 type: Hunting
 data_source:
-- audittrail
+- Splunk
 description: A low-privilege user who holds a role that has the edit_user capability assigned to it can escalate their privileges to that of the admin user by providing specially crafted web requests.
 search: '`audittrail` action IN ("change_own_password","password_change","edit_password") AND info="granted" AND NOT user IN (admin, splunk-system-user) | stats earliest(_time) as event_time values(index) as index values(sourcetype) as sourcetype values(action) as action values(info) as info by user | `splunk_edit_user_privilege_escalation_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This detection may assist in efforts to discover abuse of edit_user privilege. 

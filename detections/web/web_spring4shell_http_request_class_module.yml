@@ -9,7 +9,8 @@ description: The following analytic identifies the payload related to Spring4She
   CVE-2022-22965. This analytic uses Splunk Stream HTTP to view the http request body,
   form data. STRT reviewed all the current proof of concept code and determined the
   commonality with the payloads being passed used the same fields "class.module.classLoader.resources.context.parent.pipeline.first".
-data_source: []
+data_source: 
+- Splunk Stream HTTP
 search: '`stream_http` http_method IN ("POST") | stats values(form_data) as http_request_body
   min(_time) as firstTime max(_time) as lastTime count by src dest http_method http_user_agent
   uri_path url bytes_in bytes_out | search http_request_body IN ("*class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat=_*",

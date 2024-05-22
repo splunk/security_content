@@ -12,7 +12,8 @@ description: The search looks for the Registry Key DefenderApiLogger or Defender
   and multiple registry and scheduled task modifications will occur. During triage,
   review parallel processes and identify any further file modifications.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path = "*WMI\\Autologger\\DefenderApiLogger\\Start"
   OR Registry.registry_path = "*WMI\\Autologger\\DefenderAuditLogger\\Start")  Registry.registry_value_data

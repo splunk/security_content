@@ -13,7 +13,7 @@ description: This analytic identifies potentially malicious executables or scrip
   or script files. By scrutinizing these paths, we can proactively identify potential
   security threats and enhance overall system security.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name

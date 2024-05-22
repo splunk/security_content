@@ -5,14 +5,15 @@ date: '2023-03-31'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- AWS CloudTrail ModifyImageAttribute
 description: This search looks for suspicious AWS AMI attribute modifications, such as sharing it with another AWS account or making the full AMI image public. Adversaries are known to abuse these APIs to exfiltrate sensitive organization information stored in the AWS Resources, there by its very important to monitor these seemingly benign API activity in Cloudtrail logs.
 search: '`cloudtrail` eventName=ModifyImageAttribute (requestParameters.launchPermission.add.items{}.userId = * OR requestParameters.launchPermission.add.items{}.group = all) 
-|  rename requestParameters.launchPermission.add.items{}.group as group_added 
-|  rename requestParameters.launchPermission.add.items{}.userId as accounts_added
- | eval ami_status=if(match(group_added,"all") ,"Public AMI", "Not Public")  | stats
+  | rename requestParameters.launchPermission.add.items{}.group as group_added 
+  | rename requestParameters.launchPermission.add.items{}.userId as accounts_added
+  | eval ami_status=if(match(group_added,"all") ,"Public AMI", "Not Public")  | stats
   count min(_time) as firstTime max(_time) as lastTime  values(group_added) values(accounts_added) as accounts_added values(ami_status) by  src_ip region eventName userAgent user_arn aws_account_id userIdentity.principalId 
-|  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `aws_ami_attribute_modification_for_exfiltration_filter`'
+  |  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `aws_ami_attribute_modification_for_exfiltration_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
 known_false_positives: It is possible that an AWS admin has legitimately shared a

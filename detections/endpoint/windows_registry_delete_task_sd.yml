@@ -14,7 +14,8 @@ description: The following analytic identifies a process attempting to delete a 
   
   Identifying the deletion of a scheduled task's Security Descriptor from the registry is significant for a SOC as it may indicate malicious activity attempting to remove evidence of a scheduled task, potentially for defense evasion purposes. If a true positive is detected, it suggests an attacker with privileged access attempting to remove traces of their activities, which can have a significant impact on the security and functionality of affected systems. Immediate investigation and response are required to mitigate further risks and preserve the integrity of the environment.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*") Registry.user="SYSTEM"
   Registry.registry_value_name="SD" (Registry.action=Deleted OR Registry.action=modified)

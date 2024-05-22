@@ -14,7 +14,7 @@ description: This analytic is to detect a deletion of ssl certificate in a linux
   user tries to delete this type of files which is not so common and need further
   investigation.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path
   = "/etc/ssl/certs/*" Filesystem.file_path IN ("*.pem", "*.crt") by _time span=1h

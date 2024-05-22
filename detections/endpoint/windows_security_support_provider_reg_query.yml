@@ -15,7 +15,7 @@ description: The following analytic identifies a process command line related to
   attack by adversaries and tool like mimikatz to scrape password hashes or clear
   plain text passwords.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_reg` AND Processes.process
   = "* query *" AND Processes.process = "*\\SYSTEM\\CurrentControlSet\\Control\\LSA*"

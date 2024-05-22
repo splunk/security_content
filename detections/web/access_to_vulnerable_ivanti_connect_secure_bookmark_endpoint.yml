@@ -5,7 +5,8 @@ date: '2024-01-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: This analytic monitors access to the /api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark endpoint, a key indicator for both CVE-2023-46805 and CVE-2024-21887 vulnerabilities. It detects potential vulnerabilities by looking for a 403 Forbidden response with an empty body on this endpoint. This detection method is used in both Nmap script and Project Discovery Nuclei, with the latter focusing on systems where XML mitigation for these vulnerabilities has not been applied.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark*" Web.http_method=GET Web.status=403 by Web.src, Web.dest, Web.http_user_agent, Web.status, Web.url source
   | `drop_dm_object_name("Web")`

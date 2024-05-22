@@ -11,7 +11,8 @@ description: 'The following analytic detects anonymous and unauthenticated reque
   with no traceability to a user or service. The impact of such an attack could be substantial, 
   potentially granting an attacker access to sensitive data or control over the cluster. 
   This detection rule is crucial for maintaining the security and integrity of your Kubernetes infrastructure.'
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` user.username="system:anonymous" user.groups{} IN ("system:unauthenticated")
   | fillnull
   | stats count by objectRef.name objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI 

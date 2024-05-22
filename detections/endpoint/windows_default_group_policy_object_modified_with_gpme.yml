@@ -5,7 +5,8 @@ date: '2023-04-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source:
+- Sysmon EventID 1
 description: The following analytic leverages the Endpoint datamodel to identify the
   potential edition of a default Group Policy Object. A fresh installation of an Active
   Directory network will typically contain two default group policy objects `Default

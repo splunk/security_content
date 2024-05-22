@@ -13,7 +13,8 @@ description: This analytic is to look for suspicious registry modification relat
   GlobalFolderOptions related to file compression attribution in terms of color in
   NTFS file system.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced*"
   AND Registry.registry_value_name  IN("ShowCompColor", "ShowInfoTip")) BY _time span=1h Registry.dest Registry.user

@@ -12,7 +12,8 @@ description: The following analytic is to identify a modification in the Windows
   update notification in compromised host. This anomaly detection is a good pivot
   to look for further events related to defense evasion and execution.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows\\CurrentVersion\\ImmersiveShell\\UseActionCenterExperience*"
   Registry.registry_value_data="0x00000000" by Registry.registry_key_name Registry.user

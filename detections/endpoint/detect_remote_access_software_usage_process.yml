@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic detects when a known remote access software is executed within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.process!=unknown by Processes.dest Processes.user Processes.process_name Processes.process 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

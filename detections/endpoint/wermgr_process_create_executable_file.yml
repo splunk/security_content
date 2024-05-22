@@ -12,7 +12,7 @@ description: this search is designed to detect potential malicious wermgr.exe pr
   it code to this process to execute it malicious behavior like downloading other
   payload
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 11
 search: '`sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe"
   | stats  min(_time) as firstTime max(_time) as lastTime count by  Image TargetFilename
   process_name dest EventCode ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

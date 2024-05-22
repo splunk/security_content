@@ -3,7 +3,8 @@ id: 56a8771a-3fda-4959-b81d-2f266e2f679f
 version: 1
 date: '2024-02-22'
 author: Michael Haag, Splunk
-data_source: []
+data_source: 
+- Nginx Access
 type: TTP
 status: production
 description: The following analytic identifies potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability. The search is focused on the URL path "/wp-json/bricks/v1/render_element" with a status code of 200 and a POST method. It has been addressed by the theme developers in version 1.9.6.1 released on February 13, 2024. The vulnerability is tracked as CVE-2024-25600. The POC exploit is simple enough and will spawn commands on the target server. The exploit is actively being used in the wild.

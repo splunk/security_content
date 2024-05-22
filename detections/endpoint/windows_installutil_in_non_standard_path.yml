@@ -9,7 +9,7 @@ description: The following analytic identifies the Windows binary InstallUtil.ex
   running from a non-standard location. The analytic utilizes a macro for InstallUtil
   and identifies both the process_name and original_file_name.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where `process_installutil` NOT (Processes.process_path
   IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",

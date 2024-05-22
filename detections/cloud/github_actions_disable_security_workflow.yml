@@ -8,7 +8,8 @@ type: Anomaly
 description: This search detects a disabled security workflow in GitHub Actions. An
   attacker can disable a security workflow in GitHub actions to hide malicious code
   in it.
-data_source: []
+data_source: 
+- GitHub
 search: '`github` workflow_run.event=push OR workflow_run.event=pull_request | stats
   values(workflow_run.name) as workflow_run.name by workflow_run.head_commit.id workflow_run.event
   workflow_run.head_branch workflow_run.head_commit.author.email workflow_run.head_commit.author.name

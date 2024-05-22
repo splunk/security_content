@@ -9,7 +9,7 @@ description: This analytic identifies XMRIG coinminer driver installation on the
   The XMRIG driver name by default is `WinRing0x64.sys`. This cpu miner is an open
   source project that is commonly abused by adversaries to infect and mine bitcoin.
 data_source:
-- Sysmon Event ID 6
+- Sysmon EventID 6
 search: '`sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys"
   |  stats  min(_time) as firstTime max(_time) as lastTime count by  dest ImageLoaded
   Hashes IMPHASH Signature Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

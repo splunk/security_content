@@ -12,7 +12,9 @@ description: The following analytic identifies a suspicious process creating or 
   host. This Anomaly detection can be a good pivot for possible Qakbot infection.
   This detection looks for possible random generated named pipe (in GUID form) created
   by known process being abused by Qakbot.
-data_source: []
+data_source:
+- Sysmon EventID 17
+- Sysmon EventID 18
 search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe")
   Image IN ("*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe",
   "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe",

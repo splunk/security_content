@@ -14,7 +14,7 @@ description: This analytic identifies the suspicious Remote Thread execution of 
   known browsers like firefox and edge which is not a common behavior of this wermgr.exe
   application.
 data_source:
-- Sysmon Event ID 8
+- Sysmon EventID 8
 search: '`sysmon` EventCode=8 SourceImage = "*\\wermgr.exe" TargetImage IN ("*\\firefox.exe",
   "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") | stats count min(_time)
   as firstTime max(_time) as lastTime by SourceImage TargetImage SourceProcessGuid

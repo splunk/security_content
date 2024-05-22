@@ -3,7 +3,8 @@ id: 8a1b22eb-50ce-4e26-a691-97ff52349569
 version: 1
 date: '2024-02-09'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- O365 Add app role assignment to service principal.
 type: TTP
 status: production
 description: This detection targets situations where a service principal in Office 365 Azure Active Directory assigns app roles without the standard admin consent, a potential security breach. Using o365_management_activity logs, it examines the 'Add app role assignment to service principal' operation, focusing on service principals and extracting details like role ID and description. This is critical for SOCs to detect potential bypassing of crucial administrative controls, which could lead to unauthorized access or privilege escalation. A true positive implies a service principal might be misusing automated processes to assign sensitive permissions.

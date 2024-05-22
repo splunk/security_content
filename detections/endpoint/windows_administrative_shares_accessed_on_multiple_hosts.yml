@@ -6,8 +6,8 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
-- Windows Security 5140
-- Windows Security 5145
+- Windows Event Log Security 5140
+- Windows Event Log Security 5145
 description: The following analytic leverages Event IDs 5140 or 5145 to identify a
   source computer accessing windows administrative shares (C$, Admin$ and IPC$ ) across
   a large number remote endpoints. Specifically, the logic will trigger when a source

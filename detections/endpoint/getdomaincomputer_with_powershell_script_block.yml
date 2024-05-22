@@ -11,7 +11,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   Red Teams and adversaries alike may use PowerView to enumerate domain computers
   for situational awareness and Active Directory Discovery.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*") |
   stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID
   EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `getdomaincomputer_with_powershell_script_block_filter`'

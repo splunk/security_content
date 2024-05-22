@@ -22,7 +22,7 @@ description: 'The following analytic is designed to detect potential tampering w
   to system compromises and unauthorized data access, impacting business operations
   and data integrity.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
   where Processes.process = "*echo*" AND Processes.process IN("*/etc/cron*", "*/var/spool/cron/*",
   "*/etc/anacrontab*") by Processes.dest Processes.user Processes.parent_process_name

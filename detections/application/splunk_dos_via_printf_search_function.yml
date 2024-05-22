@@ -5,7 +5,8 @@ date: '2023-08-30'
 author: Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
-data_source: []
+data_source: 
+- Splunk
 description: This hunting search provides information on detecting a vulnerability In Splunk Enterprise versions lower than 8.1.14, 8.2.12, 9.0.6, and 9.1.1, an attacker can use the printf SPL function to perform a denial of service against the Splunk Enterprise instance.
 search: '`audit_searches` "*makeresults * eval * fieldformat *printf*" user!="splunk_system_user" search!="*audit_searches*" 
   | stats count by user splunk_server host search 

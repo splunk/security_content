@@ -9,7 +9,7 @@ description: The following analytic identifies msiexec.exe with http in the comm
   This procedure will utilize msiexec.exe to download a remote file and load it. During
   triage, review parallel processes and capture any artifacts on disk for review.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_msiexec` Processes.process
   IN ("*http://*", "*https://*") by Processes.dest Processes.user Processes.parent_process_name

@@ -10,7 +10,7 @@ description: This analytic identifies excessive usage of `net.exe` or `net1.exe`
   adversary attempts to create many users, delete and disable users as part of its
   malicious behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where `process_net` by Processes.process_name

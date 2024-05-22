@@ -15,7 +15,8 @@ description: The following analytic identifies the creation of a new Automation 
   privileged access to an Azure tenant may create a Webhook to trigger the execution
   of an Automation Runbook with malicious code that can create users or execute code
   on a VM. This provides a persistent foothold on the environment.
-data_source: []
+data_source: 
+- Azure Audit Create or Update an Azure Automation webhook
 search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation webhook" status.value=Succeeded 
   | dedup object
   | rename claims.ipaddr as src_ip

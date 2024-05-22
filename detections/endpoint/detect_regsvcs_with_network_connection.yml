@@ -16,7 +16,7 @@ description: The following analytic identifies Regsvcs.exe with a network connec
   as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 data_source:
-- Sysmon Event ID 3
+- Sysmon EventID 3
 search: '`sysmon` EventID=3 dest_ip!=10.0.0.0/8 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16
   process_name=regsvcs.exe  | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, user, process_name, src_ip, dest_ip | `security_content_ctime(firstTime)`

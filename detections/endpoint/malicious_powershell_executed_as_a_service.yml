@@ -8,7 +8,7 @@ type: TTP
 description: This detection is to identify the abuse the Windows SC.exe to execute
   malicious commands or payloads via PowerShell.
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7045
 search: ' `wineventlog_system` EventCode=7045 | eval l_ImagePath=lower(ImagePath)
   | regex l_ImagePath="powershell[.\s]|powershell_ise[.\s]|pwsh[.\s]|psexec[.\s]"
   | regex l_ImagePath="-nop[rofile\s]+|-w[indowstyle]*\s+hid[den]*|-noe[xit\s]+|-enc[odedcommand\s]+"

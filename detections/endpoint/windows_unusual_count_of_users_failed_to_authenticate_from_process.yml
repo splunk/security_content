@@ -1,6 +1,6 @@
 author: Mauricio Velazco, Splunk
 data_source:
-- Windows Security 4625
+- Windows Event Log Security 4625
 date: '2022-09-22'
 description: 'The following analytic identifies a source process name failing to authenticate
   with multiple users. This behavior could represent an adversary performing a Password

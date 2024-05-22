@@ -9,7 +9,7 @@ description: The following analytic is designed to detect suspicious file creati
 
   The analytic works by monitoring logs with file name, file path, and process GUID data from your endpoints. If a .service file is created in certain systemd directories, the analytic triggers an alert. This behavior is significant for a Security Operations Center (SOC) as it may indicate a persistent threat within the network, with a potential impact of system compromise or data exfiltration.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name = *.service
   Filesystem.file_path IN ("*/etc/systemd/system*", "*/lib/systemd/system*", "*/usr/lib/systemd/system*",

@@ -10,7 +10,7 @@ description: The following analytic detects the occurrence of rare processes tha
   potentially malicious activities or unauthorized software that could indicate a security breach or an ongoing attack. Identifying such rare processes 
   allows for early detection of threats, minimizing the potential impact of an attack which could range from data theft to complete system compromise.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` dc(Processes.dest) as dc_dest values(Processes.dest) as
     dest values(Processes.user) as user min(_time) as firstTime max(_time) as lastTime
     from datamodel=Endpoint.Processes by Processes.process_name 

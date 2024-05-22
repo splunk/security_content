@@ -10,7 +10,7 @@ description: This analytic look for a spawned process of route.exe windows appli
   discovery on a target host. but one possible false positive might be an automated
   tool used by a system administator or a powershell script in amazon ec2 config services.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_route` by Processes.dest
   Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name

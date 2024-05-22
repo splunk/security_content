@@ -6,7 +6,8 @@ author: Rod Soto, Splunk
 status: production
 type: TTP
 description: This analytic identifies instances where Multi-Factor Authentication (MFA) is disabled for a user within the Office 365 environment. Disabling MFA removes a critical security layer, making accounts more vulnerable to unauthorized access. The detection leverages O365 audit logs, specifically focusing on events related to MFA settings. By monitoring these logs, the analytic captures and alerts on any actions that result in the deactivation or disabling of MFA for a user. MFA is a cornerstone of modern security practices, providing an additional layer of protection beyond just a password. Disabling MFA, especially without a valid reason, poses a significant security risk. Attackers, after gaining initial access to an account, might disable MFA to ensure easier re-entry and persistence. Monitoring for such changes is crucial to detect potential security breaches and to ensure that security best practices are consistently applied. If the detection is a true positive, it indicates that a user's account is now at increased risk of unauthorized access, as the added security layer of MFA has been removed. This could be a sign of an attacker trying to maintain persistence or an insider threat. Immediate investigation is required to validate the reason for disabling MFA, potentially re-enable it, and assess any other suspicious activities related to the affected account. 
-data_source: []
+data_source: 
+- O365 Disable Strong Authentication.
 search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats
   count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation
   UserId ResultStatus object | rename UserType AS user_type, Operation AS action,

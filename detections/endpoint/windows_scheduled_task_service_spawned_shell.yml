@@ -12,8 +12,7 @@ description: The following analytic identifies when the Task Scheduler service "
   normal Windows operations. This TTP is also commonly seen for legitimate purposes
   such as business scripts or application updates.
 data_source:
-- Sysmon 1
-- Windows Security 4688
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process="*\\system32\\svchost.exe*"
   AND Processes.parent_process="*-k*" AND Processes.parent_process= "*netsvcs*" AND

@@ -12,7 +12,7 @@ description: The following analytic identifies DCRat "forkbomb" payload feature.
   in the targeted host within 30s timeframe. this TTP can be a good pivot to check
   DCRat infection.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.parent_process_id)
   as parent_process_id values(Processes.process_id) as process_id dc(Processes.parent_process_id)

@@ -5,7 +5,8 @@ date: '2024-01-29'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 Update application.
 description: The following analytic triggers on the assignment of the 'full_access_as_app' permission to an application registration in Office 365, specifically within Exchange Online. The 'full_access_as_app' permission, identified by its GUID 'dc890d15-9560-4a4c-9b7f-a736ec74ec40', allows an application extensive control over Office 365 operations, including access to all mailboxes and the ability to send mail as any user. The analytic focuses on the ResourceAppId '00000002-0000-0ff1-ce00-000000000000', pinpointing permissions granted to the Office 365 Exchange Online resource. By analyzing Office 365 management activity logs and filtering Azure Active Directory workload events, the query detects when this specific permission is assigned. Monitoring this assignment is vital due to the broad access it provides, which can lead to unauthorized data access or exfiltration if misused. A true positive detection requires immediate attention to prevent potential security risks like account compromise or data loss.
 search: >-
  `o365_management_activity` Workload=AzureActiveDirectory Operation="Update application."

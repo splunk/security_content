@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source: 
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: This analytic utilizes PowerShell Script Block Logging (EventCode 4104) to identify the use of Enable-PSRemoting cmdlet. This cmdlet allows users to enable PowerShell remoting on a local or remote computer, which allows other computers to run commands on the target computer. The ability to remotely execute commands can be abused by attackers to take control of compromised systems and pivot to other systems on the network.
   By detecting the use of Enable-PSRemoting cmdlet via script block logging, this analytic can help organizations identify potential malicious activity related to attackers attempting to gain remote control of compromised systems.
 search: '`powershell` EventCode=4104 ScriptBlockText="*Enable-PSRemoting*"

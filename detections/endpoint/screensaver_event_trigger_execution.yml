@@ -12,7 +12,8 @@ description: This analytic is developed to detect possible event trigger executi
   malicious payload path. This TTP is a good indicator that some attacker may modify
   this entry for their persistence and privilege escalation.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\Control
   Panel\\Desktop\\SCRNSAVE.EXE*") by Registry.dest Registry.user Registry.registry_path

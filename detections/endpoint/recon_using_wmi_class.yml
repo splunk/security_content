@@ -12,7 +12,7 @@ description: The following analytic identifies suspicious PowerShell via EventCo
   processes within the same timeframe. Review the full script block to identify other
   related artifacts.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText= "*SELECT*" OR ScriptBlockText=
   "*Get-WmiObject*") AND (ScriptBlockText= "*Win32_Bios*" OR ScriptBlockText= "*Win32_OperatingSystem*"
   OR ScriptBlockText= "*Win32_Processor*" OR ScriptBlockText= "*Win32_ComputerSystem*"

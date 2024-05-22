@@ -10,7 +10,8 @@ description: This search is to identify modification in registry to disable cmd 
   or deleting there samples through cmd application which is one of the tool of analyst
   to traverse on directory and files.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD"
   Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path

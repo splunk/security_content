@@ -10,7 +10,8 @@ description: Enforcing network-access controls is one of the defensive mechanism
   has gained control of the AWS console by compromising an admin account, they can
   delete a network ACL and gain access to the instance from anywhere. This search
   will query the AWS CloudTrail logs to detect users deleting network ACLs.
-data_source: []
+data_source: 
+- AWS CloudTrail DeleteNetworkAclEntry
 search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by user_arn
   userIdentity.principalId eventName requestParameters.egress src userAgent | `security_content_ctime(firstTime)`|

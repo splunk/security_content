@@ -11,7 +11,7 @@ description: This detection is to identify a suspicious process that tries to de
   use this technique where it will try to delete its process file path using a .bat
   command if the keyboard layout is not the layout it tries to infect.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '`sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image
   = "*\\cmd.exe" | eval result = if(like(process,"%".parent_process."%"), "Found",
   "Not Found") | stats min(_time) as firstTime max(_time) as lastTime count by dest

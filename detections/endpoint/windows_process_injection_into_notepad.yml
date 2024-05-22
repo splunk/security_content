@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
-- Sysmon Event ID 10
+- Sysmon EventID 10
 description: The following analytic utilizes Sysmon to identify process injection into Notepad.exe, based on GrantedAccess requests - 0x40 and 0x1fffff. This particular behavior is attributed to the defaults of the SliverC2 framework by BishopFox. 
   By default, the analytic filters out any SourceImage paths of System32, Syswow64 and program files. Add more as needed, or remove and monitor what is consistently injecting into notepad.exe. 
   This particular behavior will occur from a source image that is the initial payload dropped. 

@@ -10,7 +10,8 @@ description: This analytic identifies AWS `DeleteLogGroup` events in CloudTrail 
   This will stop sending the logs and metrics to CloudWatch. When the adversary has
   the right type of permissions within the compromised AWS environment, they may delete
   the CloudWatch log group that is logging activities in the environment.
-data_source: []
+data_source: 
+- AWS CloudTrail DeleteLogGroup
 search: '`cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com
   userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
   firstTime max(_time) as lastTime values(requestParameters.logGroupName) as log_group_name

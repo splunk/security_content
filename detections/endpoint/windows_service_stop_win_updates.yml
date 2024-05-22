@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- System Event ID 7040
+- Windows Event Log System 7040
 description: The following analytic identifies a windows update service being disabled
   in Windows OS. This technique is being abused by adversaries or threat actors to
   add defense mechanisms to their malware implant in the targeted host. Disabling

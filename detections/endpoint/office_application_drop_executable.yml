@@ -12,7 +12,8 @@ description: This search is to detect a suspicious MS office application that dr
   or tools as part of automation but still this behavior is reallly suspicious and
   not commonly seen in normal office application
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest

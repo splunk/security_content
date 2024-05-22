@@ -11,7 +11,7 @@ description: The following analytic identifies a dns query to a known TOR proxy 
   multiple proxies. This Anomaly detection might be a good pivot for a process trying
   to download or use TOR proxies in a compromised host machine.
 data_source:
-- Sysmon Event ID 22
+- Sysmon EventID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
   | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName
   QueryStatus ProcessId  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

@@ -10,7 +10,7 @@ description: The following analytic identifies a ComputerAccount requesting a Ke
   identified with KrbUpRelay, but additional Kerberos attacks have exhibited similar
   behavior.
 data_source:
-- Windows Security 4768
+- Windows Event Log Security 4768
 search: '`wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1" 
   | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action, user, TargetUserName, src_ip 
   | `security_content_ctime(firstTime)` 

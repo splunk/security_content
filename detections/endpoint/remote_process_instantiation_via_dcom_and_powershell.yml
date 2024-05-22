@@ -11,7 +11,7 @@ description: This analytic looks for the execution of `powershell.exe` with argu
   and adversaries alike may abuse DCOM and `powershell.exe` for lateral movement and
   remote code execution.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` (Processes.process="*Document.ActiveView.ExecuteShellCommand*"
   OR Processes.process="*Document.Application.ShellExecute*") by Processes.dest Processes.user

@@ -10,7 +10,7 @@ description: The following analytic identifies hardcoded extensions related to t
   however with Mimikatz having hardcoded names it helps to identify potential usage
   of certificates being exported.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.keyx.rsa.pvk","*sign.rsa.pvk","*sign.dsa.pvk","*dsa.ec.p8k","*dh.ec.p8k",
   "*.pfx", "*.der") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name

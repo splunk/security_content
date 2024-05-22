@@ -14,7 +14,8 @@ description: The following analytic identifies the creation of a new Azure Autom
   runs with elevated privileges to maintain persistence in the Azure tenant. A malicious
   Automation Runbook can be created to create Global Administrators in Azure AD, execute
   code on VMs, etc.
-data_source: []
+data_source: 
+- Azure Audit Create or Update an Azure Automation Runbook
 search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation Runbook" object!=AzureAutomationTutorial* status.value=Succeeded 
   | dedup object
   | rename claims.ipaddr as src_ip

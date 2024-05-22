@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: Windows Active Directory contains numerous objects that grant elevated access to the domain they reside in. These objects should be rarely accessed by normal users or processes. Access attempts to one or more of these objects may be evidence of attacker enumeration of Active Directory.
 data_source:
-- Windows Security 4662
+- Windows Event Log Security 4662
 search: '`wineventlog_security` EventCode=4662 ObjectName IN (
 "CN=Account Operators,*",
 "CN=Administrators,*",

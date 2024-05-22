@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 12
-- Sysmon Event ID 13
-- Sysmon Event ID 14
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
   exploit guard network protection. The EnableNetworkProtection registry entry controls the activation or deactivation 
   of Network Protection within Windows Defender Exploit Guard. When set to 1, it typically signifies that Network Protection 

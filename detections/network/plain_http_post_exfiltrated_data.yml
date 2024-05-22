@@ -9,7 +9,8 @@ description: This search is to detect potential plain HTTP POST method data exfi
   This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary
   where arguments or commands are sent in plain text to the remote C2 server using
   HTTP POST method as part of data exfiltration.
-data_source: []
+data_source: 
+- Splunk Stream HTTP
 search: '`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*",
   "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") |stats values(form_data)
   as http_request_body min(_time) as firstTime max(_time) as lastTime count by src_ip dest_ip http_method

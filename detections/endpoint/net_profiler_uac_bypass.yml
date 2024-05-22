@@ -12,7 +12,8 @@ description: This search is to detect modification of registry to bypass UAC win
   update some dll related to mmc.exe and add dll path in this registry. In this case
   filtering is needed.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH"
   Registry.registry_value_data = "*.dll" by Registry.registry_path Registry.registry_key_name

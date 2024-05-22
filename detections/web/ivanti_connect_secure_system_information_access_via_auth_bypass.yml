@@ -5,7 +5,8 @@ date: '2024-01-16'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-data_source: []
+data_source: 
+- Suricata
 description: This analytic is designed to identify the "check phase" of the CVE-2023-46805 and CVE-2024-21887 vulnerabilities. During this phase, a GET request is made to the /api/v1/totp/user-backup-code/../../system/system-information URI. This request exploits the authentication bypass vulnerability to gain access to system information. A successful request, indicated by a 200 OK response, suggests that the system is vulnerable.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/api/v1/totp/user-backup-code/../../system/system-information*" Web.http_method=GET Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url
   | `drop_dm_object_name("Web")`

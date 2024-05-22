@@ -5,7 +5,8 @@ date: '2023-04-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- AWS CloudTrail CreateTask
 description: This search looks for potential misuse of an AWS service known as DataSync. This AWS service is used to transfer data between different AWS cloud storage services, such as Amazon S3, Amazon EFS, and Amazon FSx for Windows File Server. Attackers can create a task in AWS to periodically copy data from a private AWS location to a public location resulting in the compromise of the data.  
 search: '`cloudtrail` eventName = CreateTask eventSource="datasync.amazonaws.com" | rename  requestParameters.*  as *  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip aws_account_id awsRegion eventName destinationLocationArn sourceLocationArn userAgent user_arn userIdentity.principalId  errorCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_exfiltration_via_datasync_task_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This

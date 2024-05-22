@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a potentially suspicious execution
   of the 'pkgmgr' process involving the use of an XML input file for package management.
   The 'pkgmgr' process, though deprecated in modern Windows systems, was historically

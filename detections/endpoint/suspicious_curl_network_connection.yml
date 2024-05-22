@@ -10,7 +10,7 @@ description: The following analytic identifies the use of a curl contacting susp
   In the context of Silver Sparrow, curl is identified contacting s3.amazonaws.com.
   This particular behavior is common with MacOS adware-malicious software.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
   Processes.process=s3.amazonaws.com by Processes.dest Processes.user Processes.parent_process

@@ -13,7 +13,7 @@ description: The following analytic identifies rundll32.exe with no command line
   dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and
   C:\Windows\syswow64.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where `process_rundll32` AND Processes.action!="blocked"
   by host _time span=1h Processes.process_id Processes.process_name Processes.dest

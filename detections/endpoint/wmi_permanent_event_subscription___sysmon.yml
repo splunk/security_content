@@ -27,7 +27,7 @@ description: 'This analytic looks for the creation of WMI permanent event subscr
   EventCode 4104 may assist with any other PowerShell script usage that registered
   the subscription.'
 data_source:
-- Sysmon Event ID 21
+- Sysmon EventID 21
 search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
   EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
 how_to_implement: To successfully implement this search, you must be collecting Sysmon

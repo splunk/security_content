@@ -13,7 +13,7 @@ description: This analytic will identify suspicious excessive number of system e
   all active services in the compromised host as part of its destructive impact and
   defense evasion.
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7040
 search: '`wineventlog_system` EventCode=7040 "disabled" | stats count values(EventData_Xml) as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time) as lastTime by Computer EventCode UserID | rename Computer as dest
   | where count >=10 
   | `security_content_ctime(firstTime)` 

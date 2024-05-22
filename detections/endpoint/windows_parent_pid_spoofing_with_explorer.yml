@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies a suspicious explorer.exe process that has "/root" process commandline. 
   The presence of this parameter is considered a significant indicator as it could indicate attempts at spoofing the parent process 
   by a specific program or malware. By spoofing the parent process, the malicious entity aims to circumvent detection mechanisms and 

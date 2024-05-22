@@ -1,27 +1,23 @@
 name: Process Creating LNK file in Suspicious Location
 id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
-version: 5
-date: '2021-08-26'
-author: Jose Hernandez, Splunk
+version: 6
+date: '2024-05-16'
+author: Jose Hernandez, Michael Haag, Splunk
 status: production
 type: TTP
-description: This search looks for a process launching an `*.lnk` file under `C:\User*`
-  or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
+description: This analytic identifies instances where a process initiates an `*.lnk` file from potentially malicious locations such as `C:\Users\*` or `*\Local\Temp\*`. These locations are frequently targeted by attackers using spear phishing tools to execute malicious shortcuts.
 data_source:
 - Sysmon Event ID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk"
-  AND (Filesystem.file_path="C:\\User\\*" OR Filesystem.file_path="*\\Temp\\*") by
-  _time span=1h Filesystem.process_guid Filesystem.file_name Filesystem.file_path
-  Filesystem.file_hash Filesystem.user | `drop_dm_object_name(Filesystem)` | rename
-  process_guid as lnk_guid | join lnk_guid, _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes where Processes.process_name=* by _time
-  span=1h Processes.parent_process_guid Processes.process_id Processes.process_name
-  Processes.dest Processes.process_path Processes.process | `drop_dm_object_name(Processes)`
-  | rename parent_process_guid as lnk_guid | fields _time lnk_guid process_id dest
-  process_name process_path process] | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | table firstTime, lastTime, lnk_guid, process_id, user, dest, file_name, file_path,
-  process_name, process, process_path, file_hash | `process_creating_lnk_file_in_suspicious_location_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk" AND (Filesystem.file_path="C:\\Users\\*" OR Filesystem.file_path="*\\Temp\\*") by _time span=1h Filesystem.process_guid Filesystem.file_name Filesystem.file_path Filesystem.file_hash Filesystem.user 
+  | `drop_dm_object_name(Filesystem)` 
+  | rename process_guid as lnk_guid 
+  | join lnk_guid _time 
+  [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=* by _time span=1h Processes.parent_process_name Processes.parent_process_guid Processes.process_name Processes.dest Processes.process Processes.path
+  | `drop_dm_object_name(Processes)` 
+  | rename parent_process_guid as lnk_guid] 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | table firstTime, lastTime, lnk_guid, user, dest, file_name, file_path, process_name, process, process_path, file_hash | `process_creating_lnk_file_in_suspicious_location_filter`'
 how_to_implement: You must be ingesting data that records filesystem and process activity
   from your hosts to populate the Endpoint data model. This is typically populated
   via endpoint detection-and-response product, such as Carbon Black, or endpoint data

@@ -14,7 +14,7 @@ description: The following analytic identifies native .net binaries within the W
   these binaries as they are native to windows and native DotNet. Note that not all
   SDK (post install of Windows) are captured in the lookup.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where NOT (Processes.process_path
   IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",

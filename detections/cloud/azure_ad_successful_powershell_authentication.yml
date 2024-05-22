@@ -10,7 +10,8 @@ description: The following analytic identifies a successful authentication event
   regular, non administrative users. After compromising an account in Azure AD, attackers
   and red teams  alike will perform enumeration and discovery techniques. One method
   of executing these techniques is leveraging the native PowerShell modules.
-data_source: []
+data_source: 
+- Azure Active Directory
 search: ' `azure_monitor_aad`  category=SignInLogs properties.authenticationDetails{}.succeeded=true properties.appDisplayName="Microsoft Azure PowerShell"
  | rename properties.*  as * 
  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip, appDisplayName, user_agent

@@ -9,7 +9,8 @@ description: This detection rule is designed to identify potential scanning acti
   Scanning is a common preliminary step in an attack, where the attacker tries to gather information about the system to find potential vulnerabilities. 
   In the context of Kubernetes, scanning could involve activities like unauthorized access attempts, probing public APIs, or trying to exploit known vulnerabilities. 
   This rule triggers an alert when such suspicious activities are detected, helping to ensure the security of your Kubernetes infrastructure.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` "user.groups{}"="system:unauthenticated" "responseStatus.code"=403
   | iplocation sourceIPs{} 
   | stats count values(userAgent) as userAgent values(user.username) as user.username values(user.groups{}) as user.groups{} values(verb) as verb values(requestURI) as requestURI values(responseStatus.code) as responseStatus.code values(responseStatus.message) as responseStatus.message values(responseStatus.reason) as responseStatus.reason values(responseStatus.status) as responseStatus.status

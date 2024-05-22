@@ -5,7 +5,8 @@ date: '2024-02-05'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic is designed to identify POST request activities targeting specific endpoints known to be vulnerable to the SSRF issue (CVE-2024-21893) in Ivanti's products. It aggregates data from the Web data model, focusing on endpoints /dana-ws/saml20.ws, /dana-ws/saml.ws, /dana-ws/samlecp.ws, and /dana-na/auth/saml-logout.cgi. The query filters for POST requests that received a HTTP 200 OK response, indicating successful request execution.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/dana-ws/saml20.ws*","*/dana-ws/saml.ws*","*/dana-ws/samlecp.ws*","*/dana-na/auth/saml-logout.cgi/*") Web.http_method=POST Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, Web.http_method
   | `drop_dm_object_name("Web")`

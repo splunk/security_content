@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic aims to identify potential adversaries who manipulate the
   security permissions of specific files or directories. This technique is frequently
   observed in the tradecraft of Advanced Persistent Threats (APTs) and coinminer scripts.

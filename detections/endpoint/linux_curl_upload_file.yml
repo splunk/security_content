@@ -15,7 +15,7 @@ description: The following analytic identifies curl being utilized with the -F o
   for that text field from a file. This technique was utlized by the TeamTNT group
   to exfiltrate AWS credentials.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
   Processes.process IN ("*-F *", "*--form *","*--upload-file *","*-T *","*-d *","*--data

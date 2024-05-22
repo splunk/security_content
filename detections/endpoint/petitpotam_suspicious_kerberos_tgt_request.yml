@@ -15,7 +15,7 @@ description: The following analytic identifes Event Code 4768, A `Kerberos authe
   on the environment. This analytic will require tuning, we recommend filtering Account_Name
   to Domain Controllers for your environment.
 data_source:
-- Windows Security 4768
+- Windows Event Log Security 4768
 search: '`wineventlog_security` EventCode=4768 src!="::1" TargetUserName=*$ CertThumbprint!=""
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, TargetUserName, src, action 
   | `security_content_ctime(firstTime)` 

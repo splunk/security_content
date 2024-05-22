@@ -15,7 +15,8 @@ description: The following analytic uses a pretrained machine learning text clas
   script is possible, combinations of keywords observed in attack data are not typically
   found in normal usage of the commandline.  The model will output a score where all
   values above zero are suspicious, anything greater than one particularly so.
-data_source: []
+data_source:
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel="Endpoint.Processes" by Processes.parent_process_name
   Processes.process_name Processes.process Processes.user Processes.dest  | `drop_dm_object_name(Processes)`  |

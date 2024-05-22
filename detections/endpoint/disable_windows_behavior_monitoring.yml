@@ -9,7 +9,8 @@ description: This search is to identifies a modification in registry to disable 
   windows denfender real time behavior monitoring. This event or technique is commonly
   seen in RAT, bot, or Trojan to disable AV to evade detections.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time
   Protection\\DisableBehaviorMonitoring" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows

@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies the use of Ldifde.exe, which provides
   the ability to create, modify, or delete LDAP directory objects. Natively, the binary
   is only installed on a domain controller. However, adversaries or administrators

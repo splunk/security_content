@@ -11,7 +11,8 @@ description: The following search identifies a modification of registry to disab
   distribution. This modification are seen in RAT malware to cover their tracks upon
   downloading other of its component or other payload.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE Registry.registry_path IN ("*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled", "*\\Microsoft\\Windows\\System\\EnableSmartScreen")  
   Registry.registry_value_data  IN ("Off", "0") 

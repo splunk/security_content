@@ -10,7 +10,7 @@ description: This search is to detect a suspicious rundll32 commandline to lock 
   and script as part of its defense evasion. This technique is not a common practice
   to lock a screen and maybe a good indicator of compromise.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
   Processes.process= "*user32.dll,LockWorkStation*" by Processes.dest Processes.user

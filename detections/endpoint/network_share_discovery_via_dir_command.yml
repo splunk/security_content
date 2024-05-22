@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
-- Windows Security 5140
+- Windows Event Log Security 5140
 description: The following analytic identifies object access on Windows administrative SMB shares (Admin$, IPC$, C$). 
   This represents suspicious behavior as its commonly used by tools like PsExec/PaExec and others
   to stage service binaries before creating and starting a Windows service on remote

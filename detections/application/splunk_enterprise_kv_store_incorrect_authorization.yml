@@ -5,7 +5,8 @@ date: '2024-01-18'
 author: Rod Soto, Eric McGinnis, Chase Franklin
 status: production
 type: Hunting
-data_source: []
+data_source: 
+- Splunk
 description: In Splunk Enterprise versions below 9.0.8 and 9.1.3, Splunk app key value store KV Store improperly handles permissions for users using the REST application programming interface (API). This can potentially result in the deletion of KV Store collections. 
 search: '`splunkda` uri=/servicesNS/nobody/search/admin/collections-conf/_reload status=2* method="POST" user=* file=_reload
   | stats count min(_time) as firstTime max(_time) as lastTime values(status) as status by host clientip file method 

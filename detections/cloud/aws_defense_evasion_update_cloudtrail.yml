@@ -11,7 +11,8 @@ description: This analytic identifies `UpdateTrail` events in CloudTrail logs. A
   a single region logs, which evades the logging for other regions. When the adversary
   has the right type of permissions in the compromised AWS environment, they may update
   the CloudTrail settings that is logging activities in your environment.
-data_source: []
+data_source: 
+- AWS CloudTrail UpdateTrail
 search: '`cloudtrail` eventName = UpdateTrail eventSource = cloudtrail.amazonaws.com
   userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
   firstTime max(_time) as lastTime values(requestParameters.name) as cloudtrail_name

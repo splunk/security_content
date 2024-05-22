@@ -15,7 +15,7 @@ description: The following analytic identifies when a new certificate is issued 
   event commonly has values for CDC, RMD, and CCM which correspond to Client DC, Request
   Machine DNS name, and Cert Client Machine, respectively.
 data_source:
-- Windows Security 4887
+- Windows Event Log Security 4887
 search: '`wineventlog_security`  EventCode=4887 | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, name, Requester, action, Attributes, Subject | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `windows_steal_authentication_certificates_certificate_issued_filter`'
