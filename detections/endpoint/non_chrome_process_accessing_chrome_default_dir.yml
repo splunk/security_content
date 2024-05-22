@@ -14,7 +14,7 @@ description: This search is to detect an anomaly event of a non-chrome process a
   this access to the folder,  we observed noise that needs to be filter out and hence
   added sqlite db browser and explorer .exe to make this detection more stable.
 data_source:
-- Windows Security 4663
+- Windows Event Log Security 4663
 search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.exe",
   "*\\explorer.exe", "*sql*")) ObjectName="*\\Google\\Chrome\\User Data\\Default*"
   | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType

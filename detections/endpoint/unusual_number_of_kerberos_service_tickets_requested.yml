@@ -16,7 +16,7 @@ description: 'The following hunting analytic leverages Kerberos Event 4769, A Ke
   To customize this analytic, users can try different combinations of the `bucket`
   span time and the calculation of the `upperBound` field.'
 data_source:
-- Windows Security 4769
+- Windows Event Log Security 4769
 search: ' `wineventlog_security` EventCode=4769 ServiceName!="*$" TicketEncryptionType=0x17 | bucket span=2m _time | stats dc(ServiceName) AS unique_services values(ServiceName)
   as requested_services by _time, src | eventstats avg(unique_services)
   as comp_avg , stdev(unique_services) as comp_std by src | eval upperBound=(comp_avg+comp_std*3)

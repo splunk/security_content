@@ -12,7 +12,7 @@ description: This analytic looks for suspicious linux processes that delete serv
   several services or a wiper like AwfulShred shell script that wipes the targeted
   linux host
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "rm"  AND
   Processes.process = "*rm *"  AND Processes.process = "*.service" by Processes.dest

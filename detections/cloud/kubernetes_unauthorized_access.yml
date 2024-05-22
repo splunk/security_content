@@ -8,7 +8,8 @@ type: Anomaly
 description: 'The following analytic detects unauthorized access to Kubernetes by monitoring Kubernetes audit logs. 
   It identifies anomalies in access patterns by segmenting and analyzing the source of requests. Unauthorized access is worth identifying for a SOC as it could indicate 
   an attacker attempting to infiltrate the system. The impact of such an attack could be severe, potentially leading to unauthorized access to sensitive systems or data.'
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` verb=create responseStatus.reason=Forbidden  
   | fillnull
   | stats count by objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI responseStatus.code responseStatus.message sourceIPs{} stage 

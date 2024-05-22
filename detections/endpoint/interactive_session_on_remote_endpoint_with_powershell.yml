@@ -11,7 +11,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   and adversaries alike may abuse WinRM and `Enter-PSSession` for lateral movement
   and remote code execution.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText="*Enter-PSSession*" AND ScriptBlockText="*-ComputerName*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
   Computer UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

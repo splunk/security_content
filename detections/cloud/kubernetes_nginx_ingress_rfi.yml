@@ -7,7 +7,8 @@ status: production
 type: TTP
 description: This search uses the Kubernetes logs from a nginx ingress controller
   to detect remote file inclusion attacks.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kubernetes_container_controller` | rex field=_raw "^(?<remote_addr>\S+)\s+-\s+-\s+\[(?<time_local>[^\]]*)\]\s\"(?<request>[^\"]*)\"\s(?<status>\S*)\s(?<body_bytes_sent>\S*)\s\"(?<http_referer>[^\"]*)\"\s\"(?<http_user_agent>[^\"]*)\"\s(?<request_length>\S*)\s(?<request_time>\S*)\s\[(?<proxy_upstream_name>[^\]]*)\]\s\[(?<proxy_alternative_upstream_name>[^\]]*)\]\s(?<upstream_addr>\S*)\s(?<upstream_response_length>\S*)\s(?<upstream_response_time>\S*)\s(?<upstream_status>\S*)\s(?<req_id>\S*)"
   | rex field=request "^(?<http_method>\S+)?\s(?<url>\S+)\s" | rex field=url "(?<dest_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
   | search dest_ip=* | rename remote_addr AS src_ip, upstream_status as status, proxy_upstream_name

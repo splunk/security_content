@@ -5,7 +5,8 @@ date: '2023-03-16'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
-data_source: []
+data_source:
+- Sysmon EventID 1
 description: The following analytic identifies the use of the findstr command employed
   to search for unsecured credentials Group Policy Preferences (GPP). GPP are tools
   that allow administrators to create domain policies with embedded credentials. These

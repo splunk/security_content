@@ -5,7 +5,8 @@ date: '2024-01-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Nginx Access
 description: The following analtyic identifies a Jenkins Arbitrary File Read CVE-2024-23897 exploitation. This attack allows an attacker to read arbitrary files on the Jenkins server. This can be used to obtain sensitive information such as credentials, private keys, and other sensitive information.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/cli?remoting=false*" Web.status=200 Web.http_method=POST by Web.src, Web.dest, Web.http_user_agent, Web.url Web.status, Web.http_method
   | `drop_dm_object_name("Web")`

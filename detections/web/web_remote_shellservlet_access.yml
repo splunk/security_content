@@ -5,7 +5,8 @@ date: '2024-04-02'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Nginx Access
 description: This analytic identifies attempts to access the Remote ShellServlet on a web server, which is utilized to execute commands. Such activity is commonly linked with web shells and other forms of malicious behavior. It was specifically detected on a Confluence server in relation to CVE-2023-22518 and CVE-2023-22515. Activities preceding access to the shell servlet include the addition of a plugin to Confluence. Additionally, it is advisable to monitor for ShellServlet?act=3, ShellServlet, or obfuscated variations such as Sh3llServlet1.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*plugins/servlet/com.jsos.shell/*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
   | `drop_dm_object_name("Web")` 

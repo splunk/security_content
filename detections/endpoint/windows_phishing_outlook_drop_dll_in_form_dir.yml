@@ -4,7 +4,7 @@ version: 1
 date: '2024-03-20'
 author: Teoderick Contreras, Splunk
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 type: TTP
 status: production
 description: The following analytic identifies a suspicious outlook.exe process dropped a dll file. 

@@ -10,7 +10,7 @@ description: This search is to detect suspicious process injection in command sh
   shellcode as part of its execution as banking trojan. It is really uncommon to have
   a create remote thread execution in the following application.
 data_source:
-- Sysmon Event ID 8
+- Sysmon EventID 8
 search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") | stats
   count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId
   SourceProcessId  EventCode StartAddress SourceImage dest |rename SourceImage as process_name| `security_content_ctime(firstTime)`

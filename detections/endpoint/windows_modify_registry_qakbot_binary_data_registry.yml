@@ -13,21 +13,23 @@ description: The following analytic identifies a suspicious registry entry creat
   Qakbot malware infection or other malware that uses registry to save or store there
   config or malicious code on the registry data stream.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count dc(registry_value_name) as registry_value_name_count FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Microsoft\\*" AND Registry.registry_value_data = "Binary Data" by _time span=1m Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.process_id Registry.registry_key_name 
-| `drop_dm_object_name(Registry)` 
-| eval registry_key_name_len = len(registry_key_name) 
-| eval registry_value_name_len = len(registry_value_name) 
-| regex registry_value_name="^[0-9a-fA-F]{8}" 
-| where registry_key_name_len < 80 AND registry_value_name_len == 8 
-| join process_guid, _time 
+  | `drop_dm_object_name(Registry)` 
+  | eval registry_key_name_len = len(registry_key_name) 
+  | eval registry_value_name_len = len(registry_value_name) 
+  | regex registry_value_name="^[0-9a-fA-F]{8}" 
+  | where registry_key_name_len < 80 AND registry_value_name_len == 8 
+  | join process_guid, _time 
     [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name IN ("explorer.exe", "wermgr.exe","dxdiag.exe", "OneDriveSetup.exe", "mobsync.exe", "msra.exe", "xwizard.exe") by _time span=1m Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid Processes.process_path 
     | `drop_dm_object_name(Processes)` 
         ] 
-| stats min(_time) as firstTime max(_time) as lastTime values(registry_value_name) as registry_value_name dc(registry_value_name) as registry_value_name_count values(registry_key_name) by dest process_guid process_name parent_process_name
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` | where registry_value_name_count >= 5  
-| `windows_modify_registry_qakbot_binary_data_registry_filter`'
+  | stats min(_time) as firstTime max(_time) as lastTime values(registry_value_name) as registry_value_name dc(registry_value_name) as registry_value_name_count values(registry_key_name) by dest process_guid process_name parent_process_name
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | where registry_value_name_count >= 5  
+  | `windows_modify_registry_qakbot_binary_data_registry_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

@@ -10,7 +10,8 @@ description: This hunting search provides information on possible exploitation a
   8.2.x, 8.1.x. An authenticated user can run arbitrary operating system commands
   remotely through the use of specially crafted requests to the mobile alerts feature
   in the Splunk Secure Gateway app.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunkda` uri_path="/servicesNS/nobody/splunk_secure_gateway/storage/collections/data/mobile_alerts*"
   sort="notification.created_at:-1" | table  clientip file host method uri_query sort
   | `splunk_rce_via_splunk_secure_gateway__splunk_mobile_alerts_feature_filter`'

@@ -12,7 +12,8 @@ description: The search looks for the deletion of Windows Defender context menu 
   registry and scheduled task modifications will occur. During triage, review parallel
   processes and identify any further file modifications.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\shellex\\ContextMenuHandlers\\EPP"
   Registry.action = deleted by  Registry.registry_path Registry.registry_value_name

@@ -18,7 +18,7 @@ description: The following analytic detects a potentially malicious office docum
   to be executed. Capture any artifacts on disk for further review. Identify any parallel
   processes within the same timeframe to pinpoint the source.'
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE",
     "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
     "msaccess.exe") loaded_file_path = "*\\taskschd.dll" 

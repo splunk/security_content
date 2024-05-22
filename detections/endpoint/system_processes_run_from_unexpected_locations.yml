@@ -16,7 +16,7 @@ description: 'This search looks for system processes that typically execute from
   binary? identify any artifacts on disk and review. If a remote destination is contacted,
   what is the reputation?'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*"
   Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user

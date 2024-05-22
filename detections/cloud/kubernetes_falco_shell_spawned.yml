@@ -9,7 +9,8 @@ description: The following analytic detects instances where a shell is spawned w
   Leveraging Falco, a cloud-native runtime security tool, this analytic monitors system calls within the Kubernetes environment, flagging when a shell is spawned in a container. 
   This behavior is worth identifying for a SOC as it could potentially allow an attacker to execute arbitrary commands, manipulate container processes, or escalate privileges, posing a significant threat to the integrity and security of the Kubernetes infrastructure. 
   The impact of such an attack could be severe, leading to data breaches, service disruptions, or unauthorized access to sensitive information.
-data_source: []
+data_source: 
+- Kubernetes Falco
 search: '`kube_container_falco` "A shell was spawned in a container"
   |  fillnull
   | stats count by container_image container_image_tag container_name parent proc_exepath process user

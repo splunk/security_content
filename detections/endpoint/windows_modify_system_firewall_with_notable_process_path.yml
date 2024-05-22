@@ -6,7 +6,7 @@ author: Teoderick Contreras, Will Metcalf, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic detects a potential suspicious modification of firewall
   rule allowing to execute specific application in public and suspicious windows process file path. This technique was identified when
   an adversary and red teams to bypassed firewall file execution restriction in a

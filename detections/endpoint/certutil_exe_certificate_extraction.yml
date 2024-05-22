@@ -9,7 +9,7 @@ description: This search looks for arguments to certutil.exe indicating the mani
   or extraction of Certificate. This certificate can then be used to sign new authentication
   tokens specially inside Federated environments such as Windows ADFS.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe
   Processes.process = "*-exportPFX*" by Processes.dest Processes.user Processes.parent_process

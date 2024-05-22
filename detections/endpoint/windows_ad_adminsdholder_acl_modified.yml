@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source: 
-- Windows Security 5136
+- Windows Event Log Security 5136
 description: The following analytic identifies the modification of the Access Control List for the AdminSDHolder object within a Windows domain. Specifically, the 
   detection triggers on the addition of a new rule to the existing ACL. AdminSDHolder is an object located in the System Partition in Active Directory and is used as a 
   security template for objects that are members of certain privileged groups. Objects in these groups are enumerated and any objects with security descriptors that dont 

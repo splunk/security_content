@@ -11,7 +11,7 @@ description: This analytic is to detect a suspicious copy of file from systemroo
   tool in OS. this type of event may seen or may execute of normal user in some instance
   but this is really a anomaly that needs to be check within the network.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN("cmd.exe", "powershell*","pwsh.exe", "sqlps.exe", "sqltoolsps.exe", "powershell_ise.exe")

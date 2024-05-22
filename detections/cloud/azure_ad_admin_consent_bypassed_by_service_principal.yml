@@ -3,7 +3,8 @@ id: 9d4fea43-9182-4c5a-ada8-13701fd5615d
 version: 1
 date: '2024-02-09'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- Azure Active Directory Add app role assignment to service principal
 type: TTP
 status: production
 description: This detection focuses on identifying instances in Azure Active Directory where a service principal assigns app roles without standard admin consent, using Entra ID logs. It operates on the azure_monitor_aad data source, scrutinizing the "Add app role assignment to service principal" operation, specifically from service principals. The query dissects details such as role ID, value, and description, important for understanding the nature of the roles being assigned. Monitoring this in a SOC is critical as it flags potential bypasses of vital administrative consent processes in Azure AD, which could result in unauthorized privileges being granted. A true positive detection suggests that a service principal may be exploiting automation to assign sensitive permissions without proper oversight.

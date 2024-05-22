@@ -20,7 +20,7 @@ description: SharpHound is used as a reconnaissance collector, ingestor, for Blo
   processes for further suspicious behavior. Typically, the process executing the
   `.ps1` ingestor will be PowerShell.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*bloodhound.zip",
   "*_computers.json", "*_gpos.json", "*_domains.json", "*_users.json", "*_groups.json",

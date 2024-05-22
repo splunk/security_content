@@ -16,7 +16,8 @@ description: The following analytic identifies an AWS IAM account with concurren
   two different IP addresses is highly unlikely. As users may behave differently across
   organizations, security teams should test and customize this detection to fit their
   environments.
-data_source: []
+data_source: 
+- AWS CloudTrail DescribeEventAggregates
 search: ' `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
   | bin span=5m _time | stats values(userAgent) values(eventName) values(src_ip) as
   src_ip  dc(src_ip) as distinct_ip_count by _time user_arn | where distinct_ip_count

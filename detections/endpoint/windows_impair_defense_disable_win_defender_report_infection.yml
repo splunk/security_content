@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 12
-- Sysmon Event ID 13
-- Sysmon Event ID 14
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to disable windows defender 
   report infection information. Setting this registry key to 1, Instructs Windows Defender not to report detailed 
   information about infections or threats detected on the system to Microsoft. Enabling this setting might limit 

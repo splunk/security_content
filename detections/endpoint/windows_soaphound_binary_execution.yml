@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies the common command-line argument used
   by SOAPHound `soaphound.exe`. Being the script is publicly available, function names may be modified,
   but these changes are dependent upon the operator. In most instances the defaults

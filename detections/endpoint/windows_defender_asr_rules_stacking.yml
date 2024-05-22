@@ -5,7 +5,16 @@ date: '2023-11-20'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-data_source: []
+data_source: 
+- Windows Event Log Defender 1121
+- Windows Event Log Defender 1122
+- Windows Event Log Defender 1125
+- Windows Event Log Defender 1126
+- Windows Event Log Defender 1129
+- Windows Event Log Defender 1131 
+- Windows Event Log Defender 1133
+- Windows Event Log Defender 1134
+- Windows Event Log Defender 5007
 description: This hunting analytic targets a range of security events from Microsoft Defender, focusing on the Exploit Guard and Attack Surface Reduction (ASR) features. It monitors specific Event IDs - Event IDs 1121 and 1126 indicate active blocking of unauthorized operations or dangerous network connections, whereas Event IDs 1122 and 1125 represent audit logs for similar activities. Event ID 1129 shows user overrides on blocked operations. For ASR-related activities, Event IDs 1131 and 1133 signal blocked operations, while 1132 and 1134 are audit logs. Event ID 5007 alerts on configuration changes, possibly indicating security breaches. 
 
   Additionally, the analytic utilizes a lookup to correlate ASR rule GUIDs with their descriptive names, enhancing understanding of the context behind these security alerts. This includes rules for blocking vulnerable drivers, restricting actions of Adobe Reader and Office applications, and protecting against various malware and unauthorized system changes. This comprehensive approach aids in assessing policy enforcement and potential security risks.

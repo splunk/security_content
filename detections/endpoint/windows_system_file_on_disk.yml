@@ -11,7 +11,7 @@ description: The following hunting analytic will assist with identifying new .sy
   should help to limit any volume. The idea is to identify new sys files written to
   disk and identify them before they're added as a new kernel mode driver.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.sys*"
   by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name

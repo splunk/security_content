@@ -13,7 +13,8 @@ description: On June 14th, 2022, Splunk released a security advisory relating to
   Server, and then you have a list of the apps downloaded and the serverclasses in
   which the peer is a member of. You should look for apps or clients that you do not
   recognize as being part of your environment.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunkd` component="PackageDownloadRestHandler" | stats values(app) values(serverclass)
   by peer, host | `splunk_process_injection_forwarder_bundle_downloads_filter`'
 how_to_implement: This hunting search uses native logs produced when a deployment

@@ -14,7 +14,7 @@ description: DynamicWrapperX is an ActiveX component that can be used in a scrip
   module loads of dynwrapx.dll. This detection will return and identify the processes
   that invoke vbs/wscript/cscript.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName
   = "dynwrapx.dll" OR  Product = "DynamicWrapperX") | stats count min(_time) as firstTime
   max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name

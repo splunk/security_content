@@ -11,7 +11,7 @@ description: The following analytic identifies a possible wmi token impersonatio
   escalation or as defense evasion. This Anomaly detection looks for wmiprvse.exe
   SourceImage having a duplicate handle or full granted access in a target process.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 10
 search: '`sysmon` EventCode=10 SourceImage = "*\\wmiprvse.exe"  GrantedAccess IN ("0x1478",
   "0x1fffff") | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage
   TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId

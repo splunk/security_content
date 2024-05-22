@@ -11,7 +11,8 @@ description: This search is to detect a shared file in google drive with suspici
   within the shared file that will redirected to malicious website. This detection
   can also catch some normal email communication between organization and its external
   customer.
-data_source: []
+data_source: 
+- G Suite Drive
 search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title"
   IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*",
   "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*",

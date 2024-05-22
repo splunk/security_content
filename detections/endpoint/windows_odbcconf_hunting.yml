@@ -8,7 +8,7 @@ type: Hunting
 description: The following analytic identifies Odbcconf.exe running in the environment
   to assist with identifying tuning higher fidelity analytics related to Odbcconf.exe.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=odbcconf.exe
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name

@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic detects when a process spawns an executable known for User Account Control bypass exploitation, and then monitors for any subsequent child processes that are above the integrity level of the original spawning process. This behavioral chain may indicate that an attacker has used a UAC Bypass exploit to successfully escalate privileges.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("low","medium") by Processes.dest, Processes.user, Processes.process_name, Processes.process, Processes.process_guid, Processes.process_path, Processes.process_integrity_level, Processes.process_current_directory 
   | `drop_dm_object_name(Processes)` 
   | eval original_integrity_level = CASE(match(process_integrity_level,"low"),1,match(process_integrity_level,"medium"),2,match(process_integrity_level,"high"),3,match(process_integrity_level,"system"),4,true(),0) 

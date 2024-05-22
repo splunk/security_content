@@ -10,8 +10,8 @@ description: This search identifies a high frequency of file deletions relative 
   files with specific extensions, leading Sysmon to treat the original files
   as deleted as soon as they are replaced with encrypted data.
 data_source:
-- Sysmon Event ID 23
-- Sysmon Event ID 26
+- Sysmon EventID 23
+- Sysmon EventID 26
 search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt", "*.pptx", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", "*.win") NOT TargetFilename IN ("*\\INetCache\\Content.Outlook\\*")
   | stats count, values(TargetFilename) as deleted_files, min(_time) as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image, process_name, process_guid
   | rename Image as process 

@@ -11,7 +11,8 @@ description: The following analytic identifies an AWS account successfully authe
   other method and using them to access corporate online resources around the same
   time as a legitimate user. As users may behave differently across organizations,
   security teams should test and customize this detection to fit their environments.
-data_source: []
+data_source: 
+- AWS CloudTrail ConsoleLogin
 search: ' `cloudtrail` eventName = ConsoleLogin | bin span=5m _time | stats values(userAgent) as userAgent
   values(eventName) as eventName values(src_ip) as src_ip dc(src_ip) as distinct_ip_count by _time user_arn
   | where distinct_ip_count>1 | `aws_successful_console_authentication_from_multiple_ips_filter`'

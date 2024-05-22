@@ -8,7 +8,8 @@ type: Anomaly
 description: This search looks for cloud provisioning activities from previously unseen
   IP addresses. Provisioning activities are defined broadly as any event that runs
   or creates something.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime, values(All_Changes.object_id)
   as object_id from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created)
   All_Changes.status=success by All_Changes.src, All_Changes.user, All_Changes.command

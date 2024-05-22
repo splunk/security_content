@@ -20,7 +20,7 @@ description: The following anomaly detection identifies the behavior related to 
   due to native functions. All of these modules are important to monitor and track
   and combined may lead to credentail access or dumping.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 |bin _time span=30s | eval BRC4_AnomalyLoadedDll=case(OriginalFileName=="credui.dll",
   1, OriginalFileName=="DBGHELP.DLL", 1, OriginalFileName=="SAMCLI.DLL", 1, OriginalFileName=="winhttp.dll",
   1, 1=1, 0) | eval BRC4_LoadedDllPath=case(match(ImageLoaded, "credui.dll"), 1, match(ImageLoaded,

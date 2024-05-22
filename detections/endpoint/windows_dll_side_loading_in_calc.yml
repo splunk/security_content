@@ -12,7 +12,7 @@ description: The following analytic identifies suspicious DLL modules loaded by 
   that a suspicious dll was loaded in a public or non-common installation folder of
   Windows Operating System that needs further investigation.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 Image = "*\calc.exe" AND NOT (Image IN ("*:\\windows\\system32\\*",
   "*:\\windows\\sysWow64\\*")) AND NOT(ImageLoaded IN("*:\\windows\\system32\\*",
   "*:\\windows\\sysWow64\\*", "*:\\windows\\WinSXS\\*")) | stats count min(_time)

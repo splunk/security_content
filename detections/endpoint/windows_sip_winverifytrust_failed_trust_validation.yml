@@ -5,7 +5,8 @@ date: '2023-10-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-data_source: []
+data_source:
+- Windows Event Log CAPI2 81
 description: The following analytic utilizes a Windows Event Log - CAPI2 - or CryptoAPI 2, to identify failed trust validation. Typically, this event log is meant for diagnosing PKI issues, however is a great source to identify failed trust validation. Note that this event log is noisy as it captures common PKI requests from many different processes. EventID 81 is generated anytime a trust validation fails. The description for EventID 81 is "The digital signature of the object did not verify." STRT tested this analytic using Mimikatz binary.
 search: '`capi2_operational` EventID=81 "The digital signature of the object did not verify." | xmlkv UserData_Xml | stats count min(_time) as firstTime max(_time) as lastTime by Computer, UserData_Xml | rename Computer as dest | `windows_sip_winverifytrust_failed_trust_validation_filter`'
 how_to_implement: To implement this analytic, one will need to enable the Microsoft-Windows-CAPI2/Operational

@@ -44,7 +44,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: System administrators may use this option, but it's not common.
 references:
 - https://regexr.com/662ov
-- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/Windows/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
 - https://ss64.com/ps/powershell.html
 - https://twitter.com/M_haggis/status/1440758396534214658?s=20
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/

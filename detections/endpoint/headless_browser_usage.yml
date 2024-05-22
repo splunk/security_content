@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: Hunting
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: 'The following hunting analytic is designed to detect the usage of headless browsers in an organization. Headless browsers are web browsers without a graphical user interface and are operated via a command line interface or network requests. They are often used for automating tasks but can also be utilized by adversaries for malicious activities such as web scraping, automated testing, and performing actions on web pages without detection. The detection is based on the presence of "--headless" and "--disable-gpu" command line arguments which are commonly used in headless browsing.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where 

@@ -11,7 +11,8 @@ description: The following analytic identifies one source Ip failing to authenti
   to other sensitive resources in the Google Cloud Platform. This behavior could represent
   an adversary performing a Password Spraying attack against an Google Workspace environment
   to obtain initial access or elevate privileges.
-data_source: []
+data_source: 
+- Google Workspace login_failure
 search: '`gws_reports_login` event.type = login event.name = login_failure | bucket
   span=5m _time | stats count dc(user) AS unique_accounts values(user) as tried_accounts
   values(authentication_method) AS authentication_method earliest(_time) as firstTime

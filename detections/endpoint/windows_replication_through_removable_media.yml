@@ -17,7 +17,7 @@ description: This analytic is developed to detect suspicious executable or scrip
   checking the process name that creates this event, the file created, user type,
   and the reason why that executable or scripts are dropped in the root drive.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe
   OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name

@@ -10,7 +10,8 @@ description: The following search identifies the modification of registry relate
   some RAT malware to make the restore of the infected machine  difficult and keep
   their infection on the box.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableSR"
   OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableConfig"

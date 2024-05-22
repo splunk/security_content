@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 type: Anomaly
 status: production
 data_source:
-- Windows Security 4769
+- Windows Event Log Security 4769
 description: The following analytic leverages Event ID 4769, `A Kerberos
   service ticket was requested`, to identify more than 30 computer service
   ticket requests from one source. When a domain joined endpoint connects to other remote

@@ -10,7 +10,7 @@ description: GDB is the acronym for GNU Debugger. This tool helps to debug the p
   on terminal. If sudo right is given to GDB tool for the user, then the user can
   run system commands as root and possibly get a root shell.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process="*gdb*" AND
   Processes.process="*-nx*" AND Processes.process="*-ex*!*" AND Processes.process="*sudo*"

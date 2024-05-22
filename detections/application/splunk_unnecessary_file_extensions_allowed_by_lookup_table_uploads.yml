@@ -5,7 +5,8 @@ date: "2023-02-14"
 author: Rod Soto, Splunk
 type: TTP
 status: production
-data_source: []
+data_source: 
+- Splunk
 description: In Splunk Enterprise versions below 8.1.13, 8.2.10, and 9.0.4, the lookup table uploads let a user upload lookup tables with unnecessary filename extensions. Lookup table file extensions may now only be one of .csv, .csv.gz, .kmz, .kml, .mmdb, or .mmdb.gz. This search provides user activity focus on uploads which aims to help hunt for malicious file uploads.
 search:
   '`splunkda` method IN ("POST", "DELETE") uri_path=/servicesNS/*/ui/views/*

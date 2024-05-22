@@ -5,7 +5,8 @@ date: '2023-11-22'
 author: Marissa Bower, Chase Franklin, Rod Soto, Bhavin Patel, Eric McGinnis, Splunk
 status: production
 type: Hunting
-data_source: []
+data_source: 
+- Splunk
 description: This search provides information to investigate possible remote code execution exploitation via 
   user-supplied Extensible Stylesheet Language Transformations (XSLT), affecting Splunk versions 9.1.x. 
 search: '`splunkd_ui` ((uri="*NO_BINARY_CHECK=1*" AND "*input.path=*.xsl*") OR uri="*dispatch*.xsl*") AND uri!= "*splunkd_ui*"

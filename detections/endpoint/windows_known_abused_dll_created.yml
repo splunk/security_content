@@ -7,8 +7,8 @@ status: production
 type: Anomaly
 description: This analytic is designed to identify instances where Dynamic Link Libraries (DLLs) with a known history of being exploited are created in locations that are not typical for their use. This could indicate that an attacker is attempting to exploit the DLL search order hijacking or sideloading techniques. DLL search order hijacking involves tricking an application into loading a malicious DLL instead of the legitimate one it was intending to load. This is often achieved by placing the malicious DLL in a directory that is searched before the directory containing the legitimate DLL. Sideloading, similarly, involves placing a malicious DLL with the same name as a legitimate DLL that an application is known to load, in a location that the application will search before finding the legitimate version. Both of these techniques can be used by attackers to execute arbitrary code, maintain persistence on a system, and potentially elevate their privileges, all while appearing as legitimate operations to the untrained eye. This analytic aims to shed light on such suspicious activities by monitoring for the creation of known abused DLLs in unconventional locations, thereby helping in the early detection of these stealthy attack techniques.
 data_source:
-- Sysmon Event ID 1
-- Sysmon Event ID 11
+- Sysmon EventID 1
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name!="unknown" Processes.process_name=* Processes.process_guid!=null by _time span=1h Processes.dest Processes.user Processes.process_guid Processes.process_name Processes.process Processes.parent_process Processes.parent_process_name
   | `drop_dm_object_name(Processes)` 
   | join max=0 process_guid dest

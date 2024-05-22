@@ -11,7 +11,8 @@ description: This particular behavior is typically executed when an adversaries 
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*" AND
   (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*","*WinDefend*",

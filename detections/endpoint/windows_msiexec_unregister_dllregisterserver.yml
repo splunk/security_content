@@ -9,7 +9,7 @@ description: The following analytic identifies the usage of msiexec.exe using th
   /z switch parameter, which grants the ability for msiexec to unload DLLRegisterServer.
   Upon triage, review parent process and capture any artifacts for further review.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_msiexec` Processes.process
   IN ("*/z*", "*-z*") by Processes.dest Processes.user Processes.parent_process_name

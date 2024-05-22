@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic is designed to detect instances where the PaperCut
   NG application (pc-app.exe) spawns a Windows shell, specifically cmd.exe or PowerShell.
   This behavior may indicate potential malicious activity, such as an attacker attempting

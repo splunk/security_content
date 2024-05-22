@@ -5,7 +5,8 @@ date: '2024-01-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Azure Active Directory Update application
 description: This Splunk analytic flags the assignment of three high-risk Graph API permissions in Azure AD, Application.ReadWrite.All (1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9), AppRoleAssignment.ReadWrite.All (06b708a9-e830-4db3-a914-8e69da51d44f), and RoleManagement.ReadWrite.Directory (9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8). These permissions enable broad control over Azure AD, including application and directory settings. Utilizing azure_monitor_aad data, the query scans AuditLogs for 'Update application' operations, identifying when these permissions are assigned. It collects data on user, object, and user agent. Immediate attention is needed upon detection, as misuse of these permissions can lead to unauthorized Azure AD modifications and potential security breaches.
 search: >-
  `azure_monitor_aad` category=AuditLogs operationName="Update application" 

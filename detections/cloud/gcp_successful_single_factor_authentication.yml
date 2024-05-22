@@ -9,7 +9,8 @@ description: The following analytic identifies a successful authentication event
   Google Cloud Platform for an account without Multi-Factor Authentication enabled.
   This could be evidence of a missconfiguration, a policy violation or an account
   take over attempt that should be investigated
-data_source: []
+data_source: 
+- Google Workspace login_success
 search: '`gws_reports_login` event.name=login_success NOT `gws_login_mfa_methods`
   | stats count min(_time) as firstTime max(_time) as lastTime by user, src_ip,  login_challenge_method, app, event.name, vendor_account, action
  |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `gcp_successful_single_factor_authentication_filter`'

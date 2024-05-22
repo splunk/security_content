@@ -13,7 +13,7 @@ description: 'This search, detects execution of suspicious bash commands from va
   The search logic specifically looks for high number of distinct commands run in
   a short period of time.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   values(Processes.process_name) values(Processes.parent_process_name) dc(Processes.process)
   as distinct_commands dc(Processes.process_name) as distinct_process_names min(_time)

@@ -13,7 +13,8 @@ description: This analytic is to detect deletion of registry with suspicious pro
   catch for third party application updates or installation. In this scenario false
   positive filter is needed.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   WHERE Registry.action=deleted BY _time span=1h Registry.dest Registry.registry_path
   Registry.registry_value_name Registry.registry_key_name Registry.process_guid Registry.registry_value_data

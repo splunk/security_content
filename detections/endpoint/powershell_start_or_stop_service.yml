@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source: 
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: This analytic identifies the use of PowerShell's Start-Service or Stop-Service cmdlets on an endpoint. These cmdlets allow users to start or stop a specified Windows service. The ability to manipulate services can be leveraged by attackers to disable or stop critical services, which can cause system instability or disrupt business operations.
   By detecting the use of Start-Service or Stop-Service cmdlets via PowerShell, this analytic can help organizations identify potential malicious activity related to attackers attempting to manipulate services on compromised systems. However, note that this behavior may be noisy, as these cmdlets are commonly used by system administrators or other legitimate users to manage services. Therefore, it is recommended not to enable this analytic as a direct notable or TTP. Instead, it should be used as part of a broader set of security controls to detect and investigate potential threats.
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*start-service*", "*stop-service*") 

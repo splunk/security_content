@@ -13,7 +13,8 @@ description: This analytic is developed to detect suspicious registry modificati
   so having this anomaly detection may help to catch possible lockbit ransomware infection
   or other malware.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   ="*\\defaultIcon\\(Default)*" Registry.registry_path = "*HKCR\\*" by Registry.registry_path

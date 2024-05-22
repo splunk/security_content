@@ -6,7 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies alterations in the Windows registry aimed at restricting wallpaper modifications. 
   This tactic has been exploited by the Rhysida ransomware as a part of its destructive payload within compromised systems. 
   By making this registry modification, the ransomware seeks to impede users from changing the wallpaper forcibly set by the malware, 

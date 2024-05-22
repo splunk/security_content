@@ -6,7 +6,8 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 description: The following analytic identies scenarios where the same user session is accessed from multiple IP addresses. This situation typically arises in an adversary-in-the-middle (AiTM) phishing attack, where attackers compromise user sessions. The detection method involves analyzing Azure Active Directory logs for 'UserLoggedIn' operations. It focuses on identifying sessions where the number of associated IP addresses exceeds one for the same SessionId. This pattern suggests potential unauthorized concurrent access, which is atypical under normal usage scenarios. If a true positive is identified, it implies that an adversary has gained unauthorized access to a user's Office 365 account. The ramifications of this can be significant, including data theft, account takeover, and launching of internal phishing campaigns. 
-data_source: []
+data_source: 
+- O365 UserLoggedIn
 search: ' `o365_management_activity` Workload=AzureActiveDirectory  Operation=UserLoggedIn
   | stats min(_time) as firstTime max(_time) as lastTime values(src_ip) as ips values(user_agent) as user_agents by Operation, user, SessionId
   | where mvcount(ips) > 1

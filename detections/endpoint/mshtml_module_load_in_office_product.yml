@@ -11,7 +11,7 @@ description: This detection identifies the loading of the mshtml.dll module into
   vulnerability is found within the MSHTML component itself. During triage, it is important to identify concurrent
   processes and document any file modifications for further analysis.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventID=7 process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe", "msaccess.exe","Graph.exe","winproj.exe") loaded_file_path IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll") 
   | stats count min(_time) as firstTime max(_time) as lastTime by user_id, dest, process_name, loaded_file, loaded_file_path, original_file_name, process_guid 
   | `security_content_ctime(firstTime)` 

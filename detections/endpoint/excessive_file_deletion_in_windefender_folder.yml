@@ -12,8 +12,8 @@ description: This analytic identifies excessive file deletion events in the Wind
   application folder. Such behavior is a strong indicator that the offending process
   is attempting to corrupt a Windows Defender installation.
 data_source:
-- Sysmon Event ID 23
-- Sysmon Event ID 26
+- Sysmon EventID 23
+- Sysmon EventID 26
 search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\ProgramData\\Microsoft\\Windows Defender\\*"
   | stats count, values(TargetFilename) as deleted_files, min(_time) as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image, process_name, process_guid
   | rename Image as process

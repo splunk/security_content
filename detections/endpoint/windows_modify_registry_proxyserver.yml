@@ -6,7 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to setup proxy server.
   This method has been exploited by various malware and adversaries to establish proxy communication on compromised hosts, 
   facilitating connections to malicious Command and Control (C2) servers.

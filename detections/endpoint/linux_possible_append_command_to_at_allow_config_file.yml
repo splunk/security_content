@@ -16,7 +16,7 @@ description: 'The following analytic is designed to identify suspicious command 
   further investigation to validate if the activity is indeed malicious or a false
   positive.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
   where Processes.process = "*echo*" AND Processes.process IN("*/etc/at.allow", "*/etc/at.deny")
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name

@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Hunting
 status: production
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The hunting analytic outlined below is designed to detect any version
   of the 3CXDesktopApp, also known as the 3CX Desktop App, operating on either Mac
   or Windows systems. It is important to note that this particular analytic employs

@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: experimental
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic detects the use of certutil to download software,
   a behavior exhibited by the threat actor Flax Typhoon. This actor deploys a VPN
   connection by downloading an executable file for SoftEther VPN from their network

@@ -17,7 +17,9 @@ description: 'The following analytic identifies driver load errors utilizing the
 
   During triage, isolate the endpoint and review for source of exploitation. Capture
   any additional file modification events.'
-data_source: []
+data_source:
+- Windows Event Log Printservice 808
+- Windows Event Log Printservice 4909
 search: '`printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909"))
   OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\"))
   | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode

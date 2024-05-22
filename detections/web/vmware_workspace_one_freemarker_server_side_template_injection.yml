@@ -11,7 +11,8 @@ description: The following analytic identifies the server side template injectio
   Upon triage, review parallel processes and VMware logs. Following the deviceudid=
   may be a command to be executed. Capture any file creates and review modified files
   on disk.
-data_source: []
+data_source: 
+- Palo Alto Network Threat
 search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*"
   AND Web.url="*freemarker.template.utility.Execute*" by Web.http_user_agent Web.http_method,
   Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")`

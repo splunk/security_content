@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic is designed to detect any execution of AutoIt3, a scripting language designed for automating the Windows GUI and general scripting. This includes instances where AutoIt3 has been renamed or otherwise altered in an attempt to evade detection. The analytic works by searching for process names or original file names that match 'autoit3.exe', which is the default executable for AutoIt scripts. This detection is important as AutoIt3 is often used by attackers to automate malicious activities, such as the execution of malware or other unwanted software. False positives may occur with legitimate uses of AutoIt3.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("autoit3.exe", "autoit*.exe") OR Processes.original_file_name IN ("autoit3.exe", "autoit*.exe")

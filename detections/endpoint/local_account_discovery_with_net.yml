@@ -10,7 +10,7 @@ description: This analytic looks for the execution of `net.exe` or `net1.exe` wi
   and 'users', return a list of all local users. Red Teams and adversaries alike use
   net.exe to enumerate users for situational awareness and Active Directory Discovery.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_net` (Processes.process=*user
   OR Processes.process=*users) by Processes.dest Processes.user Processes.parent_process

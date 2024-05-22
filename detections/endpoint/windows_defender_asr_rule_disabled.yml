@@ -5,7 +5,8 @@ date: '2023-11-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source:
+- Windows Event Log Defender 5007
 description: 'The following analytic identifies when a Windows Defender ASR rule disabled events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR rule disabled events that are generated when an ASR rule is disabled.'
 search: '`ms_defender` EventCode IN (5007) 
   | rex field=New_Value "0x(?<New_Registry_Value>\\d+)$"

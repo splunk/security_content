@@ -24,7 +24,7 @@ description: 'The following analytic utilizes Windows Security EventCode 4698, w
   
   By conducting this triage process, security analysts can gain insights into potentiallymalicious or suspicious scheduled tasks, helping them identify the source and assess the impact of the task. This analytic is valuable for a Security Operations Center (SOC) as it can detect unauthorized or suspicious activity that could indicate an attacker''s attempt to establish persistence or execute unauthorized commands on the system.'
 data_source:
-- Windows Security 4698
+- Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 TaskContent IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TaskName, TaskContent
 |  rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `winevent_scheduled_task_created_within_public_path_filter`'

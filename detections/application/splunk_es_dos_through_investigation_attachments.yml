@@ -5,7 +5,8 @@ date: '2024-01-04'
 author: Rod Soto, Eric McGinnis, Chase Franklin
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Splunk
 description: In Splunk Enterprise Security (ES) versions below 7.1.2, an attacker can use investigation attachments to perform a denial of service (DoS) to the Investigation. The attachment endpoint does not properly limit the size of the request which lets an attacker cause the Investigation to become inaccessible.
 search: '`splunkd_investigation_rest_handler` status=error object=investigation 
   | stats min(_time) as firstTime max(_time) as lastTime values(status) as status values(msg) as msg values(id) as investigation_id by user 

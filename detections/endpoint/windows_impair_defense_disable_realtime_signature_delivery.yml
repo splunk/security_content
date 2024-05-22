@@ -6,9 +6,8 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 12
-- Sysmon Event ID 13
-- Sysmon Event ID 14
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic identifies a modification in the Windows registry to disable windows defender 
   realtime signature delivery feature. This setting governs how Windows Defender Antivirus receives updated signature 
   definitions for identifying and combating malware threats in real-time. The actual impact and behaviors associated 

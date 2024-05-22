@@ -9,7 +9,7 @@ description: The following hunting analytic assists with identifying the proces 
   of commonly used utilities from NirSoft. Potentially not adversary behavior, but
   worth identifying to know if the software is present and being used.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.original_file_name Processes.process_path

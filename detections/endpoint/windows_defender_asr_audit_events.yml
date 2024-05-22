@@ -5,7 +5,12 @@ date: '2023-11-27'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-data_source: []
+data_source:
+- Windows Event Log Defender 1122
+- Windows Event Log Defender 1125
+- Windows Event Log Defender 1126
+- Windows Event Log Defender 1132 
+- Windows Event Log Defender 1134
 description: 'This detection searches for Windows Defender ASR audit events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR audit events that are generated when a process or application attempts to perform an action that would be blocked by an ASR rule, but is allowed to proceed for auditing purposes.'
 search: '`ms_defender` EventCode IN (1122, 1125, 1126, 1132, 1134)
   | lookup asr_rules ID OUTPUT ASR_Rule

@@ -10,7 +10,7 @@ description: This analytic looks for the execution of `query.exe` with command-l
   may leverage `query.exe` to identify system users on a compromised endpoint for
   situational awareness and Active Directory Discovery.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="query.exe")
   (Processes.process=*user*) by Processes.dest Processes.user Processes.parent_process

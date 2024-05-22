@@ -12,7 +12,7 @@ description: The following analytic identifies suspicious PowerShell script exec
   review parallel processes within the same timeframe. Review the full script block
   to identify other related artifacts.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*IO.Compression.*" OR ScriptBlockText
   = "*IO.StreamReader*" OR ScriptBlockText = "*]::Decompress*" | stats count min(_time)
   as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID

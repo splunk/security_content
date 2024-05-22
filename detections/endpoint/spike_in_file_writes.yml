@@ -8,7 +8,7 @@ type: Anomaly
 description: The search looks for a sharp increase in the number of files written
   to a particular host
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
   where Filesystem.action=created by _time span=1h, Filesystem.dest | `drop_dm_object_name(Filesystem)`
   | eventstats max(_time) as maxtime | stats count as num_data_samples max(eval(if(_time
