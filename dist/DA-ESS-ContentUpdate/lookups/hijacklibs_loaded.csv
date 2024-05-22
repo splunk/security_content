@@ -1,0 +1,886 @@
+islibrary,library,excludes,ttp,comment
+TRUE,aclui.dll,*\Windows\System32\*,T1574.002,https://www.hexacorn.com/blog/2016/03/10/beyond-good-ol-run-key-part-36/
+TRUE,aclui.dll,*\Windows\SysWOW64\*,T1574.002,https://www.hexacorn.com/blog/2016/03/10/beyond-good-ol-run-key-part-36/
+TRUE,acrodistdll.dll,*\Program Files\Adobe\Acrobat *,T1574.002,https://go.recordedfuture.com/hubfs/reports/cta-2022-1223.pdf
+TRUE,acrodistdll.dll,*\Acrobat\acrodistdll*,T1574.002,https://go.recordedfuture.com/hubfs/reports/cta-2022-1223.pdf
+TRUE,activeds.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,activeds.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,adsldpc.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,adsldpc.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,aepic.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,aepic.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,apphelp.dll,*\Windows\System32\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,apphelp.dll,*\Windows\SysWOW64\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,applicationframe.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,applicationframe.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,appvpolicy.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,appwiz.cpl,*\Windows\System32\*,T1574.002,https://www.hexacorn.com/blog/2024/01/06/1-little-known-secret-of-fondue-exe/
+TRUE,appwiz.cpl,*\Windows\SysWOW64\*,T1574.002,https://www.hexacorn.com/blog/2024/01/06/1-little-known-secret-of-fondue-exe/
+TRUE,appxalluserstore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,appxalluserstore.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,appxdeploymentclient.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,appxdeploymentclient.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,archiveint.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,archiveint.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ashldres.dll,*\Program Files\McAfee.com\VSO*,T1574.002,https://www.sophos.com/en-us/medialibrary/PDFs/technical%20papers/sophos-rotten-tomato-campaign.pdf
+TRUE,atl.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,atl.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,atltracetoolui.dll,*\Program Files\Microsoft Visual Studio 11.0\Common7\Tools*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,audioses.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,audioses.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,auditpolcore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,auditpolcore.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,authfwcfg.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,authfwcfg.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,authz.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,authz.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,avrt.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,avrt.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,basicnetutils.dll,*\Appdata\local\Temp\*,T1574.002,https://news.sophos.com/en-us/2023/05/03/doubled-dll-sideloading-dragon-breath/
+TRUE,basicnetutils.dll,*\Program Files\BAIDU\BAIDUPINYIN\*,T1574.002,https://news.sophos.com/en-us/2023/05/03/doubled-dll-sideloading-dragon-breath/
+TRUE,batmeter.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,batmeter.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,bcd.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bcd.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bcp47langs.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bcp47langs.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bcp47mrm.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bcp47mrm.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bcrypt.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,bcrypt.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,bderepair.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bootmenuux.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,bootux.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,cabinet.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cabinet.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cabview.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,cabview.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,certcli.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,certcli.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,certenroll.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,certenroll.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cfgmgr32.dll,*\Windows\System32\*,T1574.002,
+TRUE,cfgmgr32.dll,*\Windows\SysWOW64\*,T1574.002,
+TRUE,chrome_frame_helper.dll,*\Appdata\local\Google\Chrome\Application*,T1574.002,https://www.hexacorn.com/blog/2016/03/10/beyond-good-ol-run-key-part-36/
+TRUE,chrome_frame_helper.dll,*\Program Files\Google\Chrome\Application*,T1574.002,https://www.hexacorn.com/blog/2016/03/10/beyond-good-ol-run-key-part-36/
+TRUE,ciscosparklauncher.dll,*\Appdata\local\CiscoSparkLauncher*,T1574.002,https://news.sophos.com/en-us/2022/11/03/family-tree-dll-sideloading-cases-may-be-related/
+TRUE,ciscosparklauncher.dll,*\AppData\Local\Programs\Cisco Spark\*,T1574.002,https://news.sophos.com/en-us/2022/11/03/family-tree-dll-sideloading-cases-may-be-related/
+TRUE,classicexplorer32.dll,*\Program Files\Classic Shell*,T1574.002,https://blogs.blackberry.com/en/2022/12/mustang-panda-uses-the-russian-ukrainian-war-to-attack-europe-and-asia-pacific-targets
+TRUE,classicexplorer32.dll,*\Program Files\Open-Shell*,T1574.002,https://blogs.blackberry.com/en/2022/12/mustang-panda-uses-the-russian-ukrainian-war-to-attack-europe-and-asia-pacific-targets
+TRUE,cldapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cldapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,clipc.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,clipc.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,clusapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,clusapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cmpbk32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cmpbk32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cmutil.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,cmutil.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,coloradapterclient.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,coloradapterclient.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,colorui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,colorui.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,comdlg32.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,comdlg32.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,commfunc.dll,*\Program Files\Lenovo\Communications Utility*,T1574.002,https://blog.trendmicro.com/trendlabs-security-intelligence/new-wave-of-plugx-targets-legitimate-apps/
+TRUE,configmanager2.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,connect.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,connect.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,coredplus.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,coremessaging.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,coremessaging.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,coreuicomponents.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,coreuicomponents.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,credui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,credui.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptbase.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptbase.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptdll.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptdll.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptsp.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,cryptsp.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,cryptui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptui.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptxml.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cryptxml.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cscapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cscapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,cscobj.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,cscobj.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,cscui.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,cscui.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,d2d1.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d2d1.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10_1.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10_1.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10_1core.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10_1core.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10core.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10core.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10warp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d10warp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d11.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d11.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d12.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d12.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d9.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3d9.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\windows kits\10\bin\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\windows kits\10\bin\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\windows kits\10\redist\d3d\x64*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\windows kits\10\redist\d3d\x86*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\wireshark*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\cisco systems\cisco jabber*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\microsoft\edge\application\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Program Files\Google\Chrome\Application\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Appdata\local\microsoft\teams\stage*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dcompiler_47.dll,*\Microsoft\Teams\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,d3dx9_43.dll,*\Windows\System32\*,T1574.002,https://news.sophos.com/en-us/2023/05/03/doubled-dll-sideloading-dragon-breath/
+TRUE,d3dx9_43.dll,*\Windows\SysWOW64\*,T1574.002,https://news.sophos.com/en-us/2023/05/03/doubled-dll-sideloading-dragon-breath/
+TRUE,dataexchange.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,dataexchange.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,davclnt.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,davclnt.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\arm*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\arm\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\arm64*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\arm64\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\x64*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\x64\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\x86*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\windows kits\10\debuggers\x86\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Program Files\microsoft office\root\office*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgcore.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgeng.dll,*\Program Files\Windows Kits\*,T1574.002,https://twitter.com/mrexodia/status/1630320327967252483
+TRUE,dbgeng.dll,*\Program Files\Windows Kits\*,T1574.002,https://twitter.com/mrexodia/status/1630320327967252483
+TRUE,dbgeng.dll,*\Program Files\Windows Kits\*,T1574.002,https://twitter.com/mrexodia/status/1630320327967252483
+TRUE,dbgeng.dll,*\Program Files\Windows Kits\*,T1574.002,https://twitter.com/mrexodia/status/1630320327967252483
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\arm*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\arm\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\arm64*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\arm64\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\x64*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\x64\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\x86*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\windows kits\10\debuggers\x86\srcsrv*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\cisco systems\cisco jabber*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\microsoft office\root\office*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Program Files\microsoft office\root\vfs\programfilesx86\microsoft analysis services\as oledb\140*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbghelp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dbgmodel.dll,*\Windows\System32\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,dbgmodel.dll,*\Windows\SysWOW64\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,dbgmodel.dll,*\Program Files\Windows Kits\10\Debuggers\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,dcntel.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dcomp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dcomp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,defragproxy.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,defragproxy.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,desktopshellext.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,desktopshellext.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,deviceassociation.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,deviceassociation.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,devicecredential.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,devicecredential.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,devicepairing.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,devicepairing.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,devobj.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,devobj.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,devrtl.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,devrtl.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dhcpcmonitor.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dhcpcmonitor.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dhcpcsvc.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dhcpcsvc.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dhcpcsvc6.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dhcpcsvc6.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,directmanipulation.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,directmanipulation.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,dismapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dismapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dismcore.dll,*\Windows\System32\dism*,T1574.001,https://cofense.com/exploiting-unpatched-vulnerability-ave_maria-malware-not-full-grace/
+TRUE,dismcore.dll,*\Windows\SysWOW64\dism*,T1574.001,https://cofense.com/exploiting-unpatched-vulnerability-ave_maria-malware-not-full-grace/
+TRUE,dmcfgutils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmcfgutils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmcmnutils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmcmnutils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmcommandlineutils.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,dmcommandlineutils.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,dmenrollengine.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmenrollengine.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmenterprisediagnostics.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmiso8601utils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmiso8601utils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmoleaututils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmoleaututils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmprocessxmlfiltered.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmprocessxmlfiltered.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmpushproxy.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmpushproxy.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmxmlhelputils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dmxmlhelputils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dnsapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dnsapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dot3api.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dot3api.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dot3cfg.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dot3cfg.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dpx.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dpx.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,drprov.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,drprov.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,drvstore.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,drvstore.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,dsclient.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dsclient.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dsparse.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dsparse.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dsprop.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,dsprop.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,dsreg.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dsreg.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dsrole.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dsrole.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dui70.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dui70.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,duser.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,duser.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dusmapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dusmapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dwmapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dwmapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dwmcore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dwrite.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dwrite.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dxcore.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,dxcore.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,dxgi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dxgi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dxva2.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dxva2.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,dynamoapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,eappcfg.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,eappcfg.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,eappprxy.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,eappprxy.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,edgeiso.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,edgeiso.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,edputil.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,edputil.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,efsadu.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,efsadu.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,efsutil.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,efsutil.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,esent.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,esent.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,execmodelproxy.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,execmodelproxy.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,explorerframe.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,explorerframe.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,facesdk.dll,*\Program Files\luxand\facesdk\bin\win64*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,fastprox.dll,*\Windows\System32\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,fastprox.dll,*\Windows\SysWOW64\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,faultrep.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,faultrep.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fddevquery.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,fddevquery.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,feclient.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,feclient.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fhcfg.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,fhcfg.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,fhsvcctl.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,firewallapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,firewallapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,flightsettings.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,flightsettings.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,fltlib.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fltlib.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,formdll.dll,*\Program Files\Common Files\Microsoft Shared\NoteSync Forms*,T1574.002,https://any.run/report/d9c7f6d4ec08d961c20dac1b6422b3fbec5c6a8d9dc67d1f604835b36c5f224e/ae068531-92db-497d-b0cb-c0b1af5476f1
+TRUE,framedynos.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,framedynos.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,fveapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fveapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fveskybackup.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,fvewiz.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,fwbase.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fwbase.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fwcfg.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fwcfg.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fwpolicyiomgr.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fwpolicyiomgr.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fwpuclnt.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fwpuclnt.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fxsapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fxsapi.dll,*\Windows\System32\driverstore\filerepository\prnms002.inf_*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fxsapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fxsst.dll,*\Windows\System32\*,T1574.001,https://www.fireeye.com/blog/threat-research/2011/06/fxsst.html/
+TRUE,fxstiff.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,fxstiff.dll,*\Windows\System32\driverstore\filerepository\prnms002.inf_*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,getuname.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,getuname.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,gflagsui.dll,*\Program Files\Windows Kits\10\Debuggers\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,glib-2.0.dll,*\Program Files\VMware\VMware Tools*,T1574.002,https://www.sentinelone.com/labs/lockbit-ransomware-side-loads-cobalt-strike-beacon-with-legitimate-vmware-utility/
+TRUE,glib-2.0.dll,*\Program Files\VMware\VMware Workstation*,T1574.002,https://www.sentinelone.com/labs/lockbit-ransomware-side-loads-cobalt-strike-beacon-with-legitimate-vmware-utility/
+TRUE,glib-2.0.dll,*\Program Files\VMware\VMware Player*,T1574.002,https://www.sentinelone.com/labs/lockbit-ransomware-side-loads-cobalt-strike-beacon-with-legitimate-vmware-utility/
+TRUE,gpapi.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,gpapi.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,hha.dll,*\Windows\System32\*,T1574.002,https://blog.trendmicro.com/trendlabs-security-intelligence/new-wave-of-plugx-targets-legitimate-apps/
+TRUE,hha.dll,*\Windows\SysWOW64\*,T1574.002,https://blog.trendmicro.com/trendlabs-security-intelligence/new-wave-of-plugx-targets-legitimate-apps/
+TRUE,hha.dll,*\Program Files\HTML Help Workshop*,T1574.002,https://blog.trendmicro.com/trendlabs-security-intelligence/new-wave-of-plugx-targets-legitimate-apps/
+TRUE,hid.dll,*\Windows\System32\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,hid.dll,*\Windows\SysWOW64\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,hnetmon.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,hnetmon.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,hpcustpartui.dll,*\Program Files\HP*,T1574.002,https://www.trellix.com/en-us/about/newsroom/stories/research/operation-harvest-a-deep-dive-into-a-long-term-campaign.html
+TRUE,hpqhvsei.dll,*\Program Files\HP*,T1574.002,https://www.secureworks.com/research/shadowpad-malware-analysis
+TRUE,httpapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,httpapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,icmp.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,icmp.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,idstore.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,idstore.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ieadvpack.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ieadvpack.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iedkcs32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iedkcs32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iernonce.dll,*\Windows\System32\*,T1574.002,https://www.hexacorn.com/blog/2023/12/26/1-little-known-secret-of-runonce-exe-32-bit/
+TRUE,iernonce.dll,*\Windows\SysWOW64\*,T1574.002,https://www.hexacorn.com/blog/2023/12/26/1-little-known-secret-of-runonce-exe-32-bit/
+TRUE,iertutil.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iertutil.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ifmon.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ifmon.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ifsutil.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,ifsutil.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,inproclogger.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iphlpapi.dll,*\Windows\System32\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iphlpapi.dll,*\Windows\SysWOW64\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iri.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iri.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iscsidsc.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iscsidsc.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iscsiexe.dll,*\Windows\System32\*,T1574.001,https://github.com/hackerhouse-opensource/iscsicpl_bypassUAC
+TRUE,iscsiexe.dll,*\Windows\SysWOW64\*,T1574.001,https://github.com/hackerhouse-opensource/iscsicpl_bypassUAC
+TRUE,iscsium.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iscsium.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,isv.exe_rsaenh.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,isv.exe_rsaenh.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,iumbase.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,iumsdk.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,iviewers.dll,*\Program Files\Windows Kits\10\bin\*,T1574.002,https://www.secureworks.com/research/shadowpad-malware-analysis
+TRUE,iviewers.dll,*\Program Files\Windows Kits\10\bin\*,T1574.002,https://www.secureworks.com/research/shadowpad-malware-analysis
+TRUE,iviewers.dll,*\Program Files\Windows Kits\10\bin\*,T1574.002,https://www.secureworks.com/research/shadowpad-malware-analysis
+TRUE,iviewers.dll,*\Program Files\Windows Kits\10\bin\*,T1574.002,https://www.secureworks.com/research/shadowpad-malware-analysis
+TRUE,joinutil.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,joinutil.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,kdstub.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ksuser.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ksuser.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ktmw32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ktmw32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ldvpocx.ocx,*\Program Files\Symantec_Client_Security\Symantec AntiVirus*,T1574.002,https://www.secureworks.com/research/a-peek-into-bronze-unions-toolbox
+TRUE,ldvpocx.ocx,*\Program Files\Symantec AntiVirus*,T1574.002,https://www.secureworks.com/research/a-peek-into-bronze-unions-toolbox
+TRUE,libvlc.dll,*\Program Files\VideoLAN\VLC*,T1574.002,https://news.sophos.com/en-us/2022/11/03/family-tree-dll-sideloading-cases-may-be-related/
+TRUE,licensemanagerapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,licensemanagerapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,licensingdiagspp.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,licensingdiagspp.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,linkinfo.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,linkinfo.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,lmiguardiandll.dll,*\Program Files\LogMeIn*,T1574.002,https://twitter.com/StopMalvertisin/status/1610961056163311619
+TRUE,lmiguardiandll.dll,*\Program Files\LogMeIn\x86*,T1574.002,https://twitter.com/StopMalvertisin/status/1610961056163311619
+TRUE,lmiguardiandll.dll,*\Program Files\LogMeIn\x64*,T1574.002,https://twitter.com/StopMalvertisin/status/1610961056163311619
+TRUE,loadperf.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,loadperf.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,lockdown.dll,*\Program Files\McAfee\VirusScan Enterprise*,T1574.002,https://twitter.com/thepacketrat/status/1520878930449817600
+TRUE,lockhostingframework.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,log.dll,*\Program Files\Bitdefender Antivirus Free*,T1574.002,https://www.secureworks.com/research/shadowpad-malware-analysis
+TRUE,logoncli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,logoncli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,logoncontroller.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,logoncontroller.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,lpksetupproxyserv.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,lpksetupproxyserv.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,lrwizdll.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,magnification.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,magnification.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,maintenanceui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mapistub.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mapistub.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mbaexmlparser.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,mdmdiagnostics.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mfc42u.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,mfc42u.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,mfcore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mfcore.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mfplat.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mfplat.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,midimap.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,midimap.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mintdh.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,miutils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,miutils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mlang.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mlang.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mmdevapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mmdevapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mobilenetworking.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mobilenetworking.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mozglue.dll,*\Program Files\SeaMonkey*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,mozglue.dll,*\Program Files\Mozilla Firefox*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,mozglue.dll,*\Program Files\Mozilla Thunderbird*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,mozglue.dll,*\AppData\Local\Mozilla Firefox\*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,mpclient.dll,*\Program Files\Windows Defender*,T1574.002,https://www.sentinelone.com/blog/living-off-windows-defender-lockbit-ransomware-sideloads-cobalt-strike-through-microsoft-security-tool/
+TRUE,mpclient.dll,*\ProgramData\Microsoft\Windows Defender\Platform\*,T1574.002,https://www.sentinelone.com/blog/living-off-windows-defender-lockbit-ransomware-sideloads-cobalt-strike-through-microsoft-security-tool/
+TRUE,mpr.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,mpr.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,mprapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mprapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mpsvc.dll,*\Program Files\Windows Defender\*,T1574.002,https://www.mcafee.com/blogs/other-blogs/mcafee-labs/revil-ransomware-uses-dll-sideloading/
+TRUE,mpsvc.dll,*\ProgramData\Microsoft\Windows Defender\Platform\*,T1574.002,https://www.mcafee.com/blogs/other-blogs/mcafee-labs/revil-ransomware-uses-dll-sideloading/
+TRUE,mrmcorer.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mrmcorer.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msacm32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msacm32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mscms.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mscms.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mscoree.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mscoree.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mscorsvc.dll,*\Windows\Microsoft.NET\Framework\v*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,mscorsvc.dll,*\Windows\Microsoft.NET\Framework64\v*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,msctf.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,msctf.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,msctfmonitor.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msctfmonitor.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msdrm.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msdrm.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msdtctm.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msftedit.dll,*\Windows\System32\*,T1574.002,https://www.hexacorn.com/blog/2015/02/23/beyond-good-ol-run-key-part-28/
+TRUE,msftedit.dll,*\Windows\SysWOW64\*,T1574.002,https://www.hexacorn.com/blog/2015/02/23/beyond-good-ol-run-key-part-28/
+TRUE,msi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msiso.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,msiso.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,msutb.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msutb.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,msvcp110_win.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,msvcp110_win.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,msvcr100.dll,*\Windows\System32\*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,msvcr100.dll,*\Windows\SysWOW64\*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,mswb7.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,mswb7.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,mswsock.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,mswsock.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,msxml3.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,msxml3.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,mtxclu.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,mtxclu.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,napinsp.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,napinsp.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ncrypt.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ncrypt.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ndfapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ndfapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netapi32.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,netapi32.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,netid.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netid.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netiohlp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netiohlp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netjoin.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,netjoin.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,netplwiz.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netplwiz.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netprofm.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,netprofm.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,netprovfw.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,netprovfw.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,netsetupapi.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,netsetupapi.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,netshell.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netshell.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nettrace.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netutils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,netutils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,networkexplorer.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,networkexplorer.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,newdev.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,newdev.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ninput.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ninput.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nlaapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nlaapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nlansp_c.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,nlansp_c.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,npmproxy.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,npmproxy.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,nshhttp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nshhttp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nshipsec.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nshipsec.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nshwfp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,nshwfp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ntdsapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ntdsapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ntlanman.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ntlanman.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ntlmshared.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ntlmshared.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ntmarta.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ntmarta.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ntshrui.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ntshrui.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,nvsmartmax.dll,*\Program Files\NVIDIA Corporation\Display*,T1574.002,https://www.cybereason.com/blog/research/deadringer-exposing-chinese-threat-actors-targeting-major-telcos
+TRUE,oleacc.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,oleacc.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,omadmapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,omadmapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,onex.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,onex.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,opcservices.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,opcservices.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,opera_elf.dll,*\Appdata\local\programs\opera\*,T1574.002,https://twitter.com/ShitSecure/status/1566127363389329412
+TRUE,osbaseln.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,osbaseln.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,osksupport.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,osuninst.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,osuninst.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,outllib.dll,*\Program Files\Microsoft Office\OFFICE*,T1574.002,https://medium.com/insomniacs/analysis-walkthrough-fun-clientrun-part-1-b2509344ebe6
+TRUE,outllib.dll,*\Program Files\Microsoft Office\Root\OFFICE*,T1574.002,https://medium.com/insomniacs/analysis-walkthrough-fun-clientrun-part-1-b2509344ebe6
+TRUE,p2p.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,p2p.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,p2pnetsh.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,p2pnetsh.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,p9np.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,p9np.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,pcaui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,pcaui.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,pdh.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,pdh.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,peerdistsh.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,peerdistsh.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,pkeyhelper.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,pla.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,pla.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,playsndsrv.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,playsndsrv.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,pnrpnsp.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,pnrpnsp.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,policymanager.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,policymanager.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,polstore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,polstore.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,powrprof.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,powrprof.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,printui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,printui.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,prntvpt.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,prntvpt.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,profapi.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,profapi.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,propsys.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,propsys.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,proximitycommon.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,proximitycommon.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,proximityservicepal.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,prvdmofcomp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,prvdmofcomp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,puiapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,puiapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,python39.dll,*\Program Files\Python39*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,python39.dll,*\Appdata\local\Temp\*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,python39.dll,*\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\VC\SecurityIssueAnalysis\python*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,python39.dll,*\Users\anaconda3*,T1574.002,https://twitter.com/SBousseaden/status/1530595156055011330
+TRUE,qrt.dll,*\Program Files\F-Secure\Anti-Virus*,T1574.002,https://www.welivesecurity.com/2022/04/27/lookback-ta410-umbrella-cyberespionage-ttps-activity/
+TRUE,radcui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,radcui.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rasapi32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rasapi32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rasdlg.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,rasdlg.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,rasgcw.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,rasgcw.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,rasman.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rasman.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rasmontr.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rasmontr.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rastls.dll,*\Program Files\Symantec\Network Connected Devices Auto Setup*,T1574.002,https://st.drweb.com/static/new-www/news/2020/october/Study_of_the_ShadowPad_APT_backdoor_and_its_relation_to_PlugX_en.pdf
+TRUE,rcdll.dll,*\Program Files\Windows Kits\10\bin\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,reagent.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,reagent.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,regapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,regapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,reseteng.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,resetengine.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,resutils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,resutils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rjvplatform.dll,*\Windows\System32\SystemResetPlatform*,T1574.002,https://twitter.com/0gtweet/status/1666716511988330499
+TRUE,rjvplatform.dll,*\Windows\SysWOW64\SystemResetPlatform*,T1574.002,https://twitter.com/0gtweet/status/1666716511988330499
+TRUE,rmclient.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rmclient.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rpcnsh.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rpcnsh.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rsaenh.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,rsaenh.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,rtutils.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rtutils.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rtworkq.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rtworkq.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,rzlog4cpp_logger.dll,*\Appdata\local\razer\InGameEngine\cache\RzFpsApplet*,T1574.002,https://www.mandiant.com/resources/blog/china-nexus-espionage-southeast-asia
+TRUE,safestore32.dll,*\Program Files\Sophos\Sophos Anti-Virus*,T1574.002,https://symantec.broadcom.com/hubfs/Attacks-Against-Government-Sector.pdf
+TRUE,samcli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,samcli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,samlib.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,samlib.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,sapi_onecore.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,sapi_onecore.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,sas.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,sas.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,scansetting.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,scansetting.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,scecli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,scecli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,schedcli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,schedcli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,secur32.dll,*\Windows\System32\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,secur32.dll,*\Windows\SysWOW64\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,security.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,security.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,sensapi.dll,*\Windows\System32\*,T1574.002,https://twitter.com/AndrewOliveau/status/1682185200862625792
+TRUE,sensapi.dll,*\Windows\SysWOW64\*,T1574.002,https://twitter.com/AndrewOliveau/status/1682185200862625792
+TRUE,shell32.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,shell32.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,shfolder.dll,*\Windows\System32\*,T1574.002,https://twitter.com/dissectmalware/status/978017957480628226
+TRUE,shfolder.dll,*\Windows\SysWOW64\*,T1574.002,https://twitter.com/dissectmalware/status/978017957480628226
+TRUE,siteadv.dll,*\Program Files\SiteAdvisor\*,T1574.002,https://www.nortonlifelock.com/sites/default/files/2021-10/OPERATION%20EXORCIST%20White%20Paper.pdf
+TRUE,slc.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,slc.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,smadhook32c.dll,*\Program Files\Smadav*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,snmpapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,snmpapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,spectrumsyncclient.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,spp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,spp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,sppc.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,sppc.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,sppcext.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,sppcext.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,srclient.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,srclient.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,srcore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,srmtrace.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,srmtrace.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,srpapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,srpapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,srvcli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,srvcli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ssp.exe_rsaenh.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ssp.exe_rsaenh.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ssp_isv.exe_rsaenh.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,ssp_isv.exe_rsaenh.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,sspicli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,sspicli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ssshim.dll,*\Windows\System32\*,T1574.002,https://twitter.com/0gtweet/status/1363107343018385410
+TRUE,ssshim.dll,*\Windows\SysWOW64\*,T1574.002,https://twitter.com/0gtweet/status/1363107343018385410
+TRUE,staterepository.core.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,staterepository.core.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,structuredquery.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,structuredquery.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,sxshared.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,sxshared.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,symsrv.dll,*\Program Files\Windows Kits\10\Debuggers\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,systemsettingsthresholdadminflowui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tapi32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tapi32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tbs.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tbs.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tdh.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tdh.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,textshaping.dll,*\Windows\System32\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,textshaping.dll,*\Windows\SysWOW64\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,timesync.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tmdbglog.dll,*\Program Files\Trend Micro\Titanium*,T1574.002,https://www.ptsecurity.com/ww-en/analytics/pt-esc-threat-intelligence/space-pirates-tools-and-connections/
+TRUE,tosbtkbd.dll,*\Program Files\Toshiba\Bluetooth Toshiba Stack*,T1574.002,https://www.secureworks.com/research/shadowpad-malware-analysis
+TRUE,tpmcoreprovisioning.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,tpmcoreprovisioning.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,tquery.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tquery.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tsworkspace.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,tsworkspace.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ttdrecord.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,ttdrecord.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,twext.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,twext.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,twinapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,twinapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,twinui.appcore.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,twinui.appcore.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,uianimation.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,uianimation.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,uiautomationcore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uiautomationcore.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uireng.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uireng.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uiribbon.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,uiribbon.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,umpdc.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,umpdc.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,unattend.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,unityplayer.dll,*\Appdata\local\Temp\*,T1574.002,https://news.sophos.com/en-us/2023/05/03/doubled-dll-sideloading-dragon-breath/
+TRUE,updatepolicy.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,updatepolicy.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,upshared.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,urlmon.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,urlmon.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,userenv.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,userenv.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,utildll.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,utildll.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uxinit.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uxinit.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uxtheme.dll,*\Windows\System32\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,uxtheme.dll,*\Windows\SysWOW64\*,T1574.001,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,vaultcli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,vaultcli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,vdsutil.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,vdsutil.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,vender.dll,*\Program Files\ASUS\GPU TweakII*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,vender.dll,*\Program Files\ASUS\VGA COM\*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,version.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,version.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,vftrace.dll,*\Program Files\CyberArk\Endpoint Privilege Manager\Agent\x32*,T1574.002,https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/budworm-espionage-us-state?web_view=true
+TRUE,vftrace.dll,*\Program Files\CyberArk\Endpoint Privilege Manager\Agent\x64*,T1574.002,https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/budworm-espionage-us-state?web_view=true
+TRUE,vftrace.dll,*\Program Files\CyberArk\Endpoint Privilege Manager\Agent*,T1574.002,https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/budworm-espionage-us-state?web_view=true
+TRUE,virtdisk.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,virtdisk.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,vivaldi_elf.dll,*\Appdata\local\Vivaldi\Application*,T1574.002,https://securityintelligence.com/posts/vizom-malware-targets-brazilian-bank-customers-remote-overlay/
+TRUE,vivaldi_elf.dll,*\Appdata\local\Vivaldi\Application\*,T1574.002,https://securityintelligence.com/posts/vizom-malware-targets-brazilian-bank-customers-remote-overlay/
+TRUE,vntfxf32.dll,*\Program Files\Venta\VentaFax &amp; Voice*,T1574.002,https://decoded.avast.io/threatintel/apt-treasure-trove-avast-suspects-chinese-apt-group-mustang-panda-is-collecting-data-from-burmese-government-agencies-and-opposition-groups/
+TRUE,vsodscpl.dll,*\Program Files\McAfee\VirusScan Enterprise*,T1574.002,https://eiploader.wordpress.com/2011/03/28/digitally-signed-malware-without-stealing-certificates/
+TRUE,vssapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,vssapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,vsstrace.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,vsstrace.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wbemprox.dll,*\Windows\System32\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wbemprox.dll,*\Windows\SysWOW64\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wbemsvc.dll,*\Windows\System32\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wbemsvc.dll,*\Windows\SysWOW64\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wcmapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wcmapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wcnnetsh.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wdi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wdi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wdscore.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wdscore.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,webservices.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,webservices.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wecapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wecapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wer.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wer.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wevtapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wevtapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,whhelper.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,whhelper.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wimgapi.dll,*\Windows\System32\*,T1574.002,https://www.hexacorn.com/blog/2015/02/23/beyond-good-ol-run-key-part-28/
+TRUE,wimgapi.dll,*\Windows\SysWOW64\*,T1574.002,https://www.hexacorn.com/blog/2015/02/23/beyond-good-ol-run-key-part-28/
+TRUE,wimgapi.dll,*\Program Files\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\arm64\DISM*,T1574.002,https://www.hexacorn.com/blog/2015/02/23/beyond-good-ol-run-key-part-28/
+TRUE,winbio.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,winbio.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,winbrand.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winbrand.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,windows.storage.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,windows.storage.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,windows.storage.search.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,windows.storage.search.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,windows.ui.immersive.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,windows.ui.immersive.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,windowscodecs.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,windowscodecs.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,windowscodecsext.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,windowscodecsext.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,windowsperformancerecordercontrol.dll,*\Program Files\windows kits\10\windows performance toolkit*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,windowsperformancerecordercontrol.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,windowsperformancerecordercontrol.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,windowsperformancerecorderui.dll,*\Program Files\Windows Kits\10\Windows Performance Toolkit*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,windowsudk.shellcommon.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,windowsudk.shellcommon.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,winhttp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winhttp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wininet.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wininet.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winipsec.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winipsec.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winmde.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winmm.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winmm.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winnsi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winnsi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winrnr.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,winrnr.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,winscard.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,winscard.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,winsqlite3.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winsqlite3.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winsta.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winsta.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,winsync.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,winsync.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,winutils.dll,*\Program Files\Palo Alto Networks\Traps*,T1574.002,https://research.checkpoint.com/2023/rorschach-a-new-sophisticated-and-fast-ransomware/
+TRUE,wkscli.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wkscli.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wlanapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wlanapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wlancfg.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wlancfg.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wldp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wldp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wlidprov.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wlidprov.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wmiclnt.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wmiclnt.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wmidcom.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wmidcom.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wmiutils.dll,*\Windows\System32\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wmiutils.dll,*\Windows\SysWOW64\wbem*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wmpdui.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wmsgapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wmsgapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wofutil.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wofutil.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wpdshext.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wpdshext.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wsc.dll,*\Program Files\AVAST Software\Avast*,T1574.001,https://github.com/netero1010/Vulnerability-Disclosure/tree/main/CVE-2022-AVAST2
+TRUE,wscapi.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,wscapi.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,wsdapi.dll,*\Windows\System32\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,wsdapi.dll,*\Windows\SysWOW64\*,T1574.002,https://globetech.biz/index.php/2023/05/19/evading-edr-by-dll-sideloading-in-csharp/
+TRUE,wshbth.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wshbth.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,wshelper.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wshelper.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wsmsvc.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,wsmsvc.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,wtsapi32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wtsapi32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wwancfg.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wwancfg.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wwapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,wwapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,xmllite.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,xmllite.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,xolehlp.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,xolehlp.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
+TRUE,xpsservices.dll,*\Windows\System32\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,xpsservices.dll,*\Windows\SysWOW64\*,T1574.002,https://securityintelligence.com/posts/windows-features-dll-sideloading/
+TRUE,xwizards.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,xwizards.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,xwtpw32.dll,*\Windows\System32\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
+TRUE,xwtpw32.dll,*\Windows\SysWOW64\*,T1574.007,https://wietze.github.io/blog/save-the-environment-variables
