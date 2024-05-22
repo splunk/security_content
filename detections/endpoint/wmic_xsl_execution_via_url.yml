@@ -14,7 +14,7 @@ description: The following analytic identifies `wmic.exe` loading a remote XSL (
   Management Instrumentation provided they utilize the /FORMAT switch. Upon identifying
   a suspicious execution, review for confirmed network connnection and script download.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process
   IN ("*http://*", "*https://*") Processes.process="*/format:*" by Processes.parent_process_name

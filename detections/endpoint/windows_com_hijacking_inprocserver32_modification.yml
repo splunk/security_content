@@ -14,7 +14,7 @@ description: The following analytic identifies the use of reg.exe performing an 
   executed. When that system component is executed through normal system operation
   the adversary's code will be executed instead.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_reg` Processes.process=*inprocserver32*
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name

@@ -25,7 +25,8 @@ description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is activel
 
   Initiate packet captures to capture other sensitive system information. Reference
   Horizon3.ai'
-data_source: []
+data_source: 
+- Palo Alto Network Threat
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
   where Web.url IN ("*/api/v2/cmdb/system/admin*")  Web.http_method IN ("GET", "PUT")
   by Web.http_user_agent, Web.http_method, Web.url, Web.url_length, Web.src, Web.dest,

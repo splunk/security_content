@@ -11,7 +11,7 @@ description: The following analytic identifies the odbcconf.exe, Windows Open Da
   supported by Odbcconf to load up a DLL (REGSVR) on disk or additional commands.
   During triage, review file modifications and parallel processes.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=odbcconf.exe
   Processes.process IN ("*-f *","*/f *") Processes.process="*.rsp*"  by Processes.dest

@@ -18,7 +18,8 @@ description: 'The following analytic identifies the use of default or publicly k
   to identify suspicious patterns or behaviors. A parallel process may have a network
   connection, review and follow the connection back to identify any file modifications.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 17
+- Sysmon EventID 18
 search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\DserNamePipe*,
   \\srvsvc_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*,
   \\winsock*, \\UIA_PIPE*)  | stats count min(_time) as firstTime max(_time) as lastTime

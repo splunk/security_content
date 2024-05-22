@@ -8,7 +8,7 @@ type: TTP
 description: This search looks for PowerShell processes launched with arguments that
   have characters indicative of obfuscation on the command-line.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell`

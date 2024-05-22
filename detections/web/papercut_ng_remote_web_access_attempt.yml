@@ -5,7 +5,8 @@ date: '2023-05-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic is designed to detect potential exploitation attempts on publicly accessible PaperCut NG servers. It identifies connections from public IP addresses to the server and specifically monitors for URI paths commonly found in proof-of-concept (POC) scripts for exploiting PaperCut NG vulnerabilities. These URI paths have been observed in both Metasploit modules and standalone scripts used for attacking PaperCut NG servers.
   When a public IP address is detected accessing one or more of these suspicious URI paths, an alert may be generated to notify the security team of the potential threat. The team can then investigate the source IP address, the targeted PaperCut NG server, and any other relevant information to determine the nature of the activity and take appropriate actions to mitigate the risk.
 search: '| tstats count from datamodel=Web where Web.url IN ("/app?service=page/SetupCompleted", "/app", "/app?service=page/PrinterList", "/app?service=direct/1/PrinterList/selectPrinter&sp=*", "/app?service=direct/1/PrinterDetails/printerOptionsTab.tab") NOT (src IN ("10.*.*.*","172.16.*.*", "192.168.*.*", "169.254.*.*", "127.*.*.*", "fc00::*", "fd00::*", "fe80::*")) by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest Web.dest_port sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`

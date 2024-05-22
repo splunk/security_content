@@ -13,7 +13,7 @@ description: This analytic looks for suspicious command-lines that can be possib
   after reboot which can be done also by the administrator or network operator for
   automation purposes.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process = "*echo*"
   AND Processes.process IN("*~/.bashrc", "*~/.bash_profile", "*/etc/profile", "~/.bash_login",

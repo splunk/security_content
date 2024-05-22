@@ -9,7 +9,8 @@ description: This analytic is to detect a registry modification to disable ETW f
   of windows. This technique is to evade EDR appliance to evade detections and hide
   its execution from audit logs.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*" Registry.registry_value_name
   = ETWEnabled Registry.registry_value_data=0x00000000) BY _time span=1h Registry.dest

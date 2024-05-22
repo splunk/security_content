@@ -12,7 +12,7 @@ description: This analytic indentifies WMIC command-line attempting to uninstall
   behavior. This approach may seen in some script or third part appication to uninstall
   their application but it is a good thing to check what it uninstall and why.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wmic.exe
   Processes.process="* product *" Processes.process="*where name*" Processes.process="*call

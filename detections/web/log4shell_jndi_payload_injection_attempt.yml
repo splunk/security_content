@@ -22,7 +22,8 @@ description: CVE-2021-44228 Log4Shell payloads can be injected via various metho
   that there was a attempt at a injection, which could be a reconnaissance activity
   or a valid expliotation attempt, but this does not exactly mean that the host was
   indeed successfully exploited.
-data_source: []
+data_source: 
+- Nginx Access
 search: '| from datamodel Web.Web | regex _raw="[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)\w+(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?"
   | fillnull | stats count by action, category, dest, dest_port, http_content_type,
   http_method, http_referrer, http_user_agent, site, src, url, url_domain, user |

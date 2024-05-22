@@ -5,7 +5,8 @@ date: '2024-01-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: This analytic identifies a critical template injection vulnerability (CVE-2023-22527) in outdated versions of Confluence Data Center and Server, which allows an unauthenticated attacker to execute arbitrary code remotely. The vulnerability is exploited by injecting OGNL (Object-Graph Navigation Language) expressions into the application, as evidenced by POST requests to the "/template/aui/text-inline.vm" endpoint with specific content types and payloads. The search looks for POST requests with HTTP status codes 200 or 202, which may indicate successful exploitation attempts. Immediate patching to the latest version of Confluence is strongly recommended, as there are no known workarounds. This detection is crucial for identifying and responding to potential RCE attacks, ensuring that affected Confluence instances are secured against this critical threat.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/template/aui/text-inline.vm*" Web.http_method=POST Web.status IN (200, 202) by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status
   | `drop_dm_object_name("Web")`

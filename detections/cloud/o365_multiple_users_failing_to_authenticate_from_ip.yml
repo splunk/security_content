@@ -5,7 +5,8 @@ date: '2024-03-19'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 UserLoginFailed
 description: This analytic identifies instances where multiple users (more than 10 unique accounts) have failed to authenticate from a single IP address within a short time span (5 minutes). Such a pattern can be indicative of malicious activities, such as brute-force attacks or password spraying attempts. The detection leverages O365 audit logs, specifically focusing on Azure Active Directory login failures (AzureActiveDirectoryStsLogon). By aggregating these failures based on the source IP address and time, the analytic captures patterns where multiple unique user accounts have authentication failures from the same IP within a 5-minute window. Multiple authentication failures from a single IP address targeting various accounts can be a strong indicator of an attacker trying to gain unauthorized access. It could represent a brute-force attack, password spraying, or other malicious login attempts. Identifying and responding to such patterns promptly is crucial to prevent potential account compromises and unauthorized access to organizational resources. If the detection is a true positive, it suggests that an external entity is actively trying to breach the security by targeting multiple user accounts. While the attempts have been unsuccessful (as indicated by the login failures), it's a clear sign of malicious intent. Immediate action is required to block or monitor the suspicious IP, investigate the nature of the attempts, and potentially notify affected users to take precautionary measures like password changes or enabling multi-factor authentication.
 search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126 
   |  bucket span=5m _time

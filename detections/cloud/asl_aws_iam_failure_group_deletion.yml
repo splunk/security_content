@@ -1,0 +1,69 @@
+name: ASL AWS IAM Failure Group Deletion
+id: 8d12f268-c567-4557-9813-f8389e235c06
+version: 3
+date: '2024-02-14'
+author: Patrick Bareiss, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects failed attempts to delete AWS IAM groups, triggered by access denial, conflicts, 
+  or non-existent groups. It operates by monitoring CloudTrail logs for specific error codes related to deletion failures. 
+  This behavior is significant for a SOC as it may indicate unauthorized attempts to modify access controls or disrupt operations 
+  by removing groups. Such actions could be part of a larger attack aiming to escalate privileges or impair security protocols. 
+  Identifying these attempts allows for timely investigation and mitigation, preventing potential impact on the organizations
+  security posture.
+data_source: []
+search: '`amazon_security_lake` api.operation=DeleteGroup api.response.error IN (NoSuchEntityException,DeleteConflictException, AccessDenied) http_request.user_agent!=*.amazonaws.com
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `asl_aws_iam_failure_group_deletion_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
+known_false_positives: This detection will require tuning to provide high fidelity
+  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
+  or by groups of users. Not every user with AWS access should have permission to
+  delete groups (least privilege).
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+tags:
+  analytic_story:
+  - AWS IAM Privilege Escalation
+  asset_type: AWS Account
+  confidence: 50
+  impact: 10
+  message: User $user$ has had mulitple failures while attempting to delete groups from $src_ip$
+  mitre_attack_id:
+  - T1098
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.operation
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
+  - http_request.user_agent
+  - src_endpoint.ip
+  - cloud.region
+  risk_score: 5
+  security_domain: cloud
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/asl_ocsf_cloudtrail.json
+    sourcetype: aws:cloudtrail:lake
+    source: aws_asl

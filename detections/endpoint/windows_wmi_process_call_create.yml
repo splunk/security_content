@@ -11,7 +11,7 @@ description: This analytic is to look for wmi commandlines to execute or create 
   look further which process trigger the wmi or what process it execute locally or
   remotely.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process
   = "* process *" Processes.process = "* call *" Processes.process = "* create *"

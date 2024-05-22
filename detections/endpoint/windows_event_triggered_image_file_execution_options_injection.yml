@@ -16,7 +16,7 @@ description: The following hunting analytic identifies EventCode 3000 in Applica
   for suspicious behavior. Monitor and tune this hunting analytic and setup traps
   across your organization and begin monitoring.
 data_source:
-- Sysmon Event ID 3
+- Windows Event Log Application 3000
 search: '`wineventlog_application` EventCode=3000 | rename param1 AS "Process" param2
   AS "Exit_Code" | stats count min(_time) as firstTime max(_time) as lastTime by Process
   Exit_Code dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

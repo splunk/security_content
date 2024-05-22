@@ -5,7 +5,8 @@ date: '2023-10-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 Add member to role.
 description: This analytic detects when high-privilege roles, specifically "Exchange Administrator", "SharePoint Administrator", or "Global Administrator", are granted within Office 365. By monitoring O365 audit logs for events where these administrative roles are assigned to any user or service account, the analytic provides insight into critical role changes. The assignment of these roles is of paramount importance to Security Operations Centers (SOCs) as they grant extensive permissions, allowing for broad access and control over critical organizational resources and data. An unexpected or unauthorized role assignment could indicate potential malicious activity, insider threats, or misconfigurations. If an attacker or unauthorized individual is granted one of these roles, the potential impact includes gaining significant control over O365 resources, accessing, modifying, or deleting critical data, making configuration changes, and potentially compromising the overall security and functionality of the O365 environment.
 search: >-
   `o365_management_activity` Operation="Add member to role." Workload=AzureActiveDirectory

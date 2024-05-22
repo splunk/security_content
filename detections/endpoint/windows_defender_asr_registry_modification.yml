@@ -5,7 +5,8 @@ date: '2023-11-27'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-data_source: []
+data_source:
+- Windows Event Log Defender 5007
 description: 'This detection searches for Windows Defender ASR registry modification events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR registry modification events that are generated when a process or application attempts to modify a registry key that is blocked by an ASR rule. Typically, these will be enabled in block most after auditing and tuning the ASR rules themselves. Set to TTP once tuned.'
 search: '`ms_defender` EventCode IN (5007) 
   | rex field=New_Value "0x(?<New_Registry_Value>\\d+)$"

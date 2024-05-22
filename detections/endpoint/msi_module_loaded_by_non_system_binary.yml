@@ -24,7 +24,7 @@ description: 'The following hunting analytic identifies `msi.dll` being loaded b
   In addition, `msi.dll` has been abused in DLL side-loading attacks by being loaded
   by non-system binaries.'
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*",
   "*\\winsxs\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by
   Image ImageLoaded process_name dest EventCode ProcessId | `security_content_ctime(firstTime)`
@@ -36,7 +36,7 @@ known_false_positives: It is possible some Administrative utilities will load ms
   outside of normal system paths, filter as needed.
 references:
 - https://attackerkb.com/topics/7LstI2clmF/cve-2021-41379/rapid7-analysis
-- https://github.com/klinix5/InstallerFileTakeOver
+- https://github.com/AlexandrVIvanov/InstallerFileTakeOver
 - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/msi.dll%20Hijack%20(Methodology).ioc
 tags:
   analytic_story:

@@ -6,7 +6,7 @@ author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: This analytic leverages PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Find-LocalAdminAccess` commandlet. `Find-LocalAdminAccess` is part of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Detecting the use of `Find-LocalAdminAccess` is vital as adversaries and Red Teams might employ it to identify machines where the current user context has local administrator access. Such information can provide attackers with potential targets for lateral movement or privilege escalation within the network.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user

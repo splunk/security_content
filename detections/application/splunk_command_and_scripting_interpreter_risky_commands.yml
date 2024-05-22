@@ -24,7 +24,8 @@ description: The Splunk platform contains built-in search processing language (S
   and no Splunk system user activity. In addition, modify this query by removing key
   commands that generate too much noise, or too little, and create separate queries
   with higher confidence to alert on.
-data_source: []
+data_source: 
+- Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search
   IN ("*| runshellscript *", "*| collect *","*| delete *", "*| fit *", "*| outputcsv

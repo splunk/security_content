@@ -12,7 +12,7 @@ description: The following analytic identifies a renamed instance of microsoft.w
   In any instance, microsoft.workflow.compiler.exe spawning from an Office product
   or any living off the land binary is highly suspect.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name!=microsoft.workflow.compiler.exe
   AND Processes.original_file_name=Microsoft.Workflow.Compiler.exe by Processes.dest

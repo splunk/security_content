@@ -12,7 +12,7 @@ description: The following analytic identifies regsvcs.exe with no command line 
   to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_regsvcs` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.user Processes.process_path Processes.process  Processes.parent_process_name

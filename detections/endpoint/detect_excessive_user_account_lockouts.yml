@@ -7,7 +7,8 @@ status: production
 type: Anomaly
 description: This search detects user accounts that have been locked out a relatively
   high number of times in a short period.
-data_source: []
+data_source:
+- Windows Event Log Security 4739
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*lock*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`

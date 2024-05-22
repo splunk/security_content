@@ -8,7 +8,6 @@ type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-- Sysmon EventID 14
 description: The following analytic identifies a suspicious registry modification of Windows linked connection configuration. 
   This technique was being abused by several adversaries, malware like BlackByte ransomware to enable the linked connections feature, 
   that allows network shares to be accessed using both standard and administrator-level privileges simultaneously. 

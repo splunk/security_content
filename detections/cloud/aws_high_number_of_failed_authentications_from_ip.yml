@@ -10,7 +10,8 @@ description: The following analytic identifies an IP address failing to authenti
   could represent a brute force attack against an AWS tenant to obtain initial access
   or elevate privileges. As environments differ across organizations, security teams
   should customize the threshold of this detection.
-data_source: []
+data_source: 
+- AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=5m _time
   | stats dc(_raw) AS failed_attempts values(user_name) as tried_accounts values(user_agent)
   by _time, src_ip, eventName, eventSource aws_account_id | where failed_attempts

@@ -14,7 +14,7 @@ description: This analytic is to detect a suspicious dxdiag.exe process command-
   contain false positives in its results. To triage further, analyze what commands
   were passed after it pipes out the result to a file for further processing.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_dxdiag` AND Processes.process
   = "* /t *" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process

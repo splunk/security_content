@@ -10,7 +10,8 @@ description: This search is to detect a suspicious attachment file extension in 
   by malware to lure user to click on it to execute malicious code to compromised
   targetted machine. But this search can also catch some normal files related to this
   file type that maybe send by employee or network admin.
-data_source: []
+data_source: 
+- G Suite Gmail
 search: '`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh",
   "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go")
   | eval phase="plan" | eval severity="medium" | stats count min(_time) as firstTime

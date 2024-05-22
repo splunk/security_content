@@ -10,7 +10,8 @@ description: The following analytic identifies LOLBAS with network traffic. When
   LOLBAS project documents Windows native binaries that can be abused by threat actors
   to perform tasks like downloading malicious code. Looking for these process can
   help defenders identify lateral movement, command-and-control, or exfiltration activies.
-data_source: []
+data_source:
+- Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic.All_Traffic where (All_Traffic.app IN
   ("*Regsvcs.exe", "*\\Ftp.exe", "*OfflineScannerShell.exe", "*Rasautou.exe", "*Schtasks.exe",

@@ -14,7 +14,7 @@ description: CertUtil.exe may be used to `encode` and `decode` a file, including
   further execution. During triage, identify the source of the file being decoded.
   Review its contents or execution behavior for further analysis.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_certutil` Processes.process=*decode*
   by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name

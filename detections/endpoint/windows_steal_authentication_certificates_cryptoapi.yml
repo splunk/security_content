@@ -13,7 +13,7 @@ description: The following analytic utilizes a Windows Event Log - CAPI2 - or Cr
   for EventID 70 is "Acquire Certificate Private Key". STRT tested this analytic using
   Mimikatz binary and the implementation of Mimikatz in Cobalt Strike.
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log CAPI2 70
 search: '`capi2_operational` EventCode=70 | xmlkv UserData_Xml | stats count min(_time)
   as firstTime max(_time) as lastTime by Computer, UserData_Xml | rename Computer
   as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

@@ -5,7 +5,8 @@ date: '2023-09-07'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 ModifyFolderPermissions
 description: The following analytic identifies instances where the inbox folder of a mailbox in Office 365 is shared with all users within the tenant. Sharing the inbox folder with all users is an unusual and risky configuration. Attackers have been known to exploit this setting to surreptitiously read a target user's emails from another account. Such unauthorized access can lead to data breaches, leakage of confidential information, or further compromise based on the information gathered from the emails. Monitoring for this configuration change ensures that inadvertent or malicious sharing is promptly identified and addressed. If an attacker successfully configures the inbox to be shared with all users, they can access and read all emails in the affected mailbox from any account within the tenant. This can lead to data exfiltration, spear-phishing attacks based on the information in the emails, or further malicious activities using sensitive information gathered from the mailbox.
 search: >-
   `o365_management_activity` Operation=ModifyFolderPermissions Workload=Exchange object=Inbox Item.ParentFolder.MemberUpn=Everyone

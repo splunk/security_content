@@ -12,7 +12,8 @@ description: This analytic will detect a suspicious process that modify a regist
   or schedule scan to execute their malicious code. This is a good indicator for a
   defense evasion and to look further for events after this behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*")
   BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name

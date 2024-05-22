@@ -6,7 +6,8 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: The following analytic refers to a detection mechanism designed to identify when the Hypervisor-protected Code Integrity (HVCI) feature is disabled within the Windows registry. HVCI is a security feature in Windows 10 and Windows Server 2016 that helps protect the kernel and system processes from being tampered with by malicious code.
   HVCI relies on hardware-assisted virtualization and Microsoft's Hyper-V hypervisor to ensure that only kernel-mode code that has been signed by Microsoft or the system's hardware manufacturer can be executed. This prevents attackers from exploiting vulnerabilities to run unsigned code, like kernel-mode rootkits or other malicious software, at the kernel level.
   Disabling HVCI may expose the system to security risks and could be an indicator of a potential compromise or unauthorized activity. The analytic aims to detect and report events or configurations that lead to the disabling of HVCI.

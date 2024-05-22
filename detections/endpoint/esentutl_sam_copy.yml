@@ -10,7 +10,7 @@ description: The following analytic identifies the process - `esentutl.exe` - be
   review parallel processes and determine if legitimate activity. Upon determination
   of illegitimate activity, take further action to isolate and contain the threat.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_esentutl` Processes.process
   IN ("*ntds*", "*SAM*") by Processes.dest Processes.user Processes.parent_process_name

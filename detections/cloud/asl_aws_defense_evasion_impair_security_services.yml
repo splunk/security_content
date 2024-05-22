@@ -1,23 +1,27 @@
 name: ASL AWS Defense Evasion Impair Security Services
 id: 5029b681-0462-47b7-82e7-f7e3d37f5a2d
-version: 1
-date: '2023-06-01'
+version: 2
+date: '2024-02-12'
 author: Patrick Bareiss, Bhavin Patel, Gowthamaraj Rajendran, Splunk
-status: experimental
+status: production
 type: Hunting
-description: This analytic looks for several delete specific API calls made to AWS
-  Security Services like CloudWatch, GuardDuty and Web Application Firewalls. These
-  API calls are often leveraged by adversaries to weaken existing security defenses
-  by deleting logging configurations in the CloudWatch alarm, delete a set of detectors
-  from your Guardduty environment or simply delete a bunch of CloudWatch alarms to
-  remain stealthy and avoid detection.
+description: The following analytic detects the deletion of critical AWS Security Services configurations through specific API calls 
+  to services like CloudWatch, GuardDuty, and Web Application Firewalls. By monitoring for these deletion actions, the analytic aims 
+  to identify attempts by adversaries to undermine security defenses, such as erasing logging configurations or removing detection mechanisms. 
+  This behavior is crucial for a Security Operations Center (SOC) to identify as it can indicate an attacker's intent to operate 
+  undetected by eliminating evidence of their presence and activities. The impact of such attacks is significant, potentially leaving 
+  the environment vulnerable to further exploitation without any traceable logs or alerts.
 data_source: []
-search: '`amazon_security_lake` api.operation IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation identity.user.account_uid identity.user.credential_uid identity.user.name 
-  identity.user.type identity.user.uid identity.user.uuid http_request.user_agent src_endpoint.ip cloud.region 
+search: '`amazon_security_lake` api.operation IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms") | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id  
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`|  `asl_aws_defense_evasion_impair_security_services_filter`'
-how_to_implement: You must install Splunk Add-On for AWS Version v7.0.0 (https://splunkbase.splunk.com/app/1876) that includes includes a merge of all the capabilities of the Splunk Add-on for Amazon Security Lake. This search works with Amazon Security Lake logs which are parsed in the Open Cybersecurity Schema Framework (OCSF)format. 
+  | `security_content_ctime(lastTime)`
+  | `asl_aws_defense_evasion_impair_security_services_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
 known_false_positives: While this search has no known false positives, it is possible
   that it is a legitimate admin activity. Please consider filtering out these noisy
   events using userAgent, user_arn field names.
@@ -31,41 +35,37 @@ tags:
   asset_type: AWS Account
   confidence: 60
   impact: 70
-  message: User $identity.user.name$ has made potentially risky api calls $api.operation$ that could
-    impair AWS security services for account id $identity.user.account_uid$
+  message: User $user$ has made potentially risky api calls $api.operation$ that could
+    impair AWS security services for account id $aws_account_id$
   mitre_attack_id:
   - T1562.008
   - T1562
   observable:
-  - name: src_endpoint.ip
+  - name: src_ip
     type: IP Address
     role:
     - Attacker
-  - name: identity.user.name
+  - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - api.service.name
   - api.operation
-  - identity.user.account_uid
-  - identity.user.credential_uid
-  - identity.user.name
-  - identity.user.type
-  - identity.user.uid
-  - identity.user.uuid
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
   - http_request.user_agent
   - src_endpoint.ip
+  - cloud.region
   risk_score: 42
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/amazon_security_lake.json
-    sourcetype: aws:asl
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/asl_ocsf_cloudtrail.json
+    sourcetype: aws:cloudtrail:lake
     source: aws_asl
-    update_timestamp: true

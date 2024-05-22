@@ -11,7 +11,8 @@ description: The following analytic is to identify a modification or creation of
   being abused by adversaries to gain remote access to the targeted host. Azorult
   malware utilized RMS to gain remote access.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SYSTEM\\Remote
   Manipulator System*" by Registry.registry_key_name Registry.user Registry.registry_path

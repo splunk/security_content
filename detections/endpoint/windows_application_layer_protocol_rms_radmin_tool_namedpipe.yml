@@ -13,7 +13,9 @@ description: The following analytic identifies the use of default or publicly kn
   to collect data to the targeted host. This TTP is a good indicator that this tool
   was install in production premise and need to check if the user has a valid reason
   why it need to install this legitimate application.
-data_source: []
+data_source:
+- Sysmon EventID 17
+- Sysmon EventID 18
 search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe")
   PipeName IN ("\\RManFUSServerNotify32", "\\RManFUSCallbackNotify32", "\\RMSPrint*")
   | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType ProcessId PipeName dest UserID 

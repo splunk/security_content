@@ -13,7 +13,7 @@ description: 'The following hunting analytic will identify any protocol handlers
   depending on their settings). To identify protocol handlers we can use NirSoft https://www.nirsoft.net/utils/url_protocol_view.html
   URLProtocolView or query the registry using PowerShell.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process values(Processes.parent_process)
   as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.parent_process_name Processes.user

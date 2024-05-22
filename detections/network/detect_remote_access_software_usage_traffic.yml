@@ -6,7 +6,8 @@ author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic detects when a known remote access software application traffic is detected from within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
-data_source: []
+data_source: 
+- Palo Alto Network Traffic
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_port) as dest_port latest(user) as user from datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app
   | `drop_dm_object_name("All_Traffic")` 
   | `security_content_ctime(firstTime)` 

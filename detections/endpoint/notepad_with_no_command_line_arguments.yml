@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: The following analytic identifies behavior related to default SliverC2
   framework where it will inject into Notepad.exe and spawn Notepad.exe with no command
   line arguments. In testing, this is a common procedure for SliverC2 usage, however

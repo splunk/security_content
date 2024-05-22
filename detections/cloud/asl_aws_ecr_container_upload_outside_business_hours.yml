@@ -1,0 +1,65 @@
+name: ASL AWS ECR Container Upload Outside Business Hours
+id: 739ed682-27e9-4ba0-80e5-a91b97698213
+version: 3
+date: '2024-02-14'
+author: Patrick Bareiss, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the upload of new containers to AWS Elastic Container Service (ECR) outside of standard business hours 
+  through AWS CloudTrail events. It identifies this behavior by monitoring for `PutImage` events occurring before 8 AM or after 8 PM, 
+  as well as any uploads on weekends. This activity is significant for a SOC to investigate as it may indicate unauthorized access or malicious 
+  deployments, potentially leading to compromised services or data breaches. Identifying and addressing such uploads promptly can mitigate the 
+  risk of security incidents and their associated impacts.
+data_source: []
+search: '`amazon_security_lake` api.operation=PutImage 
+| eval hour=strftime(time/pow(10,3), "%H"), weekday=strftime(time/pow(10,3), "%A") 
+| where hour >= 20 OR hour < 8 OR weekday=Saturday OR weekday=Sunday 
+| fillnull
+| stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.name actor.user.uid http_request.user_agent cloud.region 
+| rename actor.user.name as user, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `asl_aws_ecr_container_upload_outside_business_hours_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
+  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
+  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
+  the Federated Analytics App.
+known_false_positives: When your development is spreaded in different time zones,
+  applying this rule can be difficult.
+references:
+- https://attack.mitre.org/techniques/T1204/003/
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: AWS Account
+  confidence: 70
+  impact: 70
+  message: Container uploaded outside business hours from $user$
+  mitre_attack_id:
+  - T1204.003
+  - T1204
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.operation
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
+  - http_request.user_agent
+  - src_endpoint.ip
+  - cloud.region
+  risk_score: 49
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_container_upload/asl_ocsf_cloudtrail.json
+    sourcetype: aws:cloudtrail:lake
+    source: aws_asl

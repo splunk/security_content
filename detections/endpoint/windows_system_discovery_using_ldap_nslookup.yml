@@ -11,7 +11,7 @@ description: The following analytic identifies the execution of nslookup.exe too
   by Qakbot malware to gather domain information such as SRV service location records,
   server name and many more.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = "nslookup.exe"
   OR Processes.original_file_name = "nslookup.exe") AND Processes.process = "*_ldap._tcp.dc._msdcs*"

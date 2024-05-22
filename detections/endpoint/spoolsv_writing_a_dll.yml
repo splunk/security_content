@@ -12,7 +12,8 @@ description: The following analytic identifies a `.dll` being written by `spools
   of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source
   of exploitation. Capture any additional file modification events.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=spoolsv.exe by _time Processes.process_guid Processes.process_name
   Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|

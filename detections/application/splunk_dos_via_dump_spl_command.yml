@@ -6,7 +6,7 @@ author: Rod Soto
 status: production
 type: Hunting
 data_source:
-- splunkd.log
+- Splunk
 description: In Splunk Enterprise versions below 9.0.5, 8.2.11, and 8.1.14, an attacker can exploit a vulnerability in the dump SPL command to cause a Denial of Service by crashing the Splunk daemon.
 search: '`splunk_crash_log` "*Segmentation fault*" | stats count by host _time | `splunk_dos_via_dump_spl_command_filter`'
 how_to_implement: This search does not require additional ingestion of data. Requires the ability to search _internal index and monitor segmentation faults.

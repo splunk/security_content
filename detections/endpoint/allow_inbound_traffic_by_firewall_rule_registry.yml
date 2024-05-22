@@ -10,7 +10,8 @@ description: The following analytic detects a potential suspicious modification 
   technique was identified when an adversary wants to grant remote access to a machine
   by allowing the traffic in a firewall rule.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" Registry.registry_value_data = "*|Action=Allow|*" Registry.registry_value_data = "*|Dir=In|*"  Registry.registry_value_data = "*|LPort=*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid  Registry.dest Registry.user
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)` 

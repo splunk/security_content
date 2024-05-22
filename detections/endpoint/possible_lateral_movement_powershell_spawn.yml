@@ -1,7 +1,7 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2023-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,13 +16,13 @@ description: 'The following analytic is designed to identify possible lateral mo
   behavior is often seen during lateral movement techniques where adversaries or red
   teams abuse these services for lateral movement and remote code execution.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=wmiprvse.exe
   OR Processes.parent_process_name=services.exe OR Processes.parent_process_name=svchost.exe
   OR Processes.parent_process_name=wsmprovhost.exe OR Processes.parent_process_name=mmc.exe)
   (Processes.process_name=powershell.exe OR (Processes.process_name=cmd.exe AND Processes.process=*powershell.exe*)
-  OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*))
+  OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*)) NOT (Processes.process IN ("*c:\windows\ccm\*"))
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'

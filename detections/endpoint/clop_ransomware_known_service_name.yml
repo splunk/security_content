@@ -10,7 +10,7 @@ description: This detection is to identify the common service name created by th
   the infected machine. Ussually CLOP ransomware use StartServiceCtrlDispatcherW API
   in creating this service entry.
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7045
 search: '`wineventlog_system` EventCode=7045 ServiceName IN ("SecurityCenterIBM",
   "WinCheckDRVs") | stats count min(_time) as firstTime max(_time) as lastTime by Computer
   EventCode ServiceName StartType ServiceType | rename Computer as dest | `security_content_ctime(firstTime)`

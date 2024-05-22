@@ -13,7 +13,7 @@ description:
   therefore it is up to the defender to identify version and signing info and confirm
   it is a vulnerable driver.
 data_source:
-  - Sysmon Event ID 6
+  - Sysmon EventID 6
 search:
   "`sysmon` EventCode=6 | lookup loldrivers driver_name AS ImageLoaded OUTPUT
   is_driver driver_description | search is_driver = TRUE | stats  min(_time) as firstTime

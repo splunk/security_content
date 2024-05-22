@@ -10,7 +10,7 @@ description: The following analytic identifies a process in a non-standard file 
   is commonly used by adversaries for process injection to evade detections or gain
   privilege escalation.
 data_source:
-- Sysmon Event ID 8
+- Sysmon EventID 8
 search: '`sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*",
   "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time)
   as lastTime by SourceImage TargetImage signature TargetProcessGuid SourceProcessGuid

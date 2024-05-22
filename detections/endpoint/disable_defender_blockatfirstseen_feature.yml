@@ -6,7 +6,8 @@ author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: This analytic is intended to detect a suspicious modification of the
   Windows registry to disable a Windows Defender feature. This technique is intended
   to bypass or evade detection from Windows Defender AV, specifically the BlockAtFirstSeen

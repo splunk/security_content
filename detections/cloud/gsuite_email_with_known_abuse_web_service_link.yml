@@ -9,7 +9,8 @@ description: This analytics is to detect a gmail containing a link that are know
   to be abused by malware or attacker like pastebin, telegram and discord to deliver
   malicious payload. This event can encounter some normal email traffic within organization
   and external email that normally using this application and services.
-data_source: []
+data_source: 
+- G Suite Gmail
 search: '`gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*telegram*","t.me")
   | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" | rex field=destination{}.address
   "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"

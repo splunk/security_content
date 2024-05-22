@@ -13,7 +13,7 @@ description: This analytic will identify suspicious creation of URL shortcut lin
   this type of file specially the resource it tries to execute which is commonly a
   website.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Filesystem where NOT(Filesystem.file_path IN
   ("*\\Program Files*")) Filesystem.file_name = *.url by Filesystem.file_create_time

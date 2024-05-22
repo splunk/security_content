@@ -6,8 +6,8 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-- Windows Security 4662
-- Windows Security 4624
+- Windows Event Log Security 4662
+- Windows Event Log Security 4624
 description: This alert was written to detect activity associated with the DCSync attack performed by computer accounts.
  When a domain controller receives a replication request, the account permissions are validated, however no checks are performed to validate the request was initiated by a Domain Controller.
  Once an attacker gains control of an account with the necessary privileges, they can request password hashes for any or all users within the domain.
@@ -17,19 +17,19 @@ search: '`wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-1
     "domainDNS") AND Properties IN ("*Replicating Directory Changes All*", "*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*",
     "*{9923a32a-3607-11d2-b9be-0000f87a36b2}*","*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*")
     AND AccessMask="0x100" AND (SubjectUserSid="NT AUT*" OR SubjectUserSid="S-1-5-18" OR SubjectDomainName="Window Manager" OR SubjectUserName="*$") 
-| stats min(_time) as attack_time, count by SubjectDomainName, SubjectUserName, Computer, Logon_ID, ObjectName, ObjectServer, ObjectType, OperationType, status 
-| rename SubjectDomainName as Target_Domain, SubjectUserName as user, Logon_ID as
+  | stats min(_time) as attack_time, count by SubjectDomainName, SubjectUserName, Computer, Logon_ID, ObjectName, ObjectServer, ObjectType, OperationType, status 
+  | rename SubjectDomainName as Target_Domain, SubjectUserName as user, Logon_ID as
     TargetLogonId 
-| appendpipe 
+  | appendpipe 
     [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] 
-| table attack_time, AuthenticationPackageName, LogonProcessName, LogonType, TargetUserSid,
+  | table attack_time, AuthenticationPackageName, LogonProcessName, LogonType, TargetUserSid,
     Target_Domain, user, Computer, TargetLogonId, status, src_ip, src_category, ObjectName,
     ObjectServer, ObjectType, OperationType 
-| stats min(attack_time) as _time, values(TargetUserSid) as TargetUserSid, values(Target_Domain)
+  | stats min(attack_time) as _time, values(TargetUserSid) as TargetUserSid, values(Target_Domain)
     as Target_Domain, values(user) as user, values(Computer) as Computer, values(status)
     as status, values(src_category) as src_category, values(src_ip) as src_ip by TargetLogonId 
-| search NOT src_category="domain_controller" 
-| `windows_ad_replication_request_initiated_from_unsanctioned_location_filter`'
+  | search NOT src_category="domain_controller" 
+  | `windows_ad_replication_request_initiated_from_unsanctioned_location_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting eventcode `4662`.
  The Advanced Security Audit policy settings `Audit Directory Services Access`
  within `DS Access` needs to be enabled, as well as the following SACLs applied to the domain root

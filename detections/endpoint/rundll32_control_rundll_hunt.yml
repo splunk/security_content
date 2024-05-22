@@ -13,7 +13,7 @@ description: The following hunting detection identifies rundll32.exe with `contr
   to be a bit more broad by not including .cpl. \ During triage, review parallel processes
   to identify any further suspicious behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*Control_RunDLL*  by
   Processes.dest Processes.user Processes.parent_process_name Processes.process_name

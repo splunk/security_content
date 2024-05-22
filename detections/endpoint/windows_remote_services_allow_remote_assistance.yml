@@ -14,7 +14,8 @@ description: The following analytic is to identify a modification in the Windows
   which is un-common. And as per stated in microsoft documentation the default value
   of this registry is false that makes this a good indicator of suspicious behavior.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Control\\Terminal
   Server\\fAllowToGetHelp*" Registry.registry_value_data="0x00000001" by Registry.registry_key_name

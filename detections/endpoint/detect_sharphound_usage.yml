@@ -14,7 +14,7 @@ description: The following analytic identifies SharpHound binary usage by using 
   review the metadata of the binary in question. Review parallel processes for suspicious
   behavior. Identify the source of this binary.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=sharphound.exe
   OR Processes.original_file_name=SharpHound.exe) by Processes.dest Processes.user

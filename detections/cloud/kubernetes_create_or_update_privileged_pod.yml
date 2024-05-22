@@ -8,7 +8,8 @@ type: Anomaly
 description: The following analytic detects the creation of privileged pods in Kubernetes. It identifies this behavior by monitoring Kubernetes Audit logs for the creation of pods with root privileges. 
   This behavior is worth identifying for a SOC as it could potentially allow an attacker to escalate privileges, exploit the kernel, and gain full access to the host's namespace and devices. 
   The impact of such an attack could be severe, leading to unauthorized access to sensitive information, data breaches, and service disruptions.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` objectRef.resource=pods verb=create OR verb=update requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration=*\"privileged\":true*
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 

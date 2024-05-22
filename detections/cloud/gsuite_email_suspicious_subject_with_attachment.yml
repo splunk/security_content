@@ -13,7 +13,8 @@ description: This search is to detect a gsuite email contains suspicious subject
   the other hand this detection may catch a normal email traffic related to legitimate
   transaction so better to check the email sender, spelling and etc. avoid click link
   or opening the attachment if you are not expecting this type of e-mail.
-data_source: []
+data_source: 
+- G Suite Gmail
 search: '`gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *",
   "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps
   *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") attachment{}.file_extension_type

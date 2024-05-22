@@ -13,7 +13,7 @@ description: This detection is designed to identify suspicious office documents
   to prevent the automatic execution of macro code when opening or closing office document
   files.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE",
   "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
   loaded_file_path IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") | stats min(_time)

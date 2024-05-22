@@ -1,0 +1,67 @@
+name: ASL AWS IAM Successful Group Deletion
+id: 1bbe54f1-93d7-4764-8a01-ddaa12ece7ac
+version: 2
+date: '2024-02-14'
+author: Patrick Bareiss, Splunk
+status: production
+type: Hunting
+description: The following analytic detects the successful deletion of a group within AWS IAM, leveraging CloudTrail IAM events. 
+  This action, while not inherently malicious, can serve as a precursor to more sinister activities, such as unauthorized access or 
+  privilege escalation attempts. By monitoring for such deletions, the analytic aids in identifying potential preparatory steps towards 
+  an attack, allowing for early detection and mitigation. The identification of this behavior is crucial for a SOC to prevent the potential 
+  impact of an attack, which could include unauthorized access to sensitive resources or disruption of AWS environment operations.
+data_source: []
+search: '`amazon_security_lake` api.operation=DeleteGroup status=Success
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `asl_aws_iam_successful_group_deletion_filter`'
+how_to_implement:  You must install the Data Lake Federated Analytics App and ingest the logs into Splunk.
+known_false_positives: This detection will require tuning to provide high fidelity
+  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
+  or by groups of users. Not every user with AWS access should have permission to
+  delete groups (least privilege).
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+tags:
+  analytic_story:
+  - AWS IAM Privilege Escalation
+  asset_type: AWS Account
+  confidence: 50
+  impact: 10
+  message: User $user$ has sucessfully deleted a user group from $src_ip$
+  mitre_attack_id:
+  - T1069.003
+  - T1098
+  - T1069
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - api.operation
+  - actor.user.account_uid 
+  - actor.user.name 
+  - actor.user.uid
+  - http_request.user_agent
+  - src_endpoint.ip
+  - cloud.region
+  risk_score: 5
+  security_domain: cloud
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/asl_ocsf_cloudtrail.json
+    sourcetype: aws:cloudtrail:lake
+    source: aws_asl

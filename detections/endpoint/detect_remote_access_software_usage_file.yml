@@ -7,8 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic detects when a file from a known remote access software is written to disk within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
 data_source:
-- Sysmon Event ID 11
-- Sysmon Event ID 15
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count, min(_time) as firstTime, max(_time) as lastTime, values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.dest, Filesystem.user, Filesystem.file_name
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

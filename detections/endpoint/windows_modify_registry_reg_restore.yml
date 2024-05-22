@@ -11,7 +11,7 @@ description: The following analytic identifies a process execution of reg.exe wi
   tool like winpeas where it uses "reg save" and "reg restore" to check the registry
   modification restriction in targeted host after gaining access to it.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where  `process_reg` AND Processes.process
   = "* restore *" by Processes.process_name Processes.original_file_name Processes.process

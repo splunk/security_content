@@ -11,7 +11,8 @@ description: The following analytic identifies modification in the Windows regis
   identified in Azorult malware where it uses this registry value to prevent several
   AV products to execute on the compromised host machine.
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun*"
   Registry.registry_value_data="0x00000001" by Registry.registry_key_name Registry.user

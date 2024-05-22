@@ -4,7 +4,8 @@ version: 1
 date: '2024-01-31'
 author: Mauricio Velazco, Splunk
 status: production
-data_source: []
+data_source: 
+- O365 MailItemsAccessed
 type: TTP
 description: This Splunk analytic detects when emails are accessed in Office 365 Exchange via the Microsoft Graph API, identified by the client ID '00000003-0000-0000-c000-000000000000'. It tracks the 'MailItemsAccessed' operation within the Exchange workload, focusing on OAuth-authenticated applications. The query compiles statistics on access frequency, timing, and client IP addresses, organized by user, client application ID, and AppId. For defenders, it's crucial to maintain an inventory of all OAuth applications that read emails, using this data to scrutinize and identify any potential abusive access patterns.
 search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* AppId=00000003-0000-0000-c000-000000000000

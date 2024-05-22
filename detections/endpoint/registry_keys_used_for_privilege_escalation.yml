@@ -10,7 +10,8 @@ description: This search looks for modifications to registry keys that can be us
   used to intercept calls to an executable and can be used to attach malicious binaries
   to benign system binaries.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE ((Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
   Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger))

@@ -13,7 +13,7 @@ description: 'Certutil.exe may download a file from a remote destination using `
   the remote IP or domain in question. Using `-VerifyCtl`, the file will either be
   written to the current working directory or `%APPDATA%\..\LocalLow\Microsoft\CryptnetUrlCache\Content\<hash>`. '
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_certutil` (Processes.process=*verifyctl*
   Processes.process=*split*) OR Processes.process=*verifyctl* by Processes.dest Processes.user

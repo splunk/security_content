@@ -11,7 +11,7 @@ description: This analytic will identify a suspicious PowerShell command used to
   to then execute a PowerShell command to delete the Windows Defender folder. This
   is a good indicator the offending process is trying corrupt a Windows Defender installation.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*rmdir *" AND ScriptBlockText
   = "*\\Microsoft\\Windows Defender*" | stats count min(_time) as firstTime max(_time)
   as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`

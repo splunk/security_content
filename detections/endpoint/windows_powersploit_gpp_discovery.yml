@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic identifies the use of the Get-GPPPassword PowerShell commandlet employed to search for unsecured credentials Group Policy Preferences (GPP).
   GPP are tools that allow administrators to create domain policies with embedded credentials. These policies allow administrators to set local accounts.
   These group policies are stored in SYSVOL on a domain controller. This means that any domain user can view the SYSVOL share and decrypt the password (using the AES key that has been made public).

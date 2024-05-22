@@ -8,7 +8,6 @@ type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-- Sysmon EventID 14
 description: This analytic is designed to identify potentially malicious registry modification characterized by MD5-like registry key names. 
   This technique has been notably observed in NjRAT malware, which employs such registries for fileless storage of keylogs and .DLL plugins. 
   Detecting this tactic serves as an effective means of identifying possible NjRAT malware instances that create or modify registries as 

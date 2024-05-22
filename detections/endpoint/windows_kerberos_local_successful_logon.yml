@@ -12,7 +12,7 @@ description: The following analytic identifies a local successful authentication
   triage, review for recently ran binaries on disk. In addition, look for new computer
   accounts added to Active Directory and other anomolous AD events.
 data_source:
-- Windows Security 4624
+- Windows Event Log Security 4624
 search: '`wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos
   action=success src=127.0.0.1 | stats count min(_time) as firstTime max(_time)
   as lastTime by dest, subject, action, SubjectLogonId, user, TargetUserName, src |

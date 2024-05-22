@@ -6,7 +6,8 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 description: The following analytic identifies when the 'full_access_as_app' permission, marked by the GUID 'dc890d15-9560-4a4c-9b7f-a736ec74ec40', is assigned to an application within Office 365 Exchange Online, identified by ResourceAppId '00000002-0000-0ff1-ce00-000000000000'. This permission grants broad control over Office 365 operations, including full access to all mailboxes and the capability to send emails as any user. The query utilizes the azure_monitor_aad data source, focusing on AuditLogs with the operation name 'Update application'. This monitoring is crucial for early detection of potential unauthorized access or data exfiltration, as the 'full_access_as_app' permission could lead to significant security incidents if exploited.
-data_source: []
+data_source: 
+- Azure Active Directory Update application
 search: >-
  `azure_monitor_aad` category=AuditLogs operationName="Update application" 
  | eval newvalue = mvindex('properties.targetResources{}.modifiedProperties{}.newValue',0)
@@ -54,6 +55,7 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/full_access_as_app_permission_assigned/full_access_as_app_permission_assigned.log
+    source: Azure AD    
     sourcetype: azure:monitor:aad
     source: Azure AD
     update_timestamp: true

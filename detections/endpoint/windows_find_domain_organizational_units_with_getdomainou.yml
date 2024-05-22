@@ -6,7 +6,7 @@ author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: This analytic leverages PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Get-DomainOU` commandlet. `Get-DomainOU` is a component of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Identifying the use of `Get-DomainOU` is crucial as adversaries and Red Teams might employ it to gain insights into organizational units within Active Directory, potentially aiding in lateral movement or privilege escalation strategies.
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*" 
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user 

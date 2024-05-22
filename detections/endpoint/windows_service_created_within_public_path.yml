@@ -11,7 +11,7 @@ description: The following analytc uses Windows Event Id 7045, `New Service Was 
   Red Teams and adversaries alike may create malicious Services for lateral movement
   or remote code execution
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7045
 search: '`wineventlog_system` EventCode=7045 ImagePath = "*.exe" NOT (ImagePath
   IN ("*:\\Windows\\*", "*:\\Program File*", "*:\\Programdata\\*", "*%systemroot%\\*"))
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ImagePath

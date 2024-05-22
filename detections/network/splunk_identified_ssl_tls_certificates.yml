@@ -9,7 +9,8 @@ description: The following analytic uses tags of SSL, TLS and certificate to ide
   the usage of the Splunk default certificates being utilized in the environment.
   Recommended guidance is to utilize valid TLS certificates which documentation may
   be found in Splunk Docs - https://docs.splunk.com/Documentation/Splunk/8.2.6/Security/AboutsecuringyourSplunkconfigurationwithSSL.
-data_source: []
+data_source: 
+- Splunk Stream TCP
 search: tag IN (ssl, tls, certificate) ssl_issuer_common_name=*splunk* | stats values(src)
   AS "Host(s) with Default Cert" count by ssl_issuer ssl_subject_common_name ssl_subject_organization
   ssl_subject host sourcetype | `splunk_identified_ssl_tls_certificates_filter`

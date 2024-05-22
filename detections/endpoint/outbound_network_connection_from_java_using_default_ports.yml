@@ -13,7 +13,7 @@ description: A required step while exploiting the CVE-2021-44228-Log4j vulnerabi
   could represent successfull exploitation. Note that adversaries can easily decide
   to use arbitrary ports for these protocols and potentially bypass this detection.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR
   Processes.process_name=javaw.exe) by _time Processes.process_id Processes.process_name

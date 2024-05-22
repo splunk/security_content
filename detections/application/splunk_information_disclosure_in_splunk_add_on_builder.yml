@@ -5,7 +5,8 @@ date: '2024-01-30'
 author: Rod Soto, Eric McGinnis
 status: production
 type: Hunting
-data_source: []
+data_source: 
+- Splunk
 description: In Splunk Add-on Builder versions below 4.1.4, the application writes sensitive information to its internal log files when you visit the Splunk Add-on Builder or when you build or edit a custom app or add-on.
 search: '| rest /services/apps/local | search disabled=0 core=0 label="Splunk Add-on Builder" | dedup label | search version < 4.1.4 
   | eval WarningMessage="Splunk Add-on Builder Versions older than v4.1.4 contain a critical vulnerability. Update to Splunk Add-on Builder v4.1.4 or higher immediately. For more information about this vulnerability, please refer to https://advisory.splunk.com/advisories/SVD-2024-0111" 

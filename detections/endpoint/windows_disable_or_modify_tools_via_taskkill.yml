@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic is designed to identify potentially malicious processes that terminate other processes using taskkill.exe.
   This technique has been observed in various malware instances, employed by adversaries and red teamers alike, to forcibly terminate
   other processes whether they be security products or other legitimate applications as part of their malicious activities. 

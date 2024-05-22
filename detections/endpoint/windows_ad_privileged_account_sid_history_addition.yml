@@ -6,8 +6,8 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-  - Windows Security 4742
-  - Windows Security 4738
+- Windows Event Log Security 4742
+- Windows Event Log Security 4738
 description:
   This detection identifies when the SID of a privileged user is added to
   the SID History attribute of another user. Useful for tracking SID history abuse

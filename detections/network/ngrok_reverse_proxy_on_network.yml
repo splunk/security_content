@@ -10,7 +10,8 @@ description: The following analytic identifies the 4 most common Ngrok used doma
   domains may be ran against the Web datamodel or ran with a direct query across network/proxy
   traffic. The sign of someone using Ngrok is not malicious, however, more recenctly
   it has become an adversary tool.
-data_source: []
+data_source: 
+- Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Network_Resolution where DNS.query IN ("*.ngrok.com","*.ngrok.io",
   "ngrok.*.tunnel.com", "korgn.*.lennut.com") by DNS.src DNS.query DNS.answer |  `drop_dm_object_name("DNS")`

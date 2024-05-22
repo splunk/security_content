@@ -5,7 +5,8 @@ date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Azure Active Directory
 description: The following analytic identifies the assignment of the Azure AD PIM role. Privileged Identity Management (PIM) is a service within Azure Azure AD 
   that enables administrators to manage, control, and monitor access to sensitive resources. PIM provides time-based and approval-based role activation to mitigate the
   risks of excessive, unnecessary, or misused access permissions on resources. Once a user has been made eligible for an administrative role, she must activate this role

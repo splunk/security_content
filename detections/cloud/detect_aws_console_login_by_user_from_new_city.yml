@@ -10,7 +10,8 @@ description: This search looks for AWS CloudTrail events wherein a console login
   file of previously seen users (by ARN values) who have logged into the console.
   The alert is fired if the user has logged into the console for the first time within
   the last hour
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
   | iplocation Authentication.src | `drop_dm_object_name(Authentication)` | rename

@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This search looks for processes launching netsh.exe for connection proxy.
   Netsh is a command-line scripting utility that allows you to, either locally or
   remotely, display or modify the network configuration of a computer that is currently

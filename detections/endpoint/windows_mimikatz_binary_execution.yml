@@ -14,7 +14,7 @@ description: As simple as it sounds, this analytic identifies when the native mi
   actor tools of the past 20 years. Mimikatz is an open-source application that allows
   users to view and save authentication credentials such as Kerberos tickets.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=mimikatz.exe
   OR Processes.original_file_name=mimikatz.exe) by Processes.dest Processes.user Processes.parent_process_name

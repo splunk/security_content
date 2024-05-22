@@ -5,7 +5,8 @@ date: '2023-03-29'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source : []
+data_source : 
+- Windows Active Directory Admon
 description: The following analytic leverages Splunks Admon to identify the modification of a default Group Policy Object. A fresh installation of an Active Directory network will typically contain
   two default group policy objects `Default Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers policy is used to enforce and set policies to all the domain controllers within the domain environment.
   The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 

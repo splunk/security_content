@@ -14,7 +14,7 @@ description: This analytic will detect if a suspicious process contains a comman
   command and the possible path where it will save the text credential information,
   it may catch normal tools that are using the same command and behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process  IN ("*/stext
   *", "*/shtml *", "*/LoadPasswordsIE*", "*/LoadPasswordsFirefox*", "*/LoadPasswordsChrome*",

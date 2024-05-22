@@ -15,7 +15,8 @@ description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain 
   request account on event id 4768. This behavior could represent an exploitation
   attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
 data_source:
-- Windows Security 4768
+- Windows Event Log Security 4768
+- Windows Event Log Security 4781
 search: ' `wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$")
   OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName, TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781)
   endswith=(EventCode=4768) | eval short_lived=case((duration<2),"TRUE") | search

@@ -10,7 +10,8 @@ description: The following analytic detects the creation of a DaemonSet in a Kub
   This behavior is identified by monitoring Kubernetes Audit logs for the creation of a DaemonSet. 
   The identified behavior is worth noting for a SOC as it could potentially allow an attacker to maintain persistent access to the Kubernetes infrastructure. 
   The impact of such an attack could be severe, leading to persistent attacks, service disruptions, or unauthorized access to sensitive information.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` "objectRef.resource"=daemonsets verb=create
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 

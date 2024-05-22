@@ -11,7 +11,8 @@ description: This search identifies modification of registry to disable the rege
   to prevent the removal of their registry entry such as persistence, file less components
   and defense evasion.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools"
   Registry.registry_value_data = "0x00000001") BY _time span=1h  Registry.user Registry.dest Registry.registry_path

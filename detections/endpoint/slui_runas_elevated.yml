@@ -12,7 +12,7 @@ description: The following analytic identifies the Microsoft Software Licensing 
   To simulate this behavior, multiple POC are available. The analytic identifies the
   use of `runas` by `slui.exe`.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=slui.exe
   (Processes.process=*-verb* Processes.process=*runas*) by Processes.dest Processes.user

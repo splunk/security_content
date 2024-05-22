@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic is designed to detect potentially suspicious batch files that leverage choice.exe as a delay tactic. 
   This technique, observed in the SnakeKeylogger malware, is utilized for time delays or 'Sleep' commands in its code execution 
   or before the deletion of its copies on compromised hosts. Detecting this anomaly serves as a valuable pivot to uncover 

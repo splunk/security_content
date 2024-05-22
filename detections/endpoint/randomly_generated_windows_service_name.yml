@@ -18,7 +18,7 @@ description: The following hunting analytic leverages Event ID 7045, `A new serv
   Service_File_Name field can be used to determine if the Windows Service has malicious
   intent or not.
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7045
 search: ' `wineventlog_system` EventCode=7045 | lookup ut_shannon_lookup word as Service_Name
   | where ut_shannon > 3 | table EventCode ComputerName Service_Name ut_shannon Service_Start_Type
   Service_Type Service_File_Name | `randomly_generated_windows_service_name_filter` '

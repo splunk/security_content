@@ -7,7 +7,8 @@ status: production
 type: Anomaly
 description: |-
   This analytic searches for a specific behavior in CircleCI pipelines such as the disabling of security jobs. The detection is made by using a Splunk query that renames certain fields and retrieves values for specified job names, workflow IDs and names, user information, commit messages, URLs, and branches. Then, the query identifies mandatory jobs for each workflow and searches for instances where they were run. The search also identifies the phase of the pipeline as "build" and extracts the repository name from the URL using regular expressions. The detection is important because it detects attempts to bypass security measures in CircleCI pipelines, which can potentially lead to malicious code being introduced into the pipeline, data breaches, system downtime, and reputational damage.  False positives might occur since legitimate use cases can require the disabling of security jobs. However, you can proactively monitor and identify any suspicious activity in the pipeline using this analytic and mitigate potential threats through early detection.
-data_source: []
+data_source: 
+- CircleCI
 search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_message
   vcs.url as url workflows.* as *  | stats values(job_name) as job_names by workflow_id
   workflow_name user commit_message url branch | lookup mandatory_job_for_workflow

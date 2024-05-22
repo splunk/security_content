@@ -10,13 +10,15 @@ description: The following analytic identifies an attempt to disable multi-facto
   tenant may disable multi-factor authentication as a way to plant a backdoor and
   maintain persistence using a valid account. This way the attackers can keep persistance
   in the environment without adding new users.
-data_source: []
+data_source:
+- AWS CloudTrail DeleteVirtualMFADevice
+- AWS CloudTrail DeactivateMFADevice
 search: '`cloudtrail` (eventName= DeleteVirtualMFADevice OR eventName=DeactivateMFADevice)
   | stats count min(_time) as firstTime max(_time) as lastTime by src eventName eventSource
   aws_account_id userAgent eventID awsRegion user_name userIdentity.arn status | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_multi_factor_authentication_disabled_filter`'
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search
-  requires AWS Cloudtrail logs.
+  requires AWS CloudTrail logs.
 known_false_positives: AWS Administrators may disable MFA but it is highly unlikely
   for this event to occur without prior notice to the company
 references:

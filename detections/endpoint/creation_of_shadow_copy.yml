@@ -8,7 +8,7 @@ type: TTP
 description: Monitor for signs that Vssadmin or Wmic has been used to create a shadow
   copy.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe
   Processes.process=*create* Processes.process=*shadow*) OR (Processes.process_name=wmic.exe

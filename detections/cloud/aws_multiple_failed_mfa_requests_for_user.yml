@@ -6,7 +6,7 @@ author: Bhavin Patel
 status: production
 type: Anomaly
 description: The following analytic identifies multiple failed multi-factor authentication
-  requests to an AWS Console for a single user. AWS Cloudtrail logs provide a a very
+  requests to an AWS Console for a single user. AWS CloudTrail logs provide a a very
   useful field called `additionalEventData` that logs information regarding usage
   of MFA. Specifically, the analytic triggers when more than 10 MFA user prompts fail
   within 10 minutes. AWS Environments can be very different depending on the organization,
@@ -17,13 +17,14 @@ description: The following analytic identifies multiple failed multi-factor auth
   user finally accepting the authentication request. Threat actors like the Lapsus
   team and APT29 have leveraged this technique to bypass multi-factor authentication
   controls as reported by Mandiant and others.
-data_source: []
+data_source: 
+- AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName= ConsoleLogin "additionalEventData.MFAUsed"=Yes errorMessage="Failed
   authentication" | bucket span=5m _time |  stats dc(_raw) as mfa_prompts values(userAgent)
   as userAgent values(src) as src by _time user_name user_arn aws_account_id eventName
   errorMessage | where mfa_prompts > 10| `aws_multiple_failed_mfa_requests_for_user_filter`'
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search
-  requires AWS Cloudtrail logs.
+  requires AWS CloudTrail logs.
 known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
   or application issues. Filter as needed.
 references:

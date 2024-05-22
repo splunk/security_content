@@ -3,7 +3,8 @@ id: 5d93894e-befa-4429-abde-7fc541020b7b
 version: 1
 date: '2024-02-21'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source:
+- Windows Event Log Security 4725
 type: TTP
 status: production
 description: This Splunk detection focuses on instances where more than five unique Windows accounts are disabled within a 10-minute window, as indicated by Event Code 4725 in the Windows Security Event Log. The query analyzes the wineventlog_security dataset, grouping data into 10-minute segments, and tracks the count and distinct count of TargetUserName, the accounts being disabled. This pattern of disabling multiple accounts rapidly is unusual and could signal internal policy breaches or an external attacker's attempt to disrupt normal operations. Teams are advised to tailor the threshold and timeframe of this detection to their environment's specifics

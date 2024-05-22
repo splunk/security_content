@@ -12,7 +12,8 @@ description: The following analytic identifies the invitation of an external gue
   to unauthorized access. An example of this attack vector was described at BlackHat
   2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking
   Azure AD Accounts by Abusing External Identities`
-data_source: []
+data_source: 
+- Azure Active Directory Invite external user
 search: '`azure_monitor_aad` operationName="Invite external user" 
   | rename properties.*  as *
   | rename initiatedBy.user.userPrincipalName as initiatedBy 

@@ -3,7 +3,8 @@ id: 49c0d4d6-c55d-4d3a-b3d5-7709fafed70d
 version: 1
 date: '2024-02-21'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source:
+- Windows Event Log Security 4726
 type: TTP
 status: production
 description: The following analytic flags when more than five unique Windows accounts are deleted within a 10-minute period, identified by Event Code 4726 in the Windows Security Event Log. Using the wineventlog_security dataset, it segments data into 10-minute intervals to monitor account deletions, a pattern that could suggest malicious intent like an attacker erasing traces. Teams should adjust the detection's threshold and timeframe to suit their specific environment.

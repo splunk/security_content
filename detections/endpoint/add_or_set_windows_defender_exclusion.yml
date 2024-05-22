@@ -12,7 +12,7 @@ description: This analytic will identify a suspicious process command-line relat
   to execute their malicious code. This is a good indicator for defense evasion and
   to look further for events after this behavior.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*Add-MpPreference
   *" OR Processes.process = "*Set-MpPreference *") AND Processes.process="*-exclusion*"

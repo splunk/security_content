@@ -16,7 +16,7 @@ description: The following analytic looks for a process accessing the winlogon.e
   controls. Defenders should be aware that adversaries may customize the source code
   of Rubeus to potentially bypass this analytic.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 10
 search: ' `sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe (GrantedAccess=0x1f3fff)
   (SourceImage!=C:\\Windows\\system32\\svchost.exe AND SourceImage!=C:\\Windows\\system32\\lsass.exe
   AND SourceImage!=C:\\Windows\\system32\\LogonUI.exe AND SourceImage!=C:\\Windows\\system32\\smss.exe

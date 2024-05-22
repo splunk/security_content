@@ -15,7 +15,8 @@ description: This search is designed to detect high frequency of archive files d
   files transfer to HTTP POST since it checks the request body header. Unfortunately
   this detection cannot support archive that was encrypted or encoded before doing
   the exfiltration.
-data_source: []
+data_source: 
+- Splunk Stream HTTP
 search: '`stream_http` http_method=POST |eval archive_hdr1=substr(form_data,1,2) | eval archive_hdr2 = substr(form_data,1,4) |stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by src_ip dest_ip http_method http_user_agent uri_path url bytes_in bytes_out archive_hdr1 archive_hdr2 |where count >20 AND (archive_hdr1 = "7z" OR archive_hdr1 = "PK" OR archive_hdr2="Rar!") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `multiple_archive_files_http_post_traffic_filter`
   '
 how_to_implement: To successfully implement this search, you need to be ingesting

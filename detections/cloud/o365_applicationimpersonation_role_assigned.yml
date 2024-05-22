@@ -5,7 +5,8 @@ date: '2023-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365
 description: The following analytic identifies the assignment of the ApplicationImpersonation role in Office 365, either to a user or an application. This analytic leverages the Office 365 Management Activity API, specifically monitoring for events related to role assignments and changes within the Azure Active Directory audit logs. The ApplicationImpersonation role allows a security principal to impersonate any user within the organization and perform actions on their behalf, such as accessing or modifying their mailbox. This role, if misused or granted inappropriately, can pose a significant security risk. Monitoring the assignment of this role is crucial as it can be an indicator of potential malicious activity or misconfigurations. If an attacker successfully assigns the ApplicationImpersonation role to a malicious user or application, they can gain the ability to impersonate any user within the organization. This can lead to unauthorized access to sensitive information, manipulation of mailbox data, and other malicious actions. The attacker can effectively masquerade as a legitimate user, making their actions harder to detect and potentially causing significant harm to the organization.
 search: '`o365_management_activity` Workload=Exchange Operation="New-ManagementRoleAssignment"  Role=ApplicationImpersonation
   |  rename User as target_user

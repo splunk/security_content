@@ -6,8 +6,8 @@ author: Michael Haag, Splunk
 status: experimental
 type: Hunting
 data_source:
-- Sysmon Event ID 1
-- Sysmon Event ID 3
+- Sysmon EventID 1
+- Sysmon EventID 3
 description: 'The following analytic is designed to detect anomalous behavior associated
   with the BlackLotus Campaign, a sophisticated bootkit attack reported by ESET and
   further investigated in a blog by Microsoft, which provided hunting queries for
