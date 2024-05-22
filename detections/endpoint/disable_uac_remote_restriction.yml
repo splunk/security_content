@@ -11,7 +11,8 @@ description: This analytic is to detect a suspicious modification of registry to
   This is a good indicator that some tries to bypassed UAC to suspicious process or
   gain privilege escalation.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\CurrentVersion\\Policies\\System*" Registry.registry_value_name="LocalAccountTokenFilterPolicy"
   Registry.registry_value_data="0x00000001"  ) BY _time span=1h Registry.user Registry.dest

@@ -10,7 +10,7 @@ description: This analytic identifies a common behavior by Cobalt Strike and oth
   Strike PTH) or `getsystem`, using named-pipe impersonation. A suspicious event will
   look like `cmd.exe /c echo 4sgryt3436 > \\.\Pipe\5erg53`.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_cmd` OR Processes.process=*%comspec%*
   (Processes.process=*echo* AND Processes.process=*pipe*) by Processes.dest Processes.user

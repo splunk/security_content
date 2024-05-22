@@ -6,7 +6,9 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 description: This detection looks for the deletion of registry keys which disable
   LSA protection and MS Defender Device Guard.
 search: '| tstats `security_content_summariesonly` min(_time) as _time from datamodel=Endpoint.Registry

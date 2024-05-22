@@ -6,7 +6,7 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-- Windows Security 4742
+- Windows Event Log Security 4742
 description: This analytic identifies a genuine DC promotion event. Identifying when a computer assigns itself the 
   necessary SPNs to function as a domain controller. Note these events are triggered on the existing domain controllers, not the newly 
   joined domain controller. This detection will serve to identify rogue DCs added to the network. There are 2x detections within this analytic story 

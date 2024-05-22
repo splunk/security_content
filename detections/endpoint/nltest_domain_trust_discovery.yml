@@ -11,7 +11,7 @@ description: This search looks for the execution of `nltest.exe` with command-li
   domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current
   domain to assist with further understanding where to pivot next.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_nltest` (Processes.process=*/domain_trusts*
   OR Processes.process=*/all_trusts*) by Processes.dest Processes.user Processes.parent_process

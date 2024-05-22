@@ -14,7 +14,7 @@ description: This analytic will detect suspicious driver loaded paths. This tech
   for possible other drivers of interest. Long tail analyze drivers by path (outside
   of default, and in default) for further review.
 data_source:
-- Sysmon Event ID 6
+- Sysmon EventID 6
 search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
   "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) |  stats  min(_time) as
   firstTime max(_time) as lastTime count by dest ImageLoaded Hashes IMPHASH Signature

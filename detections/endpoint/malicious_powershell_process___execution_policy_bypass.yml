@@ -10,7 +10,7 @@ description: This search looks for PowerShell processes started with parameters 
   in attacks leveraging PowerShell scripts as they override the default PowerShell
   execution policy.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
   process_id, values(Processes.parent_process_id) as parent_process_id values(Processes.process)
   as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes

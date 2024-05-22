@@ -10,7 +10,8 @@ description: The following analytic identifies an Ip address failing to authenti
   represent a brute force attack againstan Azure AD to obtain initial access or elevate
   privileges. As environments differ across organizations, security teams should customize
   the threshold of this detection.
-data_source: []
+data_source: 
+- Azure Active Directory
 search: ' `azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
   | rename properties.* as * 
   | bucket span=10m _time 

@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This search is to detect a suspicious rundll32 commandline to update a user's system parameters related to desktop backgrounds, 
   display settings, and visual themes. Specifically, it triggers the system to refresh and apply changes to the user-specific settings, 
   such as wallpaper modifications or visual theme updates, ensuring that the changes take effect without the need to restart the system or log out 

@@ -9,7 +9,7 @@ description: This search is to detect a suspicious modification of firewall to a
   file and printer sharing. This technique was seen in ransomware to be able to discover
   more machine connected to the compromised host to encrypt more files
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process=
   "*firewall*" Processes.process= "*group=\"File and Printer Sharing\"*"  Processes.process="*enable=Yes*"

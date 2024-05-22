@@ -4,7 +4,7 @@ version: 1
 date: '2024-03-26'
 author: Michael Haag, Splunk
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 type: TTP
 status: production
 description: This detection identifies instances of the Windows utility `mshta.exe` being used to write files to world-writable directories, a technique commonly leveraged by adversaries to execute malicious scripts or payloads. Starting from 26 February 2024, APT29 has been observed distributing phishing attachments that lead to the download and execution of the ROOTSAW dropper via a compromised website. The ROOTSAW payload, utilizing obfuscated JavaScript, downloads a file named `invite.txt` to the `C:\Windows\Tasks` directory. This file is then decoded and decompressed to execute a malicious payload, often leveraging legitimate Windows binaries for malicious purposes, as seen with `SqlDumper.exe` in this campaign. \

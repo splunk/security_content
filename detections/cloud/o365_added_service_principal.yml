@@ -6,7 +6,8 @@ author: Rod Soto, Splunk
 status: production
 type: TTP
 description: The following analytic detects addition of new service principal accounts added to O365 tenants. Attackers can abuse service principals in Office 365 (now known as Microsoft 365) to gain unauthorized access and perform malicious actions within an organization's environment. Service principals are essentially non-human accounts used by applications, services, or scripts to access resources and interact with APIs on behalf of the organization. 
-data_source: []
+data_source: 
+- O365 
 search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="*Add service principal*" OR (Operation = "*principal*" AND action = "created") 
   | stats count values(ModifiedProperties{}.NewValue) as new_value by src_user src_user_type action Operation authentication_service Workload 
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_added_service_principal_filter`'

@@ -13,7 +13,8 @@ description: On June 14th, 2022, Splunk released a security advisory relating to
   The fixes for these require upgrading to at least Splunk 9.0 on the forwarder as
   well. This is a great opportunity to configure TLS across the environment. This
   search looks for forwarders that are not using TLS and adds risk to those entities.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunkd` group="tcpin_connections" ssl="false" | stats values(sourceIp)
   latest(fwdType) latest(version) by hostname | `splunk_digital_certificates_lack_of_encryption_filter`'
 how_to_implement: This anomaly search looks for forwarder connections that are not

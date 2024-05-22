@@ -11,7 +11,8 @@ description: The following analytic identifies an Azure AD account with concurre
   extracted cookies from a victims browser and is using them from a different location
   to access corporate online resources. As users may behave differently across organizations,
   security teams should test and customize this detection to fit their environments.
-data_source: []
+data_source: 
+- Azure Active Directory
 search: ' `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs
   | rename properties.* as *
   | bucket span=30m _time 

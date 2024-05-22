@@ -7,7 +7,8 @@ status: experimental
 type: Anomaly
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment about security groups by a user.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats count as security_group_api_calls values(All_Changes.command) as
   command from datamodel=Change where All_Changes.object_category=firewall AND All_Changes.status=success
   by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")` | eval

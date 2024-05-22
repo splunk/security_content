@@ -10,7 +10,7 @@ description: This search is to detect a suspicious enabling of smb1protocol thro
   it enable smb share to do the lateral movement and encrypt other files within the
   compromise network system.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*"
   ScriptBlockText = "*SMB1Protocol*" | stats count min(_time) as firstTime max(_time)
   as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)`

@@ -6,7 +6,7 @@ author: Rod Soto, Chase Franklin
 status: production
 type: Hunting
 data_source:
-- audittrail
+- Splunk
 description: A low-privileged user, using a specially crafted search command, can trigger an HTTP response splitting vulnerability with the rest SPL command that lets them potentially access other REST endpoints in the system arbitrarily, including accessing restricted content such as password files. This is because the user is able to inject the rest SPL command into the q parameter of an HTTP GET web request. The vulnerability requires the attacker to phish the victim by tricking them into initiating a request within their browser. The attacker cannot exploit the vulnerability at will.
 search: '`audit_searches` AND search IN ("*|*rest*POST*","*|*rest*PUT*","*|*rest*PATCH*","*|*rest*DELETE*") AND NOT search="*audit_searches*" | table user info has_error_msg search _time  | `splunk_http_response_splitting_via_rest_spl_command_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This search may assist in detecting possible http response splitting exploitation attemptss. 

@@ -6,7 +6,8 @@ author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
 description: This analytic identifies instances where new IP addresses are added to the trusted IPs list in Office 365, potentially allowing users from these IPs to bypass Multi-Factor Authentication (MFA) during login. The detection leverages O365 audit logs, specifically focusing on events related to the modification of trusted IP settings. By monitoring these logs, the analytic captures and alerts on any addition of new trusted IPs. Adding trusted IPs to bypass MFA is a significant security concern. While there might be legitimate reasons to add trusted IPs, such as for a new office location, there's also a risk of attackers or malicious insiders using this to facilitate unauthorized access. Monitoring for changes to the trusted IP list helps ensure that any attempt to bypass MFA is legitimate and authorized. If the detection is a true positive, it suggests that users logging in from the newly added trusted IP can bypass MFA, potentially weakening the security posture of the organization. This could lead to unauthorized access, especially if the IP was added maliciously. Immediate investigation is required to validate the legitimacy of the IP addition and to assess potential security implications.
-data_source: []
+data_source: 
+- O365 Set Company Information.
 search: '`o365_management_activity` Operation="Set Company Information." ModifiedProperties{}.Name=StrongAuthenticationPolicy
   | rex max_match=100 field=ModifiedProperties{}.NewValue "(?<ip_addresses_new_added>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})"
   | rex max_match=100 field=ModifiedProperties{}.OldValue "(?<ip_addresses_old>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})"

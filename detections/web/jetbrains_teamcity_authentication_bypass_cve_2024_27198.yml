@@ -3,7 +3,8 @@ id: fbcc04c7-8a79-453c-b3a9-c232c423bdd4
 version: 1
 date: '2024-03-04'
 author: Michael Haag, Splunk
-data_source: []
+data_source: 
+- Suricata
 type: TTP
 status: production
 description: 'The CVE-2024-27198 vulnerability presents a critical security risk for JetBrains TeamCity on-premises servers, allowing attackers to bypass authentication mechanisms and gain unauthorized access. This vulnerability can be exploited in several ways, each leading to the attacker gaining full control over the TeamCity server, including all associated projects, builds, agents, and artifacts. One method of exploitation involves creating a new administrator user. An attacker, without needing to authenticate, can send a specially crafted POST request to the `/app/rest/users` REST API endpoint. This request includes the desired username, password, email, and roles for the new user, effectively granting them administrative privileges upon successful execution. Alternatively, an attacker can generate a new administrator access token by targeting the `/app/rest/users/id:1/tokens` endpoint with a POST request. This method also does not require prior authentication and results in the creation of a token that grants administrative access. Both exploitation methods underscore the severity of the CVE-2024-27198 vulnerability and highlight the importance of securing TeamCity servers against such authentication bypass threats. The manipulation of URI paths `/app/rest/users` and `/app/rest/users/id:1/tokens` through malicious requests enables attackers to gain unauthorized access and control, emphasizing the need for immediate remediation measures.'

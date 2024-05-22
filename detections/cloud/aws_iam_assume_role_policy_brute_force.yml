@@ -11,7 +11,8 @@ description: The following detection identifies any malformed policy document ex
   using a tool like CloudSploit or Pacu, an attempt will look like `arn:aws:iam::111111111111:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS`.  Meaning,
   when an adversary is attempting to identify a role name, multiple failures will
   occur. This detection focuses on the errors of a remote attempt that is failing.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '`cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failure
   (userAgent!=*.amazonaws.com) | stats count min(_time) as firstTime max(_time) as
   lastTime values(requestParameters.policyName) as policy_name by src eventName eventSource
@@ -19,7 +20,7 @@ search: '`cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failur
   userIdentity.principalId user_arn | where count >= 2 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_iam_assume_role_policy_brute_force_filter`'
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
-  this data. The search requires AWS Cloudtrail logs. Set the `where count` greater
+  this data. The search requires AWS CloudTrail logs. Set the `where count` greater
   than a value to identify suspicious activity in your environment.
 known_false_positives: This detection will require tuning to provide high fidelity
   detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)

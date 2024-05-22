@@ -11,7 +11,7 @@ description: This analytic looks for the execution of `net.exe` or `net1.exe`  w
   situational awareness and Active Directory Discovery to identify high privileged
   users.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="net.exe"
   OR Processes.process_name="net1.exe") (Processes.process="*group*" AND Processes.process="*/do*")

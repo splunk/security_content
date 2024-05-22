@@ -8,7 +8,7 @@ type: TTP
 description: |-
   The following analytic detects a behavior where a process name consists only of a single letter that helps to detect potential threats earlier and mitigate the risks. This detection is important because it indicates the presence of malware or an attacker attempting to evade detection by using a process name that is difficult to identify or track so that he can carry out malicious activities such as data theft or ransomware attacks. False positives might occur since there might be legitimate uses of single-letter process names in your environment. Next steps include reviewing the process details and investigating any suspicious activity upon triage.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest, Processes.user,
   Processes.process, Processes.process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)`

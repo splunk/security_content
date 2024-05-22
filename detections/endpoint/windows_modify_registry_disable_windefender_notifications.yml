@@ -8,7 +8,6 @@ type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-- Sysmon EventID 14
 description: The following analytic identifies a suspicious registry modification
   to disable Windows Defender notification. This technique was being abused by several
   adversaries, malware authors and also red-teamers to evade detection on the targeted

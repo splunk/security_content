@@ -5,7 +5,8 @@ date: '2023-09-19'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 Change user license.
 description: The following analytic identifies instances where the O365 advanced audit is disabled for a specific user within the Office 365 tenant. It leverages O365 audit logs, specifically events related to audit license changes or modifications within the AzureActiveDirectory workloads. The O365 advanced audit provides granular logging and insights into user and administrator activities, making it a crucial tool for security monitoring and incident response. Disabling this audit for a user can blind security teams to potential malicious or unauthorized activities related to that user's mailbox or account. Attackers may disable these audits to obscure their actions and reduce the chances of detection. If an attacker successfully disables the O365 advanced audit for a user, they can operate within that user's mailbox or account with reduced risk of detection. This can lead to unauthorized data access, data exfiltration, account compromise, or other malicious activities without leaving a detailed audit trail.
 search: >-
   `o365_management_activity` Operation="Change user license." 

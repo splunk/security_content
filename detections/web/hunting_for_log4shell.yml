@@ -42,7 +42,8 @@ description: 'The following hunting query assists with quickly assessing CVE-202
 
   Finally, a simple table is created to show the scoring and the _raw field. Sort
   based on score or columns of interest.'
-data_source: []
+data_source: 
+- Nginx Access
 search: '| from datamodel Web.Web | eval jndi=if(match(_raw, "(\{|%7B)[jJnNdDiI]{4}:"),4,0)
   | eval jndi_fastmatch=if(match(_raw, "[jJnNdDiI]{4}"),2,0) | eval jndi_proto=if(match(_raw,"(?i)jndi:(ldap[s]?|rmi|dns|nis|iiop|corba|nds|http|https):"),5,0)
   | eval all_match = if(match(_raw, "(?i)(%(25){0,}20|\s)*(%(25){0,}24|\$)(%(25){0,}20|\s)*(%(25){0,}7B|{)(%(25){0,}20|\s)*(%(25){0,}(6A|4A)|J)(%(25){0,}(6E|4E)|N)(%(25){0,}(64|44)|D)(%(25){0,}(69|49)|I)(%(25){0,}20|\s)*(%(25){0,}3A|:)[\w\%]+(%(25){1,}3A|:)(%(25){1,}2F|\/)[^\n]+"),5,0)

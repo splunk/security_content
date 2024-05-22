@@ -10,7 +10,7 @@ description: Adversaries may abuse Regsvr32.exe to proxy execution of malicious 
   network connections to remote destinations (internal or external). Review additional
   parrallel processes and child processes for additional activity.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` Processes.process
   IN ("*\\appdata\\*", "*\\programdata\\*","*\\windows\\temp\\*") NOT (Processes.process

@@ -8,7 +8,8 @@ type: Hunting
 description: Splunk versions below 8.1.12,8.2.9 and 9.0.2 are vulnerable to reflected
   cross site scripting (XSS). A View allows for a Reflected Cross Site scripting via
   JavaScript Object Notation (JSON) in a query parameter when ouput_mode=radio.
-data_source: []
+data_source: 
+- Splunk
 search: '`splunkd_webx` user=admin status=200 uri=*/lists/entities/x/ui/views* uri_query!=null
   | stats count earliest(_time) as event_time values(status) as status values(clientip)
   as clientip by index, sourcetype, _time, host, user, uri | `splunk_reflected_xss_in_the_templates_lists_radio_filter`'

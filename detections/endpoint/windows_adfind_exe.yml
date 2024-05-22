@@ -14,7 +14,7 @@ description: 'This search looks for the execution of `adfind.exe` with command-l
   management, it has been seen used before by Wizard Spider, FIN6 and actors whom
   also launched SUNBURST.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process="* -f *"
   OR Processes.process="* -b *") AND (Processes.process=*objectcategory* OR Processes.process="*

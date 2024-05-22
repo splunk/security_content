@@ -10,7 +10,8 @@ description: This analytic is intended to detect a suspicious modification of th
   to bypass or evade detection from Windows Defender AV, specifically the feature
   that submits samples for further analysis.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name
   = SubmitSamplesConsent Registry.registry_value_data = 0x00000000) BY _time span=1h

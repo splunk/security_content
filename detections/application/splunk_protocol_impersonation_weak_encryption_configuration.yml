@@ -13,7 +13,8 @@ description: On June 14th, 2022, Splunk released a security advisory relating to
   the PYTHONHTTPSVERIFY setting in $SPLUNK_HOME/etc/splunk-launch.conf needs to be
   enabled as well. Other components such as additional search heads or anything this
   rest command cannot be distributed to will need to be manually checked.
-data_source: []
+data_source: 
+- Splunk
 search: '| rest /services/server/info | table splunk_server version server_roles |
   join splunk_server [| rest /servicesNS/nobody/search/configs/conf-server/ search="PythonSslClientConfig"
   | table splunk_server sslVerifyServerCert sslVerifyServerName] | join splunk_server

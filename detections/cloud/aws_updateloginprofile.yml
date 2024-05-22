@@ -9,7 +9,8 @@ description: This search looks for AWS CloudTrail events where a user A who has 
   permission to update login profile, makes an API call to update login profile for
   another user B . Attackers have been know to use this technique for Privilege Escalation
   in case new victim(user B) has more permissions than old victim(user B)
-data_source: []
+data_source: 
+- AWS CloudTrail UpdateLoginProfile
 search: ' `cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com
   errorCode = success | eval match=if(match(userIdentity.userName,requestParameters.userName),
   1,0) | search match=0 | stats count min(_time) as firstTime max(_time) as lastTime

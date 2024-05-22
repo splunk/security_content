@@ -3,7 +3,8 @@ id: 5a2ec401-60bb-474e-b936-1e66e7aa4060
 version: 1
 date: '2024-02-12'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- Azure Active Directory Sign-in activity
 type: TTP
 status: production
 description: Monitoring service principal authentication events in Azure Active Directory is crucial, but to effectively leverage this detection, teams should first conduct a thorough inventory of all service principals and their source IPs to establish a baseline of normal behavior. The detection, using azure_monitor_aad, specifically targets "Sign-in activity" within ServicePrincipalSignInLogs, gathering key details like sign-in frequency, timing, source IPs, and accessed resources. This baseline is essential for SOC teams to distinguish between regular application authentication and anomalous patterns that might suggest compromised credentials or malicious activities.

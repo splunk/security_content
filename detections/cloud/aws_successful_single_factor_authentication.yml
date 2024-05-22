@@ -9,14 +9,15 @@ description: The following analytic identifies a successful Console Login authen
   event against an AWS IAM user for an account without Multi-Factor Authentication
   enabled. This could be evidence of a misconfiguration, a policy violation or an
   account take over attempt that should be investigated
-data_source: []
+data_source: 
+- AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName= ConsoleLogin errorCode=success "additionalEventData.MFAUsed"=No
   | stats count min(_time) as firstTime max(_time) as lastTime by src eventName eventSource
   aws_account_id errorCode additionalEventData.MFAUsed userAgent eventID awsRegion
   user_name userIdentity.arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `aws_successful_single_factor_authentication_filter`'
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search
-  requires AWS Cloudtrail logs.
+  requires AWS CloudTrail logs.
 known_false_positives: It is possible that some accounts do not have MFA enabled for
   the AWS account however its agaisnt the best practices of securing AWS.
 references:

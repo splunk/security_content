@@ -9,7 +9,7 @@ description: This search is to detect a suspicious rundll32.exe process with plu
   parameter. This technique is commonly seen in IcedID malware to execute its initial
   dll stager to download another payload to the compromised machine.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*PluginInit*
   by  Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name

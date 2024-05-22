@@ -9,7 +9,8 @@ description: 'The following analytic identifies an authentication attempt event 
   a Google Cloud Platform tenant that fails during the Multi Factor Authentication
   challenge. This behavior may represent an adversary trying to authenticate with
   compromised credentials for an account that has multi-factor authentication enabled. '
-data_source: []
+data_source: 
+- Google Workspace login_failure
 search: ' `gws_reports_login` event.name=login_failure `gws_login_mfa_methods` | stats
   count min(_time) as firstTime max(_time) as lastTime by user, src_ip, login_challenge_method | `gcp_authentication_failed_during_mfa_challenge_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Google

@@ -5,7 +5,8 @@ date: '2024-01-04'
 author: Rod Soto, Eric McGinnis, Chase Franklin
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Splunk
 description: In Splunk Enterprise Security (ES) versions lower than 7.1.2, an attacker can create a malformed Investigation to perform a denial of service (DoS). The malformed investigation prevents the generation and rendering of the Investigations manager until it is deleted.
 search: '`splunkd_investigation_rest_handler` method=put msg=*investigation* status=error | stats count min(_time) as firstTime max(_time) as lastTime by user host method msg 
   | `security_content_ctime(firstTime)`

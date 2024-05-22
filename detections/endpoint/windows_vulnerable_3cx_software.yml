@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
-- Sysmon Event Code 1
+- Sysmon EventID 1
 description: The following analytic leverages Sysmon, a powerful system monitoring and logging tool, to pinpoint instances of the 3CXDesktopApp.exe with a FileVersion of 18.12.x.Recently, 3CX has discovered a vulnerability specifically in versions 18.12.407 and 18.12.416 of the desktop app.
 search: '`sysmon` (process_name=3CXDesktopApp.exe OR OriginalFileName=3CXDesktopApp.exe)  FileVersion=18.12.* | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,process_name, OriginalFileName, CommandLine 
   | `security_content_ctime(firstTime)` 

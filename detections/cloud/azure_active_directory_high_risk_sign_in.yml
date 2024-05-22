@@ -9,7 +9,8 @@ description: The following analytic triggers on a high risk sign-in against Azur
   Active Directory identified by Azure Identity Protection. Identity Protection monitors
   sign-in events using heuristics and machine learning to identify potentially malicious
   events and categorizes them in three categories high, medium and low.
-data_source: []
+data_source: 
+- Azure Active Directory 
 search: ' `azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high
  | rename properties.* as * 
  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip, activity, riskLevel, riskEventType, additionalInfo  

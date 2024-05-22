@@ -20,7 +20,7 @@ description: 'The following analytic utilizes Windows Event Code 5145, "A networ
 
   During triage, review parallel security events to identify further suspicious activity.'
 data_source:
-- Sysmon Event ID 5
+- Windows Event Log Security 5145
 search: '`wineventlog_security` SubjectUserName="ANONYMOUS LOGON" EventCode=5145 RelativeTargetName=lsarpc
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, SubjectUserSid,
   ShareName, src, AccessMask, AccessReason | `security_content_ctime(firstTime)`
@@ -66,7 +66,6 @@ tags:
   security_domain: endpoint
 tests:
 - name: True Positive Test
-  attack_data:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-xml.log
     source: XmlWinEventLog:Security

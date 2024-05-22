@@ -16,7 +16,7 @@ description: The following analytic identifies curl being utilized with a proxy 
   controls in place monitoring traffic, making it harder for the defender to identify
   and track activity.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
   Processes.process IN ("*-x *", "*socks4a://*", "*socks5h://*", "*socks4://*","*socks5://*",

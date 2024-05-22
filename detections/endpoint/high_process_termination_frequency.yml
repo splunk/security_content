@@ -11,7 +11,7 @@ description: This analytic is designed to identify a high frequency of process t
   error while accessing (docs, images, database and etc..) in the infected machine
   for encryption.
 data_source:
-- Sysmon Event ID 5
+- Sysmon EventID 5
 search: '`sysmon` EventCode=5 |bin _time span=3s |stats values(Image) as proc_terminated
   min(_time) as firstTime max(_time) as lastTime  count by _time dest EventCode
   ProcessID | where count >= 15 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

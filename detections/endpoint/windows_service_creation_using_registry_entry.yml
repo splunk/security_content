@@ -19,7 +19,8 @@ description: The following analytic detects when reg.exe modify registry keys th
   include reviewing the process and user context of the reg.exe activity and identify
   any other concurrent processes that might be associated with the attack upon triage.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\SYSTEM\\CurrentControlSet\\Services*" Registry.registry_value_name
   = ImagePath) BY _time span=1h Registry.dest Registry.user Registry.registry_path

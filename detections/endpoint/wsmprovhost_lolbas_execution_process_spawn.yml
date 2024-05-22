@@ -13,7 +13,7 @@ description: The following analytic identifies `Wsmprovhost.exe` spawning a LOLB
   code. Looking for child processes of Wsmprovhost.exe that are part of the LOLBAS
   project can help defenders identify lateral movement activity.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=wsmprovhost.exe)
   (Processes.process_name IN ("Regsvcs.exe", "Ftp.exe", "OfflineScannerShell.exe",

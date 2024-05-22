@@ -11,7 +11,7 @@ description: This analytic will identify suspicious files dropped or created in 
   This TTP detection is a good indicator that a suspicious process wants to gain persistence on the targeted host. We suggest to 
   verify the process name by using the process guid field, the file created and also the user and the computer name for further investigation.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where Filesystem.file_path = "*\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*" 
   by Filesystem.file_create_time Filesystem.process_id Filesystem.file_name Filesystem.user Filesystem.file_path Filesystem.process_guid Filesystem.dest

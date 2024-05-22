@@ -11,7 +11,7 @@ description: >-
   running from user controlled locations may not be malicious, however actors often attempt to access domain resources after initial 
   compromise from executables in these locations. Most attacker toolkits offer some degree of interaction with AD/LDAP.
 data_source:
-  - Sysmon Event ID 3
+  - Sysmon EventID 3
 search: >-
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.process_id) as process_id 
   from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port IN ("88","389","636") 

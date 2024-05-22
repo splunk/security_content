@@ -8,7 +8,8 @@ type: Hunting
 description: The following hunting analytic identifies the server side template injection
   related to CVE-2022-22954, however is a variation found within the same endpoint
   of the URL scheme.
-data_source: []
+data_source: 
+- Palo Alto Network Threat
 search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*deviceudid=*"
   AND Web.url IN ("*java.lang.ProcessBuilder*","*freemarker.template.utility.ObjectConstructor*")
   by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest

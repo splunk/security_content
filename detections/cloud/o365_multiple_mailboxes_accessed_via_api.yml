@@ -3,7 +3,8 @@ id: 7cd853e9-d370-412f-965d-a2bcff2a2908
 version: 1
 date: '2024-02-01'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- O365 MailItemsAccessed
 type: TTP
 status: production
 description: The following analytic is designed to trigger when a high number of Office 365 Exchange mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) in a short time, hinting at possible unauthorized mass email access. It tracks 'MailItemsAccessed' operations in Exchange, using AppId and regex to identify API interactions. Crucial for SOC teams, this analytic focuses on spotting abnormal access patterns, often signaling data exfiltration or account compromise. Security teams should tailor the threshold - set here to flag over five unique mailboxes accessed within 10 minutes - to align with their environment's norms, ensuring effective detection of potential security incidents while maintaining operational efficiency.

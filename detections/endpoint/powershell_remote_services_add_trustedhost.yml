@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 description: The following analytic identifies a suspicious PowerShell script execution via EventCode 4104 
   that contains command to add or modify the trustedhost configuration in Windows OS. 
   This behavior raises concerns due to the nature of modifications made to the 'TrustedHost' configuration, 

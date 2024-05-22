@@ -3,7 +3,8 @@ id: c8a6b56d-16dd-4e9c-b4bd-527742ead98d
 version: 1
 date: '2024-02-22'
 author: Bhavin Patel, Splunk
-data_source: []
+data_source: 
+- Nginx Access
 type: Anomaly
 status: production
 description: The following analytic detects high volume of bytes out (greater than 1GB) to a URL within 2 mins of time window. This may be

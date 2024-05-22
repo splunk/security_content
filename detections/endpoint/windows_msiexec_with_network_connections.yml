@@ -9,7 +9,7 @@ description: The following analytic identifies MSIExec with any network connecti
   over port 443 or 80. Typically, MSIExec does not perform network communication to
   the internet.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_msiexec` by _time Processes.user Processes.process_id Processes.process_name Processes.dest
   Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)`

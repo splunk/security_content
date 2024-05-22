@@ -8,7 +8,7 @@ type: TTP
 description: The search looks for a file named "test.txt" written to the windows system
   directory tree, which is consistent with Samsam propagation.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_name)
   as file_name from datamodel=Endpoint.Filesystem where Filesystem.file_path=*\\windows\\system32\\test.txt

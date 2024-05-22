@@ -8,18 +8,18 @@ type: TTP
 description: The search looks for a batch file (.bat) written to the Windows system
   directory tree.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where 
-Processes.process_name=* by _time span=1h Processes.process_guid Processes.process_name Processes.dest Processes.user 
-| `drop_dm_object_name(Processes)` | join process_guid 
-    [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-    where Filesystem.file_path IN ("*\\system32\\*", "*\\syswow64\\*") Filesystem.file_name="*.bat" by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
-    | `drop_dm_object_name(Filesystem)`]
-| table dest user file_create_time, file_name, file_path, process_name, firstTime, lastTime 
-| dedup file_create_time
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `batch_file_write_to_system32_filter`'
+  Processes.process_name=* by _time span=1h Processes.process_guid Processes.process_name Processes.dest Processes.user 
+  | `drop_dm_object_name(Processes)` | join process_guid 
+      [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+      where Filesystem.file_path IN ("*\\system32\\*", "*\\syswow64\\*") Filesystem.file_name="*.bat" by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
+      | `drop_dm_object_name(Filesystem)`]
+  | table dest user file_create_time, file_name, file_path, process_name, firstTime, lastTime 
+  | dedup file_create_time
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `batch_file_write_to_system32_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,

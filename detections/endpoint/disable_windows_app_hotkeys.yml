@@ -11,7 +11,8 @@ description: The following analytic detects a suspicious registry modification t
   This technique is used to impair the analyst in analyzing and removing the attacker
   implant in compromised systems.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Image File Execution
   Options\\*" AND Registry.registry_value_data= "HotKey Disabled" AND Registry.registry_value_name

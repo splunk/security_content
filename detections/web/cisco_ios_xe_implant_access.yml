@@ -5,7 +5,8 @@ date: '2023-10-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic identifies potential exploitation of a previously unknown vulnerability in the Web User Interface (Web UI) feature of Cisco IOS XE software (CVE-2023-20198). Successful exploitation allows an attacker to create an account on the affected device with privilege level 15 access, granting them full control of the compromised device. The detection is based on the observation of suspicious account creation and subsequent actions, including the deployment of an implant consisting of a configuration file. The implant is saved under the file path //usr//binos//conf//nginx-conf//cisco_service.conf and is not persistent, meaning a device reboot will remove it, but the newly created local user accounts remain active even after system reboots. The new user accounts have level 15 privileges, meaning they have full administrator access to the device. This privileged access to the devices and subsequent creation of new users is tracked as CVE-2023-20198.
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("/webui/logoutconfirm.html?logon_hash=*") Web.http_method=POST Web.status=200
   by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype

@@ -13,7 +13,7 @@ description: The following analytic identifies a suspicious process command line
   and many more. This can also be a good sign that the parent process has a malicious
   code injected to it to execute this command.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process = "*cmd /c
   set" OR Processes.process = "*cmd.exe /c set" AND NOT (Processes.parent_process_name

@@ -16,7 +16,7 @@ description: The following analytic identifies winhlp32.exe, found natively in `
   module loads for unsuspecting unsigned modules. Capture any file modifications and
   analyze.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=winhlp32.exe
   Processes.process IN ("*\\appdata\\*","*\\programdata\\*", "*\\temp\\*") by Processes.dest

@@ -13,7 +13,7 @@ description: The following analytic utilizes Windows Event ID 1100 to identify w
   if this was planned. If not planned, follow through with reviewing parallel alerts
   and other data sources to determine what else may have occurred.
 data_source:
-- Sysmon Event ID 1
+- Windows Event Log Security 1100
 search: '(`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime max(_time) as lastTime by dest name EventCode 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`| `suspicious_event_log_service_behavior_filter`'

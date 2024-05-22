@@ -12,7 +12,8 @@ description: The following analytic utilizes Windows Security Event ID 1102 or S
   follow through with reviewing parallel alerts and other data sources to determine
   what else may have occurred.
 data_source:
-- Sysmon Event ID 1
+- Windows Event Log Security 1102
+- Windows Event Log System 104
 search: '(`wineventlog_security` EventCode=1102) OR (`wineventlog_system` EventCode=104)
   | stats count min(_time) as firstTime max(_time) as lastTime by dest name EventCode
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_event_log_cleared_filter`'

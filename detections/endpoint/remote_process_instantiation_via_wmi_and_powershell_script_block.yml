@@ -10,7 +10,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to start a process on a remote endpoint by abusing WMI. Red Teams and adversaries
   alike may abuse WMI and this commandlet for lateral movement and remote code execution.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText="*Invoke-WmiMethod*" AND (ScriptBlockText="*-CN*"
   OR ScriptBlockText="*-ComputerName*") AND ScriptBlockText="*-Class Win32_Process*"
   AND ScriptBlockText="*-Name create*" | stats count min(_time) as firstTime max(_time)

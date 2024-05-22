@@ -3,7 +3,8 @@ id: cfe7cca7-2746-4bdf-b712-b01ed819b9de
 version: 1
 date: '2024-02-21'
 author: Bhavin Patel, Splunk 
-data_source: []
+data_source: 
+- AWS CloudTrail
 type: Anomaly
 status: production
 description: The following analytic identifies users who are unsually modifying security group in your cloud enriovnment,focusing on actions such as modifications, deletions, or creations performed by users over 30-minute intervals. Analyzing patterns of modifications to security groups can help in identifying anomalous behavior that may indicate a compromised account or an insider threat.

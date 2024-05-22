@@ -7,8 +7,8 @@ status: production
 type: TTP
 description: The following analytic identifies when a suspicious certificate is granted using Active Directory Certificate Services (AD CS) with a Subject Alternative Name (SAN) and then immediately used for authentication. This action alone may not be malicious, however improperly configured certificate templates can be abused to permit privilege escalation and environment compromise due to over permissive settings (AD CS ESC1).
 data_source:
-  - Windows Security 4887
-  - Windows Security 4768
+  - Windows Event Log Security 4887
+  - Windows Event Log Security 4768
 search: >-
   `wineventlog_security` EventCode IN (4887) Attributes="*SAN:*upn*" Attributes="*CertificateTemplate:*"
   | stats count min(_time) as firstTime max(_time) as lastTime values(name) as name values(status) as status values(Subject) as ssl_subject values(SubjectKeyIdentifier) as ssl_hash by Computer, EventCode, Requester, Attributes, RequestId

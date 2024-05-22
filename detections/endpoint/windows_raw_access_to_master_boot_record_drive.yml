@@ -11,7 +11,7 @@ description: This analytic is to look for suspicious raw access read to drive wh
   code as part of their impact payload. This detection is a good indicator that there
   is a process try to read or write on MBR sector.
 data_source:
-- Sysmon Event ID 9
+- Sysmon EventID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\Harddisk0\\DR0 NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
   lastTime by Computer Image Device ProcessGuid ProcessId EventDescription EventCode

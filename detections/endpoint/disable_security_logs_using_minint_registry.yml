@@ -10,7 +10,8 @@ description: This analytic is to detect a suspicious registry modification to di
   logs of windows by adding this registry. The Windows will think it is WinPE and
   will not log any event to the Security Log
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\Control\\MiniNt\\*") BY _time span=1h  Registry.user
   Registry.dest Registry.registry_path Registry.registry_key_name Registry.registry_value_name

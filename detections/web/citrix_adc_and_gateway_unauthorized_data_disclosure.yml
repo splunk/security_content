@@ -5,7 +5,8 @@ date: '2023-10-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Suricata
 description: The following analytic detects attempts to exploit the Citrix Bleed vulnerability, which can lead to the leaking of session tokens. The vulnerability, identified as CVE-2023-4966, pertains to sensitive information disclosure in NetScaler ADC and NetScaler Gateway when set up as various server configurations. The analytic specifically searches for HTTP requests with a 200 status code targeting the /oauth/idp/.well-known/openid-configuration URL endpoint. By parsing web traffic and filtering based on the aforementioned criteria along with specific user agent details, HTTP method, source and destination IPs, and the sourcetype, the analytic aims to identify potentially malicious requests that fit the profile of this exploit. 
 
   This behavior is essential for a Security Operations Center (SOC) to identify because if successfully exploited, attackers can gain unauthorized access, leading to a potential breach or further malicious activities within the organization's network. As the Citrix Bleed vulnerability can disclose session tokens, a successful exploit can allow attackers to impersonate legitimate users, bypassing authentication mechanisms and accessing sensitive data or systems. 

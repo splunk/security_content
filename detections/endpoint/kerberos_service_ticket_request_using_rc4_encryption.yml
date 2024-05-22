@@ -18,7 +18,7 @@ description: The following analytic leverages Kerberos Event 4769, A Kerberos se
   the NTLM password hash but rather the AES key to create a golden ticket, this detection
   may be bypassed.
 data_source:
-- Windows Security 4769
+- Windows Event Log Security 4769
 search: ' `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000 OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17 
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id, TicketEncryptionType, TicketOptions 
   | `security_content_ctime(lastTime)` 

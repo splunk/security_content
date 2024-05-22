@@ -9,7 +9,7 @@ description: The following analytic identifies the use of curl on Linux or MacOS
   to download a file from a remote source and pipe it to bash. This is typically found
   with coinminers and most recently with CVE-2021-44228, a vulnerability in Log4j.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
   (Processes.process="*-s *") OR (Processes.process="*|*" AND Processes.process="*bash*")

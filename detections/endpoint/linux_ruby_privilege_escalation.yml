@@ -10,7 +10,7 @@ description: Ruby is one of the most used and easy to use programming languages.
   system. If sudo right is given to ruby application for the user, then the user can
   run system commands as root and possibly get a root shell.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process="*ruby*-e*"
   AND Processes.process="*exec*" AND Processes.process="*sudo*" by Processes.dest

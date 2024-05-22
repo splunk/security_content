@@ -6,8 +6,8 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-- Windows Security 4742
-- Windows Security 4738
+- Windows Event Log Security 4742
+- Windows Event Log Security 4738
 description: The following analytic looks for changes to the sIDHistory AD attribute of user or computer objects which exist within the same domain. 
  The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
  continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries to stealthily grant access to a backdoor account within the same domain. 

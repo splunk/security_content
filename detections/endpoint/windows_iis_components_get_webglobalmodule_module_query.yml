@@ -8,7 +8,8 @@ type: Hunting
 description: The following analytic requires the use of PowerShell inputs to run Get-WebGlobalModule
   to list out all the IIS Modules installed. The output is a list of Module names
   and the Image path of the DLL.
-data_source: []
+data_source: 
+- Powershell Installed IIS Modules
 search: '`iis_get_webglobalmodule` | stats count min(_time) as firstTime max(_time)
   as lastTime by host name image | rename host as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_iis_components_get_webglobalmodule_module_query_filter`'

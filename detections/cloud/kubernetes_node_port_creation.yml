@@ -9,7 +9,8 @@ description: The following analytic detects the creation of a Kubernetes node po
   It identifies this behavior by monitoring Kubernetes Audit logs for creation of a Node Port service. 
   This behavior is worth identifying for a SOC as it could potentially allow an attacker to access internal services, posing a significant threat to the integrity and security of the Kubernetes infrastructure. 
   The impact of such an attack could be severe, leading to data breaches, service disruptions, or unauthorized access to sensitive information.
-data_source: []
+data_source: 
+- Kubernetes Audit
 search: '`kube_audit` "objectRef.resource"=services verb=create requestObject.spec.type=NodePort
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 

@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 description: The following analytic identifies .cab files being written to disk. Utilize this analytic as a way to hunt for suspect .cab files being written to non-standard paths and tune as needed. Cab files were recently being utilized to deliver .url files embedded. The .url files were then used to deliver malicious payloads. The search specifically looks for instances where the file name is '*.cab' and the action is 'write'. During the triage process, it is recommended to review the file path for additional artifacts that may provide further insights into the event.
 search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path)
   as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name=*.cab) by Filesystem.dest Filesystem.action Filesystem.process_id Filesystem.file_name 

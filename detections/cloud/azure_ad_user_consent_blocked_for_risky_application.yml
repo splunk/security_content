@@ -5,7 +5,8 @@ date: '2023-10-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- Azure Active Directory Consent to application
 description: The following analytic identifies instances where Azure AD has blocked a user's attempt to grant consent to an application deemed risky or potentially malicious. This suggests that the application has exhibited behaviors or characteristics that are commonly associated with malicious intent or poses a security risk. This detection leverages the Azure AD audit logs, specifically focusing on events related to user consent actions and system-driven blocks. By filtering for blocked consent actions associated with applications, the analytic highlights instances where Azure's built-in security measures have intervened. Applications that are flagged and blocked by Azure typically exhibit suspicious characteristics or behaviors. Monitoring for these blocked consent attempts helps security teams identify potential threats early on and can provide insights into users who might be targeted or susceptible to such risky applications. It's an essential layer of defense in ensuring that malicious or risky applications don't gain access to organizational data. If the detection is a true positive, it indicates that the built-in security measures of O365 successfully prevented a potentially harmful application from gaining access. However, the attempt itself suggests that either a user might be targeted or that there's a presence of malicious applications trying to infiltrate the organization. Immediate investigation is required to understand the context of the block and to take further preventive measures.
 search: >-
   `azure_monitor_aad` operationName="Consent to application" properties.result=failure

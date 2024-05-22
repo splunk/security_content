@@ -9,7 +9,8 @@ description: The following analytic identifies one source Ip failing to authenti
   into the AWS Console with 30 unique valid users within 10 minutes. This behavior
   could represent an adversary performing a Password Spraying attack against an AWS
   environment tenant to obtain initial access or elevate privileges.
-data_source: []
+data_source: 
+- AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
   | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time,
   src_ip |`aws_unusual_number_of_failed_authentications_from_ip_filter`'

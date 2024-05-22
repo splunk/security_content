@@ -9,7 +9,8 @@ description: On May 3rd, 2022, Splunk published a security advisory for a Path t
   in search parameter that can potentiall allow SPL injection. An attacker can cause
   the application to load data from incorrect endpoints, urls leading to outcomes
   such as running arbitrary SPL queries.
-data_source: []
+data_source: 
+- Splunk
 search: ' `path_traversal_spl_injection` | search "\/..\/..\/..\/..\/..\/..\/..\/..\/..\/"  |
   stats count by host status clientip method uri_path uri_query | `path_traversal_spl_injection_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The

@@ -10,7 +10,8 @@ description: This analytic identifies `StopLogging` events in CloudTrail logs. A
   from being logged, so that they may operate with stealth and avoid detection. When
   the adversary has the right type of permissions in the compromised AWS environment,
   they may easily stop logging.
-data_source: []
+data_source: 
+- AWS CloudTrail StopLogging
 search: '`cloudtrail` eventName = StopLogging eventSource = cloudtrail.amazonaws.com
   userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
   firstTime max(_time) as lastTime values(requestParameters.name) as stopped_cloudtrail_name

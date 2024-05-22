@@ -10,7 +10,7 @@ description: This search is to detect a suspicious un-installation of applicatio
   to uninstall AV product using this commandline. This commandline to uninstall product
   is not a common practice in enterprise network.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msiexec.exe
   Processes.process= "* /qn *" Processes.process= "*/X*" Processes.process= "*REBOOT=*"

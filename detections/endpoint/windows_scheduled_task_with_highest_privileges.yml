@@ -18,7 +18,7 @@ description: 'The following analytic detects the creation of a new task with the
   executions. In the presence of the ''*/rl '' and '' highest *'' commands in a schtasks.exe
   process, an alert is triggered.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "schtasks.exe"
   Processes.process = "*/rl *" Processes.process = "* highest *" by Processes.process_name

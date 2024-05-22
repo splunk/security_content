@@ -9,7 +9,8 @@ description: The following analytic identifies a successful authentication event
   Azure Active Directory for an account without Multi-Factor Authentication enabled.
   This could be evidence of a missconfiguration, a policy violation or an account
   take over attempt that should be investigated
-data_source: []
+data_source: 
+- Azure Active Directory
 search: ' `azure_monitor_aad` category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication properties.authenticationDetails{}.succeeded=true
    | rename properties.* as * 
    | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip, appDisplayName, authenticationRequirement

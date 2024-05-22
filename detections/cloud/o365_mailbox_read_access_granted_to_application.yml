@@ -5,7 +5,8 @@ date: '2023-09-01'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: []
+data_source: 
+- O365 Update application.
 description: The following analytic identifies instances where the Mail.Read Graph API permissions are granted to an application registration within an Office 365
  tenant. It leverages O365 audit logs, specifically events related to changes in application permissions within the AzureActiveDirectory workload. 
  The Mail.Read permission allows applications to access and read all emails within a user's mailbox. Emails often contain sensitive or confidential information, 

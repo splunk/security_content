@@ -12,7 +12,7 @@ description: This detection targets behaviors observed when threat actors have u
   we see both an excessive number of sc.exe processes launched with specific commandline
   arguments to disable the start of certain services.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
   as distinct_cmdlines values(Processes.process_id) as process_ids min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name

@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic detects when process with file or code signing attributes from a known remote access software is executed with the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '`sysmon` EventCode=1
   | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product by dest, user, parent_process_name, process_name, process
   | lookup remote_access_software remote_utility_fileinfo AS Product OUTPUT isutility, description as signature, comment_reference as desc, category

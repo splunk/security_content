@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic is designed to detect potentially malicious processes that initiate a ping delay using an invalid IP address. 
   This evasion technique was observed in NJRAT, where the malware employed ping commands as a means to introduce a time delay before self-deletion on the compromised host. 
   Identifying this (TTP) behavior can serve as a valuable indicator for detecting NJRAT infections or other malware that employ time delays as 

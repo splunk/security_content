@@ -1,6 +1,6 @@
 author: Mauricio Velazco, Splunk
 data_source:
-- Windows Security 4771
+- Windows Event Log Security 4771
 date: '2021-04-08'
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with 30 unique users using the Kerberos protocol. This behavior could represent

@@ -10,7 +10,8 @@ description: This search is to detect a pushed or commit to master or main branc
   Ideally in terms of devsecops the changes made in a branch and do a PR for review.
   of course in some cases admin of the project may did a changes directly to master
   branch
-data_source: []
+data_source: 
+- GitHub
 search: '`github` branches{}.name = main OR branches{}.name = master |  stats count
   min(_time) as firstTime max(_time) as lastTime by commit.commit.author.email commit.author.login
   commit.commit.message repository.pushed_at commit.commit.committer.date repository.full_name

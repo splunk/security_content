@@ -7,7 +7,8 @@ status: production
 type: Anomaly
 description: This search identifies endpoints that have caused a relatively high number
   of account lockouts in a short period.
-data_source: []
+data_source:
+- Windows Event Log Security 4739
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where
   All_Changes.result="*lock*" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`

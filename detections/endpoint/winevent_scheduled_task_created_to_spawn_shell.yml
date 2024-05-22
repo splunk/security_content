@@ -14,7 +14,7 @@ description: The following query utilizes Windows Security EventCode 4698, indic
 
   During triage, it's essential to identify the source of the scheduled task. Was it registered via schtasks.exe or TaskService? Review the job that was created and the command set to be executed. It's also recommended to capture and review any artifacts on disk, and identify any parallel processes within the same timeframe to locate the source.
 data_source:
-- Windows Security 4698
+- Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 TaskContent IN
   ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*",
   "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*") | stats count

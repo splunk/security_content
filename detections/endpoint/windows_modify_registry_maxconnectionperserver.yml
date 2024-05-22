@@ -8,7 +8,6 @@ type: Anomaly
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-- Sysmon EventID 14
 description: The following analytic identifies a suspicious registry modification of Windows max connection per server configuration. 
   This particular technique has been observed in various threat actors, adversaries, and even in malware such as the Warzone (Ave Maria) RAT.
   By altering the max connection per server setting in the Windows registry, attackers can potentially increase the number of concurrent connections 

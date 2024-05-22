@@ -12,7 +12,7 @@ description: This analytic identifies a suspicious spawned process by WScript or
   that using several application tool that are in the list of the child process it
   detects but a good pivot and indicator that a script is may execute suspicious code.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("cscript.exe", "wscript.exe") Processes.process_name IN ("regsvr32.exe", "rundll32.exe","winhlp32.exe","certutil.exe","msbuild.exe","cmd.exe","powershell*","wmic.exe","mshta.exe")

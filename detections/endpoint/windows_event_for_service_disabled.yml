@@ -10,7 +10,7 @@ description: This analytic will identify suspicious system event of services tha
   attempts to disable security app services, other malware services to evade the defense
   systems on the compromised host
 data_source:
-- Sysmon Event ID 7
+- Windows Event Log System 7040
 search: '`wineventlog_system` EventCode=7040  EventData_Xml="*disabled*" | stats count min(_time) as firstTime max(_time) as lastTime
   by Computer EventCode Name UserID service ServiceName | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_event_for_service_disabled_filter`'

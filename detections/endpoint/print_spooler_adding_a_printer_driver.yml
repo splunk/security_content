@@ -18,7 +18,7 @@ description: 'The following analytic identifies new printer drivers being load b
   any additional file modification events and review the source of where the exploitation
   began.'
 data_source:
-- Sysmon Event ID 3
+- Windows Event Log Printservice 316
 search: '`printservice` EventCode=316 category = "Adding a printer driver" Message
   = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" | stats  count
   min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName

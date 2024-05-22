@@ -9,7 +9,8 @@ description: This search provides specific SAML access from specific Service Pro
   user and targeted principal at AWS. This search provides specific information to
   detect abnormal access or potential credential hijack or forgery, specially in federated
   environments using SAML protocol inside the perimeter or cloud provider.
-data_source: []
+data_source: 
+- AWS CloudTrail AssumeRoleWithSAML
 search: '`cloudtrail` eventName=Assumerolewithsaml | stats count min(_time) as firstTime
   max(_time) as lastTime by eventName requestParameters.principalArn requestParameters.roleArn
   requestParameters.roleSessionName recipientAccountId responseElements.issuer sourceIPAddress

@@ -10,7 +10,7 @@ description: This analytic looks for the execution of `dsquery.exe` with command
   of all domain groups. Red Teams and adversaries alike use may leverage dsquery.exe
   to enumerate domain groups for situational awareness and Active Directory Discovery.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="dsquery.exe")
   (Processes.process="*group*") by Processes.dest Processes.user Processes.parent_process

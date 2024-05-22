@@ -14,7 +14,7 @@ description: This analytic is to detect a deletion of cron job in a linux machin
   doing it why they doing. Take note that this event can be done by administrator
   so filtering on those possible false positive event is needed.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path="/etc/cron.*" by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest
   Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)`

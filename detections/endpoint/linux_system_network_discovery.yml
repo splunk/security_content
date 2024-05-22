@@ -11,7 +11,7 @@ description: This analytic is to look for possible enumeration of local network 
   may capture normal event made by administrator during auditing or testing network
   connection of specific host or network to network.
 data_source:
-- Sysmon Event ID 1
+- Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name_list values(Processes.process) as process_list values(Processes.process_id)
   as process_id_list values(Processes.parent_process_id) as parent_process_id_list

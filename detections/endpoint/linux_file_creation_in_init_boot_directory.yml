@@ -12,7 +12,7 @@ description: This analytic looks for suspicious file creation on init system dir
   operator to add script files or binary files as part of a task or automation. filter
   is needed.
 data_source:
-- Sysmon Event ID 11
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/init.d/*",
   "*/etc/rc.d/*", "*/sbin/init.d/*", "*/etc/rc.local*") by Filesystem.dest Filesystem.file_name

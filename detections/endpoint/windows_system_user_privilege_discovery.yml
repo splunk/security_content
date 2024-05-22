@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic looks for the execution of `whoami.exe` with /priv parameter. 
   This whoami command is used to display or shows the privileges assigned to the current user account. 
   This hunting query can be a good pivot start to look for suspicious usage of whoami application that might related to a malware or adversaries.

@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Windows Security 5136
+- Windows Event Log Security 5136
 description: The following analytic leverages Event ID 5136 to identify the modification
   of a default Group Policy Object. A fresh installation of an Active Directory network
   will typically contain two default group policy objects `Default Domain Controllers

@@ -12,7 +12,7 @@ description: The following analytic identifies a possible windows application ha
   like the desktop screenshots, browser information and system information of a targeted
   or compromised host.
 data_source:
-- Sysmon Event ID 3
+- Sysmon EventID 3
 search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\thunderbird.exe","*\\outlook.exe"))
   (DestinationPortName="smtp" OR DestinationPort=25 OR DestinationPort=587) | stats
   count min(_time) as firstTime max(_time) as lastTime by Image DestinationPort DestinationPortName

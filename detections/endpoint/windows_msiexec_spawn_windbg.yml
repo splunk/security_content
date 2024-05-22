@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 description: This analytic identifies the unusual behavior of MSIExec spawning WinDBG. It is designed to detect potential malicious activities. The search specifically looks for instances where the parent process name is 'msiexec.exe' and the process name is 'windbg.exe'. During the triage process, it is recommended to review the file path for additional artifacts that may provide further insights into the event.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=msiexec.exe Processes.process_name=windbg.exe by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process_path Processes.parent_process Processes.process_name Processes.process_path

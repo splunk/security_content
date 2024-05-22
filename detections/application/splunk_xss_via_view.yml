@@ -10,7 +10,8 @@ description: In Splunk Enterprise versions below 8.1.13, 8.2.10, and 9.0.4, a Vi
   in the 'module' tag. The vulnerability affects instances with Splunk Web enabled.
   This hunting search shows users action, application and role used for creating views
   related to this vulnerability.
-data_source: []
+data_source: 
+- Splunk
 search: 'index = _internal sourcetype IN ("splunk_web_service", "splunk_python") message="*loadParams*"
   | `security_content_ctime(_time)` |  table _time message fileName | `splunk_xss_via_view_filter`'
 how_to_implement: This data is collected by default in Splunk.  Upon first enabling
