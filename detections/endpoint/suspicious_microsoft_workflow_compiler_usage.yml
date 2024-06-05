@@ -1,14 +1,18 @@
 name: Suspicious microsoft workflow compiler usage
 id: 9bbc62e8-55d8-11eb-ae93-0242ac130002
-version: 2
-date: '2021-01-12'
+version: 3
+date: '2024-05-03'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies microsoft.workflow.compiler.exe usage.
-  microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319
-  and is rarely utilized. When investigating, identify the executed code on disk and
-  review. It is not a commonly used process by many applications.
+description: The following analytic identifies the usage of microsoft.workflow.compiler.exe,
+  a rarely utilized executable typically found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process execution telemetry. The significance of this activity lies
+  in its uncommon usage, which may indicate malicious intent such as code execution
+  or persistence mechanisms. If confirmed malicious, an attacker could leverage this
+  process to execute arbitrary code, potentially leading to unauthorized access or
+  further compromise of the system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,14 +1,17 @@
 name: Windows Mimikatz Crypto Export File Extensions
 id: 3a9a6806-16a8-4cda-8d73-b49d10a05b16
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies hardcoded extensions related to the
-  Crypo module within Mimikatz. Moving certificates or downloading them is not malicious,
-  however with Mimikatz having hardcoded names it helps to identify potential usage
-  of certificates being exported.
+description: The following analytic detects the creation of files with extensions
+  commonly associated with the Mimikatz Crypto module. It leverages the Endpoint.Filesystem
+  data model to identify specific file names indicative of certificate export activities.
+  This behavior is significant as it may indicate the use of Mimikatz to export cryptographic
+  keys, which is a common tactic for credential theft. If confirmed malicious, this
+  activity could allow an attacker to exfiltrate sensitive cryptographic material,
+  potentially leading to unauthorized access and further compromise of the environment.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -58,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certwrite_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certwrite_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

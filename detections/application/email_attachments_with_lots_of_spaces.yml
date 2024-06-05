@@ -1,13 +1,18 @@
 name: Email Attachments With Lots Of Spaces
 id: 56e877a6-1455-4479-ada6-0550dc1e22f8
-version: 2
-date: '2023-04-14'
+version: 3
+date: '2024-05-16'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: Attackers often use spaces as a means to obfuscate an attachment's file
-  extension. This search looks for messages with email attachments that have many
-  spaces within the file names.
+description: The following analytic detects email attachments with an unusually high
+  number of spaces in their file names, which is a common tactic used by attackers
+  to obfuscate file extensions. It leverages the Email data model to identify attachments
+  where the ratio of spaces to the total file name length exceeds 10%. This behavior
+  is significant as it may indicate an attempt to bypass security filters and deliver
+  malicious payloads. If confirmed malicious, this activity could lead to the execution
+  of harmful code or unauthorized access to sensitive information within the recipient's
+  environment.
 data_source: []
 search: '| tstats `security_content_summariesonly` count values(All_Email.recipient)
   as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email
@@ -16,12 +21,12 @@ search: '| tstats `security_content_summariesonly` count values(All_Email.recipi
   | eval space_ratio = (mvcount(split(file_name," "))-1)/len(file_name) | search space_ratio
   >= 0.1 |  rex field=recipient_address "(?<recipient_user>.*)@" | `email_attachments_with_lots_of_spaces_filter`'
 how_to_implement: 'You need to ingest data from emails. Specifically, the sender''s
-  address and the file names of any attachments must be mapped to the Email data
-  model. The threshold ratio is set to 10%, but this value can be configured to
-  suit each environment.
-  
+  address and the file names of any attachments must be mapped to the Email data model.
+  The threshold ratio is set to 10%, but this value can be configured to suit each
+  environment.
+
   **Splunk Phantom Playbook Integration**
-  
+
   If Splunk Phantom is also configured in your environment, a playbook called "Suspicious
   Email Attachment Investigate and Delete" can be configured to run when any results
   are found by this detection search. To use this integration, install the Phantom

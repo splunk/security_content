@@ -1,29 +1,5 @@
-# Save pipeline ID to artifacts so the downstream can do a sanity check
-save_pipeline_id:
-  stage: test
-  rules:
-    - if: '$SKIP_DOWNSTREAM_TESTING != "True"'
-      when: on_success
-  needs:
-    - generate_all_builds
-  artifacts:
-    when: always
-    paths:
-      - artifacts/*
-    expire_in: 14 days
-  script:
-    - echo $CI_PIPELINE_ID > artifacts/security_content_pipeline_id.txt
-
-# Install contentctl w/ poetry
-.install_contentctl: &install_contentctl
-  - pip3 install poetry
-  - git submodule update --init contentctl
-  - cd contentctl
-  - git checkout main
-  - poetry install
-  - poetry env info --path
-  - source `poetry env info --path`/bin/activate
-  - cd ..
+include:
+  - local: "pipeline/.install-contentctl.yml"
 
 # GitLab checks out the repo in a HEAD-less state, so we must checkout the source ref for dry-run 
 # to work
@@ -41,6 +17,23 @@ save_pipeline_id:
       exit 1;
     fi
 
+# Save pipeline ID to artifacts so the downstream can do a sanity check
+save_pipeline_id:
+  stage: test
+  rules:
+    - if: '$SKIP_DOWNSTREAM_TESTING != "True"'
+      when: on_success
+  needs:
+    - build
+  artifacts:
+    when: always
+    paths:
+      - artifacts/*
+    expire_in: 14 days
+  script:
+    - echo $CI_PIPELINE_ID > artifacts/security_content_pipeline_id.txt
+
+
 # Generate the list of detections changed in an MR for the downstream; we disable shallow cloning
 # here to support diff operations
 get_detections_changed:
@@ -53,7 +46,7 @@ get_detections_changed:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: on_success
   needs:
-    - generate_all_builds
+    - build
   artifacts:
     when: always
     paths:
@@ -63,10 +56,11 @@ get_detections_changed:
     expire_in: 14 days
   before_script:
     - *checkout_source_branch
-    - *install_contentctl
+    - !reference [.install-contentctl, before_script]
   script:
     - contentctl test --plan-only mode:changes --mode.target-branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
     - deactivate
+    - pip3 install virtualenv
     - virtualenv .venv
     - source .venv/bin/activate
     - pip3 install PyYAML==6.0.1
@@ -80,6 +74,8 @@ trigger_escu_test:
   rules:
     - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
       when: never
+    - if: '$CI_COMMIT_BRANCH =~ /^release_v[0-9]+\.[0-9]+\.[0-9]+$/'
+      when: manual
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
       when: on_success
   inherit:
@@ -89,6 +85,8 @@ trigger_escu_test:
     SECURITY_CONTENT_PIPELINE_SOURCE: $CI_PIPELINE_SOURCE
     SECURITY_CONTENT_GIT_REF: $CI_COMMIT_REF_NAME
     SECURITY_CONTENT_GIT_COMMIT_SHA: $CI_COMMIT_SHA
+    SECURITY_CONTENT_GIT_COMMIT_TAG: $CI_COMMIT_TAG
+    ENABLE_INTEGRATION_TESTING: $ENABLE_INTEGRATION_TESTING
     ESCU_BUILD_PATH: artifacts/DA-ESS-ContentUpdate-latest.tar.gz
     BUILD_NAME: DA-ESS-ContentUpdate
   needs:
@@ -133,10 +131,15 @@ trigger_ssa_test:
   rules:
     - if: '$SKIP_DOWNSTREAM_TESTING == "True"'
       when: never
+    - if: '$CI_COMMIT_BRANCH =~ /^release_v[0-9]+\.[0-9]+\.[0-9]+$/'
+      when: manual
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - if: $CI_COMMIT_TAG
-      when: on_success 
+      changes: 
+        paths:
+          - 'ssa_detections/**/*'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+      when: on_success
   inherit:
     variables: false
   variables:
@@ -145,6 +148,7 @@ trigger_ssa_test:
     SECURITY_CONTENT_GIT_REF: $CI_COMMIT_REF_NAME
     SECURITY_CONTENT_GIT_COMMIT_SHA: $CI_COMMIT_SHA
     SECURITY_CONTENT_GIT_COMMIT_TAG: $CI_COMMIT_TAG
+    SECURITY_CONTENT_MR_REF_PATH: $CI_MERGE_REQUEST_REF_PATH
     SSA_BUILD_PATH: artifacts/SSA-Content-latest.tar.gz
     BUILD_NAME: SSA_Content
   needs:

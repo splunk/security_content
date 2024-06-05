@@ -1,12 +1,17 @@
 name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-version: 8
-date: '2023-04-14'
+version: 9
+date: '2024-05-12'
 author: Steven Dick, Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: Monitor for changes of the ExecutionPolicy in the registry to the values
-  "unrestricted" or "bypass," which allows the execution of malicious scripts.
+description: The following analytic detects changes to the PowerShell ExecutionPolicy
+  in the registry to "Unrestricted" or "Bypass." It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on registry modifications under the path *Software\Microsoft\Powershell\1\ShellIds\Microsoft.PowerShell*.
+  This activity is significant because setting the ExecutionPolicy to these values
+  can allow the execution of potentially malicious scripts without restriction. If
+  confirmed malicious, this could enable an attacker to execute arbitrary code, leading
+  to further compromise of the system and potential escalation of privileges.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 12
@@ -89,6 +94,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

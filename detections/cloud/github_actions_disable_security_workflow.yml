@@ -1,14 +1,18 @@
 name: GitHub Actions Disable Security Workflow
 id: 0459f1a5-c0ac-4987-82d6-65081209f854
-version: 1
-date: '2022-04-04'
+version: 2
+date: '2024-05-17'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: This search detects a disabled security workflow in GitHub Actions. An
-  attacker can disable a security workflow in GitHub actions to hide malicious code
-  in it.
-data_source: 
+description: The following analytic detects the disabling of a security workflow in
+  GitHub Actions. It leverages GitHub logs to identify when a workflow, excluding
+  those named *security-testing*, is disabled following a push or pull request event.
+  This activity is significant as it may indicate an attempt by an attacker to conceal
+  malicious code by disabling security checks. If confirmed malicious, this could
+  allow the attacker to introduce and persist undetected malicious code within the
+  repository, potentially compromising the integrity and security of the codebase.
+data_source:
 - GitHub
 search: '`github` workflow_run.event=push OR workflow_run.event=pull_request | stats
   values(workflow_run.name) as workflow_run.name by workflow_run.head_commit.id workflow_run.event
@@ -63,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/github_actions_disable_security_workflow/github_actions_disable_security_workflow.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/github_actions_disable_security_workflow/github_actions_disable_security_workflow.log
     source: github
     sourcetype: aws:firehose:json

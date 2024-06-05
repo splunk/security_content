@@ -32,3 +32,7 @@
   
 * Are there any detections that we're promoting from validation to production in this package? If we're adding new any detections to help understand the over-firing detections, please indicate those as well
   *
+
+#### Checklist
+* [ ] Trigger a full-package ESCU integration test and confirm there are no regressions (see manually triggered jobs on the most recent push pipeline)
+* [ ] Trigger a SSA/BA integration test and confirm there are no regressions (see manually triggered jobs on the most recent push pipeline)

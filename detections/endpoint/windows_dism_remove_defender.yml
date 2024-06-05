@@ -1,13 +1,18 @@
 name: Windows DISM Remove Defender
 id: 8567da9e-47f0-11ec-99a9-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of the Windows Disk Image Utility,
-  `dism.exe`, to remove Windows Defender. Adversaries may use `dism.exe` to disable
-  Defender before completing their objective.
+description: The following analytic detects the use of `dism.exe` to remove Windows
+  Defender. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on command-line executions that include specific parameters for disabling and removing
+  Windows Defender. This activity is significant because adversaries may disable Defender
+  to evade detection and carry out further malicious actions undetected. If confirmed
+  malicious, this could lead to the attacker gaining persistent access, executing
+  additional payloads, or exfiltrating sensitive data without being intercepted by
+  Windows Defender.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +86,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon_dism.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon_dism.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

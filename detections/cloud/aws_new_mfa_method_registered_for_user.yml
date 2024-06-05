@@ -1,14 +1,18 @@
 name: AWS New MFA Method Registered For User
 id: 4e3c26f2-4fb9-4bd7-ab46-1b76ffa2a23b
-version: 1
-date: '2023-01-31'
+version: 2
+date: '2024-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the registration of a new Multi Factor
-  authentication method for an AWS account. Adversaries who have obtained unauthorized
-  access to an AWS account may register a new MFA method to maintain persistence.
-data_source: 
+description: The following analytic detects the registration of a new Multi-Factor
+  Authentication (MFA) method for an AWS account. It leverages AWS CloudTrail logs
+  to identify the `CreateVirtualMFADevice` event. This activity is significant because
+  adversaries who gain unauthorized access to an AWS account may register a new MFA
+  method to maintain persistence. If confirmed malicious, this could allow attackers
+  to secure their access, making it difficult to detect and remove their presence,
+  potentially leading to further unauthorized activities and data breaches.
+data_source:
 - AWS CloudTrail CreateVirtualMFADevice
 search: ' `cloudtrail` eventName=CreateVirtualMFADevice | stats count values(requestParameters.virtualMFADeviceName)
   as virtualMFADeviceName min(_time) as firstTime max(_time) as lastTime by eventSource
@@ -64,7 +68,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

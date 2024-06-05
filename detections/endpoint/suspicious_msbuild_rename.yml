@@ -1,14 +1,18 @@
 name: Suspicious MSBuild Rename
 id: 4006adac-5937-11eb-ae93-0242ac130002
-version: 4
-date: '2023-11-07'
+version: 5
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies renamed instances of msbuild.exe executing.
-  Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and
-  C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify
-  the code executed and what is executing a renamed instance of MSBuild.
+description: The following analytic detects the execution of renamed instances of
+  msbuild.exe. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and original file names within the Endpoint data model.
+  This activity is significant because msbuild.exe is a legitimate tool often abused
+  by attackers to execute malicious code while evading detection. If confirmed malicious,
+  this behavior could allow an attacker to execute arbitrary code, potentially leading
+  to system compromise, data exfiltration, or further lateral movement within the
+  network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +84,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

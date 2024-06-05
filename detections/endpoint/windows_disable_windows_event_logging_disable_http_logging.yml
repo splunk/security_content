@@ -1,13 +1,18 @@
 name: Windows Disable Windows Event Logging Disable HTTP Logging
 id: 23fb6787-255f-4d5b-9a66-9fd7504032b5
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies AppCmd.exe being utilized to disable
-  HTTP logging on IIS. Adversaries may perform this action to disable logging and
-  delete the logs so remove any trace or events on disk.
+description: The following analytic detects the use of AppCmd.exe to disable HTTP
+  logging on IIS servers. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process execution events where AppCmd.exe is used with specific
+  parameters to alter logging settings. This activity is significant because disabling
+  HTTP logging can help adversaries hide their tracks and avoid detection by removing
+  evidence of their actions. If confirmed malicious, this could allow attackers to
+  operate undetected, making it difficult to trace their activities and respond to
+  the intrusion effectively.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -87,7 +92,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/disable_http_logging_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/disable_http_logging_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

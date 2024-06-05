@@ -1,6 +1,6 @@
 name: Azure AD Privileged Role Assigned to Service Principal
 id: 5dfaa3d3-e2e4-4053-8252-16d9ee528c41
-version: 2
+version: 3
 date: '2023-12-20'
 author: Mauricio Velazco, Splunk
 status: production
@@ -16,9 +16,9 @@ search: ' `azure_monitor_aad`  operationName="Add member to role"
   | eval role=mvindex(roles,1) 
   | rename targetResources{}.displayName as apps 
   | eval displayName=mvindex(apps,0) 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by initiatedBy, result, operationName, role
   | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
   | search isprvilegedadrole = True 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by initiatedBy, result, operationName, role
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `azure_ad_privileged_role_assigned_to_service_principal_filter`'

@@ -1,14 +1,17 @@
 name: Domain Account Discovery with Wmic
 id: 383572e0-04c5-11ec-bdcc-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `wmic.exe` with command-line
-  arguments utilized to query for domain users. Red Teams and adversaries alike use
-  wmic.exe to enumerate domain users for situational awareness and Active Directory
-  Discovery.
+description: The following analytic detects the execution of `wmic.exe` with command-line
+  arguments used to query for domain users. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on specific command-line patterns indicative
+  of domain account discovery. This activity is significant as it often precedes lateral
+  movement or privilege escalation attempts by adversaries. If confirmed malicious,
+  this behavior could allow attackers to map out user accounts within the domain,
+  facilitating further attacks and potentially compromising sensitive information.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

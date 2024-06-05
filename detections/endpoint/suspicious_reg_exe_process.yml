@@ -1,13 +1,19 @@
 name: Suspicious Reg exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
-version: 4
-date: '2020-07-22'
+version: 5
+date: '2024-05-19'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
-description: This search looks for reg.exe being launched from a command prompt not
-  started by the user. When a user launches cmd.exe, the parent process is usually
-  explorer.exe. This search filters out those instances.
+description: The following analytic identifies instances of reg.exe being launched
+  from a command prompt (cmd.exe) that was not initiated by the user, as indicated
+  by a parent process other than explorer.exe. This detection leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process and parent process
+  names. This activity is significant because reg.exe is often used in registry manipulation,
+  which can be indicative of malicious behavior such as persistence mechanisms or
+  system configuration changes. If confirmed malicious, this could allow an attacker
+  to modify critical system settings, potentially leading to privilege escalation
+  or persistent access.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +87,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

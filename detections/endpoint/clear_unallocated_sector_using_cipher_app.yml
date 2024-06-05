@@ -1,13 +1,17 @@
 name: Clear Unallocated Sector Using Cipher App
 id: cd80a6ac-c9d9-11eb-8839-acde48001122
-version: 1
-date: '2021-06-10'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: this search is to detect execution of `cipher.exe` to clear the unallocated
-  sectors of a specific disk. This technique was seen in some ransomware to make it
-  impossible to forensically recover deleted files.
+description: The following analytic detects the execution of `cipher.exe` with the
+  `/w` flag to clear unallocated sectors on a disk. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names, command-line arguments,
+  and parent processes. This activity is significant because it is a technique used
+  by ransomware to prevent forensic recovery of deleted files. If confirmed malicious,
+  this action could hinder incident response efforts by making it impossible to recover
+  critical data, thereby complicating the investigation and remediation process.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

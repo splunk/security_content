@@ -1,13 +1,17 @@
 name: Detect IPv6 Network Infrastructure Threats
 id: c3be767e-7959-44c5-8976-0e9c12a91ad2
-version: 1
-date: '2020-10-28'
+version: 2
+date: '2024-05-12'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
-description: By enabling IPv6 First Hop Security as a Layer 2 Security measure on
-  the organization's network devices, we will be able to detect various attacks such
-  as packet forging in the Infrastructure.
+description: The following analytic detects IPv6 network infrastructure threats by
+  identifying suspicious activities such as IP and MAC address theft or packet drops.
+  It leverages logs from Cisco network devices configured with First Hop Security
+  measures like RA Guard and DHCP Guard. This activity is significant as it can indicate
+  attempts to compromise network integrity and security. If confirmed malicious, attackers
+  could manipulate network traffic, leading to potential data interception, unauthorized
+  access, or network disruption.
 data_source: []
 search: '`cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP")
   | eval src_interface=src_int_prefix_long+src_int_suffix | eval dest_interface=dest_int_prefix_long+dest_int_suffix

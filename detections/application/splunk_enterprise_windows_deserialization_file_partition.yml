@@ -1,22 +1,30 @@
 name: Splunk Enterprise Windows Deserialization File Partition
 id: 947d4d2e-1b64-41fc-b32a-736ddb88ce97
-version: 1
-date: '2024-01-18'
+version: 2
+date: '2024-05-18'
 author: Rod Soto, Eric McGinnis, Chase Franklin
 status: production
 type: TTP
-data_source: 
+data_source:
 - Splunk
-description: In Splunk Enterprise for Windows versions below 9.0.8 and 9.1.3, Splunk Enterprise does not correctly sanitize path input data resulting in the unsafe deserialization of untrusted data. This vulnerability only affects Splunk Enterprise for Windows. 
-search: '`splunk_python` request_path="/en-US/app/search/C:\\Program" *strings* 
-  | rex "request_path=(?<file_path>[^\"]+)" 
-  | rex field=file_path "[^\"]+/(?<file_name>[^\"\''\s/\\\\]+)" 
-  | stats min(_time) as firstTime max(_time) as lastTime values(file_path) as file_path values(file_name) as file_name by index, sourcetype, host 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `splunk_enterprise_windows_deserialization_file_partition_filter`'
-how_to_implement: Requires access to internal indexes. This detection search will display irregular path file execution, which will display exploit attempts. Only applies to Microsoft Windows Splunk versions. 
-known_false_positives: Irregular path with files that may be purposely called for benign reasons may produce false positives. 
+description: The following analytic identifies attempts to exploit a deserialization
+  vulnerability in Splunk Enterprise for Windows versions below 9.0.8 and 9.1.3. It
+  detects irregular path file executions by analyzing `splunk_python` logs and extracting
+  file paths and names. This activity is significant because it indicates potential
+  exploitation of a known vulnerability, which could lead to arbitrary code execution.
+  If confirmed malicious, an attacker could gain unauthorized access, execute arbitrary
+  code, and potentially compromise the entire Splunk environment, leading to data
+  breaches and further system exploitation.
+search: '`splunk_python` request_path="/en-US/app/search/C:\\Program" *strings* |
+  rex "request_path=(?<file_path>[^\"]+)" | rex field=file_path "[^\"]+/(?<file_name>[^\"\''\s/\\\\]+)"
+  | stats min(_time) as firstTime max(_time) as lastTime values(file_path) as file_path
+  values(file_name) as file_name by index, sourcetype, host | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `splunk_enterprise_windows_deserialization_file_partition_filter`'
+how_to_implement: Requires access to internal indexes. This detection search will
+  display irregular path file execution, which will display exploit attempts. Only
+  applies to Microsoft Windows Splunk versions.
+known_false_positives: Irregular path with files that may be purposely called for
+  benign reasons may produce false positives.
 references:
 - https://advisory.splunk.com/advisories/SVD-2024-0108
 tags:
@@ -25,7 +33,8 @@ tags:
   asset_type: Splunk Server
   confidence: 90
   impact: 100
-  message: Possible Windows Deserialization exploitation via irregular path file against $host$
+  message: Possible Windows Deserialization exploitation via irregular path file against
+    $host$
   mitre_attack_id:
   - T1190
   cve:
@@ -40,14 +49,15 @@ tags:
   risk_score: 90
   required_fields:
   - request_path
-  - field 
-  - file_name 
+  - field
+  - file_name
   - host
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/splunk/splunk_enterprise_windows_deserialization_file_partition_splunk_python.log
-    source: C:\Program File\Splunk\var\log\splunk\python.log 
-    sourcetype: splunk_python 
-    custom_index: _internal 
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/splunk/splunk_enterprise_windows_deserialization_file_partition_splunk_python.log
+    source: C:\Program File\Splunk\var\log\splunk\python.log
+    sourcetype: splunk_python
+    custom_index: _internal

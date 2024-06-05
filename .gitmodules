@@ -1,4 +1,6 @@
-[submodule "contentctl"]
-	path = contentctl
-	url = https://github.com/splunk/contentctl.git
-        ignore = all
+# Removing submodule and using pip to install contentctl. Keeping this as a comment to help using submodules for local development
+
+# [submodule "contentctl"]
+# 	path = contentctl
+# 	url = https://github.com/splunk/contentctl.git
+#         ignore = all

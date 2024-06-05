@@ -1,14 +1,19 @@
 name: Abnormally High Number Of Cloud Infrastructure API Calls
 id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
-version: 1
-date: '2020-09-07'
+version: 2
+date: '2024-05-12'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: This search will detect a spike in the number of API calls made to your
-  cloud infrastructure environment by a user.
-data_source: 
-- AWS CloudTrail
+description: The following analytic detects a spike in the number of API calls made
+  to your cloud infrastructure by a user. It leverages cloud infrastructure logs and
+  compares the current API call volume against a baseline probability density function
+  to identify anomalies. This activity is significant because an unusual increase
+  in API calls can indicate potential misuse or compromise of cloud resources. If
+  confirmed malicious, this could lead to unauthorized access, data exfiltration,
+  or disruption of cloud services, posing a significant risk to the organization's
+  cloud environment.
+data_source: []
 search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change
   where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time
   span=1h | `drop_dm_object_name("All_Changes")` | eval HourOfDay=strftime(_time,
@@ -23,7 +28,7 @@ search: '| tstats count as api_calls values(All_Changes.command) as command from
 how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
   run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to
   create the probability density function.
-known_false_positives: 'None.'
+known_false_positives: None.
 references: []
 tags:
   analytic_story:
@@ -56,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

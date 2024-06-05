@@ -1,48 +1,60 @@
 name: Splunk RBAC Bypass On Indexing Preview REST Endpoint
 id: bbe26f95-1655-471d-8abd-3d32fafa86f8
-version: 1
-date: '2023-05-10'
+version: 2
+date: '2024-05-15'
 author: Rod Soto
 status: production
 type: Hunting
 data_source:
 - Splunk
-description: An unauthorized user can use the /services/indexing/preview REST endpoint to overwrite search results if they know the search ID (SID) of an existing search job.
-search: '`splunkda` method="POST" uri="*/services/indexing/preview*" | table host clientip status useragent user uri_path | `splunk_rbac_bypass_on_indexing_preview_rest_endpoint_filter`'
-how_to_implement: This search does not require additional data ingestion. It requires the ability to search _internal index. 
-known_false_positives: This is a hunting search which provides verbose results against this endpoint. Operator must consider things such as IP address, useragent and user(specially low privelege) and host to investigate possible attack. 
+description: The following analytic identifies unauthorized attempts to use the /services/indexing/preview
+  REST endpoint in Splunk. It detects POST requests to this endpoint by monitoring
+  the _internal index for specific URI patterns. This activity is significant because
+  it indicates a potential RBAC (Role-Based Access Control) bypass, allowing unauthorized
+  users to overwrite search results if they know the search ID (SID) of an existing
+  job. If confirmed malicious, this could lead to data manipulation, unauthorized
+  access to sensitive information, and compromised integrity of search results.
+search: '`splunkda` method="POST" uri="*/services/indexing/preview*" | table host
+  clientip status useragent user uri_path | `splunk_rbac_bypass_on_indexing_preview_rest_endpoint_filter`'
+how_to_implement: This search does not require additional data ingestion. It requires
+  the ability to search _internal index.
+known_false_positives: This is a hunting search which provides verbose results against
+  this endpoint. Operator must consider things such as IP address, useragent and user(specially
+  low privelege) and host to investigate possible attack.
 references:
 - https://advisory.splunk.com/
 tags:
   analytic_story:
-  - Splunk Vulnerabilities 
+  - Splunk Vulnerabilities
   asset_type: Endpoint
   atomic_guid: []
   confidence: 50
   impact: 30
-  message: Review $clientip$ access to indexing preview endpoint from low privilege user
+  message: Review $clientip$ access to indexing preview endpoint from low privilege
+    user
   mitre_attack_id:
   - T1134
   observable:
   - name: clientip
     type: IP Address
     role:
-    - Attacker 
+    - Attacker
   product:
   - Splunk Enterprise
   risk_score: 15
   required_fields:
-  - host 
-  - clientip 
-  - status 
-  - useragent 
-  - user 
-  - uri_path 
+  - host
+  - clientip
+  - status
+  - useragent
+  - user
+  - uri_path
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134/splunk/splunk_rbac_bypass_on_indexing_preview_rest_endpoint.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134/splunk/splunk_rbac_bypass_on_indexing_preview_rest_endpoint.log
     source: splunkd_access.log
     sourcetype: splunkd_access
     custom_index: _internal

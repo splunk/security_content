@@ -20,9 +20,9 @@ description: This hunting analytic targets a range of security events from Micro
   Additionally, the analytic utilizes a lookup to correlate ASR rule GUIDs with their descriptive names, enhancing understanding of the context behind these security alerts. This includes rules for blocking vulnerable drivers, restricting actions of Adobe Reader and Office applications, and protecting against various malware and unauthorized system changes. This comprehensive approach aids in assessing policy enforcement and potential security risks.
 search: '`ms_defender`
     EventCode IN (1121, 1122, 1125, 1126, 1129, 1131, 1132, 1133, 1134, 5007)
+  | stats count min(_time) as firstTime max(_time) as lastTime by host Parent_Commandline, Process_Name, Path, ID, EventCode
   | lookup asr_rules ID OUTPUT ASR_Rule
   | fillnull value=NULL
-  | stats count min(_time) as firstTime max(_time) as lastTime by host Parent_Commandline, Process_Name, Path, ID, EventCode, ASR_Rule
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| rename host as dest
   | `windows_defender_asr_rules_stacking_filter`'
 how_to_implement: The following analytic requires collection of Windows Defender Operational logs in either XML or multi-line. To collect, setup a new input for the Windows Defender Operational logs. In addition, it does require a lookup that maps the ID to ASR Rule name. Note that Audit and block Event IDs have different fields, therefore the analytic will need to be modified for each type of event. The analytic can be modified to look for specific ASR rules, or to look for specific Event IDs. EventID 5007 is a change in the registry, and may be a false positive. This can be removed from the search if desired.

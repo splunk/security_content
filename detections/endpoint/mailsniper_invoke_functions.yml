@@ -1,13 +1,17 @@
 name: Mailsniper Invoke functions
 id: a36972c8-b894-11eb-9f78-acde48001122
-version: 2
-date: '2022-05-02'
+version: 3
+date: '2024-05-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect known mailsniper.ps1 functions executed in a
-  machine. This technique was seen in some attacker to harvest some sensitive e-mail
-  in a compromised exchange server.
+description: The following analytic detects the execution of known MailSniper PowerShell
+  functions on a machine. It leverages PowerShell logs (EventCode 4104) to identify
+  specific script block text associated with MailSniper activities. This behavior
+  is significant as MailSniper is often used by attackers to harvest sensitive emails
+  from compromised Exchange servers. If confirmed malicious, this activity could lead
+  to unauthorized access to sensitive email data, credential theft, and further compromise
+  of the email infrastructure.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365MailSearch*",
@@ -15,8 +19,8 @@ search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365Mail
   "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
   "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*")
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `mailsniper_invoke_functions_filter`'
+  UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `mailsniper_invoke_functions_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
@@ -58,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

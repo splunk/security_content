@@ -1,25 +1,30 @@
 name: Batch File Write to System32
 id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
-version: 4
-date: '2023-04-11'
+version: 5
+date: '2024-05-19'
 author: Steven Dick, Michael Haag, Rico Valdez, Splunk
 status: production
 type: TTP
-description: The search looks for a batch file (.bat) written to the Windows system
-  directory tree.
+description: The following analytic detects the creation of a batch file (.bat) within
+  the Windows system directory tree, specifically in the System32 or SysWOW64 folders.
+  It leverages data from the Endpoint datamodel, focusing on process and filesystem
+  events to identify this behavior. This activity is significant because writing batch
+  files to system directories can be indicative of malicious intent, such as persistence
+  mechanisms or system manipulation. If confirmed malicious, this could allow an attacker
+  to execute arbitrary commands with elevated privileges, potentially compromising
+  the entire system.
 data_source:
-- Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where 
-  Processes.process_name=* by _time span=1h Processes.process_guid Processes.process_name Processes.dest Processes.user 
-  | `drop_dm_object_name(Processes)` | join process_guid 
-      [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-      where Filesystem.file_path IN ("*\\system32\\*", "*\\syswow64\\*") Filesystem.file_name="*.bat" by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
-      | `drop_dm_object_name(Filesystem)`]
-  | table dest user file_create_time, file_name, file_path, process_name, firstTime, lastTime 
-  | dedup file_create_time
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `batch_file_write_to_system32_filter`'
+- Sysmon Event ID 1
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=* by _time span=1h Processes.process_guid Processes.process_name
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | join process_guid
+  [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\system32\\*",
+  "*\\syswow64\\*") Filesystem.file_name="*.bat" by _time span=1h Filesystem.dest
+  Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid
+  | `drop_dm_object_name(Filesystem)`] | table dest user file_create_time, file_name,
+  file_path, process_name, firstTime, lastTime | dedup file_create_time | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `batch_file_write_to_system32_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -79,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

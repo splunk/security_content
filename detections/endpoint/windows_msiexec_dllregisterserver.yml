@@ -1,13 +1,18 @@
 name: Windows MSIExec DLLRegisterServer
 id: fdb59aef-d88f-4909-8369-ec2afbd2c398
-version: 1
-date: '2022-06-14'
+version: 2
+date: '2024-05-06'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the usage of msiexec.exe using the
-  /y switch parameter, which grants the ability for msiexec to load DLLRegisterServer.
-  Upon triage, review parent process and capture any artifacts for further review.
+description: The following analytic detects the execution of msiexec.exe with the
+  /y switch parameter, which enables the loading of DLLRegisterServer. This detection
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  command-line arguments and parent-child process relationships. This activity is
+  significant because it can indicate an attempt to register malicious DLLs, potentially
+  leading to code execution or persistence on the system. If confirmed malicious,
+  this could allow an attacker to execute arbitrary code, escalate privileges, or
+  maintain persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,7 +84,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

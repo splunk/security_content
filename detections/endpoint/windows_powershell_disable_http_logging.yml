@@ -1,14 +1,18 @@
 name: Windows PowerShell Disable HTTP Logging
 id: 27958de0-2857-43ca-9d4c-b255cf59dcab
-version: 1
-date: '2022-12-21'
+version: 2
+date: '2024-05-05'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analtyic identifies the use of get-WebConfigurationProperty
-  and Set-ItemProperty attempting to disable HTTP logging on windows via PowerShell.
-  Adversaries may perform this action to disable HTTP logging to cover tracks and
-  delete logs on disk.
+description: The following analytic detects the use of `get-WebConfigurationProperty`
+  and `Set-ItemProperty` commands in PowerShell to disable HTTP logging on Windows
+  systems. This detection leverages PowerShell Script Block Logging, specifically
+  looking for script blocks that reference HTTP logging properties and attempt to
+  set them to "false" or "dontLog". Disabling HTTP logging is significant as it can
+  be used by adversaries to cover their tracks and delete logs, hindering forensic
+  investigations. If confirmed malicious, this activity could allow attackers to evade
+  detection and persist in the environment undetected.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN("*get-WebConfigurationProperty*","*Set-ItemProperty*")
@@ -59,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/4104_disable_http_logging_windows-powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/4104_disable_http_logging_windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,13 +1,18 @@
 name: Windows MSIExec Spawn Discovery Command
 id: e9d05aa2-32f0-411b-930c-5b8ca5c4fcee
-version: 1
-date: '2022-06-13'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies MSIExec spawning multiple discovery
-  commands, including spawning Cmd.exe or PowerShell.exe. Typically, child processes
-  are not common from MSIExec other than MSIExec spawning itself.
+description: The following analytic detects MSIExec spawning multiple discovery commands,
+  such as Cmd.exe or PowerShell.exe. This behavior is identified using data from Endpoint
+  Detection and Response (EDR) agents, focusing on process creation events where MSIExec
+  is the parent process. This activity is significant because MSIExec typically does
+  not spawn child processes other than itself, making this behavior highly suspicious.
+  If confirmed malicious, an attacker could use these discovery commands to gather
+  system information, potentially leading to further exploitation or lateral movement
+  within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,7 +86,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

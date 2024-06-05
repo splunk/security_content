@@ -1,14 +1,18 @@
 name: Suspicious mshta spawn
 id: 4d33a488-5b5f-11eb-ae93-0242ac130002
-version: 2
-date: '2021-01-20'
+version: 3
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies wmiprvse.exe spawning mshta.exe. This
-  behavior is indicative of a DCOM object being utilized to spawn mshta from wmiprvse.exe
-  or svchost.exe. In this instance, adversaries may use LethalHTA that will spawn
-  mshta.exe from svchost.exe.
+description: The following analytic detects the spawning of mshta.exe by wmiprvse.exe
+  or svchost.exe. This behavior is identified using Endpoint Detection and Response
+  (EDR) data, focusing on process creation events where the parent process is either
+  wmiprvse.exe or svchost.exe. This activity is significant as it may indicate the
+  use of a DCOM object to execute malicious scripts via mshta.exe, a common tactic
+  in sophisticated attacks. If confirmed malicious, this could allow an attacker to
+  execute arbitrary code, potentially leading to system compromise and further malicious
+  activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -70,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

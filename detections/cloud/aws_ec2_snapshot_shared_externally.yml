@@ -1,17 +1,25 @@
 name: AWS EC2 Snapshot Shared Externally
 id: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
-version: 3
-date: '2023-03-20'
+version: 4
+date: '2024-05-07'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes AWS CloudTrail events to identify when
-  an EC2 snapshot permissions are modified to be shared with a different AWS account.
-  This method is used by adversaries to exfiltrate the EC2 snapshot.
-data_source: 
+description: The following analytic detects when an EC2 snapshot is shared with an
+  external AWS account by analyzing AWS CloudTrail events. This detection method leverages
+  CloudTrail logs to identify modifications in snapshot permissions, specifically
+  when the snapshot is shared outside the originating AWS account. This activity is
+  significant as it may indicate an attempt to exfiltrate sensitive data stored in
+  the snapshot. If confirmed malicious, an attacker could gain unauthorized access
+  to the snapshot's data, potentially leading to data breaches or further exploitation
+  of the compromised information.
+data_source:
 - AWS CloudTrail ModifySnapshotAttribute
 search: '`cloudtrail` eventName=ModifySnapshotAttribute | rename requestParameters.createVolumePermission.add.items{}.userId
-  as requested_account_id | search requested_account_id != NULL | eval match=if(requested_account_id==aws_account_id,"Match","No Match") | table _time user_arn src_ip requestParameters.attributeType requested_account_id aws_account_id match vendor_region user_agent userIdentity.principalId | where match = "No Match" | `aws_ec2_snapshot_shared_externally_filter` '
+  as requested_account_id | search requested_account_id != NULL | eval match=if(requested_account_id==aws_account_id,"Match","No
+  Match") | table _time user_arn src_ip requestParameters.attributeType requested_account_id
+  aws_account_id match vendor_region user_agent userIdentity.principalId | where match
+  = "No Match" | `aws_ec2_snapshot_shared_externally_filter` '
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
 known_false_positives: It is possible that an AWS admin has legitimately shared a
@@ -63,7 +71,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -1,13 +1,17 @@
 name: Windows MSExchange Management Mailbox Cmdlet Usage
 id: 396de86f-25e7-4b0e-be09-a330be35249d
-version: 1
-date: '2023-07-10'
+version: 2
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic uses the Exchange Management logs, that are enabled
-  by default, to identify suspicious Cmdlet usage related to ProxyShell and ProxyNotShell
-  abuse.
+description: The following analytic identifies suspicious Cmdlet usage in Exchange
+  Management logs, focusing on commands like New-MailboxExportRequest and New-ManagementRoleAssignment.
+  It leverages EventCode 1 and specific Message patterns to detect potential ProxyShell
+  and ProxyNotShell abuse. This activity is significant as it may indicate unauthorized
+  access or manipulation of mailboxes and roles, which are critical for maintaining
+  email security. If confirmed malicious, attackers could export mailbox data, assign
+  new roles, or search mailboxes, leading to data breaches and privilege escalation.
 data_source:
 - Sysmon EventID 1
 search: '`msexchange_management` EventCode=1 Message IN ("*New-MailboxExportRequest*",
@@ -54,7 +58,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/msexchangemanagement.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/msexchangemanagement.log
     source: WinEventLog:MSExchange Management
     sourcetype: MSExchange:management
     update_timestamp: true

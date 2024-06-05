@@ -1,14 +1,18 @@
 name: Windows PowerShell Export Certificate
 id: 5e38ded4-c964-41f4-8cb6-4a1a53c6929f
-version: 1
-date: '2023-02-01'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the PowerShell Cmdlet export-certificate
-  utilizing Script Block Logging. This particular behavior is related to an adversary
-  attempting to steal certificates local to the Windows endpoint within the Certificate
-  Store.
+description: The following analytic detects the use of the PowerShell Cmdlet `export-certificate`
+  by leveraging Script Block Logging. This activity is significant as it may indicate
+  an adversary attempting to exfiltrate certificates from the local Certificate Store
+  on a Windows endpoint. Monitoring this behavior is crucial because stolen certificates
+  can be used to impersonate users, decrypt sensitive data, or facilitate further
+  attacks. If confirmed malicious, this activity could lead to unauthorized access
+  to encrypted communications and sensitive information, posing a severe security
+  risk.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*export-certificate*") |
@@ -54,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4104_export_certificate.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4104_export_certificate.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

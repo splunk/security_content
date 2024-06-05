@@ -1,13 +1,17 @@
 name: Linux Kernel Module Enumeration
 id: 6df99886-0e04-4c11-8b88-325747419278
-version: 1
-date: '2022-07-27'
+version: 2
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the process kmod being utilized to
-  list kernel modules in use. Typically, this is not seen as malicious, however it
-  may be a precurser to the use of insmod to install a module.
+description: The following analytic identifies the use of the 'kmod' process to list
+  kernel modules on a Linux system. This detection leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process names and command-line executions.
+  While listing kernel modules is not inherently malicious, it can be a precursor
+  to loading unauthorized modules using 'insmod'. If confirmed malicious, this activity
+  could allow an attacker to load kernel modules, potentially leading to privilege
+  escalation, persistence, or other malicious actions within the system.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,7 +83,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/atomic_red_team/linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/atomic_red_team/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux
     update_timestamp: true

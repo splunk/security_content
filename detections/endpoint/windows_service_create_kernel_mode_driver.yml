@@ -1,13 +1,18 @@
 name: Windows Service Create Kernel Mode Driver
 id: 0b4e3b06-1b2b-4885-b752-cf06d12a90cb
-version: 1
-date: '2022-05-05'
+version: 2
+date: '2024-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifes a new kernel driver being added to Windows
-  using sc.exe. Adding a Kernel driver is not common day to day and should be investigated
-  to further understand the source.
+description: The following analytic identifies the creation of a new kernel mode driver
+  using the sc.exe command. This detection leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process execution logs that include command-line
+  details. The activity is significant because adding a kernel driver is uncommon
+  in regular operations and can indicate an attempt to gain low-level access to the
+  system. If confirmed malicious, this could allow an attacker to execute code with
+  high privileges, potentially compromising the entire system and evading traditional
+  security measures.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,7 +76,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sc_kernel.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sc_kernel.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

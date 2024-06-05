@@ -1,13 +1,18 @@
 name: Network Connection Discovery With Arp
 id: ae008c0f-83bd-4ed4-9350-98d4328e15d2
-version: 1
-date: '2021-09-10'
+version: 2
+date: '2024-05-16'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `arp.exe` utilized to get a
-  listing of network connections on a compromised system. Red Teams and adversaries
-  alike may use arp.exe for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `arp.exe` with the `-a`
+  flag, which is used to list network connections on a compromised system. This detection
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  names, command-line executions, and related telemetry. Monitoring this activity
+  is significant because both Red Teams and adversaries use `arp.exe` for situational
+  awareness and Active Directory discovery. If confirmed malicious, this activity
+  could allow attackers to map the network, identify active devices, and plan further
+  lateral movement or attacks.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

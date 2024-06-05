@@ -12,11 +12,11 @@ search: '`ms_defender` EventCode IN (5007)
   | rex field=New_Value "0x(?<New_Registry_Value>\\d+)$"
   | rex field=Old_Value "0x(?<Old_Registry_Value>\\d+)$"
   | rex field=New_Value "Rules\\\\(?<ASR_ID>[A-Fa-f0-9\\-]+)\\s*="
-  | lookup asr_rules ID AS ASR_ID OUTPUT ASR_Rule
   | eval New_Registry_Value=case(New_Registry_Value=="0", "Disabled", New_Registry_Value=="1", "Block", New_Registry_Value=="2", "Audit", New_Registry_Value=="6", "Warn")
   | eval Old_Registry_Value=case(Old_Registry_Value=="0", "Disabled", Old_Registry_Value=="1", "Block", Old_Registry_Value=="2", "Audit", Old_Registry_Value=="6", "Warn")
   | search New_Registry_Value="Disabled"
-  | stats count min(_time) as firstTime max(_time) as lastTime by host, New_Value, Old_Value, Old_Registry_Value, New_Registry_Value, ASR_Rule
+  | stats count min(_time) as firstTime max(_time) as lastTime by host, New_Value, Old_Value, Old_Registry_Value, New_Registry_Value, ASR_ID
+  | lookup asr_rules ID AS ASR_ID OUTPUT ASR_Rule
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| rename host as dest | `windows_defender_asr_rule_disabled_filter`'
 how_to_implement: The following analytic requires collection of Windows Defender Operational logs in either XML or multi-line. To collect, setup a new input for the Windows Defender Operational logs. In addition, it does require a lookup that maps the ID to ASR Rule name.
 known_false_positives: False positives may occur if applications are typically disabling ASR rules in the environment. Monitor for changes to ASR rules to determine if this is a false positive.

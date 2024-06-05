@@ -1,14 +1,18 @@
 name: Detect New Open S3 Buckets over AWS CLI
 id: 39c61d09-8b30-4154-922b-2d0a694ecc22
-version: 2
-date: '2021-07-19'
+version: 3
+date: '2024-05-19'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: This search looks for AWS CloudTrail events where a user has created
-  an open/public S3 bucket over the aws cli.
-data_source: 
-- AWS CloudTrail PutBucketAcl
+description: The following analytic detects the creation of open/public S3 buckets
+  via the AWS CLI. It leverages AWS CloudTrail logs to identify events where a user
+  has set bucket permissions to allow access to "AuthenticatedUsers" or "AllUsers."
+  This activity is significant because open S3 buckets can expose sensitive data to
+  unauthorized users, leading to data breaches. If confirmed malicious, an attacker
+  could gain unauthorized access to potentially sensitive information stored in the
+  S3 bucket, posing a significant security risk.
+data_source: []
 search: '`cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR userAgent=aws-cli*
   ) eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp
   IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write
@@ -66,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

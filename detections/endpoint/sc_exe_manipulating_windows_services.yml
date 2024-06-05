@@ -1,12 +1,18 @@
 name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: 4
-date: '2020-07-21'
+version: 5
+date: '2024-05-20'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: This search looks for arguments to sc.exe indicating the creation or
-  modification of a Windows service.
+description: The following analytic detects the creation or modification of Windows
+  services using the sc.exe command. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on process names and command-line arguments. This
+  activity is significant because manipulating Windows services can be a method for
+  attackers to establish persistence, escalate privileges, or execute arbitrary code.
+  If confirmed malicious, this behavior could allow an attacker to maintain long-term
+  access, disrupt services, or gain control over critical system functions, posing
+  a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -72,6 +78,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,7 +1,7 @@
 name: Detect Outbound LDAP Traffic
 id: 5e06e262-d7cd-4216-b2f8-27b437e18458
-version: 1
-date: '2021-12-13'
+version: 2
+date: '2024-05-21'
 author: Bhavin Patel, Johan Bjerke, Splunk
 status: production
 type: Hunting
@@ -19,9 +19,7 @@ search: '| tstats earliest(_time) as earliest_time latest(_time) as latest_time 
   All_Traffic.dest_ip |`drop_dm_object_name("All_Traffic")` | where src_ip != dest_ip
   | `security_content_ctime(latest_time)`  | `security_content_ctime(earliest_time)`
   |`detect_outbound_ldap_traffic_filter`'
-how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek
-  data should also be getting ingested in JSON format and should be mapped to the
-  Network Traffic datamodels that are in use for this search.
+how_to_implement: In order to properly run this search, Splunk needs to ingest data from Next Generation Firewalls like Palo Alto Networks Firewalls or other network control devices that mediate the traffic allowed into an environment. The search requires the Network_Traffic data model to be populated.
 known_false_positives: Unknown at this moment. Outbound LDAP traffic should not be
   allowed outbound through your perimeter firewall. Please check those servers to
   verify if the activity is legitimate.
@@ -63,6 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_ldap/bro_conn.json
-    sourcetype: bro:conn:json
-    source: /opt/malware/conn.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
+    sourcetype: pan:traffic
+    source: pan:traffic

@@ -1,14 +1,17 @@
 name: Windows PowerShell Export PfxCertificate
 id: ed06725f-6da6-439f-9dcc-ab30e891297c
-version: 1
-date: '2023-02-01'
+version: 2
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the PowerShell Cmdlet export-pfxcertificate
-  utilizing Script Block Logging. This particular behavior is related to an adversary
-  attempting to steal certificates local to the Windows endpoint within the Certificate
-  Store.
+description: The following analytic detects the use of the PowerShell cmdlet `export-pfxcertificate`
+  by leveraging Script Block Logging. This activity is significant as it may indicate
+  an adversary attempting to exfiltrate certificates from the Windows Certificate
+  Store. Monitoring this behavior is crucial for identifying potential certificate
+  theft, which can lead to unauthorized access and impersonation attacks. If confirmed
+  malicious, this activity could allow attackers to compromise secure communications,
+  authenticate as legitimate users, and escalate their privileges within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*export-pfxcertificate*")
@@ -54,7 +57,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4104_export_pfxcertificate.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4104_export_pfxcertificate.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

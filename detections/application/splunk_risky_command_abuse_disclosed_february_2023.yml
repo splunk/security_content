@@ -1,24 +1,28 @@
 name: Splunk risky Command Abuse disclosed february 2023
 id: ee69374a-d27e-4136-adac-956a96ff60fd
-version: 2
-date: '2024-01-22'
+version: 3
+date: '2024-05-05'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
-description: This search looks for a variety of high-risk commands throughout
-  a number of different Splunk Vulnerability Disclosures.  Please refer to the
-  following URL for additional information on these disclosures - https://advisory.splunk.com
-data_source: 
+description: The following analytic identifies the execution of high-risk commands
+  associated with various Splunk vulnerability disclosures. It leverages the Splunk_Audit.Search_Activity
+  datamodel to detect ad-hoc searches by non-system users that match known risky commands.
+  This activity is significant for a SOC as it may indicate attempts to exploit known
+  vulnerabilities within Splunk, potentially leading to unauthorized access or data
+  exfiltration. If confirmed malicious, this could allow attackers to execute arbitrary
+  code, escalate privileges, or persist within the environment, posing a severe threat
+  to the organization's security posture.
+data_source:
 - Splunk
-search: '| tstats fillnull_value="N/A" count min(_time) as firstTime max(_time) as lastTime from datamodel=Splunk_Audit.Search_Activity
-  where Search_Activity.search_type=adhoc Search_Activity.user!=splunk-system-user
-  by Search_Activity.search Search_Activity.info Search_Activity.total_run_time Search_Activity.user
-  Search_Activity.search_type | `drop_dm_object_name(Search_Activity)` | lookup splunk_risky_command
-  splunk_risky_command as search output splunk_risky_command description vulnerable_versions
-  CVE other_metadata | where splunk_risky_command != "false"
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
+search: '| tstats fillnull_value="N/A" count min(_time) as firstTime max(_time) as
+  lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search_type=adhoc
+  Search_Activity.user!=splunk-system-user by Search_Activity.search Search_Activity.info
+  Search_Activity.total_run_time Search_Activity.user Search_Activity.search_type
+  | `drop_dm_object_name(Search_Activity)` | lookup splunk_risky_command splunk_risky_command
+  as search output splunk_risky_command description vulnerable_versions CVE other_metadata
+  | where splunk_risky_command != "false" | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
 how_to_implement: Requires implementation of Splunk_Audit.Search_Activity datamodel.
 known_false_positives: This search encompasses many commands.
 references:
@@ -68,25 +72,29 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_createrss_command_abuse.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_createrss_command_abuse.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
 - name: True Positive Test runshellscript abuse
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_runshellscript_abuse.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_runshellscript_abuse.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
 - name: True Positive Test Additional runshellscript abuse
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/splunk/splunk_cmd_injection_using_external_lookups_audittrail.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1202/splunk/splunk_cmd_injection_using_external_lookups_audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit
 - name: True Positive Test mrollup abuse
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/splunk/splunk_mrollup_abuse_audittrail.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/splunk/splunk_mrollup_abuse_audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

@@ -1,20 +1,24 @@
 name: Detect Path Interception By Creation Of program exe
 id: cbef820c-e1ff-407f-887f-0a9240a2d477
-version: 5
-date: '2023-11-07'
+version: 6
+date: '2024-05-19'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: 'The detection Detect Path Interception By Creation Of program exe is
-  detecting the abuse of unquoted service paths, which is a popular technique for
-  privilege escalation. '
+description: 'The following analytic identifies the creation of a program executable
+  in an unquoted service path, a common technique for privilege escalation. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process creation
+  events where the parent process is ''services.exe''. This activity is significant
+  because unquoted service paths can be exploited by attackers to execute arbitrary
+  code with elevated privileges. If confirmed malicious, this could allow an attacker
+  to gain higher-level access, potentially leading to full system compromise and persistent
+  control over the affected endpoint.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=services.exe
-  by Processes.user Processes.process_name Processes.parent_process_name
- Processes.process Processes.dest | `drop_dm_object_name(Processes)`
-  | rex field=process "^.*?\\\\(?<service_process>[^\\\\]*\.(?:exe|bat|com|ps1))"
+  by Processes.user Processes.process_name Processes.parent_process_name Processes.process
+  Processes.dest | `drop_dm_object_name(Processes)` | rex field=process "^.*?\\\\(?<service_process>[^\\\\]*\.(?:exe|bat|com|ps1))"
   | eval process_name = lower(process_name) | eval service_process = lower(service_process)
   | where process_name != service_process | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `detect_path_interception_by_creation_of_program_exe_filter`'
@@ -81,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.009/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.009/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

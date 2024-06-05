@@ -1,6 +1,6 @@
 name: Azure AD Privileged Role Assigned
 id: a28f0bc3-3400-4a6e-a2da-89b9e95f0d2a
-version: 2
+version: 3
 date: '2023-12-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
@@ -14,10 +14,10 @@ data_source:
 search: ' `azure_monitor_aad`  "operationName"="Add member to role" | rename properties.*  as * 
   | rename initiatedBy.user.userPrincipalName as initiatedBy 
   | rename targetResources{}.modifiedProperties{}.newValue  as roles 
-  | eval role=mvindex(roles,1) 
+  | eval role=mvindex(roles,1)
+  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by initiatedBy, result, operationName, role
   | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
-  | search isprvilegedadrole = True
-  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by initiatedBy, result, operationName, role, description 
+  | search isprvilegedadrole = True 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `azure_ad_privileged_role_assigned_filter`'

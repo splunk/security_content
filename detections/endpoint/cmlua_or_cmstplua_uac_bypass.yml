@@ -1,13 +1,18 @@
 name: CMLUA Or CMSTPLUA UAC Bypass
 id: f87b5062-b405-11eb-a889-acde48001122
-version: 1
-date: '2021-05-13'
+version: 2
+date: '2024-05-05'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects a potential process using COM Object like CMLUA
-  or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries
-  to gain administrative privileges to its running process.
+description: The following analytic detects the use of COM objects like CMLUA or CMSTPLUA
+  to bypass User Account Control (UAC). It leverages Sysmon EventCode 7 to identify
+  the loading of specific DLLs (CMLUA.dll, CMSTPLUA.dll, CMLUAUTIL.dll) by processes
+  not typically associated with these libraries. This activity is significant as it
+  indicates an attempt to gain elevated privileges, a common tactic used by ransomware
+  adversaries. If confirmed malicious, this could allow attackers to execute code
+  with administrative rights, leading to potential system compromise and further malicious
+  activities.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll",
@@ -58,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/darkside_cmstp_com/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/darkside_cmstp_com/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
