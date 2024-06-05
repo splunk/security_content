@@ -1,64 +1,68 @@
 name: Splunk RCE via User XSLT
 id: 6cb7e011-55fb-48e3-a98d-164fa854e37e
-version: 1
-date: '2023-11-22'
+version: 2
+date: '2024-05-16'
 author: Marissa Bower, Chase Franklin, Rod Soto, Bhavin Patel, Eric McGinnis, Splunk
 status: production
 type: Hunting
-data_source: 
-- Splunk
-description: This search provides information to investigate possible remote code execution exploitation via 
-  user-supplied Extensible Stylesheet Language Transformations (XSLT), affecting Splunk versions 9.1.x. 
-search: '`splunkd_ui` ((uri="*NO_BINARY_CHECK=1*" AND "*input.path=*.xsl*") OR uri="*dispatch*.xsl*") AND uri!= "*splunkd_ui*"
-  | rex field=uri "(?<string>=\s*([\S\s]+))" 
-  | eval decoded_field=urldecode(string) 
-  | eval action=case(match(status,"200"),"Allowed",match(status,"303|500|401|403|404|301|406"),"Blocked",1=1,"Unknown") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by clientip useragent uri decoded_field action host 
-  | rename clientip as src, uri as dest_uri 
-  | iplocation src 
-  | fillnull value="N/A" 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | table firstTime, lastTime src, useragent, action, count, Country, Region, City, dest_uri, decoded_field'
-how_to_implement: This detection does not require you to ingest any new data. The detection does 
-  require the ability to search the _internal index.
-known_false_positives: This search will provide information for investigation and hunting possible abuse of user-supplied XSLT. 
-  There may be false positives and results should individually evaluated. Please evaluate the source IP and useragent responsible
+data_source: []
+description: The following analytic identifies potential remote code execution (RCE)
+  attempts via user-supplied Extensible Stylesheet Language Transformations (XSLT)
+  in Splunk versions 9.1.x. It detects this activity by analyzing `splunkd_ui` logs
+  for specific URI patterns and status codes indicative of XSLT injection attempts.
+  This activity is significant because successful exploitation could allow an attacker
+  to execute arbitrary code on the Splunk server. If confirmed malicious, this could
+  lead to full system compromise, unauthorized data access, and further lateral movement
+  within the network.
+search: '`splunkd_ui` ((uri="*NO_BINARY_CHECK=1*" AND "*input.path=*.xsl*") OR uri="*dispatch*.xsl*")
+  AND uri!= "*splunkd_ui*" | rex field=uri "(?<string>=\s*([\S\s]+))" | eval decoded_field=urldecode(string)
+  | eval action=case(match(status,"200"),"Allowed",match(status,"303|500|401|403|404|301|406"),"Blocked",1=1,"Unknown")
+  | stats count min(_time) as firstTime max(_time) as lastTime by clientip useragent
+  uri decoded_field action host | rename clientip as src, uri as dest_uri | iplocation
+  src | fillnull value="N/A" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | table firstTime, lastTime src, useragent, action, count, Country, Region, City,
+  dest_uri, decoded_field'
+how_to_implement: This detection does not require you to ingest any new data. The
+  detection does require the ability to search the _internal index.
+known_false_positives: This search will provide information for investigation and
+  hunting possible abuse of user-supplied XSLT. There may be false positives and results
+  should individually evaluated. Please evaluate the source IP and useragent responsible
   for creating the requests.
 references:
-  - https://advisory.splunk.com/advisories/SVD-2023-1104
-cve: 
-  - CVE-2023-46214
+- https://advisory.splunk.com/advisories/SVD-2023-1104
+cve:
+- CVE-2023-46214
 tags:
   analytic_story:
-    - Splunk Vulnerabilities
+  - Splunk Vulnerabilities
   asset_type: Endpoint
   confidence: 80
   impact: 80
   message: Potential Remote Code Execution via XLST from $src$ using useragent - $useragent$
   mitre_attack_id:
-    - T1210
+  - T1210
   observable:
-    - name: src
-      type: IP Address
-      role:
-        - Attacker
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_score: 64
   required_fields:
-    - uri
-    - clientip
-    - useragent
-    - action
-    - host
+  - uri
+  - clientip
+  - useragent
+  - action
+  - host
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_rce_via_user_xslt_splunkd_ui_access.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_rce_via_user_xslt_splunkd_ui_access.log
     source: /opt/splunk/var/log/splunk/splunkd_ui_access.log
     sourcetype: splunkd_ui_access
     custom_index: _internal

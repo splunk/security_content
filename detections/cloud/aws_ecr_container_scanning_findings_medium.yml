@@ -1,17 +1,31 @@
 name: AWS ECR Container Scanning Findings Medium
 id: 0b80e2c8-c746-4ddb-89eb-9efd892220cf
-version: 2
-date: '2023-11-09'
+version: 3
+date: '2024-05-06'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: This search looks for AWS CloudTrail events from AWS Elastic Container
-  Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings
-  with the results.
-data_source: 
+description: The following analytic identifies medium-severity findings from AWS Elastic
+  Container Registry (ECR) image scans. It leverages AWS CloudTrail logs, specifically
+  the DescribeImageScanFindings event, to detect vulnerabilities in container images.
+  This activity is significant for a SOC as it highlights potential security risks
+  in containerized applications, which could be exploited if not addressed. If confirmed
+  malicious, these vulnerabilities could lead to unauthorized access, data breaches,
+  or further exploitation within the container environment, compromising the overall
+  security posture.
+data_source:
 - AWS CloudTrail DescribeImageScanFindings
-search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings | spath path=responseElements.imageScanFindings.findings{} output=findings | mvexpand findings | spath input=findings| search severity=MEDIUM | rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repository, userIdentity.principalId as user| eval finding = finding_name.", ".finding_description | eval phase="release" | eval severity="medium" | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repository, user, src_ip, finding, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_ecr_container_scanning_findings_medium_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
+  | spath path=responseElements.imageScanFindings.findings{} output=findings | mvexpand
+  findings | spath input=findings| search severity=MEDIUM | rename name as finding_name,
+  description as finding_description, requestParameters.imageId.imageDigest as imageDigest,
+  requestParameters.repositoryName as repository, userIdentity.principalId as user|
+  eval finding = finding_name.", ".finding_description | eval phase="release" | eval
+  severity="medium" | stats min(_time) as firstTime max(_time) as lastTime by awsRegion,
+  eventName, eventSource, imageDigest, repository, user, src_ip, finding, phase, severity
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_ecr_container_scanning_findings_medium_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs.
 known_false_positives: unknown
 references:
 - https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
@@ -31,7 +45,7 @@ tags:
     role:
     - Attacker
   - name: repository
-    type: Other 
+    type: Other
     role:
     - Victim
   product:
@@ -53,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_image_scanning/aws_ecr_scanning_findings_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_image_scanning/aws_ecr_scanning_findings_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail

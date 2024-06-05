@@ -1,13 +1,17 @@
 name: Disable Logs Using WevtUtil
 id: 236e7c8e-c9d9-11eb-a824-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect execution of wevtutil.exe to disable logs. This
-  technique was seen in several ransomware to disable the event logs to evade alerts
-  and detections.
+description: The following analytic detects the execution of "wevtutil.exe" with parameters
+  to disable event logs. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process names and command-line arguments. This activity is significant
+  because disabling event logs is a common tactic used by ransomware to evade detection
+  and hinder forensic investigations. If confirmed malicious, this action could allow
+  attackers to operate undetected, making it difficult to trace their activities and
+  respond effectively to the incident.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -65,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

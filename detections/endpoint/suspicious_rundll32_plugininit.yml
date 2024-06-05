@@ -1,13 +1,17 @@
 name: Suspicious Rundll32 PluginInit
 id: 92d51712-ee29-11eb-b1ae-acde48001122
-version: 2
-date: '2021-07-26'
+version: 3
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious rundll32.exe process with plugininit
-  parameter. This technique is commonly seen in IcedID malware to execute its initial
-  dll stager to download another payload to the compromised machine.
+description: The following analytic identifies the execution of the rundll32.exe process
+  with the "plugininit" parameter. This detection leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process creation events and command-line
+  arguments. This activity is significant because the "plugininit" parameter is commonly
+  associated with IcedID malware, which uses it to execute an initial DLL stager to
+  download additional payloads. If confirmed malicious, this behavior could lead to
+  further malware infections, data exfiltration, or complete system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

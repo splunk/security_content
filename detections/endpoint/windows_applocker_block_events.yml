@@ -1,19 +1,26 @@
 name: Windows AppLocker Block Events
 id: e369afe8-cd35-47a3-9c1e-d813efc1f7dd
-version: 1
-date: '2024-03-26'
+version: 3
+date: '2024-05-15'
 author: Michael Haag, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic utilizes Windows AppLocker event logs to generate risk based on blocks related to AppLocker policy violations. The analytic is designed to identify attempts to bypass application restrictions.
-search: '`applocker`  EventCode IN (8007, 8004, 8022, 8025, 8029, 8040)
-  | spath input=UserData_Xml | rename RuleAndFileData.* as *, TargetUser as user, Computer as dest
-  | lookup applockereventcodes EventCode OUTPUT Description
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, PolicyName, RuleId, user, TargetProcessId, FilePath, FullFilePath
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` | `windows_applocker_block_events_filter`'
-how_to_implement: To implement this analytic, you must be ingesting Windows AppLocker logs into Splunk. Ensure proper logging is setup for AppLocker and data is being ingested into Splunk.
+description: The following analytic detects attempts to bypass application restrictions
+  by identifying Windows AppLocker policy violations. It leverages Windows AppLocker
+  event logs, specifically EventCodes 8007, 8004, 8022, 8025, 8029, and 8040, to pinpoint
+  blocked actions. This activity is significant for a SOC as it highlights potential
+  unauthorized application executions, which could indicate malicious intent or policy
+  circumvention. If confirmed malicious, this activity could allow an attacker to
+  execute unauthorized applications, potentially leading to further system compromise
+  or data exfiltration.
+search: '`applocker`  EventCode IN (8007, 8004, 8022, 8025, 8029, 8040) | spath input=UserData_Xml
+  | rename RuleAndFileData.* as *, TargetUser as user, Computer as dest  | stats count min(_time) as firstTime max(_time) as
+  lastTime by dest, PolicyName, RuleId, user, TargetProcessId, FilePath, FullFilePath, EventCode
+  | lookup applockereventcodes EventCode OUTPUT Description | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_applocker_block_events_filter`'
+how_to_implement: To implement this analytic, you must be ingesting Windows AppLocker
+  logs into Splunk. Ensure proper logging is setup for AppLocker and data is being
+  ingested into Splunk.
 known_false_positives: Administrators may legitimately use AppLocker to allow applications.
 references:
 - https://attack.mitre.org/techniques/T1218
@@ -51,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/applocker/applocker.log
     sourcetype: xmlwineventlog
     source: XmlWinEventLog:Microsoft-Windows-AppLocker/MSI and Script

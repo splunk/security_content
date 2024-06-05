@@ -1,23 +1,27 @@
 name: Windows InstallUtil in Non Standard Path
 id: dcf74b22-7933-11ec-857c-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the Windows binary InstallUtil.exe
-  running from a non-standard location. The analytic utilizes a macro for InstallUtil
-  and identifies both the process_name and original_file_name.
+description: The following analytic detects the execution of InstallUtil.exe from
+  non-standard paths. It leverages Endpoint Detection and Response (EDR) data, focusing
+  on process names and original file names outside typical directories. This activity
+  is significant because InstallUtil.exe is often used by attackers to execute malicious
+  code or scripts. If confirmed malicious, this behavior could allow an attacker to
+  bypass security controls, execute arbitrary code, and potentially gain unauthorized
+  access or persist within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where `process_installutil` NOT (Processes.process_path
   IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",
   "*\\Windows\\SystemApps\\*", "*\\WinSxS\\*", "*\\Windows\\Microsoft.NET\\*")) by
-  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process
-  Processes.original_file_name Processes.process_id Processes.parent_process_id Processes.process_hash
-  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_installutil_in_non_standard_path_filter`'
+  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
+  Processes.process_name Processes.process Processes.original_file_name Processes.process_id
+  Processes.parent_process_id Processes.process_hash | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_installutil_in_non_standard_path_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -93,6 +97,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

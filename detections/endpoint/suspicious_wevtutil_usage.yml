@@ -1,13 +1,18 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-19'
 author: David Dorsey, Michael Haag, Splunk
 status: production
 type: TTP
-description: The wevtutil.exe application is the windows event log utility. This searches
-  for wevtutil.exe with parameters for clearing the application, security, setup,
-  trace or system event logs.
+description: The following analytic detects the usage of wevtutil.exe with parameters
+  for clearing event logs such as Application, Security, Setup, Trace, or System.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  process names and command-line arguments. This activity is significant because clearing
+  event logs can be an attempt to cover tracks after malicious actions, hindering
+  forensic investigations. If confirmed malicious, this behavior could allow an attacker
+  to erase evidence of their activities, making it difficult to trace their actions
+  and understand the full scope of the compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -69,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

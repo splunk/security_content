@@ -1,13 +1,17 @@
 name: Windows NirSoft Utilities
 id: 5b2f4596-7d4c-11ec-88a7-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting analytic assists with identifying the proces execution
-  of commonly used utilities from NirSoft. Potentially not adversary behavior, but
-  worth identifying to know if the software is present and being used.
+description: The following analytic identifies the execution of commonly used NirSoft
+  utilities on Windows systems. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution details such as process name, parent
+  process, and command-line arguments. This activity is significant for a SOC because
+  NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes
+  like credential theft or system reconnaissance. If confirmed malicious, this activity
+  could lead to unauthorized access, data exfiltration, or further system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

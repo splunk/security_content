@@ -1,15 +1,19 @@
 name: Windows Lateral Tool Transfer RemCom
 id: e373a840-5bdc-47ef-b2fd-9cc7aaf387f0
-version: 1
-date: '2023-03-20'
+version: 2
+date: '2024-05-15'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
-description: This analytic identifies the use of RemCom.exe - The open source psexec.
-  This utility provides the ability to move laterally and run scripts or commands
-  remotely.
+description: The following analytic identifies the execution of RemCom.exe, an open-source
+  alternative to PsExec, used for lateral movement and remote command execution. It
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  names, original file names, and command-line arguments. This activity is significant
+  as it indicates potential lateral movement within the network. If confirmed malicious, this could allow an
+  attacker to execute commands remotely, potentially leading to further compromise
+  and control over additional systems within the network.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=remcom.exe
   OR Processes.original_file_name=RemCom.exe) Processes.process="*\\*" Processes.process
@@ -80,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1570/remcom/remcom_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1570/remcom/remcom_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

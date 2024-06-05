@@ -1,14 +1,18 @@
 name: AWS Detect Users with KMS keys performing encryption S3
 id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
-version: 2
-date: '2022-11-11'
+version: 3
+date: '2024-05-18'
 author: Rod Soto, Patrick Bareiss Splunk
 status: production
 type: Anomaly
-description: This search provides detection of users with KMS keys performing encryption
-  specifically against S3 buckets.
-data_source: 
-- AWS CloudTrail CopyObject
+description: The following analytic identifies users with KMS keys performing encryption
+  operations on S3 buckets. It leverages AWS CloudTrail logs to detect the `CopyObject`
+  event where server-side encryption with AWS KMS is specified. This activity is significant
+  as it may indicate unauthorized or suspicious encryption of data, potentially masking
+  exfiltration or tampering efforts. If confirmed malicious, an attacker could be
+  encrypting sensitive data to evade detection or preparing it for exfiltration, posing
+  a significant risk to data integrity and confidentiality.
+data_source: []
 search: '`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"
   | rename requestParameters.bucketName AS bucketName, requestParameters.x-amz-copy-source
   AS src_file, requestParameters.key AS dest_file | stats count min(_time) as firstTime
@@ -56,7 +60,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

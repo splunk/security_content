@@ -1,15 +1,24 @@
 name: O365 Excessive SSO logon errors
 id: 8158ccc4-6038-11eb-ae93-0242ac130002
-version: 3
-date: '2023-08-02'
+version: 4
+date: '2024-05-17'
 author: Rod Soto, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects accounts with high number of Single Sign ON (SSO)
-  logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.
-data_source: 
+description: The following analytic detects accounts experiencing a high number of
+  Single Sign-On (SSO) logon errors. It leverages data from the `o365_management_activity`
+  dataset, focusing on failed user login attempts with SSO errors. This activity is
+  significant as it may indicate brute-force attempts or the hijacking/reuse of SSO
+  tokens. If confirmed malicious, attackers could potentially gain unauthorized access
+  to user accounts, leading to data breaches, privilege escalation, or further lateral
+  movement within the organization.
+data_source:
 - O365 UserLoginFailed
-search: '`o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by  src_ip signature user_agent authentication_service action| where count >= 5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_excessive_sso_logon_errors_filter`'
+search: '`o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso*
+  Operation=UserLoginFailed | stats count min(_time) as firstTime max(_time) as lastTime
+  values(user) as user by  src_ip signature user_agent authentication_service action|
+  where count >= 5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `o365_excessive_sso_logon_errors_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
 known_false_positives: Logon errors may not be malicious in nature however it may
@@ -56,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors2.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors2.json
     sourcetype: o365:management:activity
     source: o365

@@ -1,13 +1,18 @@
 name: Remote Process Instantiation via WMI
 id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
-version: 7
-date: '2023-12-27'
+version: 8
+date: '2024-05-23'
 author: Rico Valdez, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic identifies wmic.exe being launched with parameters to spawn
-  a process on a remote system. Red Teams and adversaries alike may abuse WMI and
-  this binary for lateral movement and remote code execution.
+description: The following analytic detects the execution of wmic.exe with parameters
+  to spawn a process on a remote system. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on command-line executions and process telemetry
+  mapped to the `Processes` node of the `Endpoint` data model. This activity is significant
+  as WMI can be abused for lateral movement and remote code execution, often used
+  by adversaries and Red Teams. If confirmed malicious, this could allow attackers
+  to execute arbitrary code on remote systems, facilitating further compromise and
+  lateral spread within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

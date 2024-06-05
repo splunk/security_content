@@ -1,14 +1,19 @@
 name: Windows IIS Components Get-WebGlobalModule Module Query
 id: 20db5f70-34b4-4e83-8926-fa26119de173
-version: 1
-date: '2022-12-20'
+version: 2
+date: '2024-05-03'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic requires the use of PowerShell inputs to run Get-WebGlobalModule
-  to list out all the IIS Modules installed. The output is a list of Module names
-  and the Image path of the DLL.
-data_source: 
+description: The following analytic identifies the execution of the PowerShell cmdlet
+  Get-WebGlobalModule, which lists all IIS Modules installed on a system. It leverages
+  PowerShell input data to detect this activity by capturing the module names and
+  the image paths of the DLLs. This activity is significant for a SOC because it can
+  indicate an attempt to enumerate installed IIS modules, which could be a precursor
+  to exploiting vulnerabilities or misconfigurations. If confirmed malicious, this
+  could allow an attacker to gain insights into the web server's configuration, potentially
+  leading to further exploitation or privilege escalation.
+data_source:
 - Powershell Installed IIS Modules
 search: '`iis_get_webglobalmodule` | stats count min(_time) as firstTime max(_time)
   as lastTime by host name image | rename host as dest | `security_content_ctime(firstTime)`
@@ -51,7 +56,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
     source: powershell://AppCmdModules
     sourcetype: Pwsh:InstalledIISModules
     update_timestamp: true

@@ -1,13 +1,17 @@
 name: Linux Obfuscated Files or Information Base64 Decode
 id: 303b38b2-c03f-44e2-8f41-4594606fcfc7
-version: 1
-date: '2022-07-27'
+version: 2
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the use of base64 decode on Linux being
-  utilized to deobfuscate a file. Identify the source of the file and determine if
-  legitimate. Review parallel processes for further behavior before and after.
+description: The following analytic detects the use of the base64 decode command on
+  Linux systems, which is often used to deobfuscate files. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on command-line executions
+  that include "base64 -d" or "base64 --decode". This activity is significant as it
+  may indicate an attempt to hide malicious payloads or scripts. If confirmed malicious,
+  an attacker could use this technique to execute hidden code, potentially leading
+  to unauthorized access, data exfiltration, or further system compromise.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +84,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux
     update_timestamp: true

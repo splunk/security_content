@@ -1,13 +1,17 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
-version: 5
-date: '2024-04-26'
+version: 6
+date: '2024-05-18'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to identifies a modification in registry to disable the
-  windows denfender real time behavior monitoring. This event or technique is commonly
-  seen in RAT, bot, or Trojan to disable AV to evade detections.
+description: The following analytic identifies modifications in the registry to disable
+  Windows Defender's real-time behavior monitoring. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to registry paths associated with Windows
+  Defender settings. This activity is significant because disabling real-time protection
+  is a common tactic used by malware such as RATs, bots, or Trojans to evade detection.
+  If confirmed malicious, this action could allow an attacker to execute code, escalate
+  privileges, or persist in the environment without being detected by antivirus software.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -70,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,13 +1,18 @@
 name: MacOS plutil
 id: c11f2b57-92c1-4cd2-b46c-064eafb833ac
-version: 3
-date: '2023-11-07'
+version: 4
+date: '2024-05-22'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: Detect usage of plutil to modify plist files. Adversaries can modiy plist
-  files to executed binaries or add command line arguments. Plist files in auto-run
-  locations are executed upon user logon or system startup.
+description: The following analytic detects the usage of the `plutil` command to modify
+  plist files on macOS systems. It leverages osquery to monitor process events, specifically
+  looking for executions of `/usr/bin/plutil`. This activity is significant because
+  adversaries can use `plutil` to alter plist files, potentially adding malicious
+  binaries or command-line arguments that execute upon user logon or system startup.
+  If confirmed malicious, this could allow attackers to achieve persistence, execute
+  arbitrary code, or escalate privileges, posing a significant threat to the system's
+  security.
 data_source:
 - osquery
 search: '`osquery` name=es_process_events columns.path=/usr/bin/plutil | rename columns.*
@@ -57,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1647/atomic_red_team/osquery.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1647/atomic_red_team/osquery.log
     source: osquery
     sourcetype: osquery:results

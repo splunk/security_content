@@ -3,84 +3,84 @@ id: 706c3978-41de-406b-b6e0-75bd01e12a5d
 author: Patrick Bareiss, Splunk
 source: http:gsuite
 sourcetype: gsuite:gmail:bigquery
-separator: null
 supported_TA:
   name: Splunk Add-on for Google Workspace
   version: 2.6.3
   url: https://splunkbase.splunk.com/app/5556
 event_names: []
 fields:
-- _time
-- action_type
-- attachment{}.file_extension_type
-- attachment{}.malware_family
-- attachment{}.sha256
-- connection_info.authenticated_domain{}.name
-- connection_info.authenticated_domain{}.type
-- connection_info.client_host_zone
-- connection_info.client_ip
-- connection_info.dkim_pass
-- connection_info.dmarc_pass
-- connection_info.dmarc_published_domain
-- connection_info.ip_geo_city
-- connection_info.ip_geo_country
-- connection_info.is_internal
-- connection_info.is_intra_domain
-- connection_info.smtp_in_connect_ip
-- connection_info.smtp_out_connect_ip
-- connection_info.smtp_out_remote_host
-- connection_info.smtp_reply_code
-- connection_info.smtp_response_reason
-- connection_info.smtp_tls_cipher
-- connection_info.smtp_tls_state
-- connection_info.smtp_tls_version
-- connection_info.smtp_user_agent_ip
-- connection_info.spf_pass
-- connection_info.tls_required_but_unavailable
-- description
-- destination{}.address
-- destination{}.rcpt_response
-- destination{}.selector
-- destination{}.service
-- destination{}.smime_decryption_success
-- destination{}.smime_extraction_success
-- destination{}.smime_parsing_success
-- destination{}.smime_signature_verification_success
-- eventtype
-- flattened_destinations
-- flattened_triggered_rule_info
-- host
-- index
-- is_policy_check_for_sender
-- is_spam
-- linecount
-- message_set{}.type
-- num_message_attachments
-- payload_size
-- punct
-- rfc2822_message_id
-- smime_content_type
-- smime_encrypt_message
-- smime_extraction_success
-- smime_packaging_success
-- smime_sign_message
-- smtp_relay_error
-- source
-- source.address
-- source.from_header_address
-- source.from_header_displayname
-- source.selector
-- source.service
-- sourcetype
-- spam_info
-- splunk_server
-- structured_policy_log_info
-- subject
-- tag
-- tag::eventtype
-- timestamp
-- upload_error_category
-example_log: '{"action_type": 10, "rfc2822_message_id": "<CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC@mail.gmail.com>",
+  - _time
+  - action_type
+  - attachment{}.file_extension_type
+  - attachment{}.malware_family
+  - attachment{}.sha256
+  - connection_info.authenticated_domain{}.name
+  - connection_info.authenticated_domain{}.type
+  - connection_info.client_host_zone
+  - connection_info.client_ip
+  - connection_info.dkim_pass
+  - connection_info.dmarc_pass
+  - connection_info.dmarc_published_domain
+  - connection_info.ip_geo_city
+  - connection_info.ip_geo_country
+  - connection_info.is_internal
+  - connection_info.is_intra_domain
+  - connection_info.smtp_in_connect_ip
+  - connection_info.smtp_out_connect_ip
+  - connection_info.smtp_out_remote_host
+  - connection_info.smtp_reply_code
+  - connection_info.smtp_response_reason
+  - connection_info.smtp_tls_cipher
+  - connection_info.smtp_tls_state
+  - connection_info.smtp_tls_version
+  - connection_info.smtp_user_agent_ip
+  - connection_info.spf_pass
+  - connection_info.tls_required_but_unavailable
+  - description
+  - destination{}.address
+  - destination{}.rcpt_response
+  - destination{}.selector
+  - destination{}.service
+  - destination{}.smime_decryption_success
+  - destination{}.smime_extraction_success
+  - destination{}.smime_parsing_success
+  - destination{}.smime_signature_verification_success
+  - eventtype
+  - flattened_destinations
+  - flattened_triggered_rule_info
+  - host
+  - index
+  - is_policy_check_for_sender
+  - is_spam
+  - linecount
+  - message_set{}.type
+  - num_message_attachments
+  - payload_size
+  - punct
+  - rfc2822_message_id
+  - smime_content_type
+  - smime_encrypt_message
+  - smime_extraction_success
+  - smime_packaging_success
+  - smime_sign_message
+  - smtp_relay_error
+  - source
+  - source.address
+  - source.from_header_address
+  - source.from_header_displayname
+  - source.selector
+  - source.service
+  - sourcetype
+  - spam_info
+  - splunk_server
+  - structured_policy_log_info
+  - subject
+  - tag
+  - tag::eventtype
+  - timestamp
+  - upload_error_category
+example_log:
+  '{"action_type": 10, "rfc2822_message_id": "<CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC@mail.gmail.com>",
   "subject": "New Order DHL0000001 - Dummy email for Detection Development", "payload_size":
   6733, "source": {"address": "john@external_test_email.com", "service": "gmail-for-work",
   "selector": "policy", "from_header_address": "john@external_test_email.com", "from_header_displayname":

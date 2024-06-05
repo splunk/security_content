@@ -1,13 +1,17 @@
 name: Powershell Disable Security Monitoring
 id: c148a894-dd93-11eb-bf2a-acde48001122
-version: 3
-date: '2022-07-15'
+version: 4
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This search identifies a modification in registry to disable the windows
-  defender real time behavior monitoring. This event or technique is commonly seen
-  in RATs, bots, or Trojans to disable AV to evade detections.
+description: The following analytic identifies attempts to disable Windows Defender
+  real-time behavior monitoring via PowerShell commands. It detects the use of specific
+  `Set-MpPreference` parameters that disable various security features. This activity
+  is significant as it is commonly used by malware such as RATs, bots, or Trojans
+  to evade detection by disabling antivirus protections. If confirmed malicious, this
+  action could allow an attacker to operate undetected, leading to potential data
+  exfiltration, further system compromise, or persistent access within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/pwh_defender_disabling/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/pwh_defender_disabling/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,28 +1,42 @@
 name: Splunk Edit User Privilege Escalation
 id: 39e1c326-67d7-4c0d-8584-8056354f6593
-version: 1
-date: '2023-05-23'
+version: 2
+date: '2024-05-15'
 author: Rod Soto, Chase Franklin
 status: production
 type: Hunting
 data_source:
 - Splunk
-description: A low-privilege user who holds a role that has the edit_user capability assigned to it can escalate their privileges to that of the admin user by providing specially crafted web requests.
-search: '`audittrail` action IN ("change_own_password","password_change","edit_password") AND info="granted" AND NOT user IN (admin, splunk-system-user) | stats earliest(_time) as event_time values(index) as index values(sourcetype) as sourcetype values(action) as action values(info) as info by user | `splunk_edit_user_privilege_escalation_filter`'
-how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This detection may assist in efforts to discover abuse of edit_user privilege. 
-known_false_positives: This search may produce false positives as password changing actions may be part of normal behavior. Operator will need to investigate these actions in order to discern exploitation attempts. 
+description: The following analytic identifies attempts by low-privilege users to
+  escalate their privileges to admin by exploiting the edit_user capability. It detects
+  this activity by analyzing audit trail logs for specific actions such as "change_own_password"
+  and "edit_password" where the info field is "granted" and the user is not an admin
+  or system user. This activity is significant because it indicates potential privilege
+  escalation, which is a critical security concern. If confirmed malicious, this could
+  allow an attacker to gain administrative access, leading to full control over the
+  Splunk environment and potential data breaches.
+search: '`audittrail` action IN ("change_own_password","password_change","edit_password")
+  AND info="granted" AND NOT user IN (admin, splunk-system-user) | stats earliest(_time)
+  as event_time values(index) as index values(sourcetype) as sourcetype values(action)
+  as action values(info) as info by user | `splunk_edit_user_privilege_escalation_filter`'
+how_to_implement: This detection does not require you to ingest any new data. The
+  detection does require the ability to search the _audit index. This detection may
+  assist in efforts to discover abuse of edit_user privilege.
+known_false_positives: This search may produce false positives as password changing
+  actions may be part of normal behavior. Operator will need to investigate these
+  actions in order to discern exploitation attempts.
 references:
-- https://advisory.splunk.com/ 
+- https://advisory.splunk.com/
 tags:
   analytic_story:
-  - Splunk Vulnerabilities 
+  - Splunk Vulnerabilities
   asset_type: Endpoint
   atomic_guid: []
   confidence: 80
   impact: 80
   cve:
   - CVE-2023-32707
-  message: Possible attempt to abuse edit_user function by $user$ 
+  message: Possible attempt to abuse edit_user function by $user$
   mitre_attack_id:
   - T1548
   observable:
@@ -36,15 +50,16 @@ tags:
   - Splunk Cloud
   risk_score: 64
   required_fields:
-  - user 
-  - action 
-  - info 
-  - _time 
+  - user
+  - action
+  - info
+  - _time
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_edit_user_privilege_escalation.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_edit_user_privilege_escalation.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

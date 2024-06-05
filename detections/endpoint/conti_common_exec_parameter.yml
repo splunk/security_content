@@ -1,13 +1,18 @@
 name: Conti Common Exec parameter
 id: 624919bc-c382-11eb-adcc-acde48001122
-version: 1
-date: '2021-06-02'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search detects the suspicious commandline argument of revil ransomware
-  to encrypt specific or all local drive and network shares of the compromised machine
-  or host.
+description: The following analytic detects the execution of suspicious command-line
+  arguments commonly associated with Conti ransomware, specifically targeting local
+  drives and network shares for encryption. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process execution logs that include command-line
+  details. This activity is significant because it indicates a potential ransomware
+  attack, which can lead to widespread data encryption and operational disruption.
+  If confirmed malicious, the impact could be severe, resulting in data loss, system
+  downtime, and potential ransom demands.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/inf1/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/inf1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

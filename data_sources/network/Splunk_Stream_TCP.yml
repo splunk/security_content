@@ -3,7 +3,6 @@ id: 4b1233d1-f80a-4da1-ab27-a5b10ea8a4ce
 author: Patrick Bareiss, Splunk
 source: stream:tcp
 sourcetype: stream:tcp
-separator: null
 supported_TA:
   name: Splunk App for Stream
   version: 8.1.1

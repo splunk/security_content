@@ -1,20 +1,25 @@
 name: Windows MSIExec With Network Connections
 id: 827409a1-5393-4d8d-8da4-bbb297c262a7
-version: 1
-date: '2022-06-16'
+version: 2
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies MSIExec with any network connection
-  over port 443 or 80. Typically, MSIExec does not perform network communication to
-  the internet.
+description: The following analytic detects MSIExec making network connections over
+  ports 443 or 80. This behavior is identified by correlating process creation events
+  from Endpoint Detection and Response (EDR) agents with network traffic logs. Typically,
+  MSIExec does not perform network communication to the internet, making this activity
+  unusual and potentially indicative of malicious behavior. If confirmed malicious,
+  an attacker could be using MSIExec to download or communicate with external servers,
+  potentially leading to data exfiltration, command and control (C2) communication,
+  or further malware deployment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_msiexec` by _time Processes.user Processes.process_id Processes.process_name Processes.dest
-  Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id
-  [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
+  where `process_msiexec` by _time Processes.user Processes.process_id Processes.process_name
+  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
   where All_Traffic.dest_port IN ("80","443") by All_Traffic.process_id All_Traffic.dest
   All_Traffic.dest_port All_Traffic.dest_ip | `drop_dm_object_name(All_Traffic)` ]
   | table _time user dest parent_process_name process_name process_path process process_id
@@ -80,7 +85,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

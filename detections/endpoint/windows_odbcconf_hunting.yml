@@ -1,12 +1,18 @@
 name: Windows Odbcconf Hunting
 id: 0562ad4b-fdaa-4882-b12f-7b8e0034cd72
-version: 1
-date: '2022-06-30'
+version: 2
+date: '2024-05-20'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies Odbcconf.exe running in the environment
-  to assist with identifying tuning higher fidelity analytics related to Odbcconf.exe.
+description: The following analytic identifies the execution of Odbcconf.exe within
+  the environment. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process creation events where the process name is Odbcconf.exe. This
+  activity is significant because Odbcconf.exe can be used by attackers to execute
+  arbitrary commands or load malicious DLLs, potentially leading to code execution
+  or persistence. If confirmed malicious, this behavior could allow an attacker to
+  maintain access to the system, execute further malicious activities, or escalate
+  privileges, posing a significant threat to the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -77,7 +83,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/windows-sysmon-odbc-regsvr.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/windows-sysmon-odbc-regsvr.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

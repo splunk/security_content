@@ -1,81 +1,81 @@
 event_name: Windows Event Log Security 4688
 fields:
-- Caller_Domain
-- Caller_User_Name
-- Channel
-- CommandLine
-- Computer
-- Error_Code
-- EventCode
-- EventID
-- EventRecordID
-- Guid
-- Keywords
-- Level
-- Logon_ID
-- MandatoryLabel
-- Name
-- NewProcessId
-- NewProcessName
-- Opcode
-- ParentProcessName
-- ProcessID
-- Process_Command_Line
-- RecordNumber
-- SubjectDomainName
-- SubjectLogonId
-- SubjectUserName
-- SubjectUserSid
-- SystemTime
-- TargetDomainName
-- TargetLogonId
-- TargetUserName
-- TargetUserSid
-- Target_Domain
-- Target_User_Name
-- Task
-- ThreadID
-- TokenElevationType
-- Token_Elevation_Type
-- Token_Elevation_Type_id
-- Version
-- action
-- app
-- dest
-- dvc
-- dvc_nt_host
-- event_id
-- eventtype
-- id
-- name
-- new_process
-- new_process_id
-- new_process_name
-- parent_process
-- parent_process_id
-- parent_process_name
-- parent_process_path
-- process
-- process_command_line_arguments
-- process_command_line_process
-- process_exec
-- process_id
-- process_name
-- process_path
-- product
-- session_id
-- signature
-- signature_id
-- src_nt_domain
-- src_user
-- status
-- subject
-- ta_windows_action
-- tag
-- user
-- user_group
-- vendor
-- vendor_product
+  - Caller_Domain
+  - Caller_User_Name
+  - Channel
+  - CommandLine
+  - Computer
+  - Error_Code
+  - EventCode
+  - EventID
+  - EventRecordID
+  - Guid
+  - Keywords
+  - Level
+  - Logon_ID
+  - MandatoryLabel
+  - Name
+  - NewProcessId
+  - NewProcessName
+  - Opcode
+  - ParentProcessName
+  - ProcessID
+  - Process_Command_Line
+  - RecordNumber
+  - SubjectDomainName
+  - SubjectLogonId
+  - SubjectUserName
+  - SubjectUserSid
+  - SystemTime
+  - TargetDomainName
+  - TargetLogonId
+  - TargetUserName
+  - TargetUserSid
+  - Target_Domain
+  - Target_User_Name
+  - Task
+  - ThreadID
+  - TokenElevationType
+  - Token_Elevation_Type
+  - Token_Elevation_Type_id
+  - Version
+  - action
+  - app
+  - dest
+  - dvc
+  - dvc_nt_host
+  - event_id
+  - eventtype
+  - id
+  - name
+  - new_process
+  - new_process_id
+  - new_process_name
+  - parent_process
+  - parent_process_id
+  - parent_process_name
+  - parent_process_path
+  - process
+  - process_command_line_arguments
+  - process_command_line_process
+  - process_exec
+  - process_id
+  - process_name
+  - process_path
+  - product
+  - session_id
+  - signature
+  - signature_id
+  - src_nt_domain
+  - src_user
+  - status
+  - subject
+  - ta_windows_action
+  - tag
+  - user
+  - user_group
+  - vendor
+  - vendor_product
 field_mappings:
   - data_model: cim
     data_set: Endpoint.Processes

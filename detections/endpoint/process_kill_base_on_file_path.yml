@@ -1,13 +1,18 @@
 name: Process Kill Base On File Path
 id: 5ffaa42c-acdb-11eb-9ad3-acde48001122
-version: 2
-date: '2021-05-04'
+version: 3
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of `wmic.exe` using `delete`
-  to remove a executable path. This is typically ran via a batch file during beginning
-  stages of an adversary setting up for mining on an endpoint.
+description: The following analytic detects the use of `wmic.exe` with the `delete`
+  command to remove an executable path. This detection leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names, parent processes,
+  and command-line executions. This activity is significant because it often indicates
+  the initial stages of an adversary setting up malicious activities, such as cryptocurrency
+  mining, on an endpoint. If confirmed malicious, this behavior could allow an attacker
+  to disable security tools or other critical processes, facilitating further compromise
+  and persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -71,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

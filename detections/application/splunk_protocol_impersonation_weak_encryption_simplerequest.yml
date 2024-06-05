@@ -1,14 +1,19 @@
 name: Splunk protocol impersonation weak encryption simplerequest
 id: 839d12a6-b119-4d44-ac4f-13eed95412c8
-version: 1
-date: '2022-05-24'
+version: 2
+date: '2024-05-23'
 author: Rod Soto, Splunk
 status: production
 type: Hunting
-description: On Splunk version 9 on Python3 client libraries verify server certificates
-  by default and use CA certificate store. This search warns a user about a failure
-  to validate a certificate using python3 request.
-data_source: 
+description: The following analytic identifies instances where Splunk's Python3 client
+  libraries fail to validate SSL certificates properly. It leverages logs from `splunk_python`
+  to detect when "simpleRequest SSL certificate validation is enabled without hostname
+  verification." This activity is significant because improper SSL certificate validation
+  can expose the system to man-in-the-middle attacks, allowing attackers to intercept
+  or alter data. If confirmed malicious, this vulnerability could lead to unauthorized
+  access, data breaches, and potential system compromise. Upgrading to Splunk version
+  9 and configuring TLS hostname validation is recommended to mitigate this risk.
+data_source:
 - Splunk
 search: '`splunk_python` "simpleRequest SSL certificate validation is enabled without
   hostname verification" | stats count by host path | `splunk_protocol_impersonation_weak_encryption_simplerequest_filter`'
@@ -56,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1558.004/splk_protocol_impersonation_weak_encryption_simplerequest.txt
+  - data: 
+      https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1558.004/splk_protocol_impersonation_weak_encryption_simplerequest.txt
     source: /opt/splunk/var/log/splunk/splunkd.log
     sourcetype: splunk_python
     custom_index: _internal

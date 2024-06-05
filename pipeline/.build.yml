@@ -1,0 +1,32 @@
+include:
+  - local: "pipeline/.install-contentctl.yml"
+ 
+# This CI job validates and builds the ESCU/BA/API package
+build:
+  stage: build
+  artifacts:
+    when: always
+    paths:
+      - artifacts/*
+    expire_in: 14 days
+  before_script:
+      - !reference [.install-contentctl, before_script]
+  script:
+    - echo "Validating and Building all files in the dist/ directory"
+    - pip list
+    - >
+      if [[ "$CI_COMMIT_TAG" =~ ^v?[1-9]\.[0-9]+\.[0-9]+$ ]]; then
+        echo "Tagged build - Enabling Enrichment"
+        contentctl build --enrichments
+      else
+        echo "Disabled Enrichment"
+        contentctl build
+      fi
+    - echo "ContentCTL build finished"
+
+  after_script:
+    - mkdir -p artifacts
+    - cp dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
+    - tar -czf artifacts/SSA-Content-latest.tar.gz -C dist/ssa .
+    - tar -czf artifacts/SSE-API-latest.tar.gz -C dist/api .
+

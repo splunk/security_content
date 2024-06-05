@@ -1,13 +1,18 @@
 name: Detect attackers scanning for vulnerable JBoss servers
 id: 104658f4-afdc-499e-9719-17243f982681
-version: 1
-date: '2017-09-23'
+version: 2
+date: '2024-05-19'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: This search looks for specific GET or HEAD requests to web servers that
-  are indicative of reconnaissance attempts to identify vulnerable JBoss servers.
-  JexBoss is described as the exploit tool of choice for this malicious activity.
+description: The following analytic identifies specific GET or HEAD requests to web
+  servers that indicate reconnaissance attempts to find vulnerable JBoss servers.
+  It leverages data from the Web data model, focusing on HTTP methods and URLs associated
+  with JBoss management interfaces. This activity is significant because it often
+  precedes exploitation attempts using tools like JexBoss, which can compromise the
+  server. If confirmed malicious, attackers could gain unauthorized access, execute
+  arbitrary code, or escalate privileges, leading to potential data breaches and system
+  compromise.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where (Web.http_method="GET" OR Web.http_method="HEAD")

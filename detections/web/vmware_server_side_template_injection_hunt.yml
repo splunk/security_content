@@ -1,14 +1,19 @@
 name: VMware Server Side Template Injection Hunt
 id: 5796b570-ad12-44df-b1b5-b7e6ae3aabb0
-version: 1
-date: '2022-05-19'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting analytic identifies the server side template injection
-  related to CVE-2022-22954, however is a variation found within the same endpoint
-  of the URL scheme.
-data_source: 
+description: The following analytic identifies potential server-side template injection
+  attempts related to CVE-2022-22954. It detects suspicious URL patterns containing
+  "deviceudid" and keywords like "java.lang.ProcessBuilder" or "freemarker.template.utility.ObjectConstructor"
+  using web or proxy logs within the Web Datamodel. This activity is significant as
+  it may indicate an attempt to exploit a known vulnerability in VMware, potentially
+  leading to remote code execution. If confirmed malicious, attackers could gain unauthorized
+  access, execute arbitrary code, and compromise the affected system, posing a severe
+  security risk.
+data_source:
 - Palo Alto Network Threat
 search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*deviceudid=*"
   AND Web.url IN ("*java.lang.ProcessBuilder*","*freemarker.template.utility.ObjectConstructor*")
@@ -62,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
     source: pan:threat
     sourcetype: pan:threat
     update_timestamp: true

@@ -1,13 +1,18 @@
 name: Excessive Usage Of Taskkill
 id: fe5bca48-accb-11eb-a67c-acde48001122
-version: 1
-date: '2021-05-04'
+version: 2
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic identifies excessive usage of `taskkill.exe` application.
-  This application is commonly used by adversaries to evade detections by killing
-  security product processes or even other processes to evade detection.
+description: The following analytic identifies excessive usage of `taskkill.exe`,
+  a command-line utility used to terminate processes. The detection leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on instances where `taskkill.exe`
+  is executed ten or more times within a one-minute span. This behavior is significant
+  as adversaries often use `taskkill.exe` to disable security tools or other critical
+  processes to evade detection. If confirmed malicious, this activity could allow
+  attackers to bypass security defenses, maintain persistence, and further compromise
+  the system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -76,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

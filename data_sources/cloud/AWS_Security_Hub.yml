@@ -3,117 +3,117 @@ id: b02bfbf3-294f-478e-99a1-e24b8c692d7e
 author: Patrick Bareiss, Splunk
 source: aws_securityhub_finding
 sourcetype: aws:securityhub:finding
-separator: null
 supported_TA:
   name: Splunk Add-on for Amazon Web Services (AWS)
   version: 7.4.1
   url: https://splunkbase.splunk.com/app/1876
 event_names: []
 fields:
-- _time
-- AwsAccountId
-- CreatedAt
-- Description
-- FirstObservedAt
-- GeneratorId
-- Id
-- LastObservedAt
-- ProductArn
-- ProductFields.aws/guardduty/service/action/actionType
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/affectedResources/AWS::S3::Bucket
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/api
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/callerType
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/city/cityName
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/country/countryName
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/geoLocation/lat
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/geoLocation/lon
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/ipAddressV4
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/asn
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/asnOrg
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/isp
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/org
-- ProductFields.aws/guardduty/service/action/awsApiCallAction/serviceName
-- ProductFields.aws/guardduty/service/additionalInfo/sample
-- ProductFields.aws/guardduty/service/additionalInfo/unusual/hoursOfDay.0_
-- ProductFields.aws/guardduty/service/additionalInfo/unusual/userNames.0_
-- ProductFields.aws/guardduty/service/archived
-- ProductFields.aws/guardduty/service/count
-- ProductFields.aws/guardduty/service/detectorId
-- ProductFields.aws/guardduty/service/eventFirstSeen
-- ProductFields.aws/guardduty/service/eventLastSeen
-- ProductFields.aws/guardduty/service/resourceRole
-- ProductFields.aws/guardduty/service/serviceName
-- ProductFields.aws/securityhub/CompanyName
-- ProductFields.aws/securityhub/FindingId
-- ProductFields.aws/securityhub/ProductName
-- RecordState
-- Resources{}.Details.AwsEc2Instance.IamInstanceProfileArn
-- Resources{}.Details.AwsEc2Instance.ImageId
-- Resources{}.Details.AwsEc2Instance.IpV4Addresses{}
-- Resources{}.Details.AwsEc2Instance.LaunchedAt
-- Resources{}.Details.AwsEc2Instance.SubnetId
-- Resources{}.Details.AwsEc2Instance.Type
-- Resources{}.Details.AwsEc2Instance.VpcId
-- Resources{}.Details.AwsIamAccessKey.PrincipalId
-- Resources{}.Details.AwsIamAccessKey.PrincipalName
-- Resources{}.Details.AwsIamAccessKey.PrincipalType
-- Resources{}.Details.AwsS3Bucket.CreatedAt
-- Resources{}.Details.AwsS3Bucket.OwnerId
-- Resources{}.Details.AwsS3Bucket.ServerSideEncryptionConfiguration.Rules{}.ApplyServerSideEncryptionByDefault.KMSMasterKeyID
-- Resources{}.Details.AwsS3Bucket.ServerSideEncryptionConfiguration.Rules{}.ApplyServerSideEncryptionByDefault.SSEAlgorithm
-- Resources{}.Id
-- Resources{}.Partition
-- Resources{}.Region
-- Resources{}.Tags.GeneratedFindingInstaceTag1
-- Resources{}.Tags.GeneratedFindingInstaceTag2
-- Resources{}.Tags.GeneratedFindingInstaceTag3
-- Resources{}.Tags.GeneratedFindingInstaceTag4
-- Resources{}.Tags.GeneratedFindingInstaceTag5
-- Resources{}.Tags.GeneratedFindingInstaceTag6
-- Resources{}.Tags.GeneratedFindingInstaceTag7
-- Resources{}.Tags.GeneratedFindingInstaceTag8
-- Resources{}.Tags.GeneratedFindingInstaceTag9
-- Resources{}.Tags.foo
-- Resources{}.Type
-- SchemaVersion
-- Severity.Label
-- Severity.Normalized
-- Severity.Product
-- SourceUrl
-- Title
-- Types{}
-- UpdatedAt
-- Workflow.Status
-- WorkflowState
-- accesskey_extract
-- app
-- body
-- description
-- dest
-- dest_type
-- eventtype
-- host
-- id
-- index
-- instance_extract
-- linecount
-- punct
-- s3bucket_extract
-- severity
-- severity_id
-- signature
-- signature_id
-- source
-- sourcetype
-- splunk_server
-- subject
-- tag
-- tag::eventtype
-- timestamp
-- type
-- vendor_account
-- vendor_region
-example_log: '{"ProductArn":"arn:aws:securityhub:us-east-1::product/aws/guardduty","Types":["Software
+  - _time
+  - AwsAccountId
+  - CreatedAt
+  - Description
+  - FirstObservedAt
+  - GeneratorId
+  - Id
+  - LastObservedAt
+  - ProductArn
+  - ProductFields.aws/guardduty/service/action/actionType
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/affectedResources/AWS::S3::Bucket
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/api
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/callerType
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/city/cityName
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/country/countryName
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/geoLocation/lat
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/geoLocation/lon
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/ipAddressV4
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/asn
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/asnOrg
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/isp
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/remoteIpDetails/organization/org
+  - ProductFields.aws/guardduty/service/action/awsApiCallAction/serviceName
+  - ProductFields.aws/guardduty/service/additionalInfo/sample
+  - ProductFields.aws/guardduty/service/additionalInfo/unusual/hoursOfDay.0_
+  - ProductFields.aws/guardduty/service/additionalInfo/unusual/userNames.0_
+  - ProductFields.aws/guardduty/service/archived
+  - ProductFields.aws/guardduty/service/count
+  - ProductFields.aws/guardduty/service/detectorId
+  - ProductFields.aws/guardduty/service/eventFirstSeen
+  - ProductFields.aws/guardduty/service/eventLastSeen
+  - ProductFields.aws/guardduty/service/resourceRole
+  - ProductFields.aws/guardduty/service/serviceName
+  - ProductFields.aws/securityhub/CompanyName
+  - ProductFields.aws/securityhub/FindingId
+  - ProductFields.aws/securityhub/ProductName
+  - RecordState
+  - Resources{}.Details.AwsEc2Instance.IamInstanceProfileArn
+  - Resources{}.Details.AwsEc2Instance.ImageId
+  - Resources{}.Details.AwsEc2Instance.IpV4Addresses{}
+  - Resources{}.Details.AwsEc2Instance.LaunchedAt
+  - Resources{}.Details.AwsEc2Instance.SubnetId
+  - Resources{}.Details.AwsEc2Instance.Type
+  - Resources{}.Details.AwsEc2Instance.VpcId
+  - Resources{}.Details.AwsIamAccessKey.PrincipalId
+  - Resources{}.Details.AwsIamAccessKey.PrincipalName
+  - Resources{}.Details.AwsIamAccessKey.PrincipalType
+  - Resources{}.Details.AwsS3Bucket.CreatedAt
+  - Resources{}.Details.AwsS3Bucket.OwnerId
+  - Resources{}.Details.AwsS3Bucket.ServerSideEncryptionConfiguration.Rules{}.ApplyServerSideEncryptionByDefault.KMSMasterKeyID
+  - Resources{}.Details.AwsS3Bucket.ServerSideEncryptionConfiguration.Rules{}.ApplyServerSideEncryptionByDefault.SSEAlgorithm
+  - Resources{}.Id
+  - Resources{}.Partition
+  - Resources{}.Region
+  - Resources{}.Tags.GeneratedFindingInstaceTag1
+  - Resources{}.Tags.GeneratedFindingInstaceTag2
+  - Resources{}.Tags.GeneratedFindingInstaceTag3
+  - Resources{}.Tags.GeneratedFindingInstaceTag4
+  - Resources{}.Tags.GeneratedFindingInstaceTag5
+  - Resources{}.Tags.GeneratedFindingInstaceTag6
+  - Resources{}.Tags.GeneratedFindingInstaceTag7
+  - Resources{}.Tags.GeneratedFindingInstaceTag8
+  - Resources{}.Tags.GeneratedFindingInstaceTag9
+  - Resources{}.Tags.foo
+  - Resources{}.Type
+  - SchemaVersion
+  - Severity.Label
+  - Severity.Normalized
+  - Severity.Product
+  - SourceUrl
+  - Title
+  - Types{}
+  - UpdatedAt
+  - Workflow.Status
+  - WorkflowState
+  - accesskey_extract
+  - app
+  - body
+  - description
+  - dest
+  - dest_type
+  - eventtype
+  - host
+  - id
+  - index
+  - instance_extract
+  - linecount
+  - punct
+  - s3bucket_extract
+  - severity
+  - severity_id
+  - signature
+  - signature_id
+  - source
+  - sourcetype
+  - splunk_server
+  - subject
+  - tag
+  - tag::eventtype
+  - timestamp
+  - type
+  - vendor_account
+  - vendor_region
+example_log:
+  '{"ProductArn":"arn:aws:securityhub:us-east-1::product/aws/guardduty","Types":["Software
   and Configuration Checks/Exfiltration:S3.ObjectRead.Unusual"],"SourceUrl":"https://us-east-1.console.aws.amazon.com/guardduty/home?region=us-east-1#/findings?macros=current&fId=6aba6b696aea10606e8b336f68d98819","Description":"Principal
   GeneratedFindingUserName read objects from S3 bucket GeneratedFindingS3Bucket in
   an unusual way.","SchemaVersion":"2018-10-08","GeneratorId":"arn:aws:guardduty:us-east-1:802684071507:detector/48ba636359b884eb132865311fdeb317","FirstObservedAt":"2020-09-28T22:26:15.636Z","CreatedAt":"2020-09-28T22:26:15.636Z","RecordState":"ACTIVE","Title":"Unusual

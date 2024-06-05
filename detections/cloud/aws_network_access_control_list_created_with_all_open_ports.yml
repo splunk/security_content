@@ -1,12 +1,19 @@
 name: AWS Network Access Control List Created with All Open Ports
 id: ada0f478-84a8-4641-a3f1-d82362d6bd75
-version: 2
-date: '2021-01-11'
+version: 3
+date: '2024-05-14'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
-data_source: 
+description: The following analytic detects the creation of AWS Network Access Control
+  Lists (ACLs) with all ports open to a specified CIDR. It leverages AWS CloudTrail
+  events, specifically monitoring for `CreateNetworkAclEntry` or `ReplaceNetworkAclEntry`
+  actions with rules allowing all traffic. This activity is significant because it
+  can expose the network to unauthorized access, increasing the risk of data breaches
+  and other malicious activities. If confirmed malicious, an attacker could exploit
+  this misconfiguration to gain unrestricted access to the network, potentially leading
+  to data exfiltration, service disruption, or further compromise of the AWS environment.
+data_source:
 - AWS CloudTrail CreateNetworkAclEntry
 - AWS CloudTrail ReplaceNetworkAclEntry
 search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
@@ -32,7 +39,8 @@ tags:
   asset_type: AWS Instance
   confidence: 80
   impact: 60
-  message: User $user_arn$ has created network ACLs with all the ports open to a specified CIDR $requestParameters.cidrBlock$
+  message: User $user_arn$ has created network ACLs with all the ports open to a specified
+    CIDR $requestParameters.cidrBlock$
   mitre_attack_id:
   - T1562.007
   - T1562
@@ -66,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

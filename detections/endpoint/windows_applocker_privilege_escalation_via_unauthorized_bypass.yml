@@ -1,6 +1,6 @@
 name: Windows AppLocker Privilege Escalation via Unauthorized Bypass
 id: bca48629-7fa2-40d3-9e5d-807564504e28
-version: 1
+version: 2
 date: '2024-03-21'
 author: Michael Haag, Splunk
 data_source: []
@@ -9,10 +9,10 @@ status: production
 description: The following analytic utilizes Windows AppLocker event logs to identify attempts to bypass application restrictions. AppLocker is a feature that allows administrators to specify which applications are permitted to run on a system. This analytic is designed to identify attempts to bypass these restrictions, which could be indicative of an attacker attempting to escalate privileges. The analytic uses EventCodes 8007, 8004, 8022, 8025, 8029, and 8040 to identify these attempts. The analytic will identify the host, full file path, and target user associated with the bypass attempt. These EventCodes are related to block events and focus on 5 attempts or more.
 search: '`applocker` EventCode IN (8007, 8004, 8022, 8025, 8029, 8040)
   | spath input=UserData_Xml | rename RuleAndFileData.* as *, Computer as dest, TargetUser AS user
-  | lookup applockereventcodes EventCode OUTPUT Description
-  | stats count AS attempt_count min(_time) as firstTime max(_time) as lastTime by dest, PolicyName, RuleId, user, TargetProcessId, FilePath, FullFilePath
+  | stats count AS attempt_count min(_time) as firstTime max(_time) as lastTime by dest, PolicyName, RuleId, user, TargetProcessId, FilePath, FullFilePath, EventCode
   | where attempt_count > 5
   | sort - attempt_count
+  | lookup applockereventcodes EventCode OUTPUT Description
   | `windows_applocker_privilege_escalation_via_unauthorized_bypass_filter`'
 how_to_implement: The analytic is designed to be run against Windows AppLocker event logs collected from endpoints with AppLocker enabled. If using Microsoft Defender for Endpoint (MDE), modify the analytic to use EventTypes/ActionTypes that match the block events for AppLocker. The analytic requires the AppLocker event logs to be ingested into Splunk. 
 known_false_positives: False positives are possible if legitimate users are attempting to bypass application restrictions. This could occur if a user is attempting to run an application that is not permitted by AppLocker. It is recommended to investigate the context of the bypass attempt to determine if it is malicious or not. Modify the threshold as needed to reduce false positives.

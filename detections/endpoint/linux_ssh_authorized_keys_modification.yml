@@ -1,14 +1,18 @@
 name: Linux SSH Authorized Keys Modification
 id: f5ab595e-28e5-4327-8077-5008ba97c850
-version: 1
-date: '2022-07-27'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies based on process execution the modification
-  of SSH Authorized Keys. Adversaries perform this behavior to persist on endpoints.
-  During triage, review parallel processes and capture any additional file modifications
-  for review.
+description: The following analytic detects the modification of SSH Authorized Keys
+  on Linux systems. It leverages process execution data from Endpoint Detection and
+  Response (EDR) agents, specifically monitoring commands like "bash" and "cat" interacting
+  with "authorized_keys" files. This activity is significant as adversaries often
+  modify SSH Authorized Keys to establish persistent access to compromised endpoints.
+  If confirmed malicious, this behavior could allow attackers to maintain unauthorized
+  access, bypassing traditional authentication mechanisms and potentially leading
+  to further exploitation or data exfiltration.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +84,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/authkey_linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/authkey_linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux
     update_timestamp: true

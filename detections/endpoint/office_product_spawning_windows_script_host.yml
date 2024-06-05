@@ -1,23 +1,27 @@
 name: Office Product Spawning Windows Script Host
 id: b3628a5b-8d02-42fa-a891-eebf2351cbe1
-version: 5
-date: '2023-11-07'
+version: 6
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic will identify a Windows Office Product spawning
-  WScript.exe or CScript.exe. Tuning may be required based on legitimate application
-  usage that may spawn scripts from an Office product.
+description: The following analytic detects an Office product spawning WScript.exe
+  or CScript.exe. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process creation events where Office applications are the parent processes.
+  This activity is significant because it may indicate the execution of potentially
+  malicious scripts through Office products, a common tactic in phishing attacks and
+  malware delivery. If confirmed malicious, this behavior could lead to unauthorized
+  code execution, data exfiltration, or further system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
   "msaccess.exe","Graph.exe","winproj.exe") Processes.process_name IN ("wscript.exe",
-  "cscript.exe") by  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name
-  Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `office_product_spawning_windows_script_host_filter`'
+  "cscript.exe") by  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
+  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `office_product_spawning_windows_script_host_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -81,7 +85,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

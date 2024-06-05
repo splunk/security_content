@@ -1,13 +1,17 @@
 name: Unload Sysmon Filter Driver
 id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-15'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: Attackers often disable security tools to avoid detection. This search
-  looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop
-  sysmon from collecting the data.
+description: The following analytic detects the use of `fltMC.exe` to unload the Sysmon
+  driver, which stops Sysmon from collecting data. It leverages Endpoint Detection
+  and Response (EDR) logs, focusing on process names and command-line executions.
+  This activity is significant because disabling Sysmon can blind security monitoring,
+  allowing malicious actions to go undetected. If confirmed malicious, this could
+  enable attackers to execute further attacks without being logged, leading to potential
+  data breaches, privilege escalation, or persistent access within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
@@ -62,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/unload_sysmon/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/unload_sysmon/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,21 +1,27 @@
 name: MacOS LOLbin
 id: 58d270fb-5b39-418e-a855-4b8ac046805e
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-17'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: Detect multiple executions of Living off the Land (LOLbin) binaries in
-  a short period of time.
-data_source:
-- osquery
+description: The following analytic detects multiple executions of Living off the
+  Land (LOLbin) binaries on macOS within a short period. It leverages osquery to monitor
+  process events and identifies commands such as "find", "crontab", "screencapture",
+  "openssl", "curl", "wget", "killall", and "funzip". This activity is significant
+  as LOLbins are often used by attackers to perform malicious actions while evading
+  detection. If confirmed malicious, this behavior could allow attackers to execute
+  arbitrary code, escalate privileges, or persist within the environment, posing a
+  significant security risk.
+data_source: []
 search: '`osquery` name=es_process_events columns.cmdline IN ("find*", "crontab*",
   "screencapture*", "openssl*", "curl*", "wget*", "killall*", "funzip*") | rename
   columns.* as * | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline)
   as cmdline, values(pid) as pid, values(parent) as parent, values(path) as path,
   values(signing_id) as signing_id,  dc(path) as dc_path by username host | rename
-  username as user, cmdline as process, path as process_path, host as dest | where dc_path > 3 |
-  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `macos_lolbin_filter`'
+  username as user, cmdline as process, path as process_path, host as dest | where
+  dc_path > 3 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `macos_lolbin_filter`'
 how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow
   the link in references, which describes how to setup process auditing in MacOS with
   endpoint security and osquery.
@@ -59,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/macos_lolbin/osquery.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/macos_lolbin/osquery.log
     source: osquery
     sourcetype: osquery:results

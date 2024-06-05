@@ -1,13 +1,18 @@
 name: Abnormally High Number Of Cloud Security Group API Calls
 id: d4dfb7f3-7a37-498a-b5df-f19334e871af
-version: 1
-date: '2020-09-07'
+version: 2
+date: '2024-05-22'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: This search will detect a spike in the number of API calls made to your
-  cloud infrastructure environment about security groups by a user.
-data_source: 
+description: The following analytic detects a spike in the number of API calls made
+  to cloud security groups by a user. It leverages data from the Change data model,
+  focusing on successful firewall-related changes. This activity is significant because
+  an abnormal increase in security group API calls can indicate potential malicious
+  activity, such as unauthorized access or configuration changes. If confirmed malicious,
+  this could allow an attacker to manipulate security group settings, potentially
+  exposing sensitive resources or disrupting network security controls.
+data_source:
 - AWS CloudTrail
 search: '| tstats count as security_group_api_calls values(All_Changes.command) as
   command from datamodel=Change where All_Changes.object_category=firewall AND All_Changes.status=success
@@ -58,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

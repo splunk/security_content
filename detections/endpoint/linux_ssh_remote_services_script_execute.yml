@@ -1,12 +1,18 @@
 name: Linux SSH Remote Services Script Execute
 id: aa1748dd-4a5c-457a-9cf6-ca7b4eb711b3
-version: 1
-date: '2023-03-03'
+version: 2
+date: '2024-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies SSH being utilized to move laterally
-  and execute a script or file on the remote host.
+description: The following analytic detects the use of SSH to move laterally and execute
+  a script or file on a remote host. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on specific SSH command-line parameters and URLs.
+  This activity is significant as it may indicate an attacker attempting to execute
+  remote commands or scripts, potentially leading to unauthorized access or control
+  over additional systems. If confirmed malicious, this could result in lateral movement,
+  privilege escalation, or the execution of malicious payloads, compromising the security
+  of the network.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,7 +79,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.004/atomic_red_team/linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.004/atomic_red_team/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux
     update_timestamp: true

@@ -1,13 +1,18 @@
 name: Linux Ingress Tool Transfer Hunting
 id: 52fd468b-cb6d-48f5-b16a-92f1c9bb10cf
-version: 1
-date: '2022-07-29'
+version: 2
+date: '2024-05-10'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic hunts for curl and wget being utilized in the
-  environment. This is meant to help with identifying normal usage and potentially
-  malicious. Utilize this query to tune other curl and wget analytics.
+description: The following analytic detects the use of 'curl' and 'wget' commands
+  within a Linux environment. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names, user information, and command-line executions.
+  This activity is significant as 'curl' and 'wget' are commonly used for downloading
+  files, which can indicate potential ingress of malicious tools. If confirmed malicious,
+  this activity could lead to unauthorized code execution, data exfiltration, or further
+  compromise of the system. Monitoring and tuning this detection helps identify and
+  differentiate between normal and potentially harmful usage.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -78,7 +83,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/curl-linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/curl-linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux
     update_timestamp: true
