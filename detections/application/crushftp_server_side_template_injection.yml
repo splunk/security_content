@@ -27,7 +27,7 @@ tags:
   impact: 80
   message: Potential exploitation of CrushFTP Server Side Template Injection Vulnerability on $dest$ by $src_ip$.
   mitre_attack_id:
-  - T1192
+  - T1190
   observable:
   - name: dest
     type: IP Address
