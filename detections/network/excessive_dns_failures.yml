@@ -1,12 +1,18 @@
 name: Excessive DNS Failures
 id: 104658f4-afdc-499e-9719-17243f9826f1
-version: 3
-date: '2022-12-21'
+version: 4
+date: '2024-05-20'
 author: bowesmana, Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: This search identifies DNS query failures by counting the number of DNS
-  responses that do not indicate success, and trigger on more than 50 occurrences.
+description: The following analytic identifies excessive DNS query failures by counting
+  DNS responses that do not indicate success, triggering when there are more than
+  50 occurrences. It leverages the Network_Resolution data model, focusing on DNS
+  reply codes that signify errors. This activity is significant because a high number
+  of DNS failures can indicate potential network misconfigurations, DNS poisoning
+  attempts, or malware communication issues. If confirmed malicious, this activity
+  could lead to disrupted network services, hindered communication, or data exfiltration
+  attempts by attackers.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where nodename=DNS "DNS.reply_code"!="No Error" "DNS.reply_code"!="NoError" DNS.reply_code!="unknown"

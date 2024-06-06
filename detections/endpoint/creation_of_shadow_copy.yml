@@ -1,21 +1,27 @@
 name: Creation of Shadow Copy
 id: eb120f5f-b879-4a63-97c1-93352b5df844
-version: 2
-date: '2024-01-01'
+version: 3
+date: '2024-05-19'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: Monitor for signs that Vssadmin or Wmic has been used to create a shadow
-  copy.
+description: The following analytic detects the creation of shadow copies using Vssadmin
+  or Wmic. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process execution logs that include command-line details. This activity is significant
+  because creating shadow copies can be a precursor to ransomware attacks or data
+  exfiltration, allowing attackers to bypass file locks and access sensitive data.
+  If confirmed malicious, this behavior could enable attackers to maintain persistence,
+  recover deleted files, or prepare for further malicious activities, posing a significant
+  risk to the integrity and confidentiality of the system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe
   Processes.process=*create* Processes.process=*shadow*) OR (Processes.process_name=wmic.exe
   Processes.process=*shadowcopy* Processes.process=*create*) by Processes.dest Processes.user
-  Processes.process_name Processes.process  Processes.parent_process_name Processes.parent_process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `creation_of_shadow_copy_filter`'
+  Processes.process_name Processes.process  Processes.parent_process_name Processes.parent_process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `creation_of_shadow_copy_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -78,11 +84,13 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/crowdstrike_falcon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/crowdstrike_falcon.log
     source: crowdstrike
     sourcetype: crowdstrike:events:sensor

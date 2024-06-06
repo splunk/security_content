@@ -1,12 +1,17 @@
 name: Detect Spike in AWS Security Hub Alerts for User
 id: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
-version: 3
-date: '2021-01-26'
+version: 4
+date: '2024-05-18'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for a spike in number of of AWS security Hub alerts
-  for an AWS IAM User in 4 hours intervals.
+description: The following analytic identifies a spike in the number of AWS Security
+  Hub alerts for an AWS IAM User within a 4-hour interval. It leverages AWS Security
+  Hub findings data, calculating the average and standard deviation of alerts to detect
+  significant deviations. This activity is significant as a sudden increase in alerts
+  for a specific user may indicate suspicious behavior or a potential security incident.
+  If confirmed malicious, this could signify an ongoing attack, unauthorized access,
+  or misuse of IAM credentials, potentially leading to data breaches or further exploitation.
 data_source: []
 search: '`aws_securityhub_finding` "findings{}.Resources{}.Type"= AwsIamUser | rename
   findings{}.Resources{}.Id as user | bucket span=4h _time | stats count AS alerts

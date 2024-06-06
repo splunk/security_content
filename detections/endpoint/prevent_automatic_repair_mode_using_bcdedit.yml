@@ -1,13 +1,18 @@
 name: Prevent Automatic Repair Mode using Bcdedit
 id: 7742aa92-c9d9-11eb-bbfc-acde48001122
-version: 1
-date: '2021-06-10'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious bcdedit.exe execution to ignore
-  all failures. This technique was used by ransomware to prevent the compromise machine
-  automatically boot in repair mode.
+description: The following analytic detects the execution of "bcdedit.exe" with parameters
+  to set the boot status policy to ignore all failures. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names and command-line
+  arguments. This activity is significant because it can indicate an attempt by ransomware
+  to prevent a compromised machine from booting into automatic repair mode, thereby
+  hindering recovery efforts. If confirmed malicious, this action could allow attackers
+  to maintain control over the infected system, complicating remediation and potentially
+  leading to further damage.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,12 +1,17 @@
 name: Detect Computer Changed with Anonymous Account
 id: 1400624a-d42d-484d-8843-e6753e6e3645
-version: 1
-date: '2020-09-18'
+version: 2
+date: '2024-05-18'
 author: Rod Soto, Jose Hernandez, Splunk
 status: experimental
 type: Hunting
-description: This search looks for Event Code 4742 (Computer Change) or EventCode
-  4624 (An account was successfully logged on) with an anonymous account.
+description: The following analytic detects changes to computer accounts using an
+  anonymous logon. It leverages Windows Security Event Codes 4742 (Computer Change)
+  and 4624 (Successful Logon) with the TargetUserName set to "ANONYMOUS LOGON" and
+  LogonType 3. This activity is significant because anonymous logons should not typically
+  be modifying computer accounts, indicating potential unauthorized access or misconfiguration.
+  If confirmed malicious, this could allow an attacker to alter computer accounts,
+  potentially leading to privilege escalation or persistent access within the network.
 data_source:
 - Windows Event Log Security 4624
 search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS

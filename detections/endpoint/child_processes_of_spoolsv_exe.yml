@@ -1,14 +1,18 @@
 name: Child Processes of Spoolsv exe
 id: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
-version: 3
-date: '2023-04-14'
+version: 4
+date: '2024-05-15'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
-description: This search looks for child processes of spoolsv.exe. This activity is
-  associated with a POC privilege-escalation exploit associated with CVE-2018-8440.
-  Spoolsv.exe is the process associated with the Print Spooler service in Windows
-  and typically runs as SYSTEM.
+description: The following analytic identifies child processes spawned by spoolsv.exe,
+  the Print Spooler service in Windows, which typically runs with SYSTEM privileges.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process and parent process relationships. Monitoring this activity is
+  crucial as it can indicate exploitation attempts, such as those associated with
+  CVE-2018-8440, which can lead to privilege escalation. If confirmed malicious, attackers
+  could gain SYSTEM-level access, allowing them to execute arbitrary code, escalate
+  privileges, and potentially compromise the entire system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)

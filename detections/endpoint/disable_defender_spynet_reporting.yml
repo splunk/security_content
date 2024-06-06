@@ -1,14 +1,18 @@
 name: Disable Defender Spynet Reporting
 id: 898debf4-3021-11ec-ba7c-acde48001122
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-07'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is intended to detect a suspicious modification of registry
-  to disable Windows Defender feature. This technique is intended to bypass or evade
-  detection from Windows Defender AV product, specifically the spynet reporting for
-  Defender telemetry.
+description: The following analytic detects the modification of the registry to disable
+  Windows Defender SpyNet reporting. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path associated with
+  Windows Defender SpyNet settings. This activity is significant because disabling
+  SpyNet reporting can prevent Windows Defender from sending telemetry data, potentially
+  allowing malicious activities to go undetected. If confirmed malicious, this action
+  could enable an attacker to evade detection, maintain persistence, and carry out
+  further attacks without being flagged by Windows Defender.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -66,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

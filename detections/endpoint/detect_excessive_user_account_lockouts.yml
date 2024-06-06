@@ -1,18 +1,23 @@
 name: Detect Excessive User Account Lockouts
 id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
-version: 5
-date: '2024-04-26'
+version: 6
+date: '2025-05-20'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
-description: This search detects user accounts that have been locked out a relatively
-  high number of times in a short period.
-data_source:
-- Windows Event Log Security 4739
+description: The following analytic identifies user accounts experiencing an excessive
+  number of lockouts within a short timeframe. It leverages the 'Change' data model,
+  specifically focusing on events where the result indicates a lockout. This activity
+  is significant as it may indicate a brute-force attack or misconfiguration, both
+  of which require immediate attention. If confirmed malicious, this behavior could
+  lead to account compromise, unauthorized access, and potential lateral movement
+  within the network.
+data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*lock*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
-  |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
+  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*lock*"
+  by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`|
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search
+  count > 5 | `detect_excessive_user_account_lockouts_filter`'
 how_to_implement: ou must ingest your Windows security event logs in the `Change`
   datamodel under the nodename is `Account_Management`, for this search to execute
   successfully. Please consider updating the cron schedule and the count of lockouts
@@ -49,6 +54,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-xml-1.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-xml-1.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

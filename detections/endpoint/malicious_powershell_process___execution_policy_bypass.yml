@@ -1,14 +1,18 @@
 name: Malicious PowerShell Process - Execution Policy Bypass
 id: 9be56c82-b1cc-4318-87eb-d138afaaca39
-version: 5
-date: '2020-07-21'
+version: 6
+date: '2024-05-13'
 author: Rico Valdez, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This search looks for PowerShell processes started with parameters used
-  to bypass the local execution policy for scripts. These parameters are often observed
-  in attacks leveraging PowerShell scripts as they override the default PowerShell
-  execution policy.
+description: The following analytic detects PowerShell processes initiated with parameters
+  that bypass the local execution policy for scripts. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on command-line executions containing
+  specific flags like "-ex" or "bypass." This activity is significant because bypassing
+  execution policies is a common tactic used by attackers to run malicious scripts
+  undetected. If confirmed malicious, this could allow an attacker to execute arbitrary
+  code, potentially leading to further system compromise, data exfiltration, or persistent
+  access within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
@@ -72,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

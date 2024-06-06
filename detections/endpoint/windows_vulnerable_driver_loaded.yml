@@ -1,6 +1,6 @@
 name: Windows Vulnerable Driver Loaded
 id: a2b1f1ef-221f-4187-b2a4-d4b08ec745f4
-version: 1
+version: 2
 date: "2022-12-12"
 author: Michael Haag, Splunk
 status: experimental
@@ -15,9 +15,9 @@ description:
 data_source:
   - Sysmon EventID 6
 search:
-  "`sysmon` EventCode=6 | lookup loldrivers driver_name AS ImageLoaded OUTPUT
-  is_driver driver_description | search is_driver = TRUE | stats  min(_time) as firstTime
-  max(_time) as lastTime count by dest ImageLoaded driver_description | `security_content_ctime(firstTime)`
+  "`sysmon` EventCode=6  | stats  min(_time) as firstTime
+  max(_time) as lastTime count by dest ImageLoaded | lookup loldrivers driver_name AS ImageLoaded OUTPUT
+  is_driver driver_description | search is_driver = TRUE | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_vulnerable_driver_loaded_filter`"
 how_to_implement:
   Sysmon collects driver loads via EventID 6, however you may modify

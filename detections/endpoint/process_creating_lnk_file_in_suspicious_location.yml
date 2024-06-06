@@ -1,23 +1,31 @@
 name: Process Creating LNK file in Suspicious Location
 id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
-version: 6
-date: '2024-05-16'
+version: 7
+date: '2024-05-15'
 author: Jose Hernandez, Michael Haag, Splunk
 status: production
 type: TTP
-description: This analytic identifies instances where a process initiates an `*.lnk` file from potentially malicious locations such as `C:\Users\*` or `*\Local\Temp\*`. These locations are frequently targeted by attackers using spear phishing tools to execute malicious shortcuts.
+description: The following analytic detects a process creating a `.lnk` file in suspicious
+  locations such as `C:\User*` or `*\Local\Temp\*`. It leverages filesystem and process
+  activity data from the Endpoint data model to identify this behavior. This activity
+  is significant because creating `.lnk` files in these directories is a common tactic
+  used by spear phishing tools to establish persistence or execute malicious payloads.
+  If confirmed malicious, this could allow an attacker to maintain persistence, execute
+  arbitrary code, or further compromise the system.
 data_source:
 - Sysmon Event ID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk" AND (Filesystem.file_path="C:\\Users\\*" OR Filesystem.file_path="*\\Temp\\*") by _time span=1h Filesystem.process_guid Filesystem.file_name Filesystem.file_path Filesystem.file_hash Filesystem.user 
-  | `drop_dm_object_name(Filesystem)` 
-  | rename process_guid as lnk_guid 
-  | join lnk_guid _time 
-  [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=* by _time span=1h Processes.parent_process_name Processes.parent_process_guid Processes.process_name Processes.dest Processes.process Processes.path
-  | `drop_dm_object_name(Processes)` 
-  | rename parent_process_guid as lnk_guid] 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | table firstTime, lastTime, lnk_guid, user, dest, file_name, file_path, process_name, process, process_path, file_hash | `process_creating_lnk_file_in_suspicious_location_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk"
+  AND (Filesystem.file_path="C:\\Users\\*" OR Filesystem.file_path="*\\Temp\\*") by
+  _time span=1h Filesystem.process_guid Filesystem.file_name Filesystem.file_path
+  Filesystem.file_hash Filesystem.user | `drop_dm_object_name(Filesystem)` | rename
+  process_guid as lnk_guid | join lnk_guid _time [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes where Processes.process_name=* by _time
+  span=1h Processes.parent_process_name Processes.parent_process_guid Processes.process_name
+  Processes.dest Processes.process Processes.path | `drop_dm_object_name(Processes)`
+  | rename parent_process_guid as lnk_guid] | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | table firstTime, lastTime, lnk_guid, user,
+  dest, file_name, file_path, process_name, process, process_path, file_hash | `process_creating_lnk_file_in_suspicious_location_filter`'
 how_to_implement: You must be ingesting data that records filesystem and process activity
   from your hosts to populate the Endpoint data model. This is typically populated
   via endpoint detection-and-response product, such as Carbon Black, or endpoint data
@@ -69,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

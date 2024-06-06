@@ -1,14 +1,18 @@
 name: Windows Create Local Account
 id: 3fb2e8e3-7bc0-4567-9722-c5ab9f8595eb
-version: 2
-date: '2024-03-19'
+version: 3
+date: '2025-05-19'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a new local user account added to a
-  computer. Note that, this should be restricted to critical assets.
-data_source:
-- Windows Event Log Security 4720
+description: The following analytic detects the creation of a new local user account
+  on a Windows system. It leverages Windows Security Audit logs, specifically event
+  ID 4720, to identify this activity. Monitoring the creation of local accounts is
+  crucial for a SOC as it can indicate unauthorized access or lateral movement within
+  the network. If confirmed malicious, this activity could allow an attacker to establish
+  persistence, escalate privileges, or gain unauthorized access to sensitive systems
+  and data.
+data_source: []
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
   result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
   where All_Changes.result_id=4720 by All_Changes.user All_Changes.dest All_Changes.result
@@ -56,7 +60,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/4720.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/4720.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

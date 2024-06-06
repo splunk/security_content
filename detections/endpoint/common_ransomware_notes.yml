@@ -1,12 +1,17 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 4
-date: '2020-11-09'
+version: 5
+date: '2024-05-22'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
-description: The search looks for files created with names matching those typically
-  used in ransomware notes that tell the victim how to get their data back.
+description: The following analytic detects the creation of files with names commonly
+  associated with ransomware notes. It leverages file-system activity data from the
+  Endpoint Filesystem data model, typically populated by endpoint detection and response
+  (EDR) tools or Sysmon logs. This activity is significant because ransomware notes
+  indicate a potential ransomware attack, which can lead to data encryption and extortion.
+  If confirmed malicious, this activity could result in significant data loss, operational
+  disruption, and financial impact due to ransom demands.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -66,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

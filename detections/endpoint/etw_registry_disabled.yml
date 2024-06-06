@@ -1,13 +1,18 @@
 name: ETW Registry Disabled
 id: 8ed523ac-276b-11ec-ac39-acde48001122
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-10'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a registry modification to disable ETW feature
-  of windows. This technique is to evade EDR appliance to evade detections and hide
-  its execution from audit logs.
+description: The following analytic detects a registry modification that disables
+  the Event Tracing for Windows (ETW) feature. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the ETWEnabled registry value under
+  the .NETFramework path. This activity is significant because disabling ETW can allow
+  attackers to evade Endpoint Detection and Response (EDR) tools and hide their execution
+  from audit logs. If confirmed malicious, this action could enable attackers to operate
+  undetected, potentially leading to further compromise and persistent access within
+  the environment.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -67,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/etw_disable/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/etw_disable/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

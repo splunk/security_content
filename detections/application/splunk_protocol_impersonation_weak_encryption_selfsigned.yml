@@ -1,14 +1,18 @@
 name: Splunk protocol impersonation weak encryption selfsigned
 id: c76c7a2e-df49-414a-bb36-dce2683770de
-version: 1
-date: '2022-05-26'
+version: 2
+date: '2024-05-21'
 author: Rod Soto, Splunk
 status: production
 type: Hunting
-description: On June 14th 2022, Splunk released vulnerability advisory addresing Python
-  TLS validation which was not set before Splunk version 9. This search displays events
-  showing WARNING of using Splunk issued default selfsigned certificates.
-data_source: 
+description: The following analytic identifies the use of Splunk's default self-signed
+  certificates, which are flagged as insecure. It detects events from the `splunkd`
+  log where the event message indicates that an X509 certificate should not be used.
+  This activity is significant because using weak encryption and self-signed certificates
+  can expose the system to man-in-the-middle attacks and other security vulnerabilities.
+  If confirmed malicious, attackers could impersonate Splunk services, intercept sensitive
+  data, and compromise the integrity of the Splunk environment.
+data_source:
 - Splunk
 search: '`splunkd` certificate event_message="X509 certificate* should not be used*"
   | stats count by host CN component log_level | `splunk_protocol_impersonation_weak_encryption_selfsigned_filter`'
@@ -54,7 +58,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1558.004/splunk_protocol_impersonation_weak_encryption_selfsigned.txt
+  - data: 
+      https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1558.004/splunk_protocol_impersonation_weak_encryption_selfsigned.txt
     source: /opt/splun/var/log/splunk/splunkd.log
     sourcetype: splunkd
     custom_index: _internal

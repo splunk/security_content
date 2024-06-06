@@ -1,13 +1,18 @@
 name: Windows MSIExec Unregister DLLRegisterServer
 id: a27db3c5-1a9a-46df-a577-765d3f1a3c24
-version: 1
-date: '2022-06-14'
+version: 2
+date: '2024-05-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the usage of msiexec.exe using the
-  /z switch parameter, which grants the ability for msiexec to unload DLLRegisterServer.
-  Upon triage, review parent process and capture any artifacts for further review.
+description: The following analytic detects the use of msiexec.exe with the /z switch
+  parameter, which is used to unload DLLRegisterServer. This detection leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs, including command-line arguments. This activity is significant because unloading
+  DLLRegisterServer can be indicative of an attempt to deregister a DLL, potentially
+  disrupting legitimate services or hiding malicious activity. If confirmed malicious,
+  this could allow an attacker to disable security controls, evade detection, or disrupt
+  system functionality, leading to further compromise of the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,7 +84,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

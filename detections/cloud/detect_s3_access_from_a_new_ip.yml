@@ -1,12 +1,18 @@
 name: Detect S3 access from a new IP
 id: e6f1bb1b-f441-492b-9126-902acda217da
-version: 1
-date: '2018-06-28'
+version: 2
+date: '2024-05-19'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: This search looks at S3 bucket-access logs and detects new or previously
-  unseen remote IP addresses that have successfully accessed an S3 bucket.
+description: The following analytic identifies access to an S3 bucket from a new or
+  previously unseen remote IP address. It leverages S3 bucket-access logs, specifically
+  focusing on successful access events (http_status=200). This activity is significant
+  because access from unfamiliar IP addresses could indicate unauthorized access or
+  potential data exfiltration attempts. If confirmed malicious, this activity could
+  lead to unauthorized data access, data theft, or further exploitation of the compromised
+  S3 bucket, posing a significant risk to sensitive information stored within the
+  bucket.
 data_source: []
 search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_status=200
   | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip

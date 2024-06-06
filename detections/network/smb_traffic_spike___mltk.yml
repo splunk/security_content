@@ -1,12 +1,17 @@
 name: SMB Traffic Spike - MLTK
 id: d25773ba-9ad8-48d1-858e-07ad0bbeb828
-version: 3
-date: '2020-07-22'
+version: 4
+date: '2024-05-21'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
-description: This search uses the Machine Learning Toolkit (MLTK) to identify spikes
-  in the number of Server Message Block (SMB) connections.
+description: The following analytic identifies spikes in the number of Server Message
+  Block (SMB) connections using the Machine Learning Toolkit (MLTK). It leverages
+  the Network_Traffic data model to monitor SMB traffic on ports 139 and 445, applying
+  a machine learning model to detect anomalies. This activity is significant because
+  sudden increases in SMB traffic can indicate lateral movement or data exfiltration
+  attempts by attackers. If confirmed malicious, this behavior could lead to unauthorized
+  access, data theft, or further compromise of the network.
 data_source: []
 search: '| tstats `security_content_summariesonly` count values(All_Traffic.dest_ip)
   as dest values(All_Traffic.dest_port) as port from datamodel=Network_Traffic where
@@ -15,28 +20,23 @@ search: '| tstats `security_content_summariesonly` count values(All_Traffic.dest
   "%A") | `drop_dm_object_name(All_Traffic)` | apply smb_pdfmodel threshold=0.001
   | rename "IsOutlier(count)" as isOutlier | search isOutlier > 0 | sort -count |
   table _time src dest port count | `smb_traffic_spike___mltk_filter` '
-how_to_implement: 'To successfully implement this search, you will need to ensure
-  that DNS data is populating the Network_Traffic data model. In addition, the latest version of
-  Machine Learning Toolkit (MLTK) must be installed on your
-  search heads, along with any required dependencies. Finally, the support search
-  "Baseline of SMB Traffic - MLTK" must be executed before this detection search,
-  because it builds a machine-learning (ML) model over the historical data used by
-  this search. It is important that this search is run in the same app context as
-  the associated support search, so that the model created by the support search is
-  available for use. You should periodically re-run the support search to rebuild
-  the model with the latest data available in your environment.
-
-  This search produces a field (Number of events,count) that are not yet supported
-  by ES Incident Review and therefore cannot be viewed when a notable event is raised.
-  This field contributes additional context to the notable. To see the additional
-  metadata, add the following field, if not already present, to Incident Review -
-  Event Attributes (Configure > Incident Management > Incident Review Settings > Add
-  New Entry): 
-
-  * **Label:** Number of events, **Field:** count
-
-  Detailed documentation on how to create a new field within Incident Review is found
-  here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
+how_to_implement: "To successfully implement this search, you will need to ensure
+  that DNS data is populating the Network_Traffic data model. In addition, the latest
+  version of Machine Learning Toolkit (MLTK) must be installed on your search heads,
+  along with any required dependencies. Finally, the support search \"Baseline of
+  SMB Traffic - MLTK\" must be executed before this detection search, because it builds
+  a machine-learning (ML) model over the historical data used by this search. It is
+  important that this search is run in the same app context as the associated support
+  search, so that the model created by the support search is available for use. You
+  should periodically re-run the support search to rebuild the model with the latest
+  data available in your environment.\nThis search produces a field (Number of events,count)
+  that are not yet supported by ES Incident Review and therefore cannot be viewed
+  when a notable event is raised. This field contributes additional context to the
+  notable. To see the additional metadata, add the following field, if not already
+  present, to Incident Review - Event Attributes (Configure > Incident Management
+  > Incident Review Settings > Add New Entry):\n* **Label:** Number of events, **Field:**
+  count\nDetailed documentation on how to create a new field within Incident Review
+  is found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`"
 known_false_positives: If you are seeing more results than desired, you may consider
   reducing the value of the threshold in the search. You should also periodically
   re-run the support search to re-build the ML model on the latest data. Please update

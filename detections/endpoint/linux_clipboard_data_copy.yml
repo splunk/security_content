@@ -1,13 +1,17 @@
 name: Linux Clipboard Data Copy
 id: 7173b2ad-6146-418f-85ae-c3479e4515fc
-version: 1
-date: '2022-07-28'
+version: 2
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the use of Linux Xclip copying data
-  out of the clipboard. Adversaries have utilized this technique to capture passwords,
-  IP addresses, or store payloads.
+description: The following analytic detects the use of the Linux 'xclip' command to
+  copy data from the clipboard. It leverages Endpoint Detection and Response (EDR)
+  telemetry, focusing on process names and command-line arguments related to clipboard
+  operations. This activity is significant because adversaries can exploit clipboard
+  data to capture sensitive information such as passwords or IP addresses. If confirmed
+  malicious, this technique could lead to unauthorized data exfiltration, compromising
+  sensitive information and potentially aiding further attacks within the environment.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,7 +79,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1115/atomic_red_team/linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1115/atomic_red_team/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux
     update_timestamp: true

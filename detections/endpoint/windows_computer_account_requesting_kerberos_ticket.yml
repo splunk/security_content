@@ -1,20 +1,24 @@
 name: Windows Computer Account Requesting Kerberos Ticket
 id: fb3b2bb3-75a4-4279-848a-165b42624770
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a ComputerAccount requesting a Kerberos
-  Ticket. typically, a user account requests a Kerberos ticket. This behavior was
-  identified with KrbUpRelay, but additional Kerberos attacks have exhibited similar
-  behavior.
+description: The following analytic detects a computer account requesting a Kerberos
+  ticket, which is unusual as typically user accounts request these tickets. This
+  detection leverages Windows Security Event Logs, specifically EventCode 4768, to
+  identify instances where the TargetUserName ends with a dollar sign ($), indicating
+  a computer account. This activity is significant because it may indicate the use
+  of tools like KrbUpRelay or other Kerberos-based attacks. If confirmed malicious,
+  this could allow attackers to impersonate computer accounts, potentially leading
+  to unauthorized access and lateral movement within the network.
 data_source:
 - Windows Event Log Security 4768
-search: '`wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1" 
-  | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action, user, TargetUserName, src_ip 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` | `windows_computer_account_requesting_kerberos_ticket_filter`'
+search: '`wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1"
+  | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject,
+  action, user, TargetUserName, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_computer_account_requesting_kerberos_ticket_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4768 EventCode enabled. The Windows TA is also
   required.
@@ -56,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_requesting_kerberos_ticket/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_requesting_kerberos_ticket/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

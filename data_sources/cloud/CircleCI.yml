@@ -3,66 +3,66 @@ id: 34ad06fc-a296-4ab5-8315-2f07714948e3
 author: Patrick Bareiss, Splunk
 source: circleci
 sourcetype: circleci
-separator: null
 supported_TA:
   name: App for CircleCI
   version: 0.1.1
   url: https://splunkbase.splunk.com/app/5162
 event_names: []
 fields:
-- _time
-- author_name
-- avatar_url
-- branch
-- build_num
-- build_time_millis
-- build_url
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- eventtype
-- fail_reason
-- host
-- index
-- job_name
-- job_time
-- linecount
-- owners{}
-- project_slug
-- punct
-- queued_time
-- reponame
-- source
-- sourcetype
-- splunk_server
-- start_time
-- status
-- stop_time
-- tag
-- tag::eventtype
-- timedout
-- timeendpos
-- timestartpos
-- username
-- vcs.commit_time
-- vcs.committer_name
-- vcs.revision
-- vcs.subject
-- vcs.tag
-- vcs.type
-- vcs.url
-- workflows.job_id
-- workflows.job_name
-- workflows.upstream_job_ids{}
-- workflows.workflow_id
-- workflows.workflow_name
-- workflows.workspace_id
-example_log: '{"job_time": "2021-09-02T08:13:34.273Z", "stop_time": "2021-09-02T08:13:34.273Z",
+  - _time
+  - author_name
+  - avatar_url
+  - branch
+  - build_num
+  - build_time_millis
+  - build_url
+  - date_hour
+  - date_mday
+  - date_minute
+  - date_month
+  - date_second
+  - date_wday
+  - date_year
+  - date_zone
+  - eventtype
+  - fail_reason
+  - host
+  - index
+  - job_name
+  - job_time
+  - linecount
+  - owners{}
+  - project_slug
+  - punct
+  - queued_time
+  - reponame
+  - source
+  - sourcetype
+  - splunk_server
+  - start_time
+  - status
+  - stop_time
+  - tag
+  - tag::eventtype
+  - timedout
+  - timeendpos
+  - timestartpos
+  - username
+  - vcs.commit_time
+  - vcs.committer_name
+  - vcs.revision
+  - vcs.subject
+  - vcs.tag
+  - vcs.type
+  - vcs.url
+  - workflows.job_id
+  - workflows.job_name
+  - workflows.upstream_job_ids{}
+  - workflows.workflow_id
+  - workflows.workflow_name
+  - workflows.workspace_id
+example_log:
+  '{"job_time": "2021-09-02T08:13:34.273Z", "stop_time": "2021-09-02T08:13:34.273Z",
   "start_time": "2021-09-02T08:10:15.829Z", "queued_time": "2021-09-02T08:10:12.764Z",
   "job_name": "Unknown", "reponame": "devsecops_poc", "build_num": 94, "build_url":
   "https://circleci.com/gh/splunk/devsecops_poc/94", "branch": "main", "status": "success",

@@ -1,13 +1,17 @@
 name: Sunburst Correlation DLL and Network Event
 id: 701a8740-e8db-40df-9190-5516d3819787
-version: 1
-date: '2020-12-14'
+version: 2
+date: '2024-05-11'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP
-description: The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe.
-  After a period of 12-14 days, the malware will attempt to resolve a subdomain of
-  avsvmcloud.com. This detections will correlate both events.
+description: The following analytic identifies the loading of the malicious SolarWinds.Orion.Core.BusinessLayer.dll
+  by SolarWinds.BusinessLayerHost.exe and subsequent DNS queries to avsvmcloud.com.
+  It uses Sysmon Event ID 7 for DLL loading and Event ID 22 for DNS queries, correlating
+  these events within a 12-14 day period. This activity is significant as it indicates
+  potential Sunburst malware infection, a known supply chain attack. If confirmed
+  malicious, this could lead to unauthorized network access, data exfiltration, and
+  further compromise of the affected systems.
 data_source:
 - Sysmon EventID 7
 - Sysmon EventID 22

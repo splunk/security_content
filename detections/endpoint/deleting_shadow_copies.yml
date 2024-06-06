@@ -1,13 +1,18 @@
 name: Deleting Shadow Copies
 id: b89919ed-ee5f-492c-b139-95dbb162039e
-version: 4
-date: '2020-11-09'
+version: 5
+date: '2024-05-18'
 author: David Dorsey, Splunk
 status: production
 type: TTP
-description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy
-  Service.  Wmic is an interface to the Windows Management Instrumentation.  This
-  search looks for either of these tools being used to delete shadow copies.
+description: The following analytic detects the deletion of shadow copies using the
+  vssadmin.exe or wmic.exe utilities. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on process names and command-line arguments. This
+  activity is significant because deleting shadow copies is a common tactic used by
+  attackers to prevent recovery and hide their tracks. If confirmed malicious, this
+  action could hinder incident response efforts and allow attackers to maintain persistence
+  and cover their activities, making it crucial for security teams to investigate
+  promptly.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -89,6 +94,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

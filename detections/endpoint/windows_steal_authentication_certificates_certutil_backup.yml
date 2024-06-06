@@ -1,13 +1,18 @@
 name: Windows Steal Authentication Certificates CertUtil Backup
 id: bac85b56-0b65-4ce5-aad5-d94880df0967
-version: 1
-date: '2023-02-06'
+version: 2
+date: '2024-05-04'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic is focused on CertUtil.exe performing a backup
-  of the Certificate Store. Typically, administrators may perform this task to migrate
-  or perform backups of the store, however it may be found uncommon in most organizations.
+description: The following analytic detects CertUtil.exe performing a backup of the
+  Certificate Store. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on specific command-line executions involving CertUtil with backup
+  parameters. This activity is significant because it may indicate an attempt to steal
+  authentication certificates, which are critical for secure communications. If confirmed
+  malicious, an attacker could use the stolen certificates to impersonate users, decrypt
+  sensitive data, or gain unauthorized access to systems, leading to severe security
+  breaches.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,7 +84,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/backupdb_certutil_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/backupdb_certutil_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

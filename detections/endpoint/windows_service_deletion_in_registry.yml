@@ -1,13 +1,18 @@
 name: Windows Service Deletion In Registry
 id: daed6823-b51c-4843-a6ad-169708f1323e
-version: 1
-date: '2022-08-24'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a service being deleted from the Windows
-  Registry under CurrentControlSet\Services. Adversaries may delete a service as part
-  of defense evasion.
+description: The following analytic detects the deletion of a service from the Windows
+  Registry under CurrentControlSet\Services. It leverages data from the Endpoint.Registry
+  datamodel, specifically monitoring registry paths and actions related to service
+  deletion. This activity is significant as adversaries may delete services to evade
+  detection and hinder incident response efforts. If confirmed malicious, this action
+  could disrupt legitimate services, impair system functionality, and potentially
+  allow attackers to maintain a lower profile within the environment, complicating
+  detection and remediation efforts.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -65,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/service_deletion/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/service_deletion/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

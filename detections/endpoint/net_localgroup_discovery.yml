@@ -1,13 +1,17 @@
 name: Net Localgroup Discovery
 id: 54f5201e-155b-11ec-a6e2-acde48001122
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting analytic will identify the use of localgroup discovery
-  using `net localgroup`. During triage, review parallel processes and identify any
-  further suspicious behavior.
+description: The following analytic detects the execution of the `net localgroup`
+  command, which is used to enumerate local group memberships on a system. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs that include command-line details. This activity is significant because it
+  can indicate an attacker is gathering information about local group memberships,
+  potentially to identify privileged accounts. If confirmed malicious, this behavior
+  could lead to further privilege escalation or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

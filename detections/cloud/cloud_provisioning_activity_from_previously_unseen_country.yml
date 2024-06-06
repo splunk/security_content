@@ -1,14 +1,18 @@
 name: Cloud Provisioning Activity From Previously Unseen Country
 id: 94994255-3acf-4213-9b3f-0494df03bb31
-version: 1
-date: '2020-10-09'
+version: 2
+date: '2024-05-22'
 author: Rico Valdez, Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: This search looks for cloud provisioning activities from previously unseen
-  countries. Provisioning activities are defined broadly as any event that runs or
-  creates something.
-data_source: 
+description: The following analytic detects cloud provisioning activities originating
+  from previously unseen countries. It leverages cloud infrastructure logs and compares
+  the geographic location of the source IP address against a baseline of known locations.
+  This activity is significant as it may indicate unauthorized access or potential
+  compromise of cloud resources. If confirmed malicious, an attacker could gain control
+  over cloud assets, leading to data breaches, service disruptions, or further infiltration
+  into the network.
+data_source:
 - AWS CloudTrail
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
@@ -31,15 +35,15 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   macro.
 known_false_positives: 'This is a strictly behavioral search, so we define "false
   positive" slightly differently. Every time this fires, it will accurately reflect
-  the first occurrence in the time period you''re searching within, plus what is
-  stored in the cache feature. But while there are really no "false positives"
-  in a traditional sense, there is definitely lots of noise.
-  
-  This search will fire any time a new IP address is seen in the **GeoIP** database for any kind
-  of provisioning activity. If you typically do all provisioning from tools inside
-  of your country, there should be few false positives. If you are located in countries
-  where the free version of **MaxMind GeoIP** that ships by default with Splunk
-  has weak resolution (particularly small countries in less economically powerful
+  the first occurrence in the time period you''re searching within, plus what is stored
+  in the cache feature. But while there are really no "false positives" in a traditional
+  sense, there is definitely lots of noise.
+
+  This search will fire any time a new IP address is seen in the **GeoIP** database
+  for any kind of provisioning activity. If you typically do all provisioning from
+  tools inside of your country, there should be few false positives. If you are located
+  in countries where the free version of **MaxMind GeoIP** that ships by default with
+  Splunk has weak resolution (particularly small countries in less economically powerful
   regions), this may be much less valuable to you.'
 references: []
 tags:
@@ -83,7 +87,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

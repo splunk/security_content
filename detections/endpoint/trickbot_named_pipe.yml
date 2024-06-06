@@ -1,20 +1,24 @@
 name: Trickbot Named Pipe
 id: 1804b0a4-a682-11eb-8f68-acde48001122
-version: 1
-date: '2021-04-26'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: this search is to detect potential trickbot infection through the create/connected
-  named pipe to the system. This technique is used by trickbot to communicate to its
-  c2 to post or get command during infection.
+description: The following analytic detects the creation or connection to a named
+  pipe associated with Trickbot malware. It leverages Sysmon EventCodes 17 and 18
+  to identify named pipes with the pattern "\\pipe\\*lacesomepipe". This activity
+  is significant as Trickbot uses named pipes for communication with its command and
+  control (C2) servers, facilitating data exfiltration and command execution. If confirmed
+  malicious, this behavior could allow attackers to maintain persistence, execute
+  arbitrary commands, and exfiltrate sensitive information from the compromised system.
 data_source:
 - Sysmon EventID 17
 - Sysmon EventID 18
 search: '`sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" | stats  min(_time)
-  as firstTime max(_time) as lastTime count by dest user_id EventCode PipeName
-  signature Image process_id | rename Image as process_name | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `trickbot_named_pipe_filter`'
+  as firstTime max(_time) as lastTime count by dest user_id EventCode PipeName signature
+  Image process_id | rename Image as process_name | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `trickbot_named_pipe_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and pipename from your endpoints. If you are using Sysmon,
   you must have at least version 6.0.4 of the Sysmon TA. .
@@ -58,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/namedpipe/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/namedpipe/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

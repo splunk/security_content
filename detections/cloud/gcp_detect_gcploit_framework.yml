@@ -1,13 +1,18 @@
 name: GCP Detect gcploit framework
 id: a1c5a85e-a162-410c-a5d9-99ff639e5a52
-version: 1
-date: '2020-10-08'
+version: 2
+date: '2024-05-14'
 author: Rod Soto, Splunk
 status: experimental
 type: TTP
-description: This search provides detection of GCPloit exploitation framework. This
-  framework can be used to escalate privileges and move laterally from compromised
-  high privilege accounts.
+description: The following analytic identifies the use of the GCPloit exploitation
+  framework within Google Cloud Platform (GCP). It detects specific GCP Pub/Sub messages
+  with a function timeout of 539 seconds, which is indicative of GCPloit activity.
+  This detection is significant as GCPloit can be used to escalate privileges and
+  facilitate lateral movement from compromised high-privilege accounts. If confirmed
+  malicious, this activity could allow attackers to gain unauthorized access, escalate
+  their privileges, and move laterally within the GCP environment, potentially compromising
+  sensitive data and critical resources.
 data_source: []
 search: '`google_gcp_pubsub_message` data.protoPayload.request.function.timeout=539s
   | table src src_user data.resource.labels.project_id data.protoPayload.request.function.serviceAccountEmail
