@@ -5,7 +5,7 @@
     "id": {
       "group": null, 
       "name": "DA-ESS-ContentUpdate", 
-      "version": "4.32.0"
+      "version": "4.33.0"
     }, 
     "author": [
       {
@@ -14,7 +14,7 @@
         "company": "Splunk"
       }
     ], 
-    "releaseDate": "2024-05-22", 
+    "releaseDate": "2024-06-06", 
     "description": "Explore the Analytic Stories included with ES Content Updates.", 
     "classification": {
       "intendedAudience": null, 
