@@ -10,7 +10,7 @@ description: This search is to detect an anomaly event of a non-chrome process a
   of the chrome browser related to users login, history, cookies and etc. Most of
   the RAT, trojan spy as well as FIN7 jssloader try to parse the those sqlite database
   to collect information on the compromised host. This SACL Event (4663) need to be
-  enabled to tthe firefox profile directory to be eable to use this. Since you monitoring
+  enabled to the chrome profile directory to be able to use this. Since you monitoring
   this access to the folder,  we observed noise that needs to be filter out and hence
   added sqlite db browser and explorer .exe to make this detection more stable.
 data_source:
@@ -23,7 +23,7 @@ search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.e
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
-known_false_positives: other browser not listed related to firefox may catch by this
+known_false_positives: other browser not listed related to chrome may catch by this
   rule.
 references: []
 tags:
