@@ -6,7 +6,7 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source:
-- UPDATE_DATA_SOURCE
+- Windows Event Log Security 4728
 description: Detect when a user adds themselfs to an AD Group. 
 search: '`wineventlog_security` EventCode IN (4728) 
   | where user=src_user 
@@ -14,8 +14,7 @@ search: '`wineventlog_security` EventCode IN (4728)
   | `windows_ad_add_self_to_group_filter`'
 how_to_implement: This analytic requires eventCode 4728 to be ingested.
 known_false_positives: Unknown
-references:
-- REFERENCE
+references: []
 tags:
   analytic_story:
   - Active Directory Privilege Escalation
@@ -46,6 +45,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: UPDATE url to dataset
-    source: UPDATE source
-    sourcetype: UPDATE sourcetype
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

@@ -1,7 +1,7 @@
 name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 id: 0cb847ee-9423-11ec-b2df-acde48001122
-version: 1
-date: '2022-02-22'
+version: 2
+date: '2024-06-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -13,7 +13,7 @@ description: The following analytic leverages Windows Security Event 4738, `A us
   Red Teams and adversaries alike who have obtained privileges in an Active Directory
   network may use this technique as a backdoor or a way to escalate privileges.
 data_source:
-- Windows Security 4738
+- Windows Event Log Security 4738
 search: ' `wineventlog_security` EventCode=4738 (UserAccountControl="%%2096" OR MSADChangedAttributes="*Don''t Require Preauth'' - Enabled*")
   | eval MSADChangedAttributes="''Don''t Require Preauth'' - Enabled"
   | table _time, source, EventCode, src_user, src_user_category, user, user_category, MSADChangedAttributes 
@@ -29,7 +29,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
-  asset_type: endpoint
+  asset_type: Endpoint
   confidence: 90
   impact: 50
   message: Kerberos Pre Authentication was Disabled for $user$
