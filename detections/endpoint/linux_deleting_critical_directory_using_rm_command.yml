@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: The following analytic detects the deletion of critical directories on
-  a Linux machine using the 'rm -rf' command. It leverages data from Endpoint Detection
+  a Linux machine using the `rm` command with argument rf. It leverages data from Endpoint Detection
   and Response (EDR) agents, focusing on command-line executions targeting directories
   like /boot, /var/log, /etc, and /dev. This activity is significant because deleting
   these directories can severely disrupt system operations and is often associated
