@@ -1,0 +1,15 @@
+filename,nirsoftFile
+AdvancedRun.exe,True
+ChromePass.exe,True
+CredHistView.exe,True
+Dialupass.exe,True
+iepv.exe,True
+LostMyPassword.exe,True
+mailpv.exe,True
+mspass.exe,True
+netpass.exe,True
+PasswordFox.exe,True
+PasswordHashesView.exe,True
+PstPassword.exe,True
+RegHiveBackup.exe,True
+WebBrowserPassView.exe,True
