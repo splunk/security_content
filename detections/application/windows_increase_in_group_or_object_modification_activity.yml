@@ -8,20 +8,21 @@ type: TTP
 data_source:
 - XmlWinEventLog:Security
 description: Increase in group or AD object modifications. 
-search: "`wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764)\n| bucket\
-  \ span=5m _time \n| stats values(object) as object, dc(object) as objectCount, values(src_user_category)\
-  \ as src_user_category, values(dest) as dest, values(dest_category) as dest_category\
-  \ by _time, src_user, signature, status\n| eventstats avg(objectCount) as comp_avg\
-  \ , stdev(objectCount) as comp_std by src_user, signature\n| eval upperBound=(comp_avg+comp_std)\
-  \ \n| eval isOutlier=if(objectCount > 10 and (objectCount >= upperBound), 1, 0)\n\
-  | search isOutlier=1 | `windows_increase_in_group_or_object_modification_activity_filter`"
+search: >-
+  `wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764)
+  | bucket span=5m _time 
+  | stats values(object) as object, dc(object) as objectCount, values(src_user_category) as src_user_category, values(dest) as dest, values(dest_category) as dest_category by _time, src_user, signature, status
+  | eventstats avg(objectCount) as comp_avg, stdev(objectCount) as comp_std by src_user, signature
+  | eval upperBound=(comp_avg+comp_std)
+  | eval isOutlier=if(objectCount > 10 and (objectCount >= upperBound), 1, 0)
+  | search isOutlier=1 
+  | `windows_increase_in_group_or_object_modification_activity_filter`
 how_to_implement: Run over past 7 days for best results. 
-known_false_positives: Genuine activity
-references:
-- REFERENCE
+known_false_positives: Unknown
+references: []
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+    - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 40
   impact: 20

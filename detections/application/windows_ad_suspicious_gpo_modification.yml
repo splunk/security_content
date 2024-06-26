@@ -10,12 +10,13 @@ data_source:
 - Windows Security 5145
 description: This analytic looks for a the creation of potentially harmful GPO which could lead to persistence or code execution on remote hosts. 
   Note, this analyic is looking for the absence of the corresponding 5136 events which is evidence of the GPOs being manually created (using a tool like PowerView) or potentially missing logs. 
-search: '`wineventlog_security` EventCode=5145 ShareName="\\\\*\\SYSVOL" RelativeTargetName IN (*\\ScheduledTasks.xml, *\\Groups.xml, *\\Registry.xml, *\\Services.xml, *\\Scripts\\*) NOT RelativeTargetName=*\\Scripts\\scripts.ini AccessMask=0x2 
- | rex field=AccessList max_match=0 "(?P<AccessList>%%\d+)" 
- | table _time AccessMask src_ip src_user RelativeTargetName Logon_ID dvc 
- | rex field=RelativeTargetName "Policies\\\(?P<gpo_guid>{.*?})\\\(?P<scope>\w+?)\\\(\w+)\\\(?P<folder>\w+)\\\(?P<file>\w+\.\w+)$"
- | eval src=if(match(src_ip, "(?i)^fe80:"),dvc,src_ip), folder=case(RelativeTargetName like "%\\Scripts\\%","Scripts",folder="Groups","Local users and groups",1=1,folder)
- | appendpipe 
+search: >-
+  `wineventlog_security` EventCode=5145 ShareName="\\\\*\\SYSVOL" RelativeTargetName IN (*\\ScheduledTasks.xml, *\\Groups.xml, *\\Registry.xml, *\\Services.xml, *\\Scripts\\*) NOT RelativeTargetName=*\\Scripts\\scripts.ini AccessMask=0x2 
+  | rex field=AccessList max_match=0 "(?P<AccessList>%%\d+)" 
+  | table _time AccessMask src_ip src_user RelativeTargetName Logon_ID dvc 
+  | rex field=RelativeTargetName "Policies\\\(?P<gpo_guid>{.*?})\\\(?P<scope>\w+?)\\\(\w+)\\\(?P<folder>\w+)\\\(?P<file>\w+\.\w+)$"
+  | eval src=if(match(src_ip, "(?i)^fe80:"),dvc,src_ip), folder=case(RelativeTargetName like "%\\Scripts\\%","Scripts",folder="Groups","Local users and groups",1=1,folder)
+  | appendpipe 
      [| map search="search `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames $gpo_guid$" 
      | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
      | rex field=old_value max_match=10000 "(?P<old_values>\{.*?\})" 
@@ -28,10 +29,10 @@ search: '`wineventlog_security` EventCode=5145 ShareName="\\\\*\\SYSVOL" Relativ
      | stats values(OpCorrelationID) as OpCorrelationID values(newPolicy) as newPolicy by ObjectDN 
      | rex field=ObjectDN max_match=10000 "CN=(?P<gpo_guid>\{.*?\})" 
      | fields - ObjectDN] 
- | stats values(AccessMask) as AccessMask values(src) as src values(src_user) as src_user values(RelativeTargetName) as RelativeTargetName values(Logon_ID) as Logon_ID values(newPolicy) as newPolicy values(OpCorrelationID) as OpCorrelationID values(folder) as folder values(file) as file by gpo_guid 
- | mvexpand folder 
- | where NOT folder IN (newPolicy)
- | `windows_ad_suspicious_gpo_modification_filter`'
+  | stats values(AccessMask) as AccessMask values(src) as src values(src_user) as src_user values(RelativeTargetName) as RelativeTargetName values(Logon_ID) as Logon_ID values(newPolicy) as newPolicy values(OpCorrelationID) as OpCorrelationID values(folder) as folder values(file) as file by gpo_guid 
+  | mvexpand folder 
+  | where NOT folder IN (newPolicy)
+  | `windows_ad_suspicious_gpo_modification_filter`
 how_to_implement: Ingest EventCodes 5145 and 5136 from domain controllers. Additional SACLs required to capture EventCode 5136, see references for further information on how to configure this. 
   The Group Policy - Audit Detailed File Share will need to be enabled on the DCs to generate event code 5145, this event is very noisy on DCs, consider tuning out sysvol events which do not match access mask 0x2.
 known_false_positives: When a GPO is manually created and there are no 5136 events. 

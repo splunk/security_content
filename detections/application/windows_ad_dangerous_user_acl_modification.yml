@@ -8,7 +8,8 @@ type: TTP
 data_source:
 - Windows Security 5136
 description: User ACL modification event with potentially dangerous permissions applied. 
-search: '`wineventlog_security` EventCode=5136 ObjectClass=user 
+search: >-
+  `wineventlog_security` EventCode=5136 ObjectClass=user 
   | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
   | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
   | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)" 
@@ -29,7 +30,7 @@ search: '`wineventlog_security` EventCode=5136 ObjectClass=user
   | stats values(aceType) as aceType values(aceFlags) as aceFlags values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(aceInheritedTypeGuid) as aceInheritedTypeGuid by _time ObjectClass ObjectDN src_user SubjectLogonId user OpCorrelationID
   | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
   | search NOT aceType IN (*denied*,D,OD,XD) AND aceAccessRights IN ("Full control","All extended rights","All validated writes","Create all child objects","Delete all child objects","Delete subtree","Delete","Modify permissions","Modify owner","Write all properties",CC,CR,DC,DT,SD,SW,WD,WO,WP)
-  | `windows_ad_dangerous_user_acl_modification_filter`'
+  | `windows_ad_dangerous_user_acl_modification_filter`
 how_to_implement: See link in references for how to configure logging for these eventcodes. Include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
 known_false_positives: Unknown
 references:

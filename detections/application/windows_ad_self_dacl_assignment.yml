@@ -8,7 +8,8 @@ type: TTP
 data_source:
 - Windows Security 5136
 description: Detect when a user creates a new DACL in AD for their own AD object. 
-search: '`wineventlog_security` EventCode=5136 
+search: >-
+  `wineventlog_security` EventCode=5136 
   | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
   | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
   | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)" 
@@ -30,7 +31,7 @@ search: '`wineventlog_security` EventCode=5136
   | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
   | rex field=user "\\\(?P<nt_user>.*?)$"
   | where lower(src_user)=lower(nt_user)
-  | `windows_ad_self_dacl_assignment_filter`'
+  | `windows_ad_self_dacl_assignment_filter`
 how_to_implement: Ensure you are ingesting AD audit logs, see lantern doc in references for further details. This detection also leverages admon data. Ensure the admon macro is configured with the correct index. 
 known_false_positives: Unknown
 references:
