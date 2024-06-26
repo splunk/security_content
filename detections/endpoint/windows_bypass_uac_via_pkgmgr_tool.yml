@@ -1,24 +1,20 @@
 name: Windows Bypass UAC via Pkgmgr Tool
 id: cce58e2c-988a-4319-9390-0daa9eefa3cd
-version: 1
-date: '2023-07-26'
+version: 2
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
-description: The following analytic identifies a potentially suspicious execution
-  of the 'pkgmgr' process involving the use of an XML input file for package management.
-  The 'pkgmgr' process, though deprecated in modern Windows systems, was historically
-  used for managing packages. The presence of an XML input file raises concerns about
-  the nature of the executed command and its potential impact on the system. Due to
-  the deprecated status of 'pkgmgr' and the involvement of an XML file, this activity
-  warrants careful investigation. XML files are commonly used for configuration and
-  data exchange, making it crucial to ascertain the intentions and legitimacy of the
-  command. To ensure system security, it is recommended to use up-to-date package
-  management utilities, such as DISM or PowerShell's PackageManagement module, and
-  exercise caution when executing commands involving potentially sensitive operations
-  or files.
+description: The following analytic detects the execution of the deprecated 'pkgmgr.exe'
+  process with an XML input file, which is unusual and potentially suspicious. This
+  detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on
+  process execution details and command-line arguments. The significance lies in the
+  deprecated status of 'pkgmgr.exe' and the use of XML files, which could indicate
+  an attempt to bypass User Account Control (UAC). If confirmed malicious, this activity
+  could allow an attacker to execute commands with elevated privileges, leading to
+  potential system compromise and unauthorized changes.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where  Processes.process_name = pkgmgr.exe
   Processes.process = "*.xml*" NOT(Processes.parent_process_path IN("*:\\windows\\system32\\*",
@@ -84,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/pkgmgr_uac_bypass/pkgmgr_create_file.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/pkgmgr_uac_bypass/pkgmgr_create_file.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

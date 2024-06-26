@@ -1,17 +1,29 @@
 name: AWS Exfiltration via DataSync Task
 id: 05c4b09f-ea28-4c7c-a7aa-a246f665c8a2
-version: 1
-date: '2023-04-10'
+version: 2
+date: '2024-05-28'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - AWS CloudTrail CreateTask
-description: This search looks for potential misuse of an AWS service known as DataSync. This AWS service is used to transfer data between different AWS cloud storage services, such as Amazon S3, Amazon EFS, and Amazon FSx for Windows File Server. Attackers can create a task in AWS to periodically copy data from a private AWS location to a public location resulting in the compromise of the data.  
-search: '`cloudtrail` eventName = CreateTask eventSource="datasync.amazonaws.com" | rename  requestParameters.*  as *  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip aws_account_id awsRegion eventName destinationLocationArn sourceLocationArn userAgent user_arn userIdentity.principalId  errorCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_exfiltration_via_datasync_task_filter`'
+description: The following analytic detects the creation of an AWS DataSync task,
+  which could indicate potential data exfiltration. It leverages AWS CloudTrail logs
+  to identify the `CreateTask` event from the DataSync service. This activity is significant
+  because attackers can misuse DataSync to transfer sensitive data from a private
+  AWS location to a public one, leading to data compromise. If confirmed malicious,
+  this could result in unauthorized access to sensitive information, causing severe
+  data breaches and compliance violations.
+search: '`cloudtrail` eventName = CreateTask eventSource="datasync.amazonaws.com"
+  | rename  requestParameters.*  as *  | stats count min(_time) as firstTime max(_time)
+  as lastTime by src_ip aws_account_id awsRegion eventName destinationLocationArn
+  sourceLocationArn userAgent user_arn userIdentity.principalId  errorCode | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `aws_exfiltration_via_datasync_task_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
-known_false_positives: It is possible that an AWS Administrator has legitimately created this task for creating backup. Please check the `sourceLocationArn` and `destinationLocationArn` of this task
+known_false_positives: It is possible that an AWS Administrator has legitimately created
+  this task for creating backup. Please check the `sourceLocationArn` and `destinationLocationArn`
+  of this task
 references:
 - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
 - https://www.shehackske.com/how-to/data-exfiltration-on-cloud-1606/
@@ -22,7 +34,8 @@ tags:
   asset_type: AWS Account
   confidence: 80
   impact: 80
-  message: DataSync task created on account id - $aws_account_id$ by user $user_arn$ from src_ip $src_ip$
+  message: DataSync task created on account id - $aws_account_id$ by user $user_arn$
+    from src_ip $src_ip$
   mitre_attack_id:
   - T1119
   observable:
@@ -57,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -1,14 +1,18 @@
 name: Network Discovery Using Route Windows App
 id: dd83407e-439f-11ec-ab8e-acde48001122
-version: 2
-date: '2024-02-14'
+version: 3
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic look for a spawned process of route.exe windows application.
-  Adversaries and red teams alike abuse this application the recon or do a network
-  discovery on a target host. but one possible false positive might be an automated
-  tool used by a system administator or a powershell script in amazon ec2 config services.
+description: The following analytic detects the execution of the `route.exe` Windows
+  application, commonly used for network discovery. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process creation events. This activity
+  is significant because adversaries often use `route.exe` to map network routes and
+  identify potential targets within a network. If confirmed malicious, this behavior
+  could allow attackers to gain insights into network topology, facilitating lateral
+  movement and further exploitation. Note that false positives may occur due to legitimate
+  administrative tasks or automated scripts.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -68,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,17 +1,18 @@
 name: BITS Job Persistence
 id: e97a5ffe-90bf-11eb-928a-acde48001122
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following query identifies Microsoft Background Intelligent Transfer
-  Service utility `bitsadmin.exe` scheduling a BITS job to persist on an endpoint.
-  The query identifies the parameters used to create, resume or add a file to a BITS
-  job. Typically seen combined in a oneliner or ran in sequence. If identified, review
-  the BITS job created and capture any files written to disk. It is possible for BITS
-  to be used to upload files and this may require further network data analysis to
-  identify. You can use `bitsadmin /list /verbose` to list out the jobs during investigation.
+description: The following analytic detects the use of `bitsadmin.exe` to schedule
+  a BITS job for persistence on an endpoint. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on specific command-line parameters such as
+  `create`, `addfile`, and `resume`. This activity is significant because BITS jobs
+  can be used by attackers to maintain persistence, download malicious payloads, or
+  exfiltrate data. If confirmed malicious, this could allow an attacker to persist
+  in the environment, execute arbitrary code, or transfer sensitive information, necessitating
+  further investigation and potential remediation.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -88,11 +89,13 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
     source: crowdstrike
     sourcetype: crowdstrike:events:sensor

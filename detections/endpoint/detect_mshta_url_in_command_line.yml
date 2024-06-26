@@ -1,17 +1,17 @@
 name: Detect MSHTA Url in Command Line
 id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2024-05-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This analytic identifies when Microsoft HTML Application Host (mshta.exe)
-  utility is used to make remote http connections. Adversaries may use mshta.exe to
-  proxy the download and execution of remote .hta files. The analytic identifies command
-  line arguments of http and https being used. This technique is commonly used by
-  malicious software to bypass preventative controls. The search will return the first
-  time and last time these command-line arguments were used for these executions,
-  as well as the target system, the user, process "rundll32.exe" and its parent process.
+description: The following analytic detects the use of Microsoft HTML Application
+  Host (mshta.exe) to make remote HTTP or HTTPS connections. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on command-line arguments
+  containing URLs. This activity is significant because adversaries often use mshta.exe
+  to download and execute remote .hta files, bypassing security controls. If confirmed
+  malicious, this behavior could allow attackers to execute arbitrary code, potentially
+  leading to system compromise, data exfiltration, or further network infiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -87,6 +87,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

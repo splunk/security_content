@@ -1,16 +1,18 @@
 name: Change To Safe Mode With Network Config
 id: 81f1dce0-0f18-11ec-a5d7-acde48001122
-version: 1
-date: '2021-09-06'
+version: 2
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious bcdedit commandline to configure
-  the host to boot in safe mode with network config. This technique was seen in blackMatter
-  ransomware where it force the compromised host to boot in safe mode to continue
-  its encryption and bring back to normal boot using bcdedit deletevalue command.
-  This TTP can be a good alert for host that booted from safe mode forcefully since
-  it need to modify the boot configuration to bring it back to normal.
+description: The following analytic detects the execution of a suspicious `bcdedit`
+  command that configures a host to boot in safe mode with network support. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  executions involving `bcdedit.exe` with specific parameters. This activity is significant
+  because it is a known technique used by BlackMatter ransomware to force a compromised
+  host into safe mode for continued encryption. If confirmed malicious, this could
+  allow attackers to bypass certain security controls, persist in the environment,
+  and continue their malicious activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -66,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.002/autoadminlogon/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.002/autoadminlogon/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

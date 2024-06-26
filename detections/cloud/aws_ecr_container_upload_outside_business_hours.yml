@@ -1,16 +1,26 @@
 name: AWS ECR Container Upload Outside Business Hours
 id: d4c4d4eb-3994-41ca-a25e-a82d64e125bb
-version: 2
-date: '2023-11-09'
+version: 3
+date: '2024-05-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: This search looks for AWS CloudTrail events from AWS Elastic Container
-  Service (ECR). A upload of a new container is normally done during business hours.
-  When done outside business hours, we want to take a look into it.
-data_source: 
+description: The following analytic detects the upload of a new container image to
+  AWS Elastic Container Registry (ECR) outside of standard business hours. It leverages
+  AWS CloudTrail logs to identify `PutImage` events occurring between 8 PM and 8 AM
+  or on weekends. This activity is significant because container uploads outside business
+  hours can indicate unauthorized or suspicious activity, potentially pointing to
+  a compromised account or insider threat. If confirmed malicious, this could allow
+  an attacker to deploy unauthorized or malicious containers, leading to potential
+  data breaches or service disruptions.
+data_source:
 - AWS CloudTrail PutImage
-search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20 OR date_hour<8 OR date_wday=saturday OR date_wday=sunday | rename requestParameters.* as * | rename repositoryName AS repository | eval phase="release" | eval severity="medium" | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, user, userName, src_ip, imageTag, registryId, repository, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_ecr_container_upload_outside_business_hours_filter`'
+search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20
+  OR date_hour<8 OR date_wday=saturday OR date_wday=sunday | rename requestParameters.*
+  as * | rename repositoryName AS repository | eval phase="release" | eval severity="medium"
+  | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName,
+  eventSource, user, userName, src_ip, imageTag, registryId, repository, phase, severity
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_ecr_container_upload_outside_business_hours_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
 known_false_positives: When your development is spreaded in different time zones,
@@ -55,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_container_upload/aws_ecr_container_upload.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_container_upload/aws_ecr_container_upload.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail

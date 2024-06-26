@@ -1,28 +1,23 @@
 name: AWS Unusual Number of Failed Authentications From Ip
 id: 0b5c9c2b-e2cb-4831-b4f1-af125ceb1386
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-24'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies one source IP failing to authenticate
-  into the AWS Console with multiple valid users. This behavior could represent an
-  adversary performing a Password Spraying attack against an AWS environment to obtain
-  initial access or elevate privileges. The detection calculates the standard deviation
-  for source IP and leverages the 3-sigma statistical rule to identify an unusual
-  number of failed authentication attempts. To customize this analytic, users can
-  try different combinations of the bucket span time and the calculation of the upperBound
-  field. This logic can be used for real time security monitoring as well as threat
-  hunting exercises. While looking for anomalies using statistical methods like the
-  standard deviation can have benefits, we also recommend using threshold-based detections
-  to complement coverage. A similar analytic following the threshold model is `AWS
-  Multiple Users Failing To Authenticate From Ip`.
-data_source: 
+description: The following analytic identifies a single source IP failing to authenticate
+  into the AWS Console with multiple valid users. It uses CloudTrail logs and calculates
+  the standard deviation for source IP, leveraging the 3-sigma rule to detect unusual
+  numbers of failed authentication attempts. This behavior is significant as it may
+  indicate a Password Spraying attack, where an adversary attempts to gain initial
+  access or elevate privileges. If confirmed malicious, this activity could lead to
+  unauthorized access, data breaches, or further exploitation within the AWS environment.
+data_source:
 - AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
   | stats  dc(_raw) AS distinct_attempts values(user_name) as tried_accounts by _time,
-  src_ip | eventstats  avg(distinct_attempts) as avg_attempts , stdev(distinct_attempts) as
-  ip_std by _time | eval  upperBound=(avg_attempts+ip_std*3) | eval  isOutlier=if(distinct_attempts
+  src_ip | eventstats  avg(distinct_attempts) as avg_attempts , stdev(distinct_attempts)
+  as ip_std by _time | eval  upperBound=(avg_attempts+ip_std*3) | eval  isOutlier=if(distinct_attempts
   > 10 and distinct_attempts >= upperBound, 1, 0) | where isOutlier = 1 |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
   We recommend the users to try different combinations of the bucket span time and
@@ -39,7 +34,8 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 60
-  message: 'Unusual number of failed console login attempts (Count: $distinct_attempts$) against users from IP Address - $src_ip$'
+  message: 'Unusual number of failed console login attempts (Count: $distinct_attempts$)
+    against users from IP Address - $src_ip$'
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -70,7 +66,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail
     update_timestamp: true

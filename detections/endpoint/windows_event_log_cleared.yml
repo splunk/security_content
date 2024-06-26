@@ -1,16 +1,17 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 7
-date: '2024-04-26'
+version: 8
+date: '2024-05-12'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes Windows Security Event ID 1102 or System
-  log event 104 to identify when a Windows event log is cleared. Note that this analytic
-  will require tuning or restricted to specific endpoints based on criticality. During
-  triage, based on time of day and user, determine if this was planned. If not planned,
-  follow through with reviewing parallel alerts and other data sources to determine
-  what else may have occurred.
+description: The following analytic detects the clearing of Windows event logs by
+  identifying Windows Security Event ID 1102 or System log event 104. This detection
+  leverages Windows event logs to monitor for log clearing activities. Such behavior
+  is significant as it may indicate an attempt to cover tracks after malicious activities.
+  If confirmed malicious, this action could hinder forensic investigations and allow
+  attackers to persist undetected, making it crucial to investigate further and correlate
+  with other alerts and data sources.
 data_source:
 - Windows Event Log Security 1102
 - Windows Event Log System 104
@@ -57,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

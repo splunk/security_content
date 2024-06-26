@@ -1,30 +1,29 @@
 name: Azure AD Successful Authentication From Different Ips
 id: be6d868d-33b6-4aaa-912e-724fb555b11a
-version: 3
-date: '2023-12-20'
+version: 4
+date: '2024-05-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies an Azure AD account successfully authenticating
-  from more than one unique Ip address in the span of 30 minutes. This behavior could
-  represent an adversary who has stolen credentials via a phishing attack or some
-  other method and using them to access corporate online resources around the same
-  time as a legitimate user. As users may behave differently across organizations,
-  security teams should test and customize this detection to fit their environments.
-data_source: 
+description: The following analytic detects an Azure AD account successfully authenticating
+  from multiple unique IP addresses within a 30-minute window. It leverages Azure
+  AD SignInLogs to identify instances where the same user logs in from different IPs
+  in a short time frame. This behavior is significant as it may indicate compromised
+  credentials being used by an adversary, potentially following a phishing attack.
+  If confirmed malicious, this activity could allow unauthorized access to corporate
+  resources, leading to data breaches or further exploitation within the network.
+data_source:
 - Azure Active Directory
 search: ' `azure_monitor_aad`  properties.authenticationDetails{}.succeeded=true category=SignInLogs
-  | rename properties.* as *
-  | bucket span=30m _time 
-  | stats count min(_time) as firstTime max(_time) as lastTime dc(src_ip) AS unique_ips values(src_ip) as src_ip values(appDisplayName) as appDisplayName by user
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | where unique_ips  > 1 
-  | `azure_ad_successful_authentication_from_different_ips_filter`'
+  | rename properties.* as * | bucket span=30m _time | stats count min(_time) as firstTime
+  max(_time) as lastTime dc(src_ip) AS unique_ips values(src_ip) as src_ip values(appDisplayName)
+  as appDisplayName by user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | where unique_ips  > 1 | `azure_ad_successful_authentication_from_different_ips_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the Signin log category.
 known_false_positives: A user with successful authentication events from different
   Ips may also represent the legitimate use of more than one device. Filter as needed
   and/or customize the threshold to fit your environment.
@@ -39,8 +38,8 @@ tags:
   asset_type: Azure Tenant
   confidence: 80
   impact: 70
-  message: User $user$ has had successful authentication events from
-    more than one unique IP address in the span of 30 minutes.
+  message: User $user$ has had successful authentication events from more than one
+    unique IP address in the span of 30 minutes.
   mitre_attack_id:
   - T1110
   - T1110.001
@@ -71,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_successful_authentication_from_different_ips/azuread.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_successful_authentication_from_different_ips/azuread.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

@@ -1,23 +1,26 @@
 name: Windows Time Based Evasion
 id: 34502357-deb1-499a-8261-ffe144abf561
-version: 1
-date: '2023-09-08'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: This analytic is designed to detect potentially malicious processes that initiate a ping delay using an invalid IP address. 
-  This evasion technique was observed in NJRAT, where the malware employed ping commands as a means to introduce a time delay before self-deletion on the compromised host. 
-  Identifying this (TTP) behavior can serve as a valuable indicator for detecting NJRAT infections or other malware that employ time delays as 
-  evasion tactics.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name = "ping.exe" Processes.parent_process = "* ping 0 -n *" OR Processes.process = "* ping 0 -n *"
-  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
-  | `drop_dm_object_name("Processes")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_time_based_evasion_filter`'
+description: The following analytic detects potentially malicious processes that initiate
+  a ping delay using an invalid IP address. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on command-line executions involving "ping 0
+  -n". This behavior is significant as it is commonly used by malware like NJRAT to
+  introduce time delays for evasion tactics, such as delaying self-deletion. If confirmed
+  malicious, this activity could indicate an active infection attempting to evade
+  detection, potentially leading to further compromise and persistence within the
+  environment.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "ping.exe"
+  Processes.parent_process = "* ping 0 -n *" OR Processes.process = "* ping 0 -n *"
+  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid
+  Processes.process Processes.user Processes.dest | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_time_based_evasion_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -64,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/njrat_ping_delay_before_delete/ping_0.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/njrat_ping_delay_before_delete/ping_0.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

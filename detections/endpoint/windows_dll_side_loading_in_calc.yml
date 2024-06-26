@@ -1,16 +1,18 @@
 name: Windows DLL Side-Loading In Calc
 id: af01f6db-26ac-440e-8d89-2793e303f137
-version: 1
-date: '2022-10-24'
+version: 2
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies suspicious DLL modules loaded by calc.exe
-  that are not in windows %systemroot%\system32 or %systemroot%\sysWoW64 folder. This
-  technique is well used by Qakbot malware to execute its malicious DLL file via dll
-  side loading technique in calc process execution. This TTP detection is a good indicator
-  that a suspicious dll was loaded in a public or non-common installation folder of
-  Windows Operating System that needs further investigation.
+description: The following analytic detects suspicious DLL modules loaded by calc.exe
+  that are not located in the %systemroot%\system32 or %systemroot%\sysWoW64 directories.
+  This detection leverages Sysmon EventCode 7 to identify DLL side-loading, a technique
+  often used by Qakbot malware to execute malicious DLLs. This activity is significant
+  as it indicates potential malware execution through a trusted process, which can
+  bypass security controls. If confirmed malicious, this could allow attackers to
+  execute arbitrary code, maintain persistence, and escalate privileges within the
+  environment.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode=7 Image = "*\calc.exe" AND NOT (Image IN ("*:\\windows\\system32\\*",
@@ -63,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot2/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot2/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

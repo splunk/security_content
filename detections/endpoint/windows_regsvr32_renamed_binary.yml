@@ -1,16 +1,17 @@
 name: Windows Regsvr32 Renamed Binary
 id: 7349a9e9-3cf6-4171-bb0c-75607a8dcd1a
-version: 1
-date: '2022-10-27'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following hunting analytic identifies renamed instances of regsv32.exe
-  executing. regsv32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
-  During investigation, validate if it is the legitimate regsv32.exe executing and
-  what dll module content it is loading. This query relies on the original filename
-  or internal name from the PE meta data. Expand the query as needed by looking for
-  specific command line arguments outlined in other analytics.
+description: The following analytic identifies instances where the regsvr32.exe binary
+  has been renamed and executed. This detection leverages Endpoint Detection and Response
+  (EDR) data, specifically focusing on the original filename metadata. Renaming regsvr32.exe
+  is significant as it can be an evasion technique used by attackers to bypass security
+  controls. If confirmed malicious, this activity could allow an attacker to execute
+  arbitrary DLLs, potentially leading to code execution, privilege escalation, or
+  persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -68,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_3/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_3/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

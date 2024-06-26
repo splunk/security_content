@@ -1,15 +1,18 @@
 name: AWS SetDefaultPolicyVersion
 id: 2a9b80d3-6340-4345-11ad-212bf3d0dac4
-version: 1
-date: '2021-03-02'
+version: 2
+date: '2024-05-16'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: This search looks for AWS CloudTrail events where a user has set a default
-  policy versions. Attackers have been know to use this technique for Privilege Escalation
-  in case the previous versions of the policy had permissions to access more resources
-  than the current version of the policy
-data_source: 
+description: The following analytic detects when a user sets a default policy version
+  in AWS. It leverages AWS CloudTrail logs to identify the `SetDefaultPolicyVersion`
+  event from the IAM service. This activity is significant because attackers may exploit
+  this technique for privilege escalation, especially if previous policy versions
+  grant more extensive permissions than the current one. If confirmed malicious, this
+  could allow an attacker to gain elevated access to AWS resources, potentially leading
+  to unauthorized actions and data breaches.
+data_source:
 - AWS CloudTrail SetDefaultPolicyVersion
 search: '`cloudtrail` eventName=SetDefaultPolicyVersion eventSource = iam.amazonaws.com
   | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
@@ -31,8 +34,8 @@ tags:
   asset_type: AWS Account
   confidence: 60
   impact: 50
-  message: From IP address $src$, user $user_arn$ has trigged an
-    event $eventName$ for updating the the default policy version
+  message: From IP address $src$, user $user_arn$ has trigged an event $eventName$
+    for updating the the default policy version
   mitre_attack_id:
   - T1078.004
   - T1078
@@ -61,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_setdefaultpolicyversion/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_setdefaultpolicyversion/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

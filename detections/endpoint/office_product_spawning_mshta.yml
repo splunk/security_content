@@ -1,28 +1,26 @@
 name: Office Product Spawning MSHTA
 id: 6078fa20-a6d2-11eb-b662-acde48001122
-version: 4
-date: '2023-07-11'
+version: 5
+date: '2024-05-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following detection identifies the latest behavior utilized by different
-  malware families (including TA551, IcedID). This detection identifies any Windows
-  Office Product spawning `mshta.exe`. In malicious instances, the command-line of
-  `mshta.exe` will contain the `hta` file locally, or a URL to the remote destination.
-  In addition, Threat Research has released a detections identifying suspicious use
-  of `mshta.exe`. In this instance, we narrow our detection down to the Office suite
-  as a parent process. During triage, review all file modifications. Capture and analyze
-  any artifacts on disk. The Office Product, or `mshta.exe` will have reached out
-  to a remote destination, capture and block the IPs or domain. Review additional
-  parallel processes for further activity.
+description: The following analytic identifies instances where a Microsoft Office
+  product spawns `mshta.exe`. This detection leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process creation events where the parent
+  process is an Office application. This activity is significant because it is a common
+  technique used by malware families like TA551 and IcedID to execute malicious scripts
+  or payloads. If confirmed malicious, this behavior could allow attackers to execute
+  arbitrary code, potentially leading to data exfiltration, system compromise, or
+  further malware deployment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe", "onenote.exe","onenotem.exe",
-  "msaccess.exe","Graph.exe","winproj.exe") `process_mshta` by Processes.dest Processes.user Processes.parent_process_name
-  Processes.parent_process Processes.process_name Processes.original_file_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  "msaccess.exe","Graph.exe","winproj.exe") `process_mshta` by Processes.dest Processes.user
+  Processes.parent_process_name Processes.parent_process Processes.process_name Processes.original_file_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `office_product_spawning_mshta_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -82,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,13 +1,18 @@
 name: AWS Create Policy Version to allow all resources
 id: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
-version: 4
-date: '2024-04-16'
+version: 5
+date: '2024-05-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: This search looks for AWS CloudTrail events where a user created a policy
-  version that allows them to access any resource in their account.
-data_source: 
+description: The following analytic identifies the creation of a new AWS IAM policy
+  version that allows access to all resources. It detects this activity by analyzing
+  AWS CloudTrail logs for the CreatePolicyVersion event with a policy document that
+  grants broad permissions. This behavior is significant because it violates the principle
+  of least privilege, potentially exposing the environment to misuse or abuse. If
+  confirmed malicious, an attacker could gain extensive access to AWS resources, leading
+  to unauthorized actions, data exfiltration, or further compromise of the AWS environment.
+data_source:
 - AWS CloudTrail CreatePolicyVersion
 search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com
   errorCode = success | spath input=requestParameters.policyDocument output=key_policy_statements
@@ -61,7 +66,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

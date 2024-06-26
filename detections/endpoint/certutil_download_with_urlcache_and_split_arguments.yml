@@ -1,17 +1,18 @@
 name: CertUtil Download With URLCache and Split Arguments
 id: 415b4306-8bfb-11eb-85c4-acde48001122
-version: 3
-date: '2022-02-03'
+version: 4
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: Certutil.exe may download a file from a remote destination using `-urlcache`.
-  This behavior does require a URL to be passed on the command-line. In addition,
-  `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will
-  be used. It is not entirely common for `certutil.exe` to contact public IP space.
-  However, it is uncommon for `certutil.exe` to write files to world writeable paths.
-  During triage, capture any files on disk and review. Review the reputation of the
-  remote IP or domain in question.
+description: The following analytic detects the use of certutil.exe to download files
+  using the `-urlcache` and `-split` arguments. It leverages Endpoint Detection and
+  Response (EDR) data, focusing on command-line executions that include these specific
+  arguments. This activity is significant because certutil.exe is typically used for
+  certificate services, and its use to download files from remote locations is uncommon
+  and potentially malicious. If confirmed, this behavior could indicate an attempt
+  to download and execute malicious payloads, leading to potential system compromise
+  and unauthorized data access.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -91,6 +92,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

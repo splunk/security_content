@@ -1,20 +1,27 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 1
-date: '2024-02-22'
+version: 2
+date: '2024-05-23'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects when a known remote access software is executed within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
+description: The following analytic detects the execution of known remote access software
+  within the environment. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process names and parent processes mapped to the Endpoint data
+  model. This activity is significant as adversaries often use remote access tools
+  like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintain unauthorized access.
+  If confirmed malicious, this could allow attackers to control systems remotely,
+  exfiltrate data, or deploy additional malware, posing a severe threat to the organization's
+  security.
 data_source:
 - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.process!=unknown by Processes.dest Processes.user Processes.process_name Processes.process 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `drop_dm_object_name(Processes)` 
-  | lookup remote_access_software remote_utility AS process_name OUTPUT isutility, description as signature, comment_reference as desc, category
-  | search isutility = True
-  | `detect_remote_access_software_usage_process_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes
+  where Processes.dest!=unknown Processes.process!=unknown by Processes.dest Processes.user
+  Processes.process_name Processes.process | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup remote_access_software
+  remote_utility AS process_name OUTPUT isutility, description as signature, comment_reference
+  as desc, category | search isutility = True | `detect_remote_access_software_usage_process_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -39,7 +46,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A process for a known remote access software $process_name$ was identified on $dest$.
+  message: A process for a known remote access software $process_name$ was identified
+    on $dest$.
   mitre_attack_id:
   - T1219
   observable:
@@ -61,9 +69,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
+  - Processes.dest
   - Processes.user
-  - Processes.process_name 
+  - Processes.process_name
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_name
@@ -72,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

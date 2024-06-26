@@ -1,17 +1,18 @@
 name: Windows Process Injection Wermgr Child Process
 id: 360ae6b0-38b5-4328-9e2b-bc9436cddb17
-version: 1
-date: '2022-10-27'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a suspicious wermgr.exe parent process
-  having a child process not related to error, fault or windows werfault event. This
-  technique was seen in Qakbot malware where it inject its malicious code in wermgr
-  to evade detections and hide from the analyst to execute its recon and its malicious
-  behavior. This Anomaly detection can be a good pivot to start investigating a possible
-  qakbot infection in the network. The Wermgr.exe process is not known to have other
-  child processes aside from itself or werfault.exe
+description: The following analytic identifies a suspicious instance of wermgr.exe
+  spawning a child process unrelated to error or fault handling. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process relationships
+  and command-line executions. This activity is significant as it can indicate Qakbot
+  malware, which injects malicious code into wermgr.exe to evade detection and execute
+  malicious actions. If confirmed malicious, this behavior could allow an attacker
+  to conduct reconnaissance, execute arbitrary code, and persist within the network,
+  posing a severe security risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,7 +71,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr/sysmon_wermgr.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr/sysmon_wermgr.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

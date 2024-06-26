@@ -1,24 +1,23 @@
 name: Linux Deletion Of Cron Jobs
 id: 3b132a71-9335-4f33-9932-00bb4f6ac7e8
-version: 2
-date: '2023-04-27'
+version: 3
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a deletion of cron job in a linux machine.
-  This technique can be related to an attacker, threat actor or malware to disable
-  scheduled cron jobs that might be related to security or to evade some detections.
-  We also saw that this technique can be a good indicator for malware that is trying
-  to wipe or delete several files on the compromised host like the acidrain malware.
-  This anomaly detection can be a good pivot detection to look for process and user
-  doing it why they doing. Take note that this event can be done by administrator
-  so filtering on those possible false positive event is needed.
+description: The following analytic detects the deletion of cron jobs on a Linux machine.
+  It leverages filesystem event logs to identify when files within the "/etc/cron.*"
+  directory are deleted. This activity is significant because attackers or malware
+  may delete cron jobs to disable scheduled security tasks or evade detection mechanisms.
+  If confirmed malicious, this action could allow an attacker to disrupt system operations,
+  evade security measures, or facilitate further malicious activities such as data
+  wiping, as seen with the acidrain malware.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path="/etc/cron.*" by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest
-  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(firstTime)`
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path="/etc/cron.*"
+  by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid
+  Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_deletion_of_cron_jobs_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -66,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

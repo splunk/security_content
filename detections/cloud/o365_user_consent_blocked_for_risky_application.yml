@@ -1,15 +1,24 @@
 name: O365 User Consent Blocked for Risky Application
 id: 242e4d30-cb59-4051-b0cf-58895e218f40
-version: 1
-date: '2023-10-11'
+version: 2
+date: '2024-05-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - O365 Consent to application.
-description: The following analytic identifies instances where Office 365 has blocked a user's attempt to grant consent to an application deemed risky or potentially malicious. This suggests that the application has exhibited behaviors or characteristics that are commonly associated with malicious intent or poses a security risk. This detection leverages the O365 audit logs, specifically focusing on events related to user consent actions and system-driven blocks. By filtering for blocked consent actions associated with applications, the analytic highlights instances where O365's built-in security measures have intervened. Applications that are flagged and blocked by O365 typically exhibit suspicious characteristics or behaviors. Monitoring for these blocked consent attempts helps security teams identify potential threats early on and can provide insights into users who might be targeted or susceptible to such risky applications. It's an essential layer of defense in ensuring that malicious or risky applications don't gain access to organizational data. If the detection is a true positive, it indicates that the built-in security measures of O365 successfully prevented a potentially harmful application from gaining access. However, the attempt itself suggests that either a user might be targeted or that there's a presence of malicious applications trying to infiltrate the organization. Immediate investigation is required to understand the context of the block and to take further preventive measures.
+description: The following analytic identifies instances where Office 365 has blocked
+  a user's attempt to grant consent to an application deemed risky or potentially
+  malicious. This detection leverages O365 audit logs, specifically focusing on failed
+  user consent actions due to system-driven blocks. Monitoring these blocked consent
+  attempts is crucial as it highlights potential threats early on, indicating that
+  a user might be targeted or that malicious applications are attempting to infiltrate
+  the organization. If confirmed malicious, this activity suggests that O365's security
+  measures successfully prevented a harmful application from accessing organizational
+  data, warranting immediate investigation.
 search: >-
-  `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application." ResultStatus=Failure
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application."
+  ResultStatus=Failure
   | eval permissions =mvindex('ModifiedProperties{}.NewValue', 4)
   | eval reason =mvindex('ModifiedProperties{}.NewValue', 5)
   |  search reason = "Risky application detected"
@@ -17,8 +26,10 @@ search: >-
   |  stats max(_time) as lastTime by Operation, user, reason, object, Scope
   | `security_content_ctime(lastTime)`
   | `o365_user_consent_blocked_for_risky_application_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: Microsofts algorithm to identify risky applications is unknown and may flag legitimate applications.
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: Microsofts algorithm to identify risky applications is unknown
+  and may flag legitimate applications.
 references:
 - https://attack.mitre.org/techniques/T1528/
 - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
@@ -32,7 +43,8 @@ tags:
   asset_type: O365 Tenant
   confidence: 100
   impact: 30
-  message: O365 has blocked $user$ attempt to grant to consent to an application deemed risky.
+  message: O365 has blocked $user$ attempt to grant to consent to an application deemed
+    risky.
   mitre_attack_id:
   - T1528
   observable:
@@ -57,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_blocked/o365_user_consent_blocked.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_blocked/o365_user_consent_blocked.log
     source: o365
     sourcetype: o365:management:activity

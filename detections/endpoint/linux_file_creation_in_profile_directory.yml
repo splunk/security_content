@@ -1,16 +1,17 @@
 name: Linux File Creation In Profile Directory
 id: 46ba0082-61af-11ec-9826-acde48001122
-version: 1
-date: '2021-12-20'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious file creation in /etc/profile.d directory
-  to automatically execute scripts by shell upon boot up of a linux machine. This
-  technique is commonly abused by adversaries, malware and red teamers as a persistence
-  mechanism to the targeted or compromised host. This Anomaly detection is a good
-  indicator that someone wants to run a code after boot up which can be done also
-  by the administrator or network operator for automation purposes.
+description: The following analytic detects the creation of files in the /etc/profile.d
+  directory on Linux systems. It leverages filesystem data to identify new files in
+  this directory, which is often used by adversaries for persistence by executing
+  scripts upon system boot. This activity is significant as it may indicate an attempt
+  to maintain long-term access to the compromised host. If confirmed malicious, this
+  could allow attackers to execute arbitrary code with elevated privileges each time
+  the system boots, potentially leading to further compromise and data exfiltration.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -59,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

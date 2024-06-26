@@ -1,18 +1,17 @@
 name: Windows Phishing PDF File Executes URL Link
 id: 2fa9dec8-9d8e-46d3-96c1-202c06f0e6e1
-version: 1
-date: '2023-01-18'
+version: 2
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is developed to detect suspicious pdf viewer processes
-  that have a browser application child processes. This event was seen in a pdf spear
-  phishing attachment containing a malicious URL link to download the actual payload.
-  When a user clicks the malicious link the pdf viewer application will execute a
-  process of the host default browser to connect to the malicious site. This anomaly
-  detection can be a good indicator that a possible pdf file has a link executed by
-  a user. The pdf viewer and browser list in this detection is still in progress,
-  add the common browser and pdf viewer you use in opening pdf in your network.
+description: The following analytic detects suspicious PDF viewer processes spawning
+  browser application child processes. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on process and parent process names. This activity
+  is significant as it may indicate a PDF spear-phishing attempt where a malicious
+  URL link is executed, leading to potential payload download. If confirmed malicious,
+  this could allow attackers to execute code, escalate privileges, or persist in the
+  environment by exploiting the user's browser to connect to a malicious site.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/phishing_pdf_uri/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/phishing_pdf_uri/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

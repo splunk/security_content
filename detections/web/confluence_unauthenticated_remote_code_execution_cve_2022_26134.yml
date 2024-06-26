@@ -1,18 +1,20 @@
 name: Confluence Unauthenticated Remote Code Execution CVE-2022-26134
 id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859c
-version: 1
-date: '2022-06-03'
+version: 2
+date: '2024-05-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic assists with identifying CVE-2022-26134 based
-  exploitation utilizing the Web datamodel to cover network and CIM compliant web
-  logs. The parameters were captured from live scanning and the POC provided by Rapid7.
-  This analytic is written against multiple proof of concept codes released and seen
-  in the wild (scanning). During triage, review any endpoint based logs for further
-  activity including writing a jsp file to disk and commands/processes spawning running
-  as root from the Confluence process.
-data_source: 
+description: The following analytic detects attempts to exploit CVE-2022-26134, an
+  unauthenticated remote code execution vulnerability in Confluence. It leverages
+  the Web datamodel to analyze network and CIM-compliant web logs, identifying suspicious
+  URL patterns and parameters indicative of exploitation attempts. This activity is
+  significant as it allows attackers to execute arbitrary code on the Confluence server
+  without authentication, potentially leading to full system compromise. If confirmed
+  malicious, this could result in unauthorized access, data exfiltration, and further
+  lateral movement within the network. Immediate investigation and remediation are
+  crucial to prevent extensive damage.
+data_source:
 - Palo Alto Network Threat
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
   where Web.url IN ("*${*", "*%2F%7B*") (Web.url="*org.apache.commons.io.IOUtils*"
@@ -73,7 +75,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/confluence.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/confluence.log
     source: pan:threat
     sourcetype: pan:threat
     update_timestamp: true

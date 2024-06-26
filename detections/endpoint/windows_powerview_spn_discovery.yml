@@ -1,19 +1,18 @@
 name: Windows PowerView SPN Discovery
 id: a7093c28-796c-4ebb-9997-e2c18b870837
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-13'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainUser` or `Get-NetUSer` commandlets with
-  specific parameters. These commandlets are part of PowerView, a PowerShell tool
-  used to perform enumeration and discovery on Windows Active Directory networks.
-  As the names suggest, these commandlets are used to identify domain users in a network
-  and combining them with the `-SPN` parameter allows adversaries to discover domain
-  accounts associated with a Service Principal Name (SPN). Red Teams and adversaries
-  alike may leverage PowerView and these commandlets to identify accounts that can
-  be attacked with the Kerberoasting technique.
+description: The following analytic detects the execution of the `Get-DomainUser`
+  or `Get-NetUser` PowerShell cmdlets with the `-SPN` parameter, indicating the use
+  of PowerView for SPN discovery. It leverages PowerShell Script Block Logging (EventCode=4104)
+  to identify these specific commands. This activity is significant as it suggests
+  an attempt to enumerate domain accounts associated with Service Principal Names
+  (SPNs), a common precursor to Kerberoasting attacks. If confirmed malicious, this
+  could allow an attacker to identify and target accounts for credential theft, potentially
+  leading to unauthorized access and privilege escalation within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText =*Get-NetUser* OR ScriptBlockText=*Get-DomainUser*)
@@ -62,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview-2/windows-powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview-2/windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

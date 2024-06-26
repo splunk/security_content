@@ -1,21 +1,23 @@
 name: Powershell Windows Defender Exclusion Commands
 id: 907ac95c-4dd9-11ec-ba2c-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will detect a suspicious process commandline related to
-  windows defender exclusion feature. This command is abused by adversaries, malware
-  author and red teams to bypassed Windows Defender Anti-Virus product by excluding  folder
-  path, file path, process, extensions and etc. from its real time or schedule scan
-  to execute their malicious code. This is a good indicator for defense evasion and
-  to look further for events after this behavior.
+description: The following analytic detects the use of PowerShell commands to add
+  or set Windows Defender exclusions. It leverages EventCode 4104 to identify suspicious
+  `Add-MpPreference` or `Set-MpPreference` commands with exclusion parameters. This
+  activity is significant because adversaries often use it to bypass Windows Defender,
+  allowing malicious code to execute without detection. If confirmed malicious, this
+  behavior could enable attackers to evade antivirus defenses, maintain persistence,
+  and execute further malicious activities undetected.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Add-MpPreference *" OR ScriptBlockText =
-  "*Set-MpPreference *") AND ScriptBlockText = "*-exclusion*" | stats count min(_time) as
-  firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Add-MpPreference *" OR ScriptBlockText
+  = "*Set-MpPreference *") AND ScriptBlockText = "*-exclusion*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `powershell_windows_defender_exclusion_commands_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -58,14 +60,15 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/powershell_windows_defender_exclusion_commands/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/powershell_windows_defender_exclusion_commands/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

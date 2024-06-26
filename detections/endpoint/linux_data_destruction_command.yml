@@ -1,16 +1,18 @@
 name: Linux Data Destruction Command
 id: b11d3979-b2f7-411b-bb1a-bd00e642173b
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a unix shell command that can wipe
-  root folders of a linux host. This commandline is being abused by Awfulshred malware
-  that wipes or corrupts files in a targeted Linux host. The shell command uses the
-  rm command with force recursive deletion even in the root folder. This TTP can be
-  a good indicator that a user or a process wants to wipe roots directory files in
-  Linux host.
+description: The following analytic detects the execution of a Unix shell command
+  designed to wipe root directories on a Linux host. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on the 'rm' command with force recursive
+  deletion and the '--no-preserve-root' option. This activity is significant as it
+  indicates potential data destruction attempts, often associated with malware like
+  Awfulshred. If confirmed malicious, this behavior could lead to severe data loss,
+  system instability, and compromised integrity of the affected Linux host. Immediate
+  investigation and response are crucial to mitigate potential damage.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

@@ -1,21 +1,25 @@
 name: Kubernetes Create or Update Privileged Pod
 id: 3c6bd734-334d-4818-ae7c-5234313fc5da
-version: 1
-date: '2023-12-14'
+version: 2
+date: '2024-05-28'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of privileged pods in Kubernetes. It identifies this behavior by monitoring Kubernetes Audit logs for the creation of pods with root privileges. 
-  This behavior is worth identifying for a SOC as it could potentially allow an attacker to escalate privileges, exploit the kernel, and gain full access to the host's namespace and devices. 
-  The impact of such an attack could be severe, leading to unauthorized access to sensitive information, data breaches, and service disruptions.
-data_source: 
+description: The following analytic detects the creation or update of privileged pods
+  in Kubernetes. It identifies this activity by monitoring Kubernetes Audit logs for
+  pod configurations that include root privileges. This behavior is significant for
+  a SOC as it could indicate an attempt to escalate privileges, exploit the kernel,
+  and gain full access to the host's namespace and devices. If confirmed malicious,
+  this activity could lead to unauthorized access to sensitive information, data breaches,
+  and service disruptions, posing a severe threat to the environment.
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` objectRef.resource=pods verb=create OR verb=update requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration=*\"privileged\":true*
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 
   requestObject.kind responseStatus.code sourceIPs{} stage user.username userAgent verb requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
   | rename sourceIPs{} as src_ip, user.username as user
-  | `kubernetes_create_or_update_privileged_pod_filter` '
+  | `kubernetes_create_or_update_privileged_pod_filter`'
 how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
   Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
   Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
@@ -47,17 +51,17 @@ tags:
   - Splunk Cloud
   required_fields:
   - user.groups{}
-  - kind 
-  - objectRef.name 
-  - objectRef.namespace 
-  - objectRef.resource 
-  - requestObject.kind 
-  - requestObject.spec.type 
-  - responseStatus.code 
-  - sourceIPs{} 
-  - stage 
-  - user.username 
-  - userAgent 
+  - kind
+  - objectRef.name
+  - objectRef.namespace
+  - objectRef.resource
+  - requestObject.kind
+  - requestObject.spec.type
+  - responseStatus.code
+  - sourceIPs{}
+  - stage
+  - user.username
+  - userAgent
   - verb
   - requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
   risk_score: 49
@@ -65,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_privileged_pod/kubernetes_privileged_pod.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_privileged_pod/kubernetes_privileged_pod.json
     sourcetype: _json
     source: kubernetes

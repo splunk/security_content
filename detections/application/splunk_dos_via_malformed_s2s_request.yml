@@ -1,15 +1,19 @@
 name: Splunk DoS via Malformed S2S Request
 id: fc246e56-953b-40c1-8634-868f9e474cbd
-version: 2
-date: '2022-03-24'
+version: 3
+date: '2024-05-27'
 author: Lou Stella, Splunk
 status: production
 type: TTP
-description: On March 24th, 2022, Splunk published a security advisory for a possible
-  Denial of Service stemming from the lack of validation in a specific key-value field
-  in the Splunk-to-Splunk (S2S) protocol. This detection will alert on attempted exploitation
-  in patched versions of Splunk.
-data_source: 
+description: The following analytic identifies attempts to exploit a Denial of Service
+  (DoS) vulnerability in the Splunk-to-Splunk (S2S) protocol by detecting malformed
+  S2S requests. It leverages `splunkd` logs, specifically looking for "ERROR" level
+  logs from the "TcpInputProc" component with the thread name "FwdDataReceiverThread"
+  and the message "Invalid _meta atom." This activity is significant as it targets
+  a known vulnerability that could disrupt Splunk services. If confirmed malicious,
+  this could lead to service outages, impacting the availability and reliability of
+  Splunk for monitoring and analysis.
+data_source:
 - Splunk
 search: '`splunkd` log_level="ERROR" component="TcpInputProc" thread_name="FwdDataReceiverThread"
   "Invalid _meta atom" | table host, src | `splunk_dos_via_malformed_s2s_request_filter`'
@@ -55,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1498/splunk_indexer_dos/splunkd.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1498/splunk_indexer_dos/splunkd.log
     source: /opt/splunk/var/log/splunk/splunkd.log
     sourcetype: splunkd
     update_timestamp: true

@@ -1,15 +1,17 @@
 name: Detect AWS Console Login by New User
 id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-version: 3
-date: '2022-05-10'
+version: 4
+date: '2024-05-28'
 author: Rico Valdez, Splunk
 status: experimental
 type: Hunting
-description: This search looks for AWS CloudTrail events wherein a console login event
-  by a user was recorded within the last hour, then compares the event to a lookup
-  file of previously seen users (by ARN values) who have logged into the console.
-  The alert is fired if the user has logged into the console for the first time within
-  the last hour
+description: The following analytic detects AWS console login events by new users.
+  It leverages AWS CloudTrail events and compares them against a lookup file of previously
+  seen users based on ARN values. This detection is significant because a new user
+  logging into the AWS console could indicate the creation of new accounts or potential
+  unauthorized access. If confirmed malicious, this activity could lead to unauthorized
+  access to AWS resources, data exfiltration, or further exploitation within the cloud
+  environment.
 data_source: []
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)`
@@ -59,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

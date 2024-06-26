@@ -1,32 +1,27 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 7
-date: '2022-01-18'
+version: 8
+date: '2024-05-19'
 author: David Dorsey, Michael Haag, Splunk
 status: production
 type: Hunting
-description: 'The following analytic identifies the use of the EncodedCommand PowerShell
-  parameter. This is typically used by Administrators to run complex scripts, but
-  commonly used by adversaries to hide their code. 
-
-  The analytic identifies all variations of EncodedCommand, as PowerShell allows the
-  ability to shorten the parameter. For example enc, enco, encod and so forth. In
-  addition, through our research it was identified that PowerShell will interpret
-  different command switch types beyond the hyphen. We have added endash, emdash,
-  horizontal bar, and forward slash. 
-
-  During triage, review parallel events to determine legitimacy. Tune as needed based
-  on admin scripts in use. 
-
-  Alternatively, may use regex per matching here https://regexr.com/662ov.'
+description: 'The following analytic detects the use of the EncodedCommand parameter
+  in PowerShell processes. It leverages Endpoint Detection and Response (EDR) data
+  to identify variations of the EncodedCommand parameter, including shortened forms
+  and different command switch types. This activity is significant because adversaries
+  often use encoded commands to obfuscate malicious scripts, making detection harder.
+  If confirmed malicious, this behavior could allow attackers to execute hidden code,
+  potentially leading to unauthorized access, privilege escalation, or persistent
+  threats within the environment. Review parallel events to determine legitimacy and
+  tune based on known administrative scripts.'
 data_source:
 - Sysmon EventID 1
 search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name
   Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | where match(process,\"(?i)[\\-|\\/|\u2013
-  |\u2014|\u2015]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\\s+[^-]\") | `malicious_powershell_process___encoded_command_filter`"
+  | `security_content_ctime(lastTime)` | where match(process,\"(?i)[\\-|\\/|– |—|―]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\\\
+  s+[^-]\") | `malicious_powershell_process___encoded_command_filter`"
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -84,6 +79,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

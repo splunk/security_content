@@ -1,15 +1,17 @@
 name: Detect Renamed WinRAR
 id: 1b7bfb2c-b8e6-11eb-99ac-acde48001122
-version: 3
-date: '2021-09-16'
+version: 4
+date: '2024-05-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analtyic identifies renamed instances of `WinRAR.exe`.
-  In most cases, it is not common for WinRAR to be used renamed, however it is common
-  to be installed by a third party application and executed from a non-standard path.
-  During triage, validate additional metadata from the binary that this is `WinRAR`.
-  Review parallel processes and file modifications.
+description: The following analytic identifies instances where `WinRAR.exe` has been
+  renamed and executed. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process names and original file names within the Endpoint data
+  model. This activity is significant because renaming executables is a common tactic
+  used by attackers to evade detection. If confirmed malicious, this could indicate
+  an attempt to bypass security controls, potentially leading to unauthorized data
+  extraction or further system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -83,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,16 +1,17 @@
 name: Windows Hide Notification Features Through Registry
 id: cafa4bce-9f06-11ec-a7b2-acde48001122
-version: 3
-date: '2023-04-27'
+version: 4
+date: '2024-05-26'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a suspicious registry modification to hide
-  common windows notification feature from compromised host. This technique was seen
-  in some ransomware family to add more impact to its payload that are visually seen
-  by user aside from the encrypted files and ransomware notes. Even this a good anomaly
-  detection, administrator may implement this changes for auditing or security reason.
-  In this scenario filter is needed.
+description: The following analytic detects suspicious registry modifications aimed
+  at hiding common Windows notification features on a compromised host. It leverages
+  data from the Endpoint.Registry data model, focusing on specific registry paths
+  and values. This activity is significant as it is often used by ransomware to obscure
+  visual indicators, increasing the impact of the attack. If confirmed malicious,
+  this could prevent users from noticing critical system alerts, thereby aiding the
+  attacker in maintaining persistence and furthering their malicious activities undetected.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -18,9 +19,10 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
   Registry.registry_value_name IN ("HideClock", "HideSCAHealth", "HideSCANetwork",
   "HideSCAPower", "HideSCAVolume") Registry.registry_value_data = "0x00000001") BY
-  _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_hide_notification_features_through_registry_filter`'
+  _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_hide_notification_features_through_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -61,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

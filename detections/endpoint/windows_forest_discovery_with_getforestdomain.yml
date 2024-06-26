@@ -1,19 +1,28 @@
 name: Windows Forest Discovery with GetForestDomain
 id: a14803b2-4bd9-4c08-8b57-c37980edebe8
-version: 1
-date: '2023-08-31'
+version: 2
+date: '2024-05-16'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - Powershell Script Block Logging 4104
-description: This analytic utilizes PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Get-ForestDomain` commandlet. `Get-ForestDomain` is a component of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Detecting the use of `Get-ForestDomain` is essential as adversaries and Red Teams might employ it to gain insights into the forest and domain configurations of an Active Directory environment.  Such information can provide attackers with a broader understanding of the domain structure and potential avenues for lateral movement or privilege escalation.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | `windows_forest_discovery_with_getforestdomain_filter`'
-how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
+description: The following analytic detects the execution of the `Get-ForestDomain`
+  cmdlet, a component of the PowerView toolkit used for Windows domain enumeration.
+  It leverages PowerShell Script Block Logging (EventCode=4104) to identify this activity.
+  Detecting `Get-ForestDomain` is significant because adversaries and Red Teams use
+  it to gather detailed information about Active Directory forest and domain configurations.
+  If confirmed malicious, this activity could enable attackers to understand the domain
+  structure, facilitating lateral movement or privilege escalation within the environment.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ForestDomain*" | stats
+  count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
+  Computer UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_forest_discovery_with_getforestdomain_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators may leverage PowerSploit tools for legitimate
+  reasons, filter as needed.
 references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestDomain/
 - https://attack.mitre.org/techniques/T1087/002/
@@ -24,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Suspicious PowerShell Get-ForestDomain was identified on endpoint $dest$ by user $user$.
+  message: Suspicious PowerShell Get-ForestDomain was identified on endpoint $dest$
+    by user $user$.
   mitre_attack_id:
   - T1087
   - T1087.002
@@ -52,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-ForestDomain-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-ForestDomain-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

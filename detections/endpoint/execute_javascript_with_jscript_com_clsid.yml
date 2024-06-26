@@ -1,14 +1,18 @@
 name: Execute Javascript With Jscript COM CLSID
 id: dc64d064-d346-11eb-8588-acde48001122
-version: 1
-date: '2021-06-22'
+version: 2
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will identify suspicious process of cscript.exe where it
-  tries to execute javascript using jscript.encode CLSID (COM OBJ). This technique
-  was seen in ransomware (reddot ransomware) where it execute javascript with this
-  com object with combination of amsi disabling technique.
+description: The following analytic detects the execution of JavaScript using the
+  JScript.Encode CLSID (COM Object) by cscript.exe. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names, command-line executions,
+  and parent processes. This activity is significant as it is a known technique used
+  by ransomware, such as Reddot, to execute malicious scripts and potentially disable
+  AMSI (Antimalware Scan Interface). If confirmed malicious, this behavior could allow
+  attackers to execute arbitrary code, evade detection, and maintain persistence within
+  the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

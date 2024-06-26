@@ -1,25 +1,26 @@
 name: Detect AzureHound File Modifications
 id: 1c34549e-c31b-11eb-996b-acde48001122
-version: 2
-date: '2024-03-14'
+version: 3
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic is similar to SharpHound file modifications, but
-  this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound
-  equivilent but for Azure. It's possible this may never be seen in an environment
-  as most attackers may execute this tool remotely. Once execution is complete, a
-  zip file with a similar name will drop `20210601090751-azurecollection.zip`. In
-  addition to the zip, multiple .json files will be written to disk, which are in
-  the zip.
+description: The following analytic detects the creation of specific AzureHound-related
+  files, such as `*-azurecollection.zip` and various `.json` files, on disk. It leverages
+  data from the Endpoint.Filesystem datamodel, focusing on file creation events with
+  specific filenames. This activity is significant because AzureHound is a tool used
+  to gather information about Azure environments, similar to SharpHound for on-premises
+  Active Directory. If confirmed malicious, this activity could indicate an attacker
+  is collecting sensitive Azure environment data, potentially leading to further exploitation
+  or privilege escalation within the cloud infrastructure.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip",
   "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json",
   "*-azapplicationadmins.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
-  Filesystem.file_path Filesystem.dest Filesystem.user | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `detect_azurehound_file_modifications_filter`'
+  Filesystem.file_path Filesystem.dest Filesystem.user | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_azurehound_file_modifications_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on file modifications that include the name of the process, and file, responsible
   for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem`
@@ -74,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

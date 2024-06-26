@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as start_tim
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
   query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename "IsOutlier(query_length)"
   as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time
-  query record_type count src dest query_length | `dns_query_length_outliers___mltk_filter` '
+  query record_type count src dest query_length | `dns_query_length_outliers___mltk_filter`'
 how_to_implement: "To successfully implement this search, you will need to ensure
   that DNS data is populating the Network_Resolution data model. In addition, the
   Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your

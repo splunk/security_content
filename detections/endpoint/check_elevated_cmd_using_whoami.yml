@@ -1,17 +1,17 @@
 name: Check Elevated CMD using whoami
 id: a9079b18-1633-11ec-859c-acde48001122
-version: 1
-date: '2021-09-15'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious whoami execution to check if the
-  cmd or shell instance process is with elevated privileges. This technique was seen
-  in FIN7 js implant where it execute this as part of its data collection to the infected
-  machine to check if the running shell cmd process is elevated or not. This TTP is
-  really a good alert for known attacker that recon on the targetted host. This command
-  is not so commonly executed by a normal user or even an admin to check if a process
-  is elevated.
+description: The following analytic identifies the execution of the 'whoami' command
+  with specific parameters to check for elevated privileges. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process and command-line
+  telemetry. This activity is significant because it is commonly used by attackers,
+  such as FIN7, to perform reconnaissance on a compromised host. If confirmed malicious,
+  this behavior could indicate an attacker is assessing their privilege level, potentially
+  leading to further privilege escalation or persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

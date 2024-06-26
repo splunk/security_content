@@ -1,15 +1,18 @@
 name: Windows Steal Authentication Certificates Certificate Request
 id: 747d7800-2eaa-422d-b994-04d8bb9e06d0
-version: 1
-date: '2023-02-06'
+version: 2
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies when a new certificate is requested
-  against the Certificate Services - AD CS. By its very nature this is not malicious,
-  but should be tracked and correlated with other events related to certificate requests.
-  When an account requests a certificate, the CA generates event ID (EID) 4886 "Certificate
-  Services received a certificate request".
+description: The following analytic detects when a new certificate is requested from
+  Certificate Services - AD CS. It leverages Event ID 4886, which indicates that a
+  certificate request has been received. This activity is significant because unauthorized
+  certificate requests can be part of credential theft or lateral movement tactics.
+  If confirmed malicious, an attacker could use the certificate to impersonate users,
+  gain unauthorized access to resources, or establish persistent access within the
+  environment. Monitoring and correlating this event with other suspicious activities
+  is crucial for identifying potential security incidents.
 data_source:
 - Windows Event Log Security 4886
 search: '`wineventlog_security` EventCode=4886 | stats count min(_time) as firstTime
@@ -52,7 +55,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4886_windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4886_windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

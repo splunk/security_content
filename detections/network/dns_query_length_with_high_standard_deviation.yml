@@ -1,14 +1,19 @@
 name: DNS Query Length With High Standard Deviation
 id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 5
-date: '2024-02-14'
+version: 6
+date: '2024-05-15'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: This search allows you to identify DNS requests and compute the standard
-  deviation on the length of the names being resolved, then filter on two times the
-  standard deviation to show you those queries that are unusually large for your environment.
-data_source: 
+description: The following analytic identifies DNS queries with unusually large lengths
+  by computing the standard deviation of query lengths and filtering those exceeding
+  twice the standard deviation. It leverages DNS query data from the Network_Resolution
+  data model, focusing on the length of the domain names being resolved. This activity
+  is significant as unusually long DNS queries can indicate data exfiltration or command-and-control
+  communication attempts. If confirmed malicious, this activity could allow attackers
+  to stealthily transfer data or maintain persistent communication channels within
+  the network.
+data_source:
 - Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where NOT DNS.record_type IN("Pointer","PTR") by DNS.query host| `drop_dm_object_name("DNS")`
@@ -51,6 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

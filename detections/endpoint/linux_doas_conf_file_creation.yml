@@ -1,17 +1,17 @@
 name: Linux Doas Conf File Creation
 id: f6343e86-6e09-11ec-9376-acde48001122
-version: 1
-date: '2022-01-05'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect the creation of doas.conf file in linux host
-  platform. This configuration file can be use by doas utility tool to allow or permit
-  standard users to perform tasks as root, the same way sudo does. This tool is developed
-  as a minimalistic alternative to sudo application. This tool can be abused advesaries,
-  attacker or malware to gain elevated privileges to the targeted or compromised host.
-  On the other hand this can also be executed by administrator for a certain task
-  that needs admin rights. In this case filter is needed.
+description: The following analytic detects the creation of the doas.conf file on
+  a Linux host. This file is used by the doas utility to allow standard users to perform
+  tasks as root, similar to sudo. The detection leverages filesystem data from the
+  Endpoint data model, focusing on the creation of the doas.conf file. This activity
+  is significant because it can indicate an attempt to gain elevated privileges, potentially
+  by an adversary. If confirmed malicious, this could allow an attacker to execute
+  commands with root privileges, leading to full system compromise.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -60,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

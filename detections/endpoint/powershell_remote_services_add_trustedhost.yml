@@ -1,28 +1,30 @@
 name: Powershell Remote Services Add TrustedHost
 id: bef21d24-297e-45e3-9b9a-c6ac45450474
-version: 1
-date: '2023-11-23'
+version: 2
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic identifies a suspicious PowerShell script execution via EventCode 4104 
-  that contains command to add or modify the trustedhost configuration in Windows OS. 
-  This behavior raises concerns due to the nature of modifications made to the 'TrustedHost' configuration, 
-  which typically involves adjusting settings crucial for remote connections and security protocols. 
-  Alterations in this area could potentially indicate attempts to manipulate trusted hosts or systems 
-  for unauthorized remote access, a tactic commonly observed in various unauthorized access or compromise attempts.
-search: '`powershell` EventCode=4104  ScriptBlockText = "*WSMan:\\localhost\\Client\\TrustedHosts*" ScriptBlockText IN ("* -Value *", "* -Concatenate *")
-  | rename Computer as dest, UserID as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText dest user
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic detects the execution of a PowerShell script that
+  modifies the 'TrustedHosts' configuration via EventCode 4104. It leverages PowerShell
+  Script Block Logging to identify commands targeting WSMan settings, specifically
+  those altering or concatenating trusted hosts. This activity is significant as it
+  can indicate attempts to manipulate remote connection settings, potentially allowing
+  unauthorized remote access. If confirmed malicious, this could enable attackers
+  to establish persistent remote connections, bypass security protocols, and gain
+  unauthorized access to sensitive systems and data.
+search: '`powershell` EventCode=4104  ScriptBlockText = "*WSMan:\\localhost\\Client\\TrustedHosts*"
+  ScriptBlockText IN ("* -Value *", "* -Concatenate *") | rename Computer as dest,
+  UserID as user | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
+  ScriptBlockText dest user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_remote_services_add_trustedhost_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: user and network administrator may used this function to add trusted host.
+known_false_positives: user and network administrator may used this function to add
+  trusted host.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
 tags:
@@ -60,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/wsman_trustedhost/wsman_pwh.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/wsman_trustedhost/wsman_pwh.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

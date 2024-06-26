@@ -1,32 +1,35 @@
 name: Windows Admin Permission Discovery
 id: e08620cb-9488-4052-832d-97bcc0afd414
-version: 1
-date: '2023-09-19'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 11
-description: This analytic is developed to identify suspicious file creation in the root drive (C:\). 
-  This tactic was observed in NjRAT as a means to ascertain whether its malware instance running on 
-  the compromised host possesses administrative privileges.
-  The methodology involves an attempt to create a 'win.dat' file in the C:\ directory. 
-  If this file is successfully created, it serves as an indicator that the process indeed holds administrative privileges.
-  This anomaly detection mechanism serves as a valuable pivot point for detecting NjRAT and other malware strains employing 
-  similar techniques to assess the privileges of their running malware instances, without using token privilege API calls or PowerShell commandlets.
-search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem 
-  where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe", "*.js", "*.bat", "*.cmd", "*.pif", "*.lnk", "*.dat") 
-  by Filesystem.dest Filesystem.file_create_time Filesystem.process_id Filesystem.process_guid Filesystem.file_name Filesystem.file_path Filesystem.user 
-  | `drop_dm_object_name(Filesystem)` 
-  | eval dropped_file_path = split(file_path, "\\") 
-  | eval dropped_file_path_split_count = mvcount(dropped_file_path) 
-  | eval root_drive = mvindex(dropped_file_path,0) | where LIKE(root_drive, "C:") AND dropped_file_path_split_count = 2  
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_admin_permission_discovery_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that 
-  include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: False positives may occur if there are legitimate accounts with the privilege to drop files in the root of the C drive. It's recommended to verify the legitimacy of such actions and the accounts involved.
+description: The following analytic identifies the creation of a suspicious file named
+  'win.dat' in the root directory (C:\). It leverages data from the Endpoint.Filesystem
+  datamodel to detect this activity. This behavior is significant as it is commonly
+  used by malware like NjRAT to check for administrative privileges on a compromised
+  host. If confirmed malicious, this activity could indicate that the malware has
+  administrative access, allowing it to perform high-privilege actions, potentially
+  leading to further system compromise and persistence.
+search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe",
+  "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe", "*.js", "*.bat", "*.cmd", "*.pif",
+  "*.lnk", "*.dat") by Filesystem.dest Filesystem.file_create_time Filesystem.process_id
+  Filesystem.process_guid Filesystem.file_name Filesystem.file_path Filesystem.user
+  | `drop_dm_object_name(Filesystem)` | eval dropped_file_path = split(file_path,
+  "\\") | eval dropped_file_path_split_count = mvcount(dropped_file_path) | eval root_drive
+  = mvindex(dropped_file_path,0) | where LIKE(root_drive, "C:") AND dropped_file_path_split_count
+  = 2 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |
+  `windows_admin_permission_discovery_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the Filesystem responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: False positives may occur if there are legitimate accounts
+  with the privilege to drop files in the root of the C drive. It's recommended to
+  verify the legitimacy of such actions and the accounts involved.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
 tags:
@@ -66,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/njrat_admin_check/win_dat.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/njrat_admin_check/win_dat.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

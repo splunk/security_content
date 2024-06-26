@@ -1,33 +1,17 @@
 name: ServicePrincipalNames Discovery with SetSPN
 id: ae8b3efc-2d2e-11ec-8b57-acde48001122
-version: 1
-date: '2021-10-14'
+version: 2
+date: '2024-05-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies `setspn.exe` usage related to querying
-  the domain for Service Principle Names. typically, this is a precursor activity
-  related to kerberoasting or the silver ticket attack. 
-
-  What is a ServicePrincipleName? 
-
-  A service principal name (SPN) is a unique identifier of a service instance. SPNs
-  are used by Kerberos authentication to associate a service instance with a service
-  logon account. This allows a client application to request that the service authenticate
-  an account even if the client does not have the account name.
-
-  Example usage includes the following 
-
-  * setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn
-  -Q */* > allspns.txt 1. setspn -q 
-
-  Values 
-
-  * -F = perform queries at the forest, rather than domain level 1. -T = perform
-  query on the specified domain or forest (when -F is also used) 1. -Q = query for
-  existence of SPN
-
-  During triage, review parallel processes for further suspicious activity.'
+description: 'The following analytic detects the use of `setspn.exe` to query the
+  domain for Service Principal Names (SPNs). This detection leverages Endpoint Detection
+  and Response (EDR) data, focusing on specific command-line arguments associated
+  with `setspn.exe`. Monitoring this activity is crucial as it often precedes Kerberoasting
+  or Silver Ticket attacks, which can lead to credential theft. If confirmed malicious,
+  an attacker could use the gathered SPNs to escalate privileges or persist within
+  the environment, posing a significant security risk.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -109,6 +93,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

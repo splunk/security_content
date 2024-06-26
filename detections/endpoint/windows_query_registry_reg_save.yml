@@ -1,17 +1,17 @@
 name: Windows Query Registry Reg Save
 id: cbee60c1-b776-456f-83c2-faa56bdbe6c6
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a process execution of reg.exe with
-  "save" parameter. This reg.exe parameter is commonly being abused by threat actors,
-  adversaries and red-teamers to dump credentials or to check the registry modification
-  capabilities of certain users or administrators in targeted hosts. This approach
-  was seen in post-exploitation tool like winpeas where it uses "reg save" and "reg
-  restore" to check registry modification restriction in targeted host after gaining
-  access to it.
+description: The following analytic detects the execution of the reg.exe process with
+  the "save" parameter. This detection leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on process execution logs and command-line arguments.
+  This activity is significant because threat actors often use the "reg save" command
+  to dump credentials or test registry modification capabilities on compromised hosts.
+  If confirmed malicious, this behavior could allow attackers to escalate privileges,
+  persist in the environment, or access sensitive information stored in the registry.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,7 +79,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,15 +1,16 @@
 name: Linux Possible Ssh Key File Creation
 id: c04ef40c-72da-11ec-8eac-acde48001122
-version: 1
-date: '2022-01-11'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to look for possible ssh key file creation on ~/.ssh/
-  folder. This technique is commonly abused by threat actors and adversaries to gain
-  persistence and privilege escalation to the targeted host. by creating ssh private
-  and public key and passing the public key to the attacker server. threat actor can
-  access remotely the machine using openssh daemon service.
+description: The following analytic detects the creation of SSH key files in the ~/.ssh/
+  directory. It leverages filesystem data to identify new files in this specific path.
+  This activity is significant because threat actors often create SSH keys to gain
+  persistent access and escalate privileges on a compromised host. If confirmed malicious,
+  this could allow attackers to remotely access the machine using the OpenSSH daemon
+  service, leading to potential unauthorized control and data exfiltration.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -59,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/ssh_authorized_keys/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

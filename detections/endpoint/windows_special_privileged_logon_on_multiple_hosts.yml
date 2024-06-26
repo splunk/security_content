@@ -1,25 +1,25 @@
 name: Windows Special Privileged Logon On Multiple Hosts
 id: 4c461f5a-c2cc-4e86-b132-c262fc9edca7
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 4672
-description: The following analytic leverages Event ID 4672 to identify a source user
-  authenticating with special privileges across a large number remote endpoints. Specifically,
-  the logic will trigger when a source user obtains special privileges across 30 or
-  more target computers within a 5 minute timespan. Special privileges are assigned
-  to a new logon session when sensitive privileges like SeDebugPrivilege and SeImpersonatePrivilege
-  are assigned. This behavior could represent an adversary who is moving laterally
-  and executing remote code across the network. It can also be triggered by other
-  behavior like an adversary enumerating network shares. As environments differ across
-  organizations, security teams should customize the thresholds of this detection
-  as needed.
-search: ' `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL SERVICE","NETWORK SERVICE","SYSTEM","*$")) | bucket span=5m _time | stats dc(Computer)
-  AS unique_targets values(Computer) as dest values(PrivilegeList) as privileges
-  by _time, Caller_User_Name | rename Caller_User_Name as user| where unique_targets > 30 | `windows_special_privileged_logon_on_multiple_hosts_filter`'
+description: The following analytic detects a user authenticating with special privileges
+  on 30 or more remote endpoints within a 5-minute window. It leverages Event ID 4672
+  from Windows Security logs to identify this behavior. This activity is significant
+  as it may indicate lateral movement or remote code execution by an adversary. If
+  confirmed malicious, the attacker could gain extensive control over the network,
+  potentially leading to privilege escalation, data exfiltration, or further compromise
+  of the environment. Security teams should adjust detection thresholds based on their
+  specific environment.
+search: ' `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL
+  SERVICE","NETWORK SERVICE","SYSTEM","*$")) | bucket span=5m _time | stats dc(Computer)
+  AS unique_targets values(Computer) as dest values(PrivilegeList) as privileges by
+  _time, Caller_User_Name | rename Caller_User_Name as user| where unique_targets
+  > 30 | `windows_special_privileged_logon_on_multiple_hosts_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   special logon events. The Advanced Security Audit policy setting `Audit Special
   Logon` within `Logon/Logoff` need to be enabled.
@@ -37,7 +37,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: 'A user $user$ obtained special privileges on a large number of endpoints (Count: $unique_targets$) within 5 minutes.'
+  message: 'A user $user$ obtained special privileges on a large number of endpoints
+    (Count: $unique_targets$) within 5 minutes.'
   mitre_attack_id:
   - T1087
   - T1021.002
@@ -62,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/special_logon_on_mulitple_hosts/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/special_logon_on_mulitple_hosts/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

@@ -1,22 +1,25 @@
 name: Kubernetes Node Port Creation
 id: d7fc865e-b8a1-4029-a960-cf4403b821b6
-version: 1
-date: '2023-12-13'
+version: 2
+date: '2024-05-12'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of a Kubernetes node port service, an action that exposes a service to the external network. 
-  It identifies this behavior by monitoring Kubernetes Audit logs for creation of a Node Port service. 
-  This behavior is worth identifying for a SOC as it could potentially allow an attacker to access internal services, posing a significant threat to the integrity and security of the Kubernetes infrastructure. 
-  The impact of such an attack could be severe, leading to data breaches, service disruptions, or unauthorized access to sensitive information.
-data_source: 
+description: The following analytic detects the creation of a Kubernetes NodePort
+  service, which exposes a service to the external network. It identifies this activity
+  by monitoring Kubernetes Audit logs for the creation of NodePort services. This
+  behavior is significant for a SOC as it could allow an attacker to access internal
+  services, posing a threat to the Kubernetes infrastructure's integrity and security.
+  If confirmed malicious, this activity could lead to data breaches, service disruptions,
+  or unauthorized access to sensitive information.
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` "objectRef.resource"=services verb=create requestObject.spec.type=NodePort
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 
   requestObject.kind requestObject.spec.type responseStatus.code sourceIPs{} stage user.username userAgent verb
   | rename sourceIPs{} as src_ip, user.username as user
-  | `kubernetes_node_port_creation_filter` '
+  | `kubernetes_node_port_creation_filter`'
 how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
   Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
   Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
@@ -48,23 +51,24 @@ tags:
   - Splunk Cloud
   required_fields:
   - user.groups{}
-  - kind 
-  - objectRef.name 
-  - objectRef.namespace 
-  - objectRef.resource 
-  - requestObject.kind 
-  - requestObject.spec.type 
-  - responseStatus.code 
-  - sourceIPs{} 
-  - stage 
-  - user.username 
-  - userAgent 
+  - kind
+  - objectRef.name
+  - objectRef.namespace
+  - objectRef.resource
+  - requestObject.kind
+  - requestObject.spec.type
+  - responseStatus.code
+  - sourceIPs{}
+  - stage
+  - user.username
+  - userAgent
   - verb
   risk_score: 49
   security_domain: network
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kube_audit_create_node_port_service/kube_audit_create_node_port_service.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kube_audit_create_node_port_service/kube_audit_create_node_port_service.json
     sourcetype: _json
     source: kubernetes

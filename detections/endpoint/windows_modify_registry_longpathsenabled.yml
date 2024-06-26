@@ -1,24 +1,27 @@
 name: Windows Modify Registry LongPathsEnabled
 id: 36f9626c-4272-4808-aadd-267acce681c0
-version: 1
-date: '2023-07-10'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a suspicious registry modification of Windows long path enable configuration. 
-  This technique was being abused by several adversaries, malware like BlackByte to enable long file path support in the operating system. 
-  By default, Windows has a limitation on the maximum length of a file path, which is set to 260 characters. 
-  Enabling the LongPathsEnabled setting allows you to work with file paths longer than 260 characters.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
-  WHERE (Registry.registry_path= "*\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled" Registry.registry_value_data = "0x00000001") 
-  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_longpathsenabled_filter`'
+description: The following analytic detects a modification to the Windows registry
+  setting "LongPathsEnabled," which allows file paths longer than 260 characters.
+  This detection leverages data from the Endpoint.Registry datamodel, focusing on
+  changes to the specific registry path and value. This activity is significant because
+  adversaries, including malware like BlackByte, exploit this setting to bypass file
+  path limitations, potentially aiding in evasion techniques. If confirmed malicious,
+  this modification could facilitate the execution of long-path payloads, aiding in
+  persistence and further system compromise.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path= "*\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled"
+  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_modify_registry_longpathsenabled_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -61,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/blackbyte/longpathsenabled/longpath_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/blackbyte/longpathsenabled/longpath_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

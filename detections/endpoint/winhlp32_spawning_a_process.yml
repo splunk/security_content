@@ -1,20 +1,18 @@
 name: Winhlp32 Spawning a Process
 id: d17dae9e-2618-11ec-b9f5-acde48001122
-version: 1
-date: '2021-10-05'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies winhlp32.exe, found natively in `c:\windows\`,
-  spawning a child process that loads a file out of appdata, programdata, or temp.
-  Winhlp32.exe has a rocky past in that multiple vulnerabilities were found and added
-  to MetaSploit. WinHlp32.exe is required to display 32-bit Help files that have the
-  ".hlp" file name extension. This particular instance is related to a Remcos sample
-  where dynwrapx.dll is added to the registry under inprocserver32, and later module
-  loaded by winhlp32.exe to spawn wscript.exe and load a vbs or file from disk. During
-  triage, review parallel processes to identify further suspicious behavior. Review
-  module loads for unsuspecting unsigned modules. Capture any file modifications and
-  analyze.
+description: The following analytic detects winhlp32.exe spawning a child process
+  that loads a file from appdata, programdata, or temp directories. This detection
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  creation events. This activity is significant because winhlp32.exe has known vulnerabilities
+  and can be exploited to execute malicious code. If confirmed malicious, an attacker
+  could use this technique to execute arbitrary scripts, escalate privileges, or maintain
+  persistence within the environment. Analysts should review parallel processes, module
+  loads, and file modifications for further suspicious behavior.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -87,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

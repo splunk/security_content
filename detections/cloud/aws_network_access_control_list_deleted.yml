@@ -1,16 +1,18 @@
 name: AWS Network Access Control List Deleted
 id: ada0f478-84a8-4641-a3f1-d82362d6fd75
-version: 2
-date: '2021-01-12'
+version: 3
+date: '2024-05-15'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: Enforcing network-access controls is one of the defensive mechanisms
-  used by cloud administrators to restrict access to a cloud instance. After the attacker
-  has gained control of the AWS console by compromising an admin account, they can
-  delete a network ACL and gain access to the instance from anywhere. This search
-  will query the AWS CloudTrail logs to detect users deleting network ACLs.
-data_source: 
+description: The following analytic detects the deletion of AWS Network Access Control
+  Lists (ACLs). It leverages AWS CloudTrail logs to identify events where a user deletes
+  a network ACL entry. This activity is significant because deleting a network ACL
+  can remove critical access restrictions, potentially allowing unauthorized access
+  to cloud instances. If confirmed malicious, this action could enable attackers to
+  bypass network security controls, leading to unauthorized access, data exfiltration,
+  or further compromise of the cloud environment.
+data_source:
 - AWS CloudTrail DeleteNetworkAclEntry
 search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by user_arn
@@ -59,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -1,22 +1,25 @@
 name: Mshta spawning Rundll32 OR Regsvr32 Process
 id: 4aa5d062-e893-11eb-9eb2-acde48001122
-version: 2
-date: '2021-07-19'
+version: 3
+date: '2024-05-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious mshta.exe process that spawn rundll32
-  or regsvr32 child process. This technique was seen in several malware nowadays like
-  trickbot to load its initial .dll stage loader to execute and download the the actual
-  trickbot payload.
+description: The following analytic detects a suspicious mshta.exe process spawning
+  rundll32 or regsvr32 child processes. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process GUID, process name, and parent process
+  fields. This activity is significant as it is a known technique used by malware
+  like Trickbot to load malicious DLLs and execute payloads. If confirmed malicious,
+  this behavior could allow attackers to execute arbitrary code, escalate privileges,
+  or download additional malware, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  = "mshta.exe"  `process_rundll32` OR `process_regsvr32` by  Processes.parent_process_name Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.process_guid
-  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` | `mshta_spawning_rundll32_or_regsvr32_process_filter`'
+  = "mshta.exe"  `process_rundll32` OR `process_regsvr32` by  Processes.parent_process_name
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.process_guid Processes.user Processes.dest | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `mshta_spawning_rundll32_or_regsvr32_process_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -74,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

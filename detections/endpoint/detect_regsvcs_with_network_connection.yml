@@ -1,25 +1,23 @@
 name: Detect Regsvcs with Network Connection
 id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
-version: 3
-date: '2024-01-30'
+version: 4
+date: '2024-05-19'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies Regsvcs.exe with a network connection
-  to a public IP address, exluding private IP space. This particular technique has
-  been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe
-  are signed by Microsoft. By contacting a remote Command And Control server, the
-  adversary will have the ability to escalate privileges and complete the objectives.
-  During investigation, identify and retrieve the content being loaded. Review parallel
-  processes for additional suspicious behavior. Gather any other file modifications
-  and review accordingly. Review the reputation of the remote IP or domain and block
-  as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
-  and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+description: The following analytic identifies instances of Regsvcs.exe establishing
+  a network connection to a public IP address, excluding private IP ranges. This detection
+  leverages Sysmon Event ID 3 logs to monitor network connections initiated by Regsvcs.exe.
+  This activity is significant as Regsvcs.exe, a legitimate Microsoft-signed binary,
+  can be exploited to bypass application control mechanisms and establish remote Command
+  and Control (C2) channels. If confirmed malicious, this behavior could allow an
+  attacker to escalate privileges, persist in the environment, and exfiltrate sensitive
+  data. Immediate investigation and remediation are recommended.
 data_source:
 - Sysmon EventID 3
 search: '`sysmon` EventID=3 dest_ip!=10.0.0.0/8 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16
-  process_name=regsvcs.exe  | stats count min(_time) as firstTime
-  max(_time) as lastTime by dest, user, process_name, src_ip, dest_ip | `security_content_ctime(firstTime)`
+  process_name=regsvcs.exe  | stats count min(_time) as firstTime max(_time) as lastTime
+  by dest, user, process_name, src_ip, dest_ip | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_regsvcs_with_network_connection_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -75,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

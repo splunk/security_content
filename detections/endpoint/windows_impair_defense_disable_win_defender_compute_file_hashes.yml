@@ -1,26 +1,27 @@
 name: Windows Impair Defense Disable Win Defender Compute File Hashes
 id: fe52c280-98bd-4596-b6f6-a13bbf8ac7c6
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender file hashes computation.
-  The EnableFileHashComputation registry setting likely pertains to whether Windows Defender's MpEngine (Malware Protection Engine) computes 
-  file hashes. Setting this value to 0 might disable the file hash computation feature within Windows Defender, which could affect certain 
-  malware detection or scanning functionalities that rely on file hash analysis. This registry setting is being abuse by several threat actors, adversaries 
-  and red teamers to bypasses Windows defender detections.
+description: The following analytic detects modifications to the Windows registry
+  that disable Windows Defender's file hash computation by setting the EnableFileHashComputation
+  value to 0. This detection leverages data from the Endpoint.Registry data model,
+  focusing on changes to the specific registry path associated with Windows Defender.
+  Disabling file hash computation can significantly impair Windows Defender's ability
+  to detect and scan for malware, making it a critical behavior to monitor. If confirmed
+  malicious, this activity could allow attackers to bypass Windows Defender, facilitating
+  undetected malware execution and persistence in the environment.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\MpEngine\\EnableFileHashComputation"
-  Registry.registry_value_data="0x00000000" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_disable_win_defender_compute_file_hashes_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\MpEngine\\EnableFileHashComputation" Registry.registry_value_data="0x00000000"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_disable_win_defender_compute_file_hashes_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -64,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,25 +1,27 @@
 name: Windows Masquerading Explorer As Child Process
 id: 61490da9-52a1-4855-a0c5-28233c88c481
-version: 1
-date: '2024-04-25'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a suspicious parent process of explorer.exe.
-  Explorer is usually executed by userinit.exe that will exit after execution that
-  causes the main explorer.exe no parent process. Some malware like qakbot spawn another
-  explorer.exe to inject its code. This TTP detection is a good indicator that a process
-  spawning explorer.exe might inject code or masquerading its parent child process
-  to evade detections.
+description: The following analytic identifies instances where explorer.exe is spawned
+  by unusual parent processes such as cmd.exe, powershell.exe, or regsvr32.exe. This
+  detection leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process and parent process relationships. This activity is significant because
+  explorer.exe is typically initiated by userinit.exe, and deviations from this norm
+  can indicate code injection or process masquerading attempts by malware like Qakbot.
+  If confirmed malicious, this behavior could allow attackers to execute arbitrary
+  code, evade detection, and maintain persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN("cmd.exe", "powershell.exe", "regsvr32.exe") AND Processes.process_name = "explorer.exe" AND Processes.process IN ("*\\explorer.exe")
-  by Processes.parent_process Processes.parent_process_name Processes.process_name
-  Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
-  Processes.parent_process_id | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` | `windows_masquerading_explorer_as_child_process_filter`'
+  IN("cmd.exe", "powershell.exe", "regsvr32.exe") AND Processes.process_name = "explorer.exe"
+  AND Processes.process IN ("*\\explorer.exe") by Processes.parent_process Processes.parent_process_name
+  Processes.process_name Processes.process_id Processes.process_guid Processes.process
+  Processes.user Processes.dest Processes.parent_process_id | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `windows_masquerading_explorer_as_child_process_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -70,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

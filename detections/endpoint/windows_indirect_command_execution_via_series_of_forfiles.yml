@@ -1,15 +1,18 @@
 name: Windows Indirect Command Execution Via Series Of Forfiles
 id: bfdaabe7-3db8-48c5-80c1-220f9b8f22be
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is developed to detect suspicious excessive usage of forfiles.exe
-  process. This event was seen in post exploitation tool WINPEAS that was used by
-  Ransomware Prestige. Forfiles command lets you run a command on or pass arguments
-  to multiple files. This Windows OS built-in tool being abused to list all files
-  in specific directory or drive.
+description: The following analytic detects excessive usage of the forfiles.exe process,
+  which is often indicative of post-exploitation activities. The detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs that include process GUID, process name, and parent process. This activity
+  is significant because forfiles.exe can be abused to execute commands on multiple
+  files, a technique used by ransomware like Prestige. If confirmed malicious, this
+  behavior could allow attackers to enumerate files, potentially leading to data exfiltration
+  or further malicious actions.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -70,7 +73,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,24 +1,14 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4776
-date: '2021-04-13'
-description: 'The following analytic identifies one source endpoint failing to authenticate
-  with 30 unique valid users using the NTLM protocol. This behavior could represent
-  an adversary performing a Password Spraying attack against an Active Directory environment
-  using NTLM to obtain initial access or elevate privileges. Active Directory environments
-  can be very different depending on the organization. Users should test this detection
-  and customize the arbitrary threshold when needed. Event 4776 is generated on the
-  computer that is authoritative for the provided credentials. For domain accounts,
-  the domain controller is authoritative. For local accounts, the local computer is
-  authoritative. Error code 0xC000006A means: misspelled or bad password (the attempted
-  user is a legitimate domain user).
-
-  This logic can be used for real time security monitoring as well as threat hunting
-  exercises. This detection will only trigger on domain controllers, not on member
-  servers or workstations.
-
-  The analytics returned fields allow analysts to investigate the event further by
-  providing fields like source workstation name and attempted user accounts.'
+date: '2024-05-26'
+description: 'The following analytic identifies a single source endpoint failing to
+  authenticate with 30 unique valid users using the NTLM protocol. It leverages EventCode
+  4776 from Domain Controller logs, focusing on error code 0xC000006A, which indicates
+  a bad password. This behavior is significant as it may indicate a Password Spraying
+  attack, where an adversary attempts to gain initial access or elevate privileges.
+  If confirmed malicious, this activity could lead to unauthorized access to sensitive
+  information or further compromise of the Active Directory environment.'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
   Validation` within `Account Logon` needs to be enabled.
@@ -67,9 +57,10 @@ tags:
   security_domain: endpoint
 tests:
 - attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm_xml/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: TTP
-version: 2
+version: 3

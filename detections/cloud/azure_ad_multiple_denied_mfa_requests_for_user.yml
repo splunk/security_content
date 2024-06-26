@@ -1,26 +1,33 @@
 name: Azure AD Multiple Denied MFA Requests For User
 id: d0895c20-de71-4fd2-b56c-3fcdb888eba1
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-18'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Azure Active Directory Sign-in activity
-description: This analytic targets the detection of an unusually high number of denied Multi-Factor Authentication (MFA) requests for a single user within a 10-minute window, specifically identifying instances where more than nine MFA prompts were declined by the user. Utilizing Azure Active Directory (Azure AD) sign-in logs, particularly focusing on "Sign-in activity" events, it filters for scenarios where the MFA request was denied due to the user declining the authentication, as indicated by error code 500121 and additional details stating "MFA denied; user declined the authentication." The data is then aggregated into 10-minute intervals, counting distinct raw events and capturing the earliest and latest times of occurrence for each user. This behavior is significant for a Security Operations Center (SOC) as it could be an early indicator of a targeted attack or an account compromise attempt, with an attacker having obtained the user's credentials and the user actively declining the MFA prompts, preventing unauthorized access. A true positive detection would imply that an attacker is on the verge of gaining full access to the user's account, posing a threat that could lead to data exfiltration, lateral movement, or further malicious activities within the organization, necessitating immediate investigation and response to safeguard the organization's assets.
+description: The following analytic detects an unusually high number of denied Multi-Factor
+  Authentication (MFA) requests for a single user within a 10-minute window, specifically
+  when more than nine MFA prompts are declined. It leverages Azure Active Directory
+  (Azure AD) sign-in logs, focusing on "Sign-in activity" events with error code 500121
+  and additional details indicating "MFA denied; user declined the authentication."
+  This behavior is significant as it may indicate a targeted attack or account compromise
+  attempt, with the user actively declining unauthorized access. If confirmed malicious,
+  it could lead to data exfiltration, lateral movement, or further malicious activities.
 search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
-  | rename properties.* as * 
-  | search status.errorCode=500121 status.additionalDetails="MFA denied; user declined the authentication"
-  | bucket span=10m _time 
-  | stats count min(_time) as firstTime max(_time) as lastTime by user, status.additionalDetails, appDisplayName, user_agent
-  | where count > 9
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_multiple_denied_mfa_requests_for_user_filter`'
+  | rename properties.* as * | search status.errorCode=500121 status.additionalDetails="MFA
+  denied; user declined the authentication" | bucket span=10m _time | stats count
+  min(_time) as firstTime max(_time) as lastTime by user, status.additionalDetails,
+  appDisplayName, user_agent | where count > 9 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_multiple_denied_mfa_requests_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
-known_false_positives: Multiple denifed MFA requests in a short period of span may also be a sign of authentication errors. Investigate and filter as needed.
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the Signin log category.
+known_false_positives: Multiple denifed MFA requests in a short period of span may
+  also be a sign of authentication errors. Investigate and filter as needed.
 references:
 - https://www.mandiant.com/resources/blog/russian-targeting-gov-business
 - https://arstechnica.com/information-technology/2022/03/lapsus-and-solar-winds-hackers-both-use-the-same-old-trick-to-bypass-mfa/
@@ -60,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azure_ad_multiple_denied_mfa_requests/azure_ad_multiple_denied_mfa_requests.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azure_ad_multiple_denied_mfa_requests/azure_ad_multiple_denied_mfa_requests.log
     source: Azure AD
     sourcetype: azure:monitor:aad

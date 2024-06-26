@@ -1,15 +1,18 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: 2
-date: '2024-02-27'
+version: 3
+date: '2024-05-11'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances where network traffic, specifically identified by port and transport layer protocol as 
-  prohibited in the "lookup_interesting_ports" table, is allowed according to the Network_Traffic data model. It operates by cross-referencing 
-  traffic data against predefined security policies to identify discrepancies indicative of potential misconfigurations or policy violations. 
-  This detection is crucial for a Security Operations Center (SOC) as it highlights potential security breaches or misconfigured network devices 
-  that could allow unauthorized access or data exfiltration, directly impacting the organization's security posture.
+description: The following analytic detects instances where network traffic, identified
+  by port and transport layer protocol as prohibited in the "lookup_interesting_ports"
+  table, is allowed. It uses the Network_Traffic data model to cross-reference traffic
+  data against predefined security policies. This activity is significant for a SOC
+  as it highlights potential misconfigurations or policy violations that could lead
+  to unauthorized access or data exfiltration. If confirmed malicious, this could
+  allow attackers to bypass network defenses, leading to potential data breaches and
+  compromising the organization's security posture.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by
@@ -60,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048/ftp_connection/zeek_conn.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048/ftp_connection/zeek_conn.log
     sourcetype: bro:conn:json
     source: conn.log

@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   >= relative_time(maxtime, "-1d@d"), count, null))) as "count" avg(eval(if(_time<relative_time(maxtime,
   "-1d@d"), count,null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-1d@d"),
   count, null))) as stdev by "dest" | eval upperBound=(avg+stdev*4), isOutlier=if((count
-  > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter` '
+  > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter`'
 how_to_implement: In order to implement this search, you must populate the Endpoint
   file-system data model node. This is typically populated via endpoint detection
   and response product, such as Carbon Black or endpoint data sources such as Sysmon.

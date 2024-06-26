@@ -1,29 +1,26 @@
 name: Windows Impair Defense Disable Win Defender Scan On Update
 id: 0418e72f-e710-4867-b656-0688e1523e09
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
-  Scan On Update. The "DisableScanOnUpdate" registry setting in Windows Defender, when set to a value of 1, typically 
-  signifies the feature that prevents automatic scans from initiating when updates to Windows Defender 
-  or its antivirus definitions are installed.
-  Any modifications to registry settings, it's important to ensure that changes align with security policies and best practices.
-  Incorrect settings might affect the system's security or functionality. Always consider the implications and ensure changes 
-  are made based on accurate information and organizational requirements.
-  This registry setting is being abuse by several threat actors, adversaries and red teamers to bypasses Windows defender detections.
+description: The following analytic detects modifications to the Windows registry
+  that disable the Windows Defender Scan On Update feature. It leverages data from
+  the Endpoint.Registry datamodel, specifically looking for changes to the "DisableScanOnUpdate"
+  registry setting with a value of "0x00000001". This activity is significant because
+  disabling automatic scans can leave systems vulnerable to malware and other threats.
+  If confirmed malicious, this action could allow attackers to bypass Windows Defender,
+  facilitating further compromise and persistence within the environment.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Signature Updates\\DisableScanOnUpdate"
-  Registry.registry_value_data="0x00000001"
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_disable_win_defender_scan_on_update_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Signature Updates\\DisableScanOnUpdate" Registry.registry_value_data="0x00000001"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_disable_win_defender_scan_on_update_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -67,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

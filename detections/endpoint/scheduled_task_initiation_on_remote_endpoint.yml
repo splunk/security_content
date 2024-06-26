@@ -1,18 +1,17 @@
 name: Scheduled Task Initiation on Remote Endpoint
 id: 95cf4608-4302-11ec-8194-3e22fbd008af
-version: 1
-date: '2021-11-11'
+version: 2
+date: '2024-05-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances of 'schtasks.exe' being used to start
-  a Scheduled Task on a remote endpoint. Adversaries often abuse the Task Scheduler
-  for lateral movement and remote code execution. The search parameters include process
-  details such as the process  name, parent process, and command-line executions.
-  Although legitimate administrators may start scheduled tasks on remote systems,
-  this activity is usually limited to a small set of hosts or users. The findings
-  from this analytic provide valuable insight into potentially malicious activities
-  on an endpoint.
+description: The following analytic detects the use of 'schtasks.exe' to start a Scheduled
+  Task on a remote endpoint. This detection leverages Endpoint Detection and Response
+  (EDR) data, focusing on process details such as process name, parent process, and
+  command-line executions. This activity is significant as adversaries often abuse
+  Task Scheduler for lateral movement and remote code execution. If confirmed malicious,
+  this behavior could allow attackers to execute arbitrary code remotely, potentially
+  leading to further compromise of the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

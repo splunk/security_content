@@ -1,15 +1,18 @@
 name: GetCurrent User with PowerShell
 id: 7eb9c3d5-c98c-4088-acc5-8240bad15379
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2024-05-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `powerhsell.exe` with command-line
-  arguments that execute the `GetCurrent` method of the WindowsIdentity .NET class.
-  This method returns an object that represents the current Windows user. Red Teams
-  and adversaries may leverage this method to identify the logged user on a compromised
-  endpoint for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` with
+  command-line arguments invoking the `GetCurrent` method of the WindowsIdentity .NET
+  class. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process names and command-line executions. This activity is
+  significant as adversaries may use this method to identify the logged-in user on
+  a compromised endpoint, aiding in situational awareness and Active Directory discovery.
+  If confirmed malicious, this could allow attackers to gain insights into user context,
+  potentially facilitating further exploitation and lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -66,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

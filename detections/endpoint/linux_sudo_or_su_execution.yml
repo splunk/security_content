@@ -1,18 +1,18 @@
 name: Linux Sudo OR Su Execution
 id: 4b00f134-6d6a-11ec-a90c-acde48001122
-version: 1
-date: '2022-01-04'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic is to detect the execution of sudo or su command in linux
-  operating system. The "sudo" command allows a system administrator to delegate authority
-  to give certain users (or groups of users) the ability to run some (or all) commands
-  as root or another user while providing an audit trail of the commands and their
-  arguments. This command is commonly abused by adversaries, malware author and red
-  teamers to elevate privileges to the targeted host. This command can be executed
-  by administrator for legitimate purposes or to execute process that need admin privileges,
-  In this scenario filter is needed.
+description: The following analytic detects the execution of the "sudo" or "su" command
+  on a Linux operating system. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names and parent process names. This activity
+  is significant because "sudo" and "su" commands are commonly used by adversaries
+  to elevate privileges, potentially leading to unauthorized access or control over
+  the system. If confirmed malicious, this activity could allow attackers to execute
+  commands with root privileges, leading to severe security breaches, data exfiltration,
+  or further system compromise.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -68,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/sudo_su/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/sudo_su/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

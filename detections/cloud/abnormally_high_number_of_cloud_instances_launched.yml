@@ -1,13 +1,17 @@
 name: Abnormally High Number Of Cloud Instances Launched
 id: f2361e9f-3928-496c-a556-120cd4223a65
-version: 2
-date: '2020-08-21'
+version: 3
+date: '2024-05-16'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: This search finds for the number successfully created cloud instances
-  for every 4 hour block. This is split up between weekdays and the weekend. It then
-  applies the probability densitiy model previously created and alerts on any outliers.
+description: The following analytic detects an abnormally high number of cloud instances
+  launched within a 4-hour period. It leverages cloud infrastructure logs and applies
+  a probability density model to identify outliers based on historical data. This
+  activity is significant for a SOC because a sudden spike in instance creation could
+  indicate unauthorized access or misuse of cloud resources. If confirmed malicious,
+  this behavior could lead to resource exhaustion, increased costs, or provide attackers
+  with additional compute resources to further their objectives.
 data_source: []
 search: '| tstats count as instances_launched values(All_Changes.object_id) as object_id
   from datamodel=Change where (All_Changes.action=created) AND All_Changes.status=success

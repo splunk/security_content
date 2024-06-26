@@ -1,18 +1,16 @@
 name: Linux File Created In Kernel Driver Directory
 id: b85bbeec-6326-11ec-9311-acde48001122
-version: 1
-date: '2021-12-22'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious file creation in kernel/driver directory
-  in linux platform. This directory is known folder for all linux kernel module available
-  within the system. so creation of file in this directory is a good indicator that
-  there is a possible rootkit installation in the host machine. This technique was
-  abuse by adversaries, malware author and red teamers to gain high privileges to
-  their malicious code such us in kernel level. Even this event is not so common administrator
-  or legitimate 3rd party tool may install driver or linux kernel module as part of
-  its installation.
+description: The following analytic detects the creation of files in the Linux kernel/driver
+  directory. It leverages filesystem data to identify new files in this critical directory.
+  This activity is significant because the kernel/driver directory is typically reserved
+  for kernel modules, and unauthorized file creation here can indicate a rootkit installation.
+  If confirmed malicious, this could allow an attacker to gain high-level privileges,
+  potentially compromising the entire system by executing code at the kernel level.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -62,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

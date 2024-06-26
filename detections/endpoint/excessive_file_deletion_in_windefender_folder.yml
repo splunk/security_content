@@ -1,28 +1,30 @@
 name: Excessive File Deletion In WinDefender Folder
 id: b5baa09a-7a05-11ec-8da4-acde48001122
-version: 2
-date: '2024-03-05'
+version: 3
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
-description: This analytic identifies excessive file deletion events in the Windows
-  Defender folder. This technique was observed in the WhisperGate malware campaign,
-  where adversaries exploited Nirsoft's advancedrun.exe to gain administrative privileges
-  and then executed PowerShell commands to delete files within the Windows Defender
-  application folder. Such behavior is a strong indicator that the offending process
-  is attempting to corrupt a Windows Defender installation.
+description: The following analytic detects excessive file deletion events in the
+  Windows Defender folder. It leverages Sysmon EventCodes 23 and 26 to identify processes
+  deleting multiple files within this directory. This behavior is significant as it
+  may indicate an attempt to corrupt or disable Windows Defender, a key security component.
+  If confirmed malicious, this activity could allow an attacker to disable endpoint
+  protection, facilitating further malicious actions without detection.
 data_source:
 - Sysmon EventID 23
 - Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\ProgramData\\Microsoft\\Windows Defender\\*"
-  | stats count, values(TargetFilename) as deleted_files, min(_time) as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image, process_name, process_guid
-  | rename Image as process
-  | where count >=50
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `excessive_file_deletion_in_windefender_folder_filter`'
-how_to_implement: To successfully implement this search, you must ingest logs that include the process name, TargetFilename, and ProcessID executions from your endpoints. If you are utilizing Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
-known_false_positives: Windows Defender AV updates may trigger this alert. Please adjust the filter macros to mitigate false positives.
+search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\ProgramData\\Microsoft\\Windows
+  Defender\\*" | stats count, values(TargetFilename) as deleted_files, min(_time)
+  as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image,
+  process_name, process_guid | rename Image as process | where count >=50 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `excessive_file_deletion_in_windefender_folder_filter`'
+how_to_implement: To successfully implement this search, you must ingest logs that
+  include the process name, TargetFilename, and ProcessID executions from your endpoints.
+  If you are utilizing Sysmon, ensure you have at least version 2.0 of the Sysmon
+  TA installed.
+known_false_positives: Windows Defender AV updates may trigger this alert. Please
+  adjust the filter macros to mitigate false positives.
 references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
@@ -57,7 +59,7 @@ tags:
   required_fields:
   - _time
   - TargetFilename
-  - user 
+  - user
   - dest
   - signature
   - signature_id
@@ -70,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/excessive_file_del_in_windefender_dir/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/excessive_file_del_in_windefender_dir/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

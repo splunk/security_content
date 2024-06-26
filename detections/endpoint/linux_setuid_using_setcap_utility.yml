@@ -1,19 +1,18 @@
 name: Linux Setuid Using Setcap Utility
 id: 9d96022e-6250-11ec-9a19-acde48001122
-version: 1
-date: '2021-12-21'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious setcap utility execution to enable
-  SUID bit. This allows a user to temporarily gain root access, usually in order to
-  run a program. For example, only the root account is allowed to change the password
-  information contained in the password database; If the SUID bit appears as an s,
-  the file's owner also has execute permission to the file; if it appears as an S,
-  the file's owner does not have execute permission. The second specialty permission
-  is the SGID, or set group id bit. It is similar to the SUID bit, except it can temporarily
-  change group membership, usually to execute a program. The SGID bit is set if an
-  s or an S appears in the group section of permissions.
+description: The following analytic detects the execution of the 'setcap' utility
+  to enable the SUID bit on Linux systems. It leverages Endpoint Detection and Response
+  (EDR) data, focusing on process names and command-line arguments that indicate the
+  use of 'setcap' with specific capabilities. This activity is significant because
+  setting the SUID bit allows a user to temporarily gain root access, posing a substantial
+  security risk. If confirmed malicious, an attacker could escalate privileges, execute
+  arbitrary commands with elevated permissions, and potentially compromise the entire
+  system.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/linux_setcap/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/linux_setcap/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

@@ -1,17 +1,18 @@
 name: Rundll32 Control RunDLL Hunt
 id: c8e7ced0-10c5-11ec-8b03-acde48001122
-version: 1
-date: '2021-09-08'
+version: 2
+date: '2024-05-23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting detection identifies rundll32.exe with `control_rundll`
-  within the command-line, loading a .cpl or another file type. Developed in relation
-  to CVE-2021-40444. Rundll32.exe can also be used to execute Control Panel Item files
-  (.cpl) through the undocumented shell32.dll functions Control_RunDLL and Control_RunDLLAsUser.
-  Double-clicking a .cpl file also causes rundll32.exe to execute. \ This is written
-  to be a bit more broad by not including .cpl. \ During triage, review parallel processes
-  to identify any further suspicious behavior.
+description: The following analytic identifies instances of rundll32.exe executing
+  with `Control_RunDLL` in the command line, which is indicative of loading a .cpl
+  or other file types. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution logs and command-line arguments. This
+  activity is significant as rundll32.exe can be exploited to execute malicious Control
+  Panel Item files, potentially linked to CVE-2021-40444. If confirmed malicious,
+  this could allow attackers to execute arbitrary code, escalate privileges, or maintain
+  persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -91,6 +92,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

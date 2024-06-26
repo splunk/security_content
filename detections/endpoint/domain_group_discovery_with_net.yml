@@ -1,14 +1,18 @@
 name: Domain Group Discovery With Net
 id: f2f14ac7-fa81-471a-80d5-7eb65c3c7349
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-05-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `net.exe` with command-line
-  arguments utilized to query for domain groups. The argument `group /domain`, returns
-  a list of all domain groups. Red Teams and adversaries alike use net.exe to enumerate
-  domain groups for situational awareness and Active Directory Discovery.
+description: The following analytic identifies the execution of `net.exe` with command-line
+  arguments used to query domain groups, specifically `group /domain`. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names
+  and command-line arguments. This activity is significant as it indicates potential
+  reconnaissance efforts by adversaries to enumerate domain groups, which is a common
+  step in Active Directory Discovery. If confirmed malicious, this behavior could
+  allow attackers to gain insights into the domain structure, aiding in further attacks
+  such as privilege escalation or lateral movement.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,16 +1,18 @@
 name: Linux Stdout Redirection To Dev Null File
 id: de62b809-a04d-46b5-9a15-8298d330f0c8
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: experimental
 type: Anomaly
-description: This analytic looks for suspicious commandline that redirect the stdout
-  or possible stderror to dev/null file. This technique was seen in cyclopsblink malware
-  where it redirect the possible output or error while modify the iptables firewall
-  setting of the compromised machine to hide its action from the user. This Anomaly
-  detection is a good pivot to look further why process or user use this un common
-  approach.
+description: The following analytic detects command-line activities that redirect
+  stdout or stderr to the /dev/null file. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process execution logs. This behavior is
+  significant as it can indicate attempts to hide command outputs, a technique observed
+  in the CyclopsBlink malware to conceal modifications to iptables firewall settings.
+  If confirmed malicious, this activity could allow an attacker to stealthily alter
+  system configurations, potentially leading to unauthorized access or persistent
+  control over the compromised machine.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/cyclopsblink/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/cyclopsblink/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

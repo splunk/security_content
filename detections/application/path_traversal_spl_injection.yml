@@ -1,15 +1,19 @@
 name: Path traversal SPL injection
 id: dfe55688-82ed-4d24-a21b-ed8f0e0fda99
-version: 2
-date: '2024-03-19'
+version: 3
+date: '2024-05-26'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: On May 3rd, 2022, Splunk published a security advisory for a Path traversal
-  in search parameter that can potentiall allow SPL injection. An attacker can cause
-  the application to load data from incorrect endpoints, urls leading to outcomes
-  such as running arbitrary SPL queries.
-data_source: 
+description: The following analytic identifies attempts at path traversal in search
+  parameters, which can lead to SPL injection. It detects this activity by searching
+  for specific patterns in the `_internal` index that indicate path traversal attempts
+  (e.g., "../../../../"). This activity is significant for a SOC because it can allow
+  an attacker to manipulate the application to load data from incorrect endpoints,
+  potentially running arbitrary SPL queries. If confirmed malicious, this could lead
+  to unauthorized data access, code execution, or further exploitation of the Splunk
+  environment.
+data_source:
 - Splunk
 search: ' `path_traversal_spl_injection` | search "\/..\/..\/..\/..\/..\/..\/..\/..\/..\/"  |
   stats count by host status clientip method uri_path uri_query | `path_traversal_spl_injection_filter`'
@@ -57,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/path_traversal_spl_injection.txt
+  - data: 
+      https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/path_traversal_spl_injection.txt
     source: splunkd_ui_access.log
     sourcetype: splunkd_ui_access
     custom_index: _internal

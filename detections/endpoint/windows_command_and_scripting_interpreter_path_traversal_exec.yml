@@ -1,16 +1,18 @@
 name: Windows Command and Scripting Interpreter Path Traversal Exec
 id: 58fcdeb1-728d-415d-b0d7-3ab18a275ec2
-version: 2
-date: '2022-06-01'
+version: 3
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies path traversal command-line execution.
-  This technique was seen in malicious document that execute malicious code using
-  msdt.exe and path traversal technique that serve as defense evasion. This TTP is
-  a good pivot to look for more suspicious process and command-line that runs before
-  and after this execution. This may help you to find possible downloaded malware
-  or other lolbin execution.
+description: The following analytic detects path traversal command-line execution,
+  often used in malicious documents to execute code via msdt.exe for defense evasion.
+  It leverages Endpoint Detection and Response (EDR) data, focusing on specific patterns
+  in process paths. This activity is significant as it can indicate an attempt to
+  bypass security controls and execute unauthorized code. If confirmed malicious,
+  this behavior could lead to code execution, privilege escalation, or persistence
+  within the environment, potentially allowing attackers to deploy malware or leverage
+  other living-off-the-land binaries (LOLBins).
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/path_traversal/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/path_traversal/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

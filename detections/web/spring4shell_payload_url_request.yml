@@ -1,16 +1,19 @@
 name: Spring4Shell Payload URL Request
 id: 9d44d649-7d67-4559-95c1-8022ff49420b
-version: 1
-date: '2022-07-12'
+version: 2
+date: '2024-05-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic is static indicators related to CVE-2022-22963,
-  Spring4Shell. The 3 indicators provide an amount of fidelity that source IP is attemping
-  to exploit a web shell on the destination. The filename and cmd are arbitrary in
-  this exploitation. Java will write a JSP to disk and a process will spawn from Java
-  based on the cmd passed. This is indicative of typical web shell activity.
-data_source: 
+description: The following analytic detects attempts to exploit the Spring4Shell vulnerability
+  (CVE-2022-22963) by identifying specific URL patterns associated with web shell
+  payloads. It leverages web traffic data, focusing on HTTP GET requests with URLs
+  containing indicators like "tomcatwar.jsp," "poc.jsp," and "shell.jsp." This activity
+  is significant as it suggests an attacker is trying to deploy a web shell, which
+  can lead to remote code execution. If confirmed malicious, this could allow the
+  attacker to gain persistent access, execute arbitrary commands, and potentially
+  escalate privileges within the compromised environment.
+data_source:
 - Nginx Access
 search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url
   IN ("*tomcatwar.jsp*","*poc.jsp*","*shell.jsp*") by Web.http_user_agent Web.http_method,
@@ -64,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/spring4shell_nginx.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/spring4shell_nginx.log
     source: /var/log/nginx/access.log
     sourcetype: nginx:plus:kv

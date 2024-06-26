@@ -1,20 +1,24 @@
 name: Windows Get-AdComputer Unconstrained Delegation Discovery
 id: c8640777-469f-4638-ab44-c34a3233ffac
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the Get-ADComputer commandlet used with specific parameters to discover
-  Windows endpoints with Kerberos Unconstrained Delegation. Red Teams and adversaries
-  alike may leverage use this technique for situational awareness and Active Directory
-  Discovery.
+description: The following analytic detects the use of the Get-ADComputer cmdlet with
+  parameters indicating a search for Windows endpoints with Kerberos Unconstrained
+  Delegation. It leverages PowerShell Script Block Logging (EventCode=4104) to identify
+  this specific activity. This behavior is significant as it may indicate an attempt
+  by adversaries or Red Teams to gain situational awareness and perform Active Directory
+  discovery. If confirmed malicious, this activity could allow attackers to identify
+  high-value targets for further exploitation, potentially leading to privilege escalation
+  or lateral movement within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText =
-  "*TrustedForDelegation*") | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText
+  = "*TrustedForDelegation*") | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest
+  | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_get_adcomputer_unconstrained_delegation_discovery_filter`'
 how_to_implement: The following  analytic requires PowerShell operational logs to
   be imported. Modify the powershell macro as needed to match the sourcetype or add
@@ -54,12 +58,13 @@ tags:
   - EventCode
   - ScriptBlockText
   - Computer
-  - User
+  - UserID
   risk_score: 35
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/windows_get_adcomputer_unconstrained_delegation_discovery/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/windows_get_adcomputer_unconstrained_delegation_discovery/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

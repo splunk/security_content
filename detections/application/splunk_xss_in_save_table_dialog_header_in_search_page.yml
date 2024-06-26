@@ -1,15 +1,19 @@
 name: Splunk XSS in Save table dialog header in search page
 id: a974d1ee-ddca-4837-b6ad-d55a8a239c20
-version: 1
-date: '2022-10-11'
+version: 2
+date: '2024-05-27'
 author: Rod Soto
 status: production
 type: Hunting
-description: This is a hunting search to find persistent cross-site scripting XSS
-  code that was included while inputing data in 'Save Table' dialog in Splunk Enterprise
-  (8.1.12,8.2.9,9.0.2). A remote user with "power" Splunk role can store this code
-  that can lead to persistent cross site scripting.
-data_source: 
+description: The following analytic identifies persistent cross-site scripting (XSS)
+  attempts in the 'Save Table' dialog on the Splunk search page. It detects POST requests
+  to the endpoint `/en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model`
+  containing potential XSS payloads. This activity is significant because it can allow
+  a remote user with the "power" role to inject malicious scripts, leading to persistent
+  XSS vulnerabilities. If confirmed malicious, this could enable attackers to execute
+  arbitrary scripts in the context of the affected user, potentially leading to data
+  theft, session hijacking, or further exploitation within the Splunk environment.
+data_source:
 - Splunk
 search: '`splunkd_webx` method=POST  uri=/en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model
   | table _time host status clientip user uri | `splunk_xss_in_save_table_dialog_header_in_search_page_filter`'
@@ -55,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_xss_in_save_table_dialog_in_search_page.txt
+  - data: 
+      https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_xss_in_save_table_dialog_in_search_page.txt
     source: /opt/splunk/var/log/splunk/web_access.log
     sourcetype: splunk_web_access
     custom_index: _internal

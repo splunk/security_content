@@ -1,20 +1,24 @@
 name: Enumerate Users Local Group Using Telegram
 id: fcd74532-ae54-11eb-a5ab-acde48001122
-version: 3
-date: '2024-04-26'
+version: 4
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will detect a suspicious Telegram process enumerating all
-  network users in a local group. This technique was seen in a Monero infected honeypot
-  to mapped all the users on the compromised system. EventCode 4798 is generated when
-  a process enumerates a user's security-enabled local groups on a computer or device.
+description: The following analytic detects a Telegram process enumerating all network
+  users in a local group. It leverages EventCode 4798, which is generated when a process
+  enumerates a user's security-enabled local groups on a computer or device. This
+  activity is significant as it may indicate an attempt to gather information on user
+  accounts, a common precursor to further malicious actions. If confirmed malicious,
+  this behavior could allow an attacker to map out user accounts, potentially leading
+  to privilege escalation or lateral movement within the network.
 data_source:
 - Windows Event Log Security 4798
-search: '`wineventlog_security` EventCode=4798  CallerProcessName = "*\\telegram.exe" |
-  stats count min(_time) as firstTime max(_time) as lastTime by user Computer EventCode
-  CallerProcessName  ProcessID SubjectUserSid SubjectDomainName  SubjectLogonId
-  | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `enumerate_users_local_group_using_telegram_filter`'
+search: '`wineventlog_security` EventCode=4798  CallerProcessName = "*\\telegram.exe"
+  | stats count min(_time) as firstTime max(_time) as lastTime by user Computer EventCode
+  CallerProcessName  ProcessID SubjectUserSid SubjectDomainName  SubjectLogonId |
+  rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `enumerate_users_local_group_using_telegram_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Task Schedule (Exa. Security Log EventCode 4798) endpoints. Tune and
   filter known instances of process like logonUI used in your environment.
@@ -28,7 +32,8 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: The Telegram application has been identified enumerating local groups on $dest$ by $user$.
+  message: The Telegram application has been identified enumerating local groups on
+    $dest$ by $user$.
   mitre_attack_id:
   - T1087
   observable:
@@ -61,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/enumerate_users_local_group_using_telegram/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/enumerate_users_local_group_using_telegram/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

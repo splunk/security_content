@@ -1,13 +1,18 @@
 name: Drop IcedID License dat
 id: b7a045fc-f14a-11eb-8e79-acde48001122
-version: 1
-date: '2021-07-30'
+version: 2
+date: '2024-05-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This search is to detect dropping a suspicious file named as "license.dat"
-  in %appdata%. This behavior seen in latest IcedID malware that contain the actual
-  core bot that will be injected in other process to do banking stealing.
+description: The following analytic detects the dropping of a suspicious file named
+  "license.dat" in %appdata% or %programdata%. This behavior is associated with the
+  IcedID malware, which uses this file to inject its core bot into other processes
+  for banking credential theft. The detection leverages Sysmon EventCode 11 to monitor
+  file creation events in these directories. This activity is significant as it indicates
+  a potential malware infection aiming to steal sensitive banking information. If
+  confirmed malicious, the attacker could gain unauthorized access to financial data,
+  leading to significant financial loss and data breaches.
 data_source:
 - Sysmon EventID 1
 search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*"
@@ -51,6 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

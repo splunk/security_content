@@ -1,16 +1,18 @@
 name: NET Profiler UAC bypass
 id: 0252ca80-e30d-11eb-8aa3-acde48001122
-version: 2
-date: '2022-02-18'
+version: 3
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect modification of registry to bypass UAC windows
-  feature. This technique is to add a payload dll path on .NET COR file path that
-  will be loaded by mmc.exe as soon it was executed. This detection rely on monitoring
-  the registry key and values in the detection area. It may happened that windows
-  update some dll related to mmc.exe and add dll path in this registry. In this case
-  filtering is needed.
+description: The following analytic detects modifications to the registry aimed at
+  bypassing the User Account Control (UAC) feature in Windows. It identifies changes
+  to the .NET COR_PROFILER_PATH registry key, which can be exploited to load a malicious
+  DLL via mmc.exe. This detection leverages data from the Endpoint.Registry datamodel,
+  focusing on specific registry paths and values. Monitoring this activity is crucial
+  as it can indicate an attempt to escalate privileges or persist within the environment.
+  If confirmed malicious, this could allow an attacker to execute arbitrary code with
+  elevated privileges, compromising system integrity.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -58,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

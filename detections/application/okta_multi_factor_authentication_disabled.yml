@@ -1,20 +1,29 @@
 name: Okta Multi-Factor Authentication Disabled
 id: 7c0348ce-bdf9-45f6-8a57-c18b5976f00a
-version: 1
-date: '2024-03-11'
+version: 2
+date: '2024-05-13'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
 status: production
-description: The following analytic identifies an attempt to disable multi-factor authentication for an Okta user. An adversary who has obtained access to an Okta tenant may disable multi-factor authentication as a way to plant a backdoor and maintain persistence using a valid account. This way the attackers can keep persistance in the environment without adding new users.
-search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime
-  from datamodel=Change where sourcetype="OktaIM2:log" All_Changes.object_category=User AND All_Changes.action=modified All_Changes.command=user.mfa.factor.deactivate by All_Changes.user All_Changes.result All_Changes.command sourcetype All_Changes.src
-  | `drop_dm_object_name("All_Changes")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies an attempt to disable multi-factor
+  authentication (MFA) for an Okta user. It leverages OktaIM2 logs to detect when
+  the 'user.mfa.factor.deactivate' command is executed. This activity is significant
+  because disabling MFA can allow an adversary to maintain persistence within the
+  environment using a compromised valid account. If confirmed malicious, this action
+  could enable attackers to bypass additional security layers, potentially leading
+  to unauthorized access to sensitive information and prolonged undetected presence
+  in the network.
+search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+  min(_time) as firstTime from datamodel=Change where sourcetype="OktaIM2:log" All_Changes.object_category=User
+  AND All_Changes.action=modified All_Changes.command=user.mfa.factor.deactivate by
+  All_Changes.user All_Changes.result All_Changes.command sourcetype All_Changes.src
+  | `drop_dm_object_name("All_Changes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `okta_multi_factor_authentication_disabled_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: Legitimate use case may require for users to disable MFA. Filter lightly and monitor for any unusual activity.
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
+  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: Legitimate use case may require for users to disable MFA. Filter
+  lightly and monitor for any unusual activity.
 references:
 - https://attack.mitre.org/techniques/T1556/
 - https://splunkbase.splunk.com/app/6553
@@ -24,7 +33,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 60
   impact: 50
-  message: MFA was disabled for User [$user$] initiated by [$src$]. Investigate further to determine if this was authorized.
+  message: MFA was disabled for User [$user$] initiated by [$src$]. Investigate further
+    to determine if this was authorized.
   mitre_attack_id:
   - T1556
   - T1556.006
@@ -55,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/okta_mfa_method_disabled/okta_mfa_method_disabled.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/okta_mfa_method_disabled/okta_mfa_method_disabled.log
     source: Okta
     sourcetype: OktaIM2:log

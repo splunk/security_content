@@ -1,26 +1,26 @@
 name: Windows Modify Registry USeWuServer
 id: c427bafb-0b2c-4b18-ad85-c03c6fed9e75
-version: 1
-date: '2023-04-21'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a suspicious registry modification of Windows auto update configuration. 
-  This technique was being abused by several adversaries, malware authors and also red-teamers to bypass detection or 
-  to be able to compromise the target host with zero day exploit or as an additional defense evasion technique.
-  RedLine Stealer is one of the malware we've seen that uses this technique to evade detection and add more payload on the target host.
-  This detection looks for registry modification that will use "The WUServer value unless this key is set".
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\UseWUServer"
-  AND Registry.registry_value_data="0x00000001" 
-  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_key_name 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` 
-  | `windows_modify_registry_usewuserver_filter`'
+description: The following analytic detects a suspicious modification to the Windows
+  Update configuration registry key "UseWUServer." It leverages data from the Endpoint.Registry
+  data model to identify changes where the registry value is set to "0x00000001."
+  This activity is significant because it is commonly used by adversaries, including
+  malware like RedLine Stealer, to bypass detection mechanisms and potentially exploit
+  zero-day vulnerabilities. If confirmed malicious, this modification could allow
+  attackers to evade defenses, persist on the target host, and deploy additional malicious
+  payloads.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\UseWUServer"
+  AND Registry.registry_value_data="0x00000001" by Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_data Registry.registry_key_name | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_modify_registry_usewuserver_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -62,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

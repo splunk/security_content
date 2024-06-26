@@ -1,16 +1,18 @@
 name: Windows Defacement Modify Transcodedwallpaper File
 id: e11c3d90-5bc7-42ad-94cd-ba75db10d897
-version: 1
-date: '2022-08-25'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a modification to the Transcodedwallpaper
-  file in the wallpaper theme directory to change the wallpaper of the host machine.
-  This technique was seen in adversaries attempting to deface or change the desktop
-  wallpaper of the targeted host. During our testing, the common process that affects
-  or changes the wallpaper if a user changes it via desktop personalized setting is
-  explorer.exe.
+description: The following analytic identifies modifications to the TranscodedWallpaper
+  file in the wallpaper theme directory, excluding changes made by explorer.exe. This
+  detection leverages the Endpoint.Processes and Endpoint.Filesystem data models to
+  correlate process activity with file modifications. This activity is significant
+  as it may indicate an adversary attempting to deface or change the desktop wallpaper
+  of a targeted host, a tactic often used to signal compromise or deliver a message.
+  If confirmed malicious, this could be a sign of unauthorized access and tampering,
+  potentially leading to further system compromise or data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
@@ -70,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/wallpaper_via_transcodedwallpaper/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/wallpaper_via_transcodedwallpaper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,16 +1,18 @@
 name: Linux Deleting Critical Directory Using RM Command
 id: 33f89303-cc6f-49ad-921d-2eaea38a6f7a
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a suspicious deletion of a critical
-  folder in Linux machine using rm command. This technique was seen in industroyer2
-  campaign to wipe or destroy energy facilities of a targeted sector. Deletion in
-  these list of folder is not so common since it need some elevated privileges to
-  access some of it. We recommend to look further events specially in file access
-  or file deletion, process commandline that may related to this technique.
+description: The following analytic detects the deletion of critical directories on
+  a Linux machine using the `rm` command with argument rf. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on command-line executions targeting directories
+  like /boot, /var/log, /etc, and /dev. This activity is significant because deleting
+  these directories can severely disrupt system operations and is often associated
+  with destructive campaigns like Industroyer2. If confirmed malicious, this action
+  could lead to system instability, data loss, and potential downtime, making it crucial
+  for immediate investigation and response.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/rm_shred_critical_dir/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/rm_shred_critical_dir/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

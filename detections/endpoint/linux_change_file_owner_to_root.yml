@@ -1,16 +1,17 @@
 name: Linux Change File Owner To Root
 id: c1400ea2-6257-11ec-ad49-acde48001122
-version: 1
-date: '2021-12-21'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for a commandline that change the file owner to root
-  using chown utility tool. This technique is commonly abuse by adversaries, malware
-  author and red teamers to escalate privilege to the targeted or compromised host
-  by changing the owner of their malicious file to root. This event is not so common
-  in corporate network except from the administrator doing normal task that needs
-  high privilege.
+description: The following analytic detects the use of the 'chown' command to change
+  a file owner to 'root' on a Linux system. It leverages Endpoint Detection and Response
+  (EDR) telemetry, specifically monitoring command-line executions and process details.
+  This activity is significant as it may indicate an attempt to escalate privileges
+  by adversaries, malware, or red teamers. If confirmed malicious, this action could
+  allow an attacker to gain root-level access, leading to full control over the compromised
+  host and potential persistence within the environment.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -68,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

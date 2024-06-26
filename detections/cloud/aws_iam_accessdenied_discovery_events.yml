@@ -1,15 +1,18 @@
 name: AWS IAM AccessDenied Discovery Events
 id: 3e1f1568-9633-11eb-a69c-acde48001122
-version: 2
-date: '2021-11-12'
+version: 3
+date: '2024-05-20'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following detection identifies excessive AccessDenied events within
-  an hour timeframe. It is possible that an access key to AWS may have been stolen
-  and is being misused to perform discovery events. In these instances, the access
-  is not available with the key stolen therefore these events will be generated.
-data_source: 
+description: The following analytic identifies excessive AccessDenied events within
+  an hour timeframe for IAM users in AWS. It leverages AWS CloudTrail logs to detect
+  multiple failed access attempts from the same source IP and user identity. This
+  activity is significant as it may indicate that an access key has been compromised
+  and is being misused for unauthorized discovery actions. If confirmed malicious,
+  this could allow attackers to gather information about the AWS environment, potentially
+  leading to further exploitation or privilege escalation.
+data_source:
 - AWS CloudTrail
 search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
   | bucket _time span=1h | stats count as failures min(_time) as firstTime max(_time)
@@ -58,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -1,19 +1,18 @@
 name: Suspicious Rundll32 StartW
 id: 9319dda5-73f2-4d43-a85a-67ce961bddb7
-version: 3
-date: '2023-07-10'
+version: 4
+date: '2024-05-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies rundll32.exe executing a DLL function
-  name, Start and StartW, on the command line that is commonly observed with Cobalt
-  Strike x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32
-  and C:\Windows\syswow64. Typically, the DLL will be written and loaded from a world
-  writeable path or user location. In most instances it will not have a valid certificate
-  (Unsigned). During investigation, review the parent process and other parallel application
-  execution. Capture and triage the DLL in question. In the instance of Cobalt Strike,
-  rundll32.exe is the default process it opens and injects shellcode into. This default
-  process can be changed, but typically is not.
+description: The following analytic identifies the execution of rundll32.exe with
+  the DLL function names "Start" and "StartW," commonly associated with Cobalt Strike
+  payloads. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on command-line executions and process metadata. This activity
+  is significant as it often indicates the presence of malicious payloads, such as
+  Cobalt Strike, which can lead to unauthorized code execution. If confirmed malicious,
+  this activity could allow attackers to inject shellcode, escalate privileges, and
+  maintain persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -84,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

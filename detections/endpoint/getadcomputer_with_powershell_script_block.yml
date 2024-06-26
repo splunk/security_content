@@ -1,15 +1,18 @@
 name: GetAdComputer with PowerShell Script Block
 id: a9a1da02-8e27-4bf7-a348-f4389c9da487
-version: 3
-date: '2022-05-02'
+version: 4
+date: '2024-05-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-AdGroup` commandlet. The `Get-AdGroup` commandlet
-  is used to return a list of all domain computers. Red Teams and adversaries may
-  leverage this commandlet to enumerate domain computers for situational awareness
-  and Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-AdComputer`
+  PowerShell commandlet using PowerShell Script Block Logging (EventCode=4104). This
+  detection leverages script block text to identify when this commandlet is run. The
+  `Get-AdComputer` commandlet is significant as it can be used by adversaries to enumerate
+  all domain computers, aiding in situational awareness and Active Directory discovery.
+  If confirmed malicious, this activity could allow attackers to map the network,
+  identify targets, and plan further attacks, potentially leading to unauthorized
+  access and data exfiltration.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-AdComputer*") | stats
@@ -54,6 +57,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

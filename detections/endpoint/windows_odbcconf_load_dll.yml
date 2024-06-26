@@ -1,14 +1,18 @@
 name: Windows Odbcconf Load DLL
 id: 141e7fca-a9f0-40fd-a539-9aac8be41f1b
-version: 1
-date: '2022-06-28'
+version: 2
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies odbcconf.exe, Windows Open Database
-  Connectivity utility, utilizing the action function of regsvr to load a DLL. An
-  example will look like - odbcconf.exe /A { REGSVR T1218-2.dll }. During triage,
-  review parent process, parallel procesess and file modifications.
+description: The following analytic detects the execution of odbcconf.exe with the
+  regsvr action to load a DLL. This is identified by monitoring command-line arguments
+  in process creation logs from Endpoint Detection and Response (EDR) agents. This
+  activity is significant as it may indicate an attempt to execute arbitrary code
+  via DLL loading, a common technique used in various attack vectors. If confirmed
+  malicious, this could allow an attacker to execute code with the privileges of the
+  odbcconf.exe process, potentially leading to system compromise or further lateral
+  movement.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +84,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/windows-sysmon-odbc-regsvr.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.008/atomic_red_team/windows-sysmon-odbc-regsvr.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

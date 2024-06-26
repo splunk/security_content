@@ -1,28 +1,38 @@
 name: PaperCut NG Suspicious Behavior Debug Log
 id: 395163b8-689b-444b-86c7-9fe9ad624734
-version: 1
-date: '2023-05-15'
+version: 2
+date: '2024-05-30'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting
 data_source: []
-description: The following hunting analytic is designed to monitor and detect potential exploitation attempts targeting a PaperCut NG server by analyzing its debug log data. By focusing on public IP addresses accessing the PaperCut NG instance, this analytic aims to identify unauthorized or suspicious access attempts. Furthermore, it searches for specific URIs that have been discovered in the proof of concept code, which are associated with known exploits or vulnerabilities. The analytic is focused on the user admin. Regex is used mainly because the log is not parsed by Splunk and there is no TA for this debug log.
-search: '`papercutng` (loginType=Admin OR userName=admin) 
-  | eval uri_match=if(match(_raw, "(?i)(\/app\?service=page\/SetupCompleted|\/app|\/app\?service=page\/PrinterList|\/app\?service=direct\/1\/PrinterList\/selectPrinter&sp=l1001|\/app\?service=direct\/1\/PrinterDetails\/printerOptionsTab\.tab)"), "URI matches", null())
-  | eval ip_match=if(match(_raw, "(?i)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))") AND NOT match(_raw, "(?i)(10\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(172\.(1[6-9]|2[0-9]|3[0-1])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(192\.168\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))"), "IP matches", null())
-  | where  (isnotnull(uri_match) OR isnotnull(ip_match))
-  | stats sparkline, count, values(uri_match) AS uri_match, values(ip_match) AS ip_match latest(_raw)
-    BY host, index, sourcetype | `papercut_ng_suspicious_behavior_debug_log_filter`'
-how_to_implement: Debug logs must be enabled and shipped to Splunk in order to properly identify behavior with this analytic.
-known_false_positives: False positives may be present, as this is based on the admin user accessing the Papercut NG instance from a public IP address. Filter as needed.
+description: The following analytic identifies potential exploitation attempts on
+  a PaperCut NG server by analyzing its debug log data. It detects unauthorized or
+  suspicious access attempts from public IP addresses and searches for specific URIs
+  associated with known exploits. The detection leverages regex to parse unstructured
+  log data, focusing on admin login activities. This activity is significant as it
+  can indicate an active exploitation attempt on the server. If confirmed malicious,
+  attackers could gain unauthorized access, potentially leading to data breaches or
+  further compromise of the server.
+search: '`papercutng` (loginType=Admin OR userName=admin) | eval uri_match=if(match(_raw,
+  "(?i)(\/app\?service=page\/SetupCompleted|\/app|\/app\?service=page\/PrinterList|\/app\?service=direct\/1\/PrinterList\/selectPrinter&sp=l1001|\/app\?service=direct\/1\/PrinterDetails\/printerOptionsTab\.tab)"),
+  "URI matches", null()) | eval ip_match=if(match(_raw, "(?i)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))")
+  AND NOT match(_raw, "(?i)(10\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(172\.(1[6-9]|2[0-9]|3[0-1])\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(192\.168\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))"),
+  "IP matches", null()) | where  (isnotnull(uri_match) OR isnotnull(ip_match)) | stats
+  sparkline, count, values(uri_match) AS uri_match, values(ip_match) AS ip_match latest(_raw)
+  BY host, index, sourcetype | `papercut_ng_suspicious_behavior_debug_log_filter`'
+how_to_implement: Debug logs must be enabled and shipped to Splunk in order to properly
+  identify behavior with this analytic.
+known_false_positives: False positives may be present, as this is based on the admin
+  user accessing the Papercut NG instance from a public IP address. Filter as needed.
 references:
-  - https://www.papercut.com/kb/Main/HowToCollectApplicationServerDebugLogs
-  - https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/HAFNIUM.md
-  - https://www.cisa.gov/news-events/alerts/2023/05/11/cisa-and-fbi-release-joint-advisory-response-active-exploitation-papercut-vulnerability
-  - https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
-  - https://www.horizon3.ai/papercut-cve-2023-27350-deep-dive-and-indicators-of-compromise/
-  - https://www.bleepingcomputer.com/news/security/hackers-actively-exploit-critical-rce-bug-in-papercut-servers/
-  - https://www.huntress.com/blog/critical-vulnerabilities-in-papercut-print-management-software
+- https://www.papercut.com/kb/Main/HowToCollectApplicationServerDebugLogs
+- https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/HAFNIUM.md
+- https://www.cisa.gov/news-events/alerts/2023/05/11/cisa-and-fbi-release-joint-advisory-response-active-exploitation-papercut-vulnerability
+- https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
+- https://www.horizon3.ai/papercut-cve-2023-27350-deep-dive-and-indicators-of-compromise/
+- https://www.bleepingcomputer.com/news/security/hackers-actively-exploit-critical-rce-bug-in-papercut-servers/
+- https://www.huntress.com/blog/critical-vulnerabilities-in-papercut-print-management-software
 tags:
   analytic_story:
   - PaperCut MF NG Vulnerability
@@ -30,7 +40,8 @@ tags:
   atomic_guid: []
   confidence: 80
   impact: 80
-  message: Behavior related to exploitation of PaperCut NG has been identified on $host$.
+  message: Behavior related to exploitation of PaperCut NG has been identified on
+    $host$.
   mitre_attack_id:
   - T1190
   - T1133
@@ -54,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/server.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/server.log
     source: papercutng
     sourcetype: papercutng

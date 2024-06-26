@@ -1,28 +1,37 @@
 name: Azure AD FullAccessAsApp Permission Assigned
 id: ae286126-f2ad-421c-b240-4ea83bd1c43a
-version: 1
-date: '2024-01-29'
+version: 2
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies when the 'full_access_as_app' permission, marked by the GUID 'dc890d15-9560-4a4c-9b7f-a736ec74ec40', is assigned to an application within Office 365 Exchange Online, identified by ResourceAppId '00000002-0000-0ff1-ce00-000000000000'. This permission grants broad control over Office 365 operations, including full access to all mailboxes and the capability to send emails as any user. The query utilizes the azure_monitor_aad data source, focusing on AuditLogs with the operation name 'Update application'. This monitoring is crucial for early detection of potential unauthorized access or data exfiltration, as the 'full_access_as_app' permission could lead to significant security incidents if exploited.
-data_source: 
+description: The following analytic detects the assignment of the 'full_access_as_app'
+  permission to an application within Office 365 Exchange Online. This is identified
+  by the GUID 'dc890d15-9560-4a4c-9b7f-a736ec74ec40' and the ResourceAppId '00000002-0000-0ff1-ce00-000000000000'.
+  The detection leverages the azure_monitor_aad data source, focusing on AuditLogs
+  with the operation name 'Update application'. This activity is significant as it
+  grants broad control over Office 365 operations, including full access to all mailboxes
+  and the ability to send emails as any user. If malicious, this could lead to unauthorized
+  access and data exfiltration.
+data_source:
 - Azure Active Directory Update application
 search: >-
- `azure_monitor_aad` category=AuditLogs operationName="Update application" 
- | eval newvalue = mvindex('properties.targetResources{}.modifiedProperties{}.newValue',0)
- | spath input=newvalue 
- | search "{}.ResourceAppId"="00000002-0000-0ff1-ce00-000000000000"  "{}.RequiredAppPermissions{}.EntitlementId"="dc890d15-9560-4a4c-9b7f-a736ec74ec40"
- | eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId'
- | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions) by user, object, user_agent, operationName
- | `security_content_ctime(firstTime)`
- | `security_content_ctime(lastTime)`
- | `azure_ad_fullaccessasapp_permission_assigned_filter`
+  `azure_monitor_aad` category=AuditLogs operationName="Update application"  | eval
+  newvalue = mvindex('properties.targetResources{}.modifiedProperties{}.newValue',0)
+  | spath input=newvalue  | search "{}.ResourceAppId"="00000002-0000-0ff1-ce00-000000000000"  "{}.RequiredAppPermissions{}.EntitlementId"="dc890d15-9560-4a4c-9b7f-a736ec74ec40"
+  | eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId'
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions)
+  by user, object, user_agent, operationName
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_fullaccessasapp_permission_assigned_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
-known_false_positives: The full_access_as_app API permission may be assigned to legitimate applications. Filter as needed.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the AuditLogs log category.
+known_false_positives: The full_access_as_app API permission may be assigned to legitimate
+  applications. Filter as needed.
 references:
 - https://msrc.microsoft.com/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard/
 - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
@@ -34,7 +43,8 @@ tags:
   asset_type: Azure Active Directory
   confidence: 60
   impact: 80
-  message: User $user$ assigned the full_access_as_app permission to the app registration $object$
+  message: User $user$ assigned the full_access_as_app permission to the app registration
+    $object$
   mitre_attack_id:
   - T1098.002
   - T1098.003
@@ -54,8 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/full_access_as_app_permission_assigned/full_access_as_app_permission_assigned.log
-    source: Azure AD    
-    sourcetype: azure:monitor:aad
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/full_access_as_app_permission_assigned/full_access_as_app_permission_assigned.log
     source: Azure AD
+    sourcetype: azure:monitor:aad
     update_timestamp: true

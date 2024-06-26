@@ -1,19 +1,30 @@
 name: Web Remote ShellServlet Access
 id: c2a332c3-24a2-4e24-9455-0e80332e6746
-version: 2
-date: '2024-04-02'
+version: 3
+date: '2024-05-19'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Nginx Access
-description: This analytic identifies attempts to access the Remote ShellServlet on a web server, which is utilized to execute commands. Such activity is commonly linked with web shells and other forms of malicious behavior. It was specifically detected on a Confluence server in relation to CVE-2023-22518 and CVE-2023-22515. Activities preceding access to the shell servlet include the addition of a plugin to Confluence. Additionally, it is advisable to monitor for ShellServlet?act=3, ShellServlet, or obfuscated variations such as Sh3llServlet1.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*plugins/servlet/com.jsos.shell/*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
-  | `drop_dm_object_name("Web")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` | `web_remote_shellservlet_access_filter`'
-how_to_implement: This analytic necessitates the collection of web data, which can be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web Server. No additional configuration is required for this analytic.
-known_false_positives: False positives may occur depending on the web server's configuration. If the web server is intentionally configured to utilize the Remote ShellServlet, then the detections by this analytic would not be considered true positives.
+description: The following analytic identifies attempts to access the Remote ShellServlet
+  on a web server, specifically targeting Confluence servers vulnerable to CVE-2023-22518
+  and CVE-2023-22515. It leverages web data to detect URLs containing "*plugins/servlet/com.jsos.shell/*"
+  with a status code of 200. This activity is significant as it is commonly associated
+  with web shells and other malicious behaviors, potentially leading to unauthorized
+  command execution. If confirmed malicious, attackers could gain remote code execution
+  capabilities, compromising the server and potentially the entire network.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url IN ("*plugins/servlet/com.jsos.shell/*") Web.status=200 by Web.http_user_agent,
+  Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `web_remote_shellservlet_access_filter`'
+how_to_implement: This analytic necessitates the collection of web data, which can
+  be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web
+  Server. No additional configuration is required for this analytic.
+known_false_positives: False positives may occur depending on the web server's configuration.
+  If the web server is intentionally configured to utilize the Remote ShellServlet,
+  then the detections by this analytic would not be considered true positives.
 references:
 - http://www.servletsuite.com/servlets/shell.htm
 tags:
@@ -23,7 +34,8 @@ tags:
   atomic_guid: []
   confidence: 90
   impact: 90
-  message: An attempt to access the Remote ShellServlet on a web server was detected. The source IP is $src$ and the destination hostname is $dest$.
+  message: An attempt to access the Remote ShellServlet on a web server was detected.
+    The source IP is $src$ and the destination hostname is $dest$.
   mitre_attack_id:
   - T1190
   observable:
@@ -53,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/nginx_shellservlet.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/confluence/nginx_shellservlet.log
     source: /var/log/nginx/access.log
     sourcetype: nginx:plus:kv

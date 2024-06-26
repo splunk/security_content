@@ -1,14 +1,18 @@
 name: Get DomainPolicy with Powershell
 id: b8f9947e-065a-11ec-aafb-acde48001122
-version: 1
-date: '2021-08-26'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `powershell.exe` executing the
-  `Get-DomainPolicy` commandlet used to obtain the password policy in a Windows domain.
-  Red Teams and adversaries alike may use PowerShell to enumerate domain policies
-  for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` running
+  the `Get-DomainPolicy` cmdlet, which is used to retrieve password policies in a
+  Windows domain. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and command-line executions. This activity is significant
+  as it indicates potential reconnaissance efforts by adversaries to gather domain
+  policy information, which is crucial for planning further attacks. If confirmed
+  malicious, this could lead to unauthorized access to sensitive domain configurations,
+  aiding in privilege escalation and lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

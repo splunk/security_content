@@ -1,18 +1,18 @@
 name: Windows Registry Delete Task SD
 id: ffeb7893-ff06-446f-815b-33ca73224e92
-version: 1
-date: '2022-04-13'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a process attempting to delete a scheduled
-  task SD (Security Descriptor) from within the registry path of that task. This may
-  occur from a non-standard process running and may not come from reg.exe. This particular
-  behavior will remove the actual Task Name from the Task Scheduler GUI and from the
-  command-line query - schtasks.exe /query. In addition, in order to perform this
-  action, the user context will need to be SYSTEM.
-  
-  Identifying the deletion of a scheduled task's Security Descriptor from the registry is significant for a SOC as it may indicate malicious activity attempting to remove evidence of a scheduled task, potentially for defense evasion purposes. If a true positive is detected, it suggests an attacker with privileged access attempting to remove traces of their activities, which can have a significant impact on the security and functionality of affected systems. Immediate investigation and response are required to mitigate further risks and preserve the integrity of the environment.
+description: The following analytic detects a process attempting to delete a scheduled
+  task's Security Descriptor (SD) from the registry path of that task. It leverages
+  the Endpoint.Registry data model to identify registry actions performed by the SYSTEM
+  user, specifically targeting deletions or modifications of the SD value. This activity
+  is significant as it may indicate an attempt to remove evidence of a scheduled task
+  for defense evasion. If confirmed malicious, it suggests an attacker with privileged
+  access trying to hide their tracks, potentially compromising system integrity and
+  security. Immediate investigation is required.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -72,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/sd_delete_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/sd_delete_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

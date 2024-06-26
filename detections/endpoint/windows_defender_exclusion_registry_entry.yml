@@ -1,23 +1,25 @@
 name: Windows Defender Exclusion Registry Entry
 id: 13395a44-4dd9-11ec-9df7-acde48001122
-version: 3
-date: '2023-04-27'
+version: 4
+date: '2024-05-21'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will detect a suspicious process that modify a registry
-  related to windows defender exclusion feature. This registry is abused by adversaries,
-  malware author and red teams to bypassed Windows Defender Anti-Virus product by
-  excluding folder path, file path, process, extensions and etc. from its real time
-  or schedule scan to execute their malicious code. This is a good indicator for a
-  defense evasion and to look further for events after this behavior.
+description: The following analytic detects modifications to the Windows Defender
+  exclusion registry entries. It leverages endpoint registry data to identify changes
+  in the registry path "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*".
+  This activity is significant because adversaries often modify these entries to bypass
+  Windows Defender, allowing malicious code to execute without detection. If confirmed
+  malicious, this behavior could enable attackers to evade antivirus defenses, maintain
+  persistence, and execute further malicious activities undetected.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Exclusions\\*")
-  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
+  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_defender_exclusion_registry_entry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -38,7 +40,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: Exclusion registry $registry_path$ modified or added on $dest$ for Windows Defender
+  message: Exclusion registry $registry_path$ modified or added on $dest$ for Windows
+    Defender
   mitre_attack_id:
   - T1562.001
   - T1562
@@ -67,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

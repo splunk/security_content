@@ -1,36 +1,32 @@
 name: Azure AD Service Principal Owner Added
 id: 7ddf2084-6cf3-4a44-be83-474f7b73c701
-version: 3
-date: '2023-12-20'
+version: 4
+date: '2024-05-28'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the addition of a new owner for a Service
-  Principal within an Azure AD tenant. An Azure Service Principal is an identity designed
-  to be used with applications, services, and automated tools to access resources.
-  It is similar to a service account within an Active Directory environment. Service
-  Principal authentication does not support multi-factor authentication nor conditional
-  access policies. Adversaries and red teams alike who have obtained administrative
-  access may add a new owner for an existing Service Principal to establish Persistence
-  and obtain single-factor access to an Azure AD environment. Attackers who are looking to
-  escalate their privileges by leveraging a Service Principals permissions may also add a new owner.
-data_source: 
+description: The following analytic detects the addition of a new owner to a Service
+  Principal within an Azure AD tenant. It leverages Azure Active Directory events
+  from the AuditLog log category to identify this activity. This behavior is significant
+  because Service Principals do not support multi-factor authentication or conditional
+  access policies, making them a target for adversaries seeking persistence or privilege
+  escalation. If confirmed malicious, this activity could allow attackers to maintain
+  access to the Azure AD environment with single-factor authentication, potentially
+  leading to unauthorized access and control over critical resources.
+data_source:
 - Azure Active Directory Add owner to application
-search: ' `azure_monitor_aad`  operationName="Add owner to application"
-  | rename properties.* as *
-  | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | rename targetResources{}.userPrincipalName as newOwner
-  | rename targetResources{}.modifiedProperties{}.newValue as displayName
-  | eval displayName = mvindex(displayName,1) 
-  | where initiatedBy!=newOwner
-  | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by initiatedBy, result, operationName, newOwner
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_service_principal_owner_added_filter`'
+search: ' `azure_monitor_aad`  operationName="Add owner to application" | rename properties.*
+  as * | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.userPrincipalName
+  as newOwner | rename targetResources{}.modifiedProperties{}.newValue as displayName
+  | eval displayName = mvindex(displayName,1) | where initiatedBy!=newOwner | stats
+  count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName
+  by initiatedBy, result, operationName, newOwner | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_service_principal_owner_added_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrator may legitimately add new owners for Service Principals.
   Filter as needed.
 references:
@@ -71,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_add_serviceprincipal_owner/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_add_serviceprincipal_owner/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

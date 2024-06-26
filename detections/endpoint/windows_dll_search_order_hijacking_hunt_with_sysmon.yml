@@ -1,26 +1,30 @@
 name: Windows DLL Search Order Hijacking Hunt with Sysmon
 id: 79c7d1fc-64c7-91be-a616-ccda752efe81
-version: 4
-date: '2024-03-17'
+version: 5
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: This hunting analytic identifies known Windows libraries
-  potentially used in DLL search order hijacking or DLL Sideloading scenarios. Such cases
-  may necessitate recompiling the DLL, relocating the DLL, or moving the vulnerable process. The
-  query searches for any processes running outside of system32 or syswow64 directories. Certain libraries
-  inherently operate from different application paths and must be added to the exclusion list
-  as required. The lookup includes Microsoft native libraries cataloged in the
-  Hijacklibs.net project.
+description: The following analytic identifies potential DLL search order hijacking
+  or DLL sideloading by detecting known Windows libraries loaded from non-standard
+  directories. It leverages Sysmon EventCode 7 to monitor DLL loads and cross-references
+  them with a lookup of known hijackable libraries. This activity is significant as
+  it may indicate an attempt to execute malicious code by exploiting DLL search order
+  vulnerabilities. If confirmed malicious, this could allow attackers to gain code
+  execution, escalate privileges, or maintain persistence within the environment.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7 NOT (process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*")) 
-  | lookup hijacklibs library AS loaded_file OUTPUT islibrary 
-  | search islibrary = True 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(process_name) as process_name by _time dest loaded_file | `windows_dll_search_order_hijacking_hunt_with_sysmon_filter`'
-how_to_implement: The search is written against the latest Sysmon TA 4.0 https://splunkbase.splunk.com/app/5709. For this specific event ID 7, the sysmon TA will extract the ImageLoaded name to the loaded_file field which is used in the search to compare against the hijacklibs lookup. 
+search: '`sysmon` EventCode=7 NOT (process_path IN ("*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*"))
+  | lookup hijacklibs library AS loaded_file OUTPUT islibrary | search islibrary =
+  True | stats count min(_time) as firstTime max(_time) as lastTime values(process_name)
+  as process_name by _time dest loaded_file | `windows_dll_search_order_hijacking_hunt_with_sysmon_filter`'
+how_to_implement: The search is written against the latest Sysmon TA 4.0 https://splunkbase.splunk.com/app/5709.
+  For this specific event ID 7, the sysmon TA will extract the ImageLoaded name to
+  the loaded_file field which is used in the search to compare against the hijacklibs
+  lookup.
 known_false_positives: False positives will be present based on paths. Filter or add
-  other paths to the exclusion as needed. Some applications may legitimately load libraries from non-standard paths.
+  other paths to the exclusion as needed. Some applications may legitimately load
+  libraries from non-standard paths.
 references:
 - https://hijacklibs.net
 tags:
@@ -54,7 +58,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

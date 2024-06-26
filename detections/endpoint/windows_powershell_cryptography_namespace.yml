@@ -1,23 +1,26 @@
 name: Windows Powershell Cryptography Namespace
 id: f8b482f4-6d62-49fa-a905-dfa15698317b
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies suspicious PowerShell script execution
-  via EventCode 4104 that is processing cryptography namespace library. This technique
-  was seen in several powershell malware, loader, downloader and stager that will
-  decrypt or decode the next malicious stager or the actual payload. This Anomaly
-  detection can be a good indicator that a powershell process to decrypt code. We
-  recommend to further check the parent_process_name, the file or data it tries to
-  decrypt, network connection and user who execute the script.
+description: The following analytic detects suspicious PowerShell script execution
+  involving the cryptography namespace via EventCode 4104. It leverages PowerShell
+  Script Block Logging to identify scripts using cryptographic functions, excluding
+  common hashes like SHA and MD5. This activity is significant as it is often associated
+  with malware that decrypts or decodes additional malicious payloads. If confirmed
+  malicious, this could allow an attacker to execute further code, escalate privileges,
+  or establish persistence within the environment. Analysts should investigate the
+  parent process, decrypted data, network connections, and the user executing the
+  script.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*System.Security.Cryptography*"
   AND NOT(ScriptBlockText IN ("*SHA*", "*MD5*", "*DeriveBytes*")) | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_cryptography_namespace_filter`'
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_cryptography_namespace_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -30,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A suspicious powershell script contains cryptography command detected on host $dest$
+  message: A suspicious powershell script contains cryptography command detected on
+    host $dest$
   mitre_attack_id:
   - T1059.001
   - T1059
@@ -59,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/asyncrat_crypto_pwh_namespace/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/asyncrat_crypto_pwh_namespace/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

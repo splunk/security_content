@@ -1,15 +1,18 @@
 name: AWS High Number Of Failed Authentications For User
 id: e3236f49-daf3-4b70-b808-9290912ac64d
-version: 1
-date: '2023-01-27'
+version: 2
+date: '2024-05-25'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies an AWS account with more than 20 failed
-  authentication events in the span of 5 minutes. This behavior could represent a
-  brute force attack against the account. As environments differ across organizations,
-  security teams should customize the threshold of this detection.
-data_source: 
+description: The following analytic detects an AWS account experiencing more than
+  20 failed authentication attempts within a 5-minute window. It leverages AWS CloudTrail
+  logs to identify multiple failed ConsoleLogin events. This behavior is significant
+  as it may indicate a brute force attack targeting the account. If confirmed malicious,
+  the attacker could potentially gain unauthorized access, leading to data breaches
+  or further exploitation of the AWS environment. Security teams should consider adjusting
+  the threshold based on their specific environment to reduce false positives.
+data_source:
 - AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
   | stats dc(_raw) AS failed_attempts values(src_ip) as src_ip values(user_agent)
@@ -56,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_multiple_login_fail_per_user/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_multiple_login_fail_per_user/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

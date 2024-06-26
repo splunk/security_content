@@ -1,19 +1,22 @@
 name: Splunk User Enumeration Attempt
 id: 25625cb4-1c4d-4463-b0f9-7cb462699cde
-version: 2
-date: '2024-03-19'
+version: 3
+date: '2024-05-21'
 author: Lou Stella, Splunk
 status: production
 type: TTP
-description: On May 3rd, 2022, Splunk published a security advisory for  username
-  enumeration stemming from verbose login failure messages present on some REST endpoints.
-  This detection will alert on attempted exploitation in patched versions of Splunk
-  as well as actual exploitation in unpatched version of Splunk.
-data_source: 
+description: The following analytic identifies attempts to enumerate usernames in
+  Splunk by detecting multiple failed authentication attempts from the same source.
+  It leverages data from the `_audit` index, specifically focusing on failed authentication
+  events. This activity is significant for a SOC because it can indicate an attacker
+  trying to discover valid usernames, which is a precursor to more targeted attacks
+  like password spraying or brute force attempts. If confirmed malicious, this activity
+  could lead to unauthorized access, compromising the security of the Splunk environment
+  and potentially exposing sensitive data.
+data_source:
 - Splunk
 search: ' `splunkd_failed_auths` | stats count(user) as auths by user, src | where
-  auths>5 | stats values(user) as user, sum(auths) as TotalFailedAuths by src |
-  `splunk_user_enumeration_attempt_filter`'
+  auths>5 | stats values(user) as user, sum(auths) as TotalFailedAuths by src | `splunk_user_enumeration_attempt_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The
   detection does require the ability to search the _audit index. This detection may
   assist in efforts to find password spraying or brute force authorization attempts
@@ -56,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/splunkd_auth/audittrail.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/splunkd_auth/audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

@@ -1,15 +1,18 @@
 name: Spoolsv Suspicious Process Access
 id: 799b606e-da81-11eb-93f8-acde48001122
-version: 1
-date: '2021-07-01'
+version: 2
+date: '2024-05-16'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies a suspicious behavior related to PrintNightmare,
-  or CVE-2021-34527 previously (CVE-2021-1675),  to gain privilege escalation on the
-  vulnerable machine. This exploit attacks a critical Windows Print Spooler Vulnerability
-  to elevate privilege. This detection is to look for suspicious process access made
-  by the spoolsv.exe that may related to the attack.
+description: The following analytic detects suspicious process access by spoolsv.exe,
+  potentially indicating exploitation of the PrintNightmare vulnerability (CVE-2021-34527).
+  It leverages Sysmon EventCode 10 to identify when spoolsv.exe accesses critical
+  system files or processes like rundll32.exe with elevated privileges. This activity
+  is significant as it may signal an attempt to gain unauthorized privilege escalation
+  on a vulnerable machine. If confirmed malicious, an attacker could achieve elevated
+  privileges, leading to further system compromise, persistent access, or unauthorized
+  control over the affected environment.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*"
@@ -68,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

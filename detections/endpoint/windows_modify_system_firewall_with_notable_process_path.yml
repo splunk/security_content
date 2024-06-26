@@ -1,25 +1,30 @@
 name: Windows Modify System Firewall with Notable Process Path
 id: cd6d7410-9146-4471-a418-49edba6dadc4
-version: 1
-date: '2023-12-12'
+version: 2
+date: '2024-05-10'
 author: Teoderick Contreras, Will Metcalf, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: The following analytic detects a potential suspicious modification of firewall
-  rule allowing to execute specific application in public and suspicious windows process file path. This technique was identified when
-  an adversary and red teams to bypassed firewall file execution restriction in a
-  targetted host. Take note that this event or command can run by administrator during
-  testing or allowing legitimate tool or application.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process = "*firewall*" Processes.process = "*allow*" Processes.process = "*add*" Processes.process = "*ENABLE*" 
-  Processes.process IN ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*","*Recycle.bin*", "*\\Windows\\Media\\*", "\\Windows\\repair\\*", "*\\temp\\*", "*\\PerfLogs\\*")
-  by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_system_firewall_with_notable_process_path_filter`'
+description: The following analytic detects suspicious modifications to system firewall
+  rules, specifically allowing execution of applications from notable and potentially
+  malicious file paths. This detection leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on command-line executions involving firewall rule
+  changes. This activity is significant as it may indicate an adversary attempting
+  to bypass firewall restrictions to execute malicious files. If confirmed malicious,
+  this could allow attackers to execute unauthorized code, potentially leading to
+  further system compromise, data exfiltration, or persistence within the environment.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process = "*firewall*"
+  Processes.process = "*allow*" Processes.process = "*add*" Processes.process = "*ENABLE*"
+  Processes.process IN ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*",
+  "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*",
+  "*\\Users\\Default\\*","*Recycle.bin*", "*\\Windows\\Media\\*", "\\Windows\\repair\\*",
+  "*\\temp\\*", "*\\PerfLogs\\*") by Processes.dest Processes.user Processes.parent_process_name
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_modify_system_firewall_with_notable_process_path_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -68,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/njrat_add_firewall_rule/njrat_firewall_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/njrat_add_firewall_rule/njrat_firewall_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

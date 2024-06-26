@@ -1,15 +1,18 @@
 name: Windows DiskCryptor Usage
 id: d56fe0c8-4650-11ec-a8fa-acde48001122
-version: 1
-date: '2021-11-15'
+version: 2
+date: '2024-05-29'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies DiskCryptor  process name of dcrypt.exe
-  or internal name dcinst.exe. This utility has been utilized by adversaries to encrypt
-  disks manually during an operation. In addition, during install, a dcrypt.sys driver
-  is installed and requires a reboot in order to take effect. There are no command-line
-  arguments used.
+description: The following analytic detects the execution of DiskCryptor, identified
+  by the process names "dcrypt.exe" or "dcinst.exe". This detection leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process names and
+  original file names. DiskCryptor is significant because adversaries use it to manually
+  encrypt disks during an operation, potentially leading to data inaccessibility.
+  If confirmed malicious, this activity could result in complete disk encryption,
+  causing data loss and operational disruption. Immediate investigation is required
+  to mitigate potential ransomware attacks.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -82,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/dcrypt/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/dcrypt/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

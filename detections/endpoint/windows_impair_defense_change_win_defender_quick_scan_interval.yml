@@ -1,26 +1,26 @@
 name: Windows Impair Defense Change Win Defender Quick Scan Interval
 id: 783f0798-f679-4c17-b3b3-187febf0b9b8
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to change Windows Defender 
-  Quick Scan Interval. The "QuickScanInterval" in Windows Defender, specifically within the context of antivirus software, 
-  typically refers to the interval or frequency at which the system conducts quick scans for malware or potential threats.
-  This setting dictates how often Windows Defender performs quick scans on the system. Quick scans are less comprehensive 
-  than full system scans but provide a faster way to check critical areas for potential threats or malware.
-  This registry setting is being abuse by several threat actors, adversaries and red teamers to bypasses Windows defender detections.
+description: The following analytic detects modifications to the Windows registry
+  that change the Windows Defender Quick Scan Interval. It leverages data from the
+  Endpoint.Registry data model, focusing on changes to the "QuickScanInterval" registry
+  path. This activity is significant because altering the scan interval can impair
+  Windows Defender's ability to detect malware promptly, potentially allowing threats
+  to persist undetected. If confirmed malicious, this modification could enable attackers
+  to bypass security measures, maintain persistence, and execute further malicious
+  activities without being detected by quick scans.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Scan\\QuickScanInterval" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_change_win_defender_quick_scan_interval_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Scan\\QuickScanInterval" by Registry.registry_key_name Registry.user Registry.registry_path
+  Registry.registry_value_data Registry.action Registry.dest | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defense_change_win_defender_quick_scan_interval_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -64,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

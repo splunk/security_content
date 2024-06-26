@@ -1,28 +1,40 @@
 name: Azure AD Block User Consent For Risky Apps Disabled
 id: 875de3d7-09bc-4916-8c0a-0929f4ced3d8
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Azure Active Directory Update authorization policy
-description: This analytic detects when the risk-based step-up consent security setting in Azure AD is disabled. This setting, when enabled, prevents regular users from granting consent to potentially malicious OAuth applications, requiring an administrative step-up for consent instead. Disabling this feature could expose the organization to OAuth phishing threats.The detection operates by monitoring Azure Active Directory logs for events where the "Update authorization policy" operation is performed. It specifically looks for changes to the "AllowUserConsentForRiskyApps" setting, identifying instances where this setting is switched to "true," effectively disabling the risk-based step-up consent. Monitoring for changes to critical security settings like the "risk-based step-up consent" is vital for maintaining the integrity of an organization's security posture. Disabling this feature can make the environment more susceptible to OAuth phishing attacks, where attackers trick users into granting permissions to malicious applications. Identifying when this setting is disabled can help blue teams to quickly respond, investigate, and potentially uncover targeted phishing campaigns against their users. If an attacker successfully disables the "risk-based step-up consent" and subsequently launches an OAuth phishing campaign, they could gain unauthorized access to user data and other sensitive information within the M365 environment. This could lead to data breaches, unauthorized access to emails, and potentially further compromise within the organization
+description: The following analytic detects when the risk-based step-up consent security
+  setting in Azure AD is disabled. It monitors Azure Active Directory logs for the
+  "Update authorization policy" operation, specifically changes to the "AllowUserConsentForRiskyApps"
+  setting. This activity is significant because disabling this feature can expose
+  the organization to OAuth phishing threats by allowing users to grant consent to
+  potentially malicious applications. If confirmed malicious, attackers could gain
+  unauthorized access to user data and sensitive information, leading to data breaches
+  and further compromise within the organization.
 search: >-
- `azure_monitor_aad` operationName="Update authorization policy"
- | rename properties.* as * 
- | eval index_number = if(mvfind('targetResources{}.modifiedProperties{}.displayName', "AllowUserConsentForRiskyApps") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName', "AllowUserConsentForRiskyApps"), -1)
- | search index_number >= 0 
- | eval AllowUserConsentForRiskyApps = mvindex('targetResources{}.modifiedProperties{}.newValue',index_number)
- | search AllowUserConsentForRiskyApps = "[true]"
- | stats count min(_time) as firstTime max(_time) as lastTime by user, src_ip, operationName, AllowUserConsentForRiskyApps
- | `security_content_ctime(firstTime)`
- | `security_content_ctime(lastTime)`
- | `azure_ad_block_user_consent_for_risky_apps_disabled_filter`
+  `azure_monitor_aad` operationName="Update authorization policy"
+  | rename properties.* as *  | eval index_number = if(mvfind('targetResources{}.modifiedProperties{}.displayName',
+  "AllowUserConsentForRiskyApps") >= 0, mvfind('targetResources{}.modifiedProperties{}.displayName',
+  "AllowUserConsentForRiskyApps"), -1)
+  | search index_number >= 0  | eval AllowUserConsentForRiskyApps = mvindex('targetResources{}.modifiedProperties{}.newValue',index_number)
+  | search AllowUserConsentForRiskyApps = "[true]"
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, src_ip, operationName,
+  AllowUserConsentForRiskyApps
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `azure_ad_block_user_consent_for_risky_apps_disabled_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
-known_false_positives: Legitimate changes to the 'risk-based step-up consent' setting by administrators, perhaps as part of a policy update or security assessment, may trigger this alert, necessitating verification of the change's intent and authorization
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the AuditLog log category.
+known_false_positives: Legitimate changes to the 'risk-based step-up consent' setting
+  by administrators, perhaps as part of a policy update or security assessment, may
+  trigger this alert, necessitating verification of the change's intent and authorization
 references:
 - https://attack.mitre.org/techniques/T1562/
 - https://goodworkaround.com/2020/10/19/a-look-behind-the-azure-ad-permission-classifications-preview/
@@ -58,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/azuread_disable_blockconsent_for_riskapps/azuread_disable_blockconsent_for_riskapps.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/azuread_disable_blockconsent_for_riskapps/azuread_disable_blockconsent_for_riskapps.log
     source: Azure Ad
     sourcetype: azure:monitor:aad

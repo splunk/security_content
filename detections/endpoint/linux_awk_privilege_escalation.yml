@@ -1,14 +1,18 @@
 name: Linux AWK Privilege Escalation
 id: 4510cae0-96a2-4840-9919-91d262db210a
-version: 1
-date: '2022-07-31'
+version: 2
+date: '2024-05-26'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: Awk is mostly used for processing and scanning patterns. It checks one
-  or more files to determine whether any lines fit the specified patterns, and if
-  so, it does the appropriate action. If sudo right is given to AWK binary for the
-  user, then the user can run system commands as root and possibly get a root shell.
+description: The following analytic detects the use of the AWK command with elevated
+  privileges to execute system commands. It leverages Endpoint Detection and Response
+  (EDR) telemetry, specifically monitoring processes that include "sudo," "awk," and
+  "BEGIN*system" in their command lines. This activity is significant because it indicates
+  a potential privilege escalation attempt, where a user could gain root access by
+  executing commands as the root user. If confirmed malicious, this could allow an
+  attacker to fully compromise the system, execute arbitrary commands, and maintain
+  persistent control over the affected endpoint.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/awk/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/awk/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

@@ -1,14 +1,18 @@
 name: SilentCleanup UAC Bypass
 id: 56d7cfcc-da63-11eb-92d4-acde48001122
-version: 3
-date: '2022-11-14'
+version: 4
+date: '2024-05-18'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious modification of registry that may
-  related to UAC bypassed. This registry will be trigger once the attacker abuse the
-  silentcleanup task schedule to gain high privilege execution that will bypass User
-  control account.
+description: The following analytic detects suspicious modifications to the registry
+  that may indicate a UAC (User Account Control) bypass attempt via the SilentCleanup
+  task. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on registry changes in the path "*\\Environment\\windir" with executable values.
+  This activity is significant as it can allow an attacker to gain high-privilege
+  execution without user consent, bypassing UAC protections. If confirmed malicious,
+  this could lead to unauthorized administrative access, enabling further system compromise
+  and persistence.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 12
@@ -81,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

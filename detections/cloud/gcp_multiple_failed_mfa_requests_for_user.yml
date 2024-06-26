@@ -1,24 +1,23 @@
 name: GCP Multiple Failed MFA Requests For User
 id: cbb3cb84-c06f-4393-adcc-5cb6195621f1
-version: 1
-date: '2022-10-14'
+version: 2
+date: '2024-05-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies multiple failed multi-factor authentication
-  requests for a single user within a Google Cloud Platform tenant. Specifically,
-  the analytic triggers when 10 or more MFA user prompts fail within 5 minutes. Google
-  CLoud tenants can be very different depending on the organization, Security teams
-  should test this detection and customize these arbitrary thresholds. The detected
-  behavior may represent an adversary who has obtained legitimate credentials for
-  a user and continuously repeats login attempts in order to bombard users with MFA
-  push notifications, SMS messages, and phone calls potentially resulting in the user
-  finally accepting the authentication request. Threat actors like the Lapsus team
-  and APT29 have leveraged this technique to bypass multi-factor authentication controls
-  as reported by Mandiant and others.
-data_source: 
+description: The following analytic detects multiple failed multi-factor authentication
+  (MFA) requests for a single user within a Google Cloud Platform (GCP) tenant. It
+  triggers when 10 or more MFA prompts fail within a 5-minute window, using Google
+  Workspace login failure events. This behavior is significant as it may indicate
+  an adversary attempting to bypass MFA by bombarding the user with repeated authentication
+  requests. If confirmed malicious, this activity could lead to unauthorized access,
+  allowing attackers to compromise accounts and potentially escalate privileges within
+  the GCP environment.
+data_source:
 - Google Workspace login_failure
-search: "`gws_reports_login` event.name=login_failure `gws_login_mfa_methods` | bucket span=5m _time | stats dc(_raw) AS mfa_prompts values(user) AS user by src_ip, login_challenge_method,  _time | where mfa_prompts >= 10 | `gcp_multiple_failed_mfa_requests_for_user_filter`"
+search: "`gws_reports_login` event.name=login_failure `gws_login_mfa_methods` | bucket
+  span=5m _time | stats dc(_raw) AS mfa_prompts values(user) AS user by src_ip, login_challenge_method,\
+  \  _time | where mfa_prompts >= 10 | `gcp_multiple_failed_mfa_requests_for_user_filter`"
 how_to_implement: You must install the latest version of Splunk Add-on for Google
   Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows
   Splunk administrators to collect Google Workspace event data in Splunk using Google
@@ -66,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_gws/gws_login.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_gws/gws_login.log
     source: gws:reports:login
     sourcetype: gws:reports:login
     update_timestamp: true

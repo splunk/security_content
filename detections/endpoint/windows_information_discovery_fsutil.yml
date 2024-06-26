@@ -1,16 +1,18 @@
 name: Windows Information Discovery Fsutil
 id: 2181f261-93e6-4166-a5a9-47deac58feff
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a process execution of Windows OS built-in
-  tool FSUTIL to discover file system information. This tool is being abused or used
-  by several adversaries or threat actor to query/list all drives, drive type, volume
-  information or volume statistics by using the FSINFO parameter of this tool. This
-  technique was seen in WINPEAS post exploitation tool that is being used by ransomware
-  prestige to gain privilege and persistence to the targeted host.
+description: The following analytic identifies the execution of the Windows built-in
+  tool FSUTIL with the FSINFO parameter to discover file system information. This
+  detection leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process execution logs that include command-line details. Monitoring this activity
+  is significant because FSUTIL can be abused by adversaries to gather detailed information
+  about the file system, aiding in further exploitation. If confirmed malicious, this
+  activity could enable attackers to map the file system, identify valuable data,
+  and plan subsequent actions such as privilege escalation or persistence.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,7 +75,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/winpeas_fsutil/fsutil-fsinfo-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/winpeas_fsutil/fsutil-fsinfo-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

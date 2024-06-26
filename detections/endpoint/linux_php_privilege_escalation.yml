@@ -1,15 +1,18 @@
 name: Linux PHP Privilege Escalation
 id: 4fc4c031-e5be-4cc0-8cf9-49f9f507bcb5
-version: 1
-date: '2022-08-09'
+version: 2
+date: '2024-05-19'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: PHP is a general-purpose scripting language geared toward web development.
-  It was originally created by Danish-Canadian programmer Rasmus Lerdorf in 1994.
-  The PHP reference implementation is now produced by The PHP Group. If sudo right
-  is given to php application for the user, then the user can run system commands
-  as root and possibly get a root shell.
+description: The following analytic detects the execution of PHP commands with elevated
+  privileges on a Linux system. It identifies instances where PHP is used in conjunction
+  with 'sudo' and 'system' commands, indicating an attempt to run system commands
+  as the root user. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process command-line arguments. This activity is significant
+  because it can indicate an attempt to escalate privileges, potentially leading to
+  full root access. If confirmed malicious, this could allow an attacker to execute
+  arbitrary commands with root privileges, compromising the entire system.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/php/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/php/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

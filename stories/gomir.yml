@@ -1,0 +1,26 @@
+name: Gomir
+id: 02dbfda2-45fe-4731-a659-91fa871019ba
+version: 1
+date: '2024-05-29'
+author: Teoderick Contreras, Splunk
+description: This analytic story includes detections that help security analysts identify and investigate unusual 
+  activities associated with the Gomir backdoor malware. Gomir is a sophisticated cyber threat that gains unauthorized 
+  access to systems. It communicates with a remote command-and-control (C2) server to execute malicious commands, steal 
+  sensitive data, and facilitate further attacks, often evading traditional security measures.
+narrative: The Gomir backdoor malware is a piece of cyber threat designed to infiltrate and compromise systems covertly. 
+  Once it gains unauthorized access, Gomir establishes a persistent presence by communicating with a remote command-and-control (C2) server. 
+  This connection allows the attacker to execute a wide range of malicious commands on the infected system. Gomir is capable of stealing 
+  sensitive data, which can be exfiltrated back to the attacker. Additionally, Gomir can download and install further malicious payloads, 
+  facilitating broader cyber-espionage or destructive activities. 
+references:
+- https://www.bleepingcomputer.com/news/security/kimsuky-hackers-deploy-new-linux-backdoor-via-trojanized-installers/
+- https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/springtail-kimsuky-backdoor-espionage
+tags:
+  category:
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

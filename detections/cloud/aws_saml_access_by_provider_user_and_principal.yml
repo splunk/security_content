@@ -1,15 +1,19 @@
 name: AWS SAML Access by Provider User and Principal
 id: bbe23980-6019-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-26'
+version: 2
+date: '2024-05-23'
 author: Rod Soto, Splunk
 status: production
 type: Anomaly
-description: This search provides specific SAML access from specific Service Provider,
-  user and targeted principal at AWS. This search provides specific information to
-  detect abnormal access or potential credential hijack or forgery, specially in federated
-  environments using SAML protocol inside the perimeter or cloud provider.
-data_source: 
+description: The following analytic identifies specific SAML access events by a service
+  provider, user, and targeted principal within AWS. It leverages AWS CloudTrail logs
+  to detect the `AssumeRoleWithSAML` event, analyzing fields such as `principalArn`,
+  `roleArn`, and `roleSessionName`. This activity is significant as it can indicate
+  abnormal access patterns or potential credential hijacking, especially in federated
+  environments using the SAML protocol. If confirmed malicious, this could allow attackers
+  to assume roles and gain unauthorized access to sensitive AWS resources, leading
+  to data breaches or further exploitation.
+data_source:
 - AWS CloudTrail AssumeRoleWithSAML
 search: '`cloudtrail` eventName=Assumerolewithsaml | stats count min(_time) as firstTime
   max(_time) as lastTime by eventName requestParameters.principalArn requestParameters.roleArn
@@ -67,7 +71,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

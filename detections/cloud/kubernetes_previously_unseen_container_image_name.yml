@@ -1,20 +1,19 @@
 name: Kubernetes Previously Unseen Container Image Name
 id: fea515a4-b1d8-4cd6-80d6-e0d71397b891
-version: 1
-date: '2023-12-18'
+version: 2
+date: '2024-05-27'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies containerised workloads that have been created using a previously unseen image. 
-  This detection leverages process metrics harvested using an OTEL collector and kubernetes cluster receiver, and is pulled from Splunk Observability cloud using the Splunk Infrastructure Monitoring Add-on. (https://splunkbase.splunk.com/app/5247). 
-  This detection uses the k8s.container.ready metric to compare the container image names seen in the last 1 hour with those seen in the 30 days prior to those 1 hour, and alerts if a new container image is detected.
-  When a container in a Kubernetes cluster created using a previously unseen image it raises potential security risks and unknown variables. 
-  Unfamiliar container images could contain vulnerabilities, malware, or misconfigurations that pose threats to the cluster's integrity and the applications it hosts. 
-  The absence of prior knowledge about the image makes it difficult to assess its trustworthiness, track its lineage, or verify its compliance with security policies. 
-  The potential security impact of a container created using a compromised image is significant. Compromised containers can potentially introduce malware, backdoors, 
-  or other malicious code into the containerized application, leading to data breaches, service disruptions, and unauthorized access within the Kubernetes cluster. 
-  A compromised image can serve as a foothold for lateral movement and privilege escalation, potentially compromising other containers, pods, or nodes in the cluster. 
-  Additionally, it may enable the actor to exfiltrate sensitive data, manipulate configurations, or execute arbitrary code, posing risks to the confidentiality, availability, and integrity of applications and data hosted within the cluster
+description: The following analytic identifies the creation of containerized workloads
+  using previously unseen images in a Kubernetes cluster. It leverages process metrics
+  from an OTEL collector and Kubernetes cluster receiver, pulled from Splunk Observability
+  Cloud. The detection compares container image names seen in the last hour with those
+  from the previous 30 days. This activity is significant as unfamiliar container
+  images may introduce vulnerabilities, malware, or misconfigurations, posing threats
+  to the cluster's integrity. If confirmed malicious, compromised images can lead
+  to data breaches, service disruptions, unauthorized access, and potential lateral
+  movement within the cluster.
 data_source: []
 search: '| mstats  count(k8s.container.ready) as k8s.container.ready_count where `kubernetes_metrics` AND earliest=-24h by host.name k8s.cluster.name k8s.node.name container.image.name
   | eval current="True"
@@ -24,29 +23,37 @@ search: '| mstats  count(k8s.container.ready) as k8s.container.ready_count where
   | stats values(current) as current by host.name k8s.cluster.name k8s.node.name container.image.name
   | search current="true" AND current!="false"
   | rename host.name as host
-  | `kubernetes_previously_unseen_container_image_name_filter` '
+  | `kubernetes_previously_unseen_container_image_name_filter`'
 how_to_implement: 'To implement this detection, follow these steps: 
   
   * Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
-  
+
   * Enable the hostmetrics/process receiver in the OTEL configuration.
-  
-  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
-  
+
+  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization,
+  are enabled.
+
   * Install the Splunk Infrastructure Monitoring (SIM) add-on. (ref: https://splunkbase.splunk.com/app/5247)
-  
-  * Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
-  
+
+  * Configure the SIM add-on with your Observability Cloud Organization ID and Access
+  Token.
+
   * Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
-  
-  * In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
-  
-  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
-  
+
+  * In the SIM configuration, set the Organization ID to your Observability Cloud
+  Organization ID.
+
+  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A'');
+  data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C'');
+  data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E'');
+  data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G'');
+  data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I'');
+  data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+
   * Set the Metric Resolution to 10000.
-  
+
   * Leave all other settings at their default values.
-  
+
   * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
 known_false_positives: unknown
 references:
@@ -71,8 +78,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - k8s.container.ready_count
-  - host.name 
-  - k8s.cluster.name 
-  - k8s.node.name 
+  - host.name
+  - k8s.cluster.name
+  - k8s.node.name
   risk_score: 25
   security_domain: network

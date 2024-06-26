@@ -1,15 +1,17 @@
 name: AWS Multi-Factor Authentication Disabled
 id: 374832b1-3603-420c-b456-b373e24d34c0
-version: 1
-date: '2022-10-04'
+version: 2
+date: '2024-05-15'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies an attempt to disable multi-factor
-  authentication for an AWS IAM user. An adversary who has obtained access to an AWS
-  tenant may disable multi-factor authentication as a way to plant a backdoor and
-  maintain persistence using a valid account. This way the attackers can keep persistance
-  in the environment without adding new users.
+description: The following analytic detects attempts to disable multi-factor authentication
+  (MFA) for an AWS IAM user. It leverages AWS CloudTrail logs to identify events where
+  MFA devices are deleted or deactivated. This activity is significant because disabling
+  MFA can indicate an adversary attempting to weaken account security, potentially
+  to maintain persistence using a compromised account. If confirmed malicious, this
+  action could allow attackers to retain access to the AWS environment without detection,
+  posing a significant risk to the security and integrity of the cloud infrastructure.
 data_source:
 - AWS CloudTrail DeleteVirtualMFADevice
 - AWS CloudTrail DeactivateMFADevice
@@ -72,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

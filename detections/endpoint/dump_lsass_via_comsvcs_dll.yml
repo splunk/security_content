@@ -1,12 +1,12 @@
 name: Dump LSASS via comsvcs DLL
 id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
-version: 2
-date: '2023-04-14'
+version: 3
+date: '2024-05-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects the behavior of dumping credentials from memory, a tactic commonly used by adversaries to exploit the Local Security Authority Subsystem Service (LSASS) in Windows, which manages system-level authentication. The detection is made by monitoring logs with process information from endpoints and identifying instances where the rundll32 process is used in conjunction with the comsvcs.dll and MiniDump. This indicates potential LSASS dumping attempts used by threat actors to obtain valuable credentials. The detection is important because credential theft can lead to broader system compromise, persistence, lateral movement, and escalated privileges. No legitimate use of this technique has been identified yet. This behavior is often part of more extensive attack campaigns and is associated with numerous threat groups that use the stolen credentials to access sensitive information or systems, leading to data theft, ransomware attacks, or other damaging outcomes. False positives can occur since legitimate uses of the LSASS process can cause benign activities to be flagged. Next steps include reviewing the processes involved in the LSASS dumping attempt after triage and inspecting any relevant on-disk artifacts and concurrent processes to identify the attack source.
+  The following analytic detects the behavior of dumping credentials from memory by exploiting the Local Security Authority Subsystem Service (LSASS) using the comsvcs.dll and MiniDump via rundll32. This detection leverages process information from Endpoint Detection and Response (EDR) logs, focusing on specific command-line executions. This activity is significant because it indicates potential credential theft, which can lead to broader system compromise, persistence, lateral movement, and privilege escalation. If confirmed malicious, attackers could gain unauthorized access to sensitive information, leading to data theft, ransomware attacks, or other damaging outcomes.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -88,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

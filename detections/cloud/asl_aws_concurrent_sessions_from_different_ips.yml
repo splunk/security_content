@@ -1,21 +1,19 @@
 name: ASL AWS Concurrent Sessions From Different Ips
 id: b3424bbe-3204-4469-887b-ec144483a336
-version: 2
-date: '2024-02-13'
+version: 3
+date: '2024-05-24'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
 description: The following analytic identifies an AWS IAM account with concurrent
-  sessions coming from more than one unique IP address within the span of 5 minutes.
-  This behavior could represent a session hijacking attack whereby an adversary has
-  extracted cookies from a victims browser and is using them from a different location
-  to access corporate online resources. When a user navigates the AWS Console after
-  authentication, the API call with the event name `DescribeEventAggregates` is registered
-  in the AWS CloudTrail logs. The Splunk Threat Research team leveraged this event
-  name to identify 2 concurrent sessions. The presence of this event occurring from
-  two different IP addresses is highly unlikely. As users may behave differently across
-  organizations, security teams should test and customize this detection to fit their
-  environments.
+  sessions originating from more than one unique IP address within a 5-minute span.
+  This detection leverages AWS CloudTrail logs, specifically the `DescribeEventAggregates`
+  API call, to identify multiple IP addresses associated with the same user session.
+  This behavior is significant as it may indicate a session hijacking attack, where
+  an adversary uses stolen session cookies to access AWS resources from a different
+  location. If confirmed malicious, this activity could allow unauthorized access
+  to sensitive corporate resources, leading to potential data breaches or further
+  exploitation.
 data_source: []
 search: ' `amazon_security_lake` api.operation=DescribeEventAggregates "http_request.user_agent"!="AWS Internal" "src_endpoint.domain"!="health.amazonaws.com" 
 | eval time = time/pow(10,3)
@@ -24,7 +22,7 @@ search: ' `amazon_security_lake` api.operation=DescribeEventAggregates "http_req
 | stats values(src_endpoint.ip) as src_ip dc(src_endpoint.ip) as distinct_ip_count values(cloud.region) as cloud.region by time api.operation actor.user.account_uid actor.user.uid 
 | where distinct_ip_count > 1 
 | rename cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id, actor.user.uid as user
-| `aws_concurrent_sessions_from_different_ips_filter`'
+| `asl_aws_concurrent_sessions_from_different_ips_filter`'
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
   security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
   ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
@@ -43,7 +41,8 @@ tags:
   asset_type: AWS Account
   confidence: 60
   impact: 70
-  message: User $user$ has concurrent sessions from more than one unique IP address in the span of 5 minutes.
+  message: User $user$ has concurrent sessions from more than one unique IP address
+    in the span of 5 minutes.
   mitre_attack_id:
   - T1185
   observable:
@@ -61,8 +60,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - api.operation
-  - actor.user.account_uid 
-  - actor.user.name 
+  - actor.user.account_uid
+  - actor.user.name
   - actor.user.uid
   - http_request.user_agent
   - src_endpoint.ip
@@ -73,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/asl_ocsf_cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/asl_ocsf_cloudtrail.json
     sourcetype: aws:cloudtrail:lake
     source: aws_asl

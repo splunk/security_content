@@ -1,24 +1,29 @@
 name: Windows File Share Discovery With Powerview
 id: a44c0be1-d7ab-41e4-92fd-aa9af4fe232c
-version: 1
-date: '2023-03-20'
+version: 2
+date: '2024-05-18'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic identifies the use of the Invoke-ShareFinder PowerShell commandlet part of PowerView. This module obtains the list of all
-  active domain computers and lists the active shares on each computer. Network file shares in Active Directory environments may contain sensitive information
-  like backups, scripts, credentials, etc. Adversaries who have obtained a foothold in an AD network may leverage PowerView to identify secrets and leverage them 
-  for Privilege Escalation or Lateral Movement.
-search: '`powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*)
-  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+description: The following analytic detects the execution of the Invoke-ShareFinder
+  PowerShell cmdlet from PowerView. This detection leverages PowerShell Script Block
+  Logging to identify instances where this specific command is executed. Monitoring
+  this activity is crucial as it indicates an attempt to enumerate network file shares,
+  which may contain sensitive information such as backups, scripts, and credentials.
+  If confirmed malicious, this activity could enable an attacker to escalate privileges
+  or move laterally within the network, potentially compromising additional systems
+  and sensitive data.
+search: '`powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*) | stats
+  count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
+  ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_file_share_discovery_with_powerview_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
-known_false_positives: Security teams may leverage PowerView proactively to identify and remediate sensitive file shares. Filter as needed.
+known_false_positives: Security teams may leverage PowerView proactively to identify
+  and remediate sensitive file shares. Filter as needed.
 references:
 - https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerView/powerview.ps1
 - https://thedfirreport.com/2023/01/23/sharefinder-how-threat-actors-discover-file-shares/
@@ -61,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

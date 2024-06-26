@@ -1,18 +1,24 @@
 name: GCP Multi-Factor Authentication Disabled
 id: b9bc5513-6fc1-4821-85a3-e1d81e451c83
-version: 2
-date: '2024-01-04'
+version: 3
+date: '2024-05-25'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies an attempt to disable multi-factor
-  authentication for a GCP user. An adversary who has obtained access to an GCP tenant
-  may disable multi-factor authentication as a way to plant a backdoor and maintain
-  persistence using a valid account. This way the attackers can keep persistance in
-  the environment without adding new users.
-data_source: 
+description: The following analytic detects an attempt to disable multi-factor authentication
+  (MFA) for a Google Cloud Platform (GCP) user. It leverages Google Workspace Admin
+  log events, specifically the `UNENROLL_USER_FROM_STRONG_AUTH` command. This activity
+  is significant because disabling MFA can allow an adversary to maintain persistence
+  within the environment using a compromised account without raising suspicion. If
+  confirmed malicious, this action could enable attackers to bypass additional security
+  layers, potentially leading to unauthorized access, data exfiltration, or further
+  exploitation of the compromised account.
+data_source:
 - Google Workspace
-search: '`gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH | stats count min(_time) as firstTime max(_time) as lastTime by user, command, actor.email, status, id.applicationName, event.name, vendor_account, action | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `gcp_multi_factor_authentication_disabled_filter`'
+search: '`gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH | stats count
+  min(_time) as firstTime max(_time) as lastTime by user, command, actor.email, status,
+  id.applicationName, event.name, vendor_account, action | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`| `gcp_multi_factor_authentication_disabled_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Google
   Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows
   Splunk administrators to collect Google Workspace event data in Splunk using Google
@@ -59,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/gcp_disable_mfa/gws_admin.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/gcp_disable_mfa/gws_admin.log
     source: gws:reports:admin
     sourcetype: gws:reports:admin
     update_timestamp: true

@@ -1,20 +1,18 @@
 name: Windows Exchange Autodiscover SSRF Abuse
 id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
-version: 1
-date: '2023-07-10'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Nathaniel Stearns, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes the Web datamodel and identifies the
-  ProxyShell or ProxyNotShell abuse. This vulnerability is a Server Side Request Forgery
-  (SSRF) vulnerability, which is a web vulnerability that allows an adversary to exploit
-  vulnerable functionality to access server side or local network services by affectively
-  traversing the external firewall using vulnerable web functionality. This analytic
-  looks for the URI path and query of autodiscover, powershell and mapi along with
-  a POST occurring. It will tally a simple score and show the output of the events
-  that match. This analytic may be added to by simply creating a new eval statement
-  and modifying the hardcode digit for Score.
-data_source: 
+description: The following analytic detects potential abuse of the ProxyShell or ProxyNotShell
+  vulnerabilities in Microsoft Exchange via Server Side Request Forgery (SSRF). It
+  leverages the Web datamodel to identify suspicious POST requests with specific URI
+  paths and queries related to autodiscover, powershell, and mapi. This activity is
+  significant as it may indicate an attempt to exploit Exchange server vulnerabilities
+  to access internal services or sensitive data. If confirmed malicious, this could
+  lead to unauthorized access, data exfiltration, or further compromise of the network.
+data_source:
 - Windows IIS
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where (Web.status=200 OR Web.status=302 OR Web.status=401)
@@ -79,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
     source: ms:iis:splunk
     sourcetype: ms:iis:splunk
     update_timestamp: true

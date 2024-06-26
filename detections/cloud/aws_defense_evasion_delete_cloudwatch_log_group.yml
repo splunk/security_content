@@ -1,16 +1,19 @@
 name: AWS Defense Evasion Delete CloudWatch Log Group
 id: d308b0f1-edb7-4a62-a614-af321160710f
-version: 1
-date: '2022-07-17'
+version: 2
+date: '2024-05-26'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: This analytic identifies AWS `DeleteLogGroup` events in CloudTrail logs.
-  Attackers may evade the logging capability by deleting the log group in CloudWatch.
-  This will stop sending the logs and metrics to CloudWatch. When the adversary has
-  the right type of permissions within the compromised AWS environment, they may delete
-  the CloudWatch log group that is logging activities in the environment.
-data_source: 
+description: The following analytic detects the deletion of CloudWatch log groups
+  in AWS, identified through `DeleteLogGroup` events in CloudTrail logs. This detection
+  leverages CloudTrail data to monitor for successful log group deletions, excluding
+  console-based actions. This activity is significant as it indicates potential attempts
+  to evade logging and monitoring, which is crucial for maintaining visibility into
+  AWS activities. If confirmed malicious, this could allow attackers to hide their
+  tracks, making it difficult to detect further malicious actions or investigate incidents
+  within the compromised AWS environment.
+data_source:
 - AWS CloudTrail DeleteLogGroup
 search: '`cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com
   userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
@@ -61,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/aws_cloudtrail_events.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail
     update_timestamp: true

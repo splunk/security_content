@@ -1,14 +1,18 @@
 name: Windows Process Injection With Public Source Path
 id: 492f09cf-5d60-4d87-99dd-0bc325532dda
-version: 1
-date: '2022-08-24'
+version: 2
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a process in a non-standard file path
-  on Windows attempting to create a remote thread into a process. This Windows API,CreateRemoteThread,
-  is commonly used by adversaries for process injection to evade detections or gain
-  privilege escalation.
+description: The following analytic detects a process from a non-standard file path
+  on Windows attempting to create a remote thread in another process. This is identified
+  using Sysmon EventCode 8, focusing on processes not originating from typical system
+  directories. This behavior is significant as it often indicates process injection,
+  a technique used by adversaries to evade detection or escalate privileges. If confirmed
+  malicious, this activity could allow an attacker to execute arbitrary code within
+  another process, potentially leading to unauthorized actions and further compromise
+  of the system.
 data_source:
 - Sysmon EventID 8
 search: '`sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*",
@@ -70,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/create_remote_thread/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/create_remote_thread/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,21 +1,21 @@
 name: Suspicious Event Log Service Behavior
 id: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic utilizes Windows Event ID 1100 to identify when
-  Windows event log service is shutdown. Note that this is a voluminous analytic that
-  will require tuning or restricted to specific endpoints based on criticality. This
-  event generates every time Windows Event Log service has shut down. It also generates
-  during normal system shutdown. During triage, based on time of day and user, determine
-  if this was planned. If not planned, follow through with reviewing parallel alerts
-  and other data sources to determine what else may have occurred.
+description: The following analytic detects the shutdown of the Windows Event Log
+  service using Windows Event ID 1100. This event is logged every time the service
+  stops, including during normal system shutdowns. Monitoring this activity is crucial
+  as it can indicate attempts to cover tracks or disable logging. If confirmed malicious,
+  an attacker could hide their activities, making it difficult to trace their actions
+  and investigate further incidents. Analysts should verify if the shutdown was planned
+  and review other alerts and data sources for additional suspicious behavior.
 data_source:
 - Windows Event Log Security 1100
-search: '(`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime max(_time) as lastTime by dest name EventCode 
-  | `security_content_ctime(firstTime)` 
+search: '(`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime
+  max(_time) as lastTime by dest name EventCode | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `suspicious_event_log_service_behavior_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
@@ -56,6 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_event_log_service_behavior/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_event_log_service_behavior/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

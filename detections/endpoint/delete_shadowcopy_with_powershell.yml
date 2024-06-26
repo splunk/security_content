@@ -1,21 +1,24 @@
 name: Delete ShadowCopy With PowerShell
 id: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
-version: 2
-date: '2022-05-02'
+version: 3
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This following analytic detects PowerShell command to delete shadow copy
-  using the WMIC PowerShell module. This technique was seen used by a recent adversary
-  to deploy DarkSide Ransomware where it executed a child process of PowerShell to
-  execute a hex encoded command to delete shadow copy. This hex encoded command was
-  able to be decrypted by PowerShell log.
+description: The following analytic detects the use of PowerShell to delete shadow
+  copies via the WMIC PowerShell module. It leverages EventCode 4104 and searches
+  for specific keywords like "ShadowCopy," "Delete," or "Remove" within the ScriptBlockText.
+  This activity is significant because deleting shadow copies is a common tactic used
+  by ransomware, such as DarkSide, to prevent data recovery. If confirmed malicious,
+  this action could lead to irreversible data loss and hinder recovery efforts, significantly
+  impacting business continuity and data integrity.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText= "*ShadowCopy*" (ScriptBlockText
   = "*Delete*" OR ScriptBlockText = "*Remove*") | stats count min(_time) as firstTime
-  max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText |rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `delete_shadowcopy_with_powershell_filter`'
+  max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText |rename
+  Computer as dest |rename UserID as user | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `delete_shadowcopy_with_powershell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
@@ -61,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

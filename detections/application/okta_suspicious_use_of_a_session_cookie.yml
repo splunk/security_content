@@ -1,31 +1,34 @@
 name: Okta Suspicious Use of a Session Cookie
 id: 71ad47d1-d6bd-4e0a-b35c-020ad9a6959e
-version: 2
-date: '2024-03-17'
+version: 3
+date: '2024-05-29'
 author: Scott Dermott, Felicity Robson, Okta, Michael Haag, Bhavin Patel, Splunk
 type: Anomaly
 status: production
 data_source: []
-description: 'The following analytic looks for one or more policy evaluation events in which multiple client values (IP, User Agent, etc.) change associated to the same Device Token for a specific user. A detection opportunity arises when an adversary attempts to reuse a stolen web session cookie. 
-
-  * Retrieves policy evaluation events from successful authentication events. 
-
-  * Aggregates/Groups by Device Token and User, providing the first policy evaluation event in the search window. 
-
-  * It checks for the presence of more than one IP and whether there are multiple OS or browsers for each User/Device Token combination.'
-search: '`okta` eventType IN (policy.evaluate_sign_on) outcome.result IN
-  (ALLOW, SUCCESS) | stats earliest(_time) as _time, values(client.ipAddress) as src_ip,
-  values(client.userAgent.rawUserAgent) as user_agent, values(client.userAgent.os) as
-  userAgentOS_list, values(client.geographicalContext.city) as city, values(client.userAgent.browser) as userAgentBrowser_list,
-  values(device.os_platform) as okta_device_os, dc(client.userAgent.browser) as dc_userAgentBrowser,
-  dc(client.userAgent.os) as dc_userAgentOS, dc(client.ipAddress) as dc_src_ip,
-  values(outcome.reason) as reason by debugContext.debugData.dtHash, user
-  | where dc_src_ip>1 AND (dc_userAgentOS>1 OR dc_userAgentBrowser>1)
-  | `okta_suspicious_use_of_a_session_cookie_filter`'
-how_to_implement: This detection utilizes logs from Okta Identity Management (IM) environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: False positives may occur, depending on the organization's size and the configuration of Okta. 
+description: 'The following analytic identifies suspicious use of a session cookie
+  by detecting multiple client values (IP, User Agent, etc.) changing for the same
+  Device Token associated with a specific user. It leverages policy evaluation events
+  from successful authentication logs in Okta. This activity is significant as it
+  may indicate an adversary attempting to reuse a stolen web session cookie, potentially
+  bypassing authentication mechanisms. If confirmed malicious, this could allow unauthorized
+  access to user accounts, leading to data breaches or further exploitation within
+  the environment.'
+search: '`okta` eventType IN (policy.evaluate_sign_on) outcome.result IN (ALLOW, SUCCESS)
+  | stats earliest(_time) as _time, values(client.ipAddress) as src_ip, values(client.userAgent.rawUserAgent)
+  as user_agent, values(client.userAgent.os) as userAgentOS_list, values(client.geographicalContext.city)
+  as city, values(client.userAgent.browser) as userAgentBrowser_list, values(device.os_platform)
+  as okta_device_os, dc(client.userAgent.browser) as dc_userAgentBrowser, dc(client.userAgent.os)
+  as dc_userAgentOS, dc(client.ipAddress) as dc_src_ip, values(outcome.reason) as
+  reason by debugContext.debugData.dtHash, user | where dc_src_ip>1 AND (dc_userAgentOS>1
+  OR dc_userAgentBrowser>1) | `okta_suspicious_use_of_a_session_cookie_filter`'
+how_to_implement: This detection utilizes logs from Okta Identity Management (IM)
+  environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on
+  for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: False positives may occur, depending on the organization's
+  size and the configuration of Okta.
 references:
-  - https://attack.mitre.org/techniques/T1539/
+- https://attack.mitre.org/techniques/T1539/
 tags:
   analytic_story:
   - Suspicious Okta Activity
@@ -33,7 +36,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 70
   impact: 80
-  message: A user [$user$] is attempting to use a session cookie from multiple IP addresses or devices. Investigate further to determine if this was authorized.
+  message: A user [$user$] is attempting to use a session cookie from multiple IP
+    addresses or devices. Investigate further to determine if this was authorized.
   mitre_attack_id:
   - T1539
   observable:
@@ -60,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1539/okta_web_session_multiple_ip/okta_web_session_multiple_ip.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1539/okta_web_session_multiple_ip/okta_web_session_multiple_ip.log
     source: Okta
     sourcetype: OktaIM2:log

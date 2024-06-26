@@ -1,17 +1,19 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 9
-date: '2023-12-27'
+version: 10
+date: '2024-05-25'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
-description: The search looks for modifications or alterations made to registry keys
-  that have the potential to initiate the launch of an application or service during
-  system startup. By monitoring and detecting modifications in these registry keys,
-  we can identify suspicious or unauthorized changes that could be indicative of malicious
-  activity. This proactive approach helps in safeguarding the system's integrity and
-  security by promptly identifying and mitigating potential threats that aim to gain
-  persistence or execute malicious actions during the startup process.
+description: The following analytic identifies modifications to registry keys commonly
+  used for persistence mechanisms. It leverages data from endpoint detection sources
+  like Sysmon or Carbon Black, focusing on specific registry paths known to initiate
+  applications or services during system startup. This activity is significant as
+  unauthorized changes to these keys can indicate attempts to maintain persistence
+  or execute malicious actions upon system boot. If confirmed malicious, this could
+  allow attackers to achieve persistent access, execute arbitrary code, or maintain
+  control over compromised systems, posing a severe threat to system integrity and
+  security.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -105,6 +107,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,19 +1,18 @@
 name: Windows Schtasks Create Run As System
 id: 41a0e58e-884c-11ec-9976-acde48001122
-version: 1
-date: '2022-02-07'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of a new task to start
-  and run as an elevated user - SYSTEM using Schtasks.exe. This behavior is commonly
-  used by adversaries to spawn a process in an elevated state. If a true positive
-  is found, it suggests an attacker is attempting to persist within the environment
-  or potentially deliver additional malicious payloads, leading to data theft, ransomware,
-  or other damaging outcomes. Upon triage, review the scheduled task's source and
-  the command to be executed. Capture and inspect any relevant on-disk artifacts,
-  and look for concurrent processes to identify the attack source. This approach helps
-  analysts detect potential threats earlier and mitigate the risks.
+description: The following analytic detects the creation of a new scheduled task using
+  Schtasks.exe to run as the SYSTEM user. This detection leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on command-line executions and process
+  details. This activity is significant as it often indicates an attempt to gain elevated
+  privileges or maintain persistence within the environment. If confirmed malicious,
+  an attacker could execute code with SYSTEM-level privileges, potentially leading
+  to data theft, ransomware deployment, or further system compromise. Immediate investigation
+  and mitigation are crucial to prevent further damage.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -82,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_system/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_system/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

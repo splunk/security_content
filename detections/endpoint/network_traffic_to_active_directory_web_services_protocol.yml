@@ -1,16 +1,23 @@
 name: Network Traffic to Active Directory Web Services Protocol
 id: 68a0056c-34cb-455f-b03d-df935ea62c4f
-version: 2
-date: '2024-03-14'
+version: 3
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
 data_source:
 - Sysmon EventID 3
-description: The following analytic identifies network traffic to Active Directory
-  Web Services Protocol. This protocol is used to manage Active Directory. The analytic is meant to be tuned and filtered to the specific environment. It will assist defenders in identifying suspicious processes accessing port 9389. 
-search: '| tstats count from datamodel=Network_Traffic where All_Traffic.dest_port=9389 by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.app, All_Traffic.user, All_Traffic.dest_port
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `network_traffic_to_active_directory_web_services_protocol_filter`'
+description: The following analytic identifies network traffic directed to the Active
+  Directory Web Services Protocol (ADWS) on port 9389. It leverages network traffic
+  logs, focusing on source and destination IP addresses, application names, and destination
+  ports. This activity is significant as ADWS is used to manage Active Directory,
+  and unauthorized access could indicate malicious intent. If confirmed malicious,
+  an attacker could manipulate Active Directory, potentially leading to privilege
+  escalation, unauthorized access, or persistent control over the environment.
+search: '| tstats count from datamodel=Network_Traffic where All_Traffic.dest_port=9389
+  by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.app, All_Traffic.user, All_Traffic.dest_port
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")`
+  | `network_traffic_to_active_directory_web_services_protocol_filter`'
 how_to_implement: The detection is based on data that originates from network traffic
   logs. The logs must contain the source and destination IP addresses, the application
   name, and the destination port. The logs must be processed using the appropriate
@@ -18,8 +25,10 @@ how_to_implement: The detection is based on data that originates from network tr
   The logs must also be mapped to the `Network_Traffic` data model. Use the Splunk
   Common Information Model (CIM) to normalize the field names and speed up the data
   modeling process.
-known_false_positives: False positives should be limited as the destination port
-  is specific to Active Directory Web Services Protocol, however we recommend utilizing this analytic to hunt for non-standard processes querying the ADWS port. Filter by App or dest_ip to AD servers and remove known proceses querying ADWS.
+known_false_positives: False positives should be limited as the destination port is
+  specific to Active Directory Web Services Protocol, however we recommend utilizing
+  this analytic to hunt for non-standard processes querying the ADWS port. Filter
+  by App or dest_ip to AD servers and remove known proceses querying ADWS.
 references:
 - https://github.com/FalconForceTeam/SOAPHound
 tags:
@@ -29,7 +38,8 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 20
-  message: Network traffic to Active Directory Web Services Protocol was identified on $dest_ip$ by $src_ip$.
+  message: Network traffic to Active Directory Web Services Protocol was identified
+    on $dest_ip$ by $src_ip$.
   mitre_attack_id:
   - T1087.002
   - T1069.001
@@ -62,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/soaphound/sysmon_soaphound.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/soaphound/sysmon_soaphound.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

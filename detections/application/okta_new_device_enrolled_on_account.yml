@@ -1,20 +1,28 @@
 name: Okta New Device Enrolled on Account
 id: bb27cbce-d4de-432c-932f-2e206e9130fb
-version: 2
-date: '2024-03-08'
+version: 3
+date: '2024-05-24'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies when a new device is enrolled on an Okta account. This behavior is indicative of a user adding a new device to their account. This activity is common when a user is setting up a new device or when a user has lost access to their previous device. However, this activity can also be indicative of an adversary adding a new device to an account to maintain access to an account. Monitoring for this activity can help detect potential account takeover attempts or unauthorized access to Okta accounts.
+description: The following analytic identifies when a new device is enrolled on an
+  Okta account. It uses OktaIm2 logs ingested via the Splunk Add-on for Okta Identity
+  Cloud to detect the creation of new device enrollments. This activity is significant
+  as it may indicate a legitimate user setting up a new device or an adversary adding
+  a device to maintain unauthorized access. If confirmed malicious, this could lead
+  to potential account takeover, unauthorized access, and persistent control over
+  the compromised Okta account. Monitoring this behavior is crucial for detecting
+  and mitigating unauthorized access attempts.
 data_source: []
-search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime
-  from datamodel=Change where All_Changes.action=created All_Changes.command=device.enrollment.create by _time span=5m All_Changes.user All_Changes.result All_Changes.command sourcetype All_Changes.src All_Changes.action All_Changes.object_category
-  | `drop_dm_object_name("All_Changes")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `okta_new_device_enrolled_on_account_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: It is possible that the user has legitimately added a new device to their account. Please verify this activity.
+search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+  min(_time) as firstTime from datamodel=Change where All_Changes.action=created All_Changes.command=device.enrollment.create
+  by _time span=5m All_Changes.user All_Changes.result All_Changes.command sourcetype
+  All_Changes.src All_Changes.action All_Changes.object_category | `drop_dm_object_name("All_Changes")`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_new_device_enrolled_on_account_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
+  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: It is possible that the user has legitimately added a new device
+  to their account. Please verify this activity.
 references:
 - https://attack.mitre.org/techniques/T1098/005/
 - https://developer.okta.com/docs/reference/api/event-types/?q=device.enrollment.create
@@ -24,7 +32,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 60
   impact: 40
-  message: A new device was enrolled on an Okta account for user [$user$]. Investigate further to determine if this was authorized.
+  message: A new device was enrolled on an Okta account for user [$user$]. Investigate
+    further to determine if this was authorized.
   mitre_attack_id:
   - T1098
   - T1098.005
@@ -51,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/okta_new_device_enrolled/okta_new_device_enrolled.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/okta_new_device_enrolled/okta_new_device_enrolled.log
     source: Okta
     sourcetype: OktaIM2:log

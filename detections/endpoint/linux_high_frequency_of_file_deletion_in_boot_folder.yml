@@ -1,24 +1,25 @@
 name: Linux High Frequency Of File Deletion In Boot Folder
 id: e27fbc5d-0445-4c4a-bc39-87f060d5c602
-version: 2
-date: '2023-04-27'
+version: 3
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a high frequency of file deletion relative
-  to process name and process id /boot/ folder. These events was seen in industroyer2
-  wiper malware where it tries to delete all files in a critical directory in linux
-  directory. This detection already contains some filter that might cause false positive
-  during our testing.
+description: The following analytic detects a high frequency of file deletions in
+  the /boot/ folder on Linux systems. It leverages filesystem event logs to identify
+  when 200 or more files are deleted within an hour by the same process. This behavior
+  is significant as it may indicate the presence of wiper malware, such as Industroyer2,
+  which targets critical system directories. If confirmed malicious, this activity
+  could lead to system instability or failure, hindering the boot process and potentially
+  causing a complete system compromise.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` values(Filesystem.file_name) as
   deletedFileNames values(Filesystem.file_path) as deletedFilePath dc(Filesystem.file_path)
   as numOfDelFilePath count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
   where Filesystem.action=deleted Filesystem.file_path = "/boot/*" by _time span=1h  Filesystem.dest
-  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)` | where  numOfDelFilePath >= 200 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)` |
+  where  numOfDelFilePath >= 200 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_high_frequency_of_file_deletion_in_boot_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -63,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/rm_boot_dir/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/rm_boot_dir/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

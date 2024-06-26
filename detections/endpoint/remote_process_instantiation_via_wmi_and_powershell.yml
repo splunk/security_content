@@ -1,14 +1,17 @@
 name: Remote Process Instantiation via WMI and PowerShell
 id: 112638b4-4634-11ec-b9ab-3e22fbd008af
-version: 1
-date: '2021-11-15'
+version: 2
+date: '2024-05-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `powershell.exe` leveraging
-  the `Invoke-WmiMethod` commandlet complemented with arguments utilized to start
-  a process on a remote endpoint by abusing WMI. Red Teams and adversaries alike may
-  abuse WMI and `powershell.exe` for lateral movement and remote code execution.
+description: The following analytic detects the execution of `powershell.exe` using
+  the `Invoke-WmiMethod` cmdlet to start a process on a remote endpoint via WMI. It
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  executions and process telemetry. This activity is significant as it indicates potential
+  lateral movement or remote code execution attempts by adversaries. If confirmed
+  malicious, this could allow attackers to execute arbitrary code on remote systems,
+  leading to further compromise and persistence within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

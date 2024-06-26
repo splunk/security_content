@@ -1,26 +1,30 @@
 name: Windows Account Discovery for None Disable User Account
 id: eddbf5ba-b89e-47ca-995e-2d259804e55e
-version: 2
-date: '2023-12-15'
+version: 3
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic utilizes PowerShell Script Block Logging to identify
-  the execution of the PowerView PowerShell commandlet Get-NetUser. In the context
-  of PowerView's Get-NetUser cmdlet as a filter or parameter to query Active Directory
-  user accounts that are not disabled. The full script block text based on the CISA-23-347A advisory is "Get-NetUser -UACFilter NOT_ACCOUNTDISABLE". Utilize this query to identify potential suspicious activity of user account enumeration.
-search: '`powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText = "*NOT_ACCOUNTDISABLE*" ScriptBlockText = "*-UACFilter*" 
-  | rename Computer as dest, UserID as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText dest user
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic detects the execution of the PowerView PowerShell
+  cmdlet Get-NetUser with the UACFilter parameter set to NOT_ACCOUNTDISABLE, indicating
+  an attempt to enumerate Active Directory user accounts that are not disabled. This
+  detection leverages PowerShell Script Block Logging (EventCode 4104) to identify
+  the specific script block text. Monitoring this activity is significant as it may
+  indicate reconnaissance efforts by an attacker to identify active user accounts
+  for further exploitation. If confirmed malicious, this activity could lead to unauthorized
+  access, privilege escalation, or lateral movement within the network.
+search: '`powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText
+  = "*NOT_ACCOUNTDISABLE*" ScriptBlockText = "*-UACFilter*" | rename Computer as dest,
+  UserID as user | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
+  ScriptBlockText dest user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_account_discovery_for_none_disable_user_account_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
-known_false_positives: Administrators may leverage PowerView for legitimate purposes, filter as needed.
+known_false_positives: Administrators may leverage PowerView for legitimate purposes,
+  filter as needed.
 references:
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
 - https://powersploit.readthedocs.io/en/stable/Recon/README/
@@ -32,7 +36,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 30
-  message: Windows Account Discovery for None Disable User Account using PowerView's Get-NetUser on $dest$.
+  message: Windows Account Discovery for None Disable User Account using PowerView's
+    Get-NetUser on $dest$.
   mitre_attack_id:
   - T1087
   - T1087.001
@@ -56,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/powerview_get_netuser_preauthnotrequire/get-netuser-not-require-pwh.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/powerview_get_netuser_preauthnotrequire/get-netuser-not-require-pwh.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

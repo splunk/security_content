@@ -1,25 +1,23 @@
 name: Access LSASS Memory for Dump Creation
 id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic detects the dumping of the LSASS process memory,
-  which occurs during credential dumping attacks.The detection is made by using Sysmon
-  logs, specifically EventCode 10, which is related to lsass.exe. This helps to search
-  for indicators of LSASS memory dumping such as specific call traces to dbgcore.dll
-  and dbghelp.dll. This detection is important because it prevents credential dumping
-  attacks and the theft of sensitive information such as login credentials, which
-  can be used to gain unauthorized access to systems and data. False positives might
-  occur due to legitimate administrative tasks. Next steps include reviewing and investigating
-  each case, given the high risk associated with potential credential dumping attacks.
+description: The following analytic detects attempts to dump the LSASS process memory,
+  a common technique in credential dumping attacks. It leverages Sysmon logs, specifically
+  EventCode 10, to identify suspicious call traces to dbgcore.dll and dbghelp.dll
+  associated with lsass.exe. This activity is significant as it often precedes the
+  theft of sensitive login credentials, posing a high risk of unauthorized access
+  to systems and data. If confirmed malicious, attackers could gain access to critical
+  credentials, enabling further compromise and lateral movement within the network.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, TargetImage,
   TargetProcessId, SourceImage, SourceProcessId  | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_filter` '
+  `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_filter`'
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
   includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`.
   We strongly recommend that you specify your environment-specific configurations
@@ -71,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

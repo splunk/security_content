@@ -1,17 +1,18 @@
 name: GCP Multiple Users Failing To Authenticate From Ip
 id: da20828e-d6fb-4ee5-afb7-d0ac200923d5
-version: 1
-date: '2022-10-12'
+version: 2
+date: '2024-05-22'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies one source Ip failing to authenticate
-  into the Google Workspace user accounts with more than 20 unique valid users within
-  5 minutes. These user accounts may have other privileges with respect to access
-  to other sensitive resources in the Google Cloud Platform. This behavior could represent
-  an adversary performing a Password Spraying attack against an Google Workspace environment
-  to obtain initial access or elevate privileges.
-data_source: 
+description: The following analytic detects a single source IP address failing to
+  authenticate into more than 20 unique Google Workspace user accounts within a 5-minute
+  window. It leverages Google Workspace login failure events to identify potential
+  password spraying attacks. This activity is significant as it may indicate an adversary
+  attempting to gain unauthorized access or elevate privileges within the Google Cloud
+  Platform. If confirmed malicious, this behavior could lead to unauthorized access
+  to sensitive resources, data breaches, or further exploitation within the environment.
+data_source:
 - Google Workspace login_failure
 search: '`gws_reports_login` event.type = login event.name = login_failure | bucket
   span=5m _time | stats count dc(user) AS unique_accounts values(user) as tried_accounts
@@ -37,7 +38,8 @@ tags:
   asset_type: Google Cloud Platform tenant
   confidence: 90
   impact: 60
-  message: 'Multiple failed login attempts (Count: $unique_accounts$) against users seen from $src$'
+  message: 'Multiple failed login attempts (Count: $unique_accounts$) against users
+    seen from $src$'
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -70,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
     source: gws_login
     sourcetype: gws:reports:login
     update_timestamp: true

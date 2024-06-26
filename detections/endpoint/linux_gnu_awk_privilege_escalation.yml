@@ -1,18 +1,17 @@
 name: Linux GNU Awk Privilege Escalation
 id: 0dcf43b9-50d8-42a6-acd9-d1c9201fe6ae
-version: 1
-date: '2022-08-09'
+version: 2
+date: '2024-05-16'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: gawk command in Linux is used for pattern scanning and processing language.
-  The awk command requires no compiling and allows the user to use variables, numeric
-  functions, string functions, and logical operators. It is a utility that enables
-  programmers to write tiny and effective programs in the form of statements that
-  define text patterns that are to be searched for, in a text document and the action
-  that is to be taken when a match is found within a line. If sudo right is given
-  to gawk tool for the user, then the user can run system commands as root and possibly
-  get a root shell.
+description: The following analytic detects the execution of the 'gawk' command with
+  elevated privileges on a Linux system. It leverages Endpoint Detection and Response
+  (EDR) telemetry to identify command-line executions where 'gawk' is used with 'sudo'
+  and 'BEGIN{system' patterns. This activity is significant because it indicates a
+  potential privilege escalation attempt, allowing a user to execute system commands
+  as root. If confirmed malicious, this could lead to full root access, enabling the
+  attacker to control the system, modify critical files, and maintain persistent access.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -77,7 +76,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/gawk/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/gawk/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

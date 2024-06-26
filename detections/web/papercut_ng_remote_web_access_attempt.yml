@@ -1,25 +1,37 @@
 name: PaperCut NG Remote Web Access Attempt
 id: 9fcb214a-dc42-4ce7-a650-f1d2cab16a6a
-version: 1
-date: '2023-05-15'
+version: 2
+date: '2024-05-23'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Suricata
-description: The following analytic is designed to detect potential exploitation attempts on publicly accessible PaperCut NG servers. It identifies connections from public IP addresses to the server and specifically monitors for URI paths commonly found in proof-of-concept (POC) scripts for exploiting PaperCut NG vulnerabilities. These URI paths have been observed in both Metasploit modules and standalone scripts used for attacking PaperCut NG servers.
-  When a public IP address is detected accessing one or more of these suspicious URI paths, an alert may be generated to notify the security team of the potential threat. The team can then investigate the source IP address, the targeted PaperCut NG server, and any other relevant information to determine the nature of the activity and take appropriate actions to mitigate the risk.
-search: '| tstats count from datamodel=Web where Web.url IN ("/app?service=page/SetupCompleted", "/app", "/app?service=page/PrinterList", "/app?service=direct/1/PrinterList/selectPrinter&sp=*", "/app?service=direct/1/PrinterDetails/printerOptionsTab.tab") NOT (src IN ("10.*.*.*","172.16.*.*", "192.168.*.*", "169.254.*.*", "127.*.*.*", "fc00::*", "fd00::*", "fe80::*")) by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest Web.dest_port sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
+description: The following analytic detects potential exploitation attempts on publicly
+  accessible PaperCut NG servers. It identifies connections from public IP addresses
+  to the server, specifically monitoring URI paths commonly used in proof-of-concept
+  scripts for exploiting PaperCut NG vulnerabilities. This detection leverages web
+  traffic data from the `Web` datamodel, focusing on specific URI paths and excluding
+  internal IP ranges. This activity is significant as it may indicate an attempt to
+  exploit known vulnerabilities in PaperCut NG, potentially leading to unauthorized
+  access or control of the server. If confirmed malicious, attackers could gain administrative
+  access, leading to data breaches or further network compromise.
+search: '| tstats count from datamodel=Web where Web.url IN ("/app?service=page/SetupCompleted",
+  "/app", "/app?service=page/PrinterList", "/app?service=direct/1/PrinterList/selectPrinter&sp=*",
+  "/app?service=direct/1/PrinterDetails/printerOptionsTab.tab") NOT (src IN ("10.*.*.*","172.16.*.*",
+  "192.168.*.*", "169.254.*.*", "127.*.*.*", "fc00::*", "fd00::*", "fe80::*")) by
+  Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest Web.dest_port
+  sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `papercut_ng_remote_web_access_attempt_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on Web traffic that include fields relavent for traffic into the `Web` datamodel.
 known_false_positives: False positives may be present, filter as needed.
 references:
-  - https://www.cisa.gov/news-events/alerts/2023/05/11/cisa-and-fbi-release-joint-advisory-response-active-exploitation-papercut-vulnerability
-  - https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
-  - https://www.horizon3.ai/papercut-cve-2023-27350-deep-dive-and-indicators-of-compromise/
-  - https://www.bleepingcomputer.com/news/security/hackers-actively-exploit-critical-rce-bug-in-papercut-servers/
-  - https://www.huntress.com/blog/critical-vulnerabilities-in-papercut-print-management-software
+- https://www.cisa.gov/news-events/alerts/2023/05/11/cisa-and-fbi-release-joint-advisory-response-active-exploitation-papercut-vulnerability
+- https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
+- https://www.horizon3.ai/papercut-cve-2023-27350-deep-dive-and-indicators-of-compromise/
+- https://www.bleepingcomputer.com/news/security/hackers-actively-exploit-critical-rce-bug-in-papercut-servers/
+- https://www.huntress.com/blog/critical-vulnerabilities-in-papercut-print-management-software
 tags:
   analytic_story:
   - PaperCut MF NG Vulnerability
@@ -54,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/papercutng-suricata.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/papercut/papercutng-suricata.log
     source: suricata
     sourcetype: suricata

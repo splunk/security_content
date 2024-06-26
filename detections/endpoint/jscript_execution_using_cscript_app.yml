@@ -1,15 +1,17 @@
 name: Jscript Execution Using Cscript App
 id: 002f1e24-146e-11ec-a470-acde48001122
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a execution of jscript using cscript process.
-  Commonly when a user run jscript file it was executed by wscript.exe application.
-  This technique was seen in FIN7 js implant to execute its malicious script using
-  cscript process. This behavior is uncommon and a good artifacts to check further
-  anomalies within the network
+description: The following analytic detects the execution of JScript using the cscript.exe
+  process. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process and command-line telemetry. This behavior is significant because JScript
+  files are typically executed by wscript.exe, making cscript.exe execution unusual
+  and potentially indicative of malicious activity, such as the FIN7 group's tactics.
+  If confirmed malicious, this activity could allow attackers to execute arbitrary
+  scripts, leading to code execution, data exfiltration, or further system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

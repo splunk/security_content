@@ -1,26 +1,22 @@
 name: Kerberos TGT Request Using RC4 Encryption
 id: 18916468-9c04-11ec-bdc6-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic leverages Event 4768, A Kerberos authentication
-  ticket (TGT) was requested, to identify a TGT request with encryption type 0x17,
-  or RC4-HMAC. This encryption type is no longer utilized by newer systems and could
-  represent evidence of an OverPass The Hash attack. Similar to Pass The Hash, OverPass
-  The Hash is a form of credential theft that allows adversaries to move laterally
-  or consume resources in a target network. Leveraging this attack, an adversary who
-  has stolen the NTLM hash of a valid domain account is able to authenticate to the
-  Kerberos Distribution Center(KDC) on behalf of the legitimate account and obtain
-  a Kerberos TGT ticket. Depending on the privileges of the compromised account, this
-  ticket may be used to obtain unauthorized access to systems and other network resources.
+description: The following analytic detects a Kerberos Ticket Granting Ticket (TGT)
+  request using RC4-HMAC encryption (type 0x17) by leveraging Event 4768. This encryption
+  type is outdated and its presence may indicate an OverPass The Hash attack. Monitoring
+  this activity is crucial as it can signify credential theft, allowing adversaries
+  to authenticate to the Kerberos Distribution Center (KDC) using a stolen NTLM hash.
+  If confirmed malicious, this could enable unauthorized access to systems and resources,
+  potentially leading to lateral movement and further compromise within the network.
 data_source:
 - Windows Event Log Security 4768
-search: ' `wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$ 
-  | stats count min(_time) as firstTime max(_time) as lastTime by ServiceName src_ip dest 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+search: ' `wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$
+  | stats count min(_time) as firstTime max(_time) as lastTime by ServiceName src_ip
+  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `kerberos_tgt_request_using_rc4_encryption_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
@@ -61,6 +57,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/kerberos_tgt_request_using_rc4_encryption/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/kerberos_tgt_request_using_rc4_encryption/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

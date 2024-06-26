@@ -1,15 +1,17 @@
 name: GetWmiObject Ds Computer with PowerShell Script Block
 id: 29b99201-723c-4118-847a-db2b3d3fb8ea
-version: 2
-date: '2022-05-02'
+version: 3
+date: '2024-05-29'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-WmiObject` commandlet. The `DS_Computer` class
-  parameter leverages WMI to query for all domain computers. Red Teams and adversaries
-  may leverage this commandlet to enumerate domain computers for situational awareness
-  and Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-WmiObject` cmdlet
+  with the `DS_Computer` class parameter via PowerShell Script Block Logging (EventCode=4104).
+  This detection leverages script block text to identify queries targeting domain
+  computers using WMI. Monitoring this activity is crucial as adversaries and Red
+  Teams may use it for Active Directory Discovery and situational awareness. If confirmed
+  malicious, this behavior could allow attackers to map out domain computers, facilitating
+  further attacks such as lateral movement or privilege escalation.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace
@@ -54,6 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

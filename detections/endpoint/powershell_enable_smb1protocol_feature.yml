@@ -1,14 +1,17 @@
 name: Powershell Enable SMB1Protocol Feature
 id: afed80b2-d34b-11eb-a952-acde48001122
-version: 2
-date: '2023-04-14'
+version: 3
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious enabling of smb1protocol through
-  `powershell.exe`. This technique was seen in some ransomware (like reddot) where
-  it enable smb share to do the lateral movement and encrypt other files within the
-  compromise network system.
+description: The following analytic detects the enabling of the SMB1 protocol via
+  `powershell.exe`. It leverages PowerShell script block logging (EventCode 4104)
+  to identify the execution of the `Enable-WindowsOptionalFeature` cmdlet with the
+  `SMB1Protocol` parameter. This activity is significant because enabling SMB1 can
+  facilitate lateral movement and file encryption by ransomware, such as RedDot. If
+  confirmed malicious, this action could allow an attacker to propagate through the
+  network, encrypt files, and potentially disrupt business operations.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*"
@@ -55,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

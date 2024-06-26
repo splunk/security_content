@@ -1,23 +1,26 @@
 name: Monitor Registry Keys for Print Monitors
 id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
-version: 5
-date: '2023-04-27'
+version: 6
+date: '2024-05-29'
 author: Steven Dick, Bhavin Patel, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search looks for registry activity associated with modifications
-  to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this
-  scenario, an attacker can load an arbitrary .dll into the print-monitor registry
-  by giving the full path name to the after.dll. The system will execute the .dll
-  with elevated (SYSTEM) permissions and will persist after reboot.
+description: The following analytic detects modifications to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`.
+  It leverages data from the Endpoint.Registry data model, focusing on events where
+  the registry path is modified. This activity is significant because attackers can
+  exploit this registry key to load arbitrary .dll files, which will execute with
+  elevated SYSTEM permissions and persist after a reboot. If confirmed malicious,
+  this could allow attackers to maintain persistence, execute code with high privileges,
+  and potentially compromise the entire system.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.action=modified AND Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*")
-  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `monitor_registry_keys_for_print_monitors_filter`'
+  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `monitor_registry_keys_for_print_monitors_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -59,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

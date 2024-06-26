@@ -1,23 +1,23 @@
 name: Windows Archive Collected Data via Powershell
 id: 74c5a3b0-27a7-463c-9d00-1a5bb12cb7b5
-version: 1
-date: '2023-12-19'
+version: 2
+date: '2024-05-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic identifies suspicious PowerShell script that archive files to a temp folder. 
-  This anomaly detection serves as a valuable indicator to uncover threats from adversaries utilizing PowerShell scripts 
-  for data archiving purposes. Identifying this method becomes pivotal in flagging and investigating potential threats, 
-  enabling proactive measures threat actors leveraging similar PowerShell-based data collection and archiving techniques.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Compress-Archive*"  ScriptBlockText = "*\\Temp\\*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
-  | rename Computer as dest 
-  | rename UserID as user 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_archive_collected_data_via_powershell_filter`'
+description: The following analytic detects the use of PowerShell scripts to archive
+  files into a temporary folder. It leverages PowerShell Script Block Logging, specifically
+  monitoring for the `Compress-Archive` command targeting the `Temp` directory. This
+  activity is significant as it may indicate an adversary's attempt to collect and
+  compress data for exfiltration. If confirmed malicious, this behavior could lead
+  to unauthorized data access and exfiltration, posing a severe risk to sensitive
+  information and overall network security.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Compress-Archive*"  ScriptBlockText
+  = "*\\Temp\\*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
+  ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_archive_collected_data_via_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -54,6 +54,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560/powershell_archive/powershell_archive.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560/powershell_archive/powershell_archive.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -1,17 +1,19 @@
 name: AWS Defense Evasion Update Cloudtrail
 id: 7c921d28-ef48-4f1b-85b3-0af8af7697db
-version: 1
-date: '2022-07-17'
+version: 2
+date: '2024-05-17'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: This analytic identifies `UpdateTrail` events in CloudTrail logs. Attackers
-  may evade the logging capability by updating the settings and impairing them with
-  wrong parameters. For example, Attackers may change the multi-regional log into
-  a single region logs, which evades the logging for other regions. When the adversary
-  has the right type of permissions in the compromised AWS environment, they may update
-  the CloudTrail settings that is logging activities in your environment.
-data_source: 
+description: The following analytic detects `UpdateTrail` events in AWS CloudTrail
+  logs. It identifies attempts to modify CloudTrail settings, potentially to evade
+  logging. The detection leverages CloudTrail logs, focusing on `UpdateTrail` events
+  where the user agent is not the AWS console and the operation is successful. This
+  activity is significant because altering CloudTrail settings can disable or limit
+  logging, hindering visibility into AWS account activities. If confirmed malicious,
+  this could allow attackers to operate undetected, compromising the integrity and
+  security of the AWS environment.
+data_source:
 - AWS CloudTrail UpdateTrail
 search: '`cloudtrail` eventName = UpdateTrail eventSource = cloudtrail.amazonaws.com
   userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
@@ -62,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/update_cloudtrail/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/update_cloudtrail/aws_cloudtrail_events.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail
     update_timestamp: true

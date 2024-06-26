@@ -1,16 +1,18 @@
 name: Get-ForestTrust with PowerShell
 id: 584f4884-0bf1-11ec-a5ec-acde48001122
-version: 1
-date: '2021-09-02'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This analytic identifies Get-ForestTrust from PowerSploit in order to
-  gather domain trust information. Typically, this is utilized within a script being
-  executed and used to enumerate the domain trust information. This grants the adversary
-  an understanding of how large or small the domain is. During triage, review parallel
-  processes using an EDR product or 4688 events. It will be important to understand
-  the timeline of events around this activity.
+description: The following analytic detects the execution of the Get-ForestTrust command
+  via PowerShell, commonly used by adversaries to gather domain trust information.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and command-line executions. Identifying this activity
+  is crucial as it indicates potential reconnaissance efforts to map out domain trusts,
+  which can inform further attacks. If confirmed malicious, this activity could allow
+  attackers to understand domain relationships, aiding in lateral movement and privilege
+  escalation within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

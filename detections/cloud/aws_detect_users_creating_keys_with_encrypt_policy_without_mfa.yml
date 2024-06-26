@@ -1,15 +1,19 @@
 name: AWS Detect Users creating keys with encrypt policy without MFA
 id: c79c164f-4b21-4847-98f9-cf6a9f49179e
-version: 1
-date: '2021-01-11'
+version: 2
+date: '2024-05-28'
 author: Rod Soto, Patrick Bareiss Splunk
 status: production
 type: TTP
-description: This search provides detection of KMS keys where action kms:Encrypt is
-  accessible for everyone (also outside of your organization). This is an indicator
-  that your account is compromised and the attacker uses the encryption key to compromise
-  another company.
-data_source: 
+description: The following analytic detects the creation of AWS KMS keys with an encryption
+  policy accessible to everyone, including external entities. It leverages AWS CloudTrail
+  logs to identify `CreateKey` or `PutKeyPolicy` events where the `kms:Encrypt` action
+  is granted to all principals. This activity is significant as it may indicate a
+  compromised account, allowing an attacker to misuse the encryption key to target
+  other organizations. If confirmed malicious, this could lead to unauthorized data
+  encryption, potentially disrupting operations and compromising sensitive information
+  across multiple entities.
+data_source:
 - AWS CloudTrail CreateKey
 - AWS CloudTrail PutKeyPolicy
 search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath input=requestParameters.policy
@@ -34,8 +38,8 @@ tags:
   asset_type: AWS Account
   confidence: 50
   impact: 50
-  message: AWS account is potentially compromised and user $user$
-    is trying to compromise other accounts.
+  message: AWS account is potentially compromised and user $user$ is trying to compromise
+    other accounts.
   mitre_attack_id:
   - T1486
   observable:
@@ -60,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

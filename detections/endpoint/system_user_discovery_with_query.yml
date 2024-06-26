@@ -1,14 +1,17 @@
 name: System User Discovery With Query
 id: ad03bfcf-8a91-4bc2-a500-112993deba87
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2024-05-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `query.exe` with command-line
-  arguments utilized to discover the logged user. Red Teams and adversaries alike
-  may leverage `query.exe` to identify system users on a compromised endpoint for
-  situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `query.exe` with command-line
+  arguments aimed at discovering logged-in users. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names and command-line
+  executions. This activity is significant as adversaries may use `query.exe` to gain
+  situational awareness and perform Active Directory discovery on compromised endpoints.
+  If confirmed malicious, this behavior could allow attackers to identify active users,
+  aiding in further lateral movement and privilege escalation within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -65,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

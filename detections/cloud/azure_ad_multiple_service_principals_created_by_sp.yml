@@ -1,29 +1,33 @@
 name: Azure AD Multiple Service Principals Created by SP
 id: 66cb378f-234d-4fe1-bb4c-e7878ff6b017
-version: 1
-date: '2024-02-07'
+version: 2
+date: '2024-05-13'
 author: Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - Azure Active Directory Add service principal
 type: Anomaly
 status: production
-description: This detection identifies when a single service principal in Azure AD creates more than three unique OAuth applications within a 10-minute span, potentially signaling malicious activity. It monitors the 'Add service principal' operation, focusing on the activity of service principals rather than individual users. By aggregating the creation events over a 10-minute period, the analytic tracks how many distinct OAuth applications are created by each service principal. This is key for SOC teams to pinpoint potential attack staging, where an attacker might use a compromised or malicious service principal to rapidly establish multiple service principals, facilitating network infiltration or expansion. While the default threshold is set to trigger on more than three applications, security teams should adjust this to fit their specific environment's norm
+description: The following analytic detects when a single service principal in Azure
+  AD creates more than three unique OAuth applications within a 10-minute span. It
+  leverages Azure AD audit logs, specifically monitoring the 'Add service principal'
+  operation initiated by service principals. This behavior is significant as it may
+  indicate an attacker using a compromised or malicious service principal to rapidly
+  establish multiple service principals, potentially staging an attack. If confirmed
+  malicious, this activity could facilitate network infiltration or expansion, allowing
+  the attacker to gain unauthorized access and persist within the environment.
 search: ' `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.app.appId=*
-  | rename properties.* as * 
-  | bucket span=10m _time
-  | rename targetResources{}.displayName as displayName
-  | rename targetResources{}.type as type
-  | rename initiatedBy.app.displayName as src_user
-  | stats min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName dc(displayName) as unique_apps by src_user
-  | where unique_apps > 3
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_multiple_service_principals_created_by_sp_filter`'
+  | rename properties.* as * | bucket span=10m _time | rename targetResources{}.displayName
+  as displayName | rename targetResources{}.type as type | rename initiatedBy.app.displayName
+  as src_user | stats min(_time) as firstTime max(_time) as lastTime values(displayName)
+  as displayName dc(displayName) as unique_apps by src_user | where unique_apps >
+  3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_multiple_service_principals_created_by_sp_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
-known_false_positives: Certain users or applications may create multiple service principals in a short period of time for legitimate purposes. Filter as needed.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the AuditLogs log category.
+known_false_positives: Certain users or applications may create multiple service principals
+  in a short period of time for legitimate purposes. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1136/003/
 - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
@@ -34,7 +38,8 @@ tags:
   asset_type: Azure Active Directory
   confidence: 60
   impact: 70
-  message: Multiple OAuth applications were created by $src_user$ in a short period of time
+  message: Multiple OAuth applications were created by $src_user$ in a short period
+    of time
   mitre_attack_id:
   - T1136.003
   observable:
@@ -53,7 +58,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_multiple_service_principals_created/azure_ad_multiple_service_principals_created.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_multiple_service_principals_created/azure_ad_multiple_service_principals_created.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

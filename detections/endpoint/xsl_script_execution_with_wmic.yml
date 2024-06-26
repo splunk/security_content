@@ -1,15 +1,18 @@
 name: XSL Script Execution With WMIC
 id: 004e32e2-146d-11ec-a83f-acde48001122
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious wmic.exe process or renamed wmic
-  process to execute malicious xsl file. This technique was seen in FIN7 to execute
-  its malicous jscript using the .xsl as the loader with the help of wmic.exe process.
-  This TTP is really a good indicator for you to hunt further for FIN7 or other attacker
-  that known to used this technique.
+description: The following analytic detects the execution of an XSL script using the
+  WMIC process, which is often indicative of malicious activity. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on command-line executions
+  involving WMIC and XSL files. This behavior is significant as it has been associated
+  with the FIN7 group, known for using this technique to execute malicious scripts.
+  If confirmed malicious, this activity could allow attackers to execute arbitrary
+  code, potentially leading to system compromise and further malicious actions within
+  the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

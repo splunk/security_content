@@ -1,16 +1,18 @@
 name: Wmic NonInteractive App Uninstallation
 id: bff0e7a0-317f-11ec-ab4e-acde48001122
-version: 2
-date: '2022-07-19'
+version: 3
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic indentifies WMIC command-line attempting to uninstall application
-  non-interactively. This technique was seen in IcedID to uninstall AV products on
-  the compromised host to evade detection. This Hunting query maybe a good indicator
-  that some process tries to uninstall application using wmic which is not a common
-  behavior. This approach may seen in some script or third part appication to uninstall
-  their application but it is a good thing to check what it uninstall and why.
+description: The following analytic identifies the use of the WMIC command-line tool
+  attempting to uninstall applications non-interactively. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on specific command-line patterns
+  associated with WMIC. This activity is significant because it is uncommon and may
+  indicate an attempt to evade detection by uninstalling security software, as seen
+  in IcedID malware campaigns. If confirmed malicious, this behavior could allow an
+  attacker to disable security defenses, facilitating further compromise and persistence
+  within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

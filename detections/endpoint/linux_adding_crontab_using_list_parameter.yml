@@ -1,24 +1,18 @@
 name: Linux Adding Crontab Using List Parameter
 id: 52f6d751-1fd4-4c74-a4c9-777ecfeb5c58
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies suspicious modifications to cron jobs
-  on Linux systems using the crontab command with list parameters. This command line
-  parameter can be abused by malware like Industroyer2, as well as adversaries and
-  red teamers, to add a crontab entry for executing their malicious code on a schedule
-  of their choice. However, it's important to note that administrators or normal users
-  may also use this command for legitimate automation purposes, so filtering is required
-  to minimize false positives. Identifying the modification of cron jobs using list
-  parameters is valuable for a SOC as it indicates potential malicious activity or
-  an attempt to establish persistence on the system. If a true positive is detected,
-  further investigation should be conducted to analyze the added cron job, its associated
-  command, and the impact it may have on the system. This includes examining the purpose
-  of the job, reviewing any on-disk artifacts, and identifying any related processes
-  or activities occurring concurrently. The impact of a true positive can range from
-  unauthorized execution of malicious code to data destruction or other damaging outcomes.
+description: The following analytic detects suspicious modifications to cron jobs
+  on Linux systems using the crontab command with list parameters. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process names and
+  command-line executions. This activity is significant as it may indicate an attempt
+  to establish persistence or execute malicious code on a schedule. If confirmed malicious,
+  the impact could include unauthorized code execution, data destruction, or other
+  damaging outcomes. Further investigation should analyze the added cron job, its
+  associated command, and any related processes.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -49,6 +43,7 @@ tags:
   - Data Destruction
   - Linux Persistence Techniques
   - Scheduled Tasks
+  - Gomir
   asset_type: Endpoint
   confidence: 50
   impact: 50
@@ -79,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_list_parameter/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_list_parameter/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

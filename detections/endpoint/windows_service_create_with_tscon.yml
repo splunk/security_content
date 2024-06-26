@@ -1,21 +1,20 @@
 name: Windows Service Create with Tscon
 id: c13b3d74-6b63-4db5-a841-4206f0370077
-version: 1
-date: '2023-03-29'
+version: 2
+date: '2024-05-30'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
-description: The following analytic detects potential RDP Hijacking attempts by monitoring
-  a series of actions taken by an attacker to gain unauthorized access to a remote
-  system. The attacker first runs the quser command to query the remote host for disconnected
-  user sessions. Upon identifying a disconnected session, they use the sc.exe command
-  to create a new Windows service with a binary path that launches tscon.exe. By specifying
-  the disconnected session ID and a destination ID, the attacker can transfer the
-  disconnected session to a new RDP session, effectively hijacking the user's session.
-  This analytic allows security teams to detect and respond to RDP Hijacking attempts,
-  mitigating potential risks and impacts on targeted systems.
+description: The following analytic detects potential RDP Hijacking attempts by identifying
+  the creation of a Windows service using sc.exe with a binary path that includes
+  tscon.exe. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process creation events and command-line arguments. This activity
+  is significant as it indicates an attacker may be trying to hijack a disconnected
+  RDP session, posing a risk of unauthorized access. If confirmed malicious, the attacker
+  could gain control over an existing user session, leading to potential data theft
+  or further system compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sc.exe
   Processes.process="*/dest:rdp-tcp*" by Processes.dest Processes.user Processes.parent_process_name
@@ -96,6 +95,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1563.002/rdphijack/tscon_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1563.002/rdphijack/tscon_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,12 +1,12 @@
 name: Attempt To Stop Security Service
 id: c8e349c6-b97c-486e-8949-bd7bcd1f3910
-version: 4
-date: '2023-06-13'
+version: 5
+date: '2024-05-21'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects attempts to stop security-related services on the endpoint and helps to mitigate potential threats earlier, thereby minimizing the impact on the organization's security. The detection is made by using a Splunk query that searches for processes that involve the "sc.exe" command and include the phrase "stop" in their command. The query collects information such as the process name, process ID, parent process, user, destination, and timestamps. The detection is important because attempts to stop security-related services can indicate malicious activity or an attacker's attempt to disable security measures. This can impact the organization's security posture and can lead to the compromise of the endpoint and potentially the entire network. Disabling security services can allow attackers to gain unauthorized access, exfiltrate sensitive data, or launch further attacks, such as malware installation or privilege escalation. False positives might occur since there might be legitimate reasons for stopping these services in certain situations. Therefore, you must exercise caution and consider the context of the activity before taking any action. Next steps include reviewing the identified process and its associated details. You must also investigate any on-disk artifacts related to the process and review concurrent processes to determine the source of the attack.
+  The following analytic detects attempts to stop security-related services on an endpoint, which may indicate malicious activity. It leverages data from Endpoint Detection and Response (EDR) agents, specifically searching for processes involving the "sc.exe" command with the "stop" parameter. This activity is significant because disabling security services can undermine the organization's security posture, potentially leading to unauthorized access, data exfiltration, or further attacks like malware installation or privilege escalation. If confirmed malicious, this behavior could compromise the endpoint and the entire network, necessitating immediate investigation and response.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -86,6 +86,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_defend_service_stop/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_defend_service_stop/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

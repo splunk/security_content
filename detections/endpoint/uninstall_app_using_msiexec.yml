@@ -1,14 +1,18 @@
 name: Uninstall App Using MsiExec
 id: 1fca2b28-f922-11eb-b2dd-acde48001122
-version: 1
-date: '2021-08-09'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious un-installation of application
-  using msiexec. This technique was seen in conti leak tool and script where it tries
-  to uninstall AV product using this commandline. This commandline to uninstall product
-  is not a common practice in enterprise network.
+description: The following analytic detects the uninstallation of applications using
+  msiexec with specific command-line arguments. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process execution logs that include command-line
+  details. This activity is significant because it is an uncommon practice in enterprise
+  environments and has been associated with malicious behavior, such as disabling
+  antivirus software. If confirmed malicious, this could allow an attacker to remove
+  security software, potentially leading to further compromise and persistence within
+  the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

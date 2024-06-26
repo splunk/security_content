@@ -1,14 +1,18 @@
 name: Windows Rasautou DLL Execution
 id: 6f42b8be-8e96-11ec-ad5a-acde48001122
-version: 1
-date: '2022-02-15'
+version: 2
+date: '2024-05-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the Windows Windows Remote Auto Dialer,
-  rasautou.exe executing an arbitrary DLL. This technique is used to execute arbitrary
-  shellcode or DLLs via the rasautou.exe LOLBin capability. During triage, review
-  parent and child process behavior including file and image loads.
+description: The following analytic detects the execution of an arbitrary DLL by the
+  Windows Remote Auto Dialer (rasautou.exe). This behavior is identified by analyzing
+  process creation events where rasautou.exe is executed with specific command-line
+  arguments. This activity is significant because it leverages a Living Off The Land
+  Binary (LOLBin) to execute potentially malicious code, bypassing traditional security
+  controls. If confirmed malicious, this technique could allow an attacker to execute
+  arbitrary code, potentially leading to system compromise, privilege escalation,
+  or persistent access within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055.001/rasautou/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055.001/rasautou/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

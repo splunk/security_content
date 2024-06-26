@@ -1,22 +1,18 @@
 name: Windows Scheduled Task with Highest Privileges
 id: 2f15e1a4-0fc2-49dd-919e-cbbe60699218
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the creation of a new task with the highest
-  execution privilege via Schtasks.exe. This tactic is often observed in AsyncRAT
-  attacks, where the scheduled task is used for persistence and privilege escalation.
-  AsyncRAT sets up a scheduled task with parameters ''/rl'' and ''highest'', triggering
-  this technique. It''s a strong indicator of potential malware or adversaries seeking
-  to establish persistence and escalate privileges through scheduled tasks. This is
-  crucial for a Security Operations Center (SOC) as it can prevent unauthorized system
-  access and potential data breaches.
-
-  The analytic works by monitoring logs for process name, parent process, and command-line
-  executions. In the presence of the ''*/rl '' and '' highest *'' commands in a schtasks.exe
-  process, an alert is triggered.'
+description: 'The following analytic detects the creation of a new scheduled task
+  with the highest execution privileges via Schtasks.exe. It leverages Endpoint Detection
+  and Response (EDR) logs to monitor for specific command-line parameters (''/rl''
+  and ''highest'') in schtasks.exe executions. This activity is significant as it
+  is commonly used in AsyncRAT attacks for persistence and privilege escalation. If
+  confirmed malicious, this could allow an attacker to maintain persistent access
+  and execute tasks with elevated privileges, potentially leading to unauthorized
+  system access and data breaches.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +76,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/asyncrat_highest_priv_schtasks/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/asyncrat_highest_priv_schtasks/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

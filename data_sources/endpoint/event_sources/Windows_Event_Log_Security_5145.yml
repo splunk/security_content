@@ -91,18 +91,20 @@ field_mappings:
       AccessList: access_list
       AccessMask: access_mask
       AccessReason: access_result
-      ShareLocalPath: share_local_path
       RelativeTargetName: relative_target_name
+      ObjectType: object_type
       IpAddress: src_ip
       IpPort: src_port
+      SubjectDomainName: user_domain
       SubjectUserName: user
+      SubjectLogonId: user_logon_id
+      SubjectUserSid: user_sid
       ShareName: share
   - data_model: ocsf
     mapping:
       AccessList: access_list
       AccessMask: access_mask
       AccessReason: access_result
-      ShareLocalPath: file.path
       RelativeTargetName: file.path
       ObjectType: file.type
       IpAddress: src_endpoint.ip
