@@ -1,16 +1,18 @@
 name: Windows Steal or Forge Kerberos Tickets Klist
 id: 09d88404-1e29-46cb-806c-1eedbc85ad5d
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a process execution of Windows OS klist.exe
-  tool. This tool is being abused or used by several post exploitation tool such as
-  winpeas that being used by ransomware prestige to display or gather list of currently
-  cached kerberos ticket. This cahced data can be used for lateral movement or even
-  privilege escalation on the targeted host. This hunting query can be a good pivot
-  in possible kerberos attack or pass the hash technique.
+description: The following analytic identifies the execution of the Windows OS tool
+  klist.exe, often used by post-exploitation tools like winpeas. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process and
+  parent process details. Monitoring klist.exe is significant as it can indicate attempts
+  to list or gather cached Kerberos tickets, which are crucial for lateral movement
+  or privilege escalation. If confirmed malicious, this activity could enable attackers
+  to move laterally within the network or escalate privileges, posing a severe security
+  risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

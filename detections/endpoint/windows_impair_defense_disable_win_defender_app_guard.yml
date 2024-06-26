@@ -1,29 +1,26 @@
 name: Windows Impair Defense Disable Win Defender App Guard
 id: 8b700d7e-54ad-4d7d-81cc-1456c4703306
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
-  audit application guard.
-  Microsoft Defender Application Guard provides enhanced security by isolating potentially malicious documents and 
-  websites in a containerized environment, protecting the system against various threats. Auditing and logging are 
-  essential components of security measures, providing visibility into activities within the isolated environment.
-  Disabling auditing events within Application Guard might not be a standard or recommended practice since auditing 
-  is crucial for security monitoring and threat detection within the isolated container. However, there might be 
-  settings or configurations related to audit policies in the broader Windows Defender or operating system settings.
-  This registry setting is being abuse by several threat actors, adversaries and red teamers to bypasses Windows defender detections.
+description: The following analytic detects modifications to the Windows registry
+  that disable Windows Defender Application Guard auditing. It leverages data from
+  the Endpoint.Registry data model, focusing on specific registry paths and values.
+  This activity is significant because disabling auditing can hinder security monitoring
+  and threat detection within the isolated environment, making it easier for malicious
+  activities to go unnoticed. If confirmed malicious, this action could allow attackers
+  to bypass Windows Defender protections, potentially leading to unauthorized access,
+  data exfiltration, or further system compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Policies\\Microsoft\\AppHVSI\\AuditApplicationGuard"
-  Registry.registry_value_data="0x00000000"
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  Registry.registry_value_data="0x00000000" by Registry.registry_key_name Registry.user
+  Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
+  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_impair_defense_disable_win_defender_app_guard_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -68,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

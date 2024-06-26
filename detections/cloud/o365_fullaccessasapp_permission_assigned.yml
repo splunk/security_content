@@ -1,25 +1,34 @@
 name: O365 FullAccessAsApp Permission Assigned
 id: 01a510b3-a6ac-4d50-8812-7e8a3cde3d79
-version: 1
-date: '2024-01-29'
+version: 2
+date: '2024-05-11'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - O365 Update application.
-description: The following analytic triggers on the assignment of the 'full_access_as_app' permission to an application registration in Office 365, specifically within Exchange Online. The 'full_access_as_app' permission, identified by its GUID 'dc890d15-9560-4a4c-9b7f-a736ec74ec40', allows an application extensive control over Office 365 operations, including access to all mailboxes and the ability to send mail as any user. The analytic focuses on the ResourceAppId '00000002-0000-0ff1-ce00-000000000000', pinpointing permissions granted to the Office 365 Exchange Online resource. By analyzing Office 365 management activity logs and filtering Azure Active Directory workload events, the query detects when this specific permission is assigned. Monitoring this assignment is vital due to the broad access it provides, which can lead to unauthorized data access or exfiltration if misused. A true positive detection requires immediate attention to prevent potential security risks like account compromise or data loss.
+description: The following analytic detects the assignment of the 'full_access_as_app'
+  permission to an application registration in Office 365 Exchange Online. This detection
+  leverages Office 365 management activity logs and filters Azure Active Directory
+  workload events to identify when the specific permission, identified by GUID 'dc890d15-9560-4a4c-9b7f-a736ec74ec40',
+  is granted. This activity is significant because it provides extensive control over
+  Office 365 operations, including access to all mailboxes and the ability to send
+  mail as any user. If confirmed malicious, this could lead to unauthorized data access,
+  exfiltration, or account compromise. Immediate investigation is required.
 search: >-
- `o365_management_activity` Workload=AzureActiveDirectory Operation="Update application."
- | eval newvalue = mvindex('ModifiedProperties{}.NewValue',0)
- | spath input=newvalue 
- | search "{}.ResourceAppId"="00000002-0000-0ff1-ce00-000000000000"  "{}.RequiredAppPermissions{}.EntitlementId"="dc890d15-9560-4a4c-9b7f-a736ec74ec40"
- | eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId'
- | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions) by user, object, user_agent, Operation
- | `security_content_ctime(firstTime)`
- | `security_content_ctime(lastTime)`
- | `o365_fullaccessasapp_permission_assigned_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: The full_access_as_app API permission may be assigned to legitimate applications. Filter as needed.
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Update application."
+  | eval newvalue = mvindex('ModifiedProperties{}.NewValue',0)
+  | spath input=newvalue  | search "{}.ResourceAppId"="00000002-0000-0ff1-ce00-000000000000"  "{}.RequiredAppPermissions{}.EntitlementId"="dc890d15-9560-4a4c-9b7f-a736ec74ec40"
+  | eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId'
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions)
+  by user, object, user_agent, Operation
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `o365_fullaccessasapp_permission_assigned_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: The full_access_as_app API permission may be assigned to legitimate
+  applications. Filter as needed.
 references:
 - https://msrc.microsoft.com/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard/
 - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
@@ -31,7 +40,8 @@ tags:
   asset_type: O365 Tenant
   confidence: 60
   impact: 80
-  message: User $user$ assigned the full_access_as_app permission to the app registration $object$
+  message: User $user$ assigned the full_access_as_app permission to the app registration
+    $object$
   mitre_attack_id:
   - T1098.002
   - T1098.003
@@ -57,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_full_access_as_app_permission_assigned/o365_full_access_as_app_permission_assigned.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_full_access_as_app_permission_assigned/o365_full_access_as_app_permission_assigned.log
     source: o365:management:activity
     sourcetype: o365:management:activity

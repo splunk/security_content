@@ -1,15 +1,19 @@
 name: Splunk Identified SSL TLS Certificates
 id: 620fbb89-86fd-4e2e-925f-738374277586
-version: 1
-date: '2022-05-25'
+version: 2
+date: '2024-05-23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic uses tags of SSL, TLS and certificate to identify
-  the usage of the Splunk default certificates being utilized in the environment.
-  Recommended guidance is to utilize valid TLS certificates which documentation may
-  be found in Splunk Docs - https://docs.splunk.com/Documentation/Splunk/8.2.6/Security/AboutsecuringyourSplunkconfigurationwithSSL.
-data_source: 
+description: The following analytic identifies the usage of Splunk default SSL/TLS
+  certificates within the environment. It leverages tags such as SSL, TLS, and certificate
+  to detect these default certificates by examining the ssl_issuer_common_name field.
+  This activity is significant because using default certificates can expose the environment
+  to potential security risks, as they are not unique and can be easily exploited.
+  If confirmed malicious, attackers could intercept or manipulate data, leading to
+  unauthorized access or data breaches. It is recommended to replace default certificates
+  with valid, unique TLS certificates to enhance security.
+data_source:
 - Splunk Stream TCP
 search: tag IN (ssl, tls, certificate) ssl_issuer_common_name=*splunk* | stats values(src)
   AS "Host(s) with Default Cert" count by ssl_issuer ssl_subject_common_name ssl_subject_organization
@@ -60,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1040/ssltls/ssl_splunk.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1040/ssltls/ssl_splunk.log
     source: stream:tcp
     sourcetype: stream:tcp
     update_timestamp: true

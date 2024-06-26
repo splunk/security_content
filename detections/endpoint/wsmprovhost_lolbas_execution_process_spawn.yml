@@ -1,17 +1,18 @@
 name: Wsmprovhost LOLBAS Execution Process Spawn
 id: 2eed004c-4c0d-11ec-93e8-3e22fbd008af
-version: 1
-date: '2021-11-22'
+version: 2
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 description: The following analytic identifies `Wsmprovhost.exe` spawning a LOLBAS
-  execution process. When adversaries execute code on remote endpoints abusing the
-  Windows Remote Management (WinRm) protocol, the executed command is spawned as a
-  child processs of `Wsmprovhost.exe`. The LOLBAS project documents Windows native
-  binaries that can be abused by threat actors to perform tasks like executing malicious
-  code. Looking for child processes of Wsmprovhost.exe that are part of the LOLBAS
-  project can help defenders identify lateral movement activity.
+  execution process. It leverages Endpoint Detection and Response (EDR) data to detect
+  when `Wsmprovhost.exe` spawns child processes that are known LOLBAS (Living Off
+  the Land Binaries and Scripts) executables. This activity is significant because
+  it may indicate an adversary using Windows Remote Management (WinRM) to execute
+  code on remote endpoints, a common technique for lateral movement. If confirmed
+  malicious, this could allow attackers to execute arbitrary code, escalate privileges,
+  or maintain persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -82,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_lolbas/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_lolbas/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

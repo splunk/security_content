@@ -1,18 +1,18 @@
 name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
-version: 2
-date: '2023-07-10'
+version: 3
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from
-  W3WP.exe, or IIS. In addition to IIS logs, this behavior with an EDR product will
-  capture potential webshell activity, similar to the HAFNIUM Group abusing CVEs,
-  on publicly available Exchange mail servers. During triage, review the parent process
-  and child process of the shell being spawned. Review the command-line arguments
-  and any file modifications that may occur. Identify additional parallel process,
-  child processes, that may highlight further commands executed. After triaging, work
-  to contain the threat and patch the system that is vulnerable.
+description: The following analytic identifies instances where a shell (PowerShell.exe
+  or Cmd.exe) is spawned from W3WP.exe, the IIS worker process. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process creation
+  events where the parent process is W3WP.exe. This activity is significant as it
+  may indicate webshell activity, often associated with exploitation attempts like
+  those by the HAFNIUM Group on Exchange servers. If confirmed malicious, this behavior
+  could allow attackers to execute arbitrary commands, potentially leading to system
+  compromise, data exfiltration, or further lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -88,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

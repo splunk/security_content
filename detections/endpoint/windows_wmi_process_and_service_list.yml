@@ -1,16 +1,18 @@
 name: Windows WMI Process And Service List
 id: ef3c5ef2-3f6d-4087-aa75-49bf746dc907
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies suspicious process command line, where
-  WMI is performing an event query looking for running processes or running services.
-  This technique is commonly found where the adversary will identify services and
-  system information on the compromised machine. During triage, review parallel processes
-  within the same timeframe. Review the full script block to identify other related
-  artifacts.
+description: The following analytic identifies suspicious WMI command lines querying
+  for running processes or services. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on specific process and command-line events. This
+  activity is significant as adversaries often use WMI to gather system information
+  and identify services on compromised machines. If confirmed malicious, this behavior
+  could allow attackers to map out the system, identify critical services, and plan
+  further attacks, potentially leading to privilege escalation or persistence within
+  the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,7 +75,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

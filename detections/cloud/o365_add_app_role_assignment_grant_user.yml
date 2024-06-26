@@ -1,21 +1,24 @@
 name: O365 Add App Role Assignment Grant User
 id: b2c81cc6-6040-11eb-ae93-0242ac130002
-version: 2
-date: '2023-07-11'
+version: 3
+date: '2024-05-19'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: This search is designed to detect the creation of a new Federation setting by alerting on a specific event associated with its creation. 
-  By monitoring for this event, the search can identify any instances where a Federation setting is being created within the system. 
-  This can help in detecting and monitoring any unauthorized or suspicious changes to the Federation settings, 
-  providing an additional layer of security for your environment.
-data_source: 
+description: The following analytic detects the addition of an application role assignment
+  grant to a user in Office 365. It leverages data from the `o365_management_activity`
+  dataset, specifically monitoring the "Add app role assignment grant to user" operation.
+  This activity is significant as it can indicate unauthorized privilege escalation
+  or the assignment of sensitive roles to users. If confirmed malicious, this could
+  allow an attacker to gain elevated permissions, potentially leading to unauthorized
+  access to critical resources and data within the Office 365 environment.
+data_source:
 - O365 Add app role assignment grant to user.
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user." 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type values(ModifiedProperties{}.Name) as modified_properties_name by user dest ResultStatus Operation
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `o365_add_app_role_assignment_grant_user_filter`'
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app
+  role assignment grant to user." | stats count min(_time) as firstTime max(_time)
+  as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type values(ModifiedProperties{}.Name)
+  as modified_properties_name by user dest ResultStatus Operation | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `o365_add_app_role_assignment_grant_user_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
 known_false_positives: The creation of a new Federation is not necessarily malicious,
@@ -31,7 +34,8 @@ tags:
   asset_type: O365 Tenant
   confidence: 60
   impact: 30
-  message: User $user$ has created a new federation setting $modified_properties_name$ on $dest$
+  message: User $user$ has created a new federation setting $modified_properties_name$
+    on $dest$
   mitre_attack_id:
   - T1136.003
   - T1136
@@ -62,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json
     sourcetype: o365:management:activity
     source: o365

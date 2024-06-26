@@ -1,24 +1,32 @@
 name: Windows PowerShell ScheduleTask
 id: ddf82fcb-e9ee-40e3-8712-a50b5bf323fc
-version: 1
-date: '2023-06-12'
+version: 2
+date: '2024-05-19'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
 - Powershell Script Block Logging 4104
-description: "The following analytic detects potential malicious activities related to PowerShell's task scheduling cmdlets. It looks for anomalies in PowerShell logs, specifically EventCode 4104, associated with script block logging. The analytic flags unusual or suspicious use patterns of key task-related cmdlets such as 'New-ScheduledTask', 'Set-ScheduledTask', and others, which are often used by attackers for persistence and remote execution of malicious code.
-  If a true positive is found, it suggests an possible attacker is attempting to persist within the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes. To implement this analytic, PowerShell Script Block Logging needs to be enabled on some or all endpoints. Analysts should be aware of benign administrative tasks that can trigger alerts and tune the analytic accordingly to reduce false positives.
-  Upon triage, review the PowerShell logs for any unusual or unexpected cmdlet usage, IP addresses, user accounts, or timestamps. If these factors align with known malicious behavior patterns, immediate mitigation steps, such as isolation of the affected systems, user account changes, and relevant threat hunting activities, should be initiated. This proactive analysis significantly enhances an organization's capacity to swiftly respond to, and potentially prevent, the execution of advanced persistent threats in their network."
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_powershell_scheduletask_filter`'
+description: "The following analytic detects potential malicious activities involving
+  PowerShell's task scheduling cmdlets. It leverages PowerShell Script Block Logging
+  (EventCode 4104) to identify unusual or suspicious use of cmdlets like 'New-ScheduledTask'
+  and 'Set-ScheduledTask'. This activity is significant as attackers often use these
+  cmdlets for persistence and remote execution of malicious code. If confirmed malicious,
+  this could allow attackers to maintain access, deliver additional payloads, or execute
+  ransomware, leading to data theft or other severe impacts. Immediate investigation
+  and mitigation are crucial to prevent further compromise."
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*",
+  "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*",
+  "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*",
+  "*Start-ScheduledTask*", "*Enable-ScheduledTask*") | stats count min(_time) as firstTime
+  max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powershell_scheduletask_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Benign administrative tasks can also trigger alerts, necessitating a firm understanding of the typical system behavior and precise tuning of the analytic to reduce false positives.
+known_false_positives: Benign administrative tasks can also trigger alerts, necessitating
+  a firm understanding of the typical system behavior and precise tuning of the analytic
+  to reduce false positives.
 references:
 - https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/?view=windowsserver2022-ps
 - https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
@@ -30,7 +38,8 @@ tags:
   - af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd
   confidence: 50
   impact: 50
-  message: The PowerShell cmdlets related to task creation, modification and start occurred on $Computer$ by $user_id$. 
+  message: The PowerShell cmdlets related to task creation, modification and start
+    occurred on $Computer$ by $user_id$.
   mitre_attack_id:
   - T1053.005
   - T1059.001
@@ -58,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/pwsh_scheduledtask.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/pwsh_scheduledtask.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

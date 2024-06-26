@@ -1,15 +1,17 @@
 name: Remote Process Instantiation via DCOM and PowerShell Script Block
 id: fa1c3040-4680-11ec-a618-3e22fbd008af
-version: 2
-date: '2022-03-22'
+version: 3
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of PowerShell with arguments utilized to start a process
-  on a remote endpoint by abusing the DCOM protocol. Specifically, this search looks
-  for the abuse of ShellExecute and ExecuteShellCommand. Red Teams and adversaries
-  alike may abuse DCOM for lateral movement and remote code execution.
+description: The following analytic detects the execution of PowerShell commands that
+  initiate a process on a remote endpoint via the DCOM protocol. It leverages PowerShell
+  Script Block Logging (EventCode=4104) to identify the use of ShellExecute and ExecuteShellCommand.
+  This activity is significant as it may indicate lateral movement or remote code
+  execution attempts by adversaries. If confirmed malicious, this behavior could allow
+  attackers to execute arbitrary code on remote systems, potentially leading to further
+  compromise and persistence within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText="*Document.Application.ShellExecute*"
@@ -18,7 +20,8 @@ search: '`powershell` EventCode=4104 (ScriptBlockText="*Document.Application.She
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
-  can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  can be found 
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: Administrators may leverage DCOM to start a process on remote
   systems, but this activity is usually limited to a small set of hosts or users.
 references:
@@ -30,8 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 90
-  message: A process was started on a remote endpoint from $Computer$ by abusing
-    WMI using PowerShell.exe
+  message: A process was started on a remote endpoint from $Computer$ by abusing WMI
+    using PowerShell.exe
   mitre_attack_id:
   - T1021
   - T1021.003
@@ -55,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_psh/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_psh/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

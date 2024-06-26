@@ -1,65 +1,46 @@
 name: Okta Mismatch Between Source and Response for Verify Push Request
 id: 8085b79b-9b85-4e67-ad63-351c9e9a5e9a
-version: 1
-date: '2023-03-17'
+version: 2
+date: '2024-05-19'
 author: John Murphy and Jordan Ruocco, Okta, Michael Haag, Splunk
 type: TTP
 status: experimental
 data_source: []
-description: 'The following analytic identifies variations in client-based values for source and response events to identify suspicious request behavior. The detection is enhanced if the org is evaluating behavior conditions in sign-on policies using Okta Behavior Detection. NOTE: This detection requires the use of Okta Identity Engine (OIE) and will not function on Okta Classic.
-
-  For each Okta Verify Push challenge, the following two events are recorded in Okta System Log 
-  
-  Source of Push (Sign-In) 
-
-  eventType eq \"system.push.send_factor_verify_push\" 
-
-  User Push Response (Okta Verify client) 
-
-  eventType eq "user.authentication.auth_via_mfa" AND debugContext.debugData.factor eq "OKTA_VERIFY_PUSH" 
-
-  In sequence, the logic for the analytic - 
-  
-  * Groups by SessionID and retrieves any system.push.send_factor_verify_push events (the source of the push) and user.authentication.auth_via_mfa events where the factor is OKTA_VERIFY_PUSH - (the user response to the push) 
-
-  * Counts the total number of push events, successful authentication events, and any push sources where the client is a new device. 
-  * Creates a ratio of successful sign-ins to pushes. 
-
-  * If the ratio (currently tuned aggressively) indicates push spam, or if a user has rejected a push, the detection proceeds to evaluate whether there is more than one IP address used during the session (session roaming) and the presence of both a new IP and new device during the session.'
-search: '`okta` eventType IN (system.push.send_factor_verify_push) OR
-  (eventType IN (user.authentication.auth_via_mfa)
-  debugContext.debugData.factor="OKTA_VERIFY_PUSH")
-  | eval groupby="authenticationContext.externalSessionId"
-  | eval group_push_time=_time
-  | bin span=2s group_push_time
-  | fillnull value=NULL
-  | stats min(_time) as _time by authenticationContext.externalSessionId eventType
-  debugContext.debugData.factor outcome.result actor.alternateId client.device client.ipAddress
-  client.userAgent.rawUserAgent debugContext.debugData.behaviors group_push_time groupby
-  | iplocation client.ipAddress
-  | fields - lat, lon, group_push_time
-  | stats min(_time) as _time dc(client.ipAddress) as dc_ip
-  sum(eval(if(eventType="system.push.send_factor_verify_push" AND
-  "outcome.result"="SUCCESS",1,0))) as total_pushes
-  sum(eval(if(eventType="user.authentication.auth_via_mfa" AND
-  "outcome.result"="SUCCESS",1,0))) as total_successes
-  sum(eval(if(eventType="user.authentication.auth_via_mfa" AND
-  "outcome.result"="FAILURE",1,0))) as total_rejected
-  sum(eval(if(eventType="system.push.send_factor_verify_push" AND
-  "debugContext.debugData.behaviors" LIKE "%New Device=POSITIVE%",1,0))) as suspect_device_from_source
-  sum(eval(if(eventType="system.push.send_factor_verify_push" AND
-  "debugContext.debugData.behaviors" LIKE "%New IP=POSITIVE%",0,0))) as suspect_ip_from_source
-  values(eval(if(eventType="system.push.send_factor_verify_push","client.ipAddress",""))) as src
-  values(eval(if(eventType="user.authentication.auth_via_mfa","client.ipAddress",""))) as dest
-  values(*) as * by groupby
-  | eval ratio = round(total_successes/total_pushes,2)
-  | search ((ratio < 0.5 AND total_pushes > 1) OR (total_rejected > 0)) AND dc_ip > 1 AND
-  suspect_device_from_source > 0 AND suspect_ip_from_source > 0 | `okta_mismatch_between_source_and_response_for_verify_push_request_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: False positives may be present based on organization size and configuration of Okta. Monitor, tune and filter as needed.
+description: 'The following analytic identifies discrepancies between the source and
+  response events for Okta Verify Push requests, indicating potential suspicious behavior.
+  It leverages Okta System Log events, specifically `system.push.send_factor_verify_push`
+  and `user.authentication.auth_via_mfa` with the factor "OKTA_VERIFY_PUSH." The detection
+  groups events by SessionID, calculates the ratio of successful sign-ins to push
+  requests, and checks for session roaming and new device/IP usage. This activity
+  is significant as it may indicate push spam or unauthorized access attempts. If
+  confirmed malicious, attackers could bypass MFA, leading to unauthorized access
+  to sensitive systems.'
+search: '`okta` eventType IN (system.push.send_factor_verify_push) OR (eventType IN
+  (user.authentication.auth_via_mfa) debugContext.debugData.factor="OKTA_VERIFY_PUSH")
+  | eval groupby="authenticationContext.externalSessionId" | eval group_push_time=_time
+  | bin span=2s group_push_time | fillnull value=NULL | stats min(_time) as _time
+  by authenticationContext.externalSessionId eventType debugContext.debugData.factor
+  outcome.result actor.alternateId client.device client.ipAddress client.userAgent.rawUserAgent
+  debugContext.debugData.behaviors group_push_time groupby | iplocation client.ipAddress
+  | fields - lat, lon, group_push_time | stats min(_time) as _time dc(client.ipAddress)
+  as dc_ip sum(eval(if(eventType="system.push.send_factor_verify_push" AND "outcome.result"="SUCCESS",1,0)))
+  as total_pushes sum(eval(if(eventType="user.authentication.auth_via_mfa" AND "outcome.result"="SUCCESS",1,0)))
+  as total_successes sum(eval(if(eventType="user.authentication.auth_via_mfa" AND
+  "outcome.result"="FAILURE",1,0))) as total_rejected sum(eval(if(eventType="system.push.send_factor_verify_push"
+  AND "debugContext.debugData.behaviors" LIKE "%New Device=POSITIVE%",1,0))) as suspect_device_from_source
+  sum(eval(if(eventType="system.push.send_factor_verify_push" AND "debugContext.debugData.behaviors"
+  LIKE "%New IP=POSITIVE%",0,0))) as suspect_ip_from_source values(eval(if(eventType="system.push.send_factor_verify_push","client.ipAddress","")))
+  as src values(eval(if(eventType="user.authentication.auth_via_mfa","client.ipAddress","")))
+  as dest values(*) as * by groupby | eval ratio = round(total_successes/total_pushes,2)
+  | search ((ratio < 0.5 AND total_pushes > 1) OR (total_rejected > 0)) AND dc_ip
+  > 1 AND suspect_device_from_source > 0 AND suspect_ip_from_source > 0 | `okta_mismatch_between_source_and_response_for_verify_push_request_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
+  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: False positives may be present based on organization size and
+  configuration of Okta. Monitor, tune and filter as needed.
 references:
-  - https://attack.mitre.org/techniques/T1621
-  - https://splunkbase.splunk.com/app/6553
+- https://attack.mitre.org/techniques/T1621
+- https://splunkbase.splunk.com/app/6553
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -67,7 +48,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 80
   impact: 80
-  message: A mismatch between source and response for verifying a push request has occurred for $actor.alternateId$
+  message: A mismatch between source and response for verifying a push request has
+    occurred for $actor.alternateId$
   mitre_attack_id:
   - T1621
   observable:
@@ -81,15 +63,15 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - authenticationContext.externalSessionId 
+  - authenticationContext.externalSessionId
   - eventType
-  - debugContext.debugData.factor 
-  - outcome.result 
-  - actor.alternateId 
-  - client.device 
+  - debugContext.debugData.factor
+  - outcome.result
+  - actor.alternateId
+  - client.device
   - client.ipAddress
-  - client.userAgent.rawUserAgent 
-  - debugContext.debugData.behaviors 
+  - client.userAgent.rawUserAgent
+  - debugContext.debugData.behaviors
   - group_push_time
   risk_score: 64
   security_domain: access

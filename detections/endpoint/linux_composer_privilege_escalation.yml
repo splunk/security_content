@@ -1,14 +1,19 @@
 name: Linux Composer Privilege Escalation
 id: a3bddf71-6ba3-42ab-a6b2-396929b16d92
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-28'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: Composer is a tool for dependency management in PHP. It allows you to
-  declare the libraries your project depends on and it will manage (install/update)
-  them for you. If sudo right is given to tool for the user, then the user can run
-  system commands as root and possibly get a root shell.
+description: The following analytic detects the execution of the Composer tool with
+  elevated privileges on a Linux system. It identifies instances where Composer is
+  run with the 'sudo' command, allowing the user to execute system commands as root.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process execution logs and command-line arguments. This activity is
+  significant because it can indicate an attempt to escalate privileges, potentially
+  leading to unauthorized root access. If confirmed malicious, an attacker could gain
+  full control over the system, execute arbitrary commands, and compromise sensitive
+  data.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,7 +78,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/composer/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/composer/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

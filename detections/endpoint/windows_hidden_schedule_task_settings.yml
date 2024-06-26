@@ -1,11 +1,18 @@
 name: Windows Hidden Schedule Task Settings
 id: 0b730470-5fe8-4b13-93a7-fe0ad014d0cc
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects creation of hidden scheculed tasks such that it this task is not visible on the UI. Such behavior is indicative of certain malware, such as Industroyer2, or attacks leveraging living-off-the-land binaries (LOLBINs) to download additional payloads to a compromised machine. This analytic relies on the Windows Security EventCode 4698, indicating the creation of a scheduled task. The search focuses on identifying instances where the 'Hidden' setting is enabled, signaling potential nefarious activity. To implement this search, you need to ingest logs with task scheduling details from your endpoints. As false positives are currently unknown, it is advised to tune and filter based on the known use of task scheduling in your environment. This analytic provides crucial visibility into stealthy, potentially harmful scheduled tasks on Windows systems.
+description: The following analytic detects the creation of hidden scheduled tasks
+  on Windows systems, which are not visible in the UI. It leverages Windows Security
+  EventCode 4698 to identify tasks where the 'Hidden' setting is enabled. This behavior
+  is significant as it may indicate malware activity, such as Industroyer2, or the
+  use of living-off-the-land binaries (LOLBINs) to download additional payloads. If
+  confirmed malicious, this activity could allow attackers to execute code stealthily,
+  maintain persistence, or further compromise the system by downloading additional
+  malicious payloads.
 data_source:
 - Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Hidden = true
@@ -55,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/hidden_schedule_task/security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/hidden_schedule_task/security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog

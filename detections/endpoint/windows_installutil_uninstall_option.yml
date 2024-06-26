@@ -1,36 +1,28 @@
 name: Windows InstallUtil Uninstall Option
 id: cfa7b9ac-43f0-11ec-9b48-acde48001122
-version: 2
-date: '2024-04-29'
+version: 3
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the Windows InstallUtil.exe binary.
-  This will execute code while bypassing application control using the `/u` (uninstall)
-  switch. 
-
-  InstallUtil uses the functions install and uninstall within the System.Configuration.Install
-  namespace to process .net assembly. Install function requires admin privileges,
-  however, uninstall function can be run as an unprivileged user.
-
-  When `InstallUtil.exe` is used in a malicous manner, the path to an executable on
-  the filesystem is typically specified. Take note of the parent process. In a suspicious
-  instance, this will be spawned from a non-standard process like `Cmd.exe`, `PowerShell.exe`
-  or `Explorer.exe`. 
-
-  If used by a developer, typically this will be found with multiple command-line
-  switches/arguments and spawn from Visual Studio. 
-
-  During triage review resulting network connections, file modifications, and parallel
-  processes. Capture any artifacts and review further.'
+description: 'The following analytic detects the use of the Windows InstallUtil.exe
+  binary with the `/u` (uninstall) switch, which can execute code while bypassing
+  application control. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names, parent processes, and command-line executions.
+  This activity is significant because it can indicate an attempt to execute malicious
+  code without administrative privileges. If confirmed malicious, an attacker could
+  achieve code execution, potentially leading to further system compromise or persistence
+  within the environment.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_installutil` Processes.process
-  IN ("*/u*", "*uninstall*") NOT (Processes.process IN ("*C:\\WINDOWS\\CCM\\*")) NOT (Processes.parent_process_name IN ("Microsoft.SharePoint.Migration.ClientInstaller.exe")) by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `windows_installutil_uninstall_option_filter`'
+  IN ("*/u*", "*uninstall*") NOT (Processes.process IN ("*C:\\WINDOWS\\CCM\\*")) NOT
+  (Processes.parent_process_name IN ("Microsoft.SharePoint.Migration.ClientInstaller.exe"))
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `windows_installutil_uninstall_option_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -97,6 +89,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

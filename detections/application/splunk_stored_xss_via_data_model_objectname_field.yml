@@ -1,15 +1,19 @@
 name: Splunk Stored XSS via Data Model objectName field
 id: 062bff76-5f9c-496e-a386-cb1adcf69871
-version: 1
-date: '2022-10-11'
+version: 2
+date: '2024-05-17'
 author: Rod Soto
 status: production
 type: Hunting
-description: Splunk Enterprise versions 8.1.12, 8.2.9, 9.0.2 are vulnerable to persistent
-  cross site scripting via Data Model object name. An authenticated user can inject
-  and store arbitrary scripts that can lead to persistent cross-site scripting (XSS)
-  in the object name Data Model.
-data_source: 
+description: The following analytic identifies attempts to exploit a stored cross-site
+  scripting (XSS) vulnerability in Splunk Enterprise via the Data Model object name
+  field. It detects this activity by analyzing web access logs (`splunkd_webx`) for
+  specific URI patterns and non-null query parameters. This activity is significant
+  because it allows authenticated users to inject and store malicious scripts, leading
+  to persistent XSS attacks. If confirmed malicious, this could enable attackers to
+  execute arbitrary scripts in the context of other users, potentially leading to
+  data theft, session hijacking, or further compromise of the Splunk environment.
+data_source:
 - Splunk
 search: '`splunkd_webx` uri=/en-US/splunkd/__raw/servicesNS/*/launcher/datamodel/model*
   uri_query!=null | stats count by _time host status clientip user uri | `splunk_stored_xss_via_data_model_objectname_field_filter`'
@@ -56,7 +60,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_stored_xss_via_data_model_objectname_field.txt
+  - data: 
+      https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_stored_xss_via_data_model_objectname_field.txt
     source: /opt/splunk/var/log/splunk/web_access.log
     sourcetype: splunk_web_access
     custom_index: _internal

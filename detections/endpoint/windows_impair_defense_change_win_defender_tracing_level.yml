@@ -1,30 +1,27 @@
 name: Windows Impair Defense Change Win Defender Tracing Level
 id: fe9391cd-952a-4c64-8f56-727cb0d4f2d4
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to change the Windows Defender Wpp Tracing levels. 
-  The "WppTracingLevel" registry setting is typically related to Windows software tracing and diagnostics, specifically involving 
-  Windows Software Trace Preprocessor (WPP) tracing.
-  WPP tracing is a mechanism used by developers to instrument code for diagnostic purposes, allowing for the collection of detailed logs 
-  and traces during software execution. It helps in understanding the behavior of the software, identifying issues, and analyzing its performance.
-  Without specific documentation or references to "WppTracingLevel" within Windows Defender settings or its functionalities, it's challenging 
-  to provide precise details about its intended use or configuration within Windows Defender.
-  Modifying registry settings without understanding their implications can affect system behavior or security. Always proceed cautiously 
-  and ensure changes align with best practices and organizational requirements.
+description: The following analytic detects modifications to the Windows registry
+  specifically targeting the "WppTracingLevel" setting within Windows Defender. This
+  detection leverages data from the Endpoint.Registry data model to identify changes
+  in the registry path associated with Windows Defender tracing levels. Such modifications
+  are significant as they can impair the diagnostic capabilities of Windows Defender,
+  potentially hiding malicious activities. If confirmed malicious, this activity could
+  allow an attacker to evade detection and maintain persistence within the environment,
+  leading to further compromise and data exfiltration.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Reporting\\WppTracingLevel"
-  Registry.registry_value_data="0x00000001"
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_change_win_defender_tracing_level_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Reporting\\WppTracingLevel" Registry.registry_value_data="0x00000001"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_change_win_defender_tracing_level_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -68,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

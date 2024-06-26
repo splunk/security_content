@@ -1,18 +1,19 @@
 name: Web Spring Cloud Function FunctionRouter
 id: 89dddbad-369a-4f8a-ace2-2439218735bc
-version: 1
-date: '2022-04-05'
+version: 2
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies activity related to the web application
-  Spring Cloud Function that was recently idenfied as vulnerable. This is CVE-2022-22963.
-  Multiple proof of concept code was released. The URI that is hit includes `functionrouter`.
-  The specifics of the exploit include a status of 500. In this query we did not include
-  it, but for filtering you can add Web.status=500. The exploit data itself (based
-  on all the POCs) is located in the form_data field. This field will include all
-  class.modules being called.
-data_source: 
+description: The following analytic identifies HTTP POST requests to the Spring Cloud
+  Function endpoint containing "functionRouter" in the URL. It leverages the Web data
+  model to detect these requests based on specific fields such as http_method, url,
+  and http_user_agent. This activity is significant because it targets CVE-2022-22963,
+  a known vulnerability in Spring Cloud Function, which has multiple proof-of-concept
+  exploits available. If confirmed malicious, this activity could allow attackers
+  to execute arbitrary code, potentially leading to unauthorized access, data exfiltration,
+  or further compromise of the affected system.
+data_source:
 - Splunk Stream HTTP
 search: '| tstats count from datamodel=Web where Web.http_method IN ("POST") Web.url="*/functionRouter*"
   by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest
@@ -64,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/all_functionrouter_http_streams.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/all_functionrouter_http_streams.log
     source: stream:http
     sourcetype: stream:http

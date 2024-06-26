@@ -1,21 +1,20 @@
 name: Windows Group Policy Object Created
 id: 23add2a8-ea22-4fd4-8bc0-8c0b822373a1
-version: 1
-date: '2023-03-27'
+version: 2
+date: '2024-05-17'
 author: Mauricio Velazco
 status: production
 type: TTP
 data_source:
 - Windows Event Log Security 5136
 - Windows Event Log Security 5137
-description: The following analytic leverages Event IDs 5136 and 51137 to identify
-  the creation of a new Group Policy Object. With GPOs, system administrators can
-  manage and configure applications, software operations, and user settings throughout
-  an entire organization. GPOs can be abused and leveraged by adversaries to escalate
-  privileges or deploy malware across an Active Directory network. As an example,
-  the Lockbit ransomware malware will create new group policies on the domain controller
-  that are then pushed out to every device on the network. Security teams should monitor
-  the creation of new Group Policy Objects.
+description: The following analytic detects the creation of a new Group Policy Object
+  (GPO) by leveraging Event IDs 5136 and 5137. This detection uses directory service
+  change events to identify when a new GPO is created. Monitoring GPO creation is
+  crucial as adversaries can exploit GPOs to escalate privileges or deploy malware
+  across an Active Directory network. If confirmed malicious, this activity could
+  allow attackers to control system configurations, deploy ransomware, or propagate
+  malware, leading to widespread compromise and significant operational disruption.
 search: ' `wineventlog_security` EventCode=5137 OR (EventCode=5136 AttributeValue!="New
   Group Policy Object" AND (AttributeLDAPDisplayName=displayName OR AttributeLDAPDisplayName=gPCFileSysPath)
   ) ObjectClass=groupPolicyContainer | stats values(AttributeValue) as details values(SubjectUserSid)
@@ -71,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_created/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_created/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

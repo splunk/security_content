@@ -1,18 +1,18 @@
 name: Cmdline Tool Not Executed In CMD Shell
 id: 6c3f7dd8-153c-11ec-ac2d-acde48001122
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a non-standard parent process (not
-  matching CMD, PowerShell, or Explorer) spawning `ipconfig.exe` or `systeminfo.exe`.
-  This particular behavior was seen in FIN7's JSSLoader .NET payload. This is also
-  typically seen when an adversary is injected into another process performing different
-  discovery techniques. This event stands out as a TTP since these tools are commonly
-  executed with a shell application or Explorer parent, and not by another application.
-  This TTP is a good indicator for an adversary gathering host information, but one
-  possible false positive might be an automated tool used by a system administator.
+description: The following analytic identifies instances where `ipconfig.exe`, `systeminfo.exe`,
+  or similar tools are executed by a non-standard parent process, excluding CMD, PowerShell,
+  or Explorer. This detection leverages Endpoint Detection and Response (EDR) telemetry
+  to monitor process creation events. Such behavior is significant as it may indicate
+  adversaries using injected processes to perform system discovery, a tactic observed
+  in FIN7's JSSLoader. If confirmed malicious, this activity could allow attackers
+  to gather critical host information, aiding in further exploitation or lateral movement
+  within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -99,6 +99,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

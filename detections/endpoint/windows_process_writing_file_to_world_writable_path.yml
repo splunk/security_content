@@ -1,25 +1,46 @@
 name: Windows Process Writing File to World Writable Path
 id: c051b68c-60f7-4022-b3ad-773bec7a225b
-version: 1
-date: '2024-04-17'
+version: 2
+date: '2024-05-23'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting
 status: production
-description: The following analytic identifies a process writing a file, specifically a .txt, to a world writable path. This technique is used by adversaries to deliver payloads to a system. It is not common for living off the land binaries to write to these paths.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name=*.txt Filesystem.file_path IN ("*\\Windows\\Tasks\\*", "*\\Windows\\Temp\\*", "*\\Windows\\tracing\\*", "*\\Windows\\PLA\\Reports\\*", "*\\Windows\\PLA\\Rules\\*", "*\\Windows\\PLA\\Templates\\*", "*\\Windows\\PLA\\Reports\\en-US\\*", "*\\Windows\\PLA\\Rules\\en-US\\*", "*\\Windows\\Registration\\CRMLog\\*", "*\\Windows\\System32\\Tasks\\*", "*\\Windows\\System32\\Com\\dmp\\*", "*\\Windows\\System32\\LogFiles\\WMI\\*", "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*", "*\\Windows\\System32\\spool\\PRINTERS\\*", "*\\Windows\\System32\\spool\\SERVERS\\*", "*\\Windows\\System32\\spool\\drivers\\color\\*", "*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\RemoteApp and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\*", "*\\Windows\\SysWOW64\\Com\\dmp\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\RemoteApp and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*") by Filesystem.dest, Filesystem.user, Filesystem.file_name Filesystem.file_path 
-  | `drop_dm_object_name("Filesystem")`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_process_writing_file_to_world_writable_path_filter`'
+description: The following analytic identifies a process writing a .txt file to a
+  world writable path. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on file creation events within specific directories. This
+  activity is significant as adversaries often use such techniques to deliver payloads
+  to a system, which is uncommon for legitimate processes. If confirmed malicious,
+  this behavior could allow attackers to execute arbitrary code, escalate privileges,
+  or maintain persistence within the environment, posing a significant security risk.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name=*.txt
+  Filesystem.file_path IN ("*\\Windows\\Tasks\\*", "*\\Windows\\Temp\\*", "*\\Windows\\tracing\\*",
+  "*\\Windows\\PLA\\Reports\\*", "*\\Windows\\PLA\\Rules\\*", "*\\Windows\\PLA\\Templates\\*",
+  "*\\Windows\\PLA\\Reports\\en-US\\*", "*\\Windows\\PLA\\Rules\\en-US\\*", "*\\Windows\\Registration\\CRMLog\\*",
+  "*\\Windows\\System32\\Tasks\\*", "*\\Windows\\System32\\Com\\dmp\\*", "*\\Windows\\System32\\LogFiles\\WMI\\*",
+  "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*", "*\\Windows\\System32\\spool\\PRINTERS\\*",
+  "*\\Windows\\System32\\spool\\SERVERS\\*", "*\\Windows\\System32\\spool\\drivers\\color\\*",
+  "*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\RemoteApp and Desktop Connections
+  Update\\*", "*\\Windows\\SysWOW64\\Tasks\\*", "*\\Windows\\SysWOW64\\Com\\dmp\\*",
+  "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\RemoteApp
+  and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*")
+  by Filesystem.dest, Filesystem.user, Filesystem.file_name Filesystem.file_path |
+  `drop_dm_object_name("Filesystem")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_process_writing_file_to_world_writable_path_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the file creation event, process name, file path and, file name.
-  These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may occur if legitimate software writes to these paths. Modify the search to include additional file name extensions. To enhance it further, adding a join on Processes.process_name may assist with restricting the analytic to specific process names. Investigate the process and file to determine if it is malicious.
+  you must ingest logs that contain the file creation event, process name, file path
+  and, file name. These logs must be processed using the appropriate Splunk Technology
+  Add-ons that are specific to the EDR product. The logs must also be mapped to the
+  `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information
+  Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may occur if legitimate software writes to
+  these paths. Modify the search to include additional file name extensions. To enhance
+  it further, adding a join on Processes.process_name may assist with restricting
+  the analytic to specific process names. Investigate the process and file to determine
+  if it is malicious.
 references:
 - https://research.splunk.com/endpoint/efbcf8ee-bc75-47f1-8985-a5c638c4faf0/
 tags:
@@ -28,7 +49,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A process wrote a file name- [$file_name$] to a world writable file path [$file_path$] on host- [$dest$].
+  message: A process wrote a file name- [$file_name$] to a world writable file path
+    [$file_path$] on host- [$dest$].
   mitre_attack_id:
   - T1218.005
   observable:
@@ -56,6 +78,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/mshta_tasks_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/mshta_tasks_windows-sysmon.log
     sourcetype: xmlwineventlog
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

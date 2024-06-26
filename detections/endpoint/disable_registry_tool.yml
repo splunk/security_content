@@ -1,22 +1,26 @@
 name: Disable Registry Tool
 id: cd2cf33c-9201-11eb-a10a-acde48001122
-version: 5
-date: '2024-04-26'
+version: 6
+date: '2024-05-14'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search identifies modification of registry to disable the regedit
-  or registry tools of the windows operating system. Since registry tool is a swiss
-  knife in analyzing registry, malware such as RAT or trojan Spy disable this application
-  to prevent the removal of their registry entry such as persistence, file less components
-  and defense evasion.
+description: The following analytic detects modifications to the Windows registry
+  aimed at disabling the Registry Editor (regedit). It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path 
+  "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools"
+  with a value of "0x00000001". This activity is significant because malware, such
+  as RATs or trojans, often disable registry tools to prevent the removal of their
+  entries, aiding in persistence and defense evasion. If confirmed malicious, this
+  could hinder incident response efforts and allow the attacker to maintain control
+  over the compromised system.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools"
-  Registry.registry_value_data = "0x00000001") BY _time span=1h  Registry.user Registry.dest Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.registry_value_data = "0x00000001") BY _time span=1h  Registry.user Registry.dest
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_registry_tool_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -61,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

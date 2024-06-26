@@ -1,26 +1,28 @@
 name: Detect RClone Command-Line Usage
 id: 32e0baea-b3f1-11eb-a2ce-acde48001122
-version: 2
-date: '2021-11-29'
+version: 3
+date: '2024-05-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This analytic identifies commonly used command-line arguments used by
-  `rclone.exe` to initiate a file transfer. Some arguments were negated as they are
-  specific to the configuration used by adversaries. In particular, an adversary may
-  list the files or directories of the remote file share using `ls` or `lsd`, which
-  is not indicative of malicious behavior. During triage, at this stage of a ransomware
-  event, exfiltration is about to occur or has already. Isolate the endpoint and continue
-  investigating by review file modifications and parallel processes.
+description: The following analytic detects the usage of `rclone.exe` with specific
+  command-line arguments indicative of file transfer activities. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on command-line executions
+  and process details. This activity is significant as `rclone.exe` is often used
+  by adversaries for data exfiltration, especially during ransomware attacks. If confirmed
+  malicious, this behavior could lead to unauthorized data transfer, resulting in
+  data breaches and potential loss of sensitive information. Immediate isolation of
+  the affected endpoint and further investigation are recommended.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rclone` Processes.process
   IN ("*copy*", "*mega*", "*pcloud*", "*ftp*", "*--config*", "*--progress*", "*--no-check-certificate*",
   "*--ignore-existing*", "*--auto-confirm*", "*--transfers*", "*--multi-thread-streams*")  by
-  Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` |  `security_content_ctime(lastTime)` | `detect_rclone_command_line_usage_filter`'
+  Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` |  `security_content_ctime(lastTime)`
+  | `detect_rclone_command_line_usage_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -85,6 +87,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

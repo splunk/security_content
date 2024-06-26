@@ -1,19 +1,19 @@
 name: Windows Security Support Provider Reg Query
 id: 31302468-93c9-4eca-9ae3-2d41f53a4e2b
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a process command line related to the
-  discovery of possible Security Support Providers in the registry. This technique
-  is being abused by adversaries or post exploitation tools like winpeas to gather
-  LSA protection and configuration in the registry in the targeted host. This registry
-  entry can contain several information related to LSA that validates users for local
-  and remote sign-ins and enforces local security policies. Understanding LSA protection
-  may give a good information in accessing LSA content in memory which is commonly
-  attack by adversaries and tool like mimikatz to scrape password hashes or clear
-  plain text passwords.
+description: The following analytic identifies command-line activity querying the
+  registry for Security Support Providers (SSPs) related to Local Security Authority
+  (LSA) protection and configuration. This detection leverages Endpoint Detection
+  and Response (EDR) telemetry, focusing on processes accessing specific LSA registry
+  paths. Monitoring this activity is crucial as adversaries and post-exploitation
+  tools like winpeas may use it to gather information on LSA protections, potentially
+  leading to credential theft. If confirmed malicious, attackers could exploit this
+  to scrape password hashes or plaintext passwords from memory, significantly compromising
+  system security.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,7 +79,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

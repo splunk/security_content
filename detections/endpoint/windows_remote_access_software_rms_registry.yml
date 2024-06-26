@@ -1,15 +1,18 @@
 name: Windows Remote Access Software RMS Registry
 id: e5b7b5a9-e471-4be8-8c5d-4083983ba329
-version: 1
-date: '2022-06-22'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic is to identify a modification or creation of Windows
-  registry related to the Remote Manipulator System (RMS) Remote Admin tool. RMS is
-  a legitimate tool developed by russian organization TektonIT and has been observed
-  being abused by adversaries to gain remote access to the targeted host. Azorult
-  malware utilized RMS to gain remote access.
+description: The following analytic detects the creation or modification of Windows
+  registry entries related to the Remote Manipulator System (RMS) Remote Admin tool.
+  It leverages data from the Endpoint.Registry datamodel, focusing on registry paths
+  containing "SYSTEM\\Remote Manipulator System." This activity is significant because
+  RMS, while legitimate, is often abused by adversaries, such as in the Azorult malware
+  campaigns, to gain unauthorized remote access. If confirmed malicious, this could
+  allow attackers to remotely control the targeted host, leading to potential data
+  exfiltration, system manipulation, or further network compromise.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -58,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

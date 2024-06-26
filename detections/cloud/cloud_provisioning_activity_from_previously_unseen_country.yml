@@ -21,9 +21,10 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   | lookup previously_seen_cloud_provisioning_activity_sources Country as Country
   OUTPUT firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data |
   where enough_data=1 | eval firstTimeSeenCountry=min(firstTimeSeen) | where isnull(firstTimeSeenCountry)
-  OR firstTimeSeenCountry > relative_time(now(), "-24h@h") | table firstTime, src,
-  Country, user, object, command | `cloud_provisioning_activity_from_previously_unseen_country_filter`
-  | `security_content_ctime(firstTime)`'
+  OR firstTimeSeenCountry > relative_time(now(), "-24h@h") 
+  | `security_content_ctime(firstTime)`
+  | table firstTime, src, Country, user, object, command 
+  | `cloud_provisioning_activity_from_previously_unseen_country_filter`'
 how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
   provider.  You should run the baseline search `Previously Seen Cloud Provisioning
   Activity Sources - Initial` to build the initial table of source IP address, geographic

@@ -1,24 +1,24 @@
 name: MS Scripting Process Loading Ldap Module
 id: 0b0c40dc-14a6-11ec-b267-acde48001122
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect a suspicious MS scripting process such as wscript.exe
-  or cscript.exe that loading ldap module to process ldap query. This behavior was
-  seen in FIN7 implant where it uses javascript to execute ldap query to parse host
-  information that will send to its C2 server. this anomaly detections is a good initial
-  step to hunt further a suspicious ldap query or ldap related events to the host
-  that may give you good information regarding ldap or AD information processing or
-  might be a attacker.
+description: The following analytic detects the execution of MS scripting processes
+  (wscript.exe or cscript.exe) loading LDAP-related modules (Wldap32.dll, adsldp.dll,
+  adsldpc.dll). It leverages Sysmon EventCode 7 to identify these specific DLL loads.
+  This activity is significant as it may indicate an attempt to query LDAP for host
+  information, a behavior observed in FIN7 implants. If confirmed malicious, this
+  could allow attackers to gather detailed Active Directory information, potentially
+  leading to further exploitation or data exfiltration.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
   IN ("*\\Wldap32.dll", "*\\adsldp.dll", "*\\adsldpc.dll") | stats min(_time) as firstTime
   max(_time) as lastTime count by Image EventCode process_name ProcessId ProcessGuid
-  Computer ImageLoaded | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `ms_scripting_process_loading_ldap_module_filter`'
+  Computer ImageLoaded | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `ms_scripting_process_loading_ldap_module_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -61,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

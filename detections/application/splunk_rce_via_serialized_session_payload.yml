@@ -1,25 +1,26 @@
 name: Splunk RCE via Serialized Session Payload
 id: d1d8fda6-874a-400f-82cf-dcbb59d8e4db
-version: 1
-date: '2023-10-02'
+version: 2
+date: '2024-05-26'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
-description: In Splunk Enterprise versions lower than 8.2.12, 9.0.6, and 9.1.1, an attacker can execute a specially crafted query that 
-  they can then use to serialize untrusted data. The attacker can use the query to execute arbitrary code. The exploit requires the use 
-  of the 'collect' SPL command which writes a file within the Splunk Enterprise installation.  The attacker can then use this file to 
-  submit a serialized payload that can result in execution of code within the payload. Please refer to the
-  following URL for additional information on these disclosures - https://advisory.splunk.com
-data_source: 
+description: The following analytic detects the execution of a specially crafted query
+  using the 'collect' SPL command in Splunk Enterprise versions lower than 8.2.12,
+  9.0.6, and 9.1.1. It leverages audit logs to identify searches containing both 'makeresults'
+  and 'collect' commands. This activity is significant because it can indicate an
+  attempt to serialize untrusted data, potentially leading to arbitrary code execution.
+  If confirmed malicious, this could allow an attacker to execute code within the
+  Splunk environment, leading to unauthorized access and control over the system.
+data_source:
 - Splunk
-search: '`audit_searches` file=* (search="*makeresults*" AND search="*collect*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by action file user splunk_server search
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+search: '`audit_searches` file=* (search="*makeresults*" AND search="*collect*") |
+  stats count min(_time) as firstTime max(_time) as lastTime by action file user splunk_server
+  search | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `splunk_rce_via_serialized_session_payload_filter`'
 how_to_implement: Requires access to the _audit index.
-known_false_positives: There are numerous many uses of the 'makeresults' and 'collect' SPL commands. 
-  Please evaluate the results of this search for potential abuse.
+known_false_positives: There are numerous many uses of the 'makeresults' and 'collect'
+  SPL commands. Please evaluate the results of this search for potential abuse.
 references:
 - https://www.splunk.com/en_us/product-security.html
 tags:
@@ -30,7 +31,8 @@ tags:
   cve:
   - CVE-2023-40595
   impact: 50
-  message: Potential abuse of the 'collect' SPL command against $splunk_server$ by detected by $user$
+  message: Potential abuse of the 'collect' SPL command against $splunk_server$ by
+    detected by $user$
   mitre_attack_id:
   - T1190
   observable:
@@ -57,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/splunk/splunk_rce_via_serialized_session_payload_audittrail.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/splunk/splunk_rce_via_serialized_session_payload_audittrail.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

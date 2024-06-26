@@ -1,19 +1,18 @@
 name: Detect Rundll32 Application Control Bypass - advpack
 id: 4aefadfe-9abd-4bf8-b3fd-867e9ef95bf8
-version: 2
-date: '2021-02-04'
+version: 3
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies rundll32.exe loading advpack.dll and
-  ieadvpack.dll by calling the LaunchINFSection function on the command line. This
-  particular technique will load script code from a file. Upon a successful execution,
-  the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During
-  investigation, identify script content origination. Generally, a child process will
-  spawn from rundll32.exe, but that may be bypassed based on script code contents.
-  Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During
-  investigation, review any network connections and obtain the script content executed.
-  It's possible other files are on disk.
+description: The following analytic detects the execution of rundll32.exe loading
+  advpack.dll or ieadvpack.dll via the LaunchINFSection function. This method is identified
+  using Endpoint Detection and Response (EDR) telemetry, focusing on command-line
+  executions and process details. This activity is significant as it indicates a potential
+  application control bypass, allowing script code execution from a file. If confirmed
+  malicious, an attacker could execute arbitrary code, potentially leading to privilege
+  escalation, persistence, or further network compromise. Investigate script content,
+  network connections, and any spawned child processes for further context.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -91,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

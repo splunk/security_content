@@ -1,44 +1,38 @@
 name: Windows AD Privileged Object Access Activity
 id: dc2f58bc-8cd2-4e51-962a-694b963acde0
-version: 1
-date: '2023-06-01'
+version: 2
+date: '2024-05-18'
 author: Steven Dick
 status: production
 type: TTP
-description: Windows Active Directory contains numerous objects that grant elevated access to the domain they reside in. These objects should be rarely accessed by normal users or processes. Access attempts to one or more of these objects may be evidence of attacker enumeration of Active Directory.
+description: The following analytic detects access attempts to privileged Active Directory
+  objects, such as Domain Admins or Enterprise Admins. It leverages Windows Security
+  Event Code 4662 to identify when these sensitive objects are accessed. This activity
+  is significant because such objects should rarely be accessed by normal users or
+  processes, and unauthorized access attempts may indicate attacker enumeration or
+  lateral movement within the domain. If confirmed malicious, this activity could
+  allow attackers to escalate privileges, persist in the environment, or gain control
+  over critical domain resources.
 data_source:
 - Windows Event Log Security 4662
-search: '`wineventlog_security` EventCode=4662 ObjectName IN (
-"CN=Account Operators,*",
-"CN=Administrators,*",
-"CN=Backup Operators,*",
-"CN=Cert Publishers,*",
-"CN=Certificate Service DCOM Access,*",
-"CN=Domain Admins,*",
-"CN=Domain Controllers,*",
-"CN=Enterprise Admins,*",
-"CN=Enterprise Read-only Domain Controllers,*",
-"CN=Group Policy Creator Owners,*",
-"CN=Incoming Forest Trust Builders,*",
-"CN=Microsoft Exchange Servers,*",
-"CN=Network Configuration Operators,*",
-"CN=Power Users,*",
-"CN=Print Operators,*",
-"CN=Read-only Domain Controllers,*",
-"CN=Replicators,*",
-"CN=Schema Admins,*",
-"CN=Server Operators,*",
-"CN=Exchange Trusted Subsystem,*",
-"CN=Exchange Windows Permission,*",
-"CN=Organization Management,*")
-| rex field=ObjectName "CN\=(?<object_name>[^,]+)" 
-| stats values(Computer) as dest, values(object_name) as object_name, dc(ObjectName) as object_count, min(_time) as firstTime, max(_time) as lastTime, count by SubjectUserName
-| rename SubjectUserName as user
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `windows_ad_privileged_object_access_activity_filter`'
-how_to_implement: Enable Audit Directory Service Access via GPO and collect event code 4662. The required SACLs need to be created for the relevant objects. Be aware Splunk filters this event by default on the Windows TA.
-known_false_positives: Service accounts or applications that routinely query Active Directory for information. 
+search: '`wineventlog_security` EventCode=4662 ObjectName IN ( "CN=Account Operators,*",
+  "CN=Administrators,*", "CN=Backup Operators,*", "CN=Cert Publishers,*", "CN=Certificate
+  Service DCOM Access,*", "CN=Domain Admins,*", "CN=Domain Controllers,*", "CN=Enterprise
+  Admins,*", "CN=Enterprise Read-only Domain Controllers,*", "CN=Group Policy Creator
+  Owners,*", "CN=Incoming Forest Trust Builders,*", "CN=Microsoft Exchange Servers,*",
+  "CN=Network Configuration Operators,*", "CN=Power Users,*", "CN=Print Operators,*",
+  "CN=Read-only Domain Controllers,*", "CN=Replicators,*", "CN=Schema Admins,*", "CN=Server
+  Operators,*", "CN=Exchange Trusted Subsystem,*", "CN=Exchange Windows Permission,*",
+  "CN=Organization Management,*") | rex field=ObjectName "CN\=(?<object_name>[^,]+)"
+  | stats values(Computer) as dest, values(object_name) as object_name, dc(ObjectName)
+  as object_count, min(_time) as firstTime, max(_time) as lastTime, count by SubjectUserName
+  | rename SubjectUserName as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_ad_privileged_object_access_activity_filter`'
+how_to_implement: Enable Audit Directory Service Access via GPO and collect event
+  code 4662. The required SACLs need to be created for the relevant objects. Be aware
+  Splunk filters this event by default on the Windows TA.
+known_false_positives: Service accounts or applications that routinely query Active
+  Directory for information.
 references:
 - https://medium.com/securonix-tech-blog/detecting-ldap-enumeration-and-bloodhound-s-sharphound-collector-using-active-directory-decoys-dfc840f2f644
 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4662
@@ -69,7 +63,7 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - ObjectName 
+  - ObjectName
   - EventCode
   - Computer
   - SubjectUserName
@@ -78,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/4662_ad_enum/4662_priv_events.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/4662_ad_enum/4662_priv_events.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

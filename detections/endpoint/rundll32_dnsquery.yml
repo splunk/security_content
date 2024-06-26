@@ -1,20 +1,25 @@
 name: Rundll32 DNSQuery
 id: f1483f5e-ee29-11eb-9d23-acde48001122
-version: 2
-date: '2022-02-18'
+version: 3
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious rundll32.exe process having a http
-  connection and do a dns query in some web domain. This technique was seen in IcedID
-  malware where the rundll32 that execute its payload will contact amazon.com to check
-  internet connect and to communicate to its C&C server to download config and other
-  file component.
+description: The following analytic detects a suspicious `rundll32.exe` process making
+  HTTP connections and performing DNS queries to web domains. It leverages Sysmon
+  EventCode 22 logs to identify these activities. This behavior is significant as
+  it is commonly associated with IcedID malware, where `rundll32.exe` checks internet
+  connectivity and communicates with C&C servers to download configurations and other
+  components. If confirmed malicious, this activity could allow attackers to establish
+  persistence, download additional payloads, and exfiltrate sensitive data, posing
+  a severe threat to the network.
 data_source:
 - Sysmon EventID 22
 search: '`sysmon` EventCode=22 process_name="rundll32.exe" | stats count min(_time)
-  as firstTime max(_time) as lastTime values(query) as query values(answer) as answer values(QueryResults) as query_results values(QueryStatus) as query_status by process_name process_guid Computer | rename Computer as dest
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_dnsquery_filter`'
+  as firstTime max(_time) as lastTime values(query) as query values(answer) as answer
+  values(QueryResults) as query_results values(QueryStatus) as query_status by process_name
+  process_guid Computer | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `rundll32_dnsquery_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and eventcode = 22 dnsquery executions from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -29,7 +34,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: rundll32 process $process_name$ made a DNS query for $query$ from host $dest$
+  message: rundll32 process $process_name$ made a DNS query for $query$ from host
+    $dest$
   mitre_attack_id:
   - T1218
   - T1218.011
@@ -58,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

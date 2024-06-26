@@ -1,16 +1,18 @@
 name: Linux apt-get Privilege Escalation
 id: d870ce3b-e796-402f-b2af-cab4da1223f2
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-22'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: The apt-get is a command line tool for interacting with the Advanced
-  Package Tool (APT) library (a package management system for Linux distributions).
-  It allows you to search for, install, manage, update, and remove software. The tool
-  does not build software from the source code. If sudo right is given to the tool
-  for user, then the user can run system commands as root and possibly get a root
-  shell.
+description: The following analytic detects the execution of the 'apt-get' command
+  with elevated privileges using 'sudo' on a Linux system. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process execution logs
+  that include command-line details. This activity is significant because it indicates
+  a user may be attempting to escalate privileges to root, which could lead to unauthorized
+  system control. If confirmed malicious, an attacker could gain root access, allowing
+  them to execute arbitrary commands, install or remove software, and potentially
+  compromise the entire system.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -76,7 +78,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

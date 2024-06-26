@@ -1,26 +1,20 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
-version: 3
-date: '2023-04-05'
+version: 4
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Powershell Script Block Logging 4104
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable no critical endpoints or all.
-  
-
-  This analytic identifies the use of PowerShell loading .net assembly via reflection.
-  This is commonly found in malicious PowerShell usage, including Empire and Cobalt
-  Strike. In addition, the `load(` value may be modifed by removing `(` and it will
-  identify more events to review. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the use of PowerShell to load .NET assemblies
+  into memory via reflection, a technique often used in malicious activities such
+  as those by Empire and Cobalt Strike. It leverages PowerShell Script Block Logging
+  (EventCode=4104) to capture and analyze the full command executed. This behavior
+  is significant as it can indicate advanced attack techniques aiming to execute code
+  in memory, bypassing traditional defenses. If confirmed malicious, this activity
+  could lead to unauthorized code execution, privilege escalation, and persistent
+  access within the environment.'
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*[system.reflection.assembly]::load(*","*[reflection.assembly]*",
   "*reflection.assembly*") | stats count min(_time) as firstTime max(_time) as lastTime
   by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
@@ -78,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/reflection.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/reflection.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

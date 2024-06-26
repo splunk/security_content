@@ -1,15 +1,19 @@
 name: Kubernetes Scanning by Unauthenticated IP Address
 id: f9cadf4e-df22-4f4e-a08f-9d3344c2165d
-version: 1
-date: '2023-12-07'
+version: 2
+date: '2024-05-10'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: This detection rule is designed to identify potential scanning activities within a Kubernetes environment. 
-  Scanning is a common preliminary step in an attack, where the attacker tries to gather information about the system to find potential vulnerabilities. 
-  In the context of Kubernetes, scanning could involve activities like unauthorized access attempts, probing public APIs, or trying to exploit known vulnerabilities. 
-  This rule triggers an alert when such suspicious activities are detected, helping to ensure the security of your Kubernetes infrastructure.
-data_source: 
+description: The following analytic identifies potential scanning activities within
+  a Kubernetes environment by unauthenticated IP addresses. It leverages Kubernetes
+  audit logs to detect multiple unauthorized access attempts (HTTP 403 responses)
+  from the same source IP. This activity is significant as it may indicate an attacker
+  probing for vulnerabilities or attempting to exploit known issues. If confirmed
+  malicious, such scanning could lead to unauthorized access, data breaches, or further
+  exploitation of the Kubernetes infrastructure, compromising the security and integrity
+  of the environment.
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` "user.groups{}"="system:unauthenticated" "responseStatus.code"=403
   | iplocation sourceIPs{} 
@@ -17,7 +21,7 @@ search: '`kube_audit` "user.groups{}"="system:unauthenticated" "responseStatus.c
   by sourceIPs{} Country City
   | where count > 5
   | rename sourceIPs{} as src_ip, user.username as user
-  | `kubernetes_scanning_by_unauthenticated_ip_address_filter` '
+  | `kubernetes_scanning_by_unauthenticated_ip_address_filter`'
 how_to_implement: You must ingest Kubernetes audit logs.
 known_false_positives: unknown
 references:
@@ -28,7 +32,7 @@ tags:
   asset_type: Kubernetes
   confidence: 70
   impact: 70
-  message: Kubernetes scanning from ip $src_ip$ 
+  message: Kubernetes scanning from ip $src_ip$
   mitre_attack_id:
   - T1046
   observable:
@@ -61,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/kubernetes_scanning/kubernetes_scanning.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/kubernetes_scanning/kubernetes_scanning.json
     sourcetype: _json
     source: kubernetes

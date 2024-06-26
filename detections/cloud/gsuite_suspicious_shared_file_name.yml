@@ -1,17 +1,18 @@
 name: Gsuite Suspicious Shared File Name
 id: 07eed200-03f5-11ec-98fb-acde48001122
-version: 1
-date: '2021-08-23'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect a shared file in google drive with suspicious
-  file name that are commonly used by spear phishing campaign. This technique is very
-  popular to lure the user by running a malicious document or click a malicious link
-  within the shared file that will redirected to malicious website. This detection
-  can also catch some normal email communication between organization and its external
-  customer.
-data_source: 
+description: The following analytic detects shared files in Google Drive with suspicious
+  filenames commonly used in spear phishing campaigns. It leverages GSuite Drive logs
+  to identify documents with titles that include keywords like "dhl," "ups," "invoice,"
+  and "shipment." This activity is significant because such filenames are often used
+  to lure users into opening malicious documents or clicking harmful links. If confirmed
+  malicious, this activity could lead to unauthorized access, data theft, or further
+  compromise of the user's system.
+data_source:
 - G Suite Drive
 search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title"
   IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*",
@@ -71,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
     source: http:gsuite
     sourcetype: gsuite:drive:json

@@ -1,16 +1,18 @@
 name: Add or Set Windows Defender Exclusion
 id: 773b66fe-4dd9-11ec-8289-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will identify a suspicious process command-line related
-  to Windows Defender exclusion feature. This command is abused by adversaries, malware
-  authors and red teams to bypass Windows Defender Antivirus products by excluding
-  folder path, file path, process and extensions. From its real time or schedule scan
-  to execute their malicious code. This is a good indicator for defense evasion and
-  to look further for events after this behavior.
+description: The following analytic detects the use of commands to add or set exclusions
+  in Windows Defender. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on command-line executions involving "Add-MpPreference" or "Set-MpPreference"
+  with exclusion parameters. This activity is significant because adversaries often
+  use it to bypass Windows Defender, allowing malicious code to execute undetected.
+  If confirmed malicious, this behavior could enable attackers to evade antivirus
+  detection, maintain persistence, and execute further malicious activities without
+  interference from Windows Defender.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

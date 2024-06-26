@@ -1,25 +1,27 @@
 name: Windows Modify Registry DontShowUI
 id: 4ff9767b-fdf2-489c-83a5-c6c34412d72e
-version: 1
-date: '2023-11-23'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows Error Reporting registry to DontShowUI.
-  DarkGate malware modify this registry as part of its malicious installation in a targeted host for its remote desktop capabilities.
-  When this registry value is present and set to a specific configuration, it can influence the behavior of error reporting dialogs or prompts, 
-  suppressing them from being displayed to the user.For instance, setting DontShowUI to a value of 1 often indicates that the 
-  Windows Error Reporting UI prompts will be suppressed, meaning users won't see error reporting pop-ups when errors occur.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting\\DontShowUI"  Registry.registry_value_data = 0x00000001
-  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.user Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_dontshowui_filter`'
+description: The following analytic detects modifications to the Windows Error Reporting
+  registry key "DontShowUI" to suppress error reporting dialogs. It leverages data
+  from the Endpoint datamodel's Registry node to identify changes where the registry
+  value is set to 0x00000001. This activity is significant as it is commonly associated
+  with DarkGate malware, which uses this modification to avoid detection during its
+  installation. If confirmed malicious, this behavior could allow attackers to maintain
+  a low profile, avoiding user alerts and potentially enabling further malicious activities
+  without user intervention.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Windows\\Windows
+  Error Reporting\\DontShowUI"  Registry.registry_value_data = 0x00000001 by  Registry.registry_path
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  Registry.action Registry.user Registry.dest | `drop_dm_object_name(Registry)` |
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_dontshowui_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -59,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/wer_dontshowui/dontshowui_sys.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/wer_dontshowui/dontshowui_sys.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

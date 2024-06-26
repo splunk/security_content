@@ -1,15 +1,17 @@
 name: Detect mshta renamed
 id: 8f45fcf0-5b68-11eb-ae93-0242ac130002
-version: 3
-date: '2022-04-07'
+version: 4
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies renamed instances of mshta.exe executing.
-  Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This
-  analytic utilizes the internal name of the PE to identify if is the legitimate mshta
-  binary. Further analysis should be performed to review the executed content and
-  validation it is the real mshta.
+description: The following analytic identifies instances where mshta.exe has been
+  renamed and executed. It leverages Endpoint Detection and Response (EDR) data, specifically
+  focusing on the original file name field to detect discrepancies. This activity
+  is significant because renaming mshta.exe is a common tactic used by attackers to
+  evade detection and execute malicious scripts. If confirmed malicious, this could
+  allow an attacker to execute arbitrary code, potentially leading to system compromise,
+  data exfiltration, or further lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -39,7 +41,8 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ executed by user $user$
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ executed by user $user$
   mitre_attack_id:
   - T1218
   - T1218.005
@@ -82,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

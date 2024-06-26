@@ -1,16 +1,18 @@
 name: Windows Autostart Execution LSASS Driver Registry Modification
 id: 57fb8656-141e-4d8a-9f51-62cff4ecb82a
-version: 1
-date: '2022-08-22'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the abuse of two undocumented registry
-  keys that allow for a DLL to load into lsass.exe to potentially capture credentials.
-  Upon successful modification of \CurrentControlSet\Services\NTDS\DirectoryServiceExtPt
-  or \CurrentControlSet\Services\NTDS\LsaDbExtPt, a DLL either remote or local will
-  be set as the value and load up into lsass.exe. Based on POC code a text file may
-  be written to disk with credentials.
+description: The following analytic detects modifications to undocumented registry
+  keys that allow a DLL to load into lsass.exe, potentially capturing credentials.
+  It leverages the Endpoint.Registry data model to identify changes to \CurrentControlSet\Services\NTDS\DirectoryServiceExtPt
+  or \CurrentControlSet\Services\NTDS\LsaDbExtPt. This activity is significant as
+  it indicates a possible attempt to inject malicious code into the Local Security
+  Authority Subsystem Service (LSASS), which can lead to credential theft. If confirmed
+  malicious, this could allow attackers to gain unauthorized access to sensitive information
+  and escalate privileges within the environment.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -64,7 +66,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.008/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.008/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

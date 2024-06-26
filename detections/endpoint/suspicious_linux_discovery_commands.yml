@@ -1,17 +1,18 @@
 name: Suspicious Linux Discovery Commands
 id: 0edd5112-56c9-11ec-b990-acde48001122
-version: 1
-date: '2021-12-06'
+version: 2
+date: '2024-05-11'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: 'This search, detects execution of suspicious bash commands from various
-  commonly leveraged bash scripts like (AutoSUID, LinEnum, LinPeas) to perform discovery
-  of possible paths of privilege execution, password files, vulnerable directories,
-  executables and file permissions on a Linux host.
-
-  The search logic specifically looks for high number of distinct commands run in
-  a short period of time.'
+description: 'The following analytic detects the execution of suspicious bash commands
+  commonly used in scripts like AutoSUID, LinEnum, and LinPeas for system discovery
+  on a Linux host. It leverages Endpoint Detection and Response (EDR) data, specifically
+  looking for a high number of distinct commands executed within a short time frame.
+  This activity is significant as it often precedes privilege escalation or other
+  malicious actions. If confirmed malicious, an attacker could gain detailed system
+  information, identify vulnerabilities, and potentially escalate privileges, posing
+  a severe threat to the environment.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -68,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

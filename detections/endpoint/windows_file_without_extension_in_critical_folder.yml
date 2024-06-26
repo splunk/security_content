@@ -1,16 +1,17 @@
 name: Windows File Without Extension In Critical Folder
 id: 0dbcac64-963c-11ec-bf04-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: TTP
-description: This analytic is to look for suspicious file creation in the critical
-  folder like "System32\Drivers" folder without file extension. This artifacts was
-  seen in latest hermeticwiper where it drops its driver component in Driver Directory
-  both the compressed(without file extension) and the actual driver component (with
-  .sys file extension). This TTP is really a good indication that a host might be
-  compromised by this destructive malware that wipes the boot sector of the system.
+description: The following analytic detects the creation of files without extensions
+  in critical folders like "System32\Drivers." It leverages data from the Endpoint.Filesystem
+  datamodel, focusing on file paths and creation times. This activity is significant
+  as it may indicate the presence of destructive malware, such as HermeticWiper, which
+  drops driver components in these directories. If confirmed malicious, this behavior
+  could lead to severe system compromise, including boot sector wiping, resulting
+  in potential data loss and system inoperability.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
@@ -66,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

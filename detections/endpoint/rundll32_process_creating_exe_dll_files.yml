@@ -1,22 +1,23 @@
 name: Rundll32 Process Creating Exe Dll Files
 id: 6338266a-ee2a-11eb-bf68-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious rundll32 process that drops executable
-  (.exe or .dll) files. This behavior seen in rundll32 process of IcedID that tries
-  to drop copy of itself in temp folder or download executable drop it either appdata
-  or programdata as part of its execution.
+description: The following analytic detects a rundll32 process creating executable
+  (.exe) or dynamic link library (.dll) files. It leverages Sysmon EventCode 11 to
+  identify instances where rundll32.exe generates these file types. This activity
+  is significant because rundll32 is often exploited by malware, such as IcedID, to
+  drop malicious payloads in directories like Temp, AppData, or ProgramData. If confirmed
+  malicious, this behavior could allow an attacker to execute arbitrary code, establish
+  persistence, or escalate privileges within the environment.
 data_source:
 - Sysmon EventID 11
-search: '`sysmon` EventCode=11 Image="*rundll32.exe" TargetFilename IN ("*.exe", "*.dll") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image TargetFilename Computer 
-  | rename Computer as dest | rename TargetFilename as file_name
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `rundll32_process_creating_exe_dll_files_filter`'
+search: '`sysmon` EventCode=11 Image="*rundll32.exe" TargetFilename IN ("*.exe", "*.dll")
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image TargetFilename
+  Computer | rename Computer as dest | rename TargetFilename as file_name | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `rundll32_process_creating_exe_dll_files_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, TargetFilename, and eventcode 11 executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -60,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

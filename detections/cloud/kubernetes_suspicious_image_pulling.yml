@@ -1,15 +1,18 @@
 name: Kubernetes Suspicious Image Pulling
 id: 4d3a17b3-0a6d-4ae0-9421-46623a69c122
-version: 1
-date: '2023-12-07'
+version: 2
+date: '2024-05-13'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic detects instances of suspicious image pulling in Kubernetes. 
-  It identifies this behavior by monitoring Kubernetes audit logs for image pull requests that do not match a predefined list of allowed images. 
-  This behavior is worth identifying for a SOC as it could indicate an attacker attempting to deploy malicious software or infiltrate the system. 
-  The impact of such an attack could be severe, potentially leading to unauthorized access to sensitive systems or data.'
-data_source: 
+description: 'The following analytic detects suspicious image pulling in Kubernetes
+  environments. It identifies this activity by monitoring Kubernetes audit logs for
+  image pull requests that do not match a predefined list of allowed images. This
+  behavior is significant for a SOC as it may indicate an attacker attempting to deploy
+  malicious software or infiltrate the system. If confirmed malicious, the impact
+  could be severe, potentially leading to unauthorized access to sensitive systems
+  or data, and enabling further malicious activities within the cluster.'
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` requestObject.message="Pulling image*"
   | search NOT `kube_allowed_images`
@@ -17,7 +20,7 @@ search: '`kube_audit` requestObject.message="Pulling image*"
   | stats count by objectRef.name objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI responseStatus.code sourceIPs{} stage 
   user.groups{} user.uid user.username userAgent verb
   | rename sourceIPs{} as src_ip, user.username as user
-  | `kubernetes_suspicious_image_pulling_filter` '
+  | `kubernetes_suspicious_image_pulling_filter`'
 how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
   Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
   Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
@@ -31,7 +34,8 @@ tags:
   asset_type: Kubernetes
   confidence: 70
   impact: 70
-  message: Suspicious image $objectRef.name$ pulled in Kubernetes from ip $src_ip$ by user $user$
+  message: Suspicious image $objectRef.name$ pulled in Kubernetes from ip $src_ip$
+    by user $user$
   mitre_attack_id:
   - T1526
   observable:
@@ -64,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_audit_pull_image/kubernetes_audit_pull_image.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_audit_pull_image/kubernetes_audit_pull_image.json
     sourcetype: _json
     source: kubernetes

@@ -1,31 +1,32 @@
 name: Azure AD Device Code Authentication
 id: d68d8732-6f7e-4ee5-a6eb-737f2b990b91
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-28'
 author: Mauricio Velazco, Gowthamaraj Rajendran,  Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Azure Active Directory
-description: The following analytic identifies the execution of the Azure Device Code Phishing attack, 
-  which can lead to Azure Account Take-Over (ATO). The detection leverages Azure AD logs specifically 
-  focusing on authentication requests to identify the attack. This technique involves creating malicious 
-  infrastructure, bypassing Multi-Factor Authentication (MFA), and bypassing Conditional Access Policies (CAPs). 
-  The attack aims to compromise users by sending them phishing emails from attacker-controlled domains and trick 
-  the victims into performing OAuth 2.0 device authentication. A successful execution of this attack can result 
-  in adversaries gaining unauthorized access to Azure AD, Exchange mailboxes, and the target's Outlook Web Application (OWA). 
-  This attack technique was detailed by security researchers including Bobby Cooke, Stephan Borosh, and others. 
-  It's crucial for organizations to be aware of this threat, as it can lead to unauthorized access and potential data breaches.
-search: '`azure_monitor_aad` category=SignInLogs "properties.authenticationProtocol"=deviceCode 
-  | rename properties.* as * 
-  | stats count min(_time) as firstTime max(_time) as lastTime by user src_ip, appDisplayName, userAgent
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_device_code_authentication_filter`'
+description: The following analytic identifies Azure Device Code Phishing attacks,
+  which can lead to Azure Account Take-Over (ATO). It leverages Azure AD SignInLogs
+  to detect suspicious authentication requests using the device code authentication
+  protocol. This activity is significant as it indicates potential bypassing of Multi-Factor
+  Authentication (MFA) and Conditional Access Policies (CAPs) through phishing emails.
+  If confirmed malicious, attackers could gain unauthorized access to Azure AD, Exchange
+  mailboxes, and Outlook Web Application (OWA), leading to potential data breaches
+  and unauthorized data access.
+search: '`azure_monitor_aad` category=SignInLogs "properties.authenticationProtocol"=deviceCode
+  | rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime
+  by user src_ip, appDisplayName, userAgent | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_device_code_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
-known_false_positives: In most organizations, device code authentication will be used to access common Microsoft service but it may be legitimate for others. Filter as needed.
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the SignInLogs log category.
+known_false_positives: In most organizations, device code authentication will be used
+  to access common Microsoft service but it may be legitimate for others. Filter as
+  needed.
 references:
 - https://attack.mitre.org/techniques/T1528
 - https://github.com/rvrsh3ll/TokenTactics
@@ -70,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/device_code_authentication/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/device_code_authentication/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad

@@ -1,16 +1,18 @@
 name: Windows Registry Modification for Safe Mode Persistence
 id: c6149154-c9d8-11eb-9da7-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-05-20'
 author: Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a modification or registry add to the
-  safeboot registry as an autostart mechanism. This technique is utilized by adversaries
-  to persist a driver or service into Safe Mode. Two keys are monitored in this analytic,  Minimal
-  and Network. adding values to Minimal will load into Safe Mode and by adding into
-  Network it will provide the service or drive the ability to perform network connections
-  in Safe Mode.
+description: The following analytic identifies modifications to the SafeBoot registry
+  keys, specifically within the Minimal and Network paths. This detection leverages
+  registry activity logs from endpoint data sources like Sysmon or EDR tools. Monitoring
+  these keys is crucial as adversaries can use them to persist drivers or services
+  in Safe Mode, with Network allowing network connections. If confirmed malicious,
+  this activity could enable attackers to maintain persistence even in Safe Mode,
+  potentially bypassing certain security measures and facilitating further malicious
+  actions.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -18,9 +20,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   where Registry.registry_path IN ("*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\*","*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\*")
   by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
   Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
-  `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+  `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_registry_modification_for_safe_mode_persistence_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
@@ -68,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

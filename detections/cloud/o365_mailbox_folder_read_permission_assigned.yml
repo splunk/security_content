@@ -1,22 +1,33 @@
 name: O365 Mailbox Folder Read Permission Assigned
 id: 1435475e-2128-4417-a34f-59770733b0d5
-version: 1
-date: '2024-03-29'
+version: 2
+date: '2024-05-14'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
 status: production
-description: This detection is tailored to capture instances where read permissions are assigned to mailbox folders within an Office 365 environment, utilizing the operations ModifyFolderPermissions and AddFolderPermissions as captured in the o365_management_activity. Unlike other permission modifications, this detection excludes actions related to the Calendar, Contacts, and PersonMetadata objects, focusing on core mailbox folders.
+description: The following analytic identifies instances where read permissions are
+  assigned to mailbox folders within an Office 365 environment. It leverages the `o365_management_activity`
+  data source, specifically monitoring the `ModifyFolderPermissions` and `AddFolderPermissions`
+  operations, while excluding Calendar, Contacts, and PersonMetadata objects. This
+  activity is significant as unauthorized read permissions can lead to data exposure
+  and potential information leakage. If confirmed malicious, an attacker could gain
+  unauthorized access to sensitive emails, leading to data breaches and compromising
+  the confidentiality of organizational communications.
 search: >-
-  `o365_management_activity` Workload=Exchange (Operation=ModifyFolderPermissions OR Operation=AddFolderPermissions) Workload=Exchange object!=Calendar object!=Contacts object!=PersonMetadata
-  | eval isReadRole=if(match('Item.ParentFolder.MemberRights', "(ReadAny)"), "true", "false") 
-  | rename UserId as user 
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime by Operation, user, object, Item.ParentFolder.MemberUpn, Item.ParentFolder.MemberRights
+  `o365_management_activity` Workload=Exchange (Operation=ModifyFolderPermissions
+  OR Operation=AddFolderPermissions) Workload=Exchange object!=Calendar object!=Contacts
+  object!=PersonMetadata
+  | eval isReadRole=if(match('Item.ParentFolder.MemberRights', "(ReadAny)"), "true",
+  "false")  | rename UserId as user  | stats count earliest(_time) as firstTime latest(_time)
+  as lastTime by Operation, user, object, Item.ParentFolder.MemberUpn, Item.ParentFolder.MemberRights
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `o365_mailbox_folder_read_permission_assigned_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: Mailbox folder permissions may be configured for legitimate purposes, filter as needed.
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: Mailbox folder permissions may be configured for legitimate
+  purposes, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/002/
 - https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxodlgt/5610c6e6-3268-44e3-adff-8804f5315946
@@ -52,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_mailbox_folder_read_granted/o365_mailbox_folder_read_granted.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_mailbox_folder_read_granted/o365_mailbox_folder_read_granted.log
     source: o365
     sourcetype: o365:management:activity

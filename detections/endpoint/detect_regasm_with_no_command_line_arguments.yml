@@ -1,19 +1,25 @@
 name: Detect Regasm with no Command Line Arguments
 id: c3bc1430-04e7-4178-835f-047d8e6e97df
-version: 3
-date: '2022-03-15'
+version: 4
+date: '2024-05-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies regasm.exe with no command line arguments.
-  This particular behavior occurs when another process injects into regasm.exe, no
-  command line arguments will be present. During investigation, identify any network
-  connections and parallel processes. Identify any suspicious module loads related
-  to credential dumping or file writes. Regasm.exe are natively found in `C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe`
-  and `C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe`.
+description: The following analytic detects instances of regasm.exe running without
+  command line arguments. This behavior typically indicates process injection, where
+  another process manipulates regasm.exe. The detection leverages Endpoint Detection
+  and Response (EDR) data, focusing on process names and command-line executions.
+  This activity is significant as it may signal an attempt to evade detection or execute
+  malicious code. If confirmed malicious, attackers could achieve code execution,
+  potentially leading to privilege escalation, persistence, or access to sensitive
+  information. Investigate network connections, parallel processes, and suspicious
+  module loads for further context.
 data_source:
 - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_regasm` by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process  Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where `process_regasm` by _time span=1h  Processes.process_id Processes.process_name
+  Processes.dest Processes.user Processes.process_path Processes.process  Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | regex process="(?i)(regasm\.exe.{0,4}$)" | `detect_regasm_with_no_command_line_arguments_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -82,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,20 +1,18 @@
 name: Linux Possible Append Command To At Allow Config File
 id: 7bc20606-5f40-11ec-a586-acde48001122
-version: 2
-date: '2022-05-26'
+version: 3
+date: '2024-05-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic is designed to identify suspicious command lines
-  that may append user entries to either /etc/at.allow or /etc/at.deny. These files
-  can be exploited by malicious actors for persistence on a compromised Linux host
-  by altering permissions for scheduled tasks using the at command.
-
-  In this context, an attacker can create a user or add an existing user to these
-  configuration files to execute their malicious code through scheduled tasks. The
-  detection of such anomalous behavior can serve as an effective indicator warranting
-  further investigation to validate if the activity is indeed malicious or a false
-  positive.'
+description: 'The following analytic detects suspicious command lines that append
+  user entries to /etc/at.allow or /etc/at.deny files. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on command-line executions involving
+  these files. This activity is significant because altering these configuration files
+  can allow attackers to schedule tasks with elevated permissions, facilitating persistence
+  on a compromised Linux host. If confirmed malicious, this could enable attackers
+  to execute arbitrary code at scheduled intervals, potentially leading to further
+  system compromise and unauthorized access to sensitive information.'
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
@@ -72,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

@@ -1,31 +1,17 @@
 name: Linux Possible Cronjob Modification With Editor
 id: dcc89bde-5f24-11ec-87ca-acde48001122
-version: 1
-date: '2021-12-17'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 description: 'The following analytic detects potential unauthorized modifications
-  to Linux cronjobs using text editors like "nano", "vi" or "vim". It identifies this
-  behavior by tracking command-line executions that interact with paths related to
-  cronjob configuration, a common Linux scheduling utility. Cronjob files may be manipulated
-  by attackers for privilege escalation or persistent access, making such changes
-  critical to monitor.\ The identified behavior is significant for a Security Operations
-  Center (SOC) as it could indicate an ongoing attempt at establishing persistent
-  access or privilege escalation, leading to data breaches, system compromise, or
-  other malicious activities.
-
-  In case of a true positive, the impact could be severe. An attacker with escalated
-  privileges or persistent access could carry out damaging actions, such as data theft,
-  sabotage, or further network penetration.
-
-  To implement this analytic, ensure ingestion of logs tracking process name, parent
-  process, and command-line executions from your endpoints. Utilize the Add-on for
-  Linux Sysmon from Splunkbase if you''re using Sysmon.
-
-  Known false positives include legitimate administrative tasks, as these commands
-  may also be used for benign purposes. Careful tuning and filtering based on known
-  benign activity in your environment can minimize these instances.'
+  to Linux cronjobs using text editors like "nano," "vi," or "vim." It identifies
+  this activity by monitoring command-line executions that interact with cronjob configuration
+  paths. This behavior is significant for a SOC as it may indicate attempts at privilege
+  escalation or establishing persistent access. If confirmed malicious, the impact
+  could be severe, allowing attackers to execute damaging actions such as data theft,
+  system sabotage, or further network penetration.'
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -84,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

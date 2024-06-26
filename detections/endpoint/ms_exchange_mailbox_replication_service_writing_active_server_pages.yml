@@ -1,31 +1,18 @@
 name: MS Exchange Mailbox Replication service writing Active Server Pages
 id: 985f322c-57a5-11ec-b9ac-acde48001122
-version: 1
-date: '2023-07-10'
+version: 2
+date: '2024-05-27'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: 'The following query identifies suspicious .aspx created in 3 paths identified
-  by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM
-  group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`,
-  `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. The analytic is limited
-  to process name MSExchangeMailboxReplication.exe, which typically does not write
-  .aspx files to disk. Upon triage, the suspicious .aspx file will likely look obvious
-  on the surface. inspect the contents for script code inside. Identify additional
-  log sources, IIS included, to review source and other potential exploitation. It
-  is often the case that a particular threat is only applicable to a specific subset
-  of systems in your environment. Typically analytics to detect those threats are
-  written without the benefit of being able to only target those systems as well.
-  Writing analytics against all systems when those behaviors are limited to identifiable
-  subsets of those systems is suboptimal. Consider the case ProxyShell vulnerability
-  on Microsoft Exchange Servers. With asset information, a hunter can limit their
-  analytics to systems that have been identified as Exchange servers. A hunter may
-  start with the theory that the exchange server is communicating with new systems
-  that it has not previously. If this theory is run against all publicly facing systems,
-  the amount of noise it will generate will likely render this theory untenable. However,
-  using the asset information to limit this analytic to just the Exchange servers
-  will reduce the noise allowing the hunter to focus only on the systems where this
-  behavioral change is relevant.'
+description: 'The following analytic identifies the creation of suspicious .aspx files
+  in specific directories associated with Exchange exploitation by the HAFNIUM group
+  and the ProxyShell vulnerability. It detects this activity by monitoring the MSExchangeMailboxReplication.exe
+  process, which typically does not write .aspx files. This behavior is significant
+  as it may indicate an active exploitation attempt on Exchange servers. If confirmed
+  malicious, attackers could gain unauthorized access, execute arbitrary code, or
+  maintain persistence within the environment. Immediate investigation and remediation
+  are crucial to prevent further compromise.'
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 11

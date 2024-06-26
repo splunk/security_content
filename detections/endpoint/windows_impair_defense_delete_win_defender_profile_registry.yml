@@ -1,16 +1,18 @@
 name: Windows Impair Defense Delete Win Defender Profile Registry
 id: 65d4b105-ec52-48ec-ac46-289d0fbf7d96
-version: 1
-date: '2022-06-07'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The search looks for the deletion of Windows Defender main profile within
-  the registry. This was used by RAT malware across a fleet of endpoints. This particular
-  behavior is typically executed when an adversary gains access to an endpoint and
-  beings to perform execution. Usually, a batch (.bat) will be executed and multiple
-  registry and scheduled task modifications will occur. During triage, review parallel
-  processes and identify any further file modifications.
+description: The following analytic detects the deletion of the Windows Defender main
+  profile registry key. It leverages data from the Endpoint.Registry datamodel, specifically
+  monitoring for deleted actions within the Windows Defender registry path. This activity
+  is significant as it indicates potential tampering with security defenses, often
+  associated with Remote Access Trojans (RATs) and other malware. If confirmed malicious,
+  this action could allow an attacker to disable Windows Defender, reducing the system's
+  ability to detect and respond to further malicious activities, thereby compromising
+  endpoint security.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -63,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

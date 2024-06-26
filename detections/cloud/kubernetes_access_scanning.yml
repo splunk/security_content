@@ -1,16 +1,19 @@
 name: Kubernetes Access Scanning
 id: 2f4abe6d-5991-464d-8216-f90f42999764
-version: 1
-date: '2023-12-07'
+version: 2
+date: '2024-05-12'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic detects potential scanning activities within a Kubernetes environment. 
-  It identifies unauthorized access attempts, probing of public APIs, or attempts to exploit known vulnerabilities. 
-  The analytic detects this behavior by monitoring Kubernetes audit logs for patterns indicative of scanning, such as repeated failed access attempts or unusual API requests. 
-  This behavior is worth identifying for a SOC as it could indicate an attackers preliminary step in an attack, aiming to gather information about the system to find potential vulnerabilities. 
-  The impact of such an attack could be severe, potentially leading to unauthorized access to sensitive systems or data.'
-data_source: 
+description: 'The following analytic detects potential scanning activities within
+  a Kubernetes environment. It identifies unauthorized access attempts, probing of
+  public APIs, or attempts to exploit known vulnerabilities by monitoring Kubernetes
+  audit logs for repeated failed access attempts or unusual API requests. This activity
+  is significant for a SOC as it may indicate an attacker''s preliminary reconnaissance
+  to gather information about the system. If confirmed malicious, this activity could
+  lead to unauthorized access to sensitive systems or data, posing a severe security
+  risk.'
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` "user.groups{}"="system:unauthenticated" "responseStatus.code"=403
   | iplocation sourceIPs{} 
@@ -18,7 +21,7 @@ search: '`kube_audit` "user.groups{}"="system:unauthenticated" "responseStatus.c
   by sourceIPs{} Country City
   | where count > 5
   | rename sourceIPs{} as src_ip, user.username as user
-  | `kubernetes_access_scanning_filter` '
+  | `kubernetes_access_scanning_filter`'
 how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
   Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
   Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
@@ -32,7 +35,7 @@ tags:
   asset_type: Kubernetes
   confidence: 70
   impact: 70
-  message: Kubernetes scanning from ip $src_ip$ 
+  message: Kubernetes scanning from ip $src_ip$
   mitre_attack_id:
   - T1046
   observable:
@@ -65,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/kubernetes_scanning/kubernetes_scanning.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/kubernetes_scanning/kubernetes_scanning.json
     sourcetype: _json
     source: kubernetes

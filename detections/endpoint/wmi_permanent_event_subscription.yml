@@ -1,12 +1,12 @@
 name: WMI Permanent Event Subscription
 id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
-version: 1
-date: '2018-10-23'
+version: 2
+date: '2024-05-26'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
 description: |-
-  The following analytic detects the creation of permanent event subscriptions using Windows Management Instrumentation (WMI), which is used by attackers to achieve persistence in a compromised system. By creating a permanent event subscription, an attacker can run malicious scripts or binaries in response to specific system events that enables them to maintain access to the system undetected. The detection is made by using Sysmon EventID 5 data to detect instances where the consumers of these events are not the expected "NTEventLogEventConsumer." The detection is important because it identifies unusual or unexpected subscription creation, which suggests that an attacker is attempting to achieve persistence within the environment and might be executing malicious scripts or binaries in response to specific system events. The impact of such an attack can be severe, potentially leading to data theft, ransomware, or other damaging outcomes. False positives might occur since False positives might occur since WMI event subscriptions can be used for legitimate purposes by system administrators. You must have a thorough understanding of WMI activity within the context of the monitored environment to effectively differentiate between legitimate and malicious activity.Next steps include investigating the associated scripts or binaries and identifying the source of the attack.
+  The following analytic detects the creation of permanent event subscriptions using Windows Management Instrumentation (WMI). It leverages Sysmon Event ID 5 data to identify instances where the event consumers are not the expected "NTEventLogEventConsumer." This activity is significant because it suggests an attacker is attempting to achieve persistence by running malicious scripts or binaries in response to specific system events. If confirmed malicious, this could lead to severe impacts such as data theft, ransomware deployment, or other damaging outcomes. Investigate the associated scripts or binaries to identify the source of the attack.
 data_source:
 - Windows Event Log WMI 5861
 search: '`wmi` EventCode=5861 Binding | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)"

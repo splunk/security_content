@@ -1,18 +1,18 @@
 name: WMIC XSL Execution via URL
 id: 787e9dd0-4328-11ec-a029-acde48001122
-version: 1
-date: '2021-11-11'
+version: 2
+date: '2024-05-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies `wmic.exe` loading a remote XSL (eXtensible
-  Stylesheet Language) script. This originally was identified by Casey Smith, dubbed
-  Squiblytwo, as an application control bypass. Many adversaries will utilize this
-  technique to invoke JScript or VBScript within an XSL file. This technique can also
-  execute local/remote scripts and, similar to its Regsvr32 "Squiblydoo" counterpart,
-  leverages a trusted, built-in Windows tool. Adversaries may abuse any alias in Windows
-  Management Instrumentation provided they utilize the /FORMAT switch. Upon identifying
-  a suspicious execution, review for confirmed network connnection and script download.
+description: The following analytic detects `wmic.exe` loading a remote XSL script
+  via a URL. This detection leverages Endpoint Detection and Response (EDR) data,
+  focusing on command-line executions that include HTTP/HTTPS URLs and the /FORMAT
+  switch. This activity is significant as it indicates a potential application control
+  bypass, allowing adversaries to execute JScript or VBScript within an XSL file.
+  If confirmed malicious, this technique can enable attackers to execute arbitrary
+  code, escalate privileges, or maintain persistence using a trusted Windows tool,
+  posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -85,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1220/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1220/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

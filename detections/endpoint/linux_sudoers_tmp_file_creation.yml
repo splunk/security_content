@@ -1,17 +1,18 @@
 name: Linux Sudoers Tmp File Creation
 id: be254a5c-63e7-11ec-89da-acde48001122
-version: 1
-date: '2021-12-23'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to looks for file creation of sudoers.tmp file cause
-  by editing /etc/sudoers using visudo or editor in linux platform. This technique
-  may abuse by adversaries, malware author and red teamers to gain elevated privilege
-  to targeted or compromised host. /etc/sudoers file controls who can run what commands
-  as what users on what machines and can also control special things such as whether
-  you need a password for particular commands. The file is composed of aliases (basically
-  variables) and user specifications (which control who can run what).
+description: The following analytic detects the creation of the "sudoers.tmp" file,
+  which occurs when editing the /etc/sudoers file using visudo or another editor on
+  a Linux platform. This detection leverages filesystem data to identify the presence
+  of "sudoers.tmp" files. Monitoring this activity is crucial as adversaries may exploit
+  it to gain elevated privileges on a compromised host. If confirmed malicious, this
+  activity could allow attackers to modify sudoers configurations, potentially granting
+  them unauthorized access to execute commands as other users, including root, thereby
+  compromising the system's security.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -59,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/sudoers_temp/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/sudoers_temp/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

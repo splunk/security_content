@@ -1,28 +1,15 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4768
-date: '2022-09-22'
-description: 'The following analytic identifies one source endpoint failing to authenticate
-  with multiple invalid domain users using the Kerberos protocol. This behavior could
-  represent an adversary performing a Password Spraying attack against an Active Directory
-  environment using Kerberos to obtain initial access or elevate privileges. As attackers
-  progress in a breach, mistakes will be made. In certain scenarios, adversaries may
-  execute a password spraying attack using an invalid list of users. Event 4768 is
-  generated every time the Key Distribution Center issues a Kerberos Ticket Granting
-  Ticket (TGT). Failure code 0x6 stands for `client not found in Kerberos database`
-  (the attempted user is not a valid domain user).
-
-  The detection calculates the standard deviation for each host and leverages the
-  3-sigma statistical rule to identify an unusual number of users. To customize this
-  analytic, users can try different combinations of the `bucket` span time and the
-  calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.
-
-  This detection will only trigger on domain controllers, not on member servers or
-  workstations.
-
-  The analytics returned fields allow analysts to investigate the event further by
-  providing fields like source ip and attempted user accounts.'
+date: '2024-05-31'
+description: 'The following analytic identifies a source endpoint failing to authenticate
+  with multiple invalid domain users using the Kerberos protocol. It leverages Event
+  ID 4768, which is generated when the Key Distribution Center issues a Kerberos Ticket
+  Granting Ticket (TGT) and detects failure code 0x6, indicating the user is not found
+  in the Kerberos database. This behavior is significant as it may indicate a Password
+  Spraying attack, where an adversary attempts to gain initial access or elevate privileges.
+  If confirmed malicious, this activity could lead to unauthorized access and potential
+  privilege escalation within the Active Directory environment.'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
@@ -39,7 +26,7 @@ search: '`wineventlog_security` EventCode=4768 TargetUserName!=*$ Status=0x6 | b
   as user by _time, IpAddress | eventstats avg(unique_accounts) as comp_avg
   , stdev(unique_accounts) as comp_std by IpAddress | eval upperBound=(comp_avg+comp_std*3)
   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1 | `windows_unusual_count_of_invalid_users_fail_to_auth_using_kerberos_filter` '
+  | search isOutlier=1 | `windows_unusual_count_of_invalid_users_fail_to_auth_using_kerberos_filter`'
 status: production
 tags:
   analytic_story:
@@ -76,9 +63,10 @@ tags:
   security_domain: endpoint
 tests:
 - attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos_xml/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 1
+version: 2

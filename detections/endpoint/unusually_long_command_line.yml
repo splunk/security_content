@@ -1,12 +1,12 @@
 name: Unusually Long Command Line
 id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-version: 5
-date: '2020-12-08'
+version: 6
+date: '2024-05-20'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
 description: |-
-  The following analytic detects command lines that are extremely long, which might be indicative of malicious activity on your hosts because attackers often use obfuscated or complex command lines to hide their actions and evade detection. This helps to mitigate the risks associated with long command lines to enhance your overall security posture and reduce the impact of attacks. This detection is important because it suggests that an attacker might be attempting to execute a malicious command or payload on the host, which can lead to various damaging outcomes such as data theft, ransomware, or further compromise of the system. False positives might occur since legitimate processes or commands can sometimes result in long command lines. Next steps include conducting extensive triage and investigation to differentiate between legitimate and malicious activities. Review the source of the command line and the command itself during the triage. Additionally, capture and inspect any relevant on-disk artifacts and review concurrent processes to identify the source of the attack.
+  The following analytic detects unusually long command lines, which may indicate malicious activity. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on the length of command lines executed on hosts. This behavior is significant because attackers often use obfuscated or complex command lines to evade detection and execute malicious payloads. If confirmed malicious, this activity could lead to data theft, ransomware deployment, or further system compromise. Analysts should investigate the source and content of the command line, inspect relevant artifacts, and review concurrent processes to identify potential threats.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

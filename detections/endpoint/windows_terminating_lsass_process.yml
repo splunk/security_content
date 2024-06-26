@@ -1,26 +1,24 @@
 name: Windows Terminating Lsass Process
 id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a suspicious process terminating Lsass process.
-  Lsass process is known to be a critical process that is responsible for enforcing
-  security policy system. This process was commonly targetted by threat actor or red
-  teamer to gain privilege escalation or persistence in the targeted machine because
-  it handles credentials of the logon users. In this analytic we tried to detect a
-  suspicious process having a granted access PROCESS_TERMINATE to lsass process to
-  modify or delete protected registrys. This technique was seen in doublezero malware
-  that tries to wipe files and registry in compromised hosts. This anomaly detection
-  can be a good pivot of incident response for possible credential dumping or evading
-  security policy in a host or network environment.
+description: The following analytic detects a suspicious process attempting to terminate
+  the Lsass.exe process. It leverages Sysmon EventCode 10 logs to identify processes
+  granted PROCESS_TERMINATE access to Lsass.exe. This activity is significant because
+  Lsass.exe is a critical process responsible for enforcing security policies and
+  handling user credentials. If confirmed malicious, this behavior could indicate
+  an attempt to perform credential dumping, privilege escalation, or evasion of security
+  policies, potentially leading to unauthorized access and persistence within the
+  environment.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe GrantedAccess = 0x1 | stats
   count min(_time) as firstTime max(_time) as lastTime by SourceImage, TargetImage,
-  TargetProcessId, SourceProcessId, GrantedAccess CallTrace, dest | rename dest
-  as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  TargetProcessId, SourceProcessId, GrantedAccess CallTrace, dest | rename dest as
+  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_terminating_lsass_process_filter`'
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
   includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`.
@@ -70,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,29 +1,26 @@
 name: Windows Impair Defense Set Win Defender Smart Screen Level To Warn
 id: cc2a3425-2703-47e7-818f-3dca1b0bc56f
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to set windows defender 
-  smart screen level to warn. Setting the ShellSmartScreenLevel to warn implies a SmartScreen configuration 
-  where the system displays a warning prompt when users attempt to run or access potentially risky or unrecognized 
-  files or applications. This warning serves as a cautionary alert to users, advising them about the potential 
-  risks associated with the file or application they are trying to execute.
-  Changing SmartScreen settings to "warn" might be employed by attackers to reduce the likelihood of triggering 
-  immediate suspicion from users when running malicious executables. By setting it to "warn," the system prompts a 
-  cautionary warning rather than outright blocking the execution, potentially increasing the chances of users 
-  proceeding with running the file despite the warning.
+description: The following analytic detects modifications to the Windows registry
+  that set the Windows Defender SmartScreen level to "warn." This detection leverages
+  data from the Endpoint.Registry data model, specifically monitoring changes to the
+  ShellSmartScreenLevel registry value. This activity is significant because altering
+  SmartScreen settings to "warn" can reduce immediate suspicion from users, allowing
+  potentially malicious executables to run with just a warning prompt. If confirmed
+  malicious, this could enable attackers to execute harmful files, increasing the
+  risk of successful malware deployment and subsequent system compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Microsoft\\Windows\\System\\ShellSmartScreenLevel"
-  Registry.registry_value_data="Warn" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  Registry.registry_value_data="Warn" by Registry.registry_key_name Registry.user
+  Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
+  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_impair_defense_set_win_defender_smart_screen_level_to_warn_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -68,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

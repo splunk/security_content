@@ -1,15 +1,19 @@
 name: GetDomainGroup with PowerShell
 id: 93c94be3-bead-4a60-860f-77ca3fe59903
-version: 1
-date: '2021-08-25'
+version: 2
+date: '2024-05-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `powershell.exe` with command-line
-  arguments utilized to query for domain groups. `Get-DomainGroup` is part of PowerView,
-  a PowerShell tool used to perform enumeration on Windows domains. Red Teams and
-  adversaries alike may leverage PowerView to enumerate domain groups for situational
-  awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` with
+  command-line arguments that query for domain groups using `Get-DomainGroup`. This
+  detection leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process names and command-line executions mapped to the `Processes` node of the
+  `Endpoint` data model. Monitoring this activity is crucial as `Get-DomainGroup`
+  is part of PowerView, a tool often used by adversaries for domain enumeration and
+  situational awareness. If confirmed malicious, this activity could allow attackers
+  to gain insights into domain group structures, aiding in further exploitation and
+  privilege escalation.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

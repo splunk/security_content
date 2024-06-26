@@ -1,21 +1,33 @@
 name: Ivanti Sentry Authentication Bypass
 id: b8e0d1cf-e6a8-4d46-a5ae-aebe18ead8f8
-version: 1
-date: '2023-08-24'
+version: 2
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Suricata
-description: This analytic is designed to detect unauthenticated access to the System Manager Portal in Ivanti Sentry, formerly known as MobileIron Sentry. The vulnerability, designated as CVE-2023-38035, affects all supported versions 9.18, 9.17, and 9.16, as well as older versions. The analytic works by monitoring for changes in the configuration of Sentry and the underlying operating system. Such changes could indicate an attacker attempting to execute OS commands as root. This behavior is of significant concern for a Security Operations Center (SOC) as it presents a substantial security risk, particularly if port 8443, the default port for the System Manager Portal, is exposed to the internet. If the analytic returns a true positive, it suggests that an attacker has gained unauthorized access to the Sentry system, potentially leading to a significant system compromise and data breach. It is important to note that while the issue has a high CVSS score, the risk of exploitation is low for customers who do not expose port 8443 to the internet. The search specifically looks for HTTP requests to certain endpoints ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*") and HTTP status code of 200. Unusual or unexpected patterns in these parameters could indicate an attack.
-search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*") Web.status=200
-  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
-  | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` 
+description: The following analytic identifies unauthenticated access attempts to
+  the System Manager Portal in Ivanti Sentry, exploiting CVE-2023-38035. It detects
+  this activity by monitoring HTTP requests to specific endpoints ("/mics/services/configservice/*",
+  "/mics/services/*", "/mics/services/MICSLogService*") with a status code of 200.
+  This behavior is significant for a SOC as it indicates potential unauthorized access,
+  which could lead to OS command execution as root. If confirmed malicious, this activity
+  could result in significant system compromise and data breaches, especially if port
+  8443 is exposed to the internet.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url IN ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*")
+  Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length,
+  Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `ivanti_sentry_authentication_bypass_filter`'
-how_to_implement: To implement this analytic, a network product similar to Suricata or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work with your products.
-known_false_positives: It is important to note that false positives may occur if the search criteria are expanded beyond the HTTP status code 200. In other words, if the search includes other HTTP status codes, the likelihood of encountering false positives increases. This is due to the fact that HTTP status codes other than 200 may not necessarily indicate a successful exploitation attempt.
+how_to_implement: To implement this analytic, a network product similar to Suricata
+  or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work
+  with your products.
+known_false_positives: It is important to note that false positives may occur if the
+  search criteria are expanded beyond the HTTP status code 200. In other words, if
+  the search includes other HTTP status codes, the likelihood of encountering false
+  positives increases. This is due to the fact that HTTP status codes other than 200
+  may not necessarily indicate a successful exploitation attempt.
 references:
 - https://github.com/horizon3ai/CVE-2023-38035/blob/main/CVE-2023-38035.py
 - https://www.horizon3.ai/ivanti-sentry-authentication-bypass-cve-2023-38035-deep-dive/
@@ -29,7 +41,7 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 90
-  message: Possible exploitation of CVE-2023-38035 against $dest$. 
+  message: Possible exploitation of CVE-2023-38035 against $dest$.
   mitre_attack_id:
   - T1190
   observable:
@@ -59,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_sentry_CVE_2023_38035.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_sentry_CVE_2023_38035.log
     source: suricata
     sourcetype: suricata

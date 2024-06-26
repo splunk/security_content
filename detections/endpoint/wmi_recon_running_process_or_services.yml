@@ -1,22 +1,25 @@
 name: WMI Recon Running Process Or Services
 id: b5cd5526-cce7-11eb-b3bd-acde48001122
-version: 3
-date: '2023-11-07'
+version: 4
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic identifies suspicious PowerShell script execution
-  via EventCode 4104, where WMI is performing an event query looking for running processes
-  or running services. This technique is commonly found in malware and APT events
-  where the adversary will map all running security applications or services on the
-  compromised machine. During triage, review parallel processes within the same timeframe.
-  Review the full script block to identify other related artifacts.
+  via EventCode 4104, where WMI performs an event query to list running processes
+  or services. This detection leverages PowerShell Script Block Logging to capture
+  and analyze script block text for specific WMI queries. This activity is significant
+  as it is commonly used by malware and APT actors to map security applications or
+  services on a compromised machine. If confirmed malicious, this could allow attackers
+  to identify and potentially disable security defenses, facilitating further compromise
+  and persistence within the environment.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*"
   OR ScriptBlockText="*Win32_Service*") | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
+  as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest
+  | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `wmi_recon_running_process_or_services_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -64,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/win32process.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/win32process.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

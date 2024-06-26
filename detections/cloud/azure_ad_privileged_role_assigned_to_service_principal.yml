@@ -1,12 +1,19 @@
 name: Azure AD Privileged Role Assigned to Service Principal
 id: 5dfaa3d3-e2e4-4053-8252-16d9ee528c41
 version: 3
-date: '2023-12-20'
+date: '2024-05-31'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: "The following analytic detects potential privilege escalation threats in Azure Active Directory (AD). The detection is made by running a specific search within the ingested Azure Active Directory events to leverage the AuditLogs log category. This detection is important because it identifies instances where privileged roles that hold elevated permissions are assigned to service principals. This prevents unauthorized access or malicious activities, which occur when these non-human entities access Azure resources to exploit them. False positives might occur since administrators can legitimately assign privileged roles to service principals."
-data_source: 
+description: "The following analytic detects the assignment of privileged roles to
+  service principals in Azure Active Directory (AD). It leverages the AuditLogs log
+  category from ingested Azure AD events. This activity is significant because assigning
+  elevated permissions to non-human entities can lead to unauthorized access or malicious
+  activities. If confirmed malicious, attackers could exploit these service principals
+  to gain elevated access to Azure resources, potentially compromising sensitive data
+  and critical infrastructure. Monitoring this behavior helps prevent privilege escalation
+  and ensures the security of Azure environments."
+data_source:
 - Azure Active Directory Add member to role
 search: ' `azure_monitor_aad`  operationName="Add member to role" 
   | rename properties.* as *
@@ -25,7 +32,8 @@ search: ' `azure_monitor_aad`  operationName="Add member to role"
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
+  the AuditLog log category.
 known_false_positives: Administrators may legitimately assign the privileged roles
   to Service Principals as part of administrative tasks. Filter as needed.
 references:
@@ -61,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_role_serviceprincipal/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_role_serviceprincipal/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

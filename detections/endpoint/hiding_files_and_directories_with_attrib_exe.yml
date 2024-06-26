@@ -1,21 +1,25 @@
 name: Hiding Files And Directories With Attrib exe
 id: 6e5a3ae4-90a3-462d-9aa6-0119f638c0f1
-version: 5
-date: '2024-01-01'
+version: 6
+date: '2024-05-13'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: Attackers leverage an existing Windows binary, attrib.exe, to mark specific
-  as hidden by using specific flags so that the victim does not see the file.  The
-  search looks for specific command-line arguments to detect the use of attrib.exe
-  to hide files.
+description: The following analytic detects the use of the Windows binary attrib.exe
+  to hide files or directories by marking them with specific flags. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on command-line arguments
+  that include the "+h" flag. This activity is significant because hiding files can
+  be a tactic used by attackers to conceal malicious files or tools from users and
+  security software. If confirmed malicious, this behavior could allow an attacker
+  to persist in the environment undetected, potentially leading to further compromise
+  or data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) values(Processes.process)
   as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=attrib.exe
-  (Processes.process=*+h*) by Processes.parent_process_name Processes.process_name Processes.user
-  Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
-  `hiding_files_and_directories_with_attrib_exe_filter` '
+  (Processes.process=*+h*) by Processes.parent_process_name Processes.process_name
+  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
+  |`hiding_files_and_directories_with_attrib_exe_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -65,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

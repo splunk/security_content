@@ -1,19 +1,18 @@
 name: Schtasks used for forcing a reboot
 id: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
-version: 4
-date: '2020-12-07'
+version: 5
+date: '2024-05-11'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes a Splunk query to pinpoint potential
-  threats by monitoring the 'schtasks.exe' command-line usage. This particular command,
-  especially when used in tandem with 'shutdown' and '/create' flags, can suggest
-  an adversarial force intending to schedule unwarranted system reboots. The query
-  focuses on endpoint process data and retrieves details such as the process name,
-  the parent process name, the destination, and the user involved. Essential to the
-  investigation are the earliest and latest timestamps of these events, providing
-  an activity timeline. Data such as the targeted host and initiating user offer valuable
-  context for analyst.
+description: The following analytic detects the use of 'schtasks.exe' to schedule
+  forced system reboots using the 'shutdown' and '/create' flags. It leverages endpoint
+  process data to identify instances where these specific command-line arguments are
+  used. This activity is significant because it may indicate an adversary attempting
+  to disrupt operations or force a reboot to execute further malicious actions. If
+  confirmed malicious, this could lead to system downtime, potential data loss, and
+  provide an attacker with an opportunity to execute additional payloads or evade
+  detection.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -73,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

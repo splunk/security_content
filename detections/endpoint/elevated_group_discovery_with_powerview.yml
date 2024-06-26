@@ -1,23 +1,24 @@
 name: Elevated Group Discovery with PowerView
 id: 10d62950-0de5-4199-a710-cff9ea79b413
-version: 2
-date: '2024-02-14'
+version: 3
+date: '2024-06-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainGroupMember` commandlet. `Get-DomainGroupMember`
-  is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
-  As the name suggests, `Get-DomainGroupMember` is used to list the members of an
-  specific domain group. Red Teams and adversaries alike use PowerView to enumerate
-  elevated domain groups for situational awareness and Active Directory Discovery
-  to identify high privileged users.
+description: The following analytic detects the execution of the `Get-DomainGroupMember`
+  cmdlet from PowerView, identified through PowerShell Script Block Logging (EventCode=4104).
+  This cmdlet is used to enumerate members of elevated domain groups such as Domain
+  Admins and Enterprise Admins. Monitoring this activity is crucial as it indicates
+  potential reconnaissance efforts by adversaries to identify high-privileged users
+  within the domain. If confirmed malicious, this activity could lead to targeted
+  attacks on privileged accounts, facilitating further compromise and lateral movement
+  within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (Message = "*Get-DomainGroupMember*") AND Message
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroupMember*") AND ScriptBlockText
   IN ("*Domain Admins*","*Enterprise Admins*", "*Schema Admins*", "*Account Operators*"
   , "*Server Operators*", "*Protected Users*",  "*Dns Admins*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | rename ComputerName as dest, User as user | `security_content_ctime(firstTime)`
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
   | `elevated_group_discovery_with_powerview_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -50,17 +51,17 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 21
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
-    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: wineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell-xml-powerview.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

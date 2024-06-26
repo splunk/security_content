@@ -1,17 +1,18 @@
 name: Windows Modify Registry Regedit Silent Reg Import
 id: 824dd598-71be-4203-bc3b-024f4cda340e
-version: 1
-date: '2022-06-24'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies modification of Windows registry using
-  regedit.exe application with silent mode parameter. regedit.exe windows application
-  is commonly used as GUI app to check or modify registry. This application is also
-  has undocumented command-line parameter and one of those are silent mode parameter
-  that performs action without stopping for confirmation with dialog box. Importing
-  registry from .reg files need to monitor in a production environment since it can
-  be used adversaries to import RMS registry in compromised host.
+description: The following analytic detects the modification of the Windows registry
+  using the regedit.exe application with the silent mode parameter. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process names and
+  command-line executions. This activity is significant because the silent mode allows
+  registry changes without user confirmation, which can be exploited by adversaries
+  to import malicious registry settings. If confirmed malicious, this could enable
+  attackers to persist in the environment, escalate privileges, or manipulate system
+  configurations, leading to potential system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -72,7 +73,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

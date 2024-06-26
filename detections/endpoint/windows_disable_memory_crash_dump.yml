@@ -1,16 +1,18 @@
 name: Windows Disable Memory Crash Dump
 id: 59e54602-9680-11ec-a8a6-acde48001122
-version: 2
-date: '2023-04-27'
+version: 3
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a process that is attempting to disable
-  the ability on Windows to generate a memory crash dump. This was recently identified
-  being utilized by HermeticWiper. To disable crash dumps, the value must be set to
-  0. This feature is typically modified to perform a memory crash dump when a computer
-  stops unexpectedly because of a Stop error (also known as a blue screen, system
-  crash, or bug check).
+description: The following analytic detects attempts to disable the memory crash dump
+  feature on Windows systems by setting the registry value to 0. It leverages data
+  from the Endpoint.Registry datamodel, specifically monitoring changes to the CrashDumpEnabled
+  registry key. This activity is significant because disabling crash dumps can hinder
+  forensic analysis and incident response efforts. If confirmed malicious, this action
+  could be part of a broader attack strategy, such as data destruction or system destabilization,
+  as seen with HermeticWiper, potentially leading to significant operational disruptions
+  and data loss.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -19,9 +21,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   AND Registry.registry_value_data="0x00000000" by _time span=1h Registry.dest Registry.user
   Registry.registry_path Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid Registry.registry_key_name  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_disable_memory_crash_dump_filter`'
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_memory_crash_dump_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` and `Registry`
@@ -68,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

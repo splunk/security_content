@@ -1,17 +1,17 @@
 name: Windows App Layer Protocol Wermgr Connect To NamedPipe
 id: 2f3a4092-548b-421c-9caa-84918e1787ef
-version: 1
-date: '2022-10-28'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a suspicious wermgr.exe process creating
-  or connecting to a named pipe. Wermgr.exe is part of Windows OS Problem reporting
-  application responsible for reporting problems, fault or error happen on the Windows
-  OS. This file is being abused by several Threat actors and malware such as Trickbot
-  and Qakbot to execute their malicious code. This anomaly detection can be a good
-  pivot on possible wermgr.exe processes having injected malicious code that might
-  be related to qakbot infection that communicates via named pipe.
+description: The following analytic detects the wermgr.exe process creating or connecting
+  to a named pipe. It leverages Sysmon EventCodes 17 and 18 to identify these actions.
+  This activity is significant because wermgr.exe, a legitimate Windows OS Problem
+  Reporting application, is often abused by malware such as Trickbot and Qakbot to
+  execute malicious code. If confirmed malicious, this behavior could indicate that
+  an attacker has injected code into wermgr.exe, potentially allowing them to communicate
+  covertly, escalate privileges, or persist within the environment.
 data_source:
 - Sysmon EventID 17
 - Sysmon EventID 18
@@ -61,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

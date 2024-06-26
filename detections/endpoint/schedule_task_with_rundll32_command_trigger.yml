@@ -1,17 +1,18 @@
 name: Schedule Task with Rundll32 Command Trigger
 id: 75b00fd8-a0ff-11eb-8b31-acde48001122
-version: 1
-date: '2021-04-19'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of suspicious tasks in Windows, specifically tasks using the rundll32 command. It's implemented using Windows Security EventCode 4698 for A scheduled task was created, and looks for tasks executed either via schtasks.exe or TaskService. This behavior is worth identifying as it is commonly used by malware, such as TrickBot, that leverages rundll32 to execute its downloader.
-
-  If a true positive is found, it suggests an attacker is trying to persist within the environment or potentially deliver additional malicious payloads, leading to data theft, ransomware, or other damaging outcomes.
-
-  To implement this analytic, ensure you are ingesting logs with task schedule information from your endpoints. Be aware of potential false positives - legitimate uses of Task Scheduler in your environment may cause benign activities to be flagged.
-
-  Upon triage, review the scheduled task's source and the command to be executed. Capture and inspect any relevant on-disk artifacts, and look for concurrent processes to identify the attack source. This approach helps analysts detect potential threats earlier and mitigate the risks.
+description: The following analytic detects the creation of scheduled tasks in Windows
+  that use the rundll32 command. It leverages Windows Security EventCode 4698, which
+  logs the creation of scheduled tasks, and filters for tasks executed via rundll32.
+  This activity is significant as it is a common technique used by malware, such as
+  TrickBot, to persist in an environment or deliver additional payloads. If confirmed
+  malicious, this could lead to data theft, ransomware deployment, or other damaging
+  outcomes. Immediate investigation and mitigation are crucial to prevent further
+  compromise.
 data_source:
 - Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
@@ -62,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/tasksched/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/tasksched/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog

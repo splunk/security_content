@@ -1,16 +1,19 @@
 name: Get-DomainTrust with PowerShell
 id: 4fa7f846-054a-11ec-a836-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This analytic identifies Get-DomainTrust from PowerView in order to gather
-  domain trust information. Typically, this is utilized within a script being executed
-  and used to enumerate the domain trust information. This grants the adversary an
-  understanding of how large or small the domain is. During triage, review parallel
-  processes using an EDR product or 4688 events. It will be important to understand
-  the timeline of events around this activity.
+description: The following analytic identifies the execution of the Get-DomainTrust
+  command from PowerView using PowerShell, which is used to gather domain trust information.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process and command-line telemetry. This activity is significant as
+  it indicates potential reconnaissance efforts by an adversary to understand domain
+  trust relationships, which can inform lateral movement strategies. If confirmed
+  malicious, this could allow attackers to map out the network, identify potential
+  targets, and plan further attacks, potentially compromising additional systems within
+  the domain.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

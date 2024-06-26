@@ -1,27 +1,31 @@
 name: ASL AWS Defense Evasion Impair Security Services
 id: 5029b681-0462-47b7-82e7-f7e3d37f5a2d
-version: 2
-date: '2024-02-12'
+version: 3
+date: '2024-05-13'
 author: Patrick Bareiss, Bhavin Patel, Gowthamaraj Rajendran, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the deletion of critical AWS Security Services configurations through specific API calls 
-  to services like CloudWatch, GuardDuty, and Web Application Firewalls. By monitoring for these deletion actions, the analytic aims 
-  to identify attempts by adversaries to undermine security defenses, such as erasing logging configurations or removing detection mechanisms. 
-  This behavior is crucial for a Security Operations Center (SOC) to identify as it can indicate an attacker's intent to operate 
-  undetected by eliminating evidence of their presence and activities. The impact of such attacks is significant, potentially leaving 
-  the environment vulnerable to further exploitation without any traceable logs or alerts.
+description: The following analytic detects the deletion of critical AWS Security
+  Services configurations, such as CloudWatch alarms, GuardDuty detectors, and Web
+  Application Firewall rules. It leverages Amazon Security Lake logs to identify specific
+  API calls like "DeleteLogStream" and "DeleteDetector." This activity is significant
+  because adversaries often use these actions to disable security monitoring and evade
+  detection. If confirmed malicious, this could allow attackers to operate undetected,
+  leading to potential data breaches, unauthorized access, and prolonged persistence
+  within the AWS environment.
 data_source: []
-search: '`amazon_security_lake` api.operation IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms") | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
-  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id  
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `asl_aws_defense_evasion_impair_security_services_filter`'
-how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
-  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
-  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
-  the Federated Analytics App.
+search: '`amazon_security_lake` api.operation IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms")
+  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by api.operation
+  actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region,
+  http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_defense_evasion_impair_security_services_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon
+  Web Services (AWS), which is a centralized data lake that provides security-related
+  data from AWS services. To use this detection, you must ingest CloudTrail logs from
+  Amazon Security Lake into Splunk. To run this search, ensure that you ingest events
+  using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876)
+  or the Federated Analytics App.
 known_false_positives: While this search has no known false positives, it is possible
   that it is a legitimate admin activity. Please consider filtering out these noisy
   events using userAgent, user_arn field names.
@@ -55,8 +59,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - api.operation
-  - actor.user.account_uid 
-  - actor.user.name 
+  - actor.user.account_uid
+  - actor.user.name
   - actor.user.uid
   - http_request.user_agent
   - src_endpoint.ip
@@ -66,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/asl_ocsf_cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/asl_ocsf_cloudtrail.json
     sourcetype: aws:cloudtrail:lake
     source: aws_asl

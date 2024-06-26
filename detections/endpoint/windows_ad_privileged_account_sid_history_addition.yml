@@ -1,71 +1,71 @@
 name: Windows AD Privileged Account SID History Addition
 id: 6b521149-b91c-43aa-ba97-c2cac59ec830
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-26'
 author: Dean Luxton
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 4742
 - Windows Event Log Security 4738
-description:
-  This detection identifies when the SID of a privileged user is added to
-  the SID History attribute of another user. Useful for tracking SID history abuse
-  across multiple domains. This detection leverages the Asset and Identities
-  framework. See the implementation section for further details on configuration.
-search:
-  '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -)
-  | rex field=SidHistory "(^%{|^)(?P<SidHistory>.*?)(}$|$)"
-  | eval category="privileged"
-  | lookup identity_lookup_expanded category, identity as SidHistory OUTPUT identity_tag as match
-  | where isnotnull(match)
-  | rename TargetSid as userSid
-  | table _time action status host user userSid SidHistory Logon_ID src_user
-  | `windows_ad_privileged_account_sid_history_addition_filter`'
-how_to_implement:
-  Ensure you have objectSid and the Down Level Logon Name `DOMAIN\sAMACountName`
+description: The following analytic identifies when the SID of a privileged user is
+  added to the SID History attribute of another user. It leverages Windows Security
+  Event Codes 4742 and 4738, combined with identity lookups, to detect this activity.
+  This behavior is significant as it may indicate an attempt to abuse SID history
+  for unauthorized access across multiple domains. If confirmed malicious, this activity
+  could allow an attacker to escalate privileges or maintain persistent access within
+  the environment, posing a significant security risk.
+search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory
+  IN ("%%1793", -) | rex field=SidHistory "(^%{|^)(?P<SidHistory>.*?)(}$|$)" | eval
+  category="privileged" | lookup identity_lookup_expanded category, identity as SidHistory
+  OUTPUT identity_tag as match | where isnotnull(match) | rename TargetSid as userSid
+  | table _time action status host user userSid SidHistory Logon_ID src_user | `windows_ad_privileged_account_sid_history_addition_filter`'
+how_to_implement: Ensure you have objectSid and the Down Level Logon Name `DOMAIN\sAMACountName`
   added to the identity field of your Asset and Identities lookup, along with the
-  category of privileged for the applicable users. Ensure you are
-  ingesting eventcodes 4742 and 4738. Two advanced audit policies
-  `Audit User Account Management` and `Audit Computer Account Management` under
-  `Account Management` are required to generate these event codes.
+  category of privileged for the applicable users. Ensure you are ingesting eventcodes
+  4742 and 4738. Two advanced audit policies `Audit User Account Management` and `Audit
+  Computer Account Management` under `Account Management` are required to generate
+  these event codes.
 known_false_positives: Migration of privileged accounts.
 references:
-  - https://adsecurity.org/?p=1772
+- https://adsecurity.org/?p=1772
 tags:
   analytic_story:
-    - Sneaky Active Directory Persistence Tricks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 90
   impact: 100
-  message: A Privileged User Account SID History Attribute was added to $userSid$ by $src_user$
+  message: A Privileged User Account SID History Attribute was added to $userSid$
+    by $src_user$
   mitre_attack_id:
-    - T1134.005
-    - T1134
+  - T1134.005
+  - T1134
   observable:
-    - name: src_user
-      type: User
-      role:
-        - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   required_fields:
-    - _time
-    - EventCode
-    - SidHistory
-    - TargetSid
-    - TargetDomainName
-    - user
-    - src_user
-    - Logon_ID
+  - _time
+  - EventCode
+  - SidHistory
+  - TargetSid
+  - TargetDomainName
+  - user
+  - src_user
+  - Logon_ID
   risk_score: 90
   security_domain: endpoint
-  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
+  manual_test: This search uses a lookup provided by Enterprise Security and needs
+    to be manually tested.
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/mimikatz/windows-security-xml.log
-        source: XmlWinEventLog:Security
-        sourcetype: xmlwineventlog
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/mimikatz/windows-security-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: xmlwineventlog

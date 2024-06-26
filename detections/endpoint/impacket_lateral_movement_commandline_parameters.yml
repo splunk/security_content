@@ -1,18 +1,19 @@
 name: Impacket Lateral Movement Commandline Parameters
 id: 8ce07472-496f-11ec-ab3b-3e22fbd008af
-version: 3
-date: '2023-06-13'
+version: 4
+date: '2024-05-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the presence of suspicious commandline parameters
-  typically present when using Impacket tools. Impacket is a collection of python
-  classes meant to be used with Microsoft network protocols. There are multiple scripts
-  that leverage impacket libraries like `wmiexec.py`, `smbexec.py`, `dcomexec.py`
-  and `atexec.py` used to execute commands on remote endpoints. By default, these
-  scripts leverage administrative shares and hardcoded parameters that can be used
-  as a signature to detect its use. Red Teams and adversaries alike may leverage Impackets
-  tools for lateral movement and remote code execution.
+description: The following analytic identifies the use of suspicious command-line
+  parameters associated with Impacket tools, such as `wmiexec.py`, `smbexec.py`, `dcomexec.py`,
+  and `atexec.py`, which are used for lateral movement and remote code execution.
+  It detects these activities by analyzing process execution logs from Endpoint Detection
+  and Response (EDR) agents, focusing on specific command-line patterns. This activity
+  is significant because Impacket tools are commonly used by adversaries and Red Teams
+  to move laterally within a network. If confirmed malicious, this could allow attackers
+  to execute commands remotely, potentially leading to further compromise and data
+  exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -91,6 +92,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/impacket/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/impacket/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

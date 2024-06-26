@@ -1,15 +1,18 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
-version: 1
-date: '2021-12-09'
+version: 2
+date: '2024-05-11'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies LOLBAS with network traffic. When adversaries
-  abuse LOLBAS they are often used to download malicious code or executables. The
-  LOLBAS project documents Windows native binaries that can be abused by threat actors
-  to perform tasks like downloading malicious code. Looking for these process can
-  help defenders identify lateral movement, command-and-control, or exfiltration activies.
+description: The following analytic identifies the use of Living Off the Land Binaries
+  and Scripts (LOLBAS) with network traffic. It leverages data from the Network Traffic
+  data model to detect when native Windows binaries, often abused by adversaries,
+  initiate network connections. This activity is significant as LOLBAS are frequently
+  used to download malicious payloads, enabling lateral movement, command-and-control,
+  or data exfiltration. If confirmed malicious, this behavior could allow attackers
+  to execute arbitrary code, escalate privileges, or maintain persistence within the
+  environment, posing a severe threat to organizational security.
 data_source:
 - Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -85,7 +88,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

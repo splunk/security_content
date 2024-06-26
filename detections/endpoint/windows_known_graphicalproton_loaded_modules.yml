@@ -1,20 +1,27 @@
 name: Windows Known GraphicalProton Loaded Modules
 id: bf471c94-0324-4b19-a113-d02749b969bc
-version: 1
-date: '2023-12-18'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 7
-description: The following analytic identifies a potential suspicious process loading dll modules related to Graphicalproton backdoor implant of SVR.
-  These DLL modules have been observed in SVR attacks, commonly used to install backdoors on targeted hosts. 
-  This anomaly detection highlights the need for thorough investigation and immediate mitigation measures to safeguard the network against potential breaches.
-search: '`sysmon` EventCode=7  
-  ImageLoaded IN ("*\\AclNumsInvertHost.dll", "*\\ModeBitmapNumericAnimate.dll", "*\\UnregisterAncestorAppendAuto.dll", "*\\DeregisterSeekUsers.dll", "*\\ScrollbarHandleGet.dll", "*\\PerformanceCaptionApi.dll", "*\\WowIcmpRemoveReg.dll", "*\\BlendMonitorStringBuild.dll", "*\\HandleFrequencyAll.dll", "*\\HardSwapColor.dll", "*\\LengthInMemoryActivate.dll", "*\\ParametersNamesPopup.dll", "*\\ModeFolderSignMove.dll", "*\\ChildPaletteConnected.dll", "*\\AddressResourcesSpec.dll") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode Signed ProcessId Hashes IMPHASH 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic detects the loading of DLL modules associated
+  with the GraphicalProton backdoor implant, commonly used by SVR in targeted attacks.
+  It leverages Sysmon EventCode 7 to identify specific DLLs loaded by processes. This
+  activity is significant as it may indicate the presence of a sophisticated backdoor,
+  warranting immediate investigation. If confirmed malicious, the attacker could gain
+  persistent access to the compromised host, potentially leading to further exploitation
+  and data exfiltration.
+search: '`sysmon` EventCode=7 ImageLoaded IN ("*\\AclNumsInvertHost.dll", "*\\ModeBitmapNumericAnimate.dll",
+  "*\\UnregisterAncestorAppendAuto.dll", "*\\DeregisterSeekUsers.dll", "*\\ScrollbarHandleGet.dll",
+  "*\\PerformanceCaptionApi.dll", "*\\WowIcmpRemoveReg.dll", "*\\BlendMonitorStringBuild.dll",
+  "*\\HandleFrequencyAll.dll", "*\\HardSwapColor.dll", "*\\LengthInMemoryActivate.dll",
+  "*\\ParametersNamesPopup.dll", "*\\ModeFolderSignMove.dll", "*\\ChildPaletteConnected.dll",
+  "*\\AddressResourcesSpec.dll") | stats count min(_time) as firstTime max(_time)
+  as lastTime by Image ImageLoaded process_name dest EventCode Signed ProcessId Hashes
+  IMPHASH | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_known_graphicalproton_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
@@ -57,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/svr_loaded_modules/loaded_module_svr.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/svr_loaded_modules/loaded_module_svr.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

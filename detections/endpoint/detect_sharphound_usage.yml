@@ -1,18 +1,18 @@
 name: Detect SharpHound Usage
 id: dd04b29a-beed-11eb-87bc-acde48001122
-version: 3
-date: '2024-03-14'
+version: 4
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies SharpHound binary usage by using the
-  original filena,e. In addition to renaming the PE, other coverage is available to
-  detect command-line arguments. This particular analytic looks for the original_file_name
-  of `SharpHound.exe` and the process name. It is possible older instances of SharpHound.exe
-  have different original filenames. Dependent upon the operator, the code may be
-  re-compiled and the attributes removed or changed to anything else. During triage,
-  review the metadata of the binary in question. Review parallel processes for suspicious
-  behavior. Identify the source of this binary.
+description: The following analytic detects the usage of the SharpHound binary by
+  identifying its original filename, `SharpHound.exe`, and the process name. This
+  detection leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process metadata and command-line executions. SharpHound is a tool used for Active
+  Directory enumeration, often by attackers during the reconnaissance phase. If confirmed
+  malicious, this activity could allow an attacker to map out the network, identify
+  high-value targets, and plan further attacks, potentially leading to privilege escalation
+  and lateral movement within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,26 +1,31 @@
 name: Windows AD Short Lived Domain Account ServicePrincipalName
 id: b681977c-d90c-4efc-81a5-c58f945fb541
-version: 1
-date: '2022-11-18'
+version: 2
+date: '2024-05-18'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 5136
-description: The following analytic identifies the addition of a Service Principal Name to a domain account that is quickly deleted within 5 minutes or less. While this event may be part of a legitimate action part of certain administrative operations,
-  it may also be evidence of a persistence attack. Domain accounts with Service Principal Names are vulnerable to a technique called Kerberoasting that enables attackers to potentially obtain the cleartext password 
-  of the account by performing offline cracking. An adversary who has obtained privileged access to a domain environment may add an SPN to a privileged account to then leverage the Kerberoasting technique and attempt
-  to obtain its clertext password. To clean things up, the adversary may delete the SPN which will trigger this detection.
+description: The following analytic identifies the addition and quick deletion of
+  a Service Principal Name (SPN) to a domain account within 5 minutes. This detection
+  leverages EventCode 5136 from the Windows Security Event Log, focusing on changes
+  to the servicePrincipalName attribute. This activity is significant as it may indicate
+  an attempt to perform Kerberoasting, a technique used to crack the cleartext password
+  of a domain account offline. If confirmed malicious, this could allow an attacker
+  to gain unauthorized access to sensitive information or escalate privileges within
+  the domain environment.
 search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
-  | transaction ObjectDN AttributeValue startswith=(EventCode=5136 OperationType="%%14674") endswith=(EventCode=5136 OperationType="%%14675")
-  | eval short_lived=case((duration<300),"TRUE") 
-  | search short_lived = TRUE | rename ObjectDN as user
-  | `windows_ad_short_lived_domain_account_serviceprincipalname_filter`'
-how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
- `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
- within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
-known_false_positives: A Service Principal Name should only be added to an account when an application requires it. Adding an SPN and quickly deleting it
-  is less common but may be part of legitimate action. Filter as needed.
+  | transaction ObjectDN AttributeValue startswith=(EventCode=5136 OperationType="%%14674")
+  endswith=(EventCode=5136 OperationType="%%14675") | eval short_lived=case((duration<300),"TRUE")
+  | search short_lived = TRUE | rename ObjectDN as user | `windows_ad_short_lived_domain_account_serviceprincipalname_filter`'
+how_to_implement: To successfully implement this search, you ned to be ingesting eventcode
+  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes`
+  within `DS Access` needs to be enabled. Additionally, a SACL needs to be created
+  for AD objects in order to ingest attribute modifications.
+known_false_positives: A Service Principal Name should only be added to an account
+  when an application requires it. Adding an SPN and quickly deleting it is less common
+  but may be part of legitimate action. Filter as needed.
 references:
 - https://adsecurity.org/?p=3466
 - https://www.thehacker.recipes/ad/movement/dacl/targeted-kerberoasting
@@ -56,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/short_lived_service_principal_name/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/short_lived_service_principal_name/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

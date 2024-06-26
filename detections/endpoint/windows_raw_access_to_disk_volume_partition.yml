@@ -1,20 +1,24 @@
 name: Windows Raw Access To Disk Volume Partition
 id: a85aa37e-9647-11ec-90c5-acde48001122
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to look for suspicious raw access read to device disk
-  partition of the host machine. This technique was seen in several attacks by adversaries
-  or threat actor to wipe, encrypt or overwrite the boot sector of each partition
-  as part of their impact payload for example the "hermeticwiper" malware. This detection
-  is a good indicator that there is a process try to read or write on boot sector.
+description: The following analytic detects suspicious raw access reads to the device
+  disk partition of a host machine. It leverages Sysmon EventCode 9 logs to identify
+  processes attempting to read or write to the boot sector, excluding legitimate system
+  processes. This activity is significant as it is commonly associated with destructive
+  actions by adversaries, such as wiping, encrypting, or overwriting the boot sector,
+  as seen in attacks involving malware like HermeticWiper. If confirmed malicious,
+  this behavior could lead to severe impacts, including system inoperability, data
+  loss, or compromised boot integrity.
 data_source:
 - Sysmon EventID 9
 search: '`sysmon` EventCode=9 Device = \\Device\\HarddiskVolume* NOT (Image IN("*\\Windows\\System32\\*",
   "*\\Windows\\SysWOW64\\*")) | stats count min(_time) as firstTime max(_time) as
-  lastTime by dest signature signature_id process_guid process_name process_path Device | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'
+  lastTime by dest signature signature_id process_guid process_name process_path Device
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_raw_access_to_disk_volume_partition_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the raw access read event (like sysmon eventcode 9), process name and
   process guid from your endpoints. If you are using Sysmon, you must have at least
@@ -51,12 +55,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - dest 
+  - dest
   - signature
   - signature_id
   - process_guid
   - process_name
-  - process_path 
+  - process_path
   - Device
   - EventCode
   - Image
@@ -65,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

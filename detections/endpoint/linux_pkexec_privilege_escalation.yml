@@ -1,14 +1,18 @@
 name: Linux pkexec Privilege Escalation
 id: 03e22c1c-8086-11ec-ac2e-acde48001122
-version: 1
-date: '2022-01-28'
+version: 2
+date: '2024-05-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies `pkexec` spawning with no command-line
-  arguments. A vulnerability in Polkit's pkexec component identified as CVE-2021-4034
-  (PwnKit) which is present in the default configuration of all major Linux distributions
-  and can be exploited to gain full root privileges on the system.
+description: The following analytic detects the execution of `pkexec` without any
+  command-line arguments. This behavior leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on process telemetry. The significance lies in the
+  fact that this pattern is associated with the exploitation of CVE-2021-4034 (PwnKit),
+  a critical vulnerability in Polkit's pkexec component. If confirmed malicious, this
+  activity could allow an attacker to gain full root privileges on the affected Linux
+  system, leading to complete system compromise and potential unauthorized access
+  to sensitive information.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
@@ -84,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/pkexec/linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/pkexec/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

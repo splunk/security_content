@@ -1,24 +1,18 @@
 name: Windows Remote Access Software BRC4 Loaded Dll
 id: 73cf5dcb-cf36-4167-8bbe-384fe5384d05
-version: 1
-date: '2022-08-24'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following anomaly detection identifies the behavior related to 4
-  native Windows DLLs being loaded by a non-standard process. Identified by MDSec
-  during their research into Brute Ratel, MDSec identified a high signal analytic
-  by calling out these 4 DLLs being loaded into a process. LogonCLI.dll is the Net
-  Logon Client DLL and is related to users and other domain services to get authenticated.
-  Credui.dll is Credential Manager User Interface. Credential managers receive notifications
-  when authentication information changes. For example, credential managers are notified
-  when a user logs on or an account password changes. Samcli.dll is the Security Accounts
-  Manager Client DLL. Adversaries may attempt to extract credential material from
-  the Security Account Manager (SAM) database either through in-memory techniques
-  or through the Windows Registry where the SAM database is stored. Dbghelp.dll is
-  Windows Image Helper. Windows Image Helper is commonly seen in credential dumping
-  due to native functions. All of these modules are important to monitor and track
-  and combined may lead to credentail access or dumping.
+description: The following analytic identifies the loading of four specific Windows
+  DLLs (credui.dll, dbghelp.dll, samcli.dll, winhttp.dll) by a non-standard process.
+  This detection leverages Sysmon EventCode 7 to monitor DLL load events and flags
+  when all four DLLs are loaded within a short time frame. This activity is significant
+  as it may indicate the presence of Brute Ratel C4, a sophisticated remote access
+  tool used for credential dumping and other malicious activities. If confirmed malicious,
+  this behavior could lead to unauthorized access, credential theft, and further compromise
+  of the affected system.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode=7 |bin _time span=30s | eval BRC4_AnomalyLoadedDll=case(OriginalFileName=="credui.dll",
@@ -77,7 +71,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,17 +1,29 @@
 name: AWS Exfiltration via Batch Service
 id: 04455dd3-ced7-480f-b8e6-5469b99e98e2
-version: 1
-date: '2023-04-24'
+version: 2
+date: '2024-05-23'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - AWS CloudTrail JobCreated
-description: This search looks for events where AWS Batch Service is used for creating a job that could potentially abuse the AWS Bucket Replication feature on S3 buckets. This AWS service can used to transfer data between different AWS S3 buckets and an attacker can leverage this to exfiltrate data by creating a malicious batch job. 
-search: '`cloudtrail` eventName = JobCreated |  stats count min(_time) as firstTime max(_time) as lastTime values(serviceEventDetails.jobArn) as job_arn values(serviceEventDetails.status) as status by src_ip  aws_account_id eventName errorCode userAgent| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_exfiltration_via_datasync_task_filter`'
+description: The following analytic identifies the creation of AWS Batch jobs that
+  could potentially abuse the AWS Bucket Replication feature on S3 buckets. It leverages
+  AWS CloudTrail logs to detect the `JobCreated` event, analyzing job details and
+  their status. This activity is significant because attackers can exploit this feature
+  to exfiltrate data by creating malicious batch jobs. If confirmed malicious, this
+  could lead to unauthorized data transfer between S3 buckets, resulting in data breaches
+  and loss of sensitive information.
+search: '`cloudtrail` eventName = JobCreated |  stats count min(_time) as firstTime
+  max(_time) as lastTime values(serviceEventDetails.jobArn) as job_arn values(serviceEventDetails.status)
+  as status by src_ip  aws_account_id eventName errorCode userAgent 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `aws_exfiltration_via_batch_service_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
-known_false_positives: It is possible that an AWS Administrator or a user has legitimately created this job for some tasks. 
+known_false_positives: It is possible that an AWS Administrator or a user has legitimately
+  created this job for some tasks.
 references:
 - https://hackingthe.cloud/aws/exploitation/s3-bucket-replication-exfiltration/
 - https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
@@ -49,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

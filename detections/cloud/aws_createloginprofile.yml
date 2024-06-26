@@ -1,15 +1,18 @@
 name: AWS CreateLoginProfile
 id: 2a9b80d3-6340-4345-11ad-212bf444d111
-version: 2
-date: '2021-07-19'
+version: 3
+date: '2024-05-16'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: This search looks for AWS CloudTrail events where a user A(victim A)
-  creates a login profile for user B, followed by a AWS Console login event from user
-  B from the same src_ip as user B. This correlated event can be indicative of privilege
-  escalation since both events happened from the same src_ip
-data_source: 
+description: The following analytic identifies the creation of a login profile for
+  one AWS user by another, followed by a console login from the same source IP. It
+  uses AWS CloudTrail logs to correlate the `CreateLoginProfile` and `ConsoleLogin`
+  events based on the source IP and user identity. This activity is significant as
+  it may indicate privilege escalation, where an attacker creates a new login profile
+  to gain unauthorized access. If confirmed malicious, this could allow the attacker
+  to escalate privileges and maintain persistent access to the AWS environment.
+data_source:
 - AWS CloudTrail CreateLoginProfile
 - AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName = CreateLoginProfile | rename requestParameters.userName
@@ -62,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -1,16 +1,17 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-20'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies command-line arguments where `cmd.exe
-  /c` is used to execute a program. `cmd /c` is used to run commands in MS-DOS and
-  terminate after command or process completion. This technique is commonly seen in
-  adversaries and malware to execute batch command using different shell like PowerShell
-  or different process other than `cmd.exe`. This is a good hunting query for suspicious
-  command-line made by a script or relative process execute it.
+description: The following analytic detects the use of `cmd.exe /c` to execute commands,
+  a technique often employed by adversaries and malware to run batch commands or invoke
+  other shells like PowerShell. This detection leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on command-line executions and process metadata.
+  Monitoring this activity is crucial as it can indicate script-based attacks or unauthorized
+  command execution. If confirmed malicious, this behavior could lead to unauthorized
+  code execution, privilege escalation, or persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
@@ -95,6 +96,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

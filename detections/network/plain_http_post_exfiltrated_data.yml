@@ -1,20 +1,24 @@
 name: Plain HTTP POST Exfiltrated Data
 id: e2b36208-a364-11eb-8909-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect potential plain HTTP POST method data exfiltration.
-  This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary
-  where arguments or commands are sent in plain text to the remote C2 server using
-  HTTP POST method as part of data exfiltration.
-data_source: 
+description: The following analytic detects potential data exfiltration using plain
+  HTTP POST requests. It leverages network traffic logs, specifically monitoring the
+  `stream_http` data source for POST methods containing suspicious form data such
+  as "wermgr.exe" or "svchost.exe". This activity is significant because it is commonly
+  associated with malware like Trickbot, trojans, keyloggers, or APT adversaries,
+  which use plain text HTTP POST requests to communicate with remote C2 servers. If
+  confirmed malicious, this activity could lead to unauthorized data exfiltration,
+  compromising sensitive information and potentially leading to further network infiltration.
+data_source:
 - Splunk Stream HTTP
 search: '`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*",
   "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") |stats values(form_data)
-  as http_request_body min(_time) as firstTime max(_time) as lastTime count by src_ip dest_ip http_method
-  http_user_agent uri_path url bytes_in bytes_out | `security_content_ctime(firstTime)`
+  as http_request_body min(_time) as firstTime max(_time) as lastTime count by src_ip
+  dest_ip http_method http_user_agent uri_path url bytes_in bytes_out | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `plain_http_post_exfiltrated_data_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the stream HTTP logs or network logs that catch network traffic. Make
@@ -29,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A http post $http_method$ sending packet with plain text of information in uri path $uri_path$
+  message: A http post $http_method$ sending packet with plain text of information
+    in uri path $uri_path$
   mitre_attack_id:
   - T1048.003
   - T1048
@@ -55,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
     source: stream
     sourcetype: stream:http

@@ -1,19 +1,20 @@
 name: Notepad with no Command Line Arguments
 id: 5adbc5f1-9a2f-41c1-a810-f37e015f8179
-version: 1
-date: '2023-02-22'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
-description: The following analytic identifies behavior related to default SliverC2
-  framework where it will inject into Notepad.exe and spawn Notepad.exe with no command
-  line arguments. In testing, this is a common procedure for SliverC2 usage, however
-  may be modified or changed. From Microsoft, "The Sideload, SpawnDll, and Execute-Assembly
-  commands spawn and inject into notepad.exe by default. The following query finds
-  process creation events where the same process creates and injects into notepad.exe
-  within 10 seconds."
+description: The following analytic identifies instances where Notepad.exe is launched
+  without any command line arguments, a behavior commonly associated with the SliverC2
+  framework. This detection leverages process creation events from Endpoint Detection
+  and Response (EDR) agents, focusing on processes initiated by Notepad.exe within
+  a short time frame. This activity is significant as it may indicate an attempt to
+  inject malicious code into Notepad.exe, a known tactic for evading detection. If
+  confirmed malicious, this could allow an attacker to execute arbitrary code, potentially
+  leading to system compromise and unauthorized access.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=notepad.exe
   AND Processes.action!="blocked" by host _time span=1h Processes.process_id Processes.process_name
@@ -80,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/notepad_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/notepad_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

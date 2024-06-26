@@ -1,15 +1,18 @@
 name: Linux c99 Privilege Escalation
 id: e1c6dec5-2249-442d-a1f9-99a4bd228183
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-21'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: The c99 utility is an interface to the standard C compilation system;
-  it shall accept source code conforming to the ISO C standard. The system conceptually
-  consists of a compiler and link editor. If sudo right is given to ruby application
-  for the user, then the user can run system commands as root and possibly get a root
-  shell.
+description: The following analytic detects the execution of the c99 utility with
+  sudo privileges, which can lead to privilege escalation on Linux systems. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs that include command-line details. This activity is significant because it
+  indicates a potential misuse of the c99 utility to gain root access, which is critical
+  for maintaining system security. If confirmed malicious, this could allow an attacker
+  to execute commands as root, potentially compromising the entire system and accessing
+  sensitive information.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/c99/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/c99/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

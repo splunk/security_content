@@ -1,18 +1,19 @@
 name: Windows Private Keys Discovery
 id: 5c1c2877-06c0-40ee-a1a2-db71f1372b5b
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a process command line that retrieves
-  information related to private keys files. This technique was seen in several post
-  exploitation tools like winpeas that are being used by Ransomware Prestige to search
-  for private key certificates on the compromised host for insecurely stored credentials.
-  This files can be used by adversaries to gain privileges, persistence or remote
-  service authentication to collect more sensitive information. Some private keys
-  required password for operation, so in this case adversaries may need to have that
-  passphrase either via keylogging or brute force attack.
+description: The following analytic identifies processes that retrieve information
+  related to private key files, often used by post-exploitation tools like winpeas.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on command-line executions that search for private key certificates. This
+  activity is significant as it indicates potential attempts to locate insecurely
+  stored credentials, which adversaries can exploit for privilege escalation, persistence,
+  or remote service authentication. If confirmed malicious, this behavior could allow
+  attackers to access sensitive information, escalate privileges, or maintain persistence
+  within the compromised environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,7 +80,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/winpeas_search_private_key/dir-private-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/winpeas_search_private_key/dir-private-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

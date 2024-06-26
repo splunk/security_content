@@ -1,16 +1,18 @@
 name: Bcdedit Command Back To Normal Mode Boot
 id: dc7a8004-0f18-11ec-8c54-acde48001122
-version: 1
-date: '2021-09-06'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious bcdedit commandline to configure
-  the host from safe mode back to normal boot configuration. This technique was seen
-  in blackMatter ransomware where it force the compromised host to boot in safe mode
-  to continue its encryption and bring back to normal boot using bcdedit deletevalue
-  command. This TTP can be a good alert for host that booted from safe mode forcefully
-  since it need to modify the boot configuration to bring it back to normal.
+description: The following analytic detects the execution of a suspicious `bcdedit`
+  command that reconfigures a host from safe mode back to normal boot. This detection
+  leverages Endpoint Detection and Response (EDR) data, focusing on command-line executions
+  involving `bcdedit.exe` with specific parameters. This activity is significant as
+  it may indicate the presence of ransomware, such as BlackMatter, which manipulates
+  boot configurations to facilitate encryption processes. If confirmed malicious,
+  this behavior could allow attackers to maintain control over the boot process, potentially
+  leading to further system compromise and data encryption.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.002/autoadminlogon/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.002/autoadminlogon/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

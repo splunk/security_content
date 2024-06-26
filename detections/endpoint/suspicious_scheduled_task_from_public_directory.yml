@@ -1,21 +1,18 @@
 name: Suspicious Scheduled Task from Public Directory
 id: 7feb7972-7ac3-11eb-bac8-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-20'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic, "Suspicious Scheduled Task from Public Directory",
-  detects the registration of scheduled tasks aimed to execute a binary or script
-  from public directories, a behavior often associated with malware deployment. It
-  utilizes the Sysmon EventID 1 data source, searching for instances where schtasks.exe
-  is connected with the directories users\public, \programdata\, or \windows\temp
-  and involves the /create command.
-
-  The registration of such scheduled tasks in public directories could suggest that
-  an attacker is trying to maintain persistence or execute malicious scripts. If confirmed
-  as a true positive, this could lead to data compromise, unauthorized access, and
-  potential lateral movement within the network.'
+description: 'The following analytic identifies the creation of scheduled tasks that
+  execute binaries or scripts from public directories, such as users\public, \programdata\,
+  or \windows\temp, using schtasks.exe with the /create command. It leverages Sysmon
+  Event ID 1 data to detect this behavior. This activity is significant because it
+  often indicates an attempt to maintain persistence or execute malicious scripts,
+  which are common tactics in malware deployment. If confirmed as malicious, this
+  could lead to data compromise, unauthorized access, and potential lateral movement
+  within the network.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -85,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtasks/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtasks/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

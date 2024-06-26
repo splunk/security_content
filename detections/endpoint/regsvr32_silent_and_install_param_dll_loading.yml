@@ -1,16 +1,17 @@
 name: Regsvr32 Silent and Install Param Dll Loading
 id: f421c250-24e7-11ec-bc43-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a loading of dll using regsvr32 application
-  with silent parameter and dllinstall execution. This technique was seen in several
-  RAT malware similar to remcos, njrat and adversaries to load their malicious DLL
-  on the compromised machine. This TTP may executed by normal 3rd party application
-  so it is better to pivot by the parent process, parent command-line and command-line
-  of the file that execute this regsvr32.
+description: The following analytic detects the loading of a DLL using the regsvr32
+  application with the silent parameter and DLLInstall execution. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process command-line
+  arguments and parent process details. This activity is significant as it is commonly
+  used by RAT malware like Remcos and njRAT to load malicious DLLs on compromised
+  machines. If confirmed malicious, this technique could allow attackers to execute
+  arbitrary code, maintain persistence, and further compromise the system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -89,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

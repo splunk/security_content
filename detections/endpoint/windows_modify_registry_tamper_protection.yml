@@ -1,24 +1,27 @@
 name: Windows Modify Registry Tamper Protection
 id: 12094335-88fc-4c3a-b55f-e62dd8c93c23
-version: 1
-date: '2023-04-21'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a suspicious registry modification to tamper Windows Defender protection. 
-  This technique was being abused by several adversaries, malware authors and also red-teamers to evade detection on the targeted machine. 
-  RedLine Stealer is one of the malware we've seen that uses this technique to bypass Windows defender detection.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path="*\\SOFTWARE\\Microsoft\\Windows Defender\\Features\\TamperProtection"
-  AND Registry.registry_value_data="0x00000000" 
-  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_key_name 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` 
-  | `windows_modify_registry_tamper_protection_filter`'
+description: The following analytic detects a suspicious modification to the Windows
+  Defender Tamper Protection registry setting. It leverages data from the Endpoint
+  datamodel, specifically targeting changes where the registry path is set to disable
+  Tamper Protection. This activity is significant because disabling Tamper Protection
+  can allow adversaries to make further undetected changes to Windows Defender settings,
+  potentially leading to reduced security on the system. If confirmed malicious, this
+  could enable attackers to evade detection, persist in the environment, and execute
+  further malicious activities without interference from Windows Defender.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Microsoft\\Windows
+  Defender\\Features\\TamperProtection" AND Registry.registry_value_data="0x00000000"
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.registry_key_name | `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` | `windows_modify_registry_tamper_protection_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -32,7 +35,7 @@ tags:
   analytic_story:
   - RedLine Stealer
   asset_type: Endpoint
-  atomic_guid: 
+  atomic_guid:
   - 12e03af7-79f9-4f95-af48-d3f12f28a260
   confidence: 70
   impact: 70
@@ -62,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

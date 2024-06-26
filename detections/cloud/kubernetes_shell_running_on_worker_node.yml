@@ -1,45 +1,56 @@
 name: Kubernetes Shell Running on Worker Node
 id: efebf0c4-dcf4-496f-85a2-5ab7ad8fa876
-version: 1
-date: '2023-12-18'
+version: 2
+date: '2024-05-25'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: This analytic identifies shell activity within the Kubernetes privilege scope on a worker node, returning a list of shell processes regardless of CPU resource consumption. 
-  It uses process metrics from an OTEL collector hostmetrics receiver, pulled from Splunk Observability cloud via the Splunk Infrastructure Monitoring Add-on. 
-  Metrics used are process.cpu.utilization and process.memory.utilization. Shell processes can indicate unauthorized or suspicious activity, posing a security threat. 
-  Shell access to worker nodes can provide attackers an entry point to compromise the node and the entire Kubernetes cluster. Monitoring and detecting shell processes is crucial for anomaly identification, security policy enforcement, and breach mitigation.
-  Unauthorized shell processes on a Kubernetes worker node can severely compromise the cluster's security and integrity. Such access can lead to data theft, service disruption, privilege escalation, lateral movement, and further attacks within the cluster. 
-  It may also enable attackers to manipulate configurations, deploy malicious containers, and execute arbitrary code, posing a severe risk to the confidentiality, availability, and integrity of applications and sensitive data.
+description: The following analytic identifies shell activity within the Kubernetes
+  privilege scope on a worker node. It leverages process metrics from an OTEL collector
+  hostmetrics receiver, specifically process.cpu.utilization and process.memory.utilization,
+  pulled from Splunk Observability Cloud. This activity is significant as unauthorized
+  shell processes can indicate potential security threats, providing attackers an
+  entry point to compromise the node and the entire Kubernetes cluster. If confirmed
+  malicious, this activity could lead to data theft, service disruption, privilege
+  escalation, lateral movement, and further attacks, severely compromising the cluster's
+  security and integrity.
 data_source: []
 search: '| mstats avg(process.cpu.utilization) as process.cpu.utilization avg(process.memory.utilization) as process.memory.utilization 
   where `kubernetes_metrics` AND process.executable.name IN ("sh","bash","csh", "tcsh") by host.name k8s.cluster.name k8s.node.name process.pid process.executable.name span=10s
   | search process.cpu.utilization>0 OR process.memory.utilization>0
   | stats avg(process.cpu.utilization) as process.cpu.utilization avg(process.memory.utilization) as process.memory.utilization by host.name k8s.cluster.name k8s.node.name process.pid process.executable.name
   | rename host.name as host
-  | `kubernetes_shell_running_on_worker_node_filter` '
+  | `kubernetes_shell_running_on_worker_node_filter`'
 how_to_implement: 'To implement this detection, follow these steps: 
   
   * Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
-  
+
   * Enable the hostmetrics/process receiver in the OTEL configuration.
-  
-  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
-  
+
+  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization,
+  are enabled.
+
   * Install the Splunk Infrastructure Monitoring (SIM) add-on. (ref: https://splunkbase.splunk.com/app/5247)
-  
-  * Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
-  
+
+  * Configure the SIM add-on with your Observability Cloud Organization ID and Access
+  Token.
+
   * Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
-  
-  * In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
-  
-  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
-  
+
+  * In the SIM configuration, set the Organization ID to your Observability Cloud
+  Organization ID.
+
+  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A'');
+  data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C'');
+  data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E'');
+  data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G'');
+  data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I'');
+  data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+
   * Set the Metric Resolution to 10000.
-  
+
   * Leave all other settings at their default values.
-  
+
   * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
 known_false_positives: unknown
 references:

@@ -1,14 +1,18 @@
 name: Windows Service Creation on Remote Endpoint
 id: e0eea4fa-4274-11ec-882b-3e22fbd008af
-version: 1
-date: '2021-11-10'
+version: 2
+date: '2024-05-21'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `sc.exe` with command-line arguments
-  utilized to create a Windows Service on a remote endpoint. Red Teams and adversaries
-  alike may abuse the Service Control Manager for lateral movement and remote code
-  execution.
+description: The following analytic identifies the creation of a Windows Service on
+  a remote endpoint using `sc.exe`. It detects this activity by analyzing process
+  execution logs from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  arguments that include remote paths and service creation commands. This behavior
+  is significant because adversaries often exploit the Service Control Manager for
+  lateral movement and remote code execution. If confirmed malicious, this activity
+  could allow attackers to execute arbitrary code on remote systems, potentially leading
+  to further compromise and persistence within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

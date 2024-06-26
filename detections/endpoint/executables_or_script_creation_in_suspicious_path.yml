@@ -1,17 +1,18 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic identifies potentially malicious executables or scripts
-  by examining a list of suspicious file paths on Windows Operating System. The purpose
-  of this technique is to uncover files with known file extensions that could be used
-  by adversaries to evade detection and persistence. The suspicious file paths selected
-  for investigation are typically uncommon and uncommonly associated with executable
-  or script files. By scrutinizing these paths, we can proactively identify potential
-  security threats and enhance overall system security.
+description: The following analytic identifies the creation of executables or scripts
+  in suspicious file paths on Windows systems. It leverages the Endpoint.Filesystem
+  data model to detect files with specific extensions (e.g., .exe, .dll, .ps1) created
+  in uncommon directories (e.g., \windows\fonts\, \users\public\). This activity is
+  significant as adversaries often use these paths to evade detection and maintain
+  persistence. If confirmed malicious, this behavior could allow attackers to execute
+  unauthorized code, escalate privileges, or persist within the environment, posing
+  a significant security threat.
 data_source:
 - Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
@@ -103,6 +104,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,28 +1,27 @@
 name: Windows Impair Defense Change Win Defender Health Check Intervals
 id: 5211c260-820e-4366-b983-84bbfb5c263a
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to change the health check interval of Windows Defender.
-  Specifically, a value of 1 typically signifies that Windows Defender would perform health checks at a much higher frequency than the default settings. 
-  However, it's important to note that modifying this value to 1 might not necessarily conform to the actual behavior, as certain registry settings may 
-  have specific accepted values or a defined range that differs from a simple binary representation.
-  Changing registry values, especially those related to system services, should be approached cautiously. 
-  Incorrect modifications can potentially impact system stability or performance. Always ensure you understand the implications and 
-  have a backup before altering registry settings.
+description: The following analytic detects modifications to the Windows registry
+  that change the health check interval of Windows Defender. It leverages data from
+  the Endpoint datamodel, specifically monitoring changes to the "ServiceKeepAlive"
+  registry path with a value of "0x00000001". This activity is significant because
+  altering Windows Defender settings can impair its ability to perform timely health
+  checks, potentially leaving the system vulnerable. If confirmed malicious, this
+  could allow an attacker to disable or delay security scans, increasing the risk
+  of undetected malware or other malicious activities.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\ServiceKeepAlive"
-  Registry.registry_value_data="0x00000001" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_impair_defense_change_win_defender_health_check_intervals_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\ServiceKeepAlive" Registry.registry_value_data="0x00000001" by Registry.registry_key_name
+  Registry.user Registry.registry_path Registry.registry_value_data Registry.action
+  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_change_win_defender_health_check_intervals_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -66,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

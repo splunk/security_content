@@ -1,12 +1,12 @@
 name: File with Samsam Extension
 id: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
-version: 1
-date: '2018-12-14'
+version: 2
+date: '2024-05-22'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects file writes with extensions that are consistent with a SamSam ransomware attack to proactively detect and respond to potential SamSam ransomware attacks, minimizing the impact and reducing the likelihood of successful ransomware infections. This detection is made by a Splunk query to search for specific file extensions that are commonly associated with SamSam ransomware, such as .stubbin, .berkshire, .satoshi, .sophos, and .keyxml. This identifies file extensions in the file names of the written files. If any file write events with these extensions are found, it suggests a potential SamSam ransomware attack. This detection is important because SamSam ransomware is a highly destructive and financially motivated attack and suggests that the organization is at risk of having its files encrypted and held for ransom, which can lead to significant financial losses, operational disruptions, and reputational damage. False positives might occur since legitimate files with these extensions can exist in the environment. Therefore, next steps include conducting a careful analysis and triage to confirm the presence of a SamSam ransomware attack. Next steps include taking immediate action to contain the attack, mitigate the impact, and prevent further spread of the ransomware. This might involve isolating affected systems, restoring encrypted files from backups, and conducting a thorough investigation to identify the attack source and prevent future incidents.
+  The following analytic detects file writes with extensions indicative of a SamSam ransomware attack. It leverages file-system activity data to identify file names ending in .stubbin, .berkshire, .satoshi, .sophos, or .keyxml. This activity is significant because SamSam ransomware is highly destructive, leading to file encryption and ransom demands. If confirmed malicious, the impact includes significant financial losses, operational disruptions, and reputational damage. Immediate actions should include isolating affected systems, restoring files from backups, and investigating the attack source to prevent further incidents.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -60,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/samsam_extension/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/samsam_extension/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

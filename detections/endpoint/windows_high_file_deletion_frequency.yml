@@ -1,26 +1,35 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
-version: 2
-date: '2024-03-05'
+version: 3
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
-description: This search identifies a high frequency of file deletions relative to the process
-  name and process ID. Such events typically occur when ransomware attempts to encrypt
-  files with specific extensions, leading Sysmon to treat the original files
-  as deleted as soon as they are replaced with encrypted data.
+description: The following analytic identifies a high frequency of file deletions
+  by monitoring Sysmon EventCodes 23 and 26 for specific file extensions. This detection
+  leverages Sysmon logs to track deleted target filenames, process names, and process
+  IDs. Such activity is significant as it often indicates ransomware behavior, where
+  files are encrypted and the originals are deleted. If confirmed malicious, this
+  activity could lead to extensive data loss and operational disruption, as ransomware
+  can render critical files inaccessible, demanding a ransom for their recovery.
 data_source:
 - Sysmon EventID 23
 - Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt", "*.pptx", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", "*.win") NOT TargetFilename IN ("*\\INetCache\\Content.Outlook\\*")
-  | stats count, values(TargetFilename) as deleted_files, min(_time) as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image, process_name, process_guid
-  | rename Image as process 
-  | where count >=100 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.cmd", "*.ini","*.gif",
+  "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt",
+  "*.pptx", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs",
+  "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", "*.win") NOT
+  TargetFilename IN ("*\\INetCache\\Content.Outlook\\*") | stats count, values(TargetFilename)
+  as deleted_files, min(_time) as firstTime, max(_time) as lastTime by user, dest,
+  signature, signature_id, Image, process_name, process_guid | rename Image as process
+  | where count >=100 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_high_file_deletion_frequency_filter`'
-how_to_implement: To successfully implement this search, you need to ingest logs that include the deleted target file name, process name, and process ID from your endpoints. If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
-known_false_positives: Users may delete a large number of pictures or files in a folder, which could trigger this detection. Additionally, heavy usage of PowerBI and Outlook may also result in false positives.
+how_to_implement: To successfully implement this search, you need to ingest logs that
+  include the deleted target file name, process name, and process ID from your endpoints.
+  If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
+known_false_positives: Users may delete a large number of pictures or files in a folder,
+  which could trigger this detection. Additionally, heavy usage of PowerBI and Outlook
+  may also result in false positives.
 references:
 - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
@@ -36,7 +45,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: Elevated file deletion rate observed from process [$process_name$] on machine $dest$
+  message: Elevated file deletion rate observed from process [$process_name$] on machine
+    $dest$
   mitre_attack_id:
   - T1485
   observable:
@@ -55,7 +65,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Attacker  
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -73,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

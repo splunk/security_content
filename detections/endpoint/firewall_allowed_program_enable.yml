@@ -1,15 +1,18 @@
 name: Firewall Allowed Program Enable
 id: 9a8f63a8-43ac-11ec-904c-acde48001122
-version: 1
-date: '2021-11-12'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a potential suspicious modification of firewall
-  rule allowing to execute specific application. This technique was identified when
-  an adversary and red teams to bypassed firewall file execution restriction in a
-  targetted host. Take note that this event or command can run by administrator during
-  testing or allowing legitimate tool or application.
+description: The following analytic detects the modification of a firewall rule to
+  allow the execution of a specific application. This detection leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process creation events
+  with command-line arguments related to firewall rule changes. This activity is significant
+  as it may indicate an attempt to bypass firewall restrictions, potentially allowing
+  unauthorized applications to communicate over the network. If confirmed malicious,
+  this could enable an attacker to execute arbitrary code, escalate privileges, or
+  maintain persistence within the target environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

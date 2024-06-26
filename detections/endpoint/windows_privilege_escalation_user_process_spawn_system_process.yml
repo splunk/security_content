@@ -1,68 +1,94 @@
----
 name: Windows Privilege Escalation User Process Spawn System Process
 id: c9687a28-39ad-43c6-8bcf-eaf061ba0cbe
-version: 1
-date: '2023-11-30'
+version: 2
+date: '2024-05-13'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects when any process low->high integrity level process spawns a system integrity process from a user controlled location. This behavior is often seen when attackers successfully escalate privileges to SYSTEM from a user controlled process or service.
+description: The following analytic detects when a process with low, medium, or high
+  integrity spawns a system integrity process from a user-controlled location. This
+  behavior is indicative of privilege escalation attempts where attackers elevate
+  their privileges to SYSTEM level from a user-controlled process or service. The
+  detection leverages Sysmon data, specifically Event ID 15, to identify such transitions.
+  Monitoring this activity is crucial as it can signify an attacker gaining SYSTEM-level
+  access, potentially leading to full control over the affected system, unauthorized
+  access to sensitive data, and further malicious activities.
 data_source:
 - Sysmon EventID 1
 search: >-
-  | tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("low","medium","high") NOT Processes.user IN ("*SYSTEM","*LOCAL SERVICE","*NETWORK SERVICE","DWM-*","*$") AND Processes.process_path IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*") by Processes.dest, Processes.user, Processes.parent_process_guid, Processes.parent_process, Processes.parent_process_name Processes.process_name
-  Processes.process, Processes.process_path, Processes.process_guid, Processes.process_integrity_level, Processes.process_current_directory | `drop_dm_object_name(Processes)` | eval join_guid = process_guid | join max=0 dest join_guid  [| tstats `security_content_summariesonly` count max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("system") AND Processes.parent_process_path IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*") by
-  Processes.dest, Processes.user, Processes.parent_process_guid, Processes.process_name, Processes.process, Processes.process_path, Processes.process_integrity_level, Processes.process_current_directory | `drop_dm_object_name(Processes)` | rename parent_process_guid as join_guid, process* as system_process*, user as system_user ] | fields dest, user, parent_process, parent_process_name, parent_process_guid, process, process_name, process_guid, process_integrity_level,process_path,
-  process_current_directory, system_process_name, system_process, system_process_path, system_process_integrity_level, system_process_current_directory, system_user, firstTime, lastTime, count | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)` | `windows_privilege_escalation_user_process_spawn_system_process_filter`
-how_to_implement: Target environment must ingest sysmon data, specifically Event ID 15.
+  | tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes
+  where Processes.process_integrity_level IN ("low","medium","high") NOT Processes.user
+  IN ("*SYSTEM","*LOCAL SERVICE","*NETWORK SERVICE","DWM-*","*$") AND Processes.process_path
+  IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*") by Processes.dest,
+  Processes.user, Processes.parent_process_guid, Processes.parent_process, Processes.parent_process_name
+  Processes.process_name
+  Processes.process, Processes.process_path, Processes.process_guid, Processes.process_integrity_level,
+  Processes.process_current_directory | `drop_dm_object_name(Processes)` | eval join_guid
+  = process_guid | join max=0 dest join_guid  [| tstats `security_content_summariesonly`
+  count max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level
+  IN ("system") AND Processes.parent_process_path IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*")
+  by
+  Processes.dest, Processes.user, Processes.parent_process_guid, Processes.process_name,
+  Processes.process, Processes.process_path, Processes.process_integrity_level, Processes.process_current_directory
+  | `drop_dm_object_name(Processes)` | rename parent_process_guid as join_guid, process*
+  as system_process*, user as system_user ] | fields dest, user, parent_process, parent_process_name,
+  parent_process_guid, process, process_name, process_guid, process_integrity_level,process_path,
+  process_current_directory, system_process_name, system_process, system_process_path,
+  system_process_integrity_level, system_process_current_directory, system_user, firstTime,
+  lastTime, count | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`
+  | `windows_privilege_escalation_user_process_spawn_system_process_filter`
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID
+  15.
 known_false_positives: Unknown
 references:
-  - https://attack.mitre.org/techniques/T1068/
-  - https://vuls.cert.org/confluence/display/Wiki/2021/06/21/Finding+Privilege+Escalation+Vulnerabilities+in+Windows+using+Process+Monitor
-  - https://redcanary.com/blog/getsystem-offsec/
-  - https://atomicredteam.io/privilege-escalation/T1134.001/
+- https://attack.mitre.org/techniques/T1068/
+- https://vuls.cert.org/confluence/display/Wiki/2021/06/21/Finding+Privilege+Escalation+Vulnerabilities+in+Windows+using+Process+Monitor
+- https://redcanary.com/blog/getsystem-offsec/
+- https://atomicredteam.io/privilege-escalation/T1134.001/
 tags:
   analytic_story:
-    - Windows Privilege Escalation
+  - Windows Privilege Escalation
   asset_type: Endpoint
   confidence: 80
   impact: 100
-  message: The user $user$ launched a process [$process_name$] which spawned a system level integrity process [$system_process$].
+  message: The user $user$ launched a process [$process_name$] which spawned a system
+    level integrity process [$system_process$].
   mitre_attack_id:
-    - T1068
-    - T1548
-    - T1134
+  - T1068
+  - T1548
+  - T1134
   observable:
-    - name: dest
-      role:
-        - Victim
-      type: Hostname
-    - name: user
-      role:
-        - Victim
-      type: User
-    - name: process_name
-      role:
-        - Attacker
-      type: Other
+  - name: dest
+    role:
+    - Victim
+    type: Hostname
+  - name: user
+    role:
+    - Victim
+    type: User
+  - name: process_name
+    role:
+    - Attacker
+    type: Other
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   required_fields:
-    - _time
-    - dest
-    - user
-    - ParentUser
-    - parent_process_name
-    - parent_process_guid
-    - IntegrityLevel
+  - _time
+  - dest
+  - user
+  - ParentUser
+  - parent_process_name
+  - parent_process_guid
+  - IntegrityLevel
   risk_score: 80
   security_domain: endpoint
 tests:
-  - attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/windows_escalation_behavior/windows_escalation_behavior_sysmon.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
-        update_timestamp: true
-    name: True Positive Test
+- attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/windows_escalation_behavior/windows_escalation_behavior_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
+    update_timestamp: true
+  name: True Positive Test

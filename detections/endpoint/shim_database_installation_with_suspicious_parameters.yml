@@ -1,15 +1,18 @@
 name: Shim Database Installation With Suspicious Parameters
 id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
-version: 4
-date: '2020-11-23'
+version: 5
+date: '2024-05-09'
 author: David Dorsey, Splunk
 status: production
 type: TTP
-description: This search detects the process execution and arguments required to silently
-  create a shim database.  The sdbinst.exe application is used to install shim database
-  files (.sdb). A shim is a small library which transparently intercepts an API, changes
-  the parameters passed, handles the operation itself, or redirects the operation
-  elsewhere.
+description: The following analytic detects the execution of sdbinst.exe with parameters
+  indicative of silently creating a shim database. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names, parent processes,
+  and command-line arguments. This activity is significant because shim databases
+  can be used to intercept and manipulate API calls, potentially allowing attackers
+  to bypass security controls or achieve persistence. If confirmed malicious, this
+  could enable unauthorized code execution, privilege escalation, or persistent access
+  to the compromised system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -63,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

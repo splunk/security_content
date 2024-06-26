@@ -1,30 +1,20 @@
 name: Windows Scheduled Task Created Via XML
 id: 7e03b682-3965-4598-8e91-a60a40a3f7e4
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: 'The following analytic detects the creation of suspicious scheduled
-  tasks in Windows, specifically tasks created using schtasks.exe with the -create
-  flag and an XML parameter in the command-line. This technique is commonly employed
-  by threat actors, adversaries, and red teamers to establish persistence or achieve
-  privilege escalation on targeted hosts. Notably, malware like Trickbot and Winter-Vivern
-  have been observed using XML files to create scheduled tasks. Monitoring and investigating
-  this activity is crucial to mitigate potential security risks. It is important to
-  be aware that scripts or administrators may trigger this analytic, leading to potential
-  false positives. To minimize false positives, adjust the filter based on the parent
-  process or application.
-
-  When a true positive is detected, it suggests an attacker''s attempt to gain persistence
-  or execute additional malicious payloads, potentially resulting in data theft, ransomware,
-  or other damaging outcomes. During triage, review the source of the scheduled task,
-  the command to be executed, and capture any relevant on-disk artifacts. Analyze
-  concurrent processes to identify the source of the attack. This analytic enables
-  analysts to detect and respond to potential threats early, mitigating the associated
-  risks effectively.'
+description: 'The following analytic detects the creation of scheduled tasks in Windows
+  using schtasks.exe with the -create flag and an XML parameter. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  executions and process details. This activity is significant as it is a common technique
+  for establishing persistence or achieving privilege escalation, often used by malware
+  like Trickbot and Winter-Vivern. If confirmed malicious, this could allow attackers
+  to maintain access, execute additional payloads, and potentially lead to data theft
+  or ransomware deployment.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
   Processes.process=*create* Processes.process="* /xml *" by Processes.user  Processes.parent_process_name
@@ -89,7 +79,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

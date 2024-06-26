@@ -1,22 +1,27 @@
 name: Enable RDP In Other Port Number
 id: 99495452-b899-11eb-96dc-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-05-29'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a modification to registry to enable rdp to
-  a machine with different port number. This technique was seen in some atttacker
-  tries to do lateral movement and remote access to a compromised machine to gain
-  control of it.
+description: The following analytic detects modifications to the registry that enable
+  RDP on a machine using a non-default port number. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path "HKLM\SYSTEM\CurrentControlSet\Control\Terminal
+  Server\WinStations\RDP-Tcp" and the "PortNumber" value. This activity is significant
+  as attackers often modify RDP settings to facilitate lateral movement and maintain
+  remote access to compromised systems. If confirmed malicious, this could allow attackers
+  to bypass network defenses, gain persistent access, and potentially control the
+  compromised machine.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal
   Server\\WinStations\\RDP-Tcp*" Registry.registry_value_name = "PortNumber") BY _time
-  span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
+  span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `enable_rdp_in_other_port_number_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -61,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

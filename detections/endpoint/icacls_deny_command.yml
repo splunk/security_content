@@ -1,17 +1,18 @@
 name: Icacls Deny Command
 id: cf8d753e-a8fe-11eb-8f58-acde48001122
-version: 1
-date: '2023-06-06'
+version: 2
+date: '2024-05-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies instances where an adversary modifies the security
-  permissions of a particular file or directory. This technique is frequently observed
-  in the tradecraft of Advanced Persistent Threats (APTs) and coinminer scripts. The
-  purpose of this behavior is to actively evade detection and impede access to their
-  associated files. By identifying these security permission changes, we can enhance
-  our ability to detect and respond to potential threats, mitigating the impact of
-  malicious activities on the system.
+description: The following analytic detects instances where an adversary modifies
+  security permissions of a file or directory using commands like "icacls.exe", "cacls.exe",
+  or "xcacls.exe" with deny options. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on process names and command-line executions. This
+  activity is significant as it is commonly used by Advanced Persistent Threats (APTs)
+  and coinminer scripts to evade detection and impede access to critical files. If
+  confirmed malicious, this could allow attackers to maintain persistence and hinder
+  incident response efforts.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
@@ -71,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

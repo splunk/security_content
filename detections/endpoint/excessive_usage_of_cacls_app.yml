@@ -1,14 +1,17 @@
 name: Excessive Usage Of Cacls App
 id: 0bdf6092-af17-11eb-939a-acde48001122
-version: 1
-date: '2021-05-07'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe`
-  or `icacls.exe` application to change file or folder permission. This behavior is
-  commonly seen where the adversary attempts to impair some users from deleting or
-  accessing its malware components or artifact from the compromised system.
+description: The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe`,
+  or `icacls.exe` to change file or folder permissions. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names and command-line
+  executions. This activity is significant as it may indicate an adversary attempting
+  to restrict access to malware components or artifacts on a compromised system. If
+  confirmed malicious, this behavior could prevent users from deleting or accessing
+  critical files, aiding in the persistence and concealment of malicious activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -70,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

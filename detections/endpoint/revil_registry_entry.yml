@@ -1,15 +1,19 @@
 name: Revil Registry Entry
 id: e3d3f57a-c381-11eb-9e35-acde48001122
-version: 3
-date: '2022-11-14'
+version: 4
+date: '2024-05-24'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies suspicious modification in registry entry to
-  keep some malware data during its infection. This technique seen in several apt
-  implant, malware and ransomware like REVIL where it keep some information like the
-  random generated file extension it uses for all the encrypted files and ransomware
-  notes file name in the compromised host.
+description: The following analytic identifies suspicious modifications in the registry
+  entry, specifically targeting paths used by malware like REVIL. It detects changes
+  in registry paths such as `SOFTWARE\\WOW6432Node\\Facebook_Assistant` and `SOFTWARE\\WOW6432Node\\BlackLivesMatter`.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on registry modifications linked to process GUIDs. This activity is significant
+  as it indicates potential malware persistence mechanisms, often used by advanced
+  persistent threats (APTs) and ransomware. If confirmed malicious, this could allow
+  attackers to maintain persistence, encrypt files, and store critical ransomware-related
+  information on compromised hosts.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 12
@@ -87,6 +91,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

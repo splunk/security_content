@@ -1,18 +1,18 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
-version: 3
-date: '2023-06-13'
+version: 4
+date: '2024-05-13'
 author: Jose Hernandez, Bhavin Patel, Splunk
 status: production
 type: TTP
-description: 'This search looks for the execution of `adfind.exe` with command-line
-  arguments that it uses by default specifically the filter or search functions. It
-  also considers the arguments necessary like objectcategory, see readme for more
-  details: https://www.joeware.net/freetools/tools/adfind/usage.htm. AdFind.exe is
-  a powerful tool that is commonly used for querying and retrieving information from
-  Active Directory (AD). While it is primarily designed for AD administration and
-  management, it has been seen used before by Wizard Spider, FIN6 and actors whom
-  also launched SUNBURST.'
+description: 'The following analytic identifies the execution of `adfind.exe` with
+  specific command-line arguments related to Active Directory queries. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names,
+  command-line arguments, and parent processes. This activity is significant because
+  `adfind.exe` is a powerful tool often used by threat actors like Wizard Spider and
+  FIN6 to gather sensitive AD information. If confirmed malicious, this activity could
+  allow attackers to map the AD environment, facilitating further attacks such as
+  privilege escalation or lateral movement.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

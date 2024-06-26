@@ -1,15 +1,17 @@
 name: Suspicious Process Executed From Container File
 id: d8120352-3b62-411c-8cb6-7b47584dd5e8
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-05-09'
 author: Steven Dick
 status: production
 type: TTP
-description: This analytic identifies a suspicious process spawned by another process
-  from within common container/archive file types. This technique was a common technique
-  used by adversaries and malware to execute scripts or evade defenses. This TTP may
-  detect some normal software installation or user behaviors where opening archive
-  files is common.
+description: The following analytic identifies a suspicious process executed from
+  within common container/archive file types such as ZIP, ISO, IMG, and others. It
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  names and command-line executions. This activity is significant as it is a common
+  technique used by adversaries to execute scripts or evade defenses. If confirmed
+  malicious, this behavior could allow attackers to execute arbitrary code, escalate
+  privileges, or persist within the environment, posing a significant security risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -74,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/gootloader/partial_ttps/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/gootloader/partial_ttps/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

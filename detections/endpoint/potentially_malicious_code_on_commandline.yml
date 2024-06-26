@@ -1,20 +1,19 @@
 name: Potentially malicious code on commandline
 id: 9c53c446-757e-11ec-871d-acde48001122
-version: 1
-date: '2022-01-14'
+version: 2
+date: '2024-05-12'
 author: Michael Hart, Splunk
 status: production
 type: Anomaly
-description: The following analytic uses a pretrained machine learning text classifier
-  to detect potentially malicious commandlines.  The model identifies unusual combinations
-  of keywords found in samples of commandlines where adversaries executed powershell
-  code, primarily for C2 communication.  For example, adversaries will leverage IO
-  capabilities such as "streamreader" and "webclient", threading capabilties such
-  as "mutex" locks, programmatic constructs like "function" and "catch", and cryptographic
-  operations like "computehash".  Although observing one of these keywords in a commandline
-  script is possible, combinations of keywords observed in attack data are not typically
-  found in normal usage of the commandline.  The model will output a score where all
-  values above zero are suspicious, anything greater than one particularly so.
+description: The following analytic detects potentially malicious command lines using
+  a pretrained machine learning text classifier. It identifies unusual keyword combinations
+  in command lines, such as "streamreader," "webclient," "mutex," "function," and
+  "computehash," which are often associated with adversarial PowerShell code execution
+  for C2 communication. This detection leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on command lines longer than 200 characters. This
+  activity is significant as it can indicate an attempt to execute malicious scripts,
+  potentially leading to unauthorized code execution, data exfiltration, or further
+  system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -47,7 +46,8 @@ tags:
   asset_type: Endpoint
   confidence: 20
   impact: 60
-  message: Unusual command-line execution with command line length greater than 200 found on $dest$ with commandline value - [$process$]
+  message: Unusual command-line execution with command line length greater than 200
+    found on $dest$ with commandline value - [$process$]
   mitre_attack_id:
   - T1059.003
   observable:
@@ -76,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/malicious_cmd_line_samples/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

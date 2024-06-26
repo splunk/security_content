@@ -1,18 +1,18 @@
 name: Windows COM Hijacking InprocServer32 Modification
 id: b7bd83c0-92b5-4fc7-b286-23eccfa2c561
-version: 1
-date: '2022-09-26'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of reg.exe performing an add
-  to the InProcServer32, which may be related to COM hijacking. Adversaries can use
-  the COM system to insert malicious code that can be executed in place of legitimate
-  software through hijacking the COM references and relationships as a means for persistence.
-  Hijacking a COM object requires a change in the Registry to replace a reference
-  to a legitimate system component which may cause that component to not work when
-  executed. When that system component is executed through normal system operation
-  the adversary's code will be executed instead.
+description: The following analytic detects the modification of the InProcServer32
+  registry key by reg.exe, indicative of potential COM hijacking. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process and
+  command-line execution logs. COM hijacking is significant as it allows adversaries
+  to insert malicious code that executes in place of legitimate software, providing
+  a means for persistence. If confirmed malicious, this activity could enable attackers
+  to execute arbitrary code, disrupt legitimate system components, and maintain long-term
+  access to the compromised environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

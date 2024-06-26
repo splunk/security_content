@@ -1,15 +1,17 @@
 name: Linux DD File Overwrite
 id: 9b6aae5e-8d85-11ec-b2ae-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to look for dd command to overwrite file. This technique
-  was abused by adversaries or threat actor to destroy files or data on specific system
-  or in a large number of host within network to interrupt host avilability, services
-  and many more. This is also used to destroy data where it make the file irrecoverable
-  by forensic techniques through overwriting files, data or local and remote drives.
+description: The following analytic detects the use of the 'dd' command to overwrite
+  files on a Linux system. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution logs that include command-line details.
+  This activity is significant because adversaries often use the 'dd' command to destroy
+  or irreversibly overwrite files, disrupting system availability and services. If
+  confirmed malicious, this behavior could lead to data destruction, making recovery
+  difficult and potentially causing significant operational disruptions.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -65,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_dd_file_overwrite/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_dd_file_overwrite/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

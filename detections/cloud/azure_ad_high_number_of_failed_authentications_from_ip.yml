@@ -1,29 +1,29 @@
 name: Azure AD High Number Of Failed Authentications From Ip
 id: e5ab41bf-745d-4f72-a393-2611151afd8e
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies an Ip address failing to authenticate
-  20 or more times to an Azure AD tenant in the span of 10 minutes. This behavior could
-  represent a brute force attack againstan Azure AD to obtain initial access or elevate
-  privileges. As environments differ across organizations, security teams should customize
-  the threshold of this detection.
-data_source: 
+description: The following analytic detects an IP address with 20 or more failed authentication
+  attempts to an Azure AD tenant within 10 minutes. It leverages Azure AD SignInLogs
+  to identify repeated failed logins from the same IP. This behavior is significant
+  as it may indicate a brute force attack aimed at gaining unauthorized access or
+  escalating privileges. If confirmed malicious, the attacker could potentially compromise
+  user accounts, leading to unauthorized access to sensitive information and resources
+  within the Azure environment.
+data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
-  | rename properties.* as * 
-  | bucket span=10m _time 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip
-  | where count > 20
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_high_number_of_failed_authentications_from_ip_filter`'
+search: ' `azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126
+  properties.authenticationDetails{}.succeeded=false | rename properties.* as * |
+  bucket span=10m _time | stats count min(_time) as firstTime max(_time) as lastTime
+  values(user) as user by src_ip | where count > 20 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_high_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the SignInLogs log category.
 known_false_positives: An Ip address with more than 20 failed authentication attempts
   in the span of 10 minutes may also be triggered by a broken application.
 references:
@@ -69,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_high_number_of_failed_authentications_for_user/azuread.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_high_number_of_failed_authentications_for_user/azuread.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

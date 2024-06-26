@@ -1,16 +1,18 @@
 name: Suspicious GPUpdate no Command Line Arguments
 id: f308490a-473a-40ef-ae64-dd7a6eba284a
-version: 3
-date: '2023-07-10'
+version: 4
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies gpupdate.exe with no command line arguments.
-  It is unusual for gpupdate.exe to execute with no command line arguments present.
-  This particular behavior is common with malicious software, including Cobalt Strike.
-  During investigation, identify any network connections and parallel processes. Identify
-  any suspicious module loads related to credential dumping or file writes. gpupdate.exe
-  is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+description: The following analytic detects the execution of gpupdate.exe without
+  any command line arguments. This behavior is identified using data from Endpoint
+  Detection and Response (EDR) agents, focusing on process execution logs. It is significant
+  because gpupdate.exe typically runs with specific arguments, and its execution without
+  them is often associated with malicious activities, such as those performed by Cobalt
+  Strike. If confirmed malicious, this activity could indicate an attempt to execute
+  unauthorized commands or scripts, potentially leading to further system compromise
+  or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
@@ -75,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,29 +1,28 @@
 name: Office Product Spawning Rundll32 with no DLL
 id: c661f6be-a38c-11eb-be57-acde48001122
-version: 5
-date: '2023-07-11'
+version: 6
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following detection identifies the latest behavior utilized by IcedID
-  malware family. This detection identifies any Windows Office Product spawning `rundll32.exe`
-  without a `.dll` file extension. In malicious instances, the command-line of `rundll32.exe`
-  will look like `rundll32 ..\oepddl.igk2,DllRegisterServer`. In addition, Threat
-  Research has released a detection identifying the use of `DllRegisterServer` on
-  the command-line of `rundll32.exe`. In this instance, we narrow our detection down
-  to the Office suite as a parent process. During triage, review all file modifications.
-  Capture and analyze the `DLL` that was dropped to disk. The Office Product will
-  have reached out to a remote destination, capture and block the IPs or domain. Review
-  additional parallel processes for further activity.
+description: The following analytic detects any Windows Office Product spawning `rundll32.exe`
+  without a `.dll` file extension. This behavior is identified using Endpoint Detection
+  and Response (EDR) telemetry, focusing on process and parent process relationships.
+  This activity is significant as it is a known tactic of the IcedID malware family,
+  which can lead to unauthorized code execution. If confirmed malicious, this could
+  allow attackers to execute arbitrary code, potentially leading to data exfiltration,
+  system compromise, or further malware deployment. Immediate investigation and containment
+  are recommended.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
   "msaccess.exe", "Graph.exe","winproj.exe") `process_rundll32` (Processes.process!=*.dll*)
-  by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `office_product_spawning_rundll32_with_no_dll_filter`'
+  by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `office_product_spawning_rundll32_with_no_dll_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -83,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_icedid.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_icedid.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

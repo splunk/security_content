@@ -1,22 +1,30 @@
 name: Windows Multiple Accounts Disabled
 id: 5d93894e-befa-4429-abde-7fc541020b7b
-version: 1
-date: '2024-02-21'
+version: 2
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4725
 type: TTP
 status: production
-description: This Splunk detection focuses on instances where more than five unique Windows accounts are disabled within a 10-minute window, as indicated by Event Code 4725 in the Windows Security Event Log. The query analyzes the wineventlog_security dataset, grouping data into 10-minute segments, and tracks the count and distinct count of TargetUserName, the accounts being disabled. This pattern of disabling multiple accounts rapidly is unusual and could signal internal policy breaches or an external attacker's attempt to disrupt normal operations. Teams are advised to tailor the threshold and timeframe of this detection to their environment's specifics
-search: ' `wineventlog_security` EventCode=4725 status=success
-  | bucket span=10m _time
-  | stats count dc(user) as unique_users values(user) as user by EventCode signature _time src_user SubjectDomainName TargetDomainName Logon_ID
-  | where unique_users > 5
-  | `windows_multiple_accounts_disabled_filter`'
+description: The following analytic identifies instances where more than five unique
+  Windows accounts are disabled within a 10-minute window, as indicated by Event Code
+  4725 in the Windows Security Event Log. It leverages the wineventlog_security dataset,
+  grouping data into 10-minute segments and tracking the count and distinct count
+  of TargetUserName. This behavior is significant as it may indicate internal policy
+  breaches or an external attacker's attempt to disrupt operations. If confirmed malicious,
+  this activity could lead to widespread account lockouts, hindering user access and
+  potentially disrupting business operations.
+search: ' `wineventlog_security` EventCode=4725 status=success | bucket span=10m _time
+  | stats count dc(user) as unique_users values(user) as user by EventCode signature
+  _time src_user SubjectDomainName TargetDomainName Logon_ID | where unique_users
+  > 5 | `windows_multiple_accounts_disabled_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  Domain Controller events with the Windows TA. The Advanced Security Audit policy setting
-  `Audit User Account Management` within `Account Management` needs to be enabled.
-known_false_positives: Service accounts may be responsible for the creation, deletion or modification of accounts for legitimate purposes. Filter as needed.
+  Domain Controller events with the Windows TA. The Advanced Security Audit policy
+  setting `Audit User Account Management` within `Account Management` needs to be
+  enabled.
+known_false_positives: Service accounts may be responsible for the creation, deletion
+  or modification of accounts for legitimate purposes. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/
 tags:
@@ -54,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/windows_multiple_accounts_disabled/windows_multiple_accounts_disabled.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/windows_multiple_accounts_disabled/windows_multiple_accounts_disabled.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

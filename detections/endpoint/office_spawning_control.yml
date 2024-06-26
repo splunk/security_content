@@ -1,26 +1,27 @@
 name: Office Spawning Control
 id: 053e027c-10c7-11ec-8437-acde48001122
-version: 4
-date: '2023-11-07'
+version: 5
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following detection identifies control.exe spawning from an office
-  product. This detection identifies any Windows Office Product spawning `control.exe`.
-  In malicious instances, the command-line of `control.exe` will contain a file path
-  to a .cpl or .inf, related to CVE-2021-40444. In this instance, we narrow our detection
-  down to the Office suite as a parent process. During triage, review all file modifications.
-  Capture and analyze any artifacts on disk. review parallel and child processes to
-  identify further suspicious behavior
+description: The following analytic identifies instances where `control.exe` is spawned
+  by a Microsoft Office product. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process and parent process relationships. This activity
+  is significant because it can indicate exploitation attempts related to CVE-2021-40444,
+  where `control.exe` is used to execute malicious .cpl or .inf files. If confirmed
+  malicious, this behavior could allow an attacker to execute arbitrary code, potentially
+  leading to system compromise, data exfiltration, or further lateral movement within
+  the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
-  Processes.process_name=control.exe by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process 
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `office_spawning_control_filter`'
+  Processes.process_name=control.exe by Processes.dest Processes.user Processes.parent_process_name
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| `office_spawning_control_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -87,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_control.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_control.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

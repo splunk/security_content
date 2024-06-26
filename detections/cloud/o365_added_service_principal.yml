@@ -1,16 +1,25 @@
 name: O365 Added Service Principal
 id: 1668812a-6047-11eb-ae93-0242ac130002
-version: 3
-date: '2023-08-02'
+version: 4
+date: '2024-05-27'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: The following analytic detects addition of new service principal accounts added to O365 tenants. Attackers can abuse service principals in Office 365 (now known as Microsoft 365) to gain unauthorized access and perform malicious actions within an organization's environment. Service principals are essentially non-human accounts used by applications, services, or scripts to access resources and interact with APIs on behalf of the organization. 
-data_source: 
-- O365 
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="*Add service principal*" OR (Operation = "*principal*" AND action = "created") 
-  | stats count values(ModifiedProperties{}.NewValue) as new_value by src_user src_user_type action Operation authentication_service Workload 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_added_service_principal_filter`'
+description: The following analytic detects the addition of new service principal
+  accounts in O365 tenants. It leverages data from the `o365_management_activity`
+  dataset, specifically monitoring for operations related to adding or creating service
+  principals. This activity is significant because attackers can exploit service principals
+  to gain unauthorized access and perform malicious actions within an organization's
+  environment. If confirmed malicious, this could allow attackers to interact with
+  APIs, access resources, and execute operations on behalf of the organization, potentially
+  leading to data breaches or further compromise.
+data_source:
+- O365
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="*Add
+  service principal*" OR (Operation = "*principal*" AND action = "created") | stats
+  count values(ModifiedProperties{}.NewValue) as new_value by src_user src_user_type
+  action Operation authentication_service Workload | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `o365_added_service_principal_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
 known_false_positives: The creation of a new Federation is not necessarily malicious,
@@ -46,16 +55,17 @@ tags:
   - _time
   - Workload
   - signature
-  - src_user 
-  - src_user_type 
-  - action 
-  - Operation 
+  - src_user
+  - src_user_type
+  - action
+  - Operation
   - authentication_service
   risk_score: 42
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_added_service_principal/o365_add_service_principal.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_added_service_principal/o365_add_service_principal.log
     sourcetype: o365:management:activity
     source: o365

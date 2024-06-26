@@ -1,27 +1,28 @@
 name: Azure AD Authentication Failed During MFA Challenge
 id: e62c9c2e-bf51-4719-906c-3074618fcc1c
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-18'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies an authentication attempt event against
-  an Azure AD tenant that fails during the Multi Factor Authentication challenge.
-  Error Code 500121 represents a failed attempt to authenticate using a second factor.
-  This behavior may represent an adversary trying to authenticate with compromised
-  credentials for an account that has multi-factor authentication enabled. '
-data_source: 
+description: 'The following analytic identifies failed authentication attempts against
+  an Azure AD tenant during the Multi-Factor Authentication (MFA) challenge, specifically
+  flagged by error code 500121. It leverages Azure AD SignInLogs to detect these events.
+  This activity is significant as it may indicate an adversary attempting to authenticate
+  using compromised credentials on an account with MFA enabled. If confirmed malicious,
+  this could suggest an ongoing effort to bypass MFA protections, potentially leading
+  to unauthorized access and further compromise of the affected account.'
+data_source:
 - Azure Active Directory
 search: ' `azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121
-  | rename properties.* as * 
-  | stats count min(_time) as firstTime max(_time) as lastTime by user, src_ip, status.additionalDetails, appDisplayName, user_agent
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_authentication_failed_during_mfa_challenge_filter`'
+  | rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime
+  by user, src_ip, status.additionalDetails, appDisplayName, user_agent | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_authentication_failed_during_mfa_challenge_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the SignInLogs log category.
 known_false_positives: Legitimate users may miss to reply the MFA challenge within
   the time window or deny it by mistake.
 references:
@@ -68,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azuread/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azuread/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

@@ -1,18 +1,19 @@
 name: Splunk Endpoint Denial of Service DoS Zip Bomb
 id: b237d393-2f57-4531-aad7-ad3c17c8b041
-version: 1
-date: '2022-08-02'
+version: 2
+date: '2024-05-27'
 author: Marissa Bower, Rod Soto, Splunk
 status: production
 type: TTP
-description: This search allows operator to identify Splunk search app crashes resulting
-  from specially crafted ZIP file using file monitoring that affects UF versions 8.1.11
-  and 8.2 versions below 8.2.7.1. It is not possible to detect Zip Bomb attack before
-  crash. This search will provide Universal Forwarder errors from uploaded binary
-  files (zip compression) which are used for this attack. If an analyst sees results
-  from this search we suggest you investigate and triage what zip file was uploaded,
-  zip compressed files may have different extensions.
-data_source: 
+description: The following analytic identifies crashes in the Splunk search app caused
+  by specially crafted ZIP files, affecting Universal Forwarder versions 8.1.11 and
+  8.2 versions below 8.2.7.1. It detects this activity by monitoring Universal Forwarder
+  error logs for specific messages indicating invalid or binary file issues. This
+  activity is significant because it can disrupt Splunk operations, leading to potential
+  data loss or monitoring gaps. If confirmed malicious, this attack could result in
+  a denial of service, hindering the organization's ability to monitor and respond
+  to other security incidents effectively.
+data_source:
 - Splunk
 search: '`splunkd` component=FileClassifierManager event_message=*invalid* event_message=*binary*
   |stats count by host component event_message | `splunk_endpoint_denial_of_service_dos_zip_bomb_filter`'
@@ -52,7 +53,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk/splunk_zip_bomb_vulnerability.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1499/splunk/splunk_zip_bomb_vulnerability.log
     source: /opt/splunkforwarder/var/log/splunk/splunkd.log
     sourcetype: splunkd
     custom_index: _internal

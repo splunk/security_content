@@ -1,20 +1,18 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-version: 2
-date: '2023-05-13'
+version: 3
+date: '2024-05-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: 'The following analytic is designed to identify possible lateral movement
-  attacks that involve the spawning of a PowerShell process as a child or grandchild
-  process of commonly abused processes. These processes include services.exe, wmiprsve.exe,
-  svchost.exe, wsmprovhost.exe, and mmc.exe.
-
-  Such behavior is indicative of legitimate Windows features such as the Service Control
-  Manager, Windows Management Instrumentation, Task Scheduler, Windows Remote Management,
-  and the DCOM protocol being abused to start a process on a remote endpoint. This
-  behavior is often seen during lateral movement techniques where adversaries or red
-  teams abuse these services for lateral movement and remote code execution.'
+description: 'The following analytic detects the spawning of a PowerShell process
+  as a child or grandchild of commonly abused processes like services.exe, wmiprsve.exe,
+  svchost.exe, wsmprovhost.exe, and mmc.exe. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process and parent process names, as well
+  as command-line executions. This activity is significant as it often indicates lateral
+  movement or remote code execution attempts by adversaries. If confirmed malicious,
+  this behavior could allow attackers to execute code remotely, escalate privileges,
+  or persist within the environment.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -22,10 +20,11 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Processes.parent_process_name=services.exe OR Processes.parent_process_name=svchost.exe
   OR Processes.parent_process_name=wsmprovhost.exe OR Processes.parent_process_name=mmc.exe)
   (Processes.process_name=powershell.exe OR (Processes.process_name=cmd.exe AND Processes.process=*powershell.exe*)
-  OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*)) NOT (Processes.process IN ("*c:\windows\ccm\*"))
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
+  OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*))
+  NOT (Processes.process IN ("*c:\windows\ccm\*")) by Processes.dest Processes.user
+  Processes.parent_process_name Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -91,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_powershell/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_powershell/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

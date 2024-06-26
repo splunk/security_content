@@ -1,18 +1,18 @@
 name: Windows Remote Services Allow Remote Assistance
 id: 9bce3a97-bc97-4e89-a1aa-ead151c82fbb
-version: 1
-date: '2022-06-21'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic is to identify a modification in the Windows registry
-  to enable remote desktop assistance on a targeted machine. This technique was seen
-  in several adversaries, malware or red teamer like azorult to remotely access the
-  compromised or targeted host by enabling this protocol in registry. Even this protocol
-  might be allowed in some production environment, This Anomaly behavior is a good
-  pivot to check who and why the user want to enable this feature through registry
-  which is un-common. And as per stated in microsoft documentation the default value
-  of this registry is false that makes this a good indicator of suspicious behavior.
+description: The following analytic detects modifications in the Windows registry
+  to enable remote desktop assistance on a targeted machine. It leverages data from
+  the Endpoint.Registry datamodel, specifically monitoring changes to the "Control\\Terminal
+  Server\\fAllowToGetHelp" registry path. This activity is significant because enabling
+  remote assistance via registry is uncommon and often associated with adversaries
+  or malware like Azorult. If confirmed malicious, this could allow an attacker to
+  remotely access and control the compromised host, leading to potential data exfiltration
+  or further system compromise.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -63,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

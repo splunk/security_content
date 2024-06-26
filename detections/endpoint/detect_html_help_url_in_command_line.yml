@@ -1,29 +1,25 @@
 name: Detect HTML Help URL in Command Line
 id: 8c5835b9-39d9-438b-817c-95f14c69a31e
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2024-05-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled
-  HTML Help (CHM) file from a remote url. This particular technique will load Windows
-  script code from a compiled help file. CHM files may  contain nearly any file type
-  embedded, but only execute html/htm. Upon a successful execution, the following
-  script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode,
-  JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe
-  upon execution. The "htm" and "html" file extensions were the only extensions observed
-  to be supported for the execution of Shortcut commands or WSH script code. During
-  investigation, identify script content origination. Review reputation of remote
-  IP and domain. Some instances, it is worth decompiling the .chm file to review its
-  original contents. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+description: The following analytic detects the execution of hh.exe (HTML Help) loading
+  a Compiled HTML Help (CHM) file from a remote URL. This detection leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on command-line executions
+  containing URLs. This activity is significant as it can indicate an attempt to execute
+  malicious scripts via CHM files, potentially leading to unauthorized code execution.
+  If confirmed malicious, this could allow an attacker to run scripts using engines
+  like JScript or VBScript, leading to further system compromise or data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_hh` Processes.process=*http*
-  by Processes.dest Processes.user  Processes.parent_process_name Processes.parent_process Processes.original_file_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `detect_html_help_url_in_command_line_filter`'
+  by Processes.dest Processes.user  Processes.parent_process_name Processes.parent_process
+  Processes.original_file_name Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `detect_html_help_url_in_command_line_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -94,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

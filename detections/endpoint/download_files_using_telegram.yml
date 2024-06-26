@@ -1,20 +1,22 @@
 name: Download Files Using Telegram
 id: 58194e28-ae5e-11eb-8912-acde48001122
-version: 1
-date: '2021-05-06'
+version: 2
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic will identify a suspicious download by the Telegram
-  application on a Windows system. This behavior was identified on a honeypot where
-  the adversary gained access, installed Telegram and followed through with downloading
-  different network scanners (port, bruteforcer, masscan) to the system and later
-  used to mapped the whole network and further move laterally.
+description: The following analytic detects suspicious file downloads by the Telegram
+  application on a Windows system. It leverages Sysmon EventCode 15 to identify instances
+  where Telegram.exe creates files with a Zone.Identifier, indicating a download.
+  This activity is significant as it may indicate an adversary using Telegram to download
+  malicious tools, such as network scanners, for further exploitation. If confirmed
+  malicious, this behavior could lead to network mapping, lateral movement, and potential
+  compromise of additional systems within the network.
 data_source:
 - Sysmon EventID 15
 search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
-  |stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode
-  process_name process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  |stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode process_name
+  process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `download_files_using_telegram_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and TargetFilename from your endpoints or Events that
@@ -58,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

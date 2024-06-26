@@ -1,14 +1,18 @@
 name: Detect Certify Command Line Arguments
 id: e6d2dc61-a8b9-4b03-906c-da0ca75d71b8
-version: 1
-date: '2023-06-25'
+version: 2
+date: '2024-05-25'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies when the attacker tool Certify or Certipy
-  are used to enumerate Active Directory Certificate Services (AD CS) environments.
-  The default command line arguments of these tools are similar and perform near identical
-  enumeration or exploitation functions.
+description: The following analytic detects the use of Certify or Certipy tools to
+  enumerate Active Directory Certificate Services (AD CS) environments. It leverages
+  Endpoint Detection and Response (EDR) data, focusing on specific command-line arguments
+  associated with these tools. This activity is significant because it indicates potential
+  reconnaissance or exploitation attempts targeting AD CS, which could lead to unauthorized
+  access or privilege escalation. If confirmed malicious, attackers could gain insights
+  into the AD CS infrastructure, potentially compromising sensitive certificates and
+  escalating their privileges within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,7 +79,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

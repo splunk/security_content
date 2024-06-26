@@ -1,19 +1,20 @@
 name: Windows DLL Side-Loading Process Child Of Calc
 id: 295ca9ed-e97b-4520-90f7-dfb6469902e1
-version: 1
-date: '2022-10-20'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
-description: The following analytic identifies the suspicious child process of calc.exe
-  due to dll side loading technique to execute another executable. This technique
-  was seen in qakbot malware that uses dll side loading technique to calc applications
-  to load its malicious dll code. The malicious dll that abuses dll side loading technique
-  will load the actual qakbot loader dll using regsvr32.exe application. This TTP
-  is a good indicator of qakbot since the calc.exe will not load other child processes
-  aside from win32calc.exe.
+description: The following analytic identifies suspicious child processes spawned
+  by calc.exe, indicative of DLL side-loading techniques. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs,
+  names, and parent processes. This activity is significant as it is commonly associated
+  with Qakbot malware, which uses calc.exe to load malicious DLLs via regsvr32.exe.
+  If confirmed malicious, this behavior could allow attackers to execute arbitrary
+  code, maintain persistence, and escalate privileges, posing a severe threat to the
+  environment.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
   = "calc.exe")  AND Processes.process_name != "win32calc.exe" by Processes.parent_process
@@ -69,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

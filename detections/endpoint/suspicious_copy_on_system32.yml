@@ -1,15 +1,18 @@
 name: Suspicious Copy on System32
 id: ce633e56-25b2-11ec-9e76-acde48001122
-version: 1
-date: '2023-08-17'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a suspicious copy of file from systemroot
-  folder of the windows OS. This technique is commonly used by APT or other malware
-  as part of execution (LOLBIN) to run its malicious code using the available legitimate
-  tool in OS. this type of event may seen or may execute of normal user in some instance
-  but this is really a anomaly that needs to be check within the network.
+description: The following analytic detects suspicious file copy operations from the
+  System32 or SysWow64 directories, often indicative of malicious activity. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on processes initiated
+  by command-line tools like cmd.exe or PowerShell. This behavior is significant as
+  it may indicate an attempt to execute malicious code using legitimate system tools
+  (LOLBIN). If confirmed malicious, this activity could allow an attacker to execute
+  arbitrary code, potentially leading to system compromise or further lateral movement
+  within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/copy_sysmon/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/copy_sysmon/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

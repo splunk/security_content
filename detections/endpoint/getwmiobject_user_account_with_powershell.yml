@@ -1,15 +1,18 @@
 name: GetWmiObject User Account with PowerShell
 id: b44f6ac6-0429-11ec-87e9-acde48001122
-version: 1
-date: '2023-04-05'
+version: 2
+date: '2024-05-22'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `powershell.exe` with command-line
-  arguments utilized to query local users. The `Get-WmiObject` commandlet combined
-  with the `Win32_UserAccount` parameter is used to return a list of all local users.
-  Red Teams and adversaries may leverage this commandlet to enumerate users for situational
-  awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` with
+  command-line arguments that utilize the `Get-WmiObject` cmdlet and the `Win32_UserAccount`
+  parameter to query local user accounts. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process names and command-line executions.
+  This activity is significant as it may indicate an attempt by adversaries to enumerate
+  user accounts for situational awareness or Active Directory discovery. If confirmed
+  malicious, this behavior could lead to further reconnaissance, privilege escalation,
+  or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -58,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

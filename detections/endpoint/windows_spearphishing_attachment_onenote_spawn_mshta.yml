@@ -1,27 +1,25 @@
 name: Windows Spearphishing Attachment Onenote Spawn Mshta
 id: 35aeb0e7-7de5-444a-ac45-24d6788796ec
-version: 1
-date: '2023-01-24'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following detection identifies the latest behavior utilized by different
-  malware families (including TA551, AsyncRat, Redline and DCRAT). This detection
-  identifies onenote Office Product spawning `mshta.exe`. In malicious instances,
-  the command-line of `mshta.exe` will contain the `hta` file locally, or a URL to
-  the remote destination. In addition, Threat Research has released a detections identifying
-  suspicious use of `mshta.exe`. In this instance, we narrow our detection down to
-  the Office suite as a parent process. During triage, review all file modifications.
-  Capture and analyze any artifacts on disk. The Office Product, or `mshta.exe` will
-  have reached out to a remote destination, capture and block the IPs or domain. Review
-  additional parallel processes for further activity.
+description: The following analytic detects OneNote spawning `mshta.exe`, a behavior
+  often associated with spearphishing attacks. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process creation events where OneNote is
+  the parent process. This activity is significant as it is commonly used by malware
+  families like TA551, AsyncRat, Redline, and DCRAT to execute malicious scripts.
+  If confirmed malicious, this could allow attackers to execute arbitrary code, potentially
+  leading to data exfiltration, system compromise, or further malware deployment.
+  Immediate investigation and containment are recommended.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN ("onenote.exe", "onenotem.exe") `process_mshta` by Processes.dest Processes.user Processes.parent_process_name
-  Processes.parent_process Processes.process_name Processes.original_file_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  IN ("onenote.exe", "onenotem.exe") `process_mshta` by Processes.dest Processes.user
+  Processes.parent_process_name Processes.parent_process Processes.process_name Processes.original_file_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_spearphishing_attachment_onenote_spawn_mshta_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -79,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/onenote_spear_phishing/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/onenote_spear_phishing/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,28 +1,27 @@
 name: Windows Impair Defense Define Win Defender Threat Action
 id: 7215831c-8252-4ae3-8d43-db588e82f952
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to define the threat action of Windows Defender. 
-  The ThreatSeverityDefaultAction registry setting in Windows Defender is used to define the default action taken by Windows Defender 
-  when it encounters threats of specific severity levels.
-  A setting like ThreatSeverityDefaultAction is designed to define how Windows Defender responds to threats based on their severity. 
-  For example, it might determine whether Windows Defender quarantines, removes, or takes other actions against threats based on their severity levels.
-  In this context, a registry value of 1 typically indicates an action to "clean," aiming to disinfect or resolve the detected threat, 
-  while a registry value of 9 signifies "no action," meaning that the antivirus software refrains from taking immediate steps against the identified threat.
+description: The following analytic detects modifications to the Windows Defender
+  ThreatSeverityDefaultAction registry setting. It leverages data from the Endpoint.Registry
+  datamodel to identify changes in registry values that define how Windows Defender
+  responds to threats. This activity is significant because altering these settings
+  can impair the system's defense mechanisms, potentially allowing threats to go unaddressed.
+  If confirmed malicious, this could enable attackers to bypass antivirus protections,
+  leading to persistent threats and increased risk of data compromise or further system
+  exploitation.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Threats\\ThreatSeverityDefaultAction*" 
-  Registry.registry_value_data IN ("0x00000001", "9")
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_define_win_defender_threat_action_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Threats\\ThreatSeverityDefaultAction*" Registry.registry_value_data IN
+  ("0x00000001", "9") by Registry.registry_key_name Registry.user Registry.registry_path
+  Registry.registry_value_data Registry.action Registry.dest | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defense_define_win_defender_threat_action_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -66,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

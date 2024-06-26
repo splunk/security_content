@@ -1,14 +1,18 @@
 name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-15'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `whoami.exe` without any arguments.
-  This windows native binary prints out the current logged user. Red Teams and adversaries
-  alike may leverage `whoami.exe` to identify system users on a compromised endpoint
-  for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `whoami.exe` without
+  any arguments. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process execution logs. This activity is significant because both Red
+  Teams and adversaries use `whoami.exe` to identify the current logged-in user, aiding
+  in situational awareness and Active Directory discovery. If confirmed malicious,
+  this behavior could indicate an attacker is gathering information to further compromise
+  the system, potentially leading to privilege escalation or lateral movement within
+  the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -68,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

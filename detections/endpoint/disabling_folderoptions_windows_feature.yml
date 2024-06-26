@@ -1,15 +1,19 @@
 name: Disabling FolderOptions Windows Feature
 id: 83776de4-921a-11eb-868a-acde48001122
-version: 5
-date: '2024-04-26'
+version: 6
+date: '2024-05-11'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to identify registry modification to disable folder options
-  feature of windows to show hidden files, file extension and etc. This technique
-  used by malware in combination if disabling show hidden files feature to hide their
-  files and also to hide the file extension to lure the user base on file icons or
-  fake file extensions.
+description: The following analytic detects the modification of the Windows registry
+  to disable the Folder Options feature, which prevents users from showing hidden
+  files and file extensions. It leverages data from the Endpoint.Registry data model,
+  specifically monitoring changes to the registry path 
+  "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFolderOptions"
+  with a value of "0x00000001". This activity is significant as it is commonly used
+  by malware to conceal malicious files and deceive users with fake file extensions.
+  If confirmed malicious, this could allow an attacker to hide their presence and
+  malicious files, making detection and remediation more difficult.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -64,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

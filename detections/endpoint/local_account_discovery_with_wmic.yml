@@ -1,14 +1,18 @@
 name: Local Account Discovery With Wmic
 id: 4902d7aa-0134-11ec-9d65-acde48001122
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2024-05-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `wmic.exe` with command-line
-  arguments utilized to query for local users. The argument `useraccount` is used
-  to leverage WMI to return a list of all local users. Red Teams and adversaries alike
-  use net.exe to enumerate users for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `wmic.exe` with command-line
+  arguments used to query local user accounts, specifically the `useraccount` argument.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  process execution logs that include command-line details. This activity is significant
+  as it indicates potential reconnaissance efforts by adversaries to enumerate local
+  users, which is a common step in situational awareness and Active Directory discovery.
+  If confirmed malicious, this behavior could lead to further targeted attacks, privilege
+  escalation, or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -54,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,17 +1,18 @@
 name: Kubernetes Anomalous Inbound Outbound Network IO
 id: 4f3b0c97-657e-4547-a89a-9a50c656e3cd
-version: 1
-date: '2023-12-19'
+version: 2
+date: '2024-05-13'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: This analytic identifies high Inbound or Outbound Network IO anomalies in a Kubernetes container. 
-  It uses process metrics from an OTEL collector and Kubelet Stats Receiver, and data from Splunk Observability cloud via the Splunk Infrastructure Monitoring Add-on. 
-  A lookup table containing average and standard deviation for network IO is used to evaluate anomalies for each container. 
-  An event is generated if the anomaly persists over a 1 hour period. These anomalies may indicate security threats such as data exfiltration, 
-  command and control communication, service disruptions, or unauthorized data transfers. They can compromise the confidentiality, availability, 
-  and integrity of applications and data, necessitating rapid detection and response. Anomalous network utilization may suggest a compromised container, 
-  potentially leading to data breaches, service outages, financial losses, and reputational damage.
+description: The following analytic identifies high inbound or outbound network I/O
+  anomalies in Kubernetes containers. It leverages process metrics from an OTEL collector
+  and Kubelet Stats Receiver, along with data from Splunk Observability Cloud. A lookup
+  table with average and standard deviation values for network I/O is used to detect
+  anomalies persisting over a 1-hour period. This activity is significant as it may
+  indicate data exfiltration, command and control communication, or unauthorized data
+  transfers. If confirmed malicious, it could lead to data breaches, service outages,
+  financial losses, and reputational damage.
 data_source: []
 search: '| mstats avg(k8s.pod.network.io) as io where `kubernetes_metrics` by k8s.cluster.name k8s.pod.name k8s.node.name direction span=10s 
   | eval service = replace(''k8s.pod.name'', "-\w{5}$$|-[abcdef0-9]{8,10}-\w{5}$$", "") 
@@ -31,29 +32,37 @@ search: '| mstats avg(k8s.pod.network.io) as io where `kubernetes_metrics` by k8
   | rename service as k8s.service   
   | where count > 5
   | rename k8s.node.name as host
-  | `kubernetes_anomalous_inbound_outbound_network_traffic_io_filter` '
+  | `kubernetes_anomalous_inbound_outbound_network_io_filter`'
 how_to_implement: 'To implement this detection, follow these steps: 
   
   * Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
-  
+
   * Enable the hostmetrics/process receiver in the OTEL configuration.
-  
-  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
-  
+
+  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization,
+  are enabled.
+
   * Install the Splunk Infrastructure Monitoring (SIM) add-on. (ref: https://splunkbase.splunk.com/app/5247)
-  
-  * Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
-  
+
+  * Configure the SIM add-on with your Observability Cloud Organization ID and Access
+  Token.
+
   * Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
-  
-  * In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
-  
-  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
-  
+
+  * In the SIM configuration, set the Organization ID to your Observability Cloud
+  Organization ID.
+
+  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A'');
+  data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C'');
+  data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E'');
+  data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G'');
+  data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I'');
+  data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+
   * Set the Metric Resolution to 10000.
-  
+
   * Leave all other settings at their default values.
-  
+
   * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
 known_false_positives: unknown
 references:
@@ -64,7 +73,8 @@ tags:
   asset_type: Kubernetes
   confidence: 50
   impact: 50
-  message: Kubernetes Anomalous Inbound Outbound Network IO from container on host $host$
+  message: Kubernetes Anomalous Inbound Outbound Network IO from container on host
+    $host$
   mitre_attack_id:
   - T1204
   observable:
@@ -79,8 +89,8 @@ tags:
   required_fields:
   - k8s.pod.network.io
   - direction
-  - k8s.cluster.name 
-  - k8s.node.name 
+  - k8s.cluster.name
+  - k8s.node.name
   - k8s.pod.name
   risk_score: 25
   security_domain: network

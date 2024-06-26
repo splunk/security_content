@@ -1,20 +1,23 @@
 name: GetAdGroup with PowerShell Script Block
 id: e4c73d68-794b-468d-b4d0-dac1772bbae7
-version: 2
-date: '2022-03-22'
+version: 3
+date: '2024-05-22'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-AdGroup` commandlet. The `Get-AdGroup` commandlet
-  is used to return a list of all domain groups. Red Teams and adversaries may leverage
-  this commandlet to enumerate domain groups for situational awareness and Active
-  Directory Discovery.
+description: The following analytic detects the execution of the `Get-AdGroup` PowerShell
+  cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet is used
+  to enumerate all domain groups, which adversaries may exploit for situational awareness
+  and Active Directory discovery. Monitoring this activity is crucial as it can indicate
+  reconnaissance efforts within the network. If confirmed malicious, this behavior
+  could lead to further exploitation, such as privilege escalation or lateral movement,
+  by providing attackers with detailed information about the domain's group structure.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ADGroup*" | stats count
-  min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `getadgroup_with_powershell_script_block_filter`'
+  min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
+  UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `getadgroup_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -53,6 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

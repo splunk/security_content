@@ -19,8 +19,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   AND Processes.process=*unload* AND Processes.process=*SysmonDrv*  by Processes.process_name
   Processes.process_id Processes.parent_process_name Processes.process Processes.dest
   Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
-  |`unload_sysmon_filter_driver_filter`| table firstTime lastTime dest user count
-  process_name process_id parent_process_name process'
+  | table firstTime lastTime dest user count process_name process_id parent_process_name process
+  | `unload_sysmon_filter_driver_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

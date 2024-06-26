@@ -1,15 +1,17 @@
 name: Domain Controller Discovery with Nltest
 id: 41243735-89a7-4c83-bcdd-570aa78f00a1
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-15'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `nltest.exe` with command-line
-  arguments utilized to discover remote systems. The arguments `/dclist:` and '/dsgetdc:',
-  can be used to return a list of all domain controllers. Red Teams and adversaries
-  alike may use nltest.exe to identify domain controllers in a Windows Domain for
-  situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `nltest.exe` with command-line
+  arguments `/dclist:` or `/dsgetdc:` to discover domain controllers. It leverages
+  Endpoint Detection and Response (EDR) data, focusing on process names and command-line
+  arguments. This activity is significant because both Red Teams and adversaries use
+  `nltest.exe` for situational awareness and Active Directory discovery. If confirmed
+  malicious, this behavior could allow attackers to map out domain controllers, facilitating
+  further attacks such as privilege escalation or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

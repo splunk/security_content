@@ -1,15 +1,18 @@
 name: AWS Successful Single-Factor Authentication
 id: a520b1fe-cc9e-4f56-b762-18354594c52f
-version: 1
-date: '2022-10-04'
+version: 2
+date: '2024-05-12'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
 description: The following analytic identifies a successful Console Login authentication
-  event against an AWS IAM user for an account without Multi-Factor Authentication
-  enabled. This could be evidence of a misconfiguration, a policy violation or an
-  account take over attempt that should be investigated
-data_source: 
+  event for an AWS IAM user account without Multi-Factor Authentication (MFA) enabled.
+  It leverages AWS CloudTrail logs to detect instances where MFA was not used during
+  login. This activity is significant as it may indicate a misconfiguration, policy
+  violation, or potential account takeover attempt. If confirmed malicious, an attacker
+  could gain unauthorized access to the AWS environment, potentially leading to data
+  exfiltration, resource manipulation, or further privilege escalation.
+data_source:
 - AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName= ConsoleLogin errorCode=success "additionalEventData.MFAUsed"=No
   | stats count min(_time) as firstTime max(_time) as lastTime by src eventName eventSource
@@ -67,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/aws_login_sfa/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/aws_login_sfa/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

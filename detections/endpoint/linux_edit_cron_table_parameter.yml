@@ -1,29 +1,17 @@
 name: Linux Edit Cron Table Parameter
 id: 0d370304-5f26-11ec-a4bb-acde48001122
-version: 1
-date: '2021-12-17'
+version: 2
+date: '2024-05-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 description: 'The following analytic detects the suspicious editing of cron jobs in
-  Linux via the crontab command-line parameter. This tactic could be used by adversaries
-  or malware to schedule execution of their malicious code, potentially leading to
-  system compromise or unauthorized persistent access. It pinpoints this activity
-  by monitoring command-line executions involving ''crontab'' and the edit parameter
-  (-e).
-
-  Recognizing such activity is vital for a SOC as cron job manipulations might signal
-  unauthorized persistence attempts or scheduled malicious actions, potentially resulting
-  in substantial harm. A true positive signifies an active threat, with implications
-  ranging from unauthorized access to broader network compromise.
-
-  To implement this analytic, logs capturing process name, parent process, and command-line
-  executions from your endpoints must be ingested.
-
-  Known false positives could stem from valid administrative tasks or automation processes
-  using crontab. To reduce these, fine-tune the filter macros according to the benign
-  activities within your environment. These adjustments ensure legitimate actions
-  aren''t mistaken for threats, allowing analysts to focus on genuine potential risks.'
+  Linux using the crontab command-line parameter (-e). It identifies this activity
+  by monitoring command-line executions involving ''crontab'' and the edit parameter.
+  This behavior is significant for a SOC as cron job manipulations can indicate unauthorized
+  persistence attempts or scheduled malicious actions. If confirmed malicious, this
+  activity could lead to system compromise, unauthorized access, or broader network
+  compromise.'
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_edit_parameter/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_edit_parameter/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

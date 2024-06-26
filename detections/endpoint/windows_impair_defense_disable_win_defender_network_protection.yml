@@ -1,26 +1,27 @@
 name: Windows Impair Defense Disable Win Defender Network Protection
 id: 8b6c15c7-5556-463d-83c7-986326c21f12
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
-  exploit guard network protection. The EnableNetworkProtection registry entry controls the activation or deactivation 
-  of Network Protection within Windows Defender Exploit Guard. When set to 1, it typically signifies that Network Protection 
-  is enabled, offering additional security measures against network-based threats by analyzing and blocking potentially 
-  malicious network activity. This registry setting is being abuse by several threat actors, adversaries 
-  and red teamers to bypasses Windows defender detections.
+description: The following analytic detects modifications to the Windows registry
+  that disable Windows Defender Network Protection. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the EnableNetworkProtection registry
+  entry. This activity is significant because disabling Network Protection can leave
+  the system vulnerable to network-based threats by preventing Windows Defender from
+  analyzing and blocking malicious network activity. If confirmed malicious, this
+  action could allow attackers to bypass security measures, potentially leading to
+  unauthorized access, data exfiltration, or further compromise of the network.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Windows Defender Exploit Guard\\Network Protection\\EnableNetworkProtection"
-  Registry.registry_value_data="0x00000000" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Windows Defender Exploit Guard\\Network Protection\\EnableNetworkProtection"
+  Registry.registry_value_data="0x00000000" by Registry.registry_key_name Registry.user
+  Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
+  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_impair_defense_disable_win_defender_network_protection_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -65,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

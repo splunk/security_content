@@ -1,14 +1,18 @@
 name: Wermgr Process Spawned CMD Or Powershell Process
 id: e8fc95bc-a107-11eb-a978-acde48001122
-version: 2
-date: '2021-04-19'
+version: 3
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is designed to detect suspicious cmd and powershell process
-  spawned by wermgr.exe process. This suspicious behavior are commonly seen in code
-  injection technique technique like trickbot to execute a shellcode, dll modules
-  to run malicious behavior.
+description: The following analytic detects the spawning of cmd or PowerShell processes
+  by the wermgr.exe process. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process telemetry, including parent-child process relationships
+  and command-line executions. This behavior is significant as it is commonly associated
+  with code injection techniques used by malware like TrickBot to execute shellcode
+  or malicious DLL modules. If confirmed malicious, this activity could allow attackers
+  to execute arbitrary code, escalate privileges, or maintain persistence within the
+  environment, posing a severe threat to system security.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as cmdline
@@ -68,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

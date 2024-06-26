@@ -1,29 +1,25 @@
 name: Azure Automation Runbook Created
 id: 178d696d-6dc6-4ee8-9d25-93fee34eaf5b
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-11'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of a new Azure Automation
-  Runbook within an Azure tenant. Azure Automation is a cloud-based automation platform
-  that allows administrators to automate Azure management tasks and orchestrate actions
-  across external systems within Azure. Azure Automation script files called Runbooks
-  that can be written in PowerShell or Python. Adversaries or red teams who have obtained
-  privileged access to an Azure tenant may create an Azure Automation Runbook that
-  runs with elevated privileges to maintain persistence in the Azure tenant. A malicious
-  Automation Runbook can be created to create Global Administrators in Azure AD, execute
-  code on VMs, etc.
-data_source: 
+description: The following analytic detects the creation of a new Azure Automation
+  Runbook within an Azure tenant. It leverages Azure Audit events, specifically the
+  Azure Activity log category, to identify when a new Runbook is created or updated.
+  This activity is significant because adversaries with privileged access can use
+  Runbooks to maintain persistence, escalate privileges, or execute malicious code.
+  If confirmed malicious, this could lead to unauthorized actions such as creating
+  Global Administrators, executing code on VMs, and compromising the entire Azure
+  environment.
+data_source:
 - Azure Audit Create or Update an Azure Automation Runbook
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation Runbook" object!=AzureAutomationTutorial* status.value=Succeeded 
-  | dedup object
-  | rename claims.ipaddr as src_ip
-  | rename caller as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by object user, src_ip, resourceGroupName, object_path 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `azure_automation_runbook_created_filter`'
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
+  Runbook" object!=AzureAutomationTutorial* status.value=Succeeded | dedup object
+  | rename claims.ipaddr as src_ip | rename caller as user | stats count min(_time)
+  as firstTime max(_time) as lastTime by object user, src_ip, resourceGroupName, object_path
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_automation_runbook_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Audit events into your Splunk environment. Specifically,
@@ -71,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_automation_runbook/azure-activity.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_automation_runbook/azure-activity.log
     source: mscs:azure:audit
     sourcetype: mscs:azure:audit
     update_timestamp: true

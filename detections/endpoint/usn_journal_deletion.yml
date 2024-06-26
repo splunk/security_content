@@ -1,14 +1,18 @@
 name: USN Journal Deletion
 id: b6e0ff70-b122-4227-9368-4cf322ab43c3
-version: 2
-date: '2018-12-03'
+version: 3
+date: '2024-05-12'
 author: David Dorsey, Splunk
 status: production
 type: TTP
-description: The fsutil.exe application is a legitimate Windows utility used to perform
-  tasks related to the file allocation table (FAT) and NTFS file systems. The update
-  sequence number (USN) change journal provides a log of all changes made to the files
-  on the disk. This search looks for fsutil.exe deleting the USN journal.
+description: The following analytic detects the deletion of the USN Journal using
+  the fsutil.exe utility. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process execution logs that include command-line details. This
+  activity is significant because the USN Journal maintains a log of all changes made
+  to files on the disk, and its deletion can be an indicator of an attempt to cover
+  tracks or hinder forensic investigations. If confirmed malicious, this action could
+  allow an attacker to obscure their activities, making it difficult to trace file
+  modifications and potentially compromising incident response efforts.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -60,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

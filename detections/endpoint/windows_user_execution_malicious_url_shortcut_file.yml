@@ -1,17 +1,17 @@
 name: Windows User Execution Malicious URL Shortcut File
 id: 5c7ee6ad-baf4-44fb-b2f0-0cfeddf82dbc
-version: 1
-date: '2023-01-12'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will identify suspicious creation of URL shortcut link
-  files. This technique was seen in CHAOS ransomware where it will drop this .url
-  link file in %startup% folder that contains the path of its malicious dropped file
-  to execute upon the reboot of the targeted host. The creation of this file can be
-  created by a normal application or software but it is a good practice to verify
-  this type of file specially the resource it tries to execute which is commonly a
-  website.
+description: The following analytic detects the creation of suspicious URL shortcut
+  link files, often used by malware like CHAOS ransomware. It leverages the Endpoint.Filesystem
+  datamodel to identify .url files created outside standard directories, such as Program
+  Files. This activity is significant as it may indicate an attempt to execute malicious
+  code upon system reboot. If confirmed malicious, this could allow an attacker to
+  achieve persistence and execute harmful payloads, potentially leading to further
+  system compromise and data loss.
 data_source:
 - Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

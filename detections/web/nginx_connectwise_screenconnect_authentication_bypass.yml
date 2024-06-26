@@ -1,19 +1,34 @@
 name: Nginx ConnectWise ScreenConnect Authentication Bypass
 id: b3f7a803-e802-448b-8eb2-e796b223bccc
-version: 1
-date: '2024-02-23'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
-data_source: 
+data_source:
 - Nginx Access
 type: TTP
 status: production
-description: This analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1709 vulnerability, which allows an attacker to bypass authentication using an alternate path or channel. The vulnerability, identified as critical with a CVSS score of 10, enables unauthorized users to access the SetupWizard.aspx page on already-configured ScreenConnect instances, potentially leading to the creation of administrative users and remote code execution. The search query provided looks for web requests to the SetupWizard.aspx page that could indicate exploitation attempts. This detection is crucial for identifying and responding to active exploitation of this vulnerability in environments running affected versions of ScreenConnect (23.9.7 and prior). It is recommended to update to version 23.9.8 or above immediately to remediate the issue, as detailed in the ConnectWise security advisory and further analyzed by Huntress researchers.
-search: '`nginx_access_logs` uri_path IN ("*/SetupWizard.aspx/*","*/SetupWizard/") status=200 http_method=POST  | stats count min(_time) as firstTime max(_time) as lastTime by src, dest, http_user_agent, url, uri_path, status, http_method, sourcetype, source
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect
+  CVE-2024-1709 vulnerability, which allows attackers to bypass authentication via
+  alternate paths or channels. It leverages Nginx access logs to identify web requests
+  to the SetupWizard.aspx page, indicating potential exploitation. This activity is
+  significant as it can lead to unauthorized administrative access and remote code
+  execution. If confirmed malicious, attackers could create administrative users and
+  gain full control over the affected ScreenConnect instance, posing severe security
+  risks. Immediate remediation by updating to version 23.9.8 or above is recommended.
+search: '`nginx_access_logs` uri_path IN ("*/SetupWizard.aspx/*","*/SetupWizard/")
+  status=200 http_method=POST  | stats count min(_time) as firstTime max(_time) as
+  lastTime by src, dest, http_user_agent, url, uri_path, status, http_method, sourcetype,
+  source | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `nginx_connectwise_screenconnect_authentication_bypass_filter`'
-how_to_implement: To implement this analytic, ensure proper logging is occurring with Nginx, access.log and error.log, and that these logs are being ingested into Splunk. STRT utilizes this nginx.conf https://gist.github.com/MHaggis/26f59108b04da8f1d870c9cc3a3c8eec to properly log as much data with Nginx. 
-known_false_positives: False positives are not expected, as the detection is based on the presence of web requests to the SetupWizard.aspx page, which is not a common page to be accessed by legitimate users. Note that the analytic is limited to HTTP POST and a status of 200 to reduce false positives. Modify the query as needed to reduce false positives or hunt for additional indicators of compromise.
+how_to_implement: To implement this analytic, ensure proper logging is occurring with
+  Nginx, access.log and error.log, and that these logs are being ingested into Splunk.
+  STRT utilizes this nginx.conf https://gist.github.com/MHaggis/26f59108b04da8f1d870c9cc3a3c8eec
+  to properly log as much data with Nginx.
+known_false_positives: False positives are not expected, as the detection is based
+  on the presence of web requests to the SetupWizard.aspx page, which is not a common
+  page to be accessed by legitimate users. Note that the analytic is limited to HTTP
+  POST and a status of 200 to reduce false positives. Modify the query as needed to
+  reduce false positives or hunt for additional indicators of compromise.
 references:
 - https://docs.splunk.com/Documentation/AddOns/released/NGINX/Sourcetypes
 - https://gist.github.com/MHaggis/26f59108b04da8f1d870c9cc3a3c8eec
@@ -26,7 +41,8 @@ tags:
   asset_type: Web Proxy
   confidence: 100
   impact: 100
-  message: An authentication bypass attempt against ScreenConnect has been detected on $dest$.
+  message: An authentication bypass attempt against ScreenConnect has been detected
+    on $dest$.
   mitre_attack_id:
   - T1190
   observable:
@@ -53,10 +69,11 @@ tags:
   security_domain: network
   cve:
   - CVE-2024-1708
-  - CVE-2024-1709 
+  - CVE-2024-1709
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/nginx_screenconnect.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/nginx_screenconnect.log
     sourcetype: nginx:plus:kv
     source: nginx:plus:kv

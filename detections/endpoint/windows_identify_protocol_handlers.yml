@@ -1,25 +1,26 @@
 name: Windows Identify Protocol Handlers
 id: bd5c311e-a6ea-48ae-a289-19a3398e3648
-version: 2
-date: '2022-09-13'
+version: 3
+date: '2024-05-26'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: 'The following hunting analytic will identify any protocol handlers utilized
-  on the command-line. A protocol handler is an application that knows how to handle
-  particular types of links: for example, a mail client is a protocol handler for
-  "mailto:" links. When the user clicks a "mailto:" link, the browser opens the application
-  selected as the handler for the "mailto:" protocol (or offers them a choice of handlers,
-  depending on their settings). To identify protocol handlers we can use NirSoft https://www.nirsoft.net/utils/url_protocol_view.html
-  URLProtocolView or query the registry using PowerShell.'
+description: 'The following analytic identifies the use of protocol handlers executed
+  via the command line. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process and command-line telemetry. This activity is significant
+  because protocol handlers can be exploited to execute arbitrary commands or launch
+  applications, potentially leading to unauthorized actions. If confirmed malicious,
+  an attacker could use this technique to gain code execution, escalate privileges,
+  or maintain persistence within the environment, posing a significant security risk.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process values(Processes.parent_process)
-  as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.parent_process_name Processes.user
-  Processes.process_name Processes.process | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup windows_protocol_handlers
-  handler AS process OUTPUT handler ishandler | where ishandler="TRUE" | `windows_identify_protocol_handlers_filter`'
+  as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.parent_process_name
+  Processes.user Processes.process_name Processes.process | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup
+  windows_protocol_handlers handler AS process OUTPUT handler ishandler | where ishandler="TRUE"
+  | `windows_identify_protocol_handlers_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -90,7 +91,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/protocol_handlers/protocolhandlers.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/protocol_handlers/protocolhandlers.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

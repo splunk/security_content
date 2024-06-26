@@ -1,23 +1,24 @@
 name: User Discovery With Env Vars PowerShell Script Block
 id: 77f41d9e-b8be-47e3-ab35-5776f5ec1d20
-version: 2
-date: '2022-03-22'
+version: 3
+date: '2024-05-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the use of PowerShell environment variables to identify the current
-  logged user. Red Teams and adversaries may leverage this method to identify the
-  logged user on a compromised endpoint for situational awareness and Active Directory
-  Discovery.
+description: The following analytic detects the use of PowerShell environment variables
+  to identify the current logged user by leveraging PowerShell Script Block Logging
+  (EventCode=4104). This method monitors script blocks containing `$env:UserName`
+  or `[System.Environment]::UserName`. Identifying this activity is significant as
+  adversaries and Red Teams may use it for situational awareness and Active Directory
+  discovery on compromised endpoints. If confirmed malicious, this activity could
+  allow attackers to gain insights into user context, aiding in further exploitation
+  and lateral movement within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*$env:UserName*" OR ScriptBlockText
   = "*[System.Environment]::UserName*") | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode ScriptBlockText Computer user_id 
-  | rename Computer as dest, user_id as user
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  as lastTime by EventCode ScriptBlockText Computer user_id | rename Computer as dest,
+  user_id as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `user_discovery_with_env_vars_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -61,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

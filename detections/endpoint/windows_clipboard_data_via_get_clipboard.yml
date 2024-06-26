@@ -1,21 +1,23 @@
 name: Windows ClipBoard Data via Get-ClipBoard
 id: ab73289e-2246-4de0-a14b-67006c72a893
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a powershell script command to retrieve
-  clipboard data. This technique was seen in several post exploitation tools like
-  WINPEAS to steal sensitive information that was saved in clipboard. Using the Get-Clipboard
-  powershell commandlet, adversaries can be able collect data stored in clipboard
-  that might be a copied user name, password or other sensitive information.
+description: The following analytic detects the execution of the PowerShell command
+  'Get-Clipboard' to retrieve clipboard data. It leverages PowerShell Script Block
+  Logging (EventCode 4104) to identify instances where this command is used. This
+  activity is significant because it can indicate an attempt to steal sensitive information
+  such as usernames, passwords, or other confidential data copied to the clipboard.
+  If confirmed malicious, this behavior could lead to unauthorized access to sensitive
+  information, potentially compromising user accounts and other critical assets.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-Clipboard*" | stats count
   min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
-  UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_clipboard_data_via_get_clipboard_filter`'
+  UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_clipboard_data_via_get_clipboard_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -31,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Powershell script $ScriptBlockText$ execute Get-Clipboard commandlet on $dest$
+  message: Powershell script $ScriptBlockText$ execute Get-Clipboard commandlet on
+    $dest$
   mitre_attack_id:
   - T1115
   observable:
@@ -59,7 +62,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/powershell/windows-powershell-xml2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/powershell/windows-powershell-xml2.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

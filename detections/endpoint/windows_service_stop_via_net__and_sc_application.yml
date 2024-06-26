@@ -1,15 +1,17 @@
 name: Windows Service Stop Via Net  and SC Application
 id: 827af04b-0d08-479b-9b84-b7d4644e4b80
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic identifies suspicious attempts to stop services on a system
-  using either `net.exe` or `sc.exe`. This technique is used by adversaries to terminate
-  security services or other related services to continue their objective and evade
-  detections. This technique is also commonly used by ransomware threat actors to
-  successfully encrypt databases or files being processed or used by Windows OS Services.
+description: The following analytic identifies attempts to stop services on a system
+  using `net.exe` or `sc.exe`. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names, GUIDs, and command-line executions. This
+  activity is significant as adversaries often terminate security or critical services
+  to evade detection and further their objectives. If confirmed malicious, this behavior
+  could allow attackers to disable security defenses, facilitate ransomware encryption,
+  or disrupt essential services, leading to potential data loss or system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,7 +71,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

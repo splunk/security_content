@@ -1,29 +1,23 @@
 name: Get WMIObject Group Discovery with Script Block Logging
 id: 69df7f7c-155d-11ec-a055-acde48001122
-version: 2
-date: '2022-03-22'
+version: 3
+date: '2024-05-23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  
-
-  This analytic identifies the usage of `Get-WMIObject Win32_Group`, which is typically
-  used as a way to identify groups on the endpoint.  Typically, by itself, is not
-  malicious but may raise suspicion based on time of day, endpoint and username. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the execution of the `Get-WMIObject Win32_Group`
+  command using PowerShell Script Block Logging (EventCode=4104). This method captures
+  the full command sent to PowerShell, allowing for detailed analysis. Identifying
+  group information on an endpoint is not inherently malicious but can be suspicious
+  based on context such as time, endpoint, and user. This activity is significant
+  as it may indicate reconnaissance efforts by an attacker. If confirmed malicious,
+  it could lead to further enumeration and potential lateral movement within the network.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-WMIObject*" AND ScriptBlockText
   = "*Win32_Group*" | stats count min(_time) as firstTime max(_time) as lastTime by
-  EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `get_wmiobject_group_discovery_with_script_block_logging_filter`'
+  EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `get_wmiobject_group_discovery_with_script_block_logging_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -69,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

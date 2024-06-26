@@ -1,23 +1,18 @@
 name: Detect HTML Help Using InfoTech Storage Handlers
 id: 0b2eefa5-5508-450d-b970-3dd2fb761aec
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2024-05-29'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled
-  HTML Help (CHM) file using InfoTech Storage Handlers. This particular technique
-  will load Windows script code from a compiled help file, using InfoTech Storage
-  Handlers. itss.dll will load upon execution. Three InfoTech Storage handlers are
-  supported - ms-its, its, mk:@MSITStore. ITSS may be used to launch a specific html/htm
-  file from within a CHM file. CHM files may contain nearly any file type embedded.
-  Upon a successful execution, the following script engines may be used for execution
-  - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may
-  identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The "htm"
-  and "html" file extensions were the only extensions observed to be supported for
-  the execution of Shortcut commands or WSH script code. During investigation, identify
-  script content origination. hh.exe is natively found in C:\Windows\system32 and
-  C:\Windows\syswow64.
+description: The following analytic detects the execution of hh.exe (HTML Help) using
+  InfoTech Storage Handlers to load Windows script code from a Compiled HTML Help
+  (CHM) file. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process names and command-line executions. This activity is
+  significant because it can be used to execute malicious scripts embedded within
+  CHM files, potentially leading to code execution. If confirmed malicious, this technique
+  could allow an attacker to execute arbitrary code, escalate privileges, or persist
+  within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -91,6 +86,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

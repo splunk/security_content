@@ -1,17 +1,17 @@
 name: Outbound Network Connection from Java Using Default Ports
 id: d2c14d28-5c47-11ec-9892-acde48001122
-version: 2
-date: '2022-06-28'
+version: 3
+date: '2024-05-26'
 author: Mauricio Velazco, Lou Stella, Splunk
 status: production
 type: TTP
-description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
-  is that the victim server will perform outbound connections to attacker-controlled
-  infrastructure. This is required as part of the JNDI lookup as well as for retrieving
-  the second stage .class payload. The following analytic identifies the Java process
-  reaching out to default ports used by the LDAP and RMI protocols. This behavior
-  could represent successfull exploitation. Note that adversaries can easily decide
-  to use arbitrary ports for these protocols and potentially bypass this detection.
+description: The following analytic detects outbound network connections from Java
+  processes to default ports used by LDAP and RMI protocols, which may indicate exploitation
+  of the CVE-2021-44228-Log4j vulnerability. This detection leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process and network traffic logs.
+  Monitoring this activity is crucial as it can signify an attacker’s attempt to perform
+  JNDI lookups and retrieve malicious payloads. If confirmed malicious, this activity
+  could lead to remote code execution and further compromise of the affected server.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
@@ -77,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

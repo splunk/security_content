@@ -1,18 +1,18 @@
 name: Windows Curl Download to Suspicious Path
 id: c32f091e-30db-11ec-8738-acde48001122
-version: 1
-date: '2021-10-19'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the use of Windows Curl.exe downloading
-  a file to a suspicious location. 
-
-  -O or --output is used when a file is to be downloaded and placed in a specified
-  location. 
-
-  During triage, review parallel processes for further behavior. In addition, identify
-  if the download was successful. If a file was downloaded, capture and analyze.'
+description: 'The following analytic detects the use of Windows Curl.exe to download
+  a file to a suspicious location, such as AppData, ProgramData, or Public directories.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  command-line executions that include the -O or --output options. This activity is
+  significant because downloading files to these locations can indicate an attempt
+  to bypass security controls or establish persistence. If confirmed malicious, this
+  behavior could lead to unauthorized code execution, data exfiltration, or further
+  compromise of the system.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -88,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

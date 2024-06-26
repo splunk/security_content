@@ -1,32 +1,30 @@
 name: Azure AD Service Principal Created
 id: f8ba49e7-ffd3-4b53-8f61-e73974583c5d
-version: 1
-date: '2022-08-17'
+version: 2
+date: '2024-05-30'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of a Service Principal
-  in an Azure AD environment. An Azure Service Principal is an identity designed to
-  be used with applications, services, and automated tools to access resources. It
-  is similar to a service account within an Active Directory environment. Service
-  Principal authentication does not support multi-factor authentication nor conditional
-  access policies. Adversaries and red teams alike who have obtained administrative
-  access may create a Service Principal to establish Persistence and obtain single-factor
-  access to an Azure AD environment.
-data_source: 
+description: The following analytic detects the creation of a Service Principal in
+  an Azure AD environment. It leverages Azure Active Directory events ingested through
+  EventHub, specifically monitoring the "Add service principal" operation. This activity
+  is significant because Service Principals can be used by adversaries to establish
+  persistence and bypass multi-factor authentication and conditional access policies.
+  If confirmed malicious, this could allow attackers to maintain single-factor access
+  to the Azure AD environment, potentially leading to unauthorized access to resources
+  and prolonged undetected activity.
+data_source:
 - Azure Active Directory Add service principal
 search: '`azure_monitor_aad`  operationName="Add service principal" properties.initiatedBy.user.id=*
-  | rename properties.* as * 
-  | rename targetResources{}.displayName as displayName
-  | rename targetResources{}.type as type
-  | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by type, user, result, operationName 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_service_principal_created_filter`'
+  | rename properties.* as * | rename targetResources{}.displayName as displayName
+  | rename targetResources{}.type as type | stats count min(_time) as firstTime max(_time)
+  as lastTime values(displayName) as displayName by type, user, result, operationName
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_service_principal_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment thorough an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  thorough an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrator may legitimately create Service Principal. Filter
   as needed.
 references:
@@ -65,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_add_service_principal/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_add_service_principal/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

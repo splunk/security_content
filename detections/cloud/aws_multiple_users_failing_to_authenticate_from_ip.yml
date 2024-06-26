@@ -1,19 +1,23 @@
 name: AWS Multiple Users Failing To Authenticate From Ip
 id: 71e1fb89-dd5f-4691-8523-575420de4630
-version: 1
-date: '2022-09-27'
+version: 2
+date: '2024-05-10'
 author: Bhavin Patel
 status: production
 type: Anomaly
-description: The following analytic identifies one source Ip failing to authenticate
-  into the AWS Console with 30 unique valid users within 10 minutes. This behavior
-  could represent an adversary performing a Password Spraying attack against an AWS
-  environment tenant to obtain initial access or elevate privileges.
-data_source: 
+description: The following analytic identifies a single source IP failing to authenticate
+  into the AWS Console with 30 unique valid users within 10 minutes. It leverages
+  CloudTrail logs to detect multiple failed login attempts from the same IP address.
+  This behavior is significant as it may indicate a Password Spraying attack, where
+  an adversary attempts to gain unauthorized access or elevate privileges by trying
+  common passwords across many accounts. If confirmed malicious, this activity could
+  lead to unauthorized access, data breaches, or further exploitation within the AWS
+  environment.
+data_source:
 - AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
-  | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time,
-  src_ip |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
+  | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip 
+  | `aws_multiple_users_failing_to_authenticate_from_ip_filter`'
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
   We recommend the users to try different combinations of the bucket span time and
   the tried account threshold to tune this search according to their environment.
@@ -30,7 +34,8 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 60
-  message: 'Multiple failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src_ip$'
+  message: 'Multiple failed console login attempts (Count: $unique_accounts$) against
+    users from IP Address - $src_ip$'
   mitre_attack_id:
   - T1110
   - T1110.003
@@ -56,10 +61,12 @@ tags:
   - src_ip
   risk_score: 54
   security_domain: threat
-  manual_test: This search needs a specific number of events in a time window for the alert to trigger and events split up in CI testing while updating timestamp.
+  manual_test: This search needs a specific number of events in a time window for
+    the alert to trigger and events split up in CI testing while updating timestamp.
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail

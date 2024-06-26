@@ -1,14 +1,17 @@
 name: Network Connection Discovery With Netstat
 id: 2cf5cc25-f39a-436d-a790-4857e5995ede
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `netstat.exe` with command-line
-  arguments utilized to get a listing of network connections on a compromised system.
-  Red Teams and adversaries alike may use netstat.exe for situational awareness and
-  Active Directory Discovery.
+description: The following analytic detects the execution of `netstat.exe` with command-line
+  arguments to list network connections on a system. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names, command-line executions,
+  and parent processes. This activity is significant as both Red Teams and adversaries
+  use `netstat.exe` for situational awareness and Active Directory discovery. If confirmed
+  malicious, this behavior could allow attackers to map network connections, identify
+  critical systems, and plan further lateral movement or data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,14 +1,18 @@
 name: Esentutl SAM Copy
 id: d372f928-ce4f-11eb-a762-acde48001122
-version: 1
-date: '2021-08-18'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the process - `esentutl.exe` - being
-  used to capture credentials stored in ntds.dit or the SAM file on disk. During triage,
-  review parallel processes and determine if legitimate activity. Upon determination
-  of illegitimate activity, take further action to isolate and contain the threat.
+description: The following analytic detects the use of `esentutl.exe` to access credentials
+  stored in the ntds.dit or SAM file. This detection leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process execution logs that include
+  command-line details. This activity is significant because it may indicate an attempt
+  to extract sensitive credential information, which is a common tactic in lateral
+  movement and privilege escalation. If confirmed malicious, this could allow an attacker
+  to gain unauthorized access to user credentials, potentially compromising the entire
+  network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -82,6 +86,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,17 +1,18 @@
 name: Linux Possible Append Command To Profile Config File
 id: 9c94732a-61af-11ec-91e3-acde48001122
-version: 1
-date: '2021-12-20'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious command-lines that can be possibly
-  used to modify user profile files to automatically execute scripts/executables by
-  shell upon reboot of the machine. This technique is commonly abused by adversaries,
-  malware and red teamers as persistence mechanism to the targeted or compromised
-  host. This Anomaly detection is a good indicator that someone wants to run code
-  after reboot which can be done also by the administrator or network operator for
-  automation purposes.
+description: The following analytic detects suspicious command-lines that modify user
+  profile files to automatically execute scripts or executables upon system reboot.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  command-line executions involving profile files like ~/.bashrc and /etc/profile.
+  This activity is significant as it indicates potential persistence mechanisms used
+  by adversaries to maintain access to compromised hosts. If confirmed malicious,
+  this could allow attackers to execute arbitrary code upon reboot, leading to persistent
+  control over the system and potential further exploitation.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

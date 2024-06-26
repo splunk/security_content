@@ -1,22 +1,19 @@
 name: BITSAdmin Download File
 id: 80630ff4-8e4c-11eb-aab5-acde48001122
-version: 3
-date: '2022-11-29'
+version: 4
+date: '2024-05-20'
 author: Michael Haag, Sittikorn S
 status: production
 type: TTP
-description: The following query identifies Microsoft Background Intelligent Transfer
-  Service utility `bitsadmin.exe` using the `transfer` parameter to download a remote
-  object. In addition, look for `download` or `upload` on the command-line, the switches
-  are not required to perform a transfer. Capture any files downloaded. Review the
-  reputation of the IP or domain used. Typically once executed, a follow on command
-  will be used to execute the dropped file. Note that the network connection or file
-  modification events related will not spawn or create from `bitsadmin.exe`, but the
-  artifacts will appear in a parallel process of `svchost.exe` with a command-line
-  similar to `svchost.exe -k netsvcs -s BITS`. It's important to review all parallel
-  and child processes to capture any behaviors and artifacts. In some suspicious and
-  malicious instances, BITS jobs will be created. You can use `bitsadmin /list /verbose`
-  to list out the jobs during investigation.
+description: The following analytic detects the use of `bitsadmin.exe` with the `transfer`
+  parameter to download a remote object. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process and command-line telemetry. This
+  activity is significant because `bitsadmin.exe` can be exploited to download and
+  execute malicious files without immediate detection. If confirmed malicious, an
+  attacker could use this technique to download and execute payloads, potentially
+  leading to code execution, privilege escalation, or persistent access within the
+  environment. Review parallel and child processes, especially `svchost.exe`, for
+  associated artifacts.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -95,11 +92,13 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
     source: crowdstrike
     sourcetype: crowdstrike:events:sensor

@@ -1,27 +1,27 @@
 name: Windows Impair Defense Disable Defender Firewall And Network
 id: 8467d8cd-b0f9-46fa-ac84-a30ad138983e
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable firewall 
-  and network protection section settings of windows security. The specific impact of this change depends 
-  on the context and the purpose behind modifying this registry value. In general, setting UILockdown to 1 
-  might imply enforcing a restriction or lockdown in the user interface (UI) related to firewall and network 
-  protection settings within Windows Defender Security Center. This could potentially restrict users from modifying 
-  certain firewall or network protection settings through the UI.
+description: The following analytic detects modifications in the Windows registry
+  to disable firewall and network protection settings within Windows Defender Security
+  Center. It leverages data from the Endpoint.Registry data model, specifically monitoring
+  changes to the UILockdown registry value. This activity is significant as it may
+  indicate an attempt to impair system defenses, potentially restricting users from
+  modifying firewall or network protection settings. If confirmed malicious, this
+  could allow an attacker to weaken the system's security posture, making it more
+  vulnerable to further attacks and unauthorized access.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender Security Center\\Firewall and network protection\\UILockdown"
-  Registry.registry_value_data="0x00000001" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_disable_defender_firewall_and_network_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender Security Center\\Firewall and network protection\\UILockdown" Registry.registry_value_data="0x00000001"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_disable_defender_firewall_and_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -39,7 +39,8 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Windows Defender firewall and network protection section feature set to disable on $dest$.
+  message: Windows Defender firewall and network protection section feature set to
+    disable on $dest$.
   mitre_attack_id:
   - T1562.001
   - T1562
@@ -65,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

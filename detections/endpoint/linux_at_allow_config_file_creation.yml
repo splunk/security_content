@@ -1,13 +1,18 @@
 name: Linux At Allow Config File Creation
 id: 977b3082-5f3d-11ec-b954-acde48001122
-version: 1
-date: '2021-12-17'
+version: 2
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of suspicious configuration files, /etc/at.allow or /etc/at.deny, in Linux. These files are commonly abused by malware, adversaries, or red teamers to establish persistence on compromised hosts. The configuration files determine which users are allowed to execute the "at" application, which is used for scheduling tasks in Linux. Attackers can add their user or a compromised username to these files to execute malicious code using "at." It's important to consider potential false positives as administrators or network operators may create these files for legitimate automation purposes. Adjust the filter macros to minimize false positives.
-
-  Identifying the creation of these configuration files is valuable for a SOC as it indicates potential unauthorized activities or an attacker attempting to establish persistence. If a true positive is found, further investigation is necessary to examine the contents of the created configuration file and determine the source of creation. The impact of a true positive can vary but could result in unauthorized execution of malicious code, data theft, or other detrimental consequences. Analysts should review the file path, creation time, and associated processes to assess the extent of the attack and initiate appropriate response actions.
+description: The following analytic detects the creation of the /etc/at.allow or /etc/at.deny
+  configuration files in Linux. It leverages file creation events from the Endpoint
+  datamodel to identify when these files are created. This activity is significant
+  as these files control user permissions for the "at" scheduling application and
+  can be abused by attackers to establish persistence. If confirmed malicious, this
+  could allow unauthorized execution of malicious code, leading to potential data
+  theft or further system compromise. Analysts should review the file path, creation
+  time, and associated processes to assess the threat.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -57,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

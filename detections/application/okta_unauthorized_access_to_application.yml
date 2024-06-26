@@ -1,19 +1,30 @@
 name: Okta Unauthorized Access to Application
 id: 5f661629-9750-4cb9-897c-1f05d6db8727
-version: 1
-date: '2024-03-07'
+version: 2
+date: '2024-05-12'
 author: 'Bhavin Patel, Splunk'
 data_source: []
 type: Anomaly
 status: production
-description: This search detects instances where a user attempts to access an Okta application that has not been assigned to them. Such unauthorized access to applications poses a significant security risk, potentially leading to the exposure of sensitive information, disruption of services, and breaches of data protection laws. Ensuring that only authorized users have access to applications is crucial for maintaining a secure and compliant IT environment.
-search: '| tstats values(Authentication.app) as app values(Authentication.action) as action values(Authentication.user) as user values(Authentication.reason) as reason from datamodel=Authentication where Authentication.signature=app.generic.unauth_app_access_attempt Authentication.action="failure" by _time Authentication.src Authentication.user
-  | `drop_dm_object_name("Authentication")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | iplocation src | `okta_unauthorized_access_to_application_filter`'
-how_to_implement: This detection utilizes logs from Okta Identity Management (IM) environments and requires the ingestion of OktaIm2 logs through the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: There is a possibility that a user may accidentally click on the wrong application, which could trigger this event. It is advisable to verify the location from which this activity originates.
+description: The following analytic identifies attempts by users to access Okta applications
+  that have not been assigned to them. It leverages Okta Identity Management logs,
+  specifically focusing on failed access attempts to unassigned applications. This
+  activity is significant for a SOC as it may indicate potential unauthorized access
+  attempts, which could lead to exposure of sensitive information or disruption of
+  services. If confirmed malicious, such activity could result in data breaches, non-compliance
+  with data protection laws, and overall compromise of the IT environment.
+search: '| tstats values(Authentication.app) as app values(Authentication.action)
+  as action values(Authentication.user) as user values(Authentication.reason) as reason
+  from datamodel=Authentication where Authentication.signature=app.generic.unauth_app_access_attempt
+  Authentication.action="failure" by _time Authentication.src Authentication.user
+  | `drop_dm_object_name("Authentication")` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | iplocation src | `okta_unauthorized_access_to_application_filter`'
+how_to_implement: This detection utilizes logs from Okta Identity Management (IM)
+  environments and requires the ingestion of OktaIm2 logs through the Splunk Add-on
+  for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: There is a possibility that a user may accidentally click on
+  the wrong application, which could trigger this event. It is advisable to verify
+  the location from which this activity originates.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 tags:
@@ -22,7 +33,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 90
   impact: 90
-  message: A user [$user$] is attempting to access an unauthorized application from IP Address - [$src$]
+  message: A user [$user$] is attempting to access an unauthorized application from
+    IP Address - [$src$]
   mitre_attack_id:
   - T1087.004
   observable:
@@ -53,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/okta_unauth_access/okta_unauth_access.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/okta_unauth_access/okta_unauth_access.log
     source: Okta
     sourcetype: OktaIM2:log

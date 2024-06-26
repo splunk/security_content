@@ -1,21 +1,24 @@
 name: GetWmiObject Ds Group with PowerShell Script Block
 id: 67740bd3-1506-469c-b91d-effc322cc6e5
-version: 2
-date: '2022-05-02'
+version: 3
+date: '2024-05-18'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-WmiObject` commandlet used with specific parameters
-  . The `DS_Group` parameter leverages WMI to query for all domain groups. Red Teams
-  and adversaries may leverage this commandlet to enumerate domain groups for situational
-  awareness and Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-WmiObject` commandlet
+  with the `DS_Group` parameter via PowerShell Script Block Logging (EventCode=4104).
+  This method leverages WMI to query all domain groups. Monitoring this activity is
+  crucial as adversaries and Red Teams may use it for domain group enumeration, aiding
+  in situational awareness and Active Directory discovery. If confirmed malicious,
+  this activity could allow attackers to map out the domain structure, potentially
+  leading to further exploitation and privilege escalation within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace
   root\\directory\\ldap*" AND ScriptBlockText="*class ds_group*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`getwmiobject_ds_group_with_powershell_script_block_filter`'
+  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText
+  | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`|`getwmiobject_ds_group_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -55,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

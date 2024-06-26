@@ -1,12 +1,12 @@
 name: Create local admin accounts using net exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
-version: 9
-date: '2024-04-26'
+version: 10
+date: '2024-05-11'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects the creation of local administrator accounts using the net.exe command to mitigate the risks associated with unauthorized access and prevent further damage to the environment by responding to potential threats earlier and taking appropriate actions to protect the organization's systems and data. This detection is made by a Splunk query to search for processes with the name net.exe or net1.exe that include the "/add" parameter and have specific keywords related to administrator accounts in their process name. This detection is important because the creation of unauthorized local administrator accounts might indicate that an attacker has successfully created a new administrator account and is trying to gain persistent access to a system or escalate their privileges for data theft, or other malicious activities. False positives might occur since there might be legitimate uses of the net.exe command and the creation of administrator accounts in certain circumstances. You must consider the context of the activity and other indicators of compromise before taking any action. For next steps, review the details of the identified process, including the user, parent process, and parent process name. Examine any relevant on-disk artifacts and look for concurrent processes to determine the source of the attack.
+  The following analytic detects the creation of local administrator accounts using the net.exe command. It leverages Endpoint Detection and Response (EDR) data to identify processes named net.exe or net1.exe with the "/add" parameter and keywords related to administrator accounts. This activity is significant as it may indicate an attacker attempting to gain persistent access or escalate privileges. If confirmed malicious, this could lead to unauthorized access, data theft, or further system compromise. Review the process details, user context, and related artifacts to determine the legitimacy of the activity.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as
@@ -15,9 +15,9 @@ search: '| tstats `security_content_summariesonly` count values(Processes.user) 
   where (Processes.process_name=net.exe OR Processes.process_name=net1.exe) AND Processes.process=*/add*
   AND (Processes.process=*administrators* OR Processes.process=*administratoren* OR
   Processes.process=*administrateurs* OR Processes.process=*administrador* OR Processes.process=*amministratori*
-  OR Processes.process=*administratorer*) by Processes.process Processes.process_name Processes.parent_process_name
-  Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `create_local_admin_accounts_using_net_exe_filter`'
+  OR Processes.process=*administratorer*) by Processes.process Processes.process_name
+  Processes.parent_process_name Processes.dest Processes.user| `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `create_local_admin_accounts_using_net_exe_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -83,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

@@ -1,15 +1,17 @@
 name: Get WMIObject Group Discovery
 id: 5434f670-155d-11ec-8cca-acde48001122
-version: 1
-date: '2021-09-14'
+version: 2
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting analytic identifies the use of `Get-WMIObject Win32_Group`
-  being used with PowerShell to identify local groups on the endpoint. \ Typically,
-  by itself, is not malicious but may raise suspicion based on time of day, endpoint
-  and username. \ During triage, review parallel processes and identify any further
-  suspicious behavior.
+description: The following analytic detects the use of the `Get-WMIObject Win32_Group`
+  command executed via PowerShell to enumerate local groups on an endpoint. This detection
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  names and command-line executions. Identifying local groups can be a precursor to
+  privilege escalation or lateral movement. If confirmed malicious, this activity
+  could allow an attacker to map out group memberships, aiding in further exploitation
+  or unauthorized access to sensitive resources.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

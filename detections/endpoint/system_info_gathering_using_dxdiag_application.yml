@@ -1,18 +1,18 @@
 name: System Info Gathering Using Dxdiag Application
 id: f92d74f2-4921-11ec-b685-acde48001122
-version: 1
-date: '2021-11-19'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic is to detect a suspicious dxdiag.exe process command-line
-  execution. Dxdiag is used to collect the system info of the target host. This technique
-  has been used by Remcos RATS, various actors, and other malware to collect information
-  as part of the recon or collection phase of an attack. This behavior should rarely
-  be seen in a corporate network, but this command line can be used by a network administrator
-  to audit host machine specifications. Thus in some rare cases, this detection will
-  contain false positives in its results. To triage further, analyze what commands
-  were passed after it pipes out the result to a file for further processing.
+description: The following analytic identifies the execution of the dxdiag.exe process
+  with specific command-line arguments, which is used to gather system information.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process creation events and command-line details. This activity is significant
+  because dxdiag.exe is rarely used in corporate environments and its execution may
+  indicate reconnaissance efforts by malicious actors. If confirmed malicious, this
+  activity could allow attackers to collect detailed system information, aiding in
+  further exploitation or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

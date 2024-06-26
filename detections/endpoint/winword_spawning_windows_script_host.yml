@@ -1,20 +1,18 @@
 name: Winword Spawning Windows Script Host
 id: 637e1b5c-9be1-11eb-9c32-acde48001122
-version: 1
-date: '2021-04-12'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following detection identifies Microsoft Winword.exe spawning Windows
-  Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior
-  and not default with Winword.exe. Winword.exe will generally be found in the following
-  path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). `cscript.exe`
-  or `wscript.exe` default location is `c:\windows\system32\` or c:windows\syswow64\`.
-  `cscript.exe` or `wscript.exe` spawning from Winword.exe is common for a spearphishing
-  attachment and is actively used. Albeit, the command-line executed will most likely
-  be obfuscated and captured via another detection. During triage, review parallel
-  processes and identify any files that may have been written. Review the reputation
-  of the remote destination and block accordingly.
+description: The following analytic identifies instances where Microsoft Winword.exe
+  spawns Windows Script Host processes (cscript.exe or wscript.exe). This behavior
+  is detected using Endpoint Detection and Response (EDR) telemetry, focusing on process
+  creation events where the parent process is Winword.exe. This activity is significant
+  because it is uncommon and often associated with spearphishing attacks, where malicious
+  scripts are executed via document macros. If confirmed malicious, this could lead
+  to code execution, allowing attackers to gain initial access, execute further payloads,
+  or establish persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -77,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_wsh.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_wsh.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

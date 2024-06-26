@@ -1,17 +1,19 @@
 name: AWS Defense Evasion Impair Security Services
 id: b28c4957-96a6-47e0-a965-6c767aac1458
-version: 1
-date: '2022-07-26'
+version: 2
+date: '2024-05-26'
 author: Bhavin Patel, Gowthamaraj Rajendran, Splunk
 status: production
 type: Hunting
-description: This analytic looks for several delete specific API calls made to AWS
-  Security Services like CloudWatch, GuardDuty and Web Application Firewalls. These
-  API calls are often leveraged by adversaries to weaken existing security defenses
-  by deleting logging configurations in the CloudWatch alarm, delete a set of detectors
-  from your Guardduty environment or simply delete a bunch of CloudWatch alarms to
-  remain stealthy and avoid detection.
-data_source: 
+description: The following analytic detects attempts to delete critical AWS security
+  service configurations, such as CloudWatch alarms, GuardDuty detectors, and Web
+  Application Firewall rules. It leverages CloudTrail logs to identify specific API
+  calls like "DeleteLogStream" and "DeleteDetector." This activity is significant
+  because it indicates potential efforts to disable security monitoring and evade
+  detection. If confirmed malicious, this could allow attackers to operate undetected,
+  escalate privileges, or exfiltrate data without triggering security alerts, severely
+  compromising the security posture of the AWS environment.
+data_source:
 - AWS CloudTrail DeleteLogStream
 - AWS CloudTrail DeleteDetector
 - AWS CloudTrail DeleteIPSet
@@ -73,7 +75,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/aws_delete_security_services/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

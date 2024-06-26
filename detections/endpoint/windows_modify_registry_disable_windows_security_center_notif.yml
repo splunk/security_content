@@ -1,16 +1,19 @@
 name: Windows Modify Registry Disable Windows Security Center Notif
 id: 27ed3e79-6d86-44dd-b9ab-524451c97a7b
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic is to identify a modification in the Windows registry
-  to disable windows center notifications. This Windows Operating System feature is
-  responsible for alerting or notifying user if application or OS need some updates.
-  Adversaries and malwares like Azorult abuse this technique to disable important
-  update notification in compromised host. This anomaly detection is a good pivot
-  to look for further events related to defense evasion and execution.
+description: The following analytic detects modifications to the Windows registry
+  aimed at disabling Windows Security Center notifications. It leverages data from
+  the Endpoint.Registry datamodel, specifically monitoring changes to the registry
+  path "*\\Windows\\CurrentVersion\\ImmersiveShell\\UseActionCenterExperience*" with
+  a value of "0x00000000". This activity is significant as it can indicate an attempt
+  by adversaries or malware, such as Azorult, to evade defenses by suppressing critical
+  update notifications. If confirmed malicious, this could allow attackers to persist
+  undetected, potentially leading to further exploitation and compromise of the host
+  system.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -62,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

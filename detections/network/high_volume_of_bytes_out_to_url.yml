@@ -1,18 +1,32 @@
 name: High Volume of Bytes Out to Url
 id: c8a6b56d-16dd-4e9c-b4bd-527742ead98d
-version: 1
-date: '2024-02-22'
+version: 2
+date: '2024-05-24'
 author: Bhavin Patel, Splunk
-data_source: 
+data_source:
 - Nginx Access
 type: Anomaly
 status: production
-description: The following analytic detects high volume of bytes out (greater than 1GB) to a URL within 2 mins of time window. This may be
-  indicative of an attacker attempting to exfiltrate data.  The search applies a fundamental threshold for detecting significant web uploads. This approach aims to identify potential data exfiltration activities by malware or malevolent insiders. View the alert for $dest$ to investigate further. 
-search: '| tstats  `security_content_summariesonly` count sum(Web.bytes_out) as sum_bytes_out values(Web.user) as user values(Web.app) as app values(Web.dest) as dest from datamodel=Web by _time span=2m Web.url Web.src sourcetype | search sum_bytes_out > 1070000000 | `drop_dm_object_name("Web")`| `high_volume_of_bytes_out_to_url_filter`'
+description: The following analytic detects a high volume of outbound web traffic,
+  specifically over 1GB of data sent to a URL within a 2-minute window. It leverages
+  the Web data model to identify significant uploads by analyzing the sum of bytes
+  out. This activity is significant as it may indicate potential data exfiltration
+  by malware or malicious insiders. If confirmed as malicious, this behavior could
+  lead to unauthorized data transfer, resulting in data breaches and loss of sensitive
+  information. Immediate investigation is required to determine the legitimacy of
+  the transfer and mitigate any potential threats.
+search: '| tstats  `security_content_summariesonly` count sum(Web.bytes_out) as sum_bytes_out
+  values(Web.user) as user values(Web.app) as app values(Web.dest) as dest from datamodel=Web
+  by _time span=2m Web.url Web.src sourcetype | search sum_bytes_out > 1070000000
+  | `drop_dm_object_name("Web")`| `high_volume_of_bytes_out_to_url_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
-  on Web traffic that include fields relavent for traffic into the `Web` datamodel. Please adjust the threshold for the sum of bytes out as per your environment and user behavior. 
-known_false_positives: This search may trigger false positives if there is a legitimate reason for a high volume of bytes out to a URL. We recommend to investigate these findings. Consider updating the filter macro to exclude the applications that are relevant to your environment. 
+  on Web traffic that include fields relavent for traffic into the `Web` datamodel.
+  Please adjust the threshold for the sum of bytes out as per your environment and
+  user behavior.
+known_false_positives: This search may trigger false positives if there is a legitimate
+  reason for a high volume of bytes out to a URL. We recommend to investigate these
+  findings. Consider updating the filter macro to exclude the applications that are
+  relevant to your environment.
 references:
 - https://attack.mitre.org/techniques/T1567/
 - https://www.trendmicro.com/en_us/research/20/l/pawn-storm-lack-of-sophistication-as-a-strategy.html
@@ -23,7 +37,8 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: A high volume of bytes out to a URL $url$ was detected from src $src$ to dest $dest$. 
+  message: A high volume of bytes out to a URL $url$ was detected from src $src$ to
+    dest $dest$.
   mitre_attack_id:
   - T1567
   observable:
@@ -52,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/web_upload_nginx/web_upload_nginx.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/web_upload_nginx/web_upload_nginx.log
     source: /var/log/nginx/access.log
     sourcetype: nginx:plus:kv

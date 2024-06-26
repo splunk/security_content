@@ -1,24 +1,26 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
-version: 1
-date: '2023-06-15'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a suspicious remote thread execution
-  in some process being abused by threat actor and malware like qakbot. Qakbot is
-  one of the malware using this technique to load its malicious dll module or malicious
-  code in the targeted host. This TTP can be a good pivot to verify what is the behavior
-  of the targeted Image process after this detection trigger. look for network connection,
-  child process execution, file access and many more that helps to verify the indication
-  of malware infection.
+description: The following analytic detects suspicious remote thread execution in
+  processes such as Taskmgr.exe, calc.exe, and notepad.exe, which may indicate process
+  injection by malware like Qakbot. This detection leverages Sysmon EventCode 8 to
+  identify remote thread creation in specific target processes. This activity is significant
+  as it often signifies an attempt by malware to inject malicious code into legitimate
+  processes, potentially leading to unauthorized code execution. If confirmed malicious,
+  this could allow attackers to execute arbitrary code, escalate privileges, or maintain
+  persistence on the compromised host.
 data_source:
 - Sysmon EventID 8
 search: '`sysmon` EventCode=8 TargetImage IN ("*\\Taskmgr.exe", "*\\calc.exe", "*\\notepad.exe",
   "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe",
-  "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe","*\\cmd.exe", "*\\powershell.exe") | stats count
-  min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode
-  StartAddress SourceImage dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe","*\\cmd.exe",
+  "*\\powershell.exe") | stats count min(_time) as firstTime max(_time) as lastTime
+  by  TargetImage TargetProcessId SourceProcessId  EventCode StartAddress SourceImage
+  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_process_injection_remote_thread_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts like remote thread EventCode=8 of
@@ -72,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr2/sysmon_wermgr2.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

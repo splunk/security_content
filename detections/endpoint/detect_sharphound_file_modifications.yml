@@ -1,32 +1,26 @@
 name: Detect SharpHound File Modifications
 id: 42b4b438-beed-11eb-ba1d-acde48001122
-version: 3
-date: '2024-03-14'
+version: 4
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: SharpHound is used as a reconnaissance collector, ingestor, for BloodHound.
-  SharpHound will query the domain controller and begin gathering all the data related
-  to the domain and trusts. For output, it will drop a .zip file upon completion following
-  a typical pattern that is often not changed. This analytic focuses on the default
-  file name scheme. Note that this may be evaded with different parameters within
-  SharpHound, but that depends on the operator. `-randomizefilenames` and `-encryptzip`
-  are two examples. In addition, executing SharpHound via .exe or .ps1 without any
-  command-line arguments will still perform activity and dump output to the default
-  filename. Example default filename `20210601181553_BloodHound.zip`. SharpHound creates
-  multiple temp files following the same pattern `20210601182121_computers.json`,
-  `domains.json`, `gpos.json`, `ous.json` and `users.json`. Tuning may be required,
-  or remove these json's entirely if it is too noisy. During traige, review parallel
-  processes for further suspicious behavior. Typically, the process executing the
-  `.ps1` ingestor will be PowerShell.
+description: The following analytic detects the creation of files typically associated
+  with SharpHound, a reconnaissance tool used for gathering domain and trust data.
+  It leverages file modification events from the Endpoint.Filesystem data model, focusing
+  on default file naming patterns like `*_BloodHound.zip` and various JSON files.
+  This activity is significant as it indicates potential domain enumeration, which
+  is a precursor to more targeted attacks. If confirmed malicious, an attacker could
+  gain detailed insights into the domain structure, facilitating lateral movement
+  and privilege escalation.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*bloodhound.zip",
   "*_computers.json", "*_gpos.json", "*_domains.json", "*_users.json", "*_groups.json",
   "*_ous.json", "*_containers.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
-  Filesystem.file_path Filesystem.dest Filesystem.user| `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `detect_sharphound_file_modifications_filter`'
+  Filesystem.file_path Filesystem.dest Filesystem.user| `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_sharphound_file_modifications_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on file modifications that include the name of the process, and file, responsible
   for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem`
@@ -80,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

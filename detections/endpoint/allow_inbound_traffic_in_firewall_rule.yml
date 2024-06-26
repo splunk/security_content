@@ -1,19 +1,23 @@
 name: Allow Inbound Traffic In Firewall Rule
 id: a5d85486-b89c-11eb-8267-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies suspicious PowerShell command to allow
-  inbound traffic inbound to a specific local port within the public profile. This
-  technique was seen in some attacker want to have a remote access to a machine by
-  allowing the traffic in firewall rule.
+description: The following analytic detects a suspicious PowerShell command that allows
+  inbound traffic to a specific local port within the public profile. It leverages
+  PowerShell script block logging (EventCode 4104) to identify commands containing
+  keywords like "firewall," "Inbound," "Allow," and "-LocalPort." This activity is
+  significant because it may indicate an attacker attempting to establish remote access
+  by modifying firewall rules. If confirmed malicious, this could allow unauthorized
+  access to the machine, potentially leading to further exploitation and data exfiltration.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*firewall*" ScriptBlockText = "*Inbound*"
-  ScriptBlockText = "*Allow*"  ScriptBlockText = "*-LocalPort*" | stats count min(_time) as firstTime
-  max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 ScriptBlockText = "*firewall*" ScriptBlockText
+  = "*Inbound*" ScriptBlockText = "*Allow*"  ScriptBlockText = "*-LocalPort*" | stats
+  count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
+  Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `allow_inbound_traffic_in_firewall_rule_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
@@ -28,8 +32,7 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 10
-  message: Suspicious firewall modification detected on endpoint $dest$ by
-    user $user$.
+  message: Suspicious firewall modification detected on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1021.001
   - T1021
@@ -49,14 +52,15 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 3
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/allow_inbound_traffic_in_firewall_rule/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/allow_inbound_traffic_in_firewall_rule/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

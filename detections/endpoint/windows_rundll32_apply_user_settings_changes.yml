@@ -1,25 +1,26 @@
 name: Windows Rundll32 Apply User Settings Changes
 id: b9fb8d97-dbc9-4a09-804c-ff0e3862bb2d
-version: 1
-date: '2023-12-12'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: This search is to detect a suspicious rundll32 commandline to update a user's system parameters related to desktop backgrounds, 
-  display settings, and visual themes. Specifically, it triggers the system to refresh and apply changes to the user-specific settings, 
-  such as wallpaper modifications or visual theme updates, ensuring that the changes take effect without the need to restart the system or log out 
-  and log back in. This technique was seen in Rhysida Ransomware and script as part of its defense evasion. This technique is not a common practice
-  to lock a screen and maybe a good indicator of compromise.
-  This command could also potentially be exploited by malware to disguise its activities or make unauthorized changes to a user's system settings 
-  without their knowledge or consent.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name=rundll32.exe Processes.process= "*user32.dll,UpdatePerUserSystemParameters*" 
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic detects the execution of a suspicious rundll32
+  command line that updates user-specific system parameters, such as desktop backgrounds,
+  display settings, and visual themes. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on command-line executions involving "user32.dll,UpdatePerUserSystemParameters."
+  This activity is significant as it is uncommon for legitimate purposes and has been
+  observed in Rhysida Ransomware for defense evasion. If confirmed malicious, this
+  could allow an attacker to disguise activities or make unauthorized system changes,
+  potentially leading to persistent unauthorized access.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
+  Processes.process= "*user32.dll,UpdatePerUserSystemParameters*" by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id Processes.parent_process_name |
+  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_rundll32_apply_user_settings_changes_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -71,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/update_per_user_system/rundll32_updateperusersystem.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/update_per_user_system/rundll32_updateperusersystem.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

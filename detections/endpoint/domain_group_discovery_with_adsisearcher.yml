@@ -1,19 +1,24 @@
 name: Domain Group Discovery with Adsisearcher
 id: 089c862f-5f83-49b5-b1c8-7e4ff66560c7
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
-  for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
-  domain groups for situational awareness and Active Directory Discovery.
+description: The following analytic detects the use of the `[Adsisearcher]` type accelerator
+  in PowerShell to query Active Directory for domain groups. It leverages PowerShell
+  Script Block Logging (EventCode=4104) to identify specific script blocks containing
+  `[adsisearcher]` and group-related queries. This activity is significant as it may
+  indicate an attempt by adversaries or Red Teams to enumerate domain groups for situational
+  awareness and Active Directory discovery. If confirmed malicious, this behavior
+  could lead to further reconnaissance, privilege escalation, or lateral movement
+  within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*"
-  AND ScriptBlockText = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
-  lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)`
+search: '`powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText =
+  "*(objectcategory=group)*" AND ScriptBlockText = "*findAll()*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
+  | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)`
   | `domain_group_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -44,14 +49,15 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message
-  - ComputerName
-  - User
+  - ScriptBlockText
+  - Computer
+  - UserID
   risk_score: 18
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/domain_group_discovery_with_adsisearcher/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/domain_group_discovery_with_adsisearcher/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

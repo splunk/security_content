@@ -1,15 +1,18 @@
 name: Verclsid CLSID Execution
 id: 61e9a56a-20fa-11ec-8ba3-acde48001122
-version: 1
-date: '2021-09-29'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic is to detect a possible abuse of verclsid to execute malicious
-  file through generate CLSID. This process is a normal application of windows to
-  verify the CLSID COM object before it is instantiated by Windows Explorer. This
-  hunting query can be a good pivot point to analyze what is he CLSID or COM object
-  pointing too to check if it is a valid application or not.
+description: The following analytic detects the potential abuse of the verclsid.exe
+  utility to execute malicious files via generated CLSIDs. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on specific command-line
+  patterns associated with verclsid.exe. This activity is significant because verclsid.exe
+  is a legitimate Windows application used to verify CLSID COM objects, and its misuse
+  can indicate an attempt to bypass security controls. If confirmed malicious, this
+  technique could allow an attacker to execute arbitrary code, potentially leading
+  to system compromise or further malicious activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -76,6 +79,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.012/verclsid_exec/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.012/verclsid_exec/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,24 +1,25 @@
 name: Linux High Frequency Of File Deletion In Etc Folder
 id: 9d867448-2aff-4d07-876c-89409a752ff8
-version: 2
-date: '2023-04-27'
+version: 3
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a high frequency of file deletion relative
-  to process name and process id /etc/ folder. These events was seen in acidrain wiper
-  malware where it tries to delete all files in a non-standard directory in linux
-  directory. This detection already contains some filter that might cause false positive
-  during our testing. But we recommend to add more filter if needed.
+description: The following analytic detects a high frequency of file deletions in
+  the /etc/ folder on Linux systems. It leverages the Endpoint.Filesystem data model
+  to identify instances where 200 or more files are deleted within an hour, grouped
+  by process name and process ID. This behavior is significant as it may indicate
+  the presence of wiper malware, such as AcidRain, which aims to delete critical system
+  files. If confirmed malicious, this activity could lead to severe system instability,
+  data loss, and potential disruption of services.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` values(Filesystem.file_name) as
   deletedFileNames values(Filesystem.file_path) as deletedFilePath dc(Filesystem.file_path)
   as numOfDelFilePath count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
   where Filesystem.action=deleted Filesystem.file_path = "/etc/*" by _time span=1h  Filesystem.dest
-  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)`  | where  numOfDelFilePath >= 200 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+  Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)`  |
+  where  numOfDelFilePath >= 200 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_high_frequency_of_file_deletion_in_etc_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -62,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

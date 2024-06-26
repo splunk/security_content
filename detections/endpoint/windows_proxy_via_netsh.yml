@@ -1,18 +1,21 @@
 name: Windows Proxy Via Netsh
 id: c137bfe8-6036-4cff-b77b-4e327dd0a1cf
-version: 1
-date: '2023-05-25'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
-description: This search looks for processes launching netsh.exe for connection proxy.
-  Netsh is a command-line scripting utility that allows you to, either locally or
-  remotely, display or modify the network configuration of a computer that is currently
-  running. Netsh can be used as a persistence proxy technique to execute a helper
-  DLL when netsh.exe is executed. In this search, we are looking for processes spawned
-  by netsh.exe and executing commands via the command line.
+description: The following analytic identifies the use of netsh.exe to configure a
+  connection proxy, which can be leveraged for persistence by executing a helper DLL.
+  It detects this activity by analyzing process creation events from Endpoint Detection
+  and Response (EDR) agents, focusing on command-line executions involving "portproxy"
+  and "v4tov4" parameters. This activity is significant because it indicates potential
+  unauthorized network configuration changes, which could be used to maintain persistence
+  or redirect network traffic. If confirmed malicious, this could allow an attacker
+  to maintain covert access or manipulate network communications, posing a significant
+  security risk.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process
   = "* portproxy *" Processes.process = "* v4tov4 *" by Processes.parent_process_name
@@ -72,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.001/netsh_portproxy/volt_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.001/netsh_portproxy/volt_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

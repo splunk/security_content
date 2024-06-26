@@ -1,19 +1,23 @@
 name: Windows PowerSploit GPP Discovery
 id: 0130a0df-83a1-4647-9011-841e950ff302
-version: 1
-date: '2023-03-16'
+version: 2
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic identifies the use of the Get-GPPPassword PowerShell commandlet employed to search for unsecured credentials Group Policy Preferences (GPP).
-  GPP are tools that allow administrators to create domain policies with embedded credentials. These policies allow administrators to set local accounts.
-  These group policies are stored in SYSVOL on a domain controller. This means that any domain user can view the SYSVOL share and decrypt the password (using the AES key that has been made public).
-  While Microsoft released a patch that impedes Administrators to create unsecure credentials, existing Group Policy Preferences files with passwords are not removed from SYSVOL.
+description: The following analytic detects the execution of the Get-GPPPassword PowerShell
+  cmdlet, which is used to search for unsecured credentials in Group Policy Preferences
+  (GPP). This detection leverages PowerShell Script Block Logging to identify specific
+  script block text associated with this cmdlet. Monitoring this activity is crucial
+  as it can indicate an attempt to retrieve and decrypt stored credentials from SYSVOL,
+  potentially leading to unauthorized access. If confirmed malicious, this activity
+  could allow an attacker to escalate privileges or move laterally within the network
+  by exploiting exposed credentials.
 search: ' `powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
-  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
+  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_powersploit_gpp_discovery_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
@@ -22,7 +26,7 @@ known_false_positives: Unknown
 references:
 - https://attack.mitre.org/techniques/T1552/006/
 - https://pentestlab.blog/2017/03/20/group-policy-preferences/
-- https://adsecurity.org/?p=2288 
+- https://adsecurity.org/?p=2288
 - https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
 - https://adsecurity.org/?p=2288
 - https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30
@@ -61,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

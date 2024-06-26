@@ -1,25 +1,24 @@
 name: PetitPotam Suspicious Kerberos TGT Request
 id: e3ef244e-0a67-11ec-abf2-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-30'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifes Event Code 4768, A `Kerberos authentication
-  ticket (TGT) was requested`, successfull occurs. This behavior has been identified
-  to assist with detecting PetitPotam, CVE-2021-36942. Once an attacer obtains a computer
-  certificate by abusing Active Directory Certificate Services in combination with
-  PetitPotam, the next step would be to leverage the certificate for malicious purposes.
-  One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool
-  like Rubeus. This request will generate a 4768 event with some unusual fields depending
-  on the environment. This analytic will require tuning, we recommend filtering Account_Name
-  to Domain Controllers for your environment.
+description: The following analytic detects a suspicious Kerberos Ticket Granting
+  Ticket (TGT) request, identified by Event Code 4768. This detection leverages Windows
+  Security Event Logs to identify TGT requests with unusual fields, which may indicate
+  the use of tools like Rubeus following the exploitation of CVE-2021-36942 (PetitPotam).
+  This activity is significant as it can signal an attacker leveraging a compromised
+  certificate to request Kerberos tickets, potentially leading to unauthorized access.
+  If confirmed malicious, this could allow attackers to escalate privileges and persist
+  within the environment, posing a severe security risk.
 data_source:
 - Windows Event Log Security 4768
 search: '`wineventlog_security` EventCode=4768 src!="::1" TargetUserName=*$ CertThumbprint!=""
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, TargetUserName, src, action 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` | `petitpotam_suspicious_kerberos_tgt_request_filter`'
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, TargetUserName,
+  src, action | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `petitpotam_suspicious_kerberos_tgt_request_filter`'
 how_to_implement: The following analytic requires Event Code 4768. Ensure that it
   is logging no Domain Controllers and appearing in Splunk.
 known_false_positives: False positives are possible if the environment is using certificates
@@ -61,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-xml-1.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-xml-1.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

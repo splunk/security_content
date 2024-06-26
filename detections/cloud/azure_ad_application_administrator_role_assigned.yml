@@ -1,29 +1,30 @@
 name: Azure AD Application Administrator Role Assigned
 id: eac4de87-7a56-4538-a21b-277897af6d8d
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-15'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Azure Active Directory Add member to role
-description: The following analytic identifies the assignment of the Application Administrator role to an Azure AD user. Users in this role can create and manage all 
-  aspects of enterprise applications, application registrations, and application proxy settings. This role also grants the ability to manage application credentials.
-  Users assigned this role can add credentials to an application, and use those credentials to impersonate the applications identity. If the applications identity has 
-  been granted access to a resource, such as the ability to create or update User or other objects, then a user assigned to this role could perform those actions while
-  impersonating the application. This ability to impersonate the applications identity may be an elevation of privilege over what the user can do via their role assignments.
-  Red teams and adversaries alike may abuse this role to escalate their privileges in an Azure AD tenant.
-search: ' `azure_monitor_aad`  "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Application Administrator\"" 
-  | rename properties.* as * 
-  | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | stats count min(_time) as firstTime max(_time) as lastTime by user initiatedBy, result, operationName 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic identifies the assignment of the Application Administrator
+  role to an Azure AD user. It leverages Azure Active Directory events, specifically
+  monitoring the "Add member to role" operation. This activity is significant because
+  users in this role can manage all aspects of enterprise applications, including
+  credentials, which can be used to impersonate application identities. If confirmed
+  malicious, an attacker could escalate privileges, manage application settings, and
+  potentially access sensitive resources by impersonating application identities,
+  posing a significant security risk to the Azure AD tenant.
+search: ' `azure_monitor_aad`  "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Application
+  Administrator\"" | rename properties.* as * | rename initiatedBy.user.userPrincipalName
+  as initiatedBy | stats count min(_time) as firstTime max(_time) as lastTime by user
+  initiatedBy, result, operationName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `azure_ad_application_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Auditlog log category
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
+  the Auditlog log category
 known_false_positives: Administrators may legitimately assign the Application Administrator
   role to a user. Filter as needed.
 references:
@@ -39,8 +40,8 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 70
-  message: The privileged Azure AD role Application Administrator was assigned for User $user$ initiated
-    by $initiatedBy$
+  message: The privileged Azure AD role Application Administrator was assigned for
+    User $user$ initiated by $initiatedBy$
   mitre_attack_id:
   - T1098
   - T1098.003
@@ -68,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

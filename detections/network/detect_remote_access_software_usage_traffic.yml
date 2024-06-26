@@ -1,22 +1,33 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 1
-date: '2024-02-22'
+version: 2
+date: '2024-05-29'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects when a known remote access software application traffic is detected from within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
-data_source: 
+description: The following analytic detects network traffic associated with known
+  remote access software applications, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
+  It leverages Palo Alto traffic logs mapped to the Network_Traffic data model in
+  Splunk. This activity is significant because adversaries often use remote access
+  tools to maintain unauthorized access to compromised environments. If confirmed
+  malicious, this activity could allow attackers to control systems remotely, exfiltrate
+  data, or deploy additional malware, posing a severe threat to the organization's
+  security.
+data_source:
 - Palo Alto Network Traffic
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_port) as dest_port latest(user) as user from datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app
-  | `drop_dm_object_name("All_Traffic")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | lookup remote_access_software remote_appid AS app OUTPUT isutility, description as signature, comment_reference as desc, category
-  | search isutility = True
-  | `detect_remote_access_software_usage_traffic_filter`'
-how_to_implement: The following analytic was developed with Palo Alto traffic logs. Ensure that the logs are being ingested into Splunk and mapped to the Network_Traffic data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: It is possible that legitimate remote access software is used within the environment. Ensure that the lookup is reviewed and updated with any additional remote access software that is used within the environment.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime values(All_Traffic.dest_port) as dest_port latest(user) as user from
+  datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app |
+  `drop_dm_object_name("All_Traffic")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | lookup remote_access_software remote_appid AS app OUTPUT isutility, description
+  as signature, comment_reference as desc, category | search isutility = True | `detect_remote_access_software_usage_traffic_filter`'
+how_to_implement: The following analytic was developed with Palo Alto traffic logs.
+  Ensure that the logs are being ingested into Splunk and mapped to the Network_Traffic
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: It is possible that legitimate remote access software is used
+  within the environment. Ensure that the lookup is reviewed and updated with any
+  additional remote access software that is used within the environment.
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -30,14 +41,15 @@ tags:
   asset_type: Network
   confidence: 50
   impact: 50
-  message: Application traffic for a known remote access software [$signature$] was detected from $src$.
+  message: Application traffic for a known remote access software [$signature$] was
+    detected from $src$.
   mitre_attack_id:
   - T1219
   observable:
   - name: src
     type: Hostname
     role:
-    - Victim   
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo_traffic.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo_traffic.log
     source: screenconnect_palo_traffic
     sourcetype: pan:traffic

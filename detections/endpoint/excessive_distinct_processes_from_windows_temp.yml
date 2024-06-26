@@ -1,15 +1,18 @@
 name: Excessive distinct processes from Windows Temp
 id: 23587b6a-c479-11eb-b671-acde48001122
-version: 3
-date: '2024-04-26'
+version: 4
+date: '2024-05-29'
 author: Michael Hart, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: This analytic will identify suspicious series of process executions.  We
-  have observed that post exploit framework tools like Koadic and Meterpreter will
-  launch an excessive number of processes with distinct file paths from Windows\Temp
-  to execute actions on objective.  This behavior is extremely anomalous compared
-  to typical application behaviors that use Windows\Temp.
+description: The following analytic identifies an excessive number of distinct processes
+  executing from the Windows\Temp directory. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process paths and counts within a 20-minute
+  window. This behavior is significant as it often indicates the presence of post-exploit
+  frameworks like Koadic and Meterpreter, which use this technique to execute malicious
+  actions. If confirmed malicious, this activity could allow attackers to execute
+  arbitrary code, escalate privileges, and maintain persistence within the environment,
+  posing a severe threat to system integrity and security.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -60,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

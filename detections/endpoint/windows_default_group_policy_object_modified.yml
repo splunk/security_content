@@ -1,22 +1,21 @@
 name: Windows Default Group Policy Object Modified
 id: fe6a6cc4-9e0d-4d66-bcf4-2c7f44860876
-version: 1
-date: '2023-03-28'
+version: 2
+date: '2024-05-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - Windows Event Log Security 5136
-description: The following analytic leverages Event ID 5136 to identify the modification
-  of a default Group Policy Object. A fresh installation of an Active Directory network
-  will typically contain two default group policy objects `Default Domain Controllers
-  Policy` and `Default Domain Policy`. The default domain controllers policy is used
-  to enforce and set policies to all the domain controllers within the domain environment.
-  The default domain policy is linked to all users and computers by default. An adversary
-  who has obtained privileged access to an Active Directory network may modify the
-  default group policy objects to obtain further access, deploy persistence or execute
-  malware across a large number of hosts. Security teams should monitor the modification
-  of the default GPOs.
+description: The following analytic detects modifications to default Group Policy
+  Objects (GPOs) using Event ID 5136. It monitors changes to the `Default Domain Controllers
+  Policy` and `Default Domain Policy`, which are critical for enforcing security settings
+  across domain controllers and all users/computers, respectively. This activity is
+  significant because unauthorized changes to these GPOs can indicate an adversary
+  with privileged access attempting to deploy persistence mechanisms or execute malware
+  across the network. If confirmed malicious, such modifications could lead to widespread
+  compromise, allowing attackers to maintain control and execute arbitrary code on
+  numerous hosts.
 search: ' `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=versionNumber
   (ObjectDN="CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM,DC=*"
   OR ObjectDN="CN={6AC1786C-016F-11D2-945F-00C04fB984F9},CN=POLICIES,CN=SYSTEM,DC=*")
@@ -73,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

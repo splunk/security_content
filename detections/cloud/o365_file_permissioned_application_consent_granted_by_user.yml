@@ -1,26 +1,37 @@
 name: O365 File Permissioned Application Consent Granted by User
 id: 6c382336-22b8-4023-9b80-1689e799f21f
-version: 1
-date: '2023-10-18'
+version: 2
+date: '2024-05-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - O365 Consent to application.
-description: This analytic identifies instances where a user in the Office 365 environment grants consent to an application that requests file permissions, specifically targeting OneDrive or SharePoint. Such permissions mean the application could potentially access, modify, or delete files stored within these services. The detection process leverages O365 audit logs, particularly focusing on events related to OAuth application consents. By examining these logs, the analytic is designed to capture and alert on any actions where users grant consent to applications requesting file-related permissions for OneDrive or SharePoint. The sensitivity of file permissions, especially in platforms as widely utilized as OneDrive and SharePoint, cannot be overstated. While many legitimate applications might require such permissions to operate, there's an inherent risk with malicious or overly permissive applications. Attackers could craft or exploit applications to gain file permissions, aiming to access, exfiltrate, or manipulate sensitive data housed in OneDrive or SharePoint. It's crucial for security operations centers to monitor these consents to ensure that only trustworthy applications gain access and that users aren't inadvertently granting permissions to potentially harmful applications. If this detection flags a true positive, it indicates that an application has been granted permissions that could allow it to interact with OneDrive or SharePoint files in potentially malicious ways. Such actions could lead to data breaches, data loss, or unauthorized data manipulation. Immediate investigation would be required to validate the application's legitimacy, understand the nature of its requested permissions, and assess the potential risks associated with the access it's been granted.
+description: The following analytic identifies instances where a user in the Office
+  365 environment grants consent to an application requesting file permissions for
+  OneDrive or SharePoint. It leverages O365 audit logs, focusing on OAuth application
+  consent events. This activity is significant because granting such permissions can
+  allow applications to access, modify, or delete files, posing a risk if the application
+  is malicious or overly permissive. If confirmed malicious, this could lead to data
+  breaches, data loss, or unauthorized data manipulation, necessitating immediate
+  investigation to validate the application's legitimacy and assess potential risks.
 search: >-
-  `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application." ResultStatus=Success
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Consent to application."
+  ResultStatus=Success
   | eval admin_consent =mvindex('ModifiedProperties{}.NewValue', 0)
   | search admin_consent=False
   | eval permissions =mvindex('ModifiedProperties{}.NewValue', 4)
   | rex field=permissions "Scope: (?<Scope>[^,]+)"
   | makemv delim=" " Scope
-  | search Scope IN ("Files.Read", "Files.Read.All", "Files.ReadWrite", "Files.ReadWrite.All", "Files.ReadWrite.AppFolder")
+  | search Scope IN ("Files.Read", "Files.Read.All", "Files.ReadWrite", "Files.ReadWrite.All",
+  "Files.ReadWrite.AppFolder")
   | stats max(_time) as lastTime values(Scope) by Operation, user, object, ObjectId
   | `security_content_ctime(lastTime)`
   | `o365_file_permissioned_application_consent_granted_by_user_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: OAuth applications that require file permissions may be legitimate, investigate and filter as needed.
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: OAuth applications that require file permissions may be legitimate,
+  investigate and filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1528/
 - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
@@ -58,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_file_permissions/o365_user_consent_file_permissions.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_file_permissions/o365_user_consent_file_permissions.log
     source: o365
     sourcetype: o365:management:activity

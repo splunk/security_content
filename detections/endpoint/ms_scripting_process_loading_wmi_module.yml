@@ -1,17 +1,18 @@
 name: MS Scripting Process Loading WMI Module
 id: 2eba3d36-14a6-11ec-a682-acde48001122
-version: 1
-date: '2021-09-13'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect a suspicious MS scripting process such as wscript.exe
-  or cscript.exe that loading wmi module to process wmi query. This behavior was seen
-  in FIN7 implant where it uses javascript to execute wmi query to parse host information
-  that will send to its C2 server. this anomaly detections is a good initial step
-  to hunt further a suspicious wmi query or wmi related events to the host that may
-  give you good information regarding process that are commonly using wmi query or
-  modules or might be an attacker using this technique.
+description: The following analytic detects the loading of WMI modules by Microsoft
+  scripting processes like wscript.exe or cscript.exe. It leverages Sysmon EventCode
+  7 to identify instances where these scripting engines load specific WMI-related
+  DLLs. This activity is significant because it can indicate the presence of malware,
+  such as the FIN7 implant, which uses JavaScript to execute WMI queries for gathering
+  host information to send to a C2 server. If confirmed malicious, this behavior could
+  allow attackers to collect sensitive system information and maintain persistence
+  within the environment.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
@@ -62,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,27 +1,33 @@
 name: Okta MFA Exhaustion Hunt
 id: 97e2fe57-3740-402c-988a-76b64ce04b8d
-version: 2
-date: '2022-09-27'
+version: 3
+date: '2024-05-18'
 author: Michael Haag, Marissa Bower, Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies patterns within Okta data to determine
-  the amount of successful and failed pushes. Based on that, eval statements determine
-  a finding of whether this is suspicious or not. The events are within a window of
-  time and may be tuned as needed.
+description: The following analytic detects patterns of successful and failed Okta
+  MFA push attempts to identify potential MFA exhaustion attacks. It leverages Okta
+  event logs, specifically focusing on push verification events, and uses statistical
+  evaluations to determine suspicious activity. This activity is significant as it
+  may indicate an attacker attempting to bypass MFA by overwhelming the user with
+  push notifications. If confirmed malicious, this could lead to unauthorized access,
+  compromising the security of the affected accounts and potentially the entire environment.
 data_source: []
-search: '`okta` eventType=system.push.send_factor_verify_push OR ((legacyEventType=core.user.factor.attempt_success) AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) OR ((legacyEventType=core.user.factor.attempt_fail) AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) 
-  | stats count(eval(legacyEventType="core.user.factor.attempt_success"))  as successes count(eval(legacyEventType="core.user.factor.attempt_fail")) as failures count(eval(eventType="system.push.send_factor_verify_push")) as pushes by user,_time
-  | stats latest(_time) as lasttime earliest(_time) as firsttime sum(successes) as successes sum(failures) as failures sum(pushes) as pushes by user
-  | eval seconds=lasttime-firsttime | eval lasttime=strftime(lasttime, "%c") 
-  | search (pushes>1) 
-  | eval totalattempts=successes+failures 
-  | eval finding="Normal authentication pattern" 
-  | eval finding=if(failures==pushes AND pushes>1,"Authentication attempts not successful because multiple pushes denied",finding) 
-  | eval finding=if(totalattempts==0,"Multiple pushes sent and ignored",finding) 
-  | eval finding=if(successes>0 AND pushes>3,"Probably should investigate. Multiple pushes sent, eventual successful authentication!",finding)
-  | `okta_mfa_exhaustion_hunt_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+search: '`okta` eventType=system.push.send_factor_verify_push OR ((legacyEventType=core.user.factor.attempt_success)
+  AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) OR ((legacyEventType=core.user.factor.attempt_fail)
+  AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) | stats count(eval(legacyEventType="core.user.factor.attempt_success"))  as
+  successes count(eval(legacyEventType="core.user.factor.attempt_fail")) as failures
+  count(eval(eventType="system.push.send_factor_verify_push")) as pushes by user,_time
+  | stats latest(_time) as lasttime earliest(_time) as firsttime sum(successes) as
+  successes sum(failures) as failures sum(pushes) as pushes by user | eval seconds=lasttime-firsttime
+  | eval lasttime=strftime(lasttime, "%c") | search (pushes>1) | eval totalattempts=successes+failures
+  | eval finding="Normal authentication pattern" | eval finding=if(failures==pushes
+  AND pushes>1,"Authentication attempts not successful because multiple pushes denied",finding)
+  | eval finding=if(totalattempts==0,"Multiple pushes sent and ignored",finding) |
+  eval finding=if(successes>0 AND pushes>3,"Probably should investigate. Multiple
+  pushes sent, eventual successful authentication!",finding) | `okta_mfa_exhaustion_hunt_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
+  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
 known_false_positives: False positives may be present. Tune Okta and tune the analytic
   to ensure proper fidelity. Modify risk score as needed. Drop to anomaly until tuning
   is complete.
@@ -59,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_multiple_failed_mfa_pushes/okta_multiple_failed_mfa_pushes.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_multiple_failed_mfa_pushes/okta_multiple_failed_mfa_pushes.log
     source: Okta
     sourcetype: OktaIM2:log

@@ -1,25 +1,21 @@
 name: Detect suspicious processnames using pretrained model in DSDL
 id: a15f8977-ad7d-4669-92ef-b59b97219bf5
-version: 1
-date: '2023-01-23'
+version: 2
+date: '2024-05-27'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 status: experimental
 data_source:
 - Sysmon Event Code 1
-description: The following analytic uses a pre-trained Deep Learning model to predict
-  whether a processname is suspicious or not. Malwares and malicious programs such
-  as ransomware often use tactics, techniques, and procedures (TTPs) such as copying
-  malicious files to the local machine to propagate themselves across the network.
-  A key indicator of compromise is that after a successful execution of the malware,
-  it copies itself as an executable file with a randomly generated filename and places
-  this file in one of the directories. Such techniques are seen in several malwares
-  such as TrickBot. We develop machine learning model that uses a Recurrent Neural
-  Network (RNN) to distinguish between malicious and benign processnames. The model
-  is trained independently and is then made available for download. We use a character
-  level RNN to classify malicious vs. benign processnames. The higher is_malicious_prob,
-  the more likely is the processname to be suspicious (between [0,1]). The threshold
-  for flagging a processname as suspicious is set as 0.5.
+description: The following analytic identifies suspicious process names using a pre-trained
+  Deep Learning model. It leverages Endpoint Detection and Response (EDR) telemetry
+  to analyze process names and predict their likelihood of being malicious. The model,
+  a character-level Recurrent Neural Network (RNN), classifies process names as benign
+  or suspicious based on a threshold score of 0.5. This detection is significant as
+  it helps identify malware, such as TrickBot, which often uses randomly generated
+  filenames to evade detection. If confirmed malicious, this activity could indicate
+  the presence of malware capable of propagating across the network and executing
+  harmful actions.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.process_name Processes.parent_process_name
   Processes.process Processes.user Processes.dest | `drop_dm_object_name(Processes)`

@@ -1,20 +1,30 @@
 name: F5 TMUI Authentication Bypass
 id: 88bf127c-613e-4579-99e4-c4d4b02f3840
-version: 1
-date: '2023-10-30'
+version: 2
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Suricata
-description: The following analytic is designed to detect attempts to exploit the CVE-2023-46747 vulnerability, a critical authentication bypass flaw in F5 BIG-IP that can lead to unauthenticated remote code execution (RCE). This vulnerability specifically affects the BIG-IP Configuration utility (TMUI) and has been assigned a high severity CVSSv3 score of 9.8. The analytic identifies this behavior by monitoring for a specific URI path - "*/mgmt/tm/auth/user/*", with the PATCH method and 200 status. Additional URI's will occur around the same time include "*/mgmt/shared/authn/login*" and "*/tmui/login.jsp*", which are associated with the exploitation of this vulnerability. This behavior is significant for a Security Operations Center (SOC) as it indicates an attempt to bypass authentication mechanisms, potentially leading to unauthorized access and control over the system. If a true positive is identified, it suggests that an attacker is attempting to exploit a known vulnerability to gain unauthorized access and execute arbitrary code, which could lead to data theft, system disruption, or further malicious activities within the network.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/mgmt/tm/auth/user/*") Web.http_method=PATCH Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
-  | `drop_dm_object_name("Web")` 
-  | `security_content_ctime(firstTime)` 
+description: The following analytic detects attempts to exploit the CVE-2023-46747
+  vulnerability, an authentication bypass flaw in F5 BIG-IP's Configuration utility
+  (TMUI). It identifies this activity by monitoring for specific URI paths such as
+  "*/mgmt/tm/auth/user/*" with the PATCH method and a 200 status code. This behavior
+  is significant for a SOC as it indicates potential unauthorized access attempts,
+  leading to remote code execution. If confirmed malicious, an attacker could gain
+  unauthorized access, execute arbitrary code, steal data, disrupt systems, or conduct
+  further malicious activities within the network.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url IN ("*/mgmt/tm/auth/user/*") Web.http_method=PATCH Web.status=200
+  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src,
+  Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `f5_tmui_authentication_bypass_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on Web traffic that include fields relevant for traffic into the `Web` datamodel.
-known_false_positives: False positives should be limited to as this is strict to active exploitation. Reduce noise by filtering to F5 devices with TMUI enabled or filter data as needed.
+known_false_positives: False positives should be limited to as this is strict to active
+  exploitation. Reduce noise by filtering to F5 devices with TMUI enabled or filter
+  data as needed.
 references:
 - https://www.praetorian.com/blog/refresh-compromising-f5-big-ip-with-request-smuggling-cve-2023-46747/
 - https://github.com/projectdiscovery/nuclei-templates/blob/3b0bb71bd627c6c3139e1d06c866f8402aa228ae/http/cves/2023/CVE-2023-46747.yaml
@@ -27,7 +37,8 @@ tags:
   - CVE-2023-46747
   confidence: 90
   impact: 100
-  message: Potential CVE-2023-46747 F5 TMUI Authentication Bypass may be occurring against $dest$ from $src$.
+  message: Potential CVE-2023-46747 F5 TMUI Authentication Bypass may be occurring
+    against $dest$ from $src$.
   observable:
   - name: dest
     type: Hostname
@@ -55,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/f5/f5_tmui.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/f5/f5_tmui.log
     source: suricata
     sourcetype: suricata

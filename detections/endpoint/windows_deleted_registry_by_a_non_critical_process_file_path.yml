@@ -1,17 +1,17 @@
 name: Windows Deleted Registry By A Non Critical Process File Path
 id: 15e70689-f55b-489e-8a80-6d0cd6d8aad2
-version: 2
-date: '2023-04-14'
+version: 3
+date: '2024-05-16'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect deletion of registry with suspicious process
-  file path. This technique was seen in Double Zero wiper malware where it will delete
-  all the subkey in HKLM, HKCU and HKU registry hive as part of its destructive payload
-  to the targeted hosts. This anomaly detections can catch possible malware or advesaries
-  deleting registry as part of defense evasion or even payload impact but can also
-  catch for third party application updates or installation. In this scenario false
-  positive filter is needed.
+description: The following analytic detects the deletion of registry keys by non-critical
+  processes. It leverages Endpoint Detection and Response (EDR) data, focusing on
+  registry deletion events and correlating them with processes not typically associated
+  with system or program files. This activity is significant as it may indicate malware,
+  such as the Double Zero wiper, attempting to evade defenses or cause destructive
+  payload impacts. If confirmed malicious, this behavior could lead to significant
+  system damage, loss of critical configurations, and potential disruption of services.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -46,7 +46,8 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: The registry was deleted by a suspicious process named $process_name$ with the process path $process_path$ on dest $dest$.
+  message: The registry was deleted by a suspicious process named $process_name$ with
+    the process path $process_path$ on dest $dest$.
   mitre_attack_id:
   - T1112
   observable:
@@ -79,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

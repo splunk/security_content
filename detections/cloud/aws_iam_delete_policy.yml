@@ -1,16 +1,19 @@
 name: AWS IAM Delete Policy
 id: ec3a9362-92fe-11eb-99d0-acde48001122
-version: 1
-date: '2021-04-01'
+version: 2
+date: '2024-05-27'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following detection identifies when a policy is deleted on AWS. This
-  does not identify whether successful or failed, but the error messages tell a story
-  of suspicious attempts. There is a specific process to follow when deleting a policy.
-  First, detach the policy from all users, groups, and roles that the policy is attached
-  to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
-data_source: 
+description: The following analytic detects the deletion of an IAM policy in AWS.
+  It leverages AWS CloudTrail logs to identify `DeletePolicy` events, excluding those
+  from AWS internal services. This activity is significant as unauthorized policy
+  deletions can disrupt access controls and weaken security postures. If confirmed
+  malicious, an attacker could remove critical security policies, potentially leading
+  to privilege escalation, unauthorized access, or data exfiltration. Monitoring this
+  behavior helps ensure that only authorized changes are made to IAM policies, maintaining
+  the integrity and security of the AWS environment.
+data_source:
 - AWS CloudTrail DeletePolicy
 search: '`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com) | stats
   count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
@@ -61,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -1,31 +1,30 @@
 name: Azure AD Global Administrator Role Assigned
 id: 825fed20-309d-4fd1-8aaf-cd49c1bb093c
-version: 4
-date: '2023-12-20'
+version: 5
+date: '2024-05-29'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the assignment of the Azure AD Global
-  Administrator role to an Azure AD user. The Global Administrator role is the most
-  powerful administrator role in Azure AD and provides almost unlimited access to
-  data, resources and settings. It is equivalent to the Domain Administrator group
-  in an Active Directory environment. While Azure AD roles do not grant access to
-  Azure services and resources, it is possible for a Global Administrator account
-  to gain control of Azure resources. Adversaries and red teams alike may assign this
-  role to a compromised account to establish Persistence or escalate their privileges in an Azure AD environment.
-data_source: 
+description: The following analytic detects the assignment of the Azure AD Global
+  Administrator role to a user. It leverages Azure Active Directory AuditLogs to identify
+  when the "Add member to role" operation includes the "Global Administrator" role.
+  This activity is significant because the Global Administrator role grants extensive
+  access to data, resources, and settings, similar to a Domain Administrator in traditional
+  AD environments. If confirmed malicious, this could allow an attacker to establish
+  persistence, escalate privileges, and potentially gain control over Azure resources,
+  posing a severe security risk.
+data_source:
 - Azure Active Directory Add member to role
-search: '`azure_monitor_aad`  operationName="Add member to role"  properties.targetResources{}.modifiedProperties{}.newValue="\"Global Administrator\""
-  | rename properties.* as *
-  | rename initiatedBy.user.userPrincipalName as initiatedBy
-  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by initiatedBy, result, operationName
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_global_administrator_role_assigned_filter`'
+search: '`azure_monitor_aad`  operationName="Add member to role"  properties.targetResources{}.modifiedProperties{}.newValue="\"Global
+  Administrator\"" | rename properties.* as * | rename initiatedBy.user.userPrincipalName
+  as initiatedBy | stats count min(_time) as firstTime max(_time) as lastTime values(user)
+  as user by initiatedBy, result, operationName | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_global_administrator_role_assigned_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the AuditLogs log category.
 known_false_positives: Administrators may legitimately assign the Global Administrator
   role to a user. Filter as needed.
 references:
@@ -42,8 +41,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 80
-  message: Global Administrator Role assigned for User $user$ initiated
-    by $initiatedBy$
+  message: Global Administrator Role assigned for User $user$ initiated by $initiatedBy$
   mitre_attack_id:
   - T1098.003
   observable:
@@ -70,7 +68,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_global_administrator/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_global_administrator/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

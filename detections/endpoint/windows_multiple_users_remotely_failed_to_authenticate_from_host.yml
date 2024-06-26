@@ -1,24 +1,15 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4625
-date: '2021-04-13'
+date: '2024-05-28'
 description: 'The following analytic identifies a source host failing to authenticate
-  against a remote host with 30 unique users. This behavior could represent an adversary
-  performing a Password Spraying attack against an Active Directory environment to
-  obtain initial access or elevate privileges. Active Directory environments can be
-  very different depending on the organization. Users should test this detection and
-  customize the arbitrary threshold when needed. Event 4625 documents each and every
-  failed attempt to logon to the local computer. This event generates on domain controllers,
-  member servers, and workstations. Logon Type 3 describes an remote authentication
-  attempt.
-
-  This logic can be used for real time security monitoring as well as threat hunting
-  exercises. This detection will trigger on the host that is the target of the password
-  spraying attack. This could be a domain controller as well as a member server or
-  workstation.
-
-  The analytics returned fields allow analysts to investigate the event further by
-  providing fields like source process name, source account and attempted user accounts.'
+  against a remote host with 30 unique users. It leverages Windows Event 4625 with
+  Logon Type 3, indicating remote authentication attempts. This behavior is significant
+  as it may indicate a Password Spraying attack, where an adversary attempts to gain
+  initial access or elevate privileges in an Active Directory environment. If confirmed
+  malicious, this activity could lead to unauthorized access, privilege escalation,
+  and potential compromise of sensitive information. This detection is crucial for
+  real-time security monitoring and threat hunting.'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Event Logs from domain controllers as as well as member servers and workstations.
   The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
@@ -36,7 +27,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
 search: ' `wineventlog_security` EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
   span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, IpAddress, Computer | rename Computer as dest| where unique_accounts > 30 | `windows_multiple_users_remotely_failed_to_authenticate_from_host_filter` '
+  as tried_accounts by _time, IpAddress, Computer | rename Computer as dest| where unique_accounts > 30 | `windows_multiple_users_remotely_failed_to_authenticate_from_host_filter`'
 status: production
 tags:
   analytic_story:
@@ -69,9 +60,10 @@ tags:
   security_domain: endpoint
 tests:
 - attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray_xml/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: TTP
-version: 2
+version: 3

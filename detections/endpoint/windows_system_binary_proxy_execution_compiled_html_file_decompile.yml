@@ -1,16 +1,18 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Decompile
 id: 2acf0e19-4149-451c-a3f3-39cd3c77e37d
-version: 1
-date: '2022-08-31'
+version: 2
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the decompile parameter with the HTML
-  Help application, HH.exe. This is a uncommon command to see ran and behavior. Most
-  recently this was seen in a APT41 campaign where a CHM file was delivered and a
-  script inside used a technique for running an arbitrary command in a CHM file via
-  an ActiveX object. This unpacks an HTML help file to a specified path for launching
-  the next stage.
+description: The following analytic detects the use of the decompile parameter with
+  the HTML Help application (HH.exe). This behavior is identified through Endpoint
+  Detection and Response (EDR) telemetry, focusing on command-line executions involving
+  the decompile parameter. This activity is significant because it is an uncommon
+  command and has been associated with APT41 campaigns, where it was used to unpack
+  HTML help files for further malicious actions. If confirmed malicious, this technique
+  could allow attackers to execute arbitrary commands, potentially leading to further
+  compromise and persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +82,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/hh_decom_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/hh_decom_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

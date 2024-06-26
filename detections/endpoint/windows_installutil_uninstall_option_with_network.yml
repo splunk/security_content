@@ -1,39 +1,30 @@
 name: Windows InstallUtil Uninstall Option with Network
 id: 1a52c836-43ef-11ec-a36c-acde48001122
-version: 2
-date: '2022-03-16'
+version: 3
+date: '2024-05-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the Windows InstallUtil.exe binary
-  making a remote network connection. This technique may be used to download and execute
-  code while bypassing application control using the `/u` (uninstall) switch. 
-
-  InstallUtil uses the functions install and uninstall within the System.Configuration.Install
-  namespace to process .net assembly. Install function requires admin privileges,
-  however, uninstall function can be run as an unprivileged user.
-
-  When `InstallUtil.exe` is used in a malicous manner, the path to an executable on
-  the filesystem is typically specified. Take note of the parent process. In a suspicious
-  instance, this will be spawned from a non-standard process like `Cmd.exe`, `PowerShell.exe`
-  or `Explorer.exe`. 
-
-  If used by a developer, typically this will be found with multiple command-line
-  switches/arguments and spawn from Visual Studio. 
-
-  During triage review resulting network connections, file modifications, and parallel
-  processes. Capture any artifacts and review further.'
+description: 'The following analytic identifies the use of Windows InstallUtil.exe
+  making a remote network connection using the `/u` (uninstall) switch. This detection
+  leverages Endpoint Detection and Response (EDR) telemetry, focusing on process and
+  network activity data. This behavior is significant as it may indicate an attempt
+  to download and execute code while bypassing application control mechanisms. If
+  confirmed malicious, this activity could allow an attacker to execute arbitrary
+  code, potentially leading to system compromise, data exfiltration, or further lateral
+  movement within the network.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_installutil` Processes.process IN ("*/u*", "*uninstall*") by _time
-  span=1h  Processes.user Processes.process_id Processes.process_name Processes.dest Processes.process_path
-  Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)`
+  span=1h  Processes.user Processes.process_id Processes.process_name Processes.dest
+  Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id
   [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
   where All_Traffic.dest_port != 0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
-  | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ] | table _time user dest parent_process_name
-  process_name process_path process process_id dest_port C2 | `windows_installutil_uninstall_option_with_network_filter`'
+  | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ] | table _time user dest
+  parent_process_name process_name process_path process process_id dest_port C2 |
+  `windows_installutil_uninstall_option_with_network_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -104,6 +95,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

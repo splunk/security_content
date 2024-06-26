@@ -1,19 +1,29 @@
 name: Windows Find Domain Organizational Units with GetDomainOU
 id: 0ada2f82-b7af-40cc-b1d7-1e5985afcb4e
-version: 1
-date: '2023-08-31'
+version: 2
+date: '2024-05-17'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - Powershell Script Block Logging 4104
-description: This analytic leverages PowerShell Script Block Logging (EventCode=4104) to detect the execution of the `Get-DomainOU` commandlet. `Get-DomainOU` is a component of PowerView, a PowerShell toolkit designed for Windows domain enumeration. Identifying the use of `Get-DomainOU` is crucial as adversaries and Red Teams might employ it to gain insights into organizational units within Active Directory, potentially aiding in lateral movement or privilege escalation strategies.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | `windows_find_domain_organizational_units_with_getdomainou_filter`'
-how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
+description: The following analytic detects the execution of the `Get-DomainOU` cmdlet,
+  a part of the PowerView toolkit used for Windows domain enumeration. It leverages
+  PowerShell Script Block Logging (EventCode=4104) to identify this activity. Detecting
+  `Get-DomainOU` usage is significant as adversaries may use it to gather information
+  about organizational units within Active Directory, which can facilitate lateral
+  movement or privilege escalation. If confirmed malicious, this activity could allow
+  attackers to map the domain structure, aiding in further exploitation and persistence
+  within the network.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*" | stats count
+  min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
+  UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_find_domain_organizational_units_with_getdomainou_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators may leverage PowerSploit tools for legitimate
+  reasons, filter as needed.
 references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainOU/
 - https://attack.mitre.org/techniques/T1087/002/
@@ -24,8 +34,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Suspicious PowerShell Get-DomainOU was identified on endpoint $dest$
-    by user $user$.
+  message: Suspicious PowerShell Get-DomainOU was identified on endpoint $dest$ by
+    user $user$.
   mitre_attack_id:
   - T1087
   - T1087.002
@@ -53,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-DomainOU-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-DomainOU-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

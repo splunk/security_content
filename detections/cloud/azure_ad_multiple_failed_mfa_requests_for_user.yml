@@ -1,36 +1,31 @@
 name: Azure AD Multiple Failed MFA Requests For User
 id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
-version: 3
-date: '2023-12-20'
+version: 4
+date: '2024-05-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies multiple failed multi-factor authentication
-  requests for a single user within an Azure AD tenant. Error Code 500121 represents
-  a failed attempt to authenticate using a second factor. Specifically, the analytic
-  triggers when more than 10 MFA user prompts fail within 10 minutes. The reasons for these failure could be several, 
-  like the user not responding in time or receiving multiple duplicate MFA requests.
-  Azure AD tenants can be very different depending on the organization, Security teams should test
-  this detection and customize these arbitrary thresholds. The detected behavior may
-  represent an adversary who has obtained legitimate credentials for a user and continuously
-  repeats login attempts in order to bombard users with MFA push notifications, SMS
-  messages, and phone calls potentially resulting in the user finally accepting the
-  authentication request. Threat actors like the Lapsus team and APT29 have leveraged
-  this technique to bypass multi-factor authentication controls as reported by Mandiant
-  and others. 
-data_source: 
+  (MFA) requests for a single user within an Azure AD tenant. It leverages Azure AD
+  Sign-in Logs, specifically error code 500121, to detect more than 10 failed MFA
+  attempts within 10 minutes. This behavior is significant as it may indicate an adversary
+  attempting to bypass MFA by bombarding the user with repeated authentication prompts.
+  If confirmed malicious, this activity could lead to unauthorized access, allowing
+  attackers to compromise user accounts and potentially escalate their privileges
+  within the environment.
+data_source:
 - Azure Active Directory Sign-in activity
-search: ' `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied; user declined the authentication"
-  | rename properties.* as * 
-  | bucket span=10m _time 
-  | stats count min(_time) as firstTime max(_time) as lastTime by user, status.additionalDetails, appDisplayName, user_agent
-  | where count > 9
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
+search: ' `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
+  properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied;
+  user declined the authentication" | rename properties.* as * | bucket span=10m _time
+  | stats count min(_time) as firstTime max(_time) as lastTime by user, status.additionalDetails,
+  appDisplayName, user_agent | where count > 10 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the Signin log category.
 known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
   or application issues. Filter as needed.
 references:
@@ -46,7 +41,8 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 60
-  message: User $user$ failed to complete MFA authentication more than 9 times in a timespan of 10 minutes.
+  message: User $user$ failed to complete MFA authentication more than 9 times in
+    a timespan of 10 minutes.
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -75,7 +71,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

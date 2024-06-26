@@ -1,26 +1,30 @@
 name: Windows Gather Victim Host Information Camera
 id: e4df4676-ea41-4397-b160-3ee0140dc332
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a powershell script that enumerate camera
-  mounted to the targeted host. This technique was seen in DCRat malware, where it
-  runs a powershell command to look for camera information that will be pass on to
-  its C2 server. This anomaly detection can be a good pivot to check who and why this
-  enumeration is needed and what parent process execute this powershell script command.
+description: The following analytic detects a PowerShell script that enumerates camera
+  devices on the targeted host. This detection leverages PowerShell Script Block Logging,
+  specifically looking for commands querying Win32_PnPEntity for camera-related information.
+  This activity is significant as it is commonly observed in DCRat malware, which
+  collects camera data to send to its command-and-control server. If confirmed malicious,
+  this behavior could indicate an attempt to gather sensitive visual information from
+  the host, potentially leading to privacy breaches or further exploitation.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText=
   "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText
   IN ("*Image*", "*Camera*") | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_gather_victim_host_information_camera_filter`'
+  by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename
+  UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_gather_victim_host_information_camera_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators may execute this powershell command to get hardware information related to camera on $dest$.
+known_false_positives: Administrators may execute this powershell command to get hardware
+  information related to camera on $dest$.
 references:
 - https://cert.gov.ua/article/405538
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
@@ -58,7 +62,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_enum_camera/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_enum_camera/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true
