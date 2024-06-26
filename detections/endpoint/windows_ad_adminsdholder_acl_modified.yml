@@ -2,7 +2,7 @@ name: Windows AD AdminSDHolder ACL Modified
 id: 00d877c3-7b7b-443d-9562-6b231e2abab9
 version: 1
 date: '2022-11-15'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Dean Luxton, Splunk
 type: TTP
 status: production
 data_source: 
@@ -13,7 +13,8 @@ description: The following analytic identifies the modification of the Access Co
   match the AdminSDHolder ACL are flagged for updating. The Security Descriptor propagator (SDProp) process runs every 60 minutes on the PDC Emulator and re-stamps the object
   Access Control List (ACL) with the security permissions set on the AdminSDHolder. An adversary who has obtained privileged access to a Windows Domain may modify the AdminSDHolder
   ACL to establish persistence and allow an unprivileged user to take control of a domain.
-search: ' `wineventlog_security` EventCode=5136 ObjectClass=container ObjectDN="CN=AdminSDHolder,CN=System*" 
+search: >-
+  `wineventlog_security` EventCode=5136 ObjectClass=container ObjectDN="CN=AdminSDHolder,CN=System*" 
   | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
   | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
   | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)" 
@@ -34,7 +35,7 @@ search: ' `wineventlog_security` EventCode=5136 ObjectClass=container ObjectDN="
   | stats min(_time) as _time values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(SubjectLogonId) as SubjectLogonId by ObjectClass ObjectDN src_user user
   | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
   | search NOT aceType IN (*denied*,D,OD,XD) AND aceAccessRights IN ("Full control","All extended rights","All validated writes","Create all child objects","Delete all child objects","Delete subtree","Delete","Modify permissions","Modify owner","Write all properties",CC,CR,DC,DT,SD,SW,WD,WO,WP)
-  | `windows_ad_adminsdholder_acl_modified_filter`'
+  | `windows_ad_adminsdholder_acl_modified_filter`
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
  within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for the AdminSDHolder object in order to log modifications.
