@@ -36,8 +36,6 @@ how_to_implement: Ensure you are ingesting AD audit logs, see lantern doc in ref
 known_false_positives: Unknown
 references:
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
-tags:
-  analytic_story:
  tags:
   analytic_story:
     - Sneaky Active Directory Persistence Tricks
