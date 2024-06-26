@@ -1,21 +1,19 @@
 name: Kubernetes Anomalous Inbound Network Activity from Process
 id: 10442d8b-0701-4c25-911d-d67b906e713c
-version: 1
-date: '2024-01-10'
+version: 2
+date: '2024-05-17'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: 'This detection detects inbound network traffic volume anomalies from processes running within containerised workloads. 
-  Anomalies are provided with context identifying the Kubernetes cluster, the workload name, and the type of anomaly.This detection 
-  leverages Network performance Monitoring metrics harvested using an OTEL collector, and is pulled from Splunk Observability cloud 
-  using the Splunk Infrastructure Monitoring Add-on. (https://splunkbase.splunk.com/app/5247). This detection compares the tcp.bytes, 
-  tcp.new_sockets, tcp.packets, udp.bytes, udp.packets metrics for destination (receiving) workload process pairs over the last 1 hour, 
-  with the average of those metrics for those pairs over the last 30 days in order to detect any anonymously high inbound network activity. 
-  Anomalies in inbound network traffic may suggest that the container is receiving unexpected or unauthorized data, potentially indicative of a breach, 
-  a vulnerability exploitation attempt, an attempt to overload the service, or propagation of malware. Successful compromise of a containerised 
-  application resulting in the ability to upload data, can result in installation of command and control software or other malware, 
-  data integrity damage, container escape, and further compromise of the environment. Additionally this kind of activity may result in 
-  resource contention, performance degradation and disruption to the normal operation of the environment.'
+description: 'The following analytic identifies anomalous inbound network traffic
+  volumes from processes within containerized workloads. It leverages Network Performance
+  Monitoring metrics collected via an OTEL collector and pulled from Splunk Observability
+  Cloud. The detection compares recent metrics (tcp.bytes, tcp.new_sockets, tcp.packets,
+  udp.bytes, udp.packets) over the last hour with the average over the past 30 days.
+  This activity is significant as it may indicate unauthorized data reception, potential
+  breaches, vulnerability exploitation, or malware propagation. If confirmed malicious,
+  it could lead to command and control installation, data integrity damage, container
+  escape, and further environment compromise.'
 data_source: []
 search: '| mstats avg(tcp.*) as tcp.* avg(udp.*) as udp.* where `kubernetes_metrics` AND earliest=-1h by k8s.cluster.name dest.workload.name dest.process.name  span=10s 
   | eval key=''dest.workload.name'' + ":" + ''dest.process.name'' 
@@ -36,7 +34,7 @@ search: '| mstats avg(tcp.*) as tcp.* avg(udp.*) as udp.* where `kubernetes_metr
   | stats count(anomalies) as count values(anomalies) as anomalies by k8s.cluster.name dest.workload.name dest.process.name
   | where count > 5
   | rename k8s.cluster.name as host
-  | `kubernetes_anomalous_inbound_network_activity_from_process_filter` '
+  | `kubernetes_anomalous_inbound_network_activity_from_process_filter`'
 how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cluster and 
   enable Network Performance Monitoring according to instructions found in Splunk Docs 
   https://docs.splunk.com/observability/en/infrastructure/network-explorer/network-explorer-setup.html#network-explorer-setup 
@@ -46,10 +44,6 @@ how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cl
   
   * Name sim_npm_metrics_to_metrics_index 
 
-  * Org ID <Your O11y Cloud Org Id> 
-  
-  * Signal Flow Program data(''tcp.packets'').publish(label=''A''); data(''tcp.bytes'').publish(label=''B''); data(''tcp.new_sockets'').publish(label=''C''); data(''udp.packets'').publish(label=''D''); data(''udp.bytes'').publish(label=''E'') 
-  
   * Metric Resolution 10000'
 known_false_positives: unknown
 references:
@@ -60,7 +54,8 @@ tags:
   asset_type: Kubernetes
   confidence: 50
   impact: 50
-  message: Kubernetes Anomalous Inbound Network Activity from Process in kubernetes cluster $host$
+  message: Kubernetes Anomalous Inbound Network Activity from Process in kubernetes
+    cluster $host$
   mitre_attack_id:
   - T1204
   observable:
@@ -75,8 +70,8 @@ tags:
   required_fields:
   - tcp.*
   - udp.*
-  - k8s.cluster.name 
+  - k8s.cluster.name
   - dest.process.name
-  - dest.workload.name 
+  - dest.workload.name
   risk_score: 25
   security_domain: network

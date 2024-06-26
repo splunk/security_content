@@ -1,19 +1,18 @@
 name: Splunk Digital Certificates Lack of Encryption
 id: 386a7ebc-737b-48cf-9ca8-5405459ed508
-version: 1
-date: '2022-05-26'
+version: 2
+date: '2024-05-18'
 author: Lou Stella, Splunk
 status: production
 type: Anomaly
-description: On June 14th, 2022, Splunk released a security advisory relating to the
-  authentication that happens between Universal Forwarders and Deployment Servers.
-  In some circumstances, an unauthenticated client can download forwarder bundles
-  from the Deployment Server. In other circumstances, a client may be allowed to publish
-  a forwarder bundle to other clients, which may allow for arbitrary code execution.
-  The fixes for these require upgrading to at least Splunk 9.0 on the forwarder as
-  well. This is a great opportunity to configure TLS across the environment. This
-  search looks for forwarders that are not using TLS and adds risk to those entities.
-data_source: 
+description: The following analytic identifies Splunk forwarder connections that are
+  not using TLS encryption. It leverages data from the `splunkd` logs, specifically
+  looking for connections where the `ssl` field is set to "false". This activity is
+  significant because unencrypted connections can expose sensitive data and allow
+  unauthorized access, posing a security risk. If confirmed malicious, an attacker
+  could exploit this vulnerability to download or publish forwarder bundles, potentially
+  leading to arbitrary code execution and further compromise of the environment.
+data_source:
 - Splunk
 search: '`splunkd` group="tcpin_connections" ssl="false" | stats values(sourceIp)
   latest(fwdType) latest(version) by hostname | `splunk_digital_certificates_lack_of_encryption_filter`'
@@ -65,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1587.003/splunk_fwder/splunkd.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1587.003/splunk_fwder/splunkd.log
     source: /opt/splunk/var/log/splunk/metrics.log
     sourcetype: splunkd
     update_timestamp: false

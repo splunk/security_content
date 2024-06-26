@@ -1,12 +1,12 @@
 name: Attempt To Add Certificate To Untrusted Store
 id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
-version: 7
-date: '2021-09-16'
+version: 8
+date: '2024-05-12'
 author: Patrick Bareiss, Rico Valdez, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects whether a process is attempting to add a certificate to the untrusted certificate store, which might result in security tools being disabled. The detection is made by focusing on process activities and command-line arguments that are related to the 'certutil -addstore' command. This detection is important because it helps to identify attackers who might add a certificate to the untrusted certificate store to disable security tools and gain unauthorized access to a system. False positives might occur since legitimate reasons might exist for a process to add a certificate to the untrusted certificate store, such as system administration tasks. Next steps include conducting an extensive triage and investigation prior to taking any action. Additionally, you must understand the importance of trust and its subversion in system security.
+  The following analytic detects attempts to add a certificate to the untrusted certificate store using the 'certutil -addstore' command. It leverages process activity and command-line arguments from Endpoint Detection and Response (EDR) logs mapped to the Splunk `Processes` data model. This activity is significant as it may indicate an attacker trying to disable security tools to gain unauthorized access. If confirmed malicious, this could lead to the compromise of system security, allowing attackers to bypass defenses and potentially escalate privileges or persist in the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
@@ -76,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.004/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.004/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,18 +1,28 @@
 name: Zscaler Potentially Abused File Download
 id: b0c21379-f4ba-4bac-a958-897e260f964a
-version: 1
-date: '2023-11-21'
+version: 2
+date: '2024-05-22'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly
 data_source: []
-description: The analytic is engineered to detect potential rarely abused malicious filetypes downloaded within a network. They are usually used to spread malwares. Utilizing Splunk search functionality, it examines web proxy logs for blocked actions related to potential threats. Essential data points like the deviceowner, user, urlcategory, url, dest, and filename taken are analyzed to highlight possible malicious endeavors. This detection, marked as an anomaly, aids in early identification and mitigation of malicious download activities, ensuring a safer network environment.
-search: '`zscaler_proxy` url IN ("*.scr", "*.dll", "*.bat", "*.lnk") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by deviceowner user urlcategory url src filename dest
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies the download of potentially malicious
+  file types, such as .scr, .dll, .bat, and .lnk, within a network. It leverages web
+  proxy logs from Zscaler, focusing on blocked actions and analyzing fields like deviceowner,
+  user, urlcategory, url, dest, and filename. This activity is significant as these
+  file types are often used to spread malware, posing a threat to network security.
+  If confirmed malicious, this activity could lead to malware execution, data compromise,
+  or further network infiltration.
+search: '`zscaler_proxy` url IN ("*.scr", "*.dll", "*.bat", "*.lnk") | stats count
+  min(_time) as firstTime max(_time) as lastTime by deviceowner user urlcategory url
+  src filename dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `zscaler_potentially_abused_file_download_filter`'
-how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
+how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase.
+  You must be ingesting Zscaler events into your Splunk environment through an ingester.
+  This analytic was written to be used with the "zscalernss-web" sourcetype leveraging
+  the Zscaler proxy data. This enables the integration with Splunk Enterprise Security.
+  Security teams are encouraged to adjust the detection parameters, ensuring the detection
+  is tailored to their specific environment.
 known_false_positives: False positives are limited to Zscaler configuration.
 references:
 - https://help.zscaler.com/zia/nss-feed-output-format-web-logs
@@ -49,14 +59,15 @@ tags:
   - deviceowner
   - user
   - urlcategory
-  - url 
-  - dest 
-  - dest_ip 
+  - url
+  - dest
+  - dest_ip
   - action
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
     source: zscaler
     sourcetype: zscalernss-web

@@ -1,15 +1,18 @@
 name: Any Powershell DownloadString
 id: 4d015ef2-7adf-11eb-95da-acde48001122
-version: 3
-date: '2023-04-05'
+version: 4
+date: '2024-05-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of PowerShell downloading a
-  file using `DownloadString` method. This particular method is utilized in many different
-  PowerShell frameworks to download files and output to disk. Identify the source
-  (IP/domain) and destination file and triage appropriately. If AMSI logging or PowerShell
-  transaction logs are available, review for further details of the implant.
+description: The following analytic detects the use of PowerShell's `DownloadString`
+  method to download files. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution logs that include command-line details.
+  This activity is significant because `DownloadString` is commonly used in malicious
+  PowerShell scripts to fetch and execute remote code. If confirmed malicious, this
+  behavior could allow an attacker to download and run arbitrary code, potentially
+  leading to unauthorized access, data exfiltration, or further compromise of the
+  affected system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -95,6 +98,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

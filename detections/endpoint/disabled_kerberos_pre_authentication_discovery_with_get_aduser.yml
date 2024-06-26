@@ -1,18 +1,18 @@
 name: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser
 id: 114c6bfe-9406-11ec-bcce-acde48001122
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-29'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-ADUser` commandlet with specific parameters.
-  `Get-ADUser` is part of the Active Directory PowerShell module used to manage Windows
-  Active Directory networks. As the name suggests, `Get-ADUser` is used to query for
-  domain users. With the appropiate parameters, Get-ADUser allows adversaries to discover
-  domain accounts with Kerberos Pre Authentication disabled.\ Red Teams and adversaries
-  alike use may abuse Get-ADUSer to enumerate these accounts and attempt to crack
-  their passwords offline.
+description: The following analytic detects the execution of the `Get-ADUser` PowerShell
+  cmdlet with parameters indicating a search for domain accounts with Kerberos Pre-Authentication
+  disabled. It leverages PowerShell Script Block Logging (EventCode=4104) to identify
+  this specific activity. This behavior is significant because discovering accounts
+  with Kerberos Pre-Authentication disabled can allow adversaries to perform offline
+  password cracking. If confirmed malicious, this activity could lead to unauthorized
+  access to user accounts, potentially compromising sensitive information and escalating
+  privileges within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
@@ -60,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

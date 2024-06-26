@@ -1,17 +1,18 @@
 name: Windows Hijack Execution Flow Version Dll Side Load
 id: 8351340b-ac0e-41ec-8b07-dd01bf32d6ea
-version: 1
-date: '2022-08-24'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a process loading version.dll that is not
-  in %windir%\\system32 or %windir%\\syswow64 dir path. This event is seen in ransomware
-  and APT malware that executes malicious version.dll placed in the same folder of
-  onedrive application that will execute that module. This technique is known to be
-  DLL side loading. This technique was used to execute an agent of Brute Ratel C4
-  red teaming tools to serve as remote admin tool to collect and compromise target
-  host.
+description: The following analytic detects a process loading a version.dll file from
+  a directory other than %windir%\system32 or %windir%\syswow64. This detection leverages
+  Sysmon EventCode 7 to identify instances where an unsigned or improperly located
+  version.dll is loaded. This activity is significant as it is a common technique
+  used in ransomware and APT malware campaigns, including Brute Ratel C4, to execute
+  malicious code via DLL side loading. If confirmed malicious, this could allow attackers
+  to execute arbitrary code, maintain persistence, and potentially compromise the
+  target host.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode=7 ImageLoaded = "*\\version.dll" AND (Signed = "false"
@@ -58,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

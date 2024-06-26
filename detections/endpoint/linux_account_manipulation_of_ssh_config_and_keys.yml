@@ -1,26 +1,26 @@
 name: Linux Account Manipulation Of SSH Config and Keys
 id: 73a56508-1cf5-4df7-b8d9-5737fbdc27d2
-version: 2
-date: '2023-04-27'
+version: 3
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a deletion of ssh key in a linux machine.
-  attacker may delete or modify ssh key to impair some security features or act as
-  defense evasion in compromised linux machine. This Anomaly can be also a good indicator
-  of a malware trying to wipe or delete several files in a compromised host as part
-  of its destructive payload like what acidrain malware does in linux or router machines.
-  This detection can be a good pivot to check what process and user tries to delete
-  this type of files which is not so common and need further investigation.
+description: The following analytic detects the deletion of SSH keys on a Linux machine.
+  It leverages filesystem event logs to identify when files within "/etc/ssh/*" or
+  "~/.ssh/*" are deleted. This activity is significant because attackers may delete
+  or modify SSH keys to evade security measures or as part of a destructive payload,
+  similar to the AcidRain malware. If confirmed malicious, this behavior could lead
+  to impaired security features, hindered forensic investigations, or further unauthorized
+  access, necessitating immediate investigation to identify the responsible process
+  and user.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted AND
   Filesystem.file_path IN ("/etc/ssh/*", "~/.ssh/*") by _time span=1h Filesystem.file_name
   Filesystem.file_path Filesystem.dest Filesystem.process_guid Filesystem.action |
-  `drop_dm_object_name(Filesystem)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `linux_account_manipulation_of_ssh_config_and_keys_filter`'
+  `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `linux_account_manipulation_of_ssh_config_and_keys_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
@@ -62,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

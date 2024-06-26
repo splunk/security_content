@@ -1,15 +1,17 @@
 name: Rundll32 Shimcache Flush
 id: a913718a-25b6-11ec-96d3-acde48001122
-version: 1
-date: '2021-10-05'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a suspicious rundll32 commandline to clear
-  shim cache. This technique is a anti-forensic technique to clear the cache taht
-  are one important artifacts in terms of digital forensic during attacks or incident.
-  This TTP is a good indicator that someone tries to evade some tools and clear foothold
-  on the machine.
+description: The following analytic detects the execution of a suspicious rundll32
+  command line used to clear the shim cache. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process execution logs and command-line arguments.
+  This activity is significant because clearing the shim cache is an anti-forensic
+  technique aimed at evading detection and removing forensic artifacts. If confirmed
+  malicious, this action could hinder incident response efforts, allowing an attacker
+  to cover their tracks and maintain persistence on the compromised machine.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/shimcache_flush/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/shimcache_flush/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

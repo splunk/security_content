@@ -1,26 +1,25 @@
 name: Kerberos Pre-Authentication Flag Disabled with PowerShell
 id: 59b51620-94c9-11ec-b3d5-acde48001122
-version: 2
-date: '2022-03-22'
+version: 3
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Set-ADAccountControl` commandlet with specific
-  parameters. `Set-ADAccountControl` is part of the Active Directory PowerShell module
-  used to manage Windows Active Directory networks. As the name suggests, `Set-ADAccountControl`
-  is used to modify User Account Control values for an Active Directory domain account.
-  With the appropiate parameters, Set-ADAccountControl allows adversaries to disable
-  Kerberos Pre-Authentication for an account to to easily perform a brute force attack
-  against the user's password offline leveraging the ASP REP Roasting technique. Red
-  Teams and adversaries alike who have obtained privileges in an Active Directory
-  network may use this technique as a backdoor or a way to escalate privileges.
+description: The following analytic detects the use of the `Set-ADAccountControl`
+  PowerShell cmdlet with parameters that disable Kerberos Pre-Authentication. It leverages
+  PowerShell Script Block Logging (EventCode=4104) to identify this specific command
+  execution. Disabling Kerberos Pre-Authentication is significant because it allows
+  adversaries to perform offline brute force attacks against user passwords using
+  the AS-REP Roasting technique. If confirmed malicious, this activity could enable
+  attackers to escalate privileges or maintain persistence within an Active Directory
+  environment, posing a severe security risk.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Set-ADAccountControl*" AND
   ScriptBlockText="*DoesNotRequirePreAuth:$true*") | stats count min(_time) as firstTime
-  max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `kerberos_pre_authentication_flag_disabled_with_powershell_filter`'
+  max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | rename Computer
+  as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `kerberos_pre_authentication_flag_disabled_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -60,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

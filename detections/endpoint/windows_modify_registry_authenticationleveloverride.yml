@@ -1,23 +1,27 @@
 name: Windows Modify Registry AuthenticationLevelOverride
 id: 6410a403-36bb-490f-a06a-11c3be7d2a41
-version: 1
-date: '2023-11-23'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry related to authentication level settings.
-  This registry is the configuration for authentication level settings within the Terminal Server Client settings in Windows.
-  AuthenticationLevelOverride might be used to control or override the authentication level used by the Terminal Server Client for remote connections.
-  DarkGate malware modify this registry as part of its malicious installation in a targeted host for its remote desktop capabilities.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path = "*\\Terminal Server Client\\AuthenticationLevelOverride"  Registry.registry_value_data = 0x00000000
-  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.user Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_modify_registry_authenticationleveloverride_filter`'
+description: The following analytic detects modifications to the Windows registry
+  key "AuthenticationLevelOverride" within the Terminal Server Client settings. It
+  leverages data from the Endpoint.Registry datamodel to identify changes where the
+  registry value is set to 0x00000000. This activity is significant as it may indicate
+  an attempt to override authentication levels for remote connections, a tactic used
+  by DarkGate malware for malicious installations. If confirmed malicious, this could
+  allow attackers to gain unauthorized remote access, potentially leading to data
+  exfiltration or further system compromise.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Terminal
+  Server Client\\AuthenticationLevelOverride"  Registry.registry_value_data = 0x00000000
+  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.action Registry.user Registry.dest | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_authenticationleveloverride_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -57,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/AuthenticationLevelOverride/auth_sys.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/AuthenticationLevelOverride/auth_sys.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

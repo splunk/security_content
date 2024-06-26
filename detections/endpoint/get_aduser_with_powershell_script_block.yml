@@ -1,15 +1,18 @@
 name: Get ADUser with PowerShell Script Block
 id: 21432e40-04f4-11ec-b7e6-acde48001122
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-29'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-AdGUser` commandlet. The `Get-AdUser` commandlet
-  is used to return a list of all domain users. Red Teams and adversaries may leverage
-  this commandlet to enumerate domain groups for situational awareness and Active
-  Directory Discovery.
+description: The following analytic detects the execution of the `Get-AdUser` PowerShell
+  cmdlet, which is used to enumerate all domain users. It leverages PowerShell Script
+  Block Logging (EventCode=4104) to identify instances where this command is executed
+  with a filter. This activity is significant as it may indicate an attempt by adversaries
+  or Red Teams to gather information about domain users for situational awareness
+  and Active Directory discovery. If confirmed malicious, this behavior could lead
+  to further reconnaissance and potential exploitation of user accounts within the
+  domain.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-aduser*" ScriptBlockText
@@ -60,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/aduser_powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/aduser_powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

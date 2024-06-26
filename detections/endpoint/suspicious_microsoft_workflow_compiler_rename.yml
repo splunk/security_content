@@ -1,16 +1,17 @@
 name: Suspicious microsoft workflow compiler rename
 id: f0db4464-55d9-11eb-ae93-0242ac130002
-version: 5
-date: '2023-11-07'
+version: 6
+date: '2024-05-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe.
-  Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319
-  and is rarely utilized. When investigating, identify the executed code on disk and
-  review. A spawned child process from microsoft.workflow.compiler.exe is uncommon.
-  In any instance, microsoft.workflow.compiler.exe spawning from an Office product
-  or any living off the land binary is highly suspect.
+description: The following analytic detects the renaming of microsoft.workflow.compiler.exe,
+  a rarely used executable typically located in C:\Windows\Microsoft.NET\Framework64\v4.0.30319.
+  This detection leverages Endpoint Detection and Response (EDR) data, focusing on
+  process names and original file names. This activity is significant because renaming
+  this executable can indicate an attempt to evade security controls. If confirmed
+  malicious, an attacker could use this renamed executable to execute arbitrary code,
+  potentially leading to privilege escalation or persistent access within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -82,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

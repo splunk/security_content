@@ -1,22 +1,24 @@
 name: Suspicious Process With Discord DNS Query
 id: 4d4332ae-792c-11ec-89c1-acde48001122
-version: 2
-date: '2023-04-14'
+version: 3
+date: '2024-05-16'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: This analytic identifies a process making a DNS query to Discord, a well
-  known instant messaging and digital distribution platform. Discord can be abused
-  by adversaries, as seen in the WhisperGate campaign, to host and download malicious.
-  external files. A process resolving a Discord DNS name could be an indicator of
-  malware trying to download files from Discord for further execution.
+description: The following analytic identifies a process making a DNS query to Discord,
+  excluding legitimate Discord application paths. It leverages Sysmon logs with Event
+  ID 22 to detect DNS queries containing "discord" in the QueryName field. This activity
+  is significant because Discord can be abused by adversaries to host and download
+  malicious files, as seen in the WhisperGate campaign. If confirmed malicious, this
+  could indicate malware attempting to download additional payloads from Discord,
+  potentially leading to further code execution and compromise of the affected system.
 data_source:
 - Sysmon EventID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*discord*") Image != "*\\AppData\\Local\\Discord\\*"
   AND Image != "*\\Program Files*" AND Image != "discord.exe" | stats count min(_time)
   as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name
-  QueryResults Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `suspicious_process_with_discord_dns_query_filter`'
+  QueryResults Computer | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_process_with_discord_dns_query_filter`'
 how_to_implement: his detection relies on sysmon logs with the Event ID 22, DNS Query.
 known_false_positives: Noise and false positive can be seen if the following instant
   messaging is allowed to use within corporate network. In this case, a filter is
@@ -62,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/discord_dnsquery/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/discord_dnsquery/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

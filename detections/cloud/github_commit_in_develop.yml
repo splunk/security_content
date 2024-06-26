@@ -1,15 +1,18 @@
 name: Github Commit In Develop
 id: f3030cb6-0b02-11ec-8f22-acde48001122
-version: 1
-date: '2021-09-01'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect a pushed or commit to develop branch. This is
-  to avoid unwanted modification to develop without a review to the changes. Ideally
-  in terms of devsecops the changes made in a branch and do a PR for review. of course
-  in some cases admin of the project may did a changes directly to master branch
-data_source: 
+description: The following analytic detects commits pushed directly to the 'develop'
+  or 'main' branches in a GitHub repository. It leverages GitHub logs, focusing on
+  commit metadata such as author details, commit messages, and timestamps. This activity
+  is significant as direct commits to these branches can bypass the review process,
+  potentially introducing unvetted changes. If confirmed malicious, this could lead
+  to unauthorized code modifications, introducing vulnerabilities or backdoors into
+  the codebase, and compromising the integrity of the development lifecycle.
+data_source:
 - GitHub
 search: '`github` branches{}.name = main OR branches{}.name = develop |  stats count
   min(_time) as firstTime max(_time) as lastTime  by commit.author.html_url commit.commit.author.email
@@ -47,6 +50,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_develop.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_develop.json
     source: github
     sourcetype: aws:firehose:json

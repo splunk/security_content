@@ -1,17 +1,17 @@
 name: Linux System Reboot Via System Request Key
 id: e1912b58-ed9c-422c-bbb0-2dbc70398345
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to look for possible execution of SysReq hack to reboot
-  the Linux system host. This technique was seen in Awfulshred malware wiper to reboot
-  the compromised host by using the linux magic sysreq key. This kernel configuration
-  can trigger reboot by piping out 'b' to /proc/sysrq-trigger after enabling all the
-  functions of sysrq. This TTP detection can be a good indicator of possible suspicious
-  processes running on the Linux host since this command is not a common way to reboot
-  a system.
+description: The following analytic detects the execution of the SysReq hack to reboot
+  a Linux system host. It leverages Endpoint Detection and Response (EDR) data to
+  identify processes executing the command to pipe 'b' to /proc/sysrq-trigger. This
+  activity is significant as it is an uncommon method to reboot a system and was observed
+  in the Awfulshred malware wiper. If confirmed malicious, this technique could indicate
+  the presence of suspicious processes and potential system compromise, leading to
+  unauthorized reboots and disruption of services.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test2/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test2/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

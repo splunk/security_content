@@ -1,24 +1,18 @@
 name: Unloading AMSI via Reflection
 id: a21e3484-c94d-11eb-b55b-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  
-
-  This analytic identifies the behavior of AMSI being tampered with. Implemented natively
-  in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct
-  COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")`
-  taken from Powershell-Empire. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the tampering of AMSI (Antimalware Scan
+  Interface) via PowerShell reflection. It leverages PowerShell Script Block Logging
+  (EventCode=4104) to capture and analyze suspicious PowerShell commands, specifically
+  those involving `system.management.automation.amsi`. This activity is significant
+  as it indicates an attempt to bypass AMSI, a critical security feature that helps
+  detect and block malicious scripts. If confirmed malicious, this could allow an
+  attacker to execute harmful code undetected, leading to potential system compromise
+  and data exfiltration.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = *system.management.automation.amsi*
@@ -69,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

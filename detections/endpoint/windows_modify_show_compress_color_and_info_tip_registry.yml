@@ -1,26 +1,28 @@
 name: Windows Modify Show Compress Color And Info Tip Registry
 id: b7548c2e-9a10-11ec-99e3-acde48001122
-version: 3
-date: '2023-04-27'
+version: 4
+date: '2024-05-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to look for suspicious registry modification related
-  to file compression color and information tips. This IOC was seen in hermetic wiper
-  where it has a thread that will create this registry entry to change the color of
-  compressed or encrypted files in NTFS file system as well as the pop up information
-  tips. This is a good indicator that a process tries to modified one of the registry
-  GlobalFolderOptions related to file compression attribution in terms of color in
-  NTFS file system.
+description: The following analytic detects suspicious modifications to the Windows
+  registry keys related to file compression color and information tips. It leverages
+  data from the Endpoint.Registry data model, specifically monitoring changes to the
+  "ShowCompColor" and "ShowInfoTip" values under the "Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"
+  path. This activity is significant as it was observed in the Hermetic Wiper malware,
+  indicating potential malicious intent to alter file attributes and user interface
+  elements. If confirmed malicious, this could signify an attempt to manipulate file
+  visibility and deceive users, potentially aiding in further malicious activities.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced*"
-  AND Registry.registry_value_name  IN("ShowCompColor", "ShowInfoTip")) BY _time span=1h Registry.dest Registry.user
-  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_show_compress_color_and_info_tip_registry_filter`'
+  AND Registry.registry_value_name  IN("ShowCompColor", "ShowInfoTip")) BY _time span=1h
+  Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_modify_show_compress_color_and_info_tip_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -62,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/globalfolderoptions_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/globalfolderoptions_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

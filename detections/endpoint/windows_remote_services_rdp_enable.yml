@@ -1,17 +1,18 @@
 name: Windows Remote Services Rdp Enable
 id: 8fbd2e88-4ea5-40b9-9217-fd0855e08cc0
-version: 1
-date: '2022-06-21'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic is to identify a modification in the Windows registry
-  to enable remote desktop protocol on a targeted machine. This technique was seen
-  in several adversaries, malware or red teamer to remotely access the compromised
-  or targeted host by enabling this protocol in registry. Even this protocol might
-  be allowed in some production environment, This TTP behavior is a good pivot to
-  check who and why the user want to enable this feature through registry which is
-  un-common.
+description: The following analytic detects modifications in the Windows registry
+  to enable Remote Desktop Protocol (RDP) on a targeted machine. It leverages data
+  from the Endpoint.Registry datamodel, specifically monitoring changes to the "fDenyTSConnections"
+  registry value. This activity is significant as enabling RDP via registry is uncommon
+  and often associated with adversaries or malware attempting to gain remote access.
+  If confirmed malicious, this could allow attackers to remotely control the compromised
+  host, potentially leading to further exploitation and lateral movement within the
+  network.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -61,7 +62,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

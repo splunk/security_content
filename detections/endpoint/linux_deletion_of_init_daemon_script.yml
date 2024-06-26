@@ -1,27 +1,24 @@
 name: Linux Deletion Of Init Daemon Script
 id: 729aab57-d26f-4156-b97f-ab8dda8f44b1
-version: 2
-date: '2023-04-27'
+version: 3
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a deletion of init daemon script in a linux
-  machine. daemon script that place in /etc/init.d/ is a directory that can start
-  and stop some daemon services in linux machines. attacker may delete or modify daemon
-  script to impair some security features or act as defense evasion in a compromised
-  linux machine. This TTP can be also a good indicator of a malware trying to wipe
-  or delete several files in compromised host as part of its destructive payload like
-  what acidrain malware does in linux or router machines. This detection can be a
-  good pivot to check what process and user tries to delete this type of files which
-  is not so common and need further investigation.
+description: The following analytic detects the deletion of init daemon scripts on
+  a Linux machine. It leverages filesystem event logs to identify when files within
+  the /etc/init.d/ directory are deleted. This activity is significant because init
+  daemon scripts control the start and stop of critical services, and their deletion
+  can indicate an attempt to impair security features or evade defenses. If confirmed
+  malicious, this behavior could allow an attacker to disrupt essential services,
+  execute destructive payloads, or persist undetected in the environment.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path
   IN ( "/etc/init.d/*") by _time span=1h Filesystem.file_name Filesystem.file_path
   Filesystem.dest Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `linux_deletion_of_init_daemon_script_filter`'
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_deletion_of_init_daemon_script_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
@@ -68,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

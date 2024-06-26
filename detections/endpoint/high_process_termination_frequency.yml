@@ -1,20 +1,22 @@
 name: High Process Termination Frequency
 id: 17cd75b2-8666-11eb-9ab4-acde48001122
-version: 2
-date: '2022-09-14'
+version: 3
+date: '2024-05-12'
 author: Teoderick Contreras
 status: production
 type: Anomaly
-description: This analytic is designed to identify a high frequency of process termination
-  events on a computer in a short period of time, which is a common behavior of ransomware
-  malware before encrypting files. This technique is designed to avoid an exception
-  error while accessing (docs, images, database and etc..) in the infected machine
-  for encryption.
+description: The following analytic identifies a high frequency of process termination
+  events on a computer within a short period. It leverages Sysmon EventCode 5 logs
+  to detect instances where 15 or more processes are terminated within a 3-second
+  window. This behavior is significant as it is commonly associated with ransomware
+  attempting to avoid exceptions during file encryption. If confirmed malicious, this
+  activity could indicate an active ransomware attack, potentially leading to widespread
+  file encryption and significant data loss.
 data_source:
 - Sysmon EventID 5
 search: '`sysmon` EventCode=5 |bin _time span=3s |stats values(Image) as proc_terminated
-  min(_time) as firstTime max(_time) as lastTime  count by _time dest EventCode
-  ProcessID | where count >= 15 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  min(_time) as firstTime max(_time) as lastTime  count by _time dest EventCode ProcessID
+  | where count >= 15 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `high_process_termination_frequency_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Image (process full path of terminated process) from your endpoints.
@@ -61,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

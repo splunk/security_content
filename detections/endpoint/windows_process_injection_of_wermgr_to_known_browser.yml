@@ -1,18 +1,18 @@
 name: Windows Process Injection Of Wermgr to Known Browser
 id: aec755a5-3a2c-4be0-ab34-6540e68644e9
-version: 1
-date: '2022-10-28'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies the suspicious Remote Thread execution of wermgr.exe
-  process to "firefox.exe", "chrome.exe" and other known browsers. This technique
-  was seen in Qakbot malware that executes its malicious code by injecting its code
-  in legitimate Windows Operating System processes such as wermgr.exe to steal information
-  in the compromised host. This TTP detection can be a good pivot to detect wermgr.exe
-  process injected with qakbot code that tries to remote thread code execution in
-  known browsers like firefox and edge which is not a common behavior of this wermgr.exe
-  application.
+description: The following analytic identifies the suspicious remote thread execution
+  of the wermgr.exe process into known browsers such as firefox.exe, chrome.exe, and
+  others. It leverages Sysmon EventCode 8 logs to detect this behavior by monitoring
+  SourceImage and TargetImage fields. This activity is significant because it is indicative
+  of Qakbot malware, which injects malicious code into legitimate processes to steal
+  information. If confirmed malicious, this activity could allow attackers to execute
+  arbitrary code, escalate privileges, and exfiltrate sensitive data from the compromised
+  host.
 data_source:
 - Sysmon EventID 8
 search: '`sysmon` EventCode=8 SourceImage = "*\\wermgr.exe" TargetImage IN ("*\\firefox.exe",
@@ -66,7 +66,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/remote_thread/sysmon_wermgr_remote.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/remote_thread/sysmon_wermgr_remote.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

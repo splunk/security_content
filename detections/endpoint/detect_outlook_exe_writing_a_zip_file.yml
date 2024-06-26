@@ -29,7 +29,7 @@ search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(
   | `security_content_ctime(lastTime)` | rename process_id as malicious_id| fields
   malicious_id outlook_id dest file_path file_name file_hash count file_id] | table
   firstTime lastTime user malicious_id outlook_id process_name parent_process_name
-  file_name  file_path | where file_name != "" | `detect_outlook_exe_writing_a_zip_file_filter` '
+  file_name  file_path | where file_name != "" | `detect_outlook_exe_writing_a_zip_file_filter`'
 how_to_implement: You must be ingesting data that records filesystem and process activity
   from your hosts to populate the Endpoint data model. This is typically populated
   via endpoint detection-and-response product, such as Carbon Black, or endpoint data

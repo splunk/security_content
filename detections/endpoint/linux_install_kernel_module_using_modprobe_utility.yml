@@ -1,15 +1,18 @@
 name: Linux Install Kernel Module Using Modprobe Utility
 id: 387b278a-6326-11ec-aa2c-acde48001122
-version: 1
-date: '2021-12-22'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for possible installing a linux kernel module using
-  modprobe utility function. This event can detect a installation of rootkit or malicious
-  kernel module to gain elevated privileges to their malicious code and bypassed detections.
-  This Anomaly detection is a good indicator that someone installing kernel module
-  in a linux host either admin or adversaries. filter is needed in this scenario
+description: The following analytic detects the installation of a Linux kernel module
+  using the modprobe utility. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names and command-line executions. This activity
+  is significant because installing a kernel module can indicate an attempt to deploy
+  a rootkit or other malicious kernel-level code, potentially leading to elevated
+  privileges and bypassing security detections. If confirmed malicious, this could
+  allow an attacker to gain persistent, high-level access to the system, compromising
+  its integrity and security.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -68,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/loading_linux_kernel_module/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

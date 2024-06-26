@@ -1,33 +1,25 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
-version: 3
-date: '2024-04-26'
+version: 4
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 datamodel: []
-description: 'The following analytic utilizes Windows Security EventCode 4698, which
-  indicates the creation of a scheduled task on a Windows system. The purpose of this
-  query is to identify suspicious tasks that have been registered using either schtasks.exe or TaskService and involve executing a command from a user-writable file path.
-
-  When this analytic is triggered, it provides information such as the first and last
-  registration time of the task, the command to be executed, the task name, author,
-  and whether it is set as hidden or not. It is worth noting that schtasks.exe is
-  commonly located in C:\Windows\system32 and C:\Windows\syswow64, and it loads the
-  taskschd.dll DLL when launched. If this DLL is loaded by another process, it suggests
-  that a scheduled task may be registered within that process''s context in memory.
-
-  During the triage process, it is essential to identify the source of the scheduled
-  task creation, whether it was initiated through schtasks.exe or TaskService. The
-  analyst should review the task that was created, including the command to be executed.
-  Additionally, any artifacts on disk related to the task should be captured and analyzed. It is also recommended to identify any parallel processes that occurred within the same timeframe to determine the source of the task creation.
-  
-  By conducting this triage process, security analysts can gain insights into potentiallymalicious or suspicious scheduled tasks, helping them identify the source and assess the impact of the task. This analytic is valuable for a Security Operations Center (SOC) as it can detect unauthorized or suspicious activity that could indicate an attacker''s attempt to establish persistence or execute unauthorized commands on the system.'
+description: 'The following analytic detects the creation of scheduled tasks within
+  user-writable paths using Windows Security EventCode 4698. It identifies tasks registered
+  via schtasks.exe or TaskService that execute commands from directories like Public,
+  ProgramData, Temp, and AppData. This behavior is significant as it may indicate
+  an attempt to establish persistence or execute unauthorized commands. If confirmed
+  malicious, an attacker could maintain long-term access, escalate privileges, or
+  execute arbitrary code, posing a severe threat to system integrity and security.'
 data_source:
 - Windows Event Log Security 4698
-search: '`wineventlog_security` EventCode=4698 TaskContent IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")
-| stats count min(_time) as firstTime max(_time) as lastTime by Computer, TaskName, TaskContent
-|  rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `winevent_scheduled_task_created_within_public_path_filter`'
+search: '`wineventlog_security` EventCode=4698 TaskContent IN ("*\\users\\public\\*",
+  "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TaskName,
+  TaskContent |  rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `winevent_scheduled_task_created_within_public_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
   required.
@@ -82,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_created_to_spawn_shell/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_created_to_spawn_shell/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

@@ -1,24 +1,28 @@
 name: Hide User Account From Sign-In Screen
 id: 834ba832-ad89-11eb-937d-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-05-17'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies a suspicious registry modification to hide a
-  user account on the Windows Login screen. This technique was seen in some tradecraft
-  where the adversary will create a hidden user account with Admin privileges in login
-  screen to avoid noticing by the user that they already compromise and to persist
-  on that said machine.
+description: The following analytic detects a suspicious registry modification that
+  hides a user account from the Windows Login screen. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path "*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*"
+  with a value of "0x00000000". This activity is significant as it may indicate an
+  adversary attempting to create a hidden admin account to avoid detection and maintain
+  persistence on the compromised machine. If confirmed malicious, this could allow
+  the attacker to maintain undetected access and control over the system, posing a
+  severe security risk.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*"
-  AND Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.dest Registry.user Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `hide_user_account_from_sign_in_screen_filter`'
+  AND Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.dest
+  Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `hide_user_account_from_sign_in_screen_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -71,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

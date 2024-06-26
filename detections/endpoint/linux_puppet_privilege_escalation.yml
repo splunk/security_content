@@ -1,15 +1,18 @@
 name: Linux Puppet Privilege Escalation
 id: 1d19037f-466e-4d56-8d87-36fafd9aa3ce
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-17'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: In computing, Puppet is a software configuration management tool which
-  includes its own declarative language to describe system configuration. It is a
-  model-driven solution that requires limited programming knowledge to use. If sudo
-  right is given to the tool for the user, then the user can run system commands as
-  root and possibly get a root shell.
+description: The following analytic detects the execution of Puppet commands with
+  elevated privileges, specifically when Puppet is used to apply configurations with
+  sudo rights. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution logs that include command-line details.
+  This activity is significant because it indicates a potential privilege escalation
+  attempt, where a user could gain root access and execute system commands as the
+  root user. If confirmed malicious, this could allow an attacker to fully compromise
+  the system, execute arbitrary commands, and maintain persistent control.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,7 +78,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/puppet/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/puppet/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

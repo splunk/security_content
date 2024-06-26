@@ -1,15 +1,17 @@
 name: Windows Modify Registry Disabling WER Settings
 id: 21cbcaf1-b51f-496d-a0c1-858ff3070452
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a modification in the Windows registry
-  to disable Windows error reporting settings. This Windows feature allows the user
-  to report bugs, errors, failure or problems encountered in specific application
-  or processes. Adversaries use this technique to hide any error or failure that some
-  of its malicious components trigger.
+description: The following analytic detects modifications in the Windows registry
+  to disable Windows Error Reporting (WER) settings. It leverages data from the Endpoint.Registry
+  datamodel, specifically monitoring changes to registry paths related to WER with
+  a value set to "0x00000001". This activity is significant as adversaries may disable
+  WER to suppress error notifications, hiding the presence of malicious activities.
+  If confirmed malicious, this could allow attackers to operate undetected, potentially
+  leading to prolonged persistence and further exploitation within the environment.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -60,7 +62,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

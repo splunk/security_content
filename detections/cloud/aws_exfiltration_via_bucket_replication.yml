@@ -1,21 +1,27 @@
 name: AWS Exfiltration via Bucket Replication
 id: eeb432d6-2212-43b6-9e89-fcd753f7da4c
-version: 1
-date: '2023-04-28'
+version: 2
+date: '2024-05-11'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - AWS CloudTrail PutBucketReplication
-description: The following analytic detects API calls made to an S3 bucket when bucket replication services are enabled. S3 bucket replication is a feature offered by Amazon Web Services (AWS) that allows you to automatically and asynchronously copy data from one S3 bucket to another in the same or different region.
-
-  S3 bucket replication can also be used for cross-account replication, where data is replicated from a source bucket owned by one AWS account to a destination bucket owned by a different AWS account. 
+description: The following analytic detects API calls to enable S3 bucket replication
+  services. It leverages AWS CloudTrail logs to identify `PutBucketReplication` events,
+  focusing on fields like `bucketName`, `ReplicationConfiguration.Rule.Destination.Bucket`,
+  and user details. This activity is significant as it can indicate unauthorized data
+  replication, potentially leading to data exfiltration. If confirmed malicious, attackers
+  could replicate sensitive data to external accounts, leading to data breaches and
+  compliance violations.
 search: '`cloudtrail`  eventName = PutBucketReplication eventSource = s3.amazonaws.com
   | rename requestParameters.* as * 
-  | stats count values(bucketName) as source_bucket values(ReplicationConfiguration.Rule.ID) as rule_id values(ReplicationConfiguration.Rule.Destination.Bucket) as destination_bucket by _time user_arn userName user_type src_ip aws_account_id userIdentity.principalId user_agent | `aws_exfiltration_via_ec2_snapshot_filter`'
+  | stats count values(bucketName) as source_bucket values(ReplicationConfiguration.Rule.ID) as rule_id values(ReplicationConfiguration.Rule.Destination.Bucket) as destination_bucket by _time user_arn userName user_type src_ip aws_account_id userIdentity.principalId user_agent | `aws_exfiltration_via_bucket_replication_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
-known_false_positives: It is possible that an AWS admin has legitimately implemented data replication to ensure data availability and improve data protection/backup strategies.
+known_false_positives: It is possible that an AWS admin has legitimately implemented
+  data replication to ensure data availability and improve data protection/backup
+  strategies.
 references:
 - https://hackingthe.cloud/aws/exploitation/s3-bucket-replication-exfiltration/
 tags:
@@ -25,7 +31,8 @@ tags:
   asset_type: EC2 Snapshot
   confidence: 80
   impact: 80
-  message: AWS Bucket Replication rule $rule_id$ added on $source_bucket$ to $destination_bucket$ by user $user_arn$ from IP Address - $src_ip$
+  message: AWS Bucket Replication rule $rule_id$ added on $source_bucket$ to $destination_bucket$
+    by user $user_arn$ from IP Address - $src_ip$
   mitre_attack_id:
   - T1537
   observable:
@@ -61,7 +68,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

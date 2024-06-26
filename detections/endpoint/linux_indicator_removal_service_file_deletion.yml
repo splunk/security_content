@@ -1,16 +1,18 @@
 name: Linux Indicator Removal Service File Deletion
 id: 6c077f81-2a83-4537-afbc-0e62e3215d55
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious linux processes that delete service
-  unit configuration files. This technique was seen in several malware to delete service
-  configuration files to corrupt a services or security product as part of its defense
-  evasion. This TTP detection can be a good indicator of possible malware try to kill
-  several services or a wiper like AwfulShred shell script that wipes the targeted
-  linux host
+description: The following analytic detects the deletion of Linux service unit configuration
+  files by suspicious processes. It leverages Endpoint Detection and Response (EDR)
+  telemetry, focusing on processes executing the 'rm' command targeting '.service'
+  files. This activity is significant as it may indicate malware attempting to disable
+  critical services or security products, a common defense evasion tactic. If confirmed
+  malicious, this behavior could lead to service disruption, security tool incapacitation,
+  or complete system compromise, severely impacting the integrity and availability
+  of the affected Linux host.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

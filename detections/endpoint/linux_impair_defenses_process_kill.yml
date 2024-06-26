@@ -1,16 +1,18 @@
 name: Linux Impair Defenses Process Kill
 id: 435c6b33-adf9-47fe-be87-8e29fd6654f5
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic looks for PKILL process execution for possible termination
-  of process. This technique is being used by several Threat actors, adversaries and
-  red teamers to terminate processes in a targeted linux machine. This Hunting detection
-  can be a good pivot to check a possible defense evasion technique or termination
-  of security application in a linux host or wiper like Awfulshred that corrupt all
-  files.
+description: The following analytic identifies the execution of the 'pkill' command,
+  which is used to terminate processes on a Linux system. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names and command-line
+  executions. This activity is significant because threat actors often use 'pkill'
+  to disable security defenses or terminate critical processes, facilitating further
+  malicious actions. If confirmed malicious, this behavior could lead to the disruption
+  of security applications, enabling attackers to evade detection and potentially
+  corrupt or destroy files on the targeted system.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

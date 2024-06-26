@@ -1,15 +1,23 @@
 name: O365 Admin Consent Bypassed by Service Principal
 id: 8a1b22eb-50ce-4e26-a691-97ff52349569
-version: 1
-date: '2024-02-09'
+version: 2
+date: '2024-05-18'
 author: Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - O365 Add app role assignment to service principal.
 type: TTP
 status: production
-description: This detection targets situations where a service principal in Office 365 Azure Active Directory assigns app roles without the standard admin consent, a potential security breach. Using o365_management_activity logs, it examines the 'Add app role assignment to service principal' operation, focusing on service principals and extracting details like role ID and description. This is critical for SOCs to detect potential bypassing of crucial administrative controls, which could lead to unauthorized access or privilege escalation. A true positive implies a service principal might be misusing automated processes to assign sensitive permissions.
+description: The following analytic identifies instances where a service principal
+  in Office 365 Azure Active Directory assigns app roles without standard admin consent.
+  It leverages `o365_management_activity` logs, specifically focusing on the 'Add
+  app role assignment to service principal' operation. This activity is significant
+  for SOCs as it may indicate a bypass of critical administrative controls, potentially
+  leading to unauthorized access or privilege escalation. If confirmed malicious,
+  this could allow an attacker to misuse automated processes to assign sensitive permissions,
+  compromising the security of the environment.
 search: >-
-  `o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment to service principal."
+  `o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role
+  assignment to service principal."
   | eval len=mvcount('Actor{}.ID')
   | eval userType = mvindex('Actor{}.ID',len-1)
   | eval roleId = mvindex('ModifiedProperties{}.NewValue', 0)
@@ -18,12 +26,14 @@ search: >-
   | eval dest_user = mvindex('Target{}.ID', 0)
   | search userType = "ServicePrincipal"
   | eval src_user = user
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime by src_user dest_user roleId roleValue roleDescription
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime by src_user
+  dest_user roleId roleValue roleDescription
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `o365_admin_consent_bypassed_by_service_principal_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: Service Principals are sometimes configured to legitimately bypass the consent process for purposes of automation. Filter as needed.
+  | `security_content_ctime(lastTime)`  | `o365_admin_consent_bypassed_by_service_principal_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: Service Principals are sometimes configured to legitimately
+  bypass the consent process for purposes of automation. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/003/
 - https://msrc.microsoft.com/blog/2024/01/microsoft-actions-following-attack-by-nation-state-actor-midnight-blizzard/
@@ -37,7 +47,8 @@ tags:
   asset_type: O365 Tenant
   confidence: 60
   impact: 90
-  message: Service principal $src_user$ bypassed the admin consent process and granted permissions to $dest_user$
+  message: Service principal $src_user$ bypassed the admin consent process and granted
+    permissions to $dest_user$
   mitre_attack_id:
   - T1098.003
   observable:
@@ -62,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_bypass_admin_consent/o365_bypass_admin_consent.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_bypass_admin_consent/o365_bypass_admin_consent.log
     source: o365
     sourcetype: o365:management:activity

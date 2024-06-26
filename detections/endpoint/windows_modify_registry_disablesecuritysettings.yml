@@ -1,20 +1,21 @@
 name: Windows Modify Registry DisableSecuritySettings
 id: 989019b4-b7aa-418a-9a17-2293e91288b6
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry
-  to disable security settings of Terminal Services. altering or disabling security
-  settings within Terminal Services. Terminal Services, now known as Remote Desktop
-  Services (RDS) in more recent Windows versions, allows users to access applications,
-  data, and even an entire desktop remotely. DarkGate malware modify this registry
-  as part of its malicious installation in a targeted host for its remote desktop
-  capabilities.
+description: The following analytic detects modifications to the Windows registry
+  that disable security settings for Terminal Services. It leverages the Endpoint
+  data model, specifically monitoring changes to the registry path associated with
+  Terminal Services security settings. This activity is significant because altering
+  these settings can weaken the security posture of Remote Desktop Services, potentially
+  allowing unauthorized remote access. If confirmed malicious, such modifications
+  could enable attackers to gain persistent remote access to the system, facilitating
+  further exploitation and data exfiltration.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Terminal
   Services\\DisableSecuritySettings"  Registry.registry_value_data = 0x00000001 by  Registry.registry_path
@@ -62,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/disablesecuritysetting.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/disablesecuritysetting.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,29 +1,27 @@
 name: Office Product Spawning CertUtil
 id: 6925fe72-a6d5-11eb-9e17-acde48001122
-version: 5
-date: '2023-07-11'
+version: 6
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following detection identifies the latest behavior utilized by different
-  malware families (including TA551, IcedID). This detection identifies any Windows
-  Office Product spawning `certutil.exe`. In malicious instances, the command-line
-  of `certutil.exe` will contain a URL to a remote destination. In addition, Threat
-  Research has released a detections identifying suspicious use of `certutil.exe`.
-  In this instance, we narrow our detection down to the Office suite as a parent process.
-  During triage, review all file modifications. Capture and analyze any artifacts
-  on disk. The Office Product, or `certutil.exe` will have reached out to a remote
-  destination, capture and block the IPs or domain. Review additional parallel processes
-  for further activity.
+description: The following analytic detects any Windows Office Product spawning `certutil.exe`,
+  a behavior often associated with malware families like TA551 and IcedID. This detection
+  leverages Endpoint Detection and Response (EDR) data, focusing on process relationships
+  and command-line executions. The significance lies in the fact that `certutil.exe`
+  is frequently used for downloading malicious payloads from remote URLs. If confirmed
+  malicious, this activity could lead to unauthorized code execution, data exfiltration,
+  or further system compromise. Immediate investigation and containment are crucial
+  to prevent potential damage.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe",
-  "Graph.exe","winproj.exe") `process_certutil` by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
-  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `office_product_spawning_certutil_filter`'
+  "Graph.exe","winproj.exe") `process_certutil` by Processes.dest Processes.user Processes.parent_process_name
+  Processes.parent_process Processes.process_name Processes.original_file_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `office_product_spawning_certutil_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -83,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

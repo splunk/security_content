@@ -1,16 +1,18 @@
 name: Linux Common Process For Elevation Control
 id: 66ab15c0-63d0-11ec-9e70-acde48001122
-version: 1
-date: '2021-12-23'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic is to look for possible elevation control access using
-  a common known process in linux platform to change the attribute and file ownership.
-  This technique is commonly abused by adversaries, malware author and red teamers
-  to gain persistence or privilege escalation on the target or compromised host. This
-  common process is used to modify file attribute, file ownership or SUID. This tools
-  can be used in legitimate purposes so filter is needed.
+description: The following analytic identifies the execution of common Linux processes
+  used for elevation control, such as `chmod`, `chown`, and `setuid`. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names
+  and command-line executions. This activity is significant because these processes
+  are often abused by adversaries to gain persistence or escalate privileges on compromised
+  hosts. If confirmed malicious, this behavior could allow attackers to modify file
+  attributes, change file ownership, or set user IDs, potentially leading to unauthorized
+  access and control over critical system resources.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

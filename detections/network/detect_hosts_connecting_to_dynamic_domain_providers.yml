@@ -1,17 +1,19 @@
 name: Detect hosts connecting to dynamic domain providers
 id: a1e761ac-1344-4dbd-88b2-3f34c912d359
-version: 3
-date: '2021-01-14'
+version: 4
+date: '2024-05-18'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: Malicious actors often abuse legitimate Dynamic DNS services to host
-  malicious payloads or interactive Command And Control nodes. Attackers will automate
-  domain resolution changes by routing dynamic domains to countless IP addresses to
-  circumvent firewall blocks, block lists as well as frustrate a network defenders
-  analytic and investigative processes. This search will look for DNS queries made
-  from within your infrastructure to suspicious dynamic domains.
-data_source: 
+description: The following analytic identifies DNS queries from internal hosts to
+  dynamic domain providers. It leverages DNS query logs from the `Network_Resolution`
+  data model and cross-references them with a lookup file containing known dynamic
+  DNS providers. This activity is significant because attackers often use dynamic
+  DNS services to host malicious payloads or command-and-control servers, making it
+  crucial for security teams to monitor. If confirmed malicious, this activity could
+  allow attackers to bypass firewall blocks, evade detection, and maintain persistent
+  access to the network.
+data_source:
 - Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
   min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
@@ -30,7 +32,7 @@ how_to_implement: 'First, you''ll need to ingest data from your DNS operations. 
   metadata, add the following fields, if not already present, to Incident Review.
   Event Attributes (Configure > Incident Management > Incident Review Settings > Add
   New Entry):
-  
+
   * **Label:** DNS Query, **Field:** query
 
   * **Label:** DNS Answer, **Field:** answer
@@ -77,6 +79,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/dyn_dns_site/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/dyn_dns_site/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

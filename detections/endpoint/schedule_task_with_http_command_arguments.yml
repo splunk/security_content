@@ -1,17 +1,18 @@
 name: Schedule Task with HTTP Command Arguments
 id: 523c2684-a101-11eb-916b-acde48001122
-version: 1
-date: '2023-04-05'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the registration of suspicious tasks on Windows using the Windows Security EventCode 4698, "A scheduled task was created." It specifically looks for tasks registered through schtasks.exe or TaskService that have command arguments containing the string "HTTP." This behavior is often associated with malware or attacks that utilize Living off the Land binaries (lolbins) to download additional files or payloads to the compromised machine.
-
-  The search returns information about the task, such as the task name, command, author, enabled status, hidden status, and arguments. Upon triage, it is important to identify the source of the scheduled task, whether it was registered through schtasks.exe or TaskService. Review the details of the created task and the command to be executed. Capture relevant artifacts on disk and examine them. Additionally, identify any parallel processes occurring within the same timeframe to determine the source of the attack.
-
-  Implementing this analytic requires ingesting logs with information about task schedules, specifically Windows Security Log EventCode 4698, from your endpoints. It is recommended to tune and filter known instances of task schedules used in your environment to minimize false positives.
-
-  Detecting the registration of suspicious tasks with HTTP command arguments is valuable for a SOC as it indicates potential malicious activity or an attempt to establish persistence on the system. If a true positive is found, further investigation is warranted to analyze the nature and purpose of the scheduled task, identify any downloaded files or payloads, and mitigate the associated risks. The impact of a true positive can vary but may include data exfiltration, malware propagation, or unauthorized access to sensitive information.
+description: The following analytic detects the creation of scheduled tasks on Windows
+  systems that include HTTP command arguments, using Windows Security EventCode 4698.
+  It identifies tasks registered via schtasks.exe or TaskService with HTTP in their
+  command arguments. This behavior is significant as it often indicates malware activity
+  or the use of Living off the Land binaries (lolbins) to download additional payloads.
+  If confirmed malicious, this activity could lead to data exfiltration, malware propagation,
+  or unauthorized access to sensitive information, necessitating immediate investigation
+  and mitigation.
 data_source:
 - Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 | xmlkv Message| search Arguments IN
@@ -60,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog

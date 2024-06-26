@@ -1,26 +1,28 @@
 name: Windows Phishing Outlook Drop Dll In FORM Dir
 id: fca01769-5163-4b3a-ae44-de874adfc9bc
-version: 1
-date: '2024-03-20'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 11
 type: TTP
 status: production
-description: The following analytic identifies a suspicious outlook.exe process dropped a dll file. 
-  This technique was seen in CVE-2024-21378, involves the loading of a custom MAPI form to execute a 
-  potentially malicious DLL. Detecting such TTPs serves as a crucial pivot point to identify potential adversaries, 
-  malware, or red team activity attempting to leverage this method within phishing campaigns.
+description: The following analytic detects the creation of a DLL file by an outlook.exe
+  process in the AppData\Local\Microsoft\FORMS directory. This detection leverages
+  data from the Endpoint.Processes and Endpoint.Filesystem datamodels, focusing on
+  process and file creation events. This activity is significant as it may indicate
+  an attempt to exploit CVE-2024-21378, where a custom MAPI form loads a potentially
+  malicious DLL. If confirmed malicious, this could allow an attacker to execute arbitrary
+  code, leading to further system compromise or data exfiltration.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=outlook.exe 
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid 
-  | `drop_dm_object_name(Processes)` 
-  | join process_guid, _time [ | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_name ="*.dll" Filesystem.file_path = "*\\AppData\\Local\\Microsoft\\FORMS\\IPM*"
-  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
-  | `drop_dm_object_name(Filesystem)`
-  | fields file_name file_path process_name process_path process dest file_create_time _time process_guid] 
-  | `windows_phishing_outlook_drop_dll_in_form_dir_filter`'
+  where Processes.process_name=outlook.exe by _time span=1h Processes.process_id Processes.process_name
+  Processes.process Processes.dest Processes.process_guid | `drop_dm_object_name(Processes)`
+  | join process_guid, _time [ | tstats `security_content_summariesonly` count min(_time)
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name
+  ="*.dll" Filesystem.file_path = "*\\AppData\\Local\\Microsoft\\FORMS\\IPM*" by _time
+  span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path
+  Filesystem.process_guid | `drop_dm_object_name(Filesystem)` | fields file_name file_path
+  process_name process_path process dest file_create_time _time process_guid] | `windows_phishing_outlook_drop_dll_in_form_dir_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
@@ -63,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/outlook_dropped_dll/outlook_phishing_form_dll.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/outlook_dropped_dll/outlook_phishing_form_dll.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

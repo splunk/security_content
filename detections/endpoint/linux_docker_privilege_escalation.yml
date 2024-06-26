@@ -1,17 +1,18 @@
 name: Linux Docker Privilege Escalation
 id: 2e7bfb78-85f6-47b5-bc2f-15813a4ef2b3
-version: 1
-date: '2022-07-31'
+version: 2
+date: '2024-05-24'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: Docker is an open source containerization platform. It helps programmers
-  to bundle applications into containers, which are standardized executable parts
-  that include the application source code along with the OS libraries and dependencies
-  needed to run that code in any setting. The user can add mount the root directory
-  into a container and edit the /etc/password file to add a super user. This requires
-  the user to be privileged enough to run docker, i.e. being in the docker group or
-  being root.
+description: The following analytic detects attempts to escalate privileges on a Linux
+  system using Docker. It identifies processes where Docker commands are used to mount
+  the root directory or execute shell commands within a container. This detection
+  leverages Endpoint Detection and Response (EDR) telemetry, focusing on process names,
+  command-line arguments, and parent processes. This activity is significant because
+  it can allow an attacker with Docker privileges to modify critical system files,
+  such as /etc/passwd, to create a superuser. If confirmed malicious, this could lead
+  to full system compromise and persistent unauthorized access.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -76,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/docker/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/docker/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

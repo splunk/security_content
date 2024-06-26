@@ -1,11 +1,18 @@
 name: WMI Temporary Event Subscription
 id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
-version: 1
-date: '2018-10-23'
+version: 2
+date: '2024-05-12'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
-description: "The following analytic detects the creation of WMI temporary event subscriptions. WMI (Windows Management Instrumentation) is a management technology that allows administrators to perform various tasks on Windows-based systems. Temporary event subscriptions are created to monitor specific events or changes on a system that help to detect potential threats early and take proactive measures to protect the organization's systems and data. The detection is made by using the Splunk query `wmi` EventCode=5860 Temporary to search for events with EventCode 5860, which indicates the creation of a temporary WMI event subscription. To further refine the search results, the query uses regular expressions (rex) to extract the query used in the event subscription. Then, it filters known benign queries related to system processes such as 'wsmprovhost.exe' and 'AntiVirusProduct', 'FirewallProduct', 'AntiSpywareProduct', which helps to focus on potentially malicious or suspicious queries. The detection is important because it indicates malicious activity since attackers use WMI to run commands, gather information, or maintain persistence within a compromised system. False positives might occur since legitimate uses of WMI event subscriptions in the environment might trigger benign activities to be flagged. Therefore, an extensive triage is necessary to review the specific query and assess its intent. Additionally, capturing and inspecting relevant on-disk artifacts and analyzing concurrent processes can help to identify the source of the attack. Detecting the creation of these event subscriptions to identify potential threats early and take appropriate actions to mitigate the risks."
+description: "The following analytic detects the creation of WMI temporary event subscriptions.
+  It leverages Windows Event Logs, specifically EventCode 5860, to identify these
+  activities. This detection is significant because attackers often use WMI to execute
+  commands, gather information, or maintain persistence within a compromised system.
+  If confirmed malicious, this activity could allow an attacker to execute arbitrary
+  code, escalate privileges, or persist in the environment. Analysts should review
+  the specific WMI queries and assess their intent, considering potential false positives
+  from legitimate administrative tasks."
 data_source:
 - Windows Event Log WMI 5860
 search: '`wmi` EventCode=5860 Temporary | rex field=Message "NotificationQuery =\s+(?<query>[^;|^$]+)"

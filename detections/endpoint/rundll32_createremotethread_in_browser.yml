@@ -1,14 +1,18 @@
 name: Rundll32 CreateRemoteThread In Browser
 id: f8a22586-ee2d-11eb-a193-acde48001122
-version: 1
-date: '2021-07-26'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
-  process to "firefox.exe" and "chrome.exe" browser. This technique was seen in IcedID
-  malware where it hooks the browser to parse banking information as user used the
-  targetted browser process.
+description: The following analytic detects the suspicious creation of a remote thread
+  by rundll32.exe targeting browser processes such as firefox.exe, chrome.exe, iexplore.exe,
+  and microsoftedgecp.exe. This detection leverages Sysmon EventCode 8, focusing on
+  SourceImage and TargetImage fields to identify the behavior. This activity is significant
+  as it is commonly associated with malware like IcedID, which hooks browsers to steal
+  sensitive information such as banking details. If confirmed malicious, this could
+  allow attackers to intercept and exfiltrate sensitive user data, leading to potential
+  financial loss and privacy breaches.
 data_source:
 - Sysmon EventID 8
 search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe",
@@ -61,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

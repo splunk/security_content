@@ -1,15 +1,18 @@
 name: Any Powershell DownloadFile
 id: 1a93b7ea-7af7-11eb-adb5-acde48001122
-version: 3
-date: '2023-04-14'
+version: 4
+date: '2024-05-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of PowerShell downloading a
-  file using `DownloadFile` method. This particular method is utilized in many different
-  PowerShell frameworks to download files and output to disk. Identify the source
-  (IP/domain) and destination file and triage appropriately. If AMSI logging or PowerShell
-  transaction logs are available, review for further details of the implant.
+description: The following analytic detects the use of PowerShell's `DownloadFile`
+  method to download files. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution logs. This activity is significant as
+  it is commonly used in malicious frameworks to download and execute additional payloads.
+  If confirmed malicious, this could lead to unauthorized code execution, data exfiltration,
+  or further compromise of the system. Analysts should investigate the source and
+  destination of the download and review AMSI or PowerShell transaction logs for additional
+  context.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -94,6 +97,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

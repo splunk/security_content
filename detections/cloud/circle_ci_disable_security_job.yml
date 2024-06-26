@@ -1,13 +1,13 @@
 name: Circle CI Disable Security Job
 id: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
-version: 1
-date: '2021-09-02'
+version: 2
+date: '2024-05-20'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
 description: |-
-  This analytic searches for a specific behavior in CircleCI pipelines such as the disabling of security jobs. The detection is made by using a Splunk query that renames certain fields and retrieves values for specified job names, workflow IDs and names, user information, commit messages, URLs, and branches. Then, the query identifies mandatory jobs for each workflow and searches for instances where they were run. The search also identifies the phase of the pipeline as "build" and extracts the repository name from the URL using regular expressions. The detection is important because it detects attempts to bypass security measures in CircleCI pipelines, which can potentially lead to malicious code being introduced into the pipeline, data breaches, system downtime, and reputational damage.  False positives might occur since legitimate use cases can require the disabling of security jobs. However, you can proactively monitor and identify any suspicious activity in the pipeline using this analytic and mitigate potential threats through early detection.
-data_source: 
+  The following analytic detects the disabling of security jobs in CircleCI pipelines. It leverages CircleCI log data, renaming and extracting fields such as job names, workflow IDs, user information, commit messages, URLs, and branches. The detection identifies mandatory jobs for each workflow and checks if they were executed. This activity is significant because disabling security jobs can allow malicious code to bypass security checks, leading to potential data breaches, system downtime, and reputational damage. If confirmed malicious, this could result in unauthorized code execution and compromised pipeline integrity.
+data_source:
 - CircleCI
 search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_message
   vcs.url as url workflows.* as *  | stats values(job_name) as job_names by workflow_id
@@ -25,7 +25,8 @@ tags:
   asset_type: CircleCI
   confidence: 90
   impact: 80
-  message: Disable security job $mandatory_job$ in workflow $workflow_name$ from user $user$
+  message: Disable security job $mandatory_job$ in workflow $workflow_name$ from user
+    $user$
   mitre_attack_id:
   - T1554
   observable:
@@ -44,6 +45,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json
     sourcetype: circleci
     source: circleci

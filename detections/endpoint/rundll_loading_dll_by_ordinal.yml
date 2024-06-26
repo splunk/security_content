@@ -1,16 +1,17 @@
 name: RunDLL Loading DLL By Ordinal
 id: 6c135f8d-5e60-454e-80b7-c56eed739833
-version: 6
-date: '2022-02-08'
+version: 7
+date: '2024-05-20'
 author: Michael Haag, David Dorsey, Splunk
 status: production
 type: TTP
-description: The following analytic identifies rundll32.exe loading an export function
-  by ordinal value. Adversaries may abuse rundll32.exe to proxy execution of malicious
-  code. Using rundll32.exe, vice executing directly, may avoid triggering security
-  tools that may not monitor execution of the rundll32.exe process because of allowlists
-  or false positives from normal operations. Utilizing ordinal values makes it a bit
-  more complicated for analysts to understand the behavior until the DLL is reviewed.
+description: The following analytic detects rundll32.exe loading a DLL export function
+  by ordinal value. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process command-line executions. This behavior is significant because
+  adversaries may use rundll32.exe to execute malicious code while evading security
+  tools that do not monitor this process. If confirmed malicious, this activity could
+  allow attackers to execute arbitrary code, potentially leading to system compromise,
+  privilege escalation, or persistent access within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -81,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/ordinal_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/ordinal_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

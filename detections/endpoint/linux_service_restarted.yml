@@ -1,29 +1,18 @@
 name: Linux Service Restarted
 id: 084275ba-61b8-11ec-8d64-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: 'The following analytic detects the restarting or re-enabling of services
-  in the Linux platform. It focuses on the use of the systemctl or service tools for
-  executing these actions. Adversaries may leverage this technique to repeatedly execute
-  malicious payloads as a form of persistence. Linux hosts typically start services
-  during boot to perform background system functions. However, administrators may
-  also create legitimate services for specific tools or applications as part of task
-  automation. In such cases, it is recommended to verify the service path of the registered
-  script or executable and identify the creator of the service for further validation.
-
-  It''s important to be aware that this analytic may generate false positives as administrators
-  or network operators may use the same command-line for legitimate automation purposes.
-  Filter macros should be updated accordingly to minimize false positives.
-
-  Identifying restarted or re-enabled services is valuable for a SOC as it can indicate
-  potential malicious activities attempting to maintain persistence or execute unauthorized
-  actions on Linux systems. By detecting and investigating these events, security
-  analysts can respond promptly to mitigate risks and prevent further compromise.
-  The impact of a true positive can range from unauthorized access to data destruction
-  or other damaging outcomes.'
+  on Linux systems using the `systemctl` or `service` commands. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process and command-line
+  execution logs. This activity is significant as adversaries may use it to maintain
+  persistence or execute unauthorized actions. If confirmed malicious, this behavior
+  could lead to repeated execution of malicious payloads, unauthorized access, or
+  data destruction. Security analysts should investigate these events to mitigate
+  risks and prevent further compromise.'
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -54,6 +43,7 @@ tags:
   - Data Destruction
   - Linux Persistence Techniques
   - Scheduled Tasks
+  - Gomir
   asset_type: Endpoint
   confidence: 50
   impact: 50
@@ -84,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

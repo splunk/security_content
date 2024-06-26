@@ -1,32 +1,25 @@
 name: Azure Automation Account Created
 id: 860902fd-2e76-46b3-b050-ba548dab576c
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of a new Azure Automation
-  account within an Azure tenant. Azure Automation is a cloud-based automation platform
-  that allows administrators to automate Azure management tasks and orchestrate actions
-  across external systems within Azure using PowerShell and Python. Azure Automation
-  can also be configured to automate tasks on on premise infrastructure using a component
-  called a Hybrid Runbook Worker. Automation accounts serve as a container to isolate
-  Automation resources, runbooks, assets, and configurations from the resources of
-  other accounts. They allow administrators to separate resources into logical environments
-  or delegated responsibilities. Adversaries or red teams who have obtained privileged
-  access to an Azure tenant may create an Azure Automation account with elevated privileges
-  to maintain persistence in the Azure tenant. A malicious Automation Runbook can
-  be created to create Global Administrators in Azure AD, execute code on VMs, etc.
-data_source: 
+description: The following analytic detects the creation of a new Azure Automation
+  account within an Azure tenant. It leverages Azure Audit events, specifically the
+  Azure Activity log category, to identify when an account is created or updated.
+  This activity is significant because Azure Automation accounts can be used to automate
+  tasks and orchestrate actions across Azure and on-premise environments. If an attacker
+  creates an Automation account with elevated privileges, they could maintain persistence,
+  execute malicious runbooks, and potentially escalate privileges or execute code
+  on virtual machines, posing a significant security risk.
+data_source:
 - Azure Audit Create or Update an Azure Automation account
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation account" status.value=Succeeded 
-  | dedup object 
-  | rename claims.ipaddr as src_ip
-  | rename caller as user
-  | stats count min(_time) as firstTime max(_time) as lastTime values(object) as object by user, src_ip, resourceGroupName, object_path 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `azure_automation_account_created_filter`'
+search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
+  account" status.value=Succeeded | dedup object | rename claims.ipaddr as src_ip
+  | rename caller as user | stats count min(_time) as firstTime max(_time) as lastTime
+  values(object) as object by user, src_ip, resourceGroupName, object_path | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_automation_account_created_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Audit events into your Splunk environment. Specifically,
@@ -74,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_automation_account/azure-activity.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_automation_account/azure-activity.log
     source: mscs:azure:audit
     sourcetype: mscs:azure:audit
     update_timestamp: true

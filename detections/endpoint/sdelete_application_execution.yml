@@ -1,16 +1,18 @@
 name: Sdelete Application Execution
 id: 31702fc0-2682-11ec-85c3-acde48001122
-version: 1
-date: '2021-10-06'
+version: 2
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect the execution of sdelete.exe application sysinternal
-  tools. This tool is one of the most use tool of malware and adversaries to remove
-  or clear their tracks and artifact in the targetted host. This tool is designed
-  to delete securely a file in file system that remove the forensic evidence on the
-  machine. A good TTP query to check why user execute this application which is not
-  a common practice.
+description: The following analytic detects the execution of the sdelete.exe application,
+  a Sysinternals tool often used by adversaries to securely delete files and remove
+  forensic evidence from a targeted host. This detection leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process execution logs. Monitoring
+  this activity is crucial as sdelete.exe is not commonly used in regular operations
+  and its presence may indicate an attempt to cover malicious activities. If confirmed
+  malicious, this could lead to the loss of critical forensic data, hindering incident
+  response and investigation efforts.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -74,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

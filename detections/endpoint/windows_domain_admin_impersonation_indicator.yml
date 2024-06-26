@@ -1,7 +1,7 @@
 name: Windows Domain Admin Impersonation Indicator
 id: 10381f93-6d38-470a-9c30-d25478e3bd3f
 version: 2
-date: '2023-10-06'
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -28,7 +28,8 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: $TargetUserName$ may be impersonating a Domain Administrator through a forged Kerberos ticket.
+  message: $TargetUserName$ may be impersonating a Domain Administrator through a
+    forged Kerberos ticket.
   mitre_attack_id:
   - T1558
   observable:
@@ -51,6 +52,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/diamond_ticket/security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/diamond_ticket/security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

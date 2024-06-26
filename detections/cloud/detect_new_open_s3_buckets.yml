@@ -21,7 +21,7 @@ search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex 
   rename requestParameters.bucketName AS bucketName | stats count min(_time) as firstTime
   max(_time) as lastTime by user_arn userIdentity.principalId userAgent uri permission
   bucketName | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `detect_new_open_s3_buckets_filter` '
+  | `detect_new_open_s3_buckets_filter`'
 how_to_implement: You must install the AWS App for Splunk.
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has legitimately created a public bucket for a specific purpose.

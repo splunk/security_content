@@ -1,16 +1,19 @@
 name: AWS IAM Failure Group Deletion
 id: 723b861a-92eb-11eb-93b8-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: This detection identifies failure attempts to delete groups. We want
-  to identify when a group is attempting to be deleted, but either access is denied,
-  there is a conflict or there is no group. This is indicative of administrators performing
-  an action, but also could be suspicious behavior occurring. Review parallel IAM
-  events - recently added users, new groups and so forth.
-data_source: 
+description: The following analytic identifies failed attempts to delete AWS IAM groups.
+  It leverages AWS CloudTrail logs to detect events where the DeleteGroup action fails
+  due to errors like NoSuchEntityException, DeleteConflictException, or AccessDenied.
+  This activity is significant as it may indicate unauthorized attempts to modify
+  IAM group configurations, which could be a precursor to privilege escalation or
+  other malicious actions. If confirmed malicious, this could allow an attacker to
+  disrupt IAM policies, potentially leading to unauthorized access or denial of service
+  within the AWS environment.
+data_source:
 - AWS CloudTrail DeleteGroup
 search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode
   IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com)
@@ -33,7 +36,8 @@ tags:
   asset_type: AWS Account
   confidence: 50
   impact: 10
-  message: User $user_arn$ has had mulitple failures while attempting to delete groups from $src$
+  message: User $user_arn$ has had mulitple failures while attempting to delete groups
+    from $src$
   mitre_attack_id:
   - T1098
   observable:
@@ -60,7 +64,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

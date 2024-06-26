@@ -1,18 +1,18 @@
 name: Windows Mimikatz Binary Execution
 id: a9e0d6d3-9676-4e26-994d-4e0406bb4467
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: As simple as it sounds, this analytic identifies when the native mimikatz.exe
-  binary executes on Windows. It does look for the original file name as well, just
-  in case the binary is renamed. Adversaries sometimes bring in the default binary
-  and run it directly. Benjamin Delpy originally created Mimikatz as a proof of concept
-  to show Microsoft that its authentication protocols were vulnerable to an attack.
-  Instead, he inadvertently created one of the most widely used and downloaded threat
-  actor tools of the past 20 years. Mimikatz is an open-source application that allows
-  users to view and save authentication credentials such as Kerberos tickets.
+description: The following analytic identifies the execution of the native mimikatz.exe
+  binary on Windows systems, including instances where the binary is renamed. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names
+  and original file names. This activity is significant because Mimikatz is a widely
+  used tool for extracting authentication credentials, posing a severe security risk.
+  If confirmed malicious, this activity could allow attackers to obtain sensitive
+  credentials, escalate privileges, and move laterally within the network, leading
+  to potential data breaches and system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -90,7 +90,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/mimikatzwindows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/mimikatzwindows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

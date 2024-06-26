@@ -1,19 +1,18 @@
 name: Windows Steal Authentication Certificates Certificate Issued
 id: 9b1a5385-0c31-4c39-9753-dc26b8ce64c2
-version: 1
-date: '2023-02-06'
+version: 2
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies when a new certificate is issued against
-  the Certificate Services - AD CS. By its very nature this is not malicious, but
-  should be tracked and correlated with other events related to certificates being
-  issued. When the CA issues the certificate, it creates EID 4887 'Certificate Services
-  approved a certificate request and issued a certificate". The event supplies the
-  requester user context, the DNS hostname of the machine they requested the certificate
-  from, and the time they requested the certificate. The attributes fields in these
-  event commonly has values for CDC, RMD, and CCM which correspond to Client DC, Request
-  Machine DNS name, and Cert Client Machine, respectively.
+description: The following analytic identifies the issuance of a new certificate by
+  Certificate Services - AD CS, detected via Event ID 4887. This event logs the requester
+  user context, DNS hostname of the requesting machine, and the request time. Monitoring
+  this activity is crucial as it can indicate potential misuse of authentication certificates.
+  If confirmed malicious, an attacker could use the issued certificate to impersonate
+  users, escalate privileges, or maintain persistence within the environment. This
+  detection helps in identifying and correlating suspicious certificate-related activities
+  for further investigation.
 data_source:
 - Windows Event Log Security 4887
 search: '`wineventlog_security`  EventCode=4887 | stats count min(_time) as firstTime
@@ -56,7 +55,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4887_windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4887_windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

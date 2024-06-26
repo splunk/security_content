@@ -1,15 +1,18 @@
 name: Linux Node Privilege Escalation
 id: 2e58a4ff-398f-42f4-8fd0-e01ebfe2a8ce
-version: 1
-date: '2022-07-31'
+version: 2
+date: '2024-05-29'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: Node.js is a back-end JavaScript runtime environment that is open-source,
-  cross-platform, runs on the V8 engine, and executes JavaScript code outside of a
-  web browser. It was created to help create scalable network applications. If the
-  binary is allowed to run as superuser by sudo, it does not drop the elevated privileges
-  and may be used to access the file system, escalate or maintain privileged access.
+description: The following analytic identifies the execution of Node.js with elevated
+  privileges using sudo, specifically when spawning child processes. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  executions that include specific Node.js commands. This activity is significant
+  because running Node.js as a superuser without dropping privileges can allow unauthorized
+  access to the file system and potential privilege escalation. If confirmed malicious,
+  this could enable an attacker to maintain privileged access, execute arbitrary code,
+  and compromise sensitive data within the environment.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -76,7 +79,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/node/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/node/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

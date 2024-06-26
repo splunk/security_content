@@ -1,28 +1,43 @@
 name: 'Windows Registry SIP Provider Modification'
 id: 3b4e18cb-497f-4073-85ad-1ada7c2107ab
-version: 1
-date: '2023-10-10'
+version: 2
+date: '2024-05-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: 'The following analytic detects modifications to the Windows Registry SIP Provider. It identifies this behavior by monitoring Sysmon EventID 7, which logs registry modification events. The analytic specifically looks for changes in registry paths and values associated with Cryptography Providers and OID Encoding Types. This behavior is worth identifying as it may indicate an attempt to subvert trust controls, a technique often used by adversaries to bypass security measures and maintain persistence in an environment. If a true positive is found, it suggests an attacker is trying to manipulate the system''s cryptographic functions, potentially leading to unauthorized access, data theft, or other damaging outcomes. Upon triage, review the registry paths and values modified, and look for concurrent processes to identify the attack source. Review the path of the SIP being added. This approach helps analysts detect potential threats earlier and mitigate the risks.'
+description: 'The following analytic detects modifications to the Windows Registry
+  SIP Provider. It leverages Sysmon Event ID 7 to monitor registry changes in paths
+  and values related to Cryptography Providers and OID Encoding Types. This activity
+  is significant as it may indicate an attempt to subvert trust controls, a common
+  tactic for bypassing security measures and maintaining persistence. If confirmed
+  malicious, an attacker could manipulate the system''s cryptographic functions, potentially
+  leading to unauthorized access, data theft, or other damaging outcomes. Review the
+  modified registry paths and concurrent processes to identify the attack source.'
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path IN ("*\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\*", "*\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType*", "*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\Providers\\*", "*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\OID\\EncodingType*") Registry.registry_value_name IN ("Dll","$DLL") by
-  Registry.dest , Registry.user Registry.registry_value_name, Registry.registry_value_data | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `drop_dm_object_name(Registry)`| `windows_registry_sip_provider_modification_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: Be aware of potential false positives - legitimate applications may cause benign activities to be flagged.
+  as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path
+  IN ("*\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\*", "*\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType*",
+  "*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\Providers\\*", "*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\OID\\EncodingType*")
+  Registry.registry_value_name IN ("Dll","$DLL") by Registry.dest , Registry.user
+  Registry.registry_value_name, Registry.registry_value_data | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`| `windows_registry_sip_provider_modification_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Be aware of potential false positives - legitimate applications
+  may cause benign activities to be flagged.
 references:
-  - https://attack.mitre.org/techniques/T1553/003/
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_sip_persistence.yml
-  - https://specterops.io/wp-content/uploads/sites/3/2022/06/SpecterOps_Subverting_Trust_in_Windows.pdf
-  - https://github.com/gtworek/PSBits/tree/master/SIP
-  - https://github.com/mattifestation/PoCSubjectInterfacePackage
-  - https://pentestlab.blog/2017/11/06/hijacking-digital-signatures/
+- https://attack.mitre.org/techniques/T1553/003/
+- https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_sip_persistence.yml
+- https://specterops.io/wp-content/uploads/sites/3/2022/06/SpecterOps_Subverting_Trust_in_Windows.pdf
+- https://github.com/gtworek/PSBits/tree/master/SIP
+- https://github.com/mattifestation/PoCSubjectInterfacePackage
+- https://pentestlab.blog/2017/11/06/hijacking-digital-signatures/
 tags:
   analytic_story:
   - Subvert Trust Controls SIP and Trust Provider Hijacking
@@ -52,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.003/sip/sip_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.003/sip/sip_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

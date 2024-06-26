@@ -1,16 +1,18 @@
 name: Disable Schedule Task
 id: db596056-3019-11ec-a9ff-acde48001122
-version: 1
-date: '2021-10-18'
+version: 2
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a suspicious commandline to disable existing
-  schedule task. This technique is used by adversaries or commodity malware like IcedID
-  to disable security application (AV products) in the targetted host to evade detections.
-  This TTP is a good pivot to check further why and what other process run before
-  and after this detection. check which process execute the commandline and what task
-  is disabled. parent child process is quite valuable in this scenario too.
+description: The following analytic detects the execution of a command to disable
+  an existing scheduled task using 'schtasks.exe' with the '/change' and '/disable'
+  parameters. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process names and command-line arguments. Disabling scheduled
+  tasks is significant as it is a common tactic used by adversaries, including malware
+  like IcedID, to disable security applications and evade detection. If confirmed
+  malicious, this activity could allow attackers to persist undetected, disable critical
+  security defenses, and further compromise the targeted host.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
@@ -63,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_schtask/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_schtask/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

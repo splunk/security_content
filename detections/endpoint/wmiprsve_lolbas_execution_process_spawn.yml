@@ -1,17 +1,18 @@
 name: Wmiprsve LOLBAS Execution Process Spawn
 id: 95a455f0-4c04-11ec-b8ac-3e22fbd008af
-version: 1
-date: '2021-11-22'
+version: 2
+date: '2024-05-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies `wmiprsve.exe` spawning a LOLBAS execution
-  process. When adversaries execute code on remote endpoints abusing Windows Management
-  Instrumentation (WMI), the executed command is spawned as a child process of `wmiprvse.exe`.
-  The LOLBAS project documents Windows native binaries that can be abused by threat
-  actors to perform tasks like executing malicious code. Looking for child processes
-  of wmiprvse.exe that are part of the LOLBAS project can help defenders identify
-  lateral movement activity.
+description: The following analytic detects `wmiprvse.exe` spawning a LOLBAS execution
+  process. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process creation events where `wmiprvse.exe` is the parent process and the child
+  process is a known LOLBAS binary. This activity is significant as it may indicate
+  lateral movement or remote code execution by an adversary abusing Windows Management
+  Instrumentation (WMI). If confirmed malicious, this behavior could allow attackers
+  to execute arbitrary code, escalate privileges, or maintain persistence within the
+  environment, posing a severe security risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -81,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement_lolbas/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement_lolbas/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

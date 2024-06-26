@@ -1,29 +1,43 @@
 name: Windows AD Short Lived Domain Controller SPN Attribute
-id: 57e27f27-369c-4df8-af08-e8c7ee8373d4 
-version: 3
-date: '2023-11-07'
+id: 57e27f27-369c-4df8-af08-e8c7ee8373d4
+version: 4
+date: '2024-05-11'
 author: Dean Luxton
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 5136
 - Windows Event Log Security 4624
-description: The following analytic identifies when either a global catalog SPN or a DRS RPC SPN are temporarily added to an Active Directory computer object, both of which can be evidence of a DCShadow attack.  
-  DCShadow allows an attacker who has obtained privileged access to register a rogue Domain Controller (DC). Once registered, the rogue DC may be able to inject
-  and replicate changes into the AD infrastructure for any domain object, including credentials and keys. This technique was initially released in 2018 by security researchers Benjamin Delpy and Vincent Le Toux.
-  No event logs are written for changes to AD attributes, allowing for stealthy backdoors to be implanted in the domain, or metadata such as timestamps overwritten to cover tracks. 
-search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName (AttributeValue="GC/*" OR AttributeValue="E3514235-4B06-11D1-AB04-00C04FC2DCD2/*") | stats min(_time) as _time range(_time) as duration values(OperationType) as OperationType values(user) as user values(src_ip) as src_ip values(src_nt_domain) as src_nt_domain values(src_user) as src_user values(Computer) as dest, values(ObjectDN) as ObjectDN by Logon_ID | eval short_lived=case((duration<30),"TRUE") | where short_lived="TRUE" AND mvcount(OperationType)>1 | replace "%%14674" with "Value Added", "%%14675" with "Value Deleted" in OperationType | rename Logon_ID as TargetLogonId | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] | stats min(_time) as _time, values(ObjectDN) as ObjectDN values(OperationType) as OperationType by TargetLogonId src_user dest | `windows_ad_short_lived_domain_controller_spn_attribute_filter`' 
-how_to_implement: To successfully implement this search, you need to be ingesting eventcode 
- `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
- within `DS Access` needs to be enabled, alongside a SACL for `everybody` to 
- `Write All Properties` applied to the domain root and all descendant objects. 
+description: The following analytic detects the temporary addition of a global catalog
+  SPN or a DRS RPC SPN to an Active Directory computer object, indicative of a potential
+  DCShadow attack. This detection leverages EventCode 5136 from the `wineventlog_security`
+  data source, focusing on specific SPN attribute changes. This activity is significant
+  as DCShadow attacks allow attackers with privileged access to register rogue Domain
+  Controllers, enabling unauthorized changes to the AD infrastructure. If confirmed
+  malicious, this could lead to unauthorized replication of changes, including credentials
+  and keys, compromising the entire domain's security.
+search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
+  (AttributeValue="GC/*" OR AttributeValue="E3514235-4B06-11D1-AB04-00C04FC2DCD2/*")
+  | stats min(_time) as _time range(_time) as duration values(OperationType) as OperationType
+  values(user) as user values(src_ip) as src_ip values(src_nt_domain) as src_nt_domain
+  values(src_user) as src_user values(Computer) as dest, values(ObjectDN) as ObjectDN
+  by Logon_ID | eval short_lived=case((duration<30),"TRUE") | where short_lived="TRUE"
+  AND mvcount(OperationType)>1 | replace "%%14674" with "Value Added", "%%14675" with
+  "Value Deleted" in OperationType | rename Logon_ID as TargetLogonId | appendpipe
+  [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
+  | stats min(_time) as _time, values(ObjectDN) as ObjectDN values(OperationType)
+  as OperationType by TargetLogonId src_user dest | `windows_ad_short_lived_domain_controller_spn_attribute_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services
+  Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody`
+  to `Write All Properties` applied to the domain root and all descendant objects.
 known_false_positives: None.
 references:
 - https://www.dcshadow.com/
 - https://blog.netwrix.com/2022/09/28/dcshadow_attack/
 - https://gist.github.com/gentilkiwi/dcc132457408cf11ad2061340dcb53c2
 - https://attack.mitre.org/techniques/T1207/
-- https://blog.alsid.eu/dcshadow-explained-4510f52fc19d 
+- https://blog.alsid.eu/dcshadow-explained-4510f52fc19d
 tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
@@ -58,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/mimikatz/windows-security-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1207/mimikatz/windows-security-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

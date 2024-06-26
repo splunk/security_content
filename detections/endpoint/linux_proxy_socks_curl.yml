@@ -1,20 +1,18 @@
 name: Linux Proxy Socks Curl
 id: bd596c22-ad1e-44fc-b242-817253ce8b08
-version: 1
-date: '2022-07-29'
+version: 2
+date: '2024-05-19'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies curl being utilized with a proxy based
-  on command-line arguments - -x, socks, --preproxy and --proxy. This behavior is
-  built into the MetaSploit Framework as a auxiliary module. What does socks buy an
-  adversary? SOCKS4a extends the SOCKS4 protocol to allow a client to specify a destination
-  domain name rather than an IP address. The SOCKS5 protocol is defined in RFC 1928.
-  It is an incompatible extension of the SOCKS4 protocol; it offers more choices for
-  authentication and adds support for IPv6 and UDP, the latter of which can be used
-  for DNS lookups. The protocols, and a proxy itself, allow an adversary to evade
-  controls in place monitoring traffic, making it harder for the defender to identify
-  and track activity.
+description: The following analytic detects the use of the `curl` command with proxy-related
+  arguments such as `-x`, `socks`, `--preproxy`, and `--proxy`. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  executions and process details. This activity is significant as it may indicate
+  an adversary attempting to use a proxy to evade network monitoring and obscure their
+  actions. If confirmed malicious, this behavior could allow attackers to bypass security
+  controls, making it difficult to track their activities and potentially leading
+  to unauthorized data access or exfiltration.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -89,7 +87,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/curl-linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/curl-linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

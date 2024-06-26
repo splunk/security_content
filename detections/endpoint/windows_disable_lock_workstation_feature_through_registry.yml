@@ -1,22 +1,26 @@
 name: Windows Disable Lock Workstation Feature Through Registry
 id: c82adbc6-9f00-11ec-a81f-acde48001122
-version: 3
-date: '2023-04-27'
+version: 4
+date: '2024-05-25'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a suspicious registry modification to disable
-  Lock Computer windows features. This registry modification prevent the user from
-  locking its screen or computer that are being abused by several malware for example
-  ransomware. This technique was used by threat actor to make its payload more impactful
-  to the compromised host.
+description: The following analytic detects a suspicious registry modification that
+  disables the Lock Computer feature in Windows. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path 
+  "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation"
+  with a value of "0x00000001". This activity is significant because it prevents users
+  from locking their screens, a tactic often used by malware, including ransomware,
+  to maintain control over compromised systems. If confirmed malicious, this could
+  allow attackers to sustain their presence and execute further malicious actions
+  without user interruption.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation"
-  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_lock_workstation_feature_through_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -60,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,24 +1,18 @@
 name: Detect Empire with PowerShell Script Block Logging
 id: bc1dc6b8-c954-11eb-bade-acde48001122
-version: 2
-date: '2023-04-14'
+version: 3
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  
-
-  This analytic identifies the common PowerShell stager used by PowerShell-Empire.
-  Each stager that may use PowerShell all uses the same pattern. The initial HTTP
-  will be base64 encoded and use `system.net.webclient`. Note that some obfuscation
-  may evade the analytic. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects suspicious PowerShell execution indicative
+  of PowerShell-Empire activity. It leverages PowerShell Script Block Logging (EventCode=4104)
+  to capture and analyze commands sent to PowerShell, specifically looking for patterns
+  involving `system.net.webclient` and base64 encoding. This behavior is significant
+  as it often represents initial stagers used by PowerShell-Empire, a known post-exploitation
+  framework. If confirmed malicious, this activity could allow attackers to download
+  and execute additional payloads, leading to potential code execution, data exfiltration,
+  or further compromise of the affected system.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104  (ScriptBlockText=*system.net.webclient* AND
@@ -76,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/empire.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/empire.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

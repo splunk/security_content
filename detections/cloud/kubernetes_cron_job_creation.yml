@@ -1,22 +1,25 @@
 name: Kubernetes Cron Job Creation
 id: 5984dbe8-572f-47d7-9251-3dff6c3f0c0d
-version: 1
-date: '2023-12-14'
+version: 2
+date: '2024-05-28'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of a Kubernetes cron job, a task scheduled to run automatically at specified intervals. 
-  It identifies this behavior by monitoring Kubernetes Audit logs for creation of a cron job. 
-  This behavior is worth identifying for a SOC as it could potentially allow an attacker to execute malicious tasks repeatedly and automatically, posing a significant threat to the integrity and security of the Kubernetes infrastructure. 
-  The impact of such an attack could be severe, leading to persistent attacks, service disruptions, or unauthorized access to sensitive information.
-data_source: 
+description: The following analytic detects the creation of a Kubernetes cron job,
+  which is a task scheduled to run automatically at specified intervals. It identifies
+  this activity by monitoring Kubernetes Audit logs for the creation events of cron
+  jobs. This behavior is significant for a SOC as it could allow an attacker to execute
+  malicious tasks repeatedly and automatically, posing a threat to the Kubernetes
+  infrastructure. If confirmed malicious, this activity could lead to persistent attacks,
+  service disruptions, or unauthorized access to sensitive information.
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` verb=create "objectRef.resource"=cronjobs
   | fillnull
   | stats count values(user.groups{}) as user_groups by kind objectRef.name objectRef.namespace objectRef.resource 
   requestObject.kind requestObject.spec.schedule requestObject.spec.jobTemplate.spec.template.spec.containers{}.image responseStatus.code sourceIPs{} stage user.username userAgent verb
   | rename sourceIPs{} as src_ip, user.username as user
-  | `kubernetes_cron_job_creation_filter` '
+  | `kubernetes_cron_job_creation_filter`'
 how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
   Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
   Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
@@ -48,24 +51,25 @@ tags:
   - Splunk Cloud
   required_fields:
   - user.groups{}
-  - kind 
-  - objectRef.name 
-  - objectRef.namespace 
-  - objectRef.resource 
-  - requestObject.kind 
-  - requestObject.spec.schedule 
-  - requestObject.spec.jobTemplate.spec.template.spec.containers{}.image 
-  - responseStatus.code 
-  - sourceIPs{} 
-  - stage 
-  - user.username 
-  - userAgent 
+  - kind
+  - objectRef.name
+  - objectRef.namespace
+  - objectRef.resource
+  - requestObject.kind
+  - requestObject.spec.schedule
+  - requestObject.spec.jobTemplate.spec.template.spec.containers{}.image
+  - responseStatus.code
+  - sourceIPs{}
+  - stage
+  - user.username
+  - userAgent
   - verb
   risk_score: 49
   security_domain: network
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.007/kubernetes_audit_cron_job_creation/kubernetes_audit_cron_job_creation.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.007/kubernetes_audit_cron_job_creation/kubernetes_audit_cron_job_creation.json
     sourcetype: _json
     source: kubernetes

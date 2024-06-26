@@ -1,16 +1,18 @@
 name: Excessive number of taskhost processes
 id: f443dac2-c7cf-11eb-ab51-acde48001122
-version: 3
-date: '2024-04-26'
+version: 4
+date: '2024-05-20'
 author: Michael Hart
 status: production
 type: Anomaly
-description: This detection targets behaviors observed in post exploit kits like Meterpreter
-  and Koadic that are run in memory.  We have observed that these tools must invoke
-  an excessive number of taskhost.exe and taskhostex.exe processes to complete various
-  actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course
-  of normal operations to see so many distinct taskhost and taskhostex processes running
-  concurrently in a short time frame.
+description: The following analytic identifies an excessive number of taskhost.exe
+  and taskhostex.exe processes running within a short time frame. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process names and
+  their counts. This behavior is significant as it is commonly associated with post-exploitation
+  tools like Meterpreter and Koadic, which use multiple instances of these processes
+  for actions such as discovery and lateral movement. If confirmed malicious, this
+  activity could indicate an ongoing attack, allowing attackers to execute code, escalate
+  privileges, or move laterally within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
@@ -42,7 +44,8 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 80
-  message: An excessive amount of taskhost.exe and taskhostex.exe was executed on $dest$ indicative of suspicious behavior.
+  message: An excessive amount of taskhost.exe and taskhostex.exe was executed on
+    $dest$ indicative of suspicious behavior.
   mitre_attack_id:
   - T1059
   observable:
@@ -65,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

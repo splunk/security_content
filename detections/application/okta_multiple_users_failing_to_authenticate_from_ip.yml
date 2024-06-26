@@ -1,21 +1,30 @@
 name: Okta Multiple Users Failing To Authenticate From Ip
 id: de365ffa-42f5-46b5-b43f-fa72290b8218
-version: 1
-date: '2024-03-06'
+version: 2
+date: '2024-05-28'
 author: Michael Haag, Mauricio Velazco, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: This analytic identifies instances where multiple users (more than 10 unique accounts) have failed to authenticate from a single IP address within a short time span (5 minutes) within an Okta tenant. Such a pattern can be indicative of malicious activities, such as brute-force attacks or password spraying attempts. Identifying and responding to such patterns promptly is crucial to prevent potential account compromises and unauthorized access to organizational resources. If the detection is a true positive, it suggests that an external entity is actively trying to breach security by targeting multiple user accounts. 
-search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime dc(Authentication.user) as unique_accounts values(Authentication.signature) as signature values(Authentication.user) as user values(Authentication.app) as app values(Authentication.authentication_method) as authentication_method
-    from datamodel=Authentication where Authentication.action="failure" AND Authentication.signature=user.session.start by _time span=5m Authentication.src sourcetype 
-  | where unique_accounts > 9
-  | `drop_dm_object_name("Authentication")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `okta_multiple_users_failing_to_authenticate_from_ip_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: A source Ip failing to authenticate with multiple users in a short period of time is not common legitimate behavior.
+description: The following analytic identifies instances where more than 10 unique
+  user accounts have failed to authenticate from a single IP address within a 5-minute
+  window in an Okta tenant. This detection uses OktaIm2 logs ingested via the Splunk
+  Add-on for Okta Identity Cloud. Such activity is significant as it may indicate
+  brute-force attacks or password spraying attempts. If confirmed malicious, this
+  behavior suggests an external entity is attempting to compromise multiple user accounts,
+  potentially leading to unauthorized access to organizational resources and data
+  breaches.
+search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+  min(_time) as firstTime dc(Authentication.user) as unique_accounts values(Authentication.signature)
+  as signature values(Authentication.user) as user values(Authentication.app) as app
+  values(Authentication.authentication_method) as authentication_method from datamodel=Authentication
+  where Authentication.action="failure" AND Authentication.signature=user.session.start
+  by _time span=5m Authentication.src sourcetype | where unique_accounts > 9 | `drop_dm_object_name("Authentication")`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_multiple_users_failing_to_authenticate_from_ip_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
+  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: A source Ip failing to authenticate with multiple users in
+  a short period of time is not common legitimate behavior.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://splunkbase.splunk.com/app/6553
@@ -25,7 +34,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 90
   impact: 60
-  message: Multiple users failing to authenticate from a single source IP Address - [$src$]. Investigate further to determine if this was authorized.
+  message: Multiple users failing to authenticate from a single source IP Address
+    - [$src$]. Investigate further to determine if this was authorized.
   mitre_attack_id:
   - T1110.003
   observable:
@@ -55,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/okta_multiple_users_from_ip/okta_multiple_users_from_ip.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/okta_multiple_users_from_ip/okta_multiple_users_from_ip.log
     source: Okta
     sourcetype: OktaIM2:log

@@ -1,24 +1,26 @@
 name: Excessive Usage of NSLOOKUP App
 id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
-version: 2
-date: '2022-06-03'
+version: 3
+date: '2024-05-15'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 status: production
 type: Anomaly
-description: This search is to detect potential DNS exfiltration using nslookup application.
-  This technique are seen in couple of malware and APT group to exfiltrated collected
-  data in a infected machine or infected network. This detection is looking for unique
-  use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
-  commonly used by attacker and also the retry parameter which is designed to query
-  C2 DNS multiple tries.
+description: The following analytic detects excessive usage of the nslookup application,
+  which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode
+  1 to monitor process executions, specifically focusing on nslookup.exe. The detection
+  identifies outliers by comparing the frequency of nslookup executions against a
+  calculated threshold. This activity is significant as it can reveal attempts by
+  malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious,
+  this behavior could allow attackers to stealthily transfer sensitive information
+  out of the network, bypassing traditional data exfiltration defenses.
 data_source:
 - Sysmon EventID 1
 search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" | bucket _time span=1m
-  | stats count as numNsLookup by dest, _time | eventstats avg(numNsLookup) as
-  avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by dest |
-  eval upperThreshold=(avgNsLookup + stdNsLookup *3) | eval isOutlier=if(numNsLookup
-  > 20 and numNsLookup >= upperThreshold, 1, 0) | search isOutlier=1 | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `excessive_usage_of_nslookup_app_filter`'
+  | stats count as numNsLookup by dest, _time | eventstats avg(numNsLookup) as avgNsLookup,
+  stdev(numNsLookup) as stdNsLookup, count as numSlots by dest | eval upperThreshold=(avgNsLookup
+  + stdNsLookup *3) | eval isOutlier=if(numNsLookup > 20 and numNsLookup >= upperThreshold,
+  1, 0) | search isOutlier=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `excessive_usage_of_nslookup_app_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -60,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

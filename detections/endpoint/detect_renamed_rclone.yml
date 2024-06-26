@@ -1,16 +1,17 @@
 name: Detect Renamed RClone
 id: 6dca1124-b3ec-11eb-9328-acde48001122
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the usage of `rclone.exe`, renamed,
-  being used to exfiltrate data to a remote destination. RClone has been used by multiple
-  ransomware groups to exfiltrate data. In many instances, it will be downloaded from
-  the legitimate site and executed accordingly. During triage, isolate the endpoint
-  and begin to review parallel processes for additional behavior. At this stage, the
-  adversary may have staged data to be exfiltrated.
+description: The following analytic detects the execution of a renamed `rclone.exe`
+  process, which is commonly used for data exfiltration to remote destinations. This
+  detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on
+  process names and original file names that do not match. This activity is significant
+  because ransomware groups often use RClone to exfiltrate sensitive data. If confirmed
+  malicious, this behavior could indicate an ongoing data exfiltration attempt, potentially
+  leading to significant data loss and further compromise of the affected systems.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -85,6 +86,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

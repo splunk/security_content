@@ -1,39 +1,26 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
-version: 5
-date: '2023-07-10'
+version: 6
+date: '2024-05-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the usage of Exchange PowerShell modules
-  that were recently used for a proof of concept related to ProxyShell. Adversaries
-  may abuse a limited set of PwSh Modules related to Exchange once gained access via
-  ProxyShell or ProxyNotShell.
-
-  Inherently, the usage of the modules is not malicious, but reviewing parallel processes,
-  and user, of the session will assist with determining the intent. 
-
-  Module - New-MailboxExportRequest will begin the process of exporting contents of
-  a primary mailbox or archive to a .pst file. 
-
-  Module - New-managementroleassignment can assign a management role to a management
-  role group, management role assignment policy, user, or universal security group
-  (USG). 
-
-  Module - New-MailboxSearch cmdlet to create a mailbox search and either get an estimate
-  of search results, place search results on In-Place Hold or copy them to a Discovery
-  mailbox. You can also place all contents in a mailbox on hold by not specifying
-  a search query, which accomplishes similar results as Litigation Hold. \ Module
-  - Get-Recipient cmdlet to view existing recipient objects in your organization.
-  This cmdlet returns all mail-enabled objects (for example, mailboxes, mail users,
-  mail contacts, and distribution groups).'
+description: 'The following analytic detects the usage of specific Exchange PowerShell
+  modules, such as New-MailboxExportRequest, New-ManagementRoleAssignment, New-MailboxSearch,
+  and Get-Recipient. It leverages PowerShell Script Block Logging (EventCode 4104)
+  to identify these commands. This activity is significant because these modules can
+  be exploited by adversaries who have gained access via ProxyShell or ProxyNotShell
+  vulnerabilities. If confirmed malicious, attackers could export mailbox contents,
+  assign management roles, conduct mailbox searches, or view recipient objects, potentially
+  leading to data exfiltration, privilege escalation, or unauthorized access to sensitive
+  information.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*",
   "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "Search-Mailbox")
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `exchange_powershell_module_usage_filter`'
+  UserID EventCode ScriptBlockText | rename Computer as dest |rename UserID as user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `exchange_powershell_module_usage_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -84,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

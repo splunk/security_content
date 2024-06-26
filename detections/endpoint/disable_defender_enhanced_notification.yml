@@ -1,14 +1,19 @@
 name: Disable Defender Enhanced Notification
 id: dc65678c-301f-11ec-8e30-acde48001122
-version: 3
-date: '2023-12-27'
+version: 4
+date: '2024-05-24'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is intended to detect a suspicious modification of registry
-  to disable windows defender features. This technique attempts to bypass or evade
-  detection from Windows Defender AV, specifically the Enhanced Notification feature
-  where a user or admin would receive alerts.
+description: The following analytic detects the modification of the registry to disable
+  Windows Defender's Enhanced Notification feature. It leverages data from Endpoint
+  Detection and Response (EDR) agents, specifically monitoring changes to the registry
+  path associated with Windows Defender reporting. This activity is significant because
+  disabling Enhanced Notifications can prevent users and administrators from receiving
+  critical security alerts, potentially allowing malicious activities to go unnoticed.
+  If confirmed malicious, this action could enable an attacker to bypass detection
+  mechanisms, maintain persistence, and escalate their activities without triggering
+  alerts.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 12
@@ -25,7 +30,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime
   | fields firstTime lastTime dest user parent_process_name parent_process process_name
   process_path process registry_key_name registry_path registry_value_name registry_value_data
   process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `disable_defender_antivirus_registry_filter`'
+  | `security_content_ctime(lastTime)` | `disable_defender_enhanced_notification_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -86,6 +91,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

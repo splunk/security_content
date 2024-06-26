@@ -1,28 +1,32 @@
 name: Windows AD Cross Domain SID History Addition
 id: 41bbb371-28ba-439c-bb5c-d9930c28365d
-version: 1
-date: '2022-11-17'
+version: 2
+date: '2024-05-11'
 author: Dean Luxton
 type: TTP
 status: production
-data_source: 
+data_source:
 - Windows Event Log Security 4742
 - Windows Event Log Security 4738
-description: The following analytic looks for changes to the sIDHistory AD attribute of user or computer objects within different domains. 
- The SID history AD attribute allows users to inherit permissions from a separate AD account without group changes. Initially developed for access
- continuity when migrating user accounts to different domains, this attribute can also be abused by adversaries for inter-domain privilege escalation and persistence. 
-search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -)
- | rex field=SidHistory "(^%{|^)(?P<SidHistoryMatch>.*)(\-|\\\)"
- | rex field=TargetSid "^(?P<TargetSidmatch>.*)(\-|\\\)"
- | where SidHistoryMatch!=TargetSidmatch AND SidHistoryMatch!=TargetDomainName
- | rename TargetSid as userSid
- | table _time action status host user userSid SidHistory Logon_ID src_user
- | `windows_ad_cross_domain_sid_history_addition_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting eventcodes
- `4738` and `4742`. The Advanced Security Audit policy settings
- `Audit User Account Management` and  `Audit Computer Account Management`
- within `Account Management` all need to be enabled.
-known_false_positives: Domain mergers and migrations may generate large volumes of false positives for this analytic. 
+description: The following analytic detects changes to the sIDHistory attribute of
+  user or computer objects across different domains. It leverages Windows Security
+  Event Codes 4738 and 4742 to identify when the sIDHistory attribute is modified.
+  This activity is significant because the sIDHistory attribute allows users to inherit
+  permissions from other AD accounts, which can be exploited by adversaries for inter-domain
+  privilege escalation and persistence. If confirmed malicious, this could enable
+  attackers to gain unauthorized access to resources, maintain persistence, and escalate
+  privileges across domain boundaries.
+search: '`wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory
+  IN ("%%1793", -) | rex field=SidHistory "(^%{|^)(?P<SidHistoryMatch>.*)(\-|\\\)"
+  | rex field=TargetSid "^(?P<TargetSidmatch>.*)(\-|\\\)" | where SidHistoryMatch!=TargetSidmatch
+  AND SidHistoryMatch!=TargetDomainName | rename TargetSid as userSid | table _time
+  action status host user userSid SidHistory Logon_ID src_user | `windows_ad_cross_domain_sid_history_addition_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  eventcodes `4738` and `4742`. The Advanced Security Audit policy settings `Audit
+  User Account Management` and  `Audit Computer Account Management` within `Account
+  Management` all need to be enabled.
+known_false_positives: Domain mergers and migrations may generate large volumes of
+  false positives for this analytic.
 references:
 - https://adsecurity.org/?p=1772
 - https://learn.microsoft.com/en-us/windows/win32/adschema/a-sidhistory?redirectedfrom=MSDN
@@ -64,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/mimikatz/windows-security-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/mimikatz/windows-security-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

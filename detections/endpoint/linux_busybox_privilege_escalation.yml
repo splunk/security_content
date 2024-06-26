@@ -1,15 +1,18 @@
 name: Linux Busybox Privilege Escalation
 id: 387c4e78-f4a4-413d-ad44-e9f7bc4642c9
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-27'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: BusyBox combines tiny versions of many common UNIX utilities into a single
-  small executable. It provides minimalist replacements for most of the utilities
-  you usually find in GNU coreutils, util-linux, etc. If sudo right is given to BusyBox
-  application for the user, then the user can run system commands as root and possibly
-  get a root shell.
+description: The following analytic detects the execution of BusyBox with sudo privileges,
+  which can lead to privilege escalation on Linux systems. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process creation events
+  where BusyBox is executed with both 'sh' and 'sudo' commands. This activity is significant
+  because it indicates a user may be attempting to gain root access, bypassing standard
+  security controls. If confirmed malicious, this could allow an attacker to execute
+  arbitrary commands as root, leading to full system compromise and potential persistence
+  within the environment.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/busybox/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/busybox/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

@@ -1,20 +1,27 @@
 name: O365 ApplicationImpersonation Role Assigned
 id: 49cdce75-f814-4d56-a7a4-c64ec3a481f2
-version: 1
-date: '2023-10-17'
+version: 2
+date: '2024-05-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - O365
-description: The following analytic identifies the assignment of the ApplicationImpersonation role in Office 365, either to a user or an application. This analytic leverages the Office 365 Management Activity API, specifically monitoring for events related to role assignments and changes within the Azure Active Directory audit logs. The ApplicationImpersonation role allows a security principal to impersonate any user within the organization and perform actions on their behalf, such as accessing or modifying their mailbox. This role, if misused or granted inappropriately, can pose a significant security risk. Monitoring the assignment of this role is crucial as it can be an indicator of potential malicious activity or misconfigurations. If an attacker successfully assigns the ApplicationImpersonation role to a malicious user or application, they can gain the ability to impersonate any user within the organization. This can lead to unauthorized access to sensitive information, manipulation of mailbox data, and other malicious actions. The attacker can effectively masquerade as a legitimate user, making their actions harder to detect and potentially causing significant harm to the organization.
+description: The following analytic detects the assignment of the ApplicationImpersonation
+  role in Office 365 to a user or application. It uses the Office 365 Management Activity
+  API to monitor Azure Active Directory audit logs for role assignment events. This
+  activity is significant because the ApplicationImpersonation role allows impersonation
+  of any user, enabling access to and modification of their mailbox. If confirmed
+  malicious, an attacker could gain unauthorized access to sensitive information,
+  manipulate mailbox data, and perform actions as a legitimate user, posing a severe
+  security risk to the organization.
 search: '`o365_management_activity` Workload=Exchange Operation="New-ManagementRoleAssignment"  Role=ApplicationImpersonation
-  |  rename User as target_user
-  | stats  max(_time) as lastTime by Operation, user, object, ObjectId, Role, target_user
-  | `security_content_ctime(lastTime)`
-  | `o365_applicationimpersonation_role_assigned_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: While infrequent, the ApplicationImpersonation role may be granted for leigimate reasons, filter as needed.
+  |  rename User as target_user | stats  max(_time) as lastTime by Operation, user,
+  object, ObjectId, Role, target_user | `security_content_ctime(lastTime)` | `o365_applicationimpersonation_role_assigned_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: While infrequent, the ApplicationImpersonation role may be
+  granted for leigimate reasons, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/002/
 - https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
@@ -58,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/application_impersonation_role_assigned/application_impersonation_role_assigned.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/application_impersonation_role_assigned/application_impersonation_role_assigned.log
     source: O365
     sourcetype: o365:management:activity

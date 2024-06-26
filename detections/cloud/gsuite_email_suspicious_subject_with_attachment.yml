@@ -1,19 +1,19 @@
 name: Gsuite Email Suspicious Subject With Attachment
 id: 8ef3971e-00f2-11ec-b54f-acde48001122
-version: 1
-date: '2021-08-19'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect a gsuite email contains suspicious subject having
-  known file type used in spear phishing. This technique is a common and effective
-  entry vector of attacker to compromise a network by luring the user to click or
-  execute the suspicious attachment send from external email account because of the
-  effective social engineering of subject related to delivery, bank and so on. On
-  the other hand this detection may catch a normal email traffic related to legitimate
-  transaction so better to check the email sender, spelling and etc. avoid click link
-  or opening the attachment if you are not expecting this type of e-mail.
-data_source: 
+description: The following analytic identifies Gsuite emails with suspicious subjects
+  and attachments commonly used in spear phishing attacks. It leverages Gsuite email
+  logs, focusing on specific keywords in the subject line and known malicious file
+  types in attachments. This activity is significant for a SOC as spear phishing is
+  a prevalent method for initial compromise, often leading to further malicious actions.
+  If confirmed malicious, this activity could result in unauthorized access, data
+  exfiltration, or further malware deployment, posing a significant risk to the organization's
+  security.
+data_source:
 - G Suite Gmail
 search: '`gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *",
   "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps
@@ -65,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log
     source: http:gsuite
     sourcetype: gsuite:gmail:bigquery

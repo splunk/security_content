@@ -1,16 +1,17 @@
 name: Linux File Creation In Init Boot Directory
 id: 97d9cfb2-61ad-11ec-bb2d-acde48001122
-version: 1
-date: '2021-12-20'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for suspicious file creation on init system directories
-  for automatic execution of script or file upon boot up. This technique is commonly
-  abuse by adversaries, malware author and red teamer to persist on the targeted or
-  compromised host. This behavior can be executed or use by an administrator or network
-  operator to add script files or binary files as part of a task or automation. filter
-  is needed.
+description: The following analytic detects the creation of files in Linux init boot
+  directories, which are used for automatic execution upon system startup. It leverages
+  file system logs to identify new files in directories such as /etc/init.d/ and /etc/rc.d/.
+  This activity is significant as it is a common persistence technique used by adversaries,
+  malware authors, and red teamers. If confirmed malicious, this could allow an attacker
+  to maintain persistence on the compromised host, potentially leading to further
+  exploitation and unauthorized control over the system.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -57,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

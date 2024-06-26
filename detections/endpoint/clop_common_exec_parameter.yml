@@ -1,17 +1,18 @@
 name: Clop Common Exec Parameter
 id: 5a8a2a72-8322-11eb-9ee9-acde48001122
-version: 2
-date: '2023-03-17'
+version: 3
+date: '2024-05-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytics are designed to identifies some CLOP ransomware
-  variant that using arguments to execute its main code or feature of its code. In
-  this variant if the parameter is "runrun", CLOP ransomware will try to encrypt files
-  in network shares and if it is "temp.dat", it will try to read from some stream
-  pipe or file start encrypting files within the infected local machines. This technique
-  can be also identified as an anti-sandbox technique to make its code non-responsive
-  since it is waiting for some parameter to execute properly.
+description: The following analytic identifies the execution of CLOP ransomware variants
+  using specific arguments ("runrun" or "temp.dat") to trigger their malicious activities.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and command-line arguments. Monitoring this activity is
+  crucial as it indicates potential ransomware behavior, which can lead to file encryption
+  on network shares or local machines. If confirmed malicious, this activity could
+  result in significant data loss and operational disruption due to encrypted files,
+  highlighting the need for immediate investigation and response.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -83,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_b/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_b/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

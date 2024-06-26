@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   domain as query OUTPUT rank | where isnull(rank) | eventstats max(count) as mc by
   src reply_code | eval mode_query=if(count=mc, query, null()) | stats sum(count)
   as count values(mode_query) as query values(mc) as max_query_count by src reply_code
-  | where count>50 | `get_asset(src)` | `excessive_dns_failures_filter` '
+  | where count>50 | `get_asset(src)` | `excessive_dns_failures_filter`'
 how_to_implement: To successfully implement this search you must ensure that DNS data
   is populating the Network_Resolution data model.
 known_false_positives: It is possible legitimate traffic can trigger this rule. Please

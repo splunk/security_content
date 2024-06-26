@@ -1,14 +1,17 @@
 name: Windows Impair Defense Add Xml Applocker Rules
 id: 467ed9d9-8035-470e-ad5e-ae5189283033
-version: 1
-date: '2022-06-24'
+version: 2
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic is to identify a process that imports applocker
-  xml policy using PowerShell commandlet. This technique was seen in Azorult malware
-  where it drop an xml Applocker policy that will deny several AV products and further
-  executed the PowerShell Applocker commandlet.
+description: The following analytic detects the use of a PowerShell commandlet to
+  import an AppLocker XML policy. This behavior is identified by monitoring processes
+  that execute the "Import-Module Applocker" and "Set-AppLockerPolicy" commands with
+  the "-XMLPolicy" parameter. This activity is significant because it can indicate
+  an attempt to disable or bypass security controls, as seen in the Azorult malware.
+  If confirmed malicious, this could allow an attacker to disable antivirus products,
+  leading to further compromise and persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -64,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

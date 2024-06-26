@@ -1,16 +1,18 @@
 name: Runas Execution in CommandLine
 id: 4807e716-43a4-11ec-a0e7-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic look for a spawned runas.exe process with a administrator
-  user option parameter. This parameter was abused by adversaries, malware author
-  or even red teams to gain elevated privileges in target host. This is a good hunting
-  query to figure out privilege escalation tactics that may used for different stages
-  like lateral movement but take note that administrator may use this command in purpose
-  so its better to see other event context before and after this analytic.
+description: The following analytic detects the execution of the runas.exe process
+  with administrator user options. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on command-line executions and process details. This activity
+  is significant as it may indicate an attempt to gain elevated privileges, a common
+  tactic in privilege escalation and lateral movement. If confirmed malicious, this
+  could allow an attacker to execute commands with higher privileges, potentially
+  leading to unauthorized access, data exfiltration, or further compromise of the
+  target host.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -69,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

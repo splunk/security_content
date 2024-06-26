@@ -1,18 +1,23 @@
 name: UAC Bypass With Colorui COM Object
 id: 2bcccd20-fc2b-11eb-8d22-acde48001122
-version: 1
-date: '2021-08-13'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a possible uac bypass using the colorui.dll
-  COM Object. this technique was seen in so many malware and ransomware like lockbit
-  where it make use of the colorui.dll COM CLSID to bypass UAC.
+description: The following analytic detects a potential UAC bypass using the colorui.dll
+  COM Object. It leverages Sysmon EventCode 7 to identify instances where colorui.dll
+  is loaded by a process other than colorcpl.exe, excluding common system directories.
+  This activity is significant because UAC bypass techniques are often used by malware,
+  such as LockBit ransomware, to gain elevated privileges without user consent. If
+  confirmed malicious, this could allow an attacker to execute code with higher privileges,
+  leading to further system compromise and persistence within the environment.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe"
   NOT(Image IN("*\\windows\\*", "*\\program files*")) | stats count min(_time) as
-  firstTime max(_time) as lastTime by Image ImageLoaded process_name dest user_id EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  firstTime max(_time) as lastTime by Image ImageLoaded process_name dest user_id
+  EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `uac_bypass_with_colorui_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -28,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 60
-  message: The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $dest$.
+  message: The following module $ImageLoaded$ was loaded by a non-standard application
+    on endpoint $dest$.
   mitre_attack_id:
   - T1218
   - T1218.003
@@ -59,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

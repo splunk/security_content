@@ -1,29 +1,27 @@
 name: Windows Impair Defense Disable PUA Protection
 id: fbfef407-cfee-4866-88c1-f8de1c16147c
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
-  PUA protection.
-  Setting PUAProtection to 0 typically disables the detection and protection against Potentially Unwanted Applications 
-  by Microsoft Defender Antivirus. Potentially Unwanted Applications include software that may not be inherently 
-  malicious but could exhibit behaviors that users may find undesirable, such as adware, browser toolbars, or software bundlers.
-  Disabling this feature might be preferred in certain situations, but it's essential to consider potential security implications. 
-  Enabling PUA protection provides an additional layer of defense against software that might negatively impact user experience 
-  or security.
+description: The following analytic detects a modification in the Windows registry
+  to disable Windows Defender PUA protection by setting PUAProtection to 0. This detection
+  leverages data from the Endpoint.Registry datamodel, focusing on registry path changes
+  related to Windows Defender. Disabling PUA protection is significant as it reduces
+  defenses against Potentially Unwanted Applications (PUAs), which, while not always
+  malicious, can negatively impact user experience and security. If confirmed malicious,
+  this activity could allow an attacker to introduce adware, browser toolbars, or
+  other unwanted software, potentially compromising system integrity and user productivity.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\PUAProtection"
-  Registry.registry_value_data="0x00000000"
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_disable_pua_protection_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\PUAProtection" Registry.registry_value_data="0x00000000" by Registry.registry_key_name
+  Registry.user Registry.registry_path Registry.registry_value_data Registry.action
+  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_disable_pua_protection_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -67,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

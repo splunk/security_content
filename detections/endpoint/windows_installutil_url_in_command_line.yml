@@ -1,24 +1,18 @@
 name: Windows InstallUtil URL in Command Line
 id: 28e06670-43df-11ec-a569-acde48001122
-version: 1
-date: '2021-11-12'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the Windows InstallUtil.exe binary
-  passing a HTTP request on the command-line. This technique may be used to download
-  and execute code while bypassing application control. 
-
-  When `InstallUtil.exe` is used in a malicous manner, the path to an executable on
-  the filesystem is typically specified. Take note of the parent process. In a suspicious
-  instance, this will be spawned from a non-standard process like `Cmd.exe`, `PowerShell.exe`
-  or `Explorer.exe`. 
-
-  If used by a developer, typically this will be found with multiple command-line
-  switches/arguments and spawn from Visual Studio. 
-
-  During triage review resulting network connections, file modifications, and parallel
-  processes. Capture any artifacts and review further.'
+description: 'The following analytic detects the use of Windows InstallUtil.exe with
+  an HTTP or HTTPS URL in the command line. This is identified through Endpoint Detection
+  and Response (EDR) telemetry, focusing on command-line executions containing URLs.
+  This activity is significant as it may indicate an attempt to download and execute
+  malicious code, potentially bypassing application control mechanisms. If confirmed
+  malicious, this could lead to unauthorized code execution, privilege escalation,
+  or persistent access within the environment. Analysts should review the parent process,
+  network connections, file modifications, and related processes for further investigation.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -93,6 +87,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

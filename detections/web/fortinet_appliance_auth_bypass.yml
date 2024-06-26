@@ -1,31 +1,19 @@
 name: Fortinet Appliance Auth bypass
 id: a83122f2-fa09-4868-a230-544dbc54bc1c
-version: 1
-date: '2022-10-14'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'CVE-2022-40684 is a Fortinet appliance auth bypass that is actively
-  being exploited and a POC is released publicy. The POC adds a SSH key to the appliance.
-  Note that the exploit can be used with any HTTP method (GET, POST, PUT, DELETE,
-  etc). The REST API request failing is not an indication that an attacker was unsuccessful.
-  Horizon3 was able to modify the admin SSH keys though a REST API request that reportedly
-  failed. The collection /api/v2/ endpoints can be used to configure the system and
-  modify the administrator user. Any logs found that meet the above conditions and
-  also have a URL containing /api/v2/ should be cause for concern. Further investigation
-  of any matching log entries can reveal any damage an attack has done. Additionally,
-  an attacker may perform the following actions to further compromise a system Modify
-  the admin SSH key to enable the attacker to login to the compromised system. 
-
-  Add new local users. 
-
-  Update networking configurations to reroute traffic. 
-
-  Download the system configuration. 
-
-  Initiate packet captures to capture other sensitive system information. Reference
-  Horizon3.ai'
-data_source: 
+description: 'The following analytic detects attempts to exploit CVE-2022-40684, a
+  Fortinet appliance authentication bypass vulnerability. It identifies REST API requests
+  to the /api/v2/ endpoint using various HTTP methods (GET, POST, PUT, DELETE) that
+  may indicate unauthorized modifications, such as adding SSH keys or creating new
+  users. This detection leverages the Web datamodel to monitor specific URL patterns
+  and HTTP methods. This activity is significant as it can lead to unauthorized access
+  and control over the appliance. If confirmed malicious, attackers could gain persistent
+  access, reroute network traffic, or capture sensitive information.'
+data_source:
 - Palo Alto Network Threat
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
   where Web.url IN ("*/api/v2/cmdb/system/admin*")  Web.http_method IN ("GET", "PUT")
@@ -82,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
     source: pan:threat
     sourcetype: pan:threat
     update_timestamp: true

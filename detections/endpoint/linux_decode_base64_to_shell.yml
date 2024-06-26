@@ -1,12 +1,12 @@
 name: Linux Decode Base64 to Shell
 id: 637b603e-1799-40fd-bf87-47ecbd551b66
-version: 1
-date: '2022-07-27'
+version: 2
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects the behavior of decoding base64-encoded data and passing it to a Linux shell. Additionally, it mitigates the potential damage and protects the organization's systems and data.The detection is made by searching for specific commands in the Splunk query, namely "base64 -d" and "base64 --decode", within the Endpoint.Processes data model. The analytic also includes a filter for Linux shells. The detection is important because  it indicates the presence of malicious activity since Base64 encoding is commonly used to obfuscate malicious commands or payloads, and decoding it can be a step in running those commands. It suggests that an attacker is attempting to run malicious commands on a Linux system to gain unauthorized access, for data exfiltration, or perform other malicious actions.
+  The following analytic detects the decoding of base64-encoded data and its execution in a Linux shell. It leverages the Endpoint.Processes data model to search for commands like "base64 -d" and "base64 --decode" combined with Linux shell execution. This activity is significant because base64 encoding is often used to obfuscate malicious commands or payloads, indicating potential malicious activity. If confirmed malicious, this behavior could allow an attacker to execute unauthorized commands, gain unauthorized access, exfiltrate data, or perform other harmful actions on the Linux system.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +80,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

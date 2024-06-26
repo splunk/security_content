@@ -1,17 +1,17 @@
 name: Windows Steal Authentication Certificates CryptoAPI
 id: 905d5692-6d7c-432f-bc7e-a6b4f464d40e
-version: 1
-date: '2023-02-08'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic utilizes a Windows Event Log - CAPI2 - or CryptoAPI
-  2, to identify suspicious certificate extraction. Typically, this event log is meant
-  for diagnosing PKI issues, however is a great source to identify certificate exports.
-  Note that this event log is noisy as it captures common PKI requests from many different
-  processes. EventID 70 is generated anytime a certificate is exported. The description
-  for EventID 70 is "Acquire Certificate Private Key". STRT tested this analytic using
-  Mimikatz binary and the implementation of Mimikatz in Cobalt Strike.
+description: The following analytic detects the extraction of authentication certificates
+  using Windows Event Log - CAPI2 (CryptoAPI 2). It leverages EventID 70, which is
+  generated when a certificate's private key is acquired. This detection is significant
+  because it can identify potential misuse of certificates, such as those extracted
+  by tools like Mimikatz or Cobalt Strike. If confirmed malicious, this activity could
+  allow attackers to impersonate users, escalate privileges, or access sensitive information,
+  posing a severe risk to the organization's security.
 data_source:
 - Windows Event Log CAPI2 70
 search: '`capi2_operational` EventCode=70 | xmlkv UserData_Xml | stats count min(_time)
@@ -53,7 +53,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/capi2-operational.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/capi2-operational.log
     source: XmlWinEventLog:Microsoft-Windows-CAPI2/Operational
     sourcetype: XmlWinEventLog
     update_timestamp: true

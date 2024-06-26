@@ -1,20 +1,36 @@
 name: AWS Exfiltration via EC2 Snapshot
 id: ac90b339-13fc-4f29-a18c-4abbba1f2171
-version: 1
-date: '2023-03-22'
+version: 2
+date: '2024-05-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - AWS CloudTrail CreateSnapshot
 - AWS CloudTrail DescribeSnapshotAttribute
 - AWS CloudTrail ModifySnapshotAttribute
 - AWS CloudTrail DeleteSnapshot
-description: This search detects a series of AWS API calls, made in a short time window, related to EC2 snapshots that can detect a potential exfiltration via EC2 Snapshot modifications. In this attack, the attacker typically proceeds by listing and creating EC2 snapshots of the available EC2 instances followed by modifying snapshot attributes such that it can be shared externally. Once this is done, the attacker can then load that EC2 snapshot and access all the sensitive information. 
-search: '`cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com" |  bin _time span=5m |  stats count dc(eventName) as distinct_api_calls values(eventName)  values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(userAgent) as userAgent by _time userName src_ip aws_account_id | where distinct_api_calls >= 2 | `aws_exfiltration_via_ec2_snapshot_filter`'
+description: The following analytic detects a series of AWS API calls related to EC2
+  snapshots within a short time window, indicating potential exfiltration via EC2
+  Snapshot modifications. It leverages AWS CloudTrail logs to identify actions such
+  as creating, describing, and modifying snapshot attributes. This activity is significant
+  as it may indicate an attacker attempting to exfiltrate data by sharing EC2 snapshots
+  externally. If confirmed malicious, the attacker could gain access to sensitive
+  information stored in the snapshots, leading to data breaches and potential compliance
+  violations.
+search: '`cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute",
+  "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com"
+  |  bin _time span=5m |  stats count dc(eventName) as distinct_api_calls values(eventName)  values(requestParameters.attributeType)
+  as attributeType values(requestParameters.createVolumePermission.add.items{}.userId)
+  as aws_account_id_added values(userAgent) as userAgent by _time userName src_ip
+  aws_account_id | where distinct_api_calls >= 2 | `aws_exfiltration_via_ec2_snapshot_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs. We have intentionally removed `guardduty.amazonaws.com` from src_ip to remove false positives caused by guard duty. We recommend you adjust the time window as per your environment. 
-known_false_positives: It is possible that an AWS admin has legitimately shared a snapshot with an other account for a specific purpose. Please check any recent change requests filed in your organization. 
+  search works with AWS CloudTrail logs. We have intentionally removed `guardduty.amazonaws.com`
+  from src_ip to remove false positives caused by guard duty. We recommend you adjust
+  the time window as per your environment.
+known_false_positives: It is possible that an AWS admin has legitimately shared a
+  snapshot with an other account for a specific purpose. Please check any recent change
+  requests filed in your organization.
 references:
 - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
 - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html
@@ -27,7 +43,8 @@ tags:
   asset_type: EC2 Snapshot
   confidence: 80
   impact: 80
-  message: Potential AWS EC2 Exfiltration detected on account id - $aws_account_id$ by user $userName$ from src_ip $src_ip$
+  message: Potential AWS EC2 Exfiltration detected on account id - $aws_account_id$
+    by user $userName$ from src_ip $src_ip$
   mitre_attack_id:
   - T1537
   observable:
@@ -63,7 +80,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

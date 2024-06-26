@@ -1,19 +1,19 @@
 name: Splunk Process Injection Forwarder Bundle Downloads
 id: 8ea57d78-1aac-45d2-a913-0cd603fb6e9e
-version: 1
-date: '2022-05-26'
+version: 2
+date: '2024-05-23'
 author: Lou Stella, Splunk
 status: production
 type: Hunting
-description: On June 14th, 2022, Splunk released a security advisory relating to the
-  authentication that happens between Universal Forwarders and Deployment Servers.
-  In some circumstances, an unauthenticated client can download forwarder bundles
-  from the Deployment Server. This hunting search pulls a full list of forwarder bundle
-  downloads where the peer column is the forwarder, the host column is the Deployment
-  Server, and then you have a list of the apps downloaded and the serverclasses in
-  which the peer is a member of. You should look for apps or clients that you do not
-  recognize as being part of your environment.
-data_source: 
+description: The following analytic identifies unauthorized forwarder bundle downloads
+  from Splunk Deployment Servers. It leverages native Splunk logs, specifically the
+  `splunkd` component "PackageDownloadRestHandler," to detect instances where an unauthenticated
+  client may have downloaded forwarder bundles. This activity is significant because
+  it could indicate a potential security breach, allowing unauthorized access to sensitive
+  configurations and applications. If confirmed malicious, an attacker could gain
+  insights into the deployment server's environment, potentially leading to further
+  exploitation or lateral movement within the network.
+data_source:
 - Splunk
 search: '`splunkd` component="PackageDownloadRestHandler" | stats values(app) values(serverclass)
   by peer, host | `splunk_process_injection_forwarder_bundle_downloads_filter`'
@@ -60,7 +60,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/splunk_ds/splunkd.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/splunk_ds/splunkd.log
     source: /opt/splunk/var/log/splunk/splunkd.log
     sourcetype: splunkd
     update_timestamp: false

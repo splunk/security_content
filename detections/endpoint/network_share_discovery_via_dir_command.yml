@@ -1,30 +1,31 @@
 name: Network Share Discovery Via Dir Command
 id: dc1457d0-1d9b-422e-b5a7-db46c184d9aa
-version: 1
-date: '2023-05-23'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
 - Windows Event Log Security 5140
-description: The following analytic identifies object access on Windows administrative SMB shares (Admin$, IPC$, C$). 
-  This represents suspicious behavior as its commonly used by tools like PsExec/PaExec and others
-  to stage service binaries before creating and starting a Windows service on remote
-  endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral
-  movement and remote code execution. The IcedID malware family also implements
-  this behavior to try to infect other machines in the infected network.
-search: '`wineventlog_security` EventCode=5140 ShareName IN("\\\\*\\ADMIN$","\\\\*\\C$","*\\\\*\\IPC$") AccessMask= 0x1 
-  | stats min(_time) as firstTime max(_time) as lastTime count by ShareName IpAddress ObjectType SubjectUserName SubjectDomainName IpPort AccessMask Computer
-  | rename Computer as dest
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic detects access to Windows administrative SMB shares
+  (Admin$, IPC$, C$) using the 'dir' command. It leverages Windows Security Event
+  Logs with EventCode 5140 to identify this activity. This behavior is significant
+  as it is commonly used by tools like PsExec/PaExec for staging binaries before creating
+  and starting services on remote endpoints, a technique often employed by adversaries
+  for lateral movement and remote code execution. If confirmed malicious, this activity
+  could allow attackers to propagate malware, such as IcedID, across the network,
+  leading to widespread infection and potential data breaches.
+search: '`wineventlog_security` EventCode=5140 ShareName IN("\\\\*\\ADMIN$","\\\\*\\C$","*\\\\*\\IPC$")
+  AccessMask= 0x1 | stats min(_time) as firstTime max(_time) as lastTime count by
+  ShareName IpAddress ObjectType SubjectUserName SubjectDomainName IpPort AccessMask
+  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `network_share_discovery_via_dir_command_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 5140 EventCode enabled. The Windows TA is also
   required. Also enable the object Audit access success/failure in your group policy.
-known_false_positives: System Administrators may use looks like net.exe or "dir commandline" for troubleshooting
-  or administrations tasks. However, this will typically come only from certain users
-  and certain systems that can be added to an allow list.
+known_false_positives: System Administrators may use looks like net.exe or "dir commandline"
+  for troubleshooting or administrations tasks. However, this will typically come
+  only from certain users and certain systems that can be added to an allow list.
 references:
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
@@ -51,7 +52,7 @@ tags:
   risk_score: 25
   required_fields:
   - _time
-  - ShareName 
+  - ShareName
   - IpAddress
   - ObjectType
   - SubjectUserName
@@ -63,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share_discovery_via_dir/smb_access_security_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share_discovery_via_dir/smb_access_security_xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

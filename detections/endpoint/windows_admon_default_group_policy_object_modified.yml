@@ -1,24 +1,30 @@
 name: Windows Admon Default Group Policy Object Modified
 id: 83458004-db60-4170-857d-8572f16f070b
-version: 1
-date: '2023-03-29'
+version: 2
+date: '2024-05-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source : 
+data_source:
 - Windows Active Directory Admon
-description: The following analytic leverages Splunks Admon to identify the modification of a default Group Policy Object. A fresh installation of an Active Directory network will typically contain
-  two default group policy objects `Default Domain Controllers Policy` and `Default Domain Policy`. The default domain controllers policy is used to enforce and set policies to all the domain controllers within the domain environment.
-  The default domain policy is linked to all users and computers by default. An adversary who has obtained privileged access to an Active Directory network may modify the default group 
-  policy objects to obtain further access, deploy persistence or execute malware across a large number of hosts. Security teams should monitor the modification of the default GPOs.
-search: ' `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" (displayName="Default Domain Policy" OR displayName="Default Domain Controllers Policy")
-  | stats min(_time) as firstTime max(_time) as lastTime values(gPCFileSysPath) by dcName, displayName
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic detects modifications to the default Group Policy
+  Objects (GPOs) in an Active Directory environment. It leverages Splunk's Admon to
+  monitor updates to the "Default Domain Policy" and "Default Domain Controllers Policy."
+  This activity is significant because changes to these default GPOs can indicate
+  an adversary with privileged access attempting to gain further control, establish
+  persistence, or deploy malware across multiple hosts. If confirmed malicious, such
+  modifications could lead to widespread policy enforcement changes, unauthorized
+  access, and potential compromise of the entire domain environment.
+search: ' `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*"
+  (displayName="Default Domain Policy" OR displayName="Default Domain Controllers
+  Policy") | stats min(_time) as firstTime max(_time) as lastTime values(gPCFileSysPath)
+  by dcName, displayName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_admon_default_group_policy_object_modified_filter`'
-how_to_implement: To successfully implement this search, you need to be monitoring Active Directory logs using Admon. Details can be found here
+how_to_implement: To successfully implement this search, you need to be monitoring
+  Active Directory logs using Admon. Details can be found here 
   https://docs.splunk.com/Documentation/SplunkCloud/8.1.2101/Data/MonitorActiveDirectory
-known_false_positives: The default Group Policy Objects within an AD network may be legitimately updated for administrative operations, filter as needed.
+known_false_positives: The default Group Policy Objects within an AD network may be
+  legitimately updated for administrative operations, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1484/
 - https://attack.mitre.org/techniques/T1484/001
@@ -57,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/default_domain_policy_modified/windows-security.log
     source: ActiveDirectory
     sourcetype: ActiveDirectory

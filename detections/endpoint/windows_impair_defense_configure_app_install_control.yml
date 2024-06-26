@@ -1,28 +1,29 @@
 name: Windows Impair Defense Configure App Install Control
 id: c54b7439-cfb1-44c3-bb35-b0409553077c
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to change or disable Windows Defender 
-  smartscreen app install control. Microsoft Edge's App Install Control feature helps manage the installation of web-based applications.
-  When attackers modify "ConfigureAppInstallControlEnabled" to 0, they are likely attempting to disable the App Install Control feature 
-  in Microsoft Edge. This change might allow users to bypass restrictions imposed by the browser on the installation of web-based applications.
-  Disabling this feature might increase the risk of users being able to install potentially malicious or untrusted web applications without 
-  restrictions or controls imposed by the browser. This action could potentially lead to security vulnerabilities or compromise if users 
-  inadvertently install harmful applications.
+description: The following analytic detects modifications to the Windows registry
+  that disable the Windows Defender SmartScreen App Install Control feature. It leverages
+  data from the Endpoint.Registry data model to identify changes to specific registry
+  values. This activity is significant because disabling App Install Control can allow
+  users to install potentially malicious web-based applications without restrictions,
+  increasing the risk of security vulnerabilities. If confirmed malicious, this action
+  could lead to the installation of harmful applications, potentially compromising
+  the system and exposing sensitive information.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path= "*\\Microsoft\\Windows Defender\\SmartScreen\\ConfigureAppInstallControl" Registry.registry_value_data= "Anywhere") OR
-  (Registry.registry_path= "*\\Microsoft\\Windows Defender\\SmartScreen\\ConfigureAppInstallControlEnabled" Registry.registry_value_data= "0x00000000")
-  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_impair_defense_configure_app_install_control_filter`'
+  WHERE (Registry.registry_path= "*\\Microsoft\\Windows Defender\\SmartScreen\\ConfigureAppInstallControl"
+  Registry.registry_value_data= "Anywhere") OR (Registry.registry_path= "*\\Microsoft\\Windows
+  Defender\\SmartScreen\\ConfigureAppInstallControlEnabled" Registry.registry_value_data=
+  "0x00000000") BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_configure_app_install_control_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -40,7 +41,8 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Define Windows Defender App Install Control registry set to disable on $dest$.
+  message: Define Windows Defender App Install Control registry set to disable on
+    $dest$.
   mitre_attack_id:
   - T1562.001
   - T1562
@@ -66,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

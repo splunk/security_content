@@ -1,29 +1,26 @@
 name: Windows Modify Registry Disable Restricted Admin
 id: cee573a0-7587-48e6-ae99-10e8c657e89a
-version: 1
-date: '2023-12-15'
+version: 2
+date: '2024-05-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry related to DisableRestrictedAdmin.
-  This registry entry is used to control the behavior of Restricted Admin mode, which is a security feature that limits 
-  the exposure of sensitive credentials when connecting remotely to another computer. When this registry value is set to 0 it 
-  indicates that Restricted Admin mode is enabled (default behavior). As with any modifications to registry settings, 
-  changing this entry should be approached cautiously, ensuring a clear understanding of the implications for system 
-  security and functionality. Unauthorized changes to these security settings can pose risks and should be monitored 
-  closely for any signs of tampering or unauthorized alterations. 
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
+description: The following analytic detects modifications to the Windows registry
+  entry "DisableRestrictedAdmin," which controls the Restricted Admin mode behavior.
+  This detection leverages registry activity logs from endpoint data sources like
+  Sysmon or Carbon Black. Monitoring this activity is crucial as changes to this setting
+  can disable a security feature that limits credential exposure during remote connections.
+  If confirmed malicious, an attacker could weaken security controls, increasing the
+  risk of credential theft and unauthorized access to sensitive systems.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\System\\CurrentControlSet\\Control\\Lsa\\DisableRestrictedAdmin"
-  Registry.registry_value_data = 0x00000000) 
-  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
-  | `drop_dm_object_name(Registry)` 
-  | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_disable_restricted_admin_filter`'
+  Registry.registry_value_data = 0x00000000) BY _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_disable_restricted_admin_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -65,12 +62,13 @@ tags:
   - Registry.user
   - Registry.dest
   - Registry.action
-  - Registry.registry_value_data 
-  - Registry.process_guid 
+  - Registry.registry_value_data
+  - Registry.process_guid
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.004/NoLMHash/lsa-reg-settings-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.004/NoLMHash/lsa-reg-settings-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

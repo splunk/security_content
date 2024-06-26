@@ -1,23 +1,27 @@
 name: Windows Modify Registry DisableRemoteDesktopAntiAlias
 id: 4927c6f1-4667-42e6-bd7a-f5222116386b
-version: 1
-date: '2023-11-23'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to DisableRemoteDesktopAntiAlias.
-  This registry setting might be intended to manage or control anti-aliasing behavior (smoothing of edges and fonts) within Remote Desktop sessions. 
-  DarkGate malware modify this registry as part of its malicious installation in a targeted host for its remote desktop capabilities.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path = "*\\Terminal Services\\DisableRemoteDesktopAntiAlias"  Registry.registry_value_data = 0x00000001
-  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.user Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_disableremotedesktopantialias_filter`'
+description: The following analytic detects modifications to the Windows registry
+  key "DisableRemoteDesktopAntiAlias" with a value set to 0x00000001. This detection
+  leverages data from the Endpoint datamodel, specifically monitoring changes in the
+  Registry node. This activity is significant as it may indicate the presence of DarkGate
+  malware, which alters this registry setting to enhance its remote desktop capabilities.
+  If confirmed malicious, this modification could allow an attacker to maintain persistence
+  and control over the compromised host, potentially leading to further exploitation
+  and data exfiltration.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Terminal
+  Services\\DisableRemoteDesktopAntiAlias"  Registry.registry_value_data = 0x00000001
+  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.action Registry.user Registry.dest | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_disableremotedesktopantialias_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -32,7 +36,8 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: the registry for remote desktop settings was modified to be DisableRemoteDesktopAntiAlias on $dest$.
+  message: the registry for remote desktop settings was modified to be DisableRemoteDesktopAntiAlias
+    on $dest$.
   mitre_attack_id:
   - T1112
   observable:
@@ -57,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/DisableRemoteDesktopAntiAlias/disable_remote_alias.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/DisableRemoteDesktopAntiAlias/disable_remote_alias.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

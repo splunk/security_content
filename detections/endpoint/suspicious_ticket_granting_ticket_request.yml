@@ -1,24 +1,24 @@
 name: Suspicious Ticket Granting Ticket Request
 id: d77d349e-6269-11ec-9cfe-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller
-  Impersonation (CVE-2021-42287) exploitation chain, adversaries will need to request
-  a Kerberos Ticket Granting Ticket (TGT) on behalf of the newly created and renamed
-  computer account. The TGT request will be preceded by a computer account name event.
-  This analytic leverages Event Id 4781, `The name of an account was changed` and
-  event Id 4768 `A Kerberos authentication ticket (TGT) was requested` to correlate
-  a sequence of events where the new computer account on event id 4781 matches the
-  request account on event id 4768. This behavior could represent an exploitation
-  attempt of CVE-2021-42278 and CVE-2021-42287 for privilege escalation.
+description: The following analytic detects suspicious Kerberos Ticket Granting Ticket
+  (TGT) requests that may indicate exploitation of CVE-2021-42278 and CVE-2021-42287.
+  It leverages Event ID 4781 (account name change) and Event ID 4768 (TGT request)
+  to identify sequences where a newly renamed computer account requests a TGT. This
+  behavior is significant as it could represent an attempt to escalate privileges
+  by impersonating a Domain Controller. If confirmed malicious, this activity could
+  allow attackers to gain elevated access and potentially control over the domain
+  environment.
 data_source:
 - Windows Event Log Security 4768
 - Windows Event Log Security 4781
 search: ' `wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$")
-  OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName, TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781)
+  OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName,
+  TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781)
   endswith=(EventCode=4768) | eval short_lived=case((duration<2),"TRUE") | search
   short_lived = TRUE | table _time, Computer, EventCode, TargetUserName, RenamedComputerAccount,
   short_lived | rename Computer as dest | `suspicious_ticket_granting_ticket_request_filter`'
@@ -65,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_ticket_granting_ticket_request/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_ticket_granting_ticket_request/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

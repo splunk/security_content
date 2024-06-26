@@ -1,27 +1,15 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4625
-date: '2022-09-22'
-description: 'The following analytic identifies a source process name failing to authenticate
-  with multiple users. This behavior could represent an adversary performing a Password
-  Spraying attack against an Active Directory environment to obtain initial access
-  or elevate privileges. Event 4625 generates on domain controllers, member servers,
-  and workstations when an account fails to logon. Logon Type 2 describes an iteractive
-  logon attempt.
-
-  The detection calculates the standard deviation for each host and leverages the
-  3-sigma statistical rule to identify an unusual number of users. To customize this
-  analytic, users can try different combinations of the `bucket` span time and the
-  calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.
-
-  This detection will trigger on the potenfially malicious host, perhaps controlled
-  via a trojan or operated by an insider threat, from where a password spraying attack
-  is being executed. This could be a domain controller as well as a member server
-  or workstation.
-
-  The analytics returned fields allow analysts to investigate the event further by
-  providing fields like source process name, source account and attempted user accounts.'
+date: '2024-05-21'
+description: 'The following analytic identifies a source process failing to authenticate
+  multiple users, potentially indicating a Password Spraying attack. It leverages
+  Windows Event 4625, which logs failed logon attempts, and uses statistical analysis
+  to detect anomalies. This activity is significant as it may represent an adversary
+  attempting to gain initial access or elevate privileges within an Active Directory
+  environment. If confirmed malicious, the attacker could compromise multiple accounts,
+  leading to unauthorized access, data exfiltration, or further lateral movement within
+  the network.'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Event Logs from domain controllers aas well as member servers and workstations.
   The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
@@ -41,7 +29,7 @@ search: ' `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-" |
   as user by _time, ProcessName, SubjectUserName, Computer | eventstats
   avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by ProcessName,
   SubjectUserName, Computer | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts
-  > 10 and unique_accounts >= upperBound, 1, 0) | search isOutlier=1 | `windows_unusual_count_of_users_failed_to_authenticate_from_process_filter` '
+  > 10 and unique_accounts >= upperBound, 1, 0) | search isOutlier=1 | `windows_unusual_count_of_users_failed_to_authenticate_from_process_filter`'
 status: production
 tags:
   analytic_story:
@@ -80,9 +68,10 @@ tags:
   security_domain: endpoint
 tests:
 - attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 1
+version: 2

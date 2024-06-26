@@ -1,17 +1,18 @@
 name: Windows Disable Windows Group Policy Features Through Registry
 id: 63a449ae-9f04-11ec-945e-acde48001122
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a suspicious registry modification to disable
-  windows features. These techniques are seen in several ransomware malware to impair
-  the compromised host to make it hard for analyst to mitigate or response from the
-  attack. Disabling these known features make the analysis and forensic response more
-  hard. Disabling these feature is not so common but can still be implemented by the
-  administrator for security purposes. In this scenario filters for users that are
-  allowed doing this is needed.
+description: The following analytic detects suspicious registry modifications aimed
+  at disabling Windows Group Policy features. It leverages data from the Endpoint.Registry
+  data model, focusing on specific registry paths and values associated with disabling
+  key Windows functionalities. This activity is significant because it is commonly
+  used by ransomware to hinder mitigation and forensic response efforts. If confirmed
+  malicious, this behavior could severely impair the ability of security teams to
+  analyze and respond to the attack, allowing the attacker to maintain control and
+  persist within the compromised environment.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -68,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

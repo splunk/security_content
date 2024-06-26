@@ -1,18 +1,19 @@
 name: Splunk csrf in the ssg kvstore client endpoint
 id: 4742d5f7-ce00-45ce-9c79-5e98b43b4410
-version: 1
-date: '2023-02-14'
+version: 2
+date: '2024-05-11'
 author: Rod Soto
 status: production
 type: TTP
-description: In Splunk Enterprise versions below 8.1.13, 8.2.10, and 9.0.4, a cross-site
-  request forgery in the Splunk Secure Gateway (SSG) app in the kvstore_client endpoint
-  allows for updating SSG KV store collections via a GET request. SSG is a Splunk
-  Built app included by default with Splunk Enterprise. The vulnerability affects
-  instances with SSG and Splunk Web enabled. This hunting search provides information
-  on affected server specific method and post data that may reveal exploitation of
-  this vulnerability.
-data_source: 
+description: The following analytic identifies attempts to exploit a cross-site request
+  forgery (CSRF) vulnerability in the Splunk Secure Gateway (SSG) app's kvstore_client
+  endpoint. It detects GET requests to the vulnerable endpoint using internal index
+  data, focusing on specific URI paths and HTTP methods. This activity is significant
+  because it can allow unauthorized updates to SSG KV store collections, potentially
+  leading to data manipulation or unauthorized access. If confirmed malicious, this
+  could enable attackers to alter critical configurations or exfiltrate sensitive
+  information, compromising the integrity and security of the Splunk environment.
+data_source:
 - Splunk
 search: '`splunkda` uri_path="/en-US/splunkd/__raw/services/ssg/kvstore_client" method="GET"
   delete_field_value="spacebridge_server" status="200"  | table splunk_server status
@@ -56,7 +57,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_csrf_in_the_ssg_kvstore_client_endpoint_data.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_csrf_in_the_ssg_kvstore_client_endpoint_data.log
     source: splunkd_access.log
     sourcetype: splunkd_access
     custom_index: _internal

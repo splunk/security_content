@@ -1,14 +1,18 @@
 name: Excessive Usage Of SC Service Utility
 id: cb6b339e-d4c6-11eb-a026-acde48001122
-version: 1
-date: '2021-06-24'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect a suspicious excessive usage of sc.exe in a
-  host machine. This technique was seen in several ransomware , xmrig and other malware
-  to create, modify, delete or disable a service may related to security application
-  or to gain privilege escalation.
+description: The following analytic detects excessive usage of the `sc.exe` service
+  utility on a host machine. It leverages Sysmon EventCode 1 logs to identify instances
+  where `sc.exe` is executed more frequently than normal within a 15-minute window.
+  This behavior is significant as it is commonly associated with ransomware, cryptocurrency
+  miners, and other malware attempting to create, modify, delete, or disable services,
+  potentially related to security applications or for privilege escalation. If confirmed
+  malicious, this activity could allow attackers to manipulate critical services,
+  leading to system compromise or disruption of security defenses.
 data_source:
 - Sysmon EventID 1
 search: '`sysmon` EventCode = 1 process_name = "sc.exe" |  bucket _time span=15m |
@@ -55,6 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

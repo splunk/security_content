@@ -1,22 +1,27 @@
 name: Execution of File with Multiple Extensions
 id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
-version: 3
-date: '2020-11-18'
+version: 4
+date: '2024-05-26'
 author: Rico Valdez, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search looks for processes launched from files that have double
-  extensions in the file name. This is typically done to obscure the "real" file extension
-  and make it appear as though the file being accessed is a data file, as opposed
-  to executable content.
+description: The following analytic detects the execution of files with multiple extensions,
+  such as ".doc.exe" or ".pdf.exe". This behavior is identified using Endpoint Detection
+  and Response (EDR) telemetry, focusing on process creation events where the file
+  name contains double extensions. This activity is significant because attackers
+  often use double extensions to disguise malicious executables as benign documents,
+  increasing the likelihood of user execution. If confirmed malicious, this technique
+  can lead to unauthorized code execution, potentially compromising the endpoint and
+  allowing further malicious activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*.doc.exe",
   "*.xls.exe","*.ppt.exe", "*.htm.exe", "*.html.exe", "*.txt.exe", "*.pdf.exe", "*.docx.exe",
   "*.xlsx.exe", "*.pptx.exe","*.one.exe", "*.bat.exe", "*rtf.exe") by Processes.dest
-  Processes.user Processes.process Processes.process_name Processes.parent_process | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | `execution_of_file_with_multiple_extensions_filter`'
+  Processes.user Processes.process Processes.process_name Processes.parent_process
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`
+  | `execution_of_file_with_multiple_extensions_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -72,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -10,7 +10,7 @@ description: This search is used to build a Machine Learning Toolkit (MLTK) mode
   the last 90 days of data to build the model. The model created by this search is
   then used in the corresponding detection search, which identifies subsequent outliers
   in the number of RunInstances performed by a user in a small time window.
-search: '`cloudtrail` eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
+search: '`cloudtrail` eventName=RunInstances errorCode=success
   | bucket span=10m _time | stats count as instances_launched by _time src_user |
   fit DensityFunction instances_launched threshold=0.0005 into ec2_excessive_runinstances_v1'
 how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)

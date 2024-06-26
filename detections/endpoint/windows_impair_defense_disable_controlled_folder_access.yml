@@ -1,27 +1,27 @@
 name: Windows Impair Defense Disable Controlled Folder Access
 id: 3032741c-d6fc-4c69-8988-be8043d6478c
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
-  Controlled Folder Access feature. The EnableControlledFolderAccess registry setting is associated with the Controlled 
-  Folder Access feature in Windows Defender. Controlled Folder Access is a security feature designed to protect certain 
-  folders from unauthorized access or modification by malicious applications, including ransomware.
-  When EnableControlledFolderAccess is set to 0, it usually indicates that the Controlled Folder Access feature 
-  within Windows Defender is not active. Consequently, the protection mechanism for the specified folders against 
-  unauthorized access by potentially malicious applications or ransomware is not enabled.
+description: The following analytic detects a modification in the Windows registry
+  that disables the Windows Defender Controlled Folder Access feature. It leverages
+  data from the Endpoint.Registry data model, specifically monitoring changes to the
+  EnableControlledFolderAccess registry setting. This activity is significant because
+  Controlled Folder Access is designed to protect critical folders from unauthorized
+  access, including ransomware attacks. If this activity is confirmed malicious, it
+  could allow attackers to bypass a key security feature, potentially leading to unauthorized
+  access or modification of sensitive files.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess"
-  Registry.registry_value_data="0x00000000" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess"
+  Registry.registry_value_data="0x00000000" by Registry.registry_key_name Registry.user
+  Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
+  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_impair_defense_disable_controlled_folder_access_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -66,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

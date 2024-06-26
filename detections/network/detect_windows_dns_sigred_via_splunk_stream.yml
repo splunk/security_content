@@ -1,11 +1,18 @@
 name: Detect Windows DNS SIGRed via Splunk Stream
 id: babd8d10-d073-11ea-87d0-0242ac130003
-version: 1
-date: '2020-07-28'
+version: 2
+date: '2024-05-28'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: "Ensure that the following prerequisites are met: (i) Both Splunk Stream DNS and TCP data are ingested. (ii) The macros 'stream:dns' and 'stream:tcp' are replaced with the appropriate configurations that are specific to your Splunk environment. The following analytic detects SIGRed exploitation attempts. SIGRed is a critical wormable vulnerability found in Windows DNS servers, known as CVE-2020-1350, which allows remote code execution. The detection is made by using an experimental search that focuses on identifying specific indicators that might suggest the presence of the SIGRed exploit such as DNS SIG records, KEY records, and TCP payloads greater than 65KB. This detection is important because it detects and responds to potential SIGRed exploitation attempts and minimizes the risk of a successful attack and its impact on the organization's infrastructure and data. False positives might occur due to the experimental nature of this analytic. Next steps include reviewing and investigating each case thoroughly given the potential for unauthorized Windows DNS server access, data breaches, and service disruptions. Additionally, you must stay updated with Microsoft's guidance on the SIGRed vulnerability."
+description: "The following analytic detects attempts to exploit the SIGRed vulnerability
+  (CVE-2020-1350) in Windows DNS servers. It leverages Splunk Stream DNS and TCP data
+  to identify DNS SIG and KEY records, as well as TCP payloads exceeding 65KB. This
+  activity is significant because SIGRed is a critical wormable vulnerability that
+  allows remote code execution. If confirmed malicious, an attacker could gain unauthorized
+  access, execute arbitrary code, and potentially disrupt services, leading to severe
+  data breaches and infrastructure compromise. Immediate investigation and remediation
+  are crucial to mitigate these risks."
 data_source: []
 search: '`stream_dns` | spath "query_type{}" | search "query_type{}" IN (SIG,KEY)
   | spath protocol_stack | search protocol_stack="ip:tcp:dns" | append [search `stream_tcp`

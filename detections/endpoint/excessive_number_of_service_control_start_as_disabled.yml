@@ -1,16 +1,18 @@
 name: Excessive number of service control start as disabled
 id: 77592bec-d5cc-11eb-9e60-acde48001122
-version: 1
-date: '2021-06-25'
+version: 2
+date: '2024-05-19'
 author: Michael Hart, Splunk
 status: production
 type: Anomaly
-description: This detection targets behaviors observed when threat actors have used
-  sc.exe to modify services. We observed malware in a honey pot spawning numerous
-  sc.exe processes in a short period of time, presumably to impair defenses, possibly
-  to block others from compromising the same machine.  This detection will alert when
-  we see both an excessive number of sc.exe processes launched with specific commandline
-  arguments to disable the start of certain services.
+description: The following analytic detects an excessive number of `sc.exe` processes
+  launched with the command line argument `start= disabled` within a short period.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  process names, command-line executions, and process GUIDs. This activity is significant
+  as it may indicate an attempt to disable critical services, potentially impairing
+  system defenses. If confirmed malicious, this behavior could allow an attacker to
+  disrupt security mechanisms, hinder incident response, and maintain control over
+  the compromised system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
@@ -74,7 +76,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

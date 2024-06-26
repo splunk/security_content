@@ -1,22 +1,20 @@
 name: Windows Administrative Shares Accessed On Multiple Hosts
 id: d92f2d95-05fb-48a7-910f-4d3d61ab8655
-version: 1
-date: '2023-03-23'
+version: 2
+date: '2024-05-19'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 5140
 - Windows Event Log Security 5145
-description: The following analytic leverages Event IDs 5140 or 5145 to identify a
-  source computer accessing windows administrative shares (C$, Admin$ and IPC$ ) across
-  a large number remote endpoints. Specifically, the logic will trigger when a source
-  endpoint accesses administrative shares across 30 or more target computers within
-  a 5 minute timespan. This behavior could represent an adversary who is enumerating
-  network shares across an Active Directory environment in the search for sensitive
-  files, a common technique leveraged by red teamers and threat actors. As environments
-  differ across organizations, security teams should customize the thresholds of this
-  detection as needed.
+description: The following analytic detects a source computer accessing Windows administrative
+  shares (C$, Admin$, IPC$) on 30 or more remote endpoints within a 5-minute window.
+  It leverages Event IDs 5140 and 5145 from file share events. This behavior is significant
+  as it may indicate an adversary enumerating network shares to locate sensitive files,
+  a common tactic used by threat actors. If confirmed malicious, this activity could
+  lead to unauthorized access to critical data, lateral movement, and potential compromise
+  of multiple systems within the network.
 search: ' `wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$"
   OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$") | bucket span=5m _time | stats
   dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName)
@@ -71,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/ipc_share_accessed/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/ipc_share_accessed/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

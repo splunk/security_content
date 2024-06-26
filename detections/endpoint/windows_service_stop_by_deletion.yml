@@ -1,15 +1,18 @@
 name: Windows Service Stop By Deletion
 id: 196ff536-58d9-4d1b-9686-b176b04e430b
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies Windows Service Control, `sc.exe`,
-  attempting to delete a service. This is typically identified in parallel with other
-  instances of service enumeration of attempts to stop a service and then delete it.
-  Adversaries utilize this technique to terminate security services or other related
-  services to continue there objective and evade detections.
+description: The following analytic detects the use of `sc.exe` to delete a Windows
+  service. It leverages Endpoint Detection and Response (EDR) data, focusing on process
+  execution logs that capture command-line arguments. This activity is significant
+  because adversaries often delete services to disable security mechanisms or critical
+  system functions, aiding in evasion and persistence. If confirmed malicious, this
+  action could lead to the termination of essential security services, allowing attackers
+  to operate undetected and potentially escalate their privileges or maintain long-term
+  access to the compromised system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -69,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

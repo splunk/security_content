@@ -1,15 +1,19 @@
 name: Splunk Command and Scripting Interpreter Delete Usage
 id: 8d3d5d5e-ca43-42be-aa1f-bc64375f6b04
-version: 1
-date: '2022-05-27'
+version: 2
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the use of the risky command - Delete
-  - that may be utilized in Splunk to delete some or all data queried for. In order
-  to use Delete in Splunk, one must be assigned the role. This is typically not used
-  and should generate an anomaly if it is used.
-data_source: 
+description: The following analytic detects the use of the 'delete' command in Splunk,
+  which can be used to remove queried data. This detection leverages the Splunk Audit
+  data model, specifically monitoring ad-hoc searches containing the 'delete' command
+  by non-system users. This activity is significant because the 'delete' command is
+  rarely used and can indicate potential data tampering or unauthorized data removal.
+  If confirmed malicious, this activity could lead to the loss of critical log data,
+  hindering incident investigations and compromising the integrity of the monitoring
+  environment.
+data_source:
 - Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search
@@ -59,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213/audittrail/audittrail.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1213/audittrail/audittrail.log
     source: audittrail
     sourcetype: audittrail
     update_timestamp: true

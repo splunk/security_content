@@ -1,17 +1,18 @@
 name: Wmic Group Discovery
 id: 83317b08-155b-11ec-8e00-acde48001122
-version: 1
-date: '2021-09-14'
+version: 2
+date: '2024-05-20'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: 'The following hunting analytic identifies the use of `wmic.exe` enumerating
-  local groups on the endpoint. 
-
-  Typically, by itself, is not malicious but may raise suspicion based on time of
-  day, endpoint and username. 
-
-  During triage, review parallel processes and identify any further suspicious behavior.'
+description: 'The following analytic identifies the use of `wmic.exe` to enumerate
+  local groups on an endpoint. This detection leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process execution logs, including command-line
+  details. Monitoring this activity is significant as it can indicate reconnaissance
+  efforts by an attacker to understand group memberships, which could be a precursor
+  to privilege escalation or lateral movement. If confirmed malicious, this activity
+  could allow an attacker to map out privileged groups, aiding in further exploitation
+  and persistence within the environment.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

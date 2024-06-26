@@ -20,7 +20,7 @@ search: '(`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.
   AS dc_events | where dc_events=2 | stats min(_time) as firstTime max(_time) as lastTime
   values(ImageLoaded) AS ImageLoaded values(QueryName) AS QueryName by host | rename
   host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `sunburst_correlation_dll_and_network_event_filter` '
+  | `sunburst_correlation_dll_and_network_event_filter`'
 how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driver
   loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll
   is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query.

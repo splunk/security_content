@@ -5,12 +5,14 @@ date: '2024-05-21'
 author: Bhavin Patel, Johan Bjerke, Splunk
 status: production
 type: Hunting
-description: Malicious actors often abuse misconfigured LDAP servers or applications
-  that use the LDAP servers in organizations. Outbound LDAP traffic should not be
-  allowed outbound through your perimeter firewall.  This search will help determine
-  if you have any LDAP connections to IP addresses outside of private (RFC1918) address
-  space.
-data_source: 
+description: The following analytic identifies outbound LDAP traffic to external IP
+  addresses. It leverages the Network_Traffic data model to detect connections on
+  ports 389 or 636 that are not directed to private IP ranges (RFC1918). This activity
+  is significant because outbound LDAP traffic can indicate potential data exfiltration
+  or unauthorized access attempts. If confirmed malicious, attackers could exploit
+  this to access sensitive directory information, leading to data breaches or further
+  network compromise.
+data_source:
 - Bro
 search: '| tstats earliest(_time) as earliest_time latest(_time) as latest_time values(All_Traffic.dest_ip)
   as dest_ip from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port

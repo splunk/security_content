@@ -1,15 +1,18 @@
 name: Windows System Time Discovery W32tm Delay
 id: b2cc69e7-11ba-42dc-a269-59c069a48870
-version: 1
-date: '2022-07-28'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies DCRat delay time tactics using w32tm.
-  This technique was seen in DCRAT malware where it uses stripchart function of w32tm.exe
-  application to delay the execution of its payload like c2 communication , beaconing
-  and execution. This anomaly detection may help the analyst to check other possible
-  event like the process who execute this command that may lead to DCRat attack.
+description: The following analytic identifies the use of the w32tm.exe utility with
+  the /stripchart function, which is indicative of DCRat malware delaying its payload
+  execution. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on specific command-line arguments used by w32tm.exe. This activity
+  is significant as it may indicate an attempt to evade detection by delaying malicious
+  actions such as C2 communication and beaconing. If confirmed malicious, this behavior
+  could allow an attacker to maintain persistence and execute further malicious activities
+  undetected.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -71,7 +74,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_delay_execution/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_delay_execution/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

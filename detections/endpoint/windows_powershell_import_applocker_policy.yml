@@ -1,20 +1,25 @@
 name: Windows Powershell Import Applocker Policy
 id: 102af98d-0ca3-4aa4-98d6-7ab2b98b955a
-version: 1
-date: '2022-06-30'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic is to identify the imports of Windows PowerShell
-  Applocker commandlets. This technique was seen in Azorult malware where it drops
-  an xml Applocker policy that will deny several AV product and then loaded using
-  PowerShell Applocker commandlet.
+description: The following analytic detects the import of Windows PowerShell Applocker
+  cmdlets, specifically identifying the use of "Import-Module Applocker" and "Set-AppLockerPolicy"
+  with an XML policy. It leverages PowerShell Script Block Logging (EventCode 4104)
+  to capture and analyze script block text. This activity is significant as it may
+  indicate an attempt to enforce restrictive Applocker policies, potentially used
+  by malware like Azorult to disable antivirus products. If confirmed malicious, this
+  could allow an attacker to bypass security controls, leading to further system compromise
+  and persistence.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy
   *" ScriptBlockText="* -XMLPolicy *" | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_powershell_import_applocker_policy_filter`'
+  as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest
+  | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_powershell_import_applocker_policy_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -58,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/import_applocker_policy/windows-powershell-xml2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/import_applocker_policy/windows-powershell-xml2.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,24 +1,26 @@
 name: Disable Windows App Hotkeys
 id: 1490f224-ad8b-11eb-8c4f-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-05-11'
 author: Steven Dick, Teoderick Contreras, Splunkk
 status: production
 type: TTP
-description: The following analytic detects a suspicious registry modification to disable Windows
-  hotkey (shortcut keys) for native Windows applications. This technique is commonly
-  used to disable certain or several Windows applications like `taskmgr.exe` and `cmd.exe`.
-  This technique is used to impair the analyst in analyzing and removing the attacker
-  implant in compromised systems.
+description: The following analytic detects a suspicious registry modification aimed
+  at disabling Windows hotkeys for native applications. It leverages data from the
+  Endpoint.Registry data model, focusing on specific registry paths and values indicative
+  of this behavior. This activity is significant as it can impair an analyst's ability
+  to use essential tools like Task Manager and Command Prompt, hindering incident
+  response efforts. If confirmed malicious, this technique can allow an attacker to
+  maintain persistence and evade detection, complicating the remediation process.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Image File Execution
   Options\\*" AND Registry.registry_value_data= "HotKey Disabled" AND Registry.registry_value_name
-  = "Debugger") BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
+  = "Debugger") BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_windows_app_hotkeys_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -61,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

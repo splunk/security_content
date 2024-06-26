@@ -1,21 +1,25 @@
 name: Windows Access Token Manipulation Winlogon Duplicate Token Handle
 id: dda126d7-1d99-4f0b-b72a-4c14031f9398
-version: 1
-date: '2022-08-24'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a process requesting access to winlogon.exe
-  attempting to duplicate its handle. This technique was seen in several adversaries
-  to gain privileges for their process. Winlogon.exe is the common targeted process
-  of this technique because it contains high privileges and security tokens.
+description: The following analytic detects a process attempting to access winlogon.exe
+  to duplicate its handle. This is identified using Sysmon EventCode 10, focusing
+  on processes targeting winlogon.exe with specific access rights. This activity is
+  significant because it is a common technique used by adversaries to escalate privileges
+  by leveraging the high privileges and security tokens associated with winlogon.exe.
+  If confirmed malicious, this could allow an attacker to gain elevated privileges,
+  potentially leading to full system compromise and unauthorized access to sensitive
+  information.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*")
   GrantedAccess = 0x1040 | stats count min(_time) as firstTime max(_time) as lastTime
   by SourceImage TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId
-  GrantedAccess CallTrace dest user_id | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)` | `windows_access_token_manipulation_winlogon_duplicate_token_handle_filter`'
+  GrantedAccess CallTrace dest user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_access_token_manipulation_winlogon_duplicate_token_handle_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
   in the processes node. If you are using Sysmon, you must have at least version 6.0.4
@@ -66,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

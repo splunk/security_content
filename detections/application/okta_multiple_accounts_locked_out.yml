@@ -1,21 +1,28 @@
 name: Okta Multiple Accounts Locked Out
 id: a511426e-184f-4de6-8711-cfd2af29d1e1
-version: 1
-date: '2024-03-06'
+version: 2
+date: '2024-05-11'
 author: Michael Haag, Mauricio Velazco, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic utilizes the user.acount.lock event to identify multiple Okta accounts locking out in a short period of time. An adversary attempting to brute force or password spray account names may lock accounts out depending on the threshold set by the organization. Monitoring for multiple account lockouts can help detect potential account takeover attempts or unauthorized access to Okta accounts.
-search: '| tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime values(All_Changes.user) as user
-  from datamodel=Change where All_Changes.change_type=AAA All_Changes.object_category=User AND All_Changes.action=lockout AND All_Changes.command=user.account.lock by _time span=5m All_Changes.result All_Changes.command sourcetype All_Changes.src
-  | where count > 5
-  | `drop_dm_object_name("All_Changes")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `okta_multiple_accounts_locked_out_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: Multiple account lockouts may be also triggered by an application malfunction. Filter as needed, and monitor for any unusual activity.
+description: The following analytic detects multiple Okta accounts being locked out
+  within a short period. It uses the user.account.lock event from Okta logs, aggregated
+  over a 5-minute window, to identify this behavior. This activity is significant
+  as it may indicate a brute force or password spraying attack, where an adversary
+  attempts to guess passwords, leading to account lockouts. If confirmed malicious,
+  this could result in potential account takeovers or unauthorized access to sensitive
+  Okta accounts, posing a significant security risk.
+search: '| tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time)
+  as firstTime values(All_Changes.user) as user from datamodel=Change where All_Changes.change_type=AAA
+  All_Changes.object_category=User AND All_Changes.action=lockout AND All_Changes.command=user.account.lock
+  by _time span=5m All_Changes.result All_Changes.command sourcetype All_Changes.src
+  | where count > 5 | `drop_dm_object_name("All_Changes")` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `okta_multiple_accounts_locked_out_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
+  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: Multiple account lockouts may be also triggered by an application
+  malfunction. Filter as needed, and monitor for any unusual activity.
 references:
 - https://attack.mitre.org/techniques/T1110/
 - https://splunkbase.splunk.com/app/6553
@@ -25,7 +32,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 70
   impact: 70
-  message: Multiple accounts locked out in Okta from [$src$]. Investigate further to determine if this was authorized.
+  message: Multiple accounts locked out in Okta from [$src$]. Investigate further
+    to determine if this was authorized.
   mitre_attack_id:
   - T1110
   observable:
@@ -55,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
     source: Okta
     sourcetype: OktaIM2:log

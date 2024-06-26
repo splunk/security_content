@@ -1,33 +1,19 @@
 name: Linux At Application Execution
 id: bf0a378e-5f3c-11ec-a6de-acde48001122
-version: 2
-date: '2022-05-26'
+version: 3
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: 'The following analytic detects the execution of the "At" application
   in Linux, which can be used by attackers to create persistence entries on a compromised
-  host. The "At" application can be used for automation purposes by administrators
-  or network operators, so the filter macros should be updated to remove false positives.
-  If a true positive is found, it suggests an attacker is trying to maintain access
-  to the environment or potentially deliver additional malicious payloads, leading
-  to data theft, ransomware, or other damaging outcomes. To implement this analytic,
-  ensure you are ingesting logs with the required fields from your endpoints into
-  the Endpoint datamodel. When a true positive is detected, it suggests that an attacker
-  is attempting to establish persistence or deliver additional malicious payloads
-  by leveraging the "At" application. This behavior can lead to data theft, ransomware
-  attacks, or other damaging outcomes.
-
-  During triage, the SOC analyst should review the context surrounding the execution
-  of the "At" application. This includes identifying the user, the parent process
-  responsible for invoking the application, and the specific command-line arguments
-  used. It is important to consider whether the execution is expected behavior by
-  an administrator or network operator for legitimate automation purposes.
-
-  The presence of "At" application execution may indicate an attacker''s attempt to
-  maintain unauthorized access to the environment. Immediate investigation and response
-  are necessary to mitigate further risks, identify the attacker''s intentions, and
-  prevent potential harm to the organization.'
+  host. This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and parent process names associated with "at" or "atd".
+  This activity is significant because the "At" application can be exploited to maintain
+  unauthorized access or deliver additional malicious payloads. If confirmed malicious,
+  this behavior could lead to data theft, ransomware attacks, or other severe consequences.
+  Immediate investigation is required to determine the legitimacy of the execution
+  and mitigate potential risks.'
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
@@ -86,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

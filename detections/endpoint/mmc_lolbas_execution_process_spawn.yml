@@ -1,17 +1,18 @@
 name: Mmc LOLBAS Execution Process Spawn
 id: f6601940-4c74-11ec-b9b7-3e22fbd008af
-version: 1
-date: '2021-11-23'
+version: 2
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 description: The following analytic identifies `mmc.exe` spawning a LOLBAS execution
-  process. When adversaries execute code on remote endpoints abusing the DCOM protocol
-  and the MMC20 COM object, the executed command is spawned as a child processs of
-  `mmc.exe`. The LOLBAS project documents Windows native binaries that can be abused
-  by threat actors to perform tasks like executing malicious code. Looking for child
-  processes of mmc.exe that are part of the LOLBAS project can help defenders identify
-  lateral movement activity.
+  process. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process creation events where `mmc.exe` is the parent process. This activity
+  is significant because adversaries can abuse the DCOM protocol and MMC20 COM object
+  to execute malicious code, using Windows native binaries documented by the LOLBAS
+  project. If confirmed malicious, this behavior could indicate lateral movement,
+  allowing attackers to execute code remotely, potentially leading to further compromise
+  and persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -84,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/lateral_movement_lolbas/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/lateral_movement_lolbas/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,22 +1,24 @@
 name: Windows Kerberos Local Successful Logon
 id: 8309c3a8-4d34-48ae-ad66-631658214653
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 description: The following analytic identifies a local successful authentication event
-  on a Windows endpoint using the Kerberos package. The target user security identified
-  will be set to the built-in local Administrator account, along with the remote address
-  as localhost - 127.0.0.1. This may be indicative of a kerberos relay attack. Upon
-  triage, review for recently ran binaries on disk. In addition, look for new computer
-  accounts added to Active Directory and other anomolous AD events.
+  on a Windows endpoint using the Kerberos package. It detects EventCode 4624 with
+  LogonType 3 and source address 127.0.0.1, indicating a login to the built-in local
+  Administrator account. This activity is significant as it may suggest a Kerberos
+  relay attack, a method attackers use to escalate privileges. If confirmed malicious,
+  this could allow an attacker to gain unauthorized access to sensitive systems, execute
+  arbitrary code, or create new accounts in Active Directory, leading to potential
+  system compromise.
 data_source:
 - Windows Event Log Security 4624
 search: '`wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos
-  action=success src=127.0.0.1 | stats count min(_time) as firstTime max(_time)
-  as lastTime by dest, subject, action, SubjectLogonId, user, TargetUserName, src |
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_kerberos_local_successful_logon_filter`'
+  action=success src=127.0.0.1 | stats count min(_time) as firstTime max(_time) as
+  lastTime by dest, subject, action, SubjectLogonId, user, TargetUserName, src | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_kerberos_local_successful_logon_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4624 EventCode enabled. The Windows TA is also
   required.
@@ -58,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_kerberos_local_successful_logon/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_kerberos_local_successful_logon/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

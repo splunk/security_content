@@ -1,26 +1,18 @@
 name: Scheduled Task Creation on Remote Endpoint using At
 id: 4be54858-432f-11ec-8209-3e22fbd008af
-version: 1
-date: '2021-11-11'
+version: 2
+date: '2024-05-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the creation of suspicious tasks on a
-  remote Windows endpoint using the at.exe command with command-line arguments. This
-  technique is commonly used by red teams and adversaries for lateral movement and
-  remote code execution. The at.exe binary leverages the deprecated AT protocol, which
-  may still work on previous versions of Windows. Attackers can enable this protocol
-  on demand by modifying a system registry key. It is important to consider potential
-  false positives. While administrators may create scheduled tasks on remote systems,
-  this activity is typically limited to a small set of hosts or users.
-
-  Identifying the creation of scheduled tasks on remote endpoints is crucial for a
-  Security Operations Center (SOC) because it indicates potential unauthorized activity
-  or an attacker attempting to establish persistence or execute malicious code. The
-  impact of a true positive can be significant, leading to unauthorized access, data
-  theft, or other damaging outcomes. During triage, investigate the source and purpose
-  of the scheduled task, inspect relevant on-disk artifacts, and analyze concurrent
-  processes to identify the extent of the attack and take appropriate response actions.'
+description: 'The following analytic detects the creation of scheduled tasks on remote
+  Windows endpoints using the at.exe command. This detection leverages Endpoint Detection
+  and Response (EDR) telemetry, focusing on process creation events involving at.exe
+  with remote command-line arguments. Identifying this activity is significant for
+  a SOC as it may indicate lateral movement or remote code execution attempts by an
+  attacker. If confirmed malicious, this activity could lead to unauthorized access,
+  persistence, or execution of malicious code, potentially resulting in data theft
+  or further compromise of the network.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -82,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/lateral_movement/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/lateral_movement/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

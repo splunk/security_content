@@ -1,15 +1,17 @@
 name: Windows System File on Disk
 id: 993ce99d-9cdd-42c7-a2cf-733d5954e5a6
-version: 2
-date: '2022-05-16'
+version: 3
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting analytic will assist with identifying new .sys
-  files introduced in the environment. This query is meant to identify sys file creates
-  on disk. There will be noise, but reducing common process names or applications
-  should help to limit any volume. The idea is to identify new sys files written to
-  disk and identify them before they're added as a new kernel mode driver.
+description: The following analytic detects the creation of new .sys files on disk.
+  It leverages the Endpoint.Filesystem data model to identify and log instances where
+  .sys files are written to the filesystem. This activity is significant because .sys
+  files are often used as kernel mode drivers, and their unauthorized creation can
+  indicate malicious activity such as rootkit installation. If confirmed malicious,
+  this could allow an attacker to gain kernel-level access, leading to full system
+  compromise, persistent control, and the ability to bypass security mechanisms.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -61,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sysmon_sys_filemod.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/sysmon_sys_filemod.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

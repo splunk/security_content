@@ -1,16 +1,18 @@
 name: Processes launching netsh
 id: b89919ed-fe5f-492c-b139-95dbb162040e
-version: 4
-date: '2021-09-16'
+version: 5
+date: '2024-05-24'
 author: Michael Haag, Josef Kuepker, Splunk
 status: production
 type: Anomaly
-description: This search looks for processes launching netsh.exe. Netsh is a command-line
-  scripting utility that allows you to, either locally or remotely, display or modify
-  the network configuration of a computer that is currently running. Netsh can be
-  used as a persistence proxy technique to execute a helper DLL when netsh.exe is
-  executed. In this search, we are looking for processes spawned by netsh.exe and
-  executing commands via the command line.
+description: The following analytic identifies processes launching netsh.exe, a command-line
+  utility used to modify network configurations. It detects this activity by analyzing
+  data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs,
+  names, parent processes, and command-line executions. This behavior is significant
+  because netsh.exe can be exploited to execute malicious helper DLLs, serving as
+  a persistence mechanism. If confirmed malicious, an attacker could gain persistent
+  access, modify network settings, and potentially escalate privileges, posing a severe
+  threat to the network's integrity and security.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -75,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

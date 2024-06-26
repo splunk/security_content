@@ -1,14 +1,18 @@
 name: Control Loading from World Writable Directory
 id: 10423ac4-10c9-11ec-8dc4-acde48001122
-version: 1
-date: '2021-09-08'
+version: 2
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following detection identifies control.exe loading either a .cpl
-  or .inf from a writable directory. This is related to CVE-2021-40444. During triage,
-  review parallel processes, parent and child, for further suspicious behaviors. In
-  addition, capture file modifications and analyze.
+description: The following analytic identifies instances of control.exe loading a
+  .cpl or .inf file from a writable directory, which is related to CVE-2021-40444.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and command-line executions mapped to the `Processes`
+  node of the `Endpoint` data model. This activity is significant as it may indicate
+  an attempt to exploit a known vulnerability, potentially leading to unauthorized
+  code execution. If confirmed malicious, this could allow an attacker to gain control
+  over the affected system, leading to further compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -88,6 +92,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,18 +1,18 @@
 name: Windows System Network Connections Discovery Netsh
 id: abfb7cc5-c275-4a97-9029-62cd8d4ffeca
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a process execution of Windows OS built-in
-  tool netsh.exe to show state, configuration and profile of host firewall. This tool
-  is being used or abused by several adversaries or even post exploitation tool to
-  bypass firewall rules or to discover firewall settings. This hunting detection can
-  help to detect a possible suspicious usage of netsh.exe to retrieve firewall settings
-  or even firewall wlan profile. We recommend checking which parent process and process
-  name execute this command. Also check the process file path for verification that
-  may lead to further TTP's threat behavior.
+description: The following analytic detects the execution of the Windows built-in
+  tool netsh.exe to display the state, configuration, and profile of the host firewall.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on command-line executions and process metadata. Monitoring this activity
+  is crucial as netsh.exe can be used by adversaries to bypass firewall rules or discover
+  firewall settings. If confirmed malicious, this activity could allow attackers to
+  manipulate firewall configurations, potentially leading to unauthorized network
+  access or data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -76,7 +76,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

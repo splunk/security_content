@@ -1,27 +1,32 @@
 name: High Frequency Copy Of Files In Network Share
 id: 40925f12-4709-11ec-bb43-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a suspicious high frequency copying/moving
-  of files in network share as part of information sabotage. This anomaly event can
-  be a good indicator of insider trying to sabotage data by transfering classified
-  or internal files within network share to exfitrate it after or to lure evidence
-  of insider attack to other user. This behavior may catch several noise if network
-  share is a common place for classified or internal document processing.
+description: The following analytic detects a high frequency of file copying or moving
+  within network shares, which may indicate potential data sabotage or exfiltration
+  attempts. It leverages Windows Security Event Logs (EventCode 5145) to monitor access
+  to specific file types and network shares. This activity is significant as it can
+  reveal insider threats attempting to transfer classified or internal files, potentially
+  leading to data breaches or evidence tampering. If confirmed malicious, this behavior
+  could result in unauthorized data access, data loss, or compromised sensitive information.
 data_source:
 - Windows Event Log Security 5145
-search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key") ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask= "0x2" |  bucket _time span=5m 
-  | stats values(RelativeTargetName) as valRelativeTargetName, values(ShareName) as valShareName, values(ObjectType) as valObjectType, values(AccessMask) as valAccessmask, values(src_port) as valSrcPort, values(SourceAddress) as valSrcAddress count as numShareName by dest, _time, EventCode, src_user, src_ip 
-  | eventstats avg(numShareName) as avgShareName, stdev(numShareName) as stdShareName, count as numSlots by dest, _time, EventCode, src_user
-  |  eval upperThreshold=(avgShareName + stdShareName *3) 
-  |  eval isOutlier=if(avgShareName > 20 and avgShareName >= upperThreshold, 1, 0) 
+search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.doc","*.docx","*.xls","*.xlsx","*.ppt","*.pptx","*.log","*.txt","*.db","*.7z","*.zip","*.rar","*.tar","*.gz","*.jpg","*.gif","*.png","*.bmp","*.pdf","*.rtf","*.key")
+  ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask=
+  "0x2" |  bucket _time span=5m | stats values(RelativeTargetName) as valRelativeTargetName,
+  values(ShareName) as valShareName, values(ObjectType) as valObjectType, values(AccessMask)
+  as valAccessmask, values(src_port) as valSrcPort, values(SourceAddress) as valSrcAddress
+  count as numShareName by dest, _time, EventCode, src_user, src_ip | eventstats avg(numShareName)
+  as avgShareName, stdev(numShareName) as stdShareName, count as numSlots by dest,
+  _time, EventCode, src_user |  eval upperThreshold=(avgShareName + stdShareName *3)
+  |  eval isOutlier=if(avgShareName > 20 and avgShareName >= upperThreshold, 1, 0)
   |  search isOutlier=1  | `high_frequency_copy_of_files_in_network_share_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting Windows
-  Security Event Logs with 5145 EventCode enabled. The Windows TA is also required.
-  Also enable the object Audit access success/failure in your group policy.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also
+  required. Also enable the object Audit access success/failure in your group policy.
 known_false_positives: This behavior may seen in normal transfer of file within network
   if network share is common place for sharing documents.
 references:
@@ -64,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_frequency_copy_of_files_in_network_share/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_frequency_copy_of_files_in_network_share/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

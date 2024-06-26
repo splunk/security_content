@@ -1,33 +1,23 @@
 name: ServicePrincipalNames Discovery with PowerShell
 id: 13243068-2d38-11ec-8908-acde48001122
-version: 2
-date: '2022-02-26'
+version: 3
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies `powershell.exe` usage, using Script
-  Block Logging EventCode 4104, related to querying the domain for Service Principle
-  Names. typically, this is a precursor activity related to kerberoasting or the silver
-  ticket attack. 
-
-  What is a ServicePrincipleName? 
-
-  A service principal name (SPN) is a unique identifier of a service instance. SPNs
-  are used by Kerberos authentication to associate a service instance with a service
-  logon account. This allows a client application to request that the service authenticate
-  an account even if the client does not have the account name.
-
-  The following analytic identifies the use of KerberosRequestorSecurityToken class
-  within the script block. Using .NET System.IdentityModel.Tokens.KerberosRequestorSecurityToken
-  class in PowerShell is the equivelant of using setspn.exe. 
-
-  During triage, review parallel processes for further suspicious activity.'
+description: 'The following analytic detects the use of `powershell.exe` to query
+  the domain for Service Principal Names (SPNs) using Script Block Logging EventCode
+  4104. It identifies the use of the KerberosRequestorSecurityToken class within the
+  script block, which is equivalent to using setspn.exe. This activity is significant
+  as it often precedes kerberoasting or silver ticket attacks, which can lead to credential
+  theft. If confirmed malicious, attackers could leverage this information to escalate
+  privileges or persist within the environment.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText="*KerberosRequestorSecurityToken*"
   | stats count min(_time) as firstTime max(_time) as lastTime by ScriptBlockText
-  Opcode Computer UserID EventCode | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `serviceprincipalnames_discovery_with_powershell_filter`'
+  Opcode Computer UserID EventCode | rename Computer as dest | rename UserID as user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `serviceprincipalnames_discovery_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -85,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

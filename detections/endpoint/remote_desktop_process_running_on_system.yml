@@ -1,21 +1,25 @@
 name: Remote Desktop Process Running On System
 id: f5939373-8054-40ad-8c64-cec478a22a4a
-version: 5
-date: '2020-07-21'
+version: 6
+date: '2024-05-24'
 author: David Dorsey, Splunk
 status: experimental
 type: Hunting
-description: This search looks for the remote desktop process mstsc.exe running on
-  systems upon which it doesn't typically run. This is accomplished by filtering out
-  all systems that are noted in the `common_rdp_source category` in the Assets and
-  Identity framework.
+description: The following analytic detects the execution of the remote desktop process
+  (mstsc.exe) on systems where it is not typically run. This detection leverages data
+  from Endpoint Detection and Response (EDR) agents, filtering out systems categorized
+  as common RDP sources. This activity is significant because unauthorized use of
+  mstsc.exe can indicate lateral movement or unauthorized remote access attempts.
+  If confirmed malicious, this could allow an attacker to gain remote control of a
+  system, potentially leading to data exfiltration, privilege escalation, or further
+  network compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process=*mstsc.exe
   AND Processes.dest_category!=common_rdp_source by Processes.dest Processes.user
   Processes.process | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `drop_dm_object_name(Processes)` | `remote_desktop_process_running_on_system_filter` '
+  | `drop_dm_object_name(Processes)` | `remote_desktop_process_running_on_system_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

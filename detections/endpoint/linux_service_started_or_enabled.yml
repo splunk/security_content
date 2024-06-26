@@ -1,30 +1,28 @@
 name: Linux Service Started Or Enabled
 id: e0428212-61b7-11ec-88a3-acde48001122
-version: 2
-date: '2024-01-24'
+version: 3
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation or enabling of services in
-  Linux platforms, specifically using the systemctl or service tool application. This
-  behavior is worth identifying as adversaries may create or modify services to execute
-  malicious payloads as part of persistence. Legitimate services created by administrators
-  for automation purposes may also trigger this analytic, so it is important to update
-  the filter macros to remove false positives. If a true positive is found, it suggests
-  an possible attacker is attempting to persist within the environment or deliver
-  additional malicious payloads, leading to data theft, ransomware, or other damaging
-  outcomes. To implement this analytic, ensure you are ingesting logs with the process
-  name, parent process, and command-line executions from your endpoints.
+description: The following analytic detects the creation or enabling of services on
+  Linux platforms using the systemctl or service tools. It leverages Endpoint Detection
+  and Response (EDR) logs, focusing on process names, parent processes, and command-line
+  executions. This activity is significant as adversaries may create or modify services
+  to maintain persistence or execute malicious payloads. If confirmed malicious, this
+  behavior could lead to persistent access, data theft, ransomware deployment, or
+  other damaging outcomes. Monitoring and investigating such activities are crucial
+  for maintaining the security and integrity of the environment.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name IN ("systemctl",
   "service") OR Processes.process IN ("*systemctl *", "*service *")) Processes.process
-  IN ("* start *", "* enable *") AND NOT (Processes.os="Microsoft Windows" OR Processes.vendor_product="Microsoft Windows") 
-  by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `linux_service_started_or_enabled_filter`'
+  IN ("* start *", "* enable *") AND NOT (Processes.os="Microsoft Windows" OR Processes.vendor_product="Microsoft
+  Windows") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `linux_service_started_or_enabled_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -44,6 +42,7 @@ tags:
   - Linux Persistence Techniques
   - Linux Living Off The Land
   - Scheduled Tasks
+  - Gomir
   asset_type: Endpoint
   confidence: 70
   impact: 60
@@ -74,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/service_systemd/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

@@ -1,15 +1,19 @@
 name: GetWmiObject Ds Computer with PowerShell
 id: 7141122c-3bc2-4aaa-ab3b-7a85a0bbefc3
-version: 1
-date: '2021-09-07'
+version: 2
+date: '2024-05-27'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `powershell.exe` with command-line
-  arguments utilized to discover remote systems. The `Get-WmiObject` commandlet combined
-  with the `DS_Computer` parameter can be used to return a list of all domain computers.
-  Red Teams and adversaries alike may leverage WMI in this case, using PowerShell,
-  to enumerate domain groups for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` with
+  command-line arguments that utilize the `Get-WmiObject` cmdlet to discover remote
+  systems, specifically targeting the `DS_Computer` parameter. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names
+  and command-line executions. This activity is significant as it indicates potential
+  reconnaissance efforts by adversaries to enumerate domain computers and gather situational
+  awareness within Active Directory. If confirmed malicious, this behavior could allow
+  attackers to map the network, identify critical systems, and plan further attacks,
+  potentially leading to unauthorized access and data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -66,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

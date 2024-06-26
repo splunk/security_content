@@ -1,34 +1,43 @@
 name: Azure AD Tenant Wide Admin Consent Granted
 id: dc02c0ee-6ac0-4c7f-87ba-8ce43a4e4418
-version: 2
-date: '2023-09-14'
+version: 3
+date: '2024-05-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Azure Active Directory Consent to application
-description: The following analytic identifies instances where admin consent is granted to an application within an Azure AD tenant. It leverages Azure AD audit logs, specifically events related to the admin consent action within the ApplicationManagement category. The admin consent action allows applications to access data across the entire tenant, potentially encompassing a vast amount of organizational data. Given its broad scope and the sensitivity of some permissions that can only be granted via admin consent, it's crucial to monitor this action. Unauthorized or inadvertent granting of admin consent can lead to significant security risks, including data breaches, unauthorized data access, and potential compliance violations. If an attacker successfully tricks an administrator into granting admin consent to a malicious or compromised application, they can gain extensive and persistent access to organizational data. This can lead to data exfiltration, espionage, further malicious activities within the tenant, and potential breaches of compliance regulations
-search: >- 
- `azure_monitor_aad` operationName="Consent to application"
- | eval new_field=mvindex('properties.targetResources{}.modifiedProperties{}.newValue', 4)
- | rename properties.* as * 
- | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)"
- | rex field=new_field "Scope: (?<Scope>[^\,]+)" 
- | search  ConsentType = "AllPrincipals" 
- | stats count min(_time) as firstTime max(_time) as lastTime by operationName, user, targetResources{}.displayName, targetResources{}.id, ConsentType, Scope
- | `security_content_ctime(firstTime)` 
- | `security_content_ctime(lastTime)`
- | `azure_ad_tenant_wide_admin_consent_granted_filter`
+description: The following analytic identifies instances where admin consent is granted
+  to an application within an Azure AD tenant. It leverages Azure AD audit logs, specifically
+  events related to the admin consent action within the ApplicationManagement category.
+  This activity is significant because admin consent allows applications to access
+  data across the entire tenant, potentially exposing vast amounts of organizational
+  data. If confirmed malicious, an attacker could gain extensive and persistent access
+  to sensitive data, leading to data exfiltration, espionage, further malicious activities,
+  and potential compliance violations.
+search: >-
+  `azure_monitor_aad` operationName="Consent to application"
+  | eval new_field=mvindex('properties.targetResources{}.modifiedProperties{}.newValue',
+  4)
+  | rename properties.* as *  | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)"
+  | rex field=new_field "Scope: (?<Scope>[^\,]+)"  | search  ConsentType = "AllPrincipals"  |
+  stats count min(_time) as firstTime max(_time) as lastTime by operationName, user,
+  targetResources{}.displayName, targetResources{}.id, ConsentType, Scope
+  | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`
+  | `azure_ad_tenant_wide_admin_consent_granted_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Auditlogs log category.
-known_false_positives: Legitimate applications may be granted tenant wide consent, filter as needed.
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the Auditlogs log category.
+known_false_positives: Legitimate applications may be granted tenant wide consent,
+  filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/003/
 - https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
 - https://learn.microsoft.com/en-us/security/operations/incident-response-playbook-app-consent
 - https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/grant-admin-consent?pivots=portal
-- https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT501/AZT501-2/ 
+- https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT501/AZT501-2/
 tags:
   analytic_story:
   - Azure Active Directory Persistence
@@ -61,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_admin_consent/azure_ad_admin_consent.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_admin_consent/azure_ad_admin_consent.log
     source: Azure AD
     sourcetype: azure:monitor:aad

@@ -1,23 +1,26 @@
 name: Windows Time Based Evasion via Choice Exec
 id: d5f54b38-10bf-4b3a-b6fc-85949862ed50
-version: 1
-date: '2024-02-14'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
-description: This analytic is designed to detect potentially suspicious batch files that leverage choice.exe as a delay tactic. 
-  This technique, observed in the SnakeKeylogger malware, is utilized for time delays or 'Sleep' commands in its code execution 
-  or before the deletion of its copies on compromised hosts. Detecting this anomaly serves as a valuable pivot to uncover 
-  suspicious processes attempting to evade detection through time-based evasion techniques.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name =choice.exe  Processes.process = "*/T*"  Processes.process = "*/N*"
-  by Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid Processes.dest Processes.user 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_time_based_evasion_via_choice_exec_filter`'
+description: The following analytic detects the use of choice.exe in batch files as
+  a delay tactic, a technique observed in SnakeKeylogger malware. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process names and
+  command-line executions. This activity is significant as it indicates potential
+  time-based evasion techniques used by malware to avoid detection. If confirmed malicious,
+  this behavior could allow attackers to execute code stealthily, delete malicious
+  files, and persist on compromised hosts, making it crucial for SOC analysts to investigate
+  promptly.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name =choice.exe  Processes.process
+  = "*/T*"  Processes.process = "*/N*" by Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_time_based_evasion_via_choice_exec_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -27,8 +30,8 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: administrator may use choice.exe to allow user to choose from and indexes of choices from a batch
-  script.
+known_false_positives: administrator may use choice.exe to allow user to choose from
+  and indexes of choices from a batch script.
 references:
 - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/choice
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.404keylogger
@@ -66,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/time_delay_using_choice_exe/snakekeylogger_choice.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/time_delay_using_choice_exe/snakekeylogger_choice.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

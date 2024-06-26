@@ -1,26 +1,26 @@
 name: Windows Modify Registry No Auto Reboot With Logon User
 id: 6a12fa9f-580d-4627-8c7f-313e359bdc6a
-version: 1
-date: '2023-04-21'
+version: 2
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a suspicious registry modification of Windows auto update configuration. 
-  This technique was being abused by several adversaries, malware authors and also red-teamers to bypass detection or 
-  to be able to compromise the target host with zero day exploit or as an additional defense evasion technique.
-  RedLine Stealer is one of the malware we've seen that uses this technique to evade detection and add more payload on the target host.
-  This detection looks for registry modification that will allow "Logged-on user gets to choose whether or not to restart his or her compute".
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\NoAutoRebootWithLoggedOnUsers"
-  AND Registry.registry_value_data="0x00000001" 
-  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_key_name 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` 
-  | `windows_modify_registry_no_auto_reboot_with_logon_user_filter`'
+description: The following analytic detects a suspicious modification to the Windows
+  registry that disables automatic reboot with a logged-on user. This detection leverages
+  the Endpoint data model to identify changes to the registry path 
+  `SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU\NoAutoRebootWithLoggedOnUsers`
+  with a value of `0x00000001`. This activity is significant as it is commonly used
+  by adversaries, including malware like RedLine Stealer, to evade detection and maintain
+  persistence. If confirmed malicious, this could allow attackers to bypass security
+  measures and deploy additional payloads without interruption.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\NoAutoRebootWithLoggedOnUsers"
+  AND Registry.registry_value_data="0x00000001" by Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_data Registry.registry_key_name | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_modify_registry_no_auto_reboot_with_logon_user_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -34,7 +34,7 @@ tags:
   analytic_story:
   - RedLine Stealer
   asset_type: Endpoint
-  atomic_guid: 
+  atomic_guid:
   - 12e03af7-79f9-4f95-af48-d3f12f28a260
   confidence: 30
   impact: 30
@@ -64,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

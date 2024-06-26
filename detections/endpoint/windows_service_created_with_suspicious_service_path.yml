@@ -1,20 +1,22 @@
 name: Windows Service Created with Suspicious Service Path
 id: 429141be-8311-11eb-adb6-acde48001122
-version: 4
-date: '2024-04-26'
+version: 5
+date: '2024-05-21'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytics uses Windows Event Id 7045, `New Service Was
-  Installed`, to identify the creation of a Windows Service where the service binary
-  path path is located in a non-common Service folder in Windows. Red Teams and adversaries
-  alike may create malicious Services for lateral movement or remote code execution
-  as well as persistence and execution. The Clop ransomware has also been seen in
-  the wild abusing Windows services.
+description: The following analytic detects the creation of a Windows Service with
+  a binary path located in uncommon directories, using Windows Event ID 7045. It leverages
+  logs from the `wineventlog_system` to identify services installed outside typical
+  system directories. This activity is significant as adversaries, including those
+  deploying Clop ransomware, often create malicious services for lateral movement,
+  remote code execution, persistence, and execution. If confirmed malicious, this
+  could allow attackers to maintain persistence, execute arbitrary code, and potentially
+  escalate privileges, posing a severe threat to the environment.
 data_source:
 - Windows Event Log System 7045
-search: ' `wineventlog_system` EventCode=7045 ImagePath = "*.exe" NOT (ImagePath
-  IN ("*:\\Windows\\*", "*:\\Program File*", "*:\\Programdata\\*", "*%systemroot%\\*"))
+search: ' `wineventlog_system` EventCode=7045 ImagePath = "*.exe" NOT (ImagePath IN
+  ("*:\\Windows\\*", "*:\\Program File*", "*:\\Programdata\\*", "*%systemroot%\\*"))
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ImagePath
   ServiceName ServiceType StartType Computer UserID | rename Computer as dest| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_service_created_with_suspicious_service_path_filter`'
@@ -39,7 +41,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: A service $ImagePath$ was created from a non-standard path using $ServiceName$ on $dest$
+  message: A service $ImagePath$ was created from a non-standard path using $ServiceName$
+    on $dest$
   mitre_attack_id:
   - T1569
   - T1569.002
@@ -69,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/windows_service_created_with_suspicious_service_path/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/windows_service_created_with_suspicious_service_path/windows-xml.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog

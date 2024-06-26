@@ -1,18 +1,18 @@
 name: Detect PsExec With accepteula Flag
 id: 27c3a83d-cada-47c6-9042-67baf19d2574
-version: 4
-date: '2021-09-16'
+version: 5
+date: '2024-05-23'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: This search looks for events where `PsExec.exe` is run with the `accepteula`
-  flag in the command line. PsExec is a built-in Windows utility that enables you
-  to execute processes on other systems. It is fully interactive for console applications.
-  This tool is widely used for launching interactive command prompts on remote systems.
-  Threat actors leverage this extensively for executing code on compromised systems.
-  If an attacker is running PsExec for the first time, they will be prompted to accept
-  the end-user license agreement (EULA), which can be passed as the argument `accepteula`
-  within the command line.
+description: The following analytic identifies the execution of `PsExec.exe` with
+  the `accepteula` flag in the command line. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process execution logs and command-line arguments.
+  This activity is significant because PsExec is commonly used by threat actors to
+  execute code on remote systems, and the `accepteula` flag indicates first-time usage,
+  which could signify initial compromise. If confirmed malicious, this activity could
+  allow attackers to gain remote code execution capabilities, potentially leading
+  to further system compromise and lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -97,6 +97,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

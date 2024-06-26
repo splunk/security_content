@@ -1,23 +1,25 @@
 name: Windows Delete or Modify System Firewall
 id: b188d11a-eba7-419d-b8b6-cc265b4f2c4f
-version: 1
-date: '2023-09-08'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
-description: This analytic identifies potentially malicious 'netsh' processes that manipulate firewall configurations. 
-  This behavior has been observed in the NJRAT malware, which deletes its added firewall rules as part of its cleanup process. 
-  Leveraging this anomaly detection can be a valuable approach for detecting malware, such as NJRAT, 
-  that makes alterations to firewall configurations as a component of its malicious activities.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where `process_netsh` Processes.process = "* firewall *" Processes.process = "* delete *"
-  by Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
-  | `drop_dm_object_name("Processes")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_delete_or_modify_system_firewall_filter`'
+description: The following analytic identifies 'netsh' processes that delete or modify
+  firewall configurations. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on command-line executions containing specific keywords.
+  This activity is significant because it can indicate malware, such as NJRAT, attempting
+  to alter firewall settings to evade detection or remove traces. If confirmed malicious,
+  this behavior could allow an attacker to disable security measures, facilitating
+  further compromise and persistence within the network.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process
+  = "* firewall *" Processes.process = "* delete *" by Processes.parent_process Processes.parent_process_name
+  Processes.process_name Processes.process_id Processes.process_guid Processes.process
+  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_delete_or_modify_system_firewall_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -64,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/njrat_delete_firewall/njrat_delete_firewall.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/njrat_delete_firewall/njrat_delete_firewall.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

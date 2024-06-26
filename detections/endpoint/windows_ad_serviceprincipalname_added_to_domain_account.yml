@@ -1,23 +1,29 @@
 name: Windows AD ServicePrincipalName Added To Domain Account
 id: 8a1259cb-0ea7-409c-8bfe-74bad89259f9
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-22'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 5136
-description: The following analytic identifies the addition of a Service Principal Name to a domain account. While this event may be part of a legitimate action part of certain administrative operations,
-  it may also be evidence of a persistence attack. Domain accounts with Servce Principal Names are vulnerable to a technique called Kerberoasting that enables attackers to potentially obtain the cleartext password 
-  of the account by performing offline cracking. An adversary who has obtained privileged access to a domain environment may add an SPN to a privileged account to then leverage the Kerberoasting technique and attempt
-  to obtain its clertext password. 
-search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName OperationType="%%14674"
-  | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue | rename Computer as dest SubjectUserName as user
+description: The following analytic detects the addition of a Service Principal Name
+  (SPN) to a domain account. It leverages Windows Event Code 5136 and monitors changes
+  to the servicePrincipalName attribute. This activity is significant because it may
+  indicate an attempt to perform Kerberoasting, a technique where attackers extract
+  and crack service account passwords offline. If confirmed malicious, this could
+  allow an attacker to obtain cleartext passwords, leading to unauthorized access
+  and potential lateral movement within the domain environment.
+search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
+  OperationType="%%14674" | stats values(ObjectDN) as ObjectDN by _time, Computer,
+  SubjectUserName, AttributeValue | rename Computer as dest SubjectUserName as user
   | `windows_ad_serviceprincipalname_added_to_domain_account_filter`'
-how_to_implement: To successfully implement this search, you ned to be ingesting eventcode 
- `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` 
- within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
-known_false_positives: A Service Principal Name should only be added to an account when an application requires it. While infrequent, this detection may trigger on 
+how_to_implement: To successfully implement this search, you ned to be ingesting eventcode
+  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes`
+  within `DS Access` needs to be enabled. Additionally, a SACL needs to be created
+  for AD objects in order to ingest attribute modifications.
+known_false_positives: A Service Principal Name should only be added to an account
+  when an application requires it. While infrequent, this detection may trigger on
   legitimate actions. Filter as needed.
 references:
 - https://adsecurity.org/?p=3466
@@ -58,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/service_principal_name_added/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/service_principal_name_added/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

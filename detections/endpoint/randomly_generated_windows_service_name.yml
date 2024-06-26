@@ -1,27 +1,22 @@
 name: Randomly Generated Windows Service Name
 id: 2032a95a-5165-11ec-a2c3-3e22fbd008af
-version: 1
-date: '2021-11-29'
+version: 2
+date: '2024-05-30'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
-description: The following hunting analytic leverages Event ID 7045, `A new service
-  was installed in the system`, to identify the installation of a Windows Service
-  with a suspicious, high entropy, Service Name. To achieve this, this analytic also
-  leverages the `ut_shannon` function from the URL ToolBox Splunk application. Red
-  teams and adversaries alike may abuse the Service Control Manager to create and
-  start a remote Windows Service and obtain remote code execution. To achieve this
-  goal, some tools like Metasploit, Cobalt Strike and Impacket, typically create a
-  Windows Service with a random service name on the victim host. This hunting analytic
-  may help defenders identify Windows Services installed as part of a lateral movement
-  attack. The entropy threshold `ut_shannon > 3` should be customized by users. The
-  Service_File_Name field can be used to determine if the Windows Service has malicious
-  intent or not.
+description: The following analytic detects the installation of a Windows Service
+  with a suspicious, high-entropy name, indicating potential malicious activity. It
+  leverages Event ID 7045 and the `ut_shannon` function from the URL ToolBox Splunk
+  application to identify services with random names. This behavior is significant
+  as adversaries often use randomly named services for lateral movement and remote
+  code execution. If confirmed malicious, this activity could allow attackers to execute
+  arbitrary code, escalate privileges, or maintain persistence within the environment.
 data_source:
 - Windows Event Log System 7045
 search: ' `wineventlog_system` EventCode=7045 | lookup ut_shannon_lookup word as Service_Name
   | where ut_shannon > 3 | table EventCode ComputerName Service_Name ut_shannon Service_Start_Type
-  Service_Type Service_File_Name | `randomly_generated_windows_service_name_filter` '
+  Service_Type Service_File_Name | `randomly_generated_windows_service_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
   from your endpoints. The Windows TA as well as the URL ToolBox application are also

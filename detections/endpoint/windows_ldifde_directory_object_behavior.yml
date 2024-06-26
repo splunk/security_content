@@ -1,32 +1,20 @@
 name: Windows Ldifde Directory Object Behavior
 id: 35cd29ca-f08c-4489-8815-f715c45460d3
-version: 1
-date: '2023-05-25'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: The following analytic identifies the use of Ldifde.exe, which provides
-  the ability to create, modify, or delete LDAP directory objects. Natively, the binary
-  is only installed on a domain controller. However, adversaries or administrators
-  may install the Windows Remote Server Admin Tools for ldifde.exe. Ldifde.exe is
-  a Microsoft Windows command-line utility used to import or export LDAP directory
-  entries. LDAP stands for Lightweight Directory Access Protocol, which is a protocol
-  used for accessing and managing directory information services over an IP network.
-  LDIF, on the other hand, stands for LDAP Data Interchange Format, a standard plain-text
-  data interchange format for representing LDAP directory entries. -i This is a flag
-  used with Ldifde.exe to denote import mode. In import mode, Ldifde.exe takes an
-  LDIF file and imports its contents into the LDAP directory. The data in the LDIF
-  file might include new objects to be created, or modifications or deletions to existing
-  objects. -f This flag is used to specify the filename of the LDIF file that Ldifde.exe
-  will import from (in the case of the -i flag) or export to (without the -i flag).
-  For example, if you wanted to import data from a file called data.ldif, you would
-  use the command ldifde -i -f data.ldif. Keep in mind that while the use of Ldifde.exe
-  is legitimate in many contexts, it can also be used maliciously. For instance, an
-  attacker who has gained access to a domain controller could potentially use Ldifde.exe
-  to export sensitive data or make unauthorized changes to the directory. Therefore,
-  it's important to monitor for unusual or unauthorized use of this tool.
+description: The following analytic identifies the use of Ldifde.exe, a command-line
+  utility for creating, modifying, or deleting LDAP directory objects. This detection
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  execution and command-line arguments. Monitoring Ldifde.exe is significant because
+  it can be used by attackers to manipulate directory objects, potentially leading
+  to unauthorized changes or data exfiltration. If confirmed malicious, this activity
+  could allow an attacker to gain control over directory services, escalate privileges,
+  or access sensitive information within the network.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=ldifde.exe
   Processes.process IN ("*-i *", "*-f *") by Processes.dest Processes.user Processes.parent_process_name
@@ -100,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/ldifde_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/ldifde_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

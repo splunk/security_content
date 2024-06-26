@@ -1,21 +1,22 @@
 name: Windows Drivers Loaded by Signature
 id: d2d4af6a-6c2b-4d79-80c5-fc2cf12a2f68
-version: 1
-date: '2022-03-30'
+version: 2
+date: '2024-05-10'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic assists with viewing all drivers being loaded
-  by using Sysmon EventCode 6 (Driver Load). Sysmon provides some simple fields to
-  assist with identifying suspicious drivers. Use this analytic to look at prevalence
-  of driver (count), path of driver, signature status and hash. Review these fields
-  with scrutiny until the ability to prove the driver is legitimate and has a purpose
-  in the environment.
+description: The following analytic identifies all drivers being loaded on Windows
+  systems using Sysmon EventCode 6 (Driver Load). It leverages fields such as driver
+  path, signature status, and hash to detect potentially suspicious drivers. This
+  activity is significant for a SOC as malicious drivers can be used to gain kernel-level
+  access, bypass security controls, or persist in the environment. If confirmed malicious,
+  this activity could allow an attacker to execute arbitrary code with high privileges,
+  leading to severe system compromise and potential data exfiltration.
 data_source:
 - Sysmon EventID 6
 search: '`sysmon` EventCode=6 | stats min(_time) as firstTime max(_time) as lastTime
-  values(ImageLoaded) count by dest Signed Signature service_signature_verified
-  service_signature_exists Hashes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  values(ImageLoaded) count by dest Signed Signature service_signature_verified service_signature_exists
+  Hashes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_drivers_loaded_by_signature_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -64,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

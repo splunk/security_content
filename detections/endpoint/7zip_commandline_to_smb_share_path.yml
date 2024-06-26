@@ -1,15 +1,17 @@
 name: 7zip CommandLine To SMB Share Path
 id: 01d29b48-ff6f-11eb-b81e-acde48001123
-version: 1
-date: '2021-08-17'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This search is to detect a suspicious 7z process with commandline pointing
-  to SMB network share. This technique was seen in CONTI LEAK tools where it use 7z
-  to archive a sensitive files and place it in network share tmp folder. This search
-  is a good hunting query that may give analyst a hint why specific user try to archive
-  a file pointing to SMB user which is un usual.
+description: The following analytic detects the execution of 7z or 7za processes with
+  command lines pointing to SMB network shares. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process names and command-line arguments.
+  This activity is significant as it may indicate an attempt to archive and exfiltrate
+  sensitive files to a network share, a technique observed in CONTI LEAK tools. If
+  confirmed malicious, this behavior could lead to data exfiltration, compromising
+  sensitive information and potentially aiding further attacks.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

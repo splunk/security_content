@@ -1,15 +1,17 @@
 name: Windows Java Spawning Shells
 id: 28c81306-5c47-11ec-bfea-acde48001122
-version: 2
-date: '2023-01-23'
+version: 3
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies the process name of java.exe and w3wp.exe
-  spawning a Windows shell. This is potentially indicative of exploitation of the
-  Java application and may be related to current event CVE-2021-44228 (Log4Shell).
-  The shells included in the macro are "cmd.exe", "powershell.exe". Upon triage, review
-  parallel processes and command-line arguments to determine legitimacy.
+description: The following analytic identifies instances where java.exe or w3wp.exe
+  spawns a Windows shell, such as cmd.exe or powershell.exe. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process and
+  parent process relationships. This activity is significant as it may indicate exploitation
+  attempts, such as those related to CVE-2021-44228 (Log4Shell). If confirmed malicious,
+  attackers could execute arbitrary commands, potentially leading to system compromise,
+  data exfiltration, or further lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

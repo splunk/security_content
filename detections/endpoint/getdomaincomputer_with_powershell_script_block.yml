@@ -1,20 +1,24 @@
 name: GetDomainComputer with PowerShell Script Block
 id: f64da023-b988-4775-8d57-38e512beb56e
-version: 2
-date: '2022-05-02'
+version: 3
+date: '2024-05-12'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainComputer` commandlet. `GetDomainComputer`
-  is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
-  Red Teams and adversaries alike may use PowerView to enumerate domain computers
-  for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-DomainComputer`
+  commandlet using PowerShell Script Block Logging (EventCode=4104). This commandlet
+  is part of PowerView, a tool often used for enumerating domain computers within
+  Windows environments. The detection leverages script block text analysis to identify
+  this specific command. Monitoring this activity is crucial as it can indicate an
+  adversary's attempt to gather information about domain computers, which is a common
+  step in Active Directory reconnaissance. If confirmed malicious, this activity could
+  lead to further network enumeration and potential lateral movement within the domain.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*") |
   stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID
-  EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `getdomaincomputer_with_powershell_script_block_filter`'
+  EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
+  | `getdomaincomputer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -52,6 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

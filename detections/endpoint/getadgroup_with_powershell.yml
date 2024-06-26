@@ -1,15 +1,18 @@
 name: GetAdGroup with PowerShell
 id: 872e3063-0fc4-4e68-b2f3-f2b99184a708
-version: 1
-date: '2021-08-25'
+version: 2
+date: '2024-05-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `powershell.exe` with command-line
-  arguments utilized to query for domain groups. The `Get-AdGroup` commandlnet is
-  used to return a list of all groups available in a Windows Domain. Red Teams and
-  adversaries alike may leverage this commandlet to enumerate domain groups for situational
-  awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` with
+  the `Get-AdGroup` commandlet, which is used to query domain groups in a Windows
+  Domain. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process names and command-line arguments. Monitoring this activity
+  is crucial as it may indicate an adversary or Red Team enumerating domain groups
+  for situational awareness and Active Directory discovery. If confirmed malicious,
+  this activity could lead to further reconnaissance, privilege escalation, or lateral
+  movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

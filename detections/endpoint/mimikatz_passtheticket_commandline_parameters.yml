@@ -1,16 +1,18 @@
 name: Mimikatz PassTheTicket CommandLine Parameters
 id: 13bbd574-83ac-11ec-99d4-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic looks for the use of Mimikatz command line parameters
-  leveraged to execute pass the ticket attacks. Red teams and adversaries alike may
-  use the pass the ticket technique using stolen Kerberos tickets to move laterally
-  within an environment, bypassing normal system access controls. Defenders should
-  be aware that adversaries may customize the source code of Mimikatz and modify the
-  command line parameters. This would effectively bypass this analytic.
+description: The following analytic detects the use of Mimikatz command line parameters
+  associated with pass-the-ticket attacks. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on specific command-line patterns related to
+  Kerberos ticket manipulation. This activity is significant because pass-the-ticket
+  attacks allow adversaries to move laterally within an environment using stolen Kerberos
+  tickets, bypassing normal access controls. If confirmed malicious, this could enable
+  attackers to escalate privileges, access sensitive information, and maintain persistence
+  within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/mimikatz/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/mimikatz/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

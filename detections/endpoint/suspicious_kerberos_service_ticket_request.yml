@@ -1,26 +1,24 @@
 name: Suspicious Kerberos Service Ticket Request
 id: 8b1297bc-6204-11ec-b7c4-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-16'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain Controller
-  Impersonation (CVE-2021-42287) exploitation chain, adversaries will request and
-  obtain a Kerberos Service Ticket (TGS) with a domain controller computer account
-  as the Service Name. This Service Ticket can be then used to take control of the
-  domain controller on the final part of the attack. This analytic leverages Event
-  Id 4769, `A Kerberos service ticket was requested`, to identify an unusual TGS request
-  where the Account_Name requesting the ticket matches the Service_Name field. This
-  behavior could represent an exploitation attempt of CVE-2021-42278 and CVE-2021-42287
-  for privilege escalation.
+description: The following analytic detects suspicious Kerberos Service Ticket (TGS)
+  requests where the requesting account name matches the service name, potentially
+  indicating an exploitation attempt of CVE-2021-42278 and CVE-2021-42287. This detection
+  leverages Event ID 4769 from Domain Controller and Kerberos events. Such activity
+  is significant as it may represent an adversary attempting to escalate privileges
+  by impersonating a domain controller. If confirmed malicious, this could allow an
+  attacker to take control of the domain controller, leading to complete domain compromise
+  and unauthorized access to sensitive information.
 data_source:
 - Windows Event Log Security 4769
-search: ' `wineventlog_security` EventCode=4769
-  | eval isSuspicious = if(lower(ServiceName) = lower(mvindex(split(TargetUserName,"@"),0)),1,0) 
-  | where isSuspicious = 1 | rename Computer as dest| rename TargetUserName as user  
-  | table _time, dest, src_ip, user, ServiceName, Error_Code, isSuspicious
-  | `suspicious_kerberos_service_ticket_request_filter`'
+search: ' `wineventlog_security` EventCode=4769 | eval isSuspicious = if(lower(ServiceName)
+  = lower(mvindex(split(TargetUserName,"@"),0)),1,0) | where isSuspicious = 1 | rename
+  Computer as dest| rename TargetUserName as user | table _time, dest, src_ip, user,
+  ServiceName, Error_Code, isSuspicious | `suspicious_kerberos_service_ticket_request_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
@@ -68,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_kerberos_service_ticket_request/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_kerberos_service_ticket_request/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

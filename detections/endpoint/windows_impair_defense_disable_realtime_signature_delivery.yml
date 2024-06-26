@@ -1,27 +1,27 @@
 name: Windows Impair Defense Disable Realtime Signature Delivery
 id: ffd99aea-542f-448e-b737-091c1b417274
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable windows defender 
-  realtime signature delivery feature. This setting governs how Windows Defender Antivirus receives updated signature 
-  definitions for identifying and combating malware threats in real-time. The actual impact and behaviors associated 
-  with different values for RealtimeSignatureDelivery can vary based on specific Windows Defender configurations and policies.
-  For instance, setting this value to 0 or 1 might control whether real-time signatures are delivered via different methods 
-  such as through Windows Update or directly from Microsoft's cloud-based services.
+description: The following analytic detects modifications to the Windows registry
+  that disable the Windows Defender real-time signature delivery feature. It leverages
+  data from the Endpoint.Registry data model, specifically monitoring changes to the
+  registry path associated with Windows Defender signature updates. This activity
+  is significant because disabling real-time signature delivery can prevent Windows
+  Defender from receiving timely malware definitions, reducing its effectiveness.
+  If confirmed malicious, this action could allow attackers to bypass malware detection,
+  leading to potential system compromise and persistent threats.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Signature Updates\\RealtimeSignatureDelivery"
-  Registry.registry_value_data="0x00000000" 
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_disable_realtime_signature_delivery_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Signature Updates\\RealtimeSignatureDelivery" Registry.registry_value_data="0x00000000"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_disable_realtime_signature_delivery_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -65,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

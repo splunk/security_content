@@ -1,15 +1,18 @@
 name: Linux MySQL Privilege Escalation
 id: c0d810f4-230c-44ea-b703-989da02ff145
-version: 1
-date: '2022-08-09'
+version: 2
+date: '2024-05-17'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: MySQL is an open-source relational database management system. Its name
-  is a combination of "My", the name of co-founder Michael Widenius's daughter My,
-  and "SQL", the abbreviation for Structured Query Language. If sudo right is given
-  to mysql utility for the user, then the user can run system commands as root and
-  possibly get a root shell.
+description: The following analytic detects the execution of MySQL commands with elevated
+  privileges using sudo, which can lead to privilege escalation. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs that include command-line details. This activity is significant because it
+  indicates a potential misuse of MySQL to execute system commands as root, which
+  could allow an attacker to gain root shell access. If confirmed malicious, this
+  could result in full control over the affected system, leading to severe security
+  breaches and unauthorized access to sensitive data.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/mysql/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/mysql/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

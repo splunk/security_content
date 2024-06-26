@@ -1,15 +1,17 @@
 name: Linux Make Privilege Escalation
 id: 80b22836-5091-4944-80ee-f733ac443f4f
-version: 1
-date: '2022-08-09'
+version: 2
+date: '2024-05-12'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: The Linux make command is used to build and maintain groups of programs
-  and files from the source code. In Linux, it is one of the most frequently used
-  commands by the developers. It assists developers to install and compile many utilities
-  from the terminal. If sudo right is given to make utility for the user, then the
-  user can run system commands as root and possibly get a root shell.
+description: The following analytic detects the use of the 'make' command with elevated
+  privileges to execute system commands as root, potentially leading to a root shell.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  command-line executions that include 'make', '--eval', and 'sudo'. This activity
+  is significant because it indicates a possible privilege escalation attempt, allowing
+  a user to gain root access. If confirmed malicious, an attacker could achieve full
+  control over the system, execute arbitrary commands, and compromise the entire environment.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,7 +76,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/make/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/make/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

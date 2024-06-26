@@ -1,23 +1,18 @@
 name: Powershell Load Module in Meterpreter
 id: d5905da5-d050-48db-9259-018d8f034fcf
-version: 1
-date: '2022-11-22'
+version: 2
+date: '2024-05-19'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  
-
-  This analytic identifies "MSF.Powershell","MSF.Powershell.Meterpreter","MSF.Powershell.Meterpreter.Kiwi","MSF.Powershell.Meterpreter.Transport"
-  being used. This behavior is related to when a Meterpreter session is started and
-  the operator runs load_kiwi. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the execution of suspicious PowerShell
+  commands associated with Meterpreter modules, such as "MSF.Powershell" and "MSF.Powershell.Meterpreter".
+  It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze
+  the full command sent to PowerShell. This activity is significant as it indicates
+  potential post-exploitation actions, including credential dumping and persistence
+  mechanisms. If confirmed malicious, an attacker could gain extensive control over
+  the compromised system, escalate privileges, and maintain long-term access, posing
+  a severe threat to the environment.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN ("*MSF.Powershell*","*MSF.Powershell.Meterpreter*","*MSF.Powershell.Meterpreter.Kiwi*","*MSF.Powershell.Meterpreter.Transport*")
@@ -66,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/metasploit/msf.powershell.powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/metasploit/msf.powershell.powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

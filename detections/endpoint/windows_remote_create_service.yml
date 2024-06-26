@@ -1,16 +1,19 @@
 name: Windows Remote Create Service
 id: 0dc44d03-8c00-482d-ba7c-796ba7ab18c9
-version: 1
-date: '2023-03-20'
+version: 2
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
-description: This analytic identifies an endpoint that remotely connects to another
-  endpoint to create a new service using sc.exe. On the remote endpoint, the new service
-  will be created and this action will trigger the creation of EventCode 7045 along
-  with all the resulting service information.
+description: The following analytic identifies the creation of a new service on a
+  remote endpoint using sc.exe. It leverages data from Endpoint Detection and Response
+  (EDR) agents, specifically monitoring for EventCode 7045, which indicates a new
+  service creation. This activity is significant as it may indicate lateral movement
+  or remote code execution attempts by an attacker. If confirmed malicious, this could
+  allow the attacker to establish persistence, escalate privileges, or execute arbitrary
+  code on the remote system, potentially leading to further compromise of the network.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sc.exe
   Processes.process IN ("*create*")  Processes.process="*\\\\*" by Processes.dest
@@ -82,7 +85,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/remote_service_create_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/remote_service_create_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,16 +1,29 @@
 name: Splunk Reflected XSS on App Search Table Endpoint
 id: 182f9080-4137-4629-94ac-cb1083ac981a
-version: 1
-date: '2023-09-05'
+version: 2
+date: '2024-05-23'
 author: Rod Soto
 status: production
 type: Hunting
-data_source: 
+data_source:
 - Splunk
-description: In Splunk Enterprise versions below 9.1.1, 9.0.6, and 8.2.12, an attacker can craft a special web request that can result in reflected cross-site scripting XSS on the app search table web endpoint, which presents as the Create Table View page in Splunk Web. Exploitation of this vulnerability can lead to the execution of arbitrary commands on the Splunk platform instance. A JavaScript file within this web endpoint does not properly validate input which lets an attacker insert a payload into a function.
-search: '`splunkd_web` (dataset_commands="*makeresults*" AND dataset_commands="*count*" AND dataset_commands="*eval*" AND dataset_commands="*baseSPL*") | stats count min(_time) as firstTime max(_time) as lastTime by clientip status user view root uri_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `splunk_reflected_xss_on_app_search_table_endpoint_filter`'
-how_to_implement: Need access to the internal indexes. 
-known_false_positives: This search will produce false positives. It is necessary to also look at uri_query parameter to determine the possible malicious intention of inserting makeresults within the uri string. 
+description: The following analytic identifies attempts to exploit a reflected cross-site
+  scripting (XSS) vulnerability on the app search table endpoint in Splunk Enterprise
+  versions below 9.1.1, 9.0.6, and 8.2.12. It detects this activity by analyzing web
+  request logs for specific dataset commands (`makeresults`, `count`, `eval`, `baseSPL`)
+  within the `splunkd_web` index. This activity is significant because successful
+  exploitation can lead to the execution of arbitrary commands on the Splunk platform,
+  potentially compromising the entire instance. If confirmed malicious, attackers
+  could gain unauthorized access, execute arbitrary code, and manipulate data within
+  the Splunk environment.
+search: '`splunkd_web` (dataset_commands="*makeresults*" AND dataset_commands="*count*"
+  AND dataset_commands="*eval*" AND dataset_commands="*baseSPL*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by clientip status user view root uri_path |
+  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `splunk_reflected_xss_on_app_search_table_endpoint_filter`'
+how_to_implement: Need access to the internal indexes.
+known_false_positives: This search will produce false positives. It is necessary to
+  also look at uri_query parameter to determine the possible malicious intention of
+  inserting makeresults within the uri string.
 references:
 - https://advisory.splunk.com/advisories/SVD-2023-0801
 tags:
@@ -34,17 +47,18 @@ tags:
   risk_score: 12
   required_fields:
   - dataset_commands
-  - clientip 
-  - status 
-  - user 
-  - view 
-  - root 
-  - uri_path 
+  - clientip
+  - status
+  - user
+  - view
+  - root
+  - uri_path
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_reflected_xss_on_app_search_table_endpoint_splunk_web_access.log
-    source: web_access.log 
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/splunk/splunk_reflected_xss_on_app_search_table_endpoint_splunk_web_access.log
+    source: web_access.log
     sourcetype: splunk_web_access
     custom_index: _internal

@@ -1,18 +1,18 @@
 name: Loading Of Dynwrapx Module
 id: eac5e8ba-4857-11ec-9371-acde48001122
-version: 1
-date: '2021-11-18'
+version: 2
+date: '2024-05-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: DynamicWrapperX is an ActiveX component that can be used in a script
-  to call Windows API functions, but it requires the dynwrapx.dll to be installed
-  and registered. With that, registering or loading dynwrapx.dll to a host is highly
-  suspicious. In most instances when it is used maliciously, the best way to triage
-  is to review parallel processes and pivot on the process_guid. Review the registry
-  for any suspicious modifications meant to load dynwrapx.dll. Identify any suspicious
-  module loads of dynwrapx.dll. This detection will return and identify the processes
-  that invoke vbs/wscript/cscript.
+description: The following analytic detects the loading of the dynwrapx.dll module,
+  which is associated with the DynamicWrapperX ActiveX component. This detection leverages
+  Sysmon EventCode 7 to identify processes that load or register dynwrapx.dll. This
+  activity is significant because DynamicWrapperX can be used to call Windows API
+  functions in scripts, making it a potential tool for malicious actions. If confirmed
+  malicious, this could allow an attacker to execute arbitrary code, escalate privileges,
+  or maintain persistence on the host. Immediate investigation of parallel processes
+  and registry modifications is recommended.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName
@@ -72,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,18 +1,18 @@
 name: Rundll32 Control RunDLL World Writable Directory
 id: 1adffe86-10c3-11ec-8ce6-acde48001122
-version: 1
-date: '2021-09-08'
+version: 2
+date: '2024-05-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following detection identifies rundll32.exe with `control_rundll`
-  within the command-line, loading a .cpl or another file type from windows\temp,
-  programdata, or appdata. Developed in relation to CVE-2021-40444. Rundll32.exe can
-  also be used to execute Control Panel Item files (.cpl) through the undocumented
-  shell32.dll functions Control_RunDLL and Control_RunDLLAsUser. Double-clicking a
-  .cpl file also causes rundll32.exe to execute. This is written to be a bit more
-  broad by not including .cpl. The paths are specified, add more as needed. During
-  triage, review parallel processes to identify any further suspicious behavior.
+description: The following analytic detects the execution of rundll32.exe with the
+  `Control_RunDLL` command, loading files from world-writable directories such as
+  windows\temp, programdata, or appdata. This detection leverages Endpoint Detection
+  and Response (EDR) telemetry, focusing on process command-line data and specific
+  directory paths. This activity is significant as it may indicate an attempt to exploit
+  CVE-2021-40444 or similar vulnerabilities, allowing attackers to execute arbitrary
+  code. If confirmed malicious, this could lead to unauthorized code execution, privilege
+  escalation, or persistent access within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -93,6 +93,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

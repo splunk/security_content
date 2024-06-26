@@ -1,16 +1,18 @@
 name: Windows Impair Defense Delete Win Defender Context Menu
 id: 395ed5fe-ad13-4366-9405-a228427bdd91
-version: 1
-date: '2022-06-07'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The search looks for the deletion of Windows Defender context menu within
-  the registry. This is consistent behavior with RAT malware across a fleet of endpoints.
-  This particular behavior is executed when an adversary gains access to an endpoint
-  and begins to perform execution. Usually, a batch (.bat) will be executed and multiple
-  registry and scheduled task modifications will occur. During triage, review parallel
-  processes and identify any further file modifications.
+description: The following analytic detects the deletion of the Windows Defender context
+  menu entry from the registry. It leverages data from the Endpoint datamodel, specifically
+  monitoring registry actions where the path includes "*\\shellex\\ContextMenuHandlers\\EPP"
+  and the action is 'deleted'. This activity is significant as it is commonly associated
+  with Remote Access Trojan (RAT) malware attempting to disable security features.
+  If confirmed malicious, this could allow an attacker to impair defenses, facilitating
+  further malicious activities such as unauthorized access, persistence, and data
+  exfiltration.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -63,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

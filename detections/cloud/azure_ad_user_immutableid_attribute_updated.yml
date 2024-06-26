@@ -1,38 +1,32 @@
 name: Azure AD User ImmutableId Attribute Updated
 id: 0c0badad-4536-4a84-a561-5ff760f3c00e
-version: 1
-date: '2022-09-02'
+version: 2
+date: '2024-05-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 description: The following analytic identifies the modification of the SourceAnchor
-  (also called ImmutableId) attribute for an Azure Active Directory user. Updating
-  this attribute is a step required to set up the Azure Active Directory identity
-  federation backdoor technique discovered by security researcher Nestori Syynimaa.
-  Similar to Active Directory, Azure AD uses the concept of domains to manage directories
-  of identities. A new Azure AD tenant will initially contain a single domain that
-  is commonly called the `cloud-only` onmicrosoft.com domain. Organizations can also
-  add their registered custom domains to Azure AD for email addresses to match the
-  organizations domain name. If the organization intends to use a third-party identity
-  provider such as ADFS for authentication, the added custom domains can be configured
-  as federated. An adversary who has obtained privileged access to an Azure AD tenant
-  may leverage this technique to establish persistence and be able to authenticate
-  to Azure AD impersonating any user and bypassing the requirement to have a valid
-  password and/or perform MFA.
-data_source: 
+  (ImmutableId) attribute for an Azure Active Directory user. This detection leverages
+  Azure AD audit logs, specifically monitoring the "Update user" operation and changes
+  to the SourceAnchor attribute. This activity is significant as it is a step in setting
+  up an Azure AD identity federation backdoor, allowing an adversary to establish
+  persistence. If confirmed malicious, the attacker could impersonate any user, bypassing
+  password and MFA requirements, leading to unauthorized access and potential data
+  breaches.
+data_source:
 - Azure Active Directory Update user
 search: ' `azure_monitor_aad`  operationName="Update user" properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
-  | rename properties.* as * 
-  | rename initiatedBy.user.userPrincipalName as initiatedBy 
-  | rename targetResources{}.modifiedProperties{}.newValue as modifiedProperties
-  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user values(modifiedProperties) as modifiedProperties by initiatedBy, src_ip, result, operationName
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+  | rename properties.* as * | rename initiatedBy.user.userPrincipalName as initiatedBy
+  | rename targetResources{}.modifiedProperties{}.newValue as modifiedProperties |
+  stats count min(_time) as firstTime max(_time) as lastTime values(user) as user
+  values(modifiedProperties) as modifiedProperties by initiatedBy, src_ip, result,
+  operationName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `azure_ad_user_immutableid_attribute_updated_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
+  the AuditLog log category.
 known_false_positives: The SourceAnchor (also called ImmutableId) Azure AD attribute
   has legitimate uses for directory synchronization. Investigate and filter as needed.
 references:
@@ -72,7 +66,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_set_immutableid/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_set_immutableid/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

@@ -1,36 +1,51 @@
 name: Windows Known Abused DLL Created
 id: ea91651a-772a-4b02-ac3d-985b364a5f07
-version: 1
-date: '2024-02-19'
+version: 2
+date: '2024-05-17'
 author: Steven Dick
 status: production
 type: Anomaly
-description: This analytic is designed to identify instances where Dynamic Link Libraries (DLLs) with a known history of being exploited are created in locations that are not typical for their use. This could indicate that an attacker is attempting to exploit the DLL search order hijacking or sideloading techniques. DLL search order hijacking involves tricking an application into loading a malicious DLL instead of the legitimate one it was intending to load. This is often achieved by placing the malicious DLL in a directory that is searched before the directory containing the legitimate DLL. Sideloading, similarly, involves placing a malicious DLL with the same name as a legitimate DLL that an application is known to load, in a location that the application will search before finding the legitimate version. Both of these techniques can be used by attackers to execute arbitrary code, maintain persistence on a system, and potentially elevate their privileges, all while appearing as legitimate operations to the untrained eye. This analytic aims to shed light on such suspicious activities by monitoring for the creation of known abused DLLs in unconventional locations, thereby helping in the early detection of these stealthy attack techniques.
+description: The following analytic identifies the creation of Dynamic Link Libraries
+  (DLLs) with a known history of exploitation in atypical locations. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process and
+  filesystem events. This activity is significant as it may indicate DLL search order
+  hijacking or sideloading, techniques used by attackers to execute arbitrary code,
+  maintain persistence, or escalate privileges. If confirmed malicious, this activity
+  could allow attackers to blend in with legitimate operations, posing a severe threat
+  to system integrity and security.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name!="unknown" Processes.process_name=* Processes.process_guid!=null by _time span=1h Processes.dest Processes.user Processes.process_guid Processes.process_name Processes.process Processes.parent_process Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` 
-  | join max=0 process_guid dest
-  [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\users\\*","*\\Windows\Temp\\*","*\\programdata\\*") Filesystem.file_name="*.dll" by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid 
-  | `drop_dm_object_name(Filesystem)`
-  | lookup hijacklibs_loaded library AS file_name OUTPUT islibrary, ttp, comment as desc
-  | lookup hijacklibs_loaded library AS file_name excludes as file_path OUTPUT islibrary as excluded
-  | search islibrary = TRUE AND excluded != TRUE
-  | stats latest(*) as * by dest process_guid ]
-  | where isnotnull(file_name)
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  |  `windows_known_abused_dll_created_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name!="unknown"
+  Processes.process_name=* Processes.process_guid!=null by _time span=1h Processes.dest
+  Processes.user Processes.process_guid Processes.process_name Processes.process Processes.parent_process
+  Processes.parent_process_name | `drop_dm_object_name(Processes)` | join max=0 process_guid
+  dest [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
+  where Filesystem.file_path IN ("*\\users\\*","*\\Windows\Temp\\*","*\\programdata\\*")
+  Filesystem.file_name="*.dll" by _time span=1h Filesystem.dest Filesystem.file_create_time
+  Filesystem.file_name Filesystem.file_path Filesystem.process_guid | `drop_dm_object_name(Filesystem)`
+  | lookup hijacklibs_loaded library AS file_name OUTPUT islibrary, ttp, comment as
+  desc | lookup hijacklibs_loaded library AS file_name excludes as file_path OUTPUT
+  islibrary as excluded | search islibrary = TRUE AND excluded != TRUE | stats latest(*)
+  as * by dest process_guid ] | where isnotnull(file_name) | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` |  `windows_known_abused_dll_created_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
   you must ingest logs that contain the process GUID, process name, and parent process.
   Additionally, you must ingest complete command-line executions. These logs must
   be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` and `Filesystem` nodes of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: This analytic may flag instances where DLLs are loaded by user mode programs for entirely legitimate and benign purposes. It is important for users to be aware that false positives are not only possible but likely, and that careful tuning of this analytic is necessary to distinguish between malicious activity and normal, everyday operations of applications. This may involve adjusting thresholds, whitelisting known good software, or incorporating additional context from other security tools and logs to reduce the rate of false positives.
+  the EDR product. The logs must also be mapped to the `Processes` and `Filesystem`
+  nodes of the `Endpoint` data model. Use the Splunk Common Information Model (CIM)
+  to normalize the field names and speed up the data modeling process.
+known_false_positives: This analytic may flag instances where DLLs are loaded by user
+  mode programs for entirely legitimate and benign purposes. It is important for users
+  to be aware that false positives are not only possible but likely, and that careful
+  tuning of this analytic is necessary to distinguish between malicious activity and
+  normal, everyday operations of applications. This may involve adjusting thresholds,
+  whitelisting known good software, or incorporating additional context from other
+  security tools and logs to reduce the rate of false positives.
 references:
 - https://attack.mitre.org/techniques/T1574/002/
 - https://hijacklibs.net/api/
@@ -43,7 +58,8 @@ tags:
   asset_type: Endpoint
   confidence: 25
   impact: 40
-  message: The file [$file_name$] was written to an unusual location by [$process_name$] on [$dest$].
+  message: The file [$file_name$] was written to an unusual location by [$process_name$]
+    on [$dest$].
   mitre_attack_id:
   - T1574.001
   - T1574.002
@@ -88,6 +104,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/hijacklibs/hijacklibs_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/hijacklibs/hijacklibs_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

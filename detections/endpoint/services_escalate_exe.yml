@@ -1,22 +1,18 @@
 name: Services Escalate Exe
 id: c448488c-b7ec-11eb-8253-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of `svc-exe` with Cobalt Strike.
-  The behavior typically follows after an adversary has already gained initial access
-  and is escalating privileges. Using `svc-exe`, a randomly named binary will be downloaded
-  from the remote Teamserver and placed on disk within `C:\Windows\400619a.exe`. Following,
-  the binary will be added to the registry under key `HKLM\System\CurrentControlSet\Services\400619a\`
-  with multiple keys and values added to look like a legitimate service. Upon loading,
-  `services.exe` will spawn the randomly named binary from `\\127.0.0.1\ADMIN$\400619a.exe`.
-  The process lineage is completed with `400619a.exe` spawning rundll32.exe, which
-  is the default `spawnto_` value for Cobalt Strike. The `spawnto_` value is arbitrary
-  and may be any process on disk (typically system32/syswow64 binary). The `spawnto_`
-  process will also contain a network connection. During triage, review parallel procesess
-  and identify any additional file modifications.
+description: The following analytic identifies the execution of a randomly named binary
+  via `services.exe`, indicative of privilege escalation using Cobalt Strike's `svc-exe`.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process lineage and command-line executions. This activity is significant
+  as it often follows initial access, allowing adversaries to escalate privileges
+  and establish persistence. If confirmed malicious, this behavior could enable attackers
+  to execute arbitrary code, maintain long-term access, and potentially move laterally
+  within the network, posing a severe threat to the organization's security.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

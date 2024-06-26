@@ -1,16 +1,19 @@
 name: Web JSP Request via URL
 id: 2850c734-2d44-4431-8139-1a56f6f54c01
-version: 1
-date: '2022-04-05'
+version: 2
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the common URL requests used by a recent
-  CVE - CVE-2022-22965, or Spring4Shell, to access a webshell on the remote webserver.
-  The filename and cmd are arbitrary in this exploitation. Java will write a JSP to
-  disk and a process will spawn from Java based on the cmd passed. This is indicative
-  of typical web shell activity.
-data_source: 
+description: The following analytic identifies URL requests associated with CVE-2022-22965
+  (Spring4Shell) exploitation attempts, specifically targeting webshell access on
+  a remote webserver. It detects HTTP GET requests with URLs containing ".jsp?cmd="
+  or "j&cmd=" patterns. This activity is significant as it indicates potential webshell
+  deployment, which can lead to unauthorized remote command execution. If confirmed
+  malicious, attackers could gain control over the webserver, execute arbitrary commands,
+  and potentially escalate privileges, leading to severe data breaches and system
+  compromise.
+data_source:
 - Nginx Access
 search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url
   IN ("*.jsp?cmd=*","*j&cmd=*") by Web.http_user_agent Web.http_method, Web.url,Web.url_length
@@ -65,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/spring4shell_nginx.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/spring4shell_nginx.log
     source: /var/log/nginx/access.log
     sourcetype: nginx:plus:kv

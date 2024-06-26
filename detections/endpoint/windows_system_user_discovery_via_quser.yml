@@ -1,20 +1,18 @@
 name: Windows System User Discovery Via Quser
 id: 0c3f3e09-e47a-410e-856f-a02a5c5fafb0
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a process execution of Windows OS quser.exe
-  tool. This tool is being abused or used by several post exploitation tool such as
-  winpeas that being used by ransomware prestige to display or gather information
-  about user sessions on a Remote Desktop Session Host server. This command can find
-  out if a specific user is logged on to a specific Remote Desktop Session Host server.
-  This tool can retrieve some RDP information that can be use by attacker for further
-  attack like Name of the user , Name of the session on the Remote Desktop Session
-  Host server, Session ID, State of the session (active or disconnected), Idle time
-  (the number of minutes since the last keystroke or mouse movement at the session)
-  and Date and time the user logged on.
+description: The following analytic detects the execution of the Windows OS tool quser.exe,
+  commonly used to gather information about user sessions on a Remote Desktop Session
+  Host server. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution logs. Monitoring this activity is crucial
+  as quser.exe is often abused by post-exploitation tools like winpeas, used in ransomware
+  attacks to enumerate user sessions. If confirmed malicious, attackers could leverage
+  this information to further compromise the system, maintain persistence, or escalate
+  privileges.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -78,7 +76,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true
