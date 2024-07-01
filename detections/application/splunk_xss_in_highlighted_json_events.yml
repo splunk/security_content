@@ -1,7 +1,7 @@
 name: Splunk XSS in Highlighted JSON Events
 id: 1030bc63-0b37-4ac9-9ae0-9361c955a3cc
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-07-01'
 author: Rod Soto, Splunk
 status: production
 type: Hunting
@@ -15,7 +15,7 @@ description: The following analytic identifies potential exploitation of a Cross
   to execute arbitrary JavaScript, potentially accessing the API with the logged-in
   user's permissions. If the user is an admin, the attacker could create an admin
   account, leading to full control over the Splunk environment.
-search: '`splunkd_ui` "/en-US/splunkd/__raw/servicesNS/nobody/search/authentication/users"
+search: '`splunkd_ui` "/*/splunkd/__raw/servicesNS/nobody/search/authentication/users"
   status=201 | stats count min(_time) as firstTime max(_time) as lastTime by clientip,
   uri_path, method | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `splunk_xss_in_highlighted_json_events_filter`'
@@ -26,7 +26,7 @@ known_false_positives: This is a hunting search and will produce false positives
   resulting from a potential exploitation payload (the creation of a user with admin
   privileges).
 references:
-- https://advisory.splunk.com/advisories
+- https://advisory.splunk.com/advisories/SVD-2023-1103
 cve:
 - CVE-2023-46213
 tags:

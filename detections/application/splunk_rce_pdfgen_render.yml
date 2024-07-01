@@ -1,0 +1,57 @@
+name: Splunk RCE PDFgen Render
+id: bc2b7437-0400-438b-9537-21ab5b7d2d53
+version: 1
+date: '2024-07-01'
+status: production
+author: Rod Soto, Chase Franklin
+type: TTP
+data_source:
+- Splunk
+description: This is a hunting search designed to find and discover exploitation attempts against Splunk pdfgen render endpoint which results in remote 
+search: 'index=_internal sourcetype=splunk_pdfgen _raw IN ("*base64*", "*lambda*", "*system*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by index, sourcetype, host, _raw
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `splunk_rce_pdfgen_render_filter`'
+how_to_implement: Requires access to internal indexes. 
+known_false_positives: This search will hunt for exploitation attempts against Splunk PDFgen render function, and not all requests are necesarily malicious so there will be false positives. 
+references:
+- https://advisory.splunk.com/advisories/SVD-2024-0701
+cve:
+- CVE-2024-36982
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Splunk Server
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: Possible exploitation against $host$
+  mitre_attack_id:
+  - T1210
+  nist:
+  - DE.CM
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  required_fields:
+  - host
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/SVD-2024-0701_pdfgen_log_splunk_pdfgen.log
+    source: /opt/splunk/var/log/splunk/pdfgen.log
+    sourcetype: splunk_pdfgen
+    custom_index: _internal
+

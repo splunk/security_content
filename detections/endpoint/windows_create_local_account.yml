@@ -1,7 +1,7 @@
 name: Windows Create Local Account
 id: 3fb2e8e3-7bc0-4567-9722-c5ab9f8595eb
 version: 3
-date: '2025-05-19'
+date: '2024-05-19'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Splunk XSS in Save table dialog header in search page
 id: a974d1ee-ddca-4837-b6ad-d55a8a239c20
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-07-01'
 author: Rod Soto
 status: production
 type: Hunting
@@ -15,7 +15,7 @@ description: The following analytic identifies persistent cross-site scripting (
   theft, session hijacking, or further exploitation within the Splunk environment.
 data_source:
 - Splunk
-search: '`splunkd_webx` method=POST  uri=/en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model
+search: '`splunkd_webx` method=POST  uri=/*/splunkd/__raw/servicesNS/nobody/search/datamodel/model
   | table _time host status clientip user uri | `splunk_xss_in_save_table_dialog_header_in_search_page_filter`'
 how_to_implement: Watch for POST requests combined with XSS script strings or obfuscation
   against the injection point /en-US/splunkd/__raw/servicesNS/nobody/search/datamodel/model.
@@ -24,7 +24,7 @@ known_false_positives: If host is vulnerable and XSS script strings are inputted
   users create and save dashboards. This search may produce several results with non
   malicious POST requests. Only affects Splunk Web enabled instances.
 references:
-- https://www.splunk.com/en_us/product-security.html
+- https://advisory.splunk.com/advisories/SVD-2022-1101
 - https://portswigger.net/web-security/cross-site-scripting
 tags:
   analytic_story:

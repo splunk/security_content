@@ -1,7 +1,7 @@
-name: Splunk csrf in the ssg kvstore client endpoint
+name: Splunk CSRF in the SSG kvstore Client Endpoint
 id: 4742d5f7-ce00-45ce-9c79-5e98b43b4410
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-07-01'
 author: Rod Soto
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies attempts to exploit a cross-site 
   information, compromising the integrity and security of the Splunk environment.
 data_source:
 - Splunk
-search: '`splunkda` uri_path="/en-US/splunkd/__raw/services/ssg/kvstore_client" method="GET"
+search: '`splunkda` uri_path="/*/splunkd/__raw/services/ssg/kvstore_client" method="GET"
   delete_field_value="spacebridge_server" status="200"  | table splunk_server status
   uri delete_field_value method post_data  | `splunk_csrf_in_the_ssg_kvstore_client_endpoint_filter`'
 how_to_implement: Requires access to internal index.
@@ -24,7 +24,7 @@ known_false_positives: This hunting search only applies to the affected versions
   it requires manual investigation after executing search. This search will produce
   false positives.
 references:
-- https://www.splunk.com/en_us/product-security.html
+- https://advisory.splunk.com/advisories/SVD-2023-0212
 tags:
   analytic_story:
   - Splunk Vulnerabilities
