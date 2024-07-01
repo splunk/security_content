@@ -22,7 +22,13 @@
   <row>
     <panel>
       <html>
-        <h2 style="color:red">Explore the Analytic Stories included with Splunk Security via <a href="https://www.splunk.com/en_us/resources/videos/splunk-enterprise-security-use-case-library.html">ES Use Case Library</a> or <a href="https://splunkbase.splunk.com/app/3435/">Splunk Security Essentials</a>.</h2>
+        <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; padding: 15px; margin-bottom: 20px;">
+          <h2 style="color: #721c24; margin: 0;">
+            <i class="icon-info-circle" style="margin-right: 10px;"></i>
+            Explore Splunk Security Content using 
+            <a href="/app/SplunkEnterpriseSecuritySuite/ess_use_case_library" style="color: #721c24; text-decoration: underline;">Splunk Enterprise Security</a>
+          </h2>
+        </div>
       </html>
     </panel>
   </row>

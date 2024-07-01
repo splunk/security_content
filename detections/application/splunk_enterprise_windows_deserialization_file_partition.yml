@@ -1,7 +1,7 @@
 name: Splunk Enterprise Windows Deserialization File Partition
 id: 947d4d2e-1b64-41fc-b32a-736ddb88ce97
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-07-01'
 author: Rod Soto, Eric McGinnis, Chase Franklin
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies attempts to exploit a deserializa
   If confirmed malicious, an attacker could gain unauthorized access, execute arbitrary
   code, and potentially compromise the entire Splunk environment, leading to data
   breaches and further system exploitation.
-search: '`splunk_python` request_path="/en-US/app/search/C:\\Program" *strings* |
+search: '`splunk_python` request_path="/*/app/search/C:\\Program" *strings* |
   rex "request_path=(?<file_path>[^\"]+)" | rex field=file_path "[^\"]+/(?<file_name>[^\"\''\s/\\\\]+)"
   | stats min(_time) as firstTime max(_time) as lastTime values(file_path) as file_path
   values(file_name) as file_name by index, sourcetype, host | `security_content_ctime(firstTime)`

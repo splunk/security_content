@@ -1,7 +1,7 @@
-name: Splunk Stored XSS via Data Model objectName field
+name: Splunk Stored XSS via Data Model objectName Field
 id: 062bff76-5f9c-496e-a386-cb1adcf69871
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-07-01'
 author: Rod Soto
 status: production
 type: Hunting
@@ -15,7 +15,7 @@ description: The following analytic identifies attempts to exploit a stored cros
   data theft, session hijacking, or further compromise of the Splunk environment.
 data_source:
 - Splunk
-search: '`splunkd_webx` uri=/en-US/splunkd/__raw/servicesNS/*/launcher/datamodel/model*
+search: '`splunkd_webx` uri=/*/splunkd/__raw/servicesNS/*/launcher/datamodel/model*
   uri_query!=null | stats count by _time host status clientip user uri | `splunk_stored_xss_via_data_model_objectname_field_filter`'
 how_to_implement: This vulnerability only affects Splunk Web enabled instances. This
   detection does not require you to ingest any new data. The detection does require
@@ -25,7 +25,7 @@ known_false_positives: This search may produce false positives and does not cove
   against "/en-US/splunkd/__raw/servicesNS/*/launcher/datamodel/model" which is the
   injection point.
 references:
-- https://www.splunk.com/en_us/product-security.html
+- https://advisory.splunk.com/advisories/SVD-2022-1109
 - https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
 tags:
   analytic_story:
