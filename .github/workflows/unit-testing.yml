@@ -43,7 +43,8 @@ jobs:
             echo "github.event_name                  : [${{ github.event_name }}]"
 
         - name: Extract Branch Name
-          run: echo "Branch name: ${GITHUB_REF#refs/heads/}"
+          run: |
+            echo "Branch name: ${GITHUB_REF#refs/heads/}"
           env:
              GITHUB_REF: ${{ github.ref }}
         
