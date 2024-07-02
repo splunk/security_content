@@ -32,7 +32,7 @@ tested_detections:
     success: true
     message: TEST PASSED
     exception: null
-    status: pass
+    status: FAIL
     duration: 6.78
     wait_duration: null
     resultCount: '1'
@@ -68,7 +68,7 @@ tested_detections:
     success: true
     message: TEST PASSED
     exception: null
-    status: pass
+    status: FAIL
     duration: 7.82
     wait_duration: null
     resultCount: '1'
