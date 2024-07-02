@@ -37,6 +37,8 @@ jobs:
     steps: 
         - name: Check out the repository code
           uses: actions/checkout@v3
+          with:
+            ref: develop
           
         - uses: actions/setup-python@v4
           with:
@@ -66,5 +68,7 @@ jobs:
         
         - name: Run ContentCTL test for changes against develop
           run: |
+            git status
             source .venv/bin/activate
+            git checkout ${{ github.ref }}
             contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
