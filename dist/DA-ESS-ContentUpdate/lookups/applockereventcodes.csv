@@ -1,0 +1,30 @@
+EventCode, Description
+8000, AppID policy conversion failed. Status * <%1> *	Indicates that the policy wasn't applied correctly to the computer. The status message is provided for troubleshooting purposes.
+8001, The AppLocker policy was applied successfully to this computer.	Indicates that the AppLocker policy was successfully applied to the computer.
+8002, *<File name> * was allowed to run.	Indicates an AppLocker rule allowed the .exe or .dll file.
+8003, *<File name> * was allowed to run but would have been prevented from running if the AppLocker policy were enforced.	Shown only when the Audit only enforcement mode is enabled. Indicates that the AppLocker policy would block the .exe or .dll file if the enforcement mode setting was Enforce rules.
+8004, *<File name> * was prevented from running.	AppLocker blocked the named EXE or DLL file. Shown only when the Enforce rules enforcement mode is enabled.
+8005, *<File name> * was allowed to run.	Indicates an AppLocker rule allowed the script or .msi file.
+8006, *<File name> * was allowed to run but would have been prevented from running if the AppLocker policy were enforced.	Shown only when the Audit only enforcement mode is enabled. Indicates that the AppLocker policy would block the script or .msi file if the Enforce rules enforcement mode was enabled.
+8007, *<File name> * was prevented from running.	AppLocker blocked the named Script or MSI. Shown only when the Enforce rules enforcement mode is enabled.
+8008, *<File name> *: AppLocker component not available on this SKU.	Indicates an edition of Windows that doesn't support AppLocker.
+8020, *<File name> * was allowed to run.	Added in Windows Server 2012 and Windows 8.
+8021, *<File name> * was allowed to run but would have been prevented from running if the AppLocker policy were enforced.	Added in Windows Server 2012 and Windows 8.
+8022, *<File name> * was prevented from running.	Added in Windows Server 2012 and Windows 8.
+8023, *<File name> * was allowed to be installed.	Added in Windows Server 2012 and Windows 8.
+8024, *<File name> * was allowed to run but would have been prevented from running if the AppLocker policy were enforced.	Added in Windows Server 2012 and Windows 8.
+8025, *<File name> * was prevented from running.	Added in Windows Server 2012 and Windows 8.
+8027, No packaged apps can be executed while Exe rules are being enforced and no Packaged app rules have been configured.	Added in Windows Server 2012 and Windows 8.
+8028, *<File name> * was allowed to run but would have been prevented if the Config CI policy were enforced.	Added in Windows Server 2016 and Windows 10.
+8029, *<File name> * was prevented from running due to Config CI policy.	Added in Windows Server 2016 and Windows 10.
+8030, ManagedInstaller check SUCCEEDED during Appid verification of *	Added in Windows Server 2016 and Windows 10.
+8031, SmartlockerFilter detected file * being written by process *	Added in Windows Server 2016 and Windows 10.
+8032, ManagedInstaller check FAILED during Appid verification of *	Added in Windows Server 2016 and Windows 10.
+8033, ManagedInstaller check FAILED during Appid verification of * . Allowed to run due to Audit AppLocker Policy.	Added in Windows Server 2016 and Windows 10.
+8034, ManagedInstaller Script check FAILED during Appid verification of *	Added in Windows Server 2016 and Windows 10.
+8035, ManagedInstaller Script check SUCCEEDED during Appid verification of *	Added in Windows Server 2016 and Windows 10.
+8036, * was prevented from running due to Config CI policy	Added in Windows Server 2016 and Windows 10.
+8037, * passed Config CI policy and was allowed to run.	Added in Windows Server 2016 and Windows 10.
+8038, Publisher info: Subject: * Issuer: * Signature index * (* total)	Added in Windows Server 2016 and Windows 10.
+8039, Package family name * version * was allowed to install or update but would have been prevented if the Config CI policy	Added in Windows Server 2016 and Windows 10.
+8040, Package family name * version * was prevented from installing or updating due to Config CI policy	Added in Windows Server 2016 and Windows 10.
