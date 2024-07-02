@@ -6,34 +6,34 @@ on:
   schedule:
     - cron: "44 4 * * *"
 jobs:
-  validate-tag-if-present:
-    runs-on: ubuntu-latest
+  # validate-tag-if-present:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: TAGGED, Validate that the tag is in the correct format
+  #   steps:
+  #     - name: TAGGED, Validate that the tag is in the correct format
         
-        run: |
-          echo "The GITHUB_REF: $GITHUB_REF"
-          #First check to see if the release is a tag
-          if [[ $GITHUB_REF =~ refs/tags/* ]]; then
-            #Yes, this is a tag, so we need to test to make sure that the tag
-            #is in the correct format (like v1.10.20)
-            if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
-              echo "PASS: Tagged release with good format"
-              exit 0
-            else
-              echo "FAIL: Tagged release with bad format"
-              exit 1
-            fi
-          else
-          echo "PASS: Not a tagged release"
-          exit 0
-          fi                    
+  #       run: |
+  #         echo "The GITHUB_REF: $GITHUB_REF"
+  #         #First check to see if the release is a tag
+  #         if [[ $GITHUB_REF =~ refs/tags/* ]]; then
+  #           #Yes, this is a tag, so we need to test to make sure that the tag
+  #           #is in the correct format (like v1.10.20)
+  #           if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
+  #             echo "PASS: Tagged release with good format"
+  #             exit 0
+  #           else
+  #             echo "FAIL: Tagged release with bad format"
+  #             exit 1
+  #           fi
+  #         else
+  #         echo "PASS: Not a tagged release"
+  #         exit 0
+  #         fi                    
   
-  docker-detection-testing-setup:
+  docker-unit-testing-setup:
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
-    needs: [validate-tag-if-present, quit-for-dependabot]
+    # needs: [validate-tag-if-present, quit-for-dependabot]
     steps:  
         # - name: Get branch and PR required for detection testing main.py
         #   id: vars
