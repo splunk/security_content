@@ -59,7 +59,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 80
-  message: The AdminSDHolder domain object has been modified on $Computer$ by $src_user$
+  message: The AdminSDHolder domain object $ObjectDN$ has been modified by $src_user$
   mitre_attack_id:
   - T1546
   observable:
@@ -71,10 +71,6 @@ tags:
     type: User
     role:
     - Attacker
-  - name: Computer
-    type: Endpoint
-    role:
-    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

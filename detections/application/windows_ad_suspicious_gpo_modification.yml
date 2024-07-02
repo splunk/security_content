@@ -9,7 +9,7 @@ data_source:
 - Windows Security 5136
 - Windows Security 5145
 description: This analytic looks for a the creation of potentially harmful GPO which could lead to persistence or code execution on remote hosts. 
-  Note, this analyic is looking for the absence of the corresponding 5136 events which is evidence of the GPOs being manually created (using a tool like PowerView) or potentially missing logs. 
+  Note, this analyic is looking for the absence of the corresponding 5136 events which is evidence of the GPOs being manually edited (using a tool like PowerView) or potentially missing logs. 
 search: >-
   `wineventlog_security` EventCode=5145 ShareName="\\\\*\\SYSVOL" RelativeTargetName IN (*\\ScheduledTasks.xml, *\\Groups.xml, *\\Registry.xml, *\\Services.xml, *\\Scripts\\*) NOT RelativeTargetName=*\\Scripts\\scripts.ini AccessMask=0x2 
   | rex field=AccessList max_match=0 "(?P<AccessList>%%\d+)" 
@@ -35,7 +35,7 @@ search: >-
   | `windows_ad_suspicious_gpo_modification_filter`
 how_to_implement: Ingest EventCodes 5145 and 5136 from domain controllers. Additional SACLs required to capture EventCode 5136, see references for further information on how to configure this. 
   The Group Policy - Audit Detailed File Share will need to be enabled on the DCs to generate event code 5145, this event is very noisy on DCs, consider tuning out sysvol events which do not match access mask 0x2.
-known_false_positives: When a GPO is manually created and there are no 5136 events. 
+known_false_positives: When a GPO is manually edited and 5136 events are not logging to Splunk. 
 references:
 - https://github.com/PowerShellMafia/PowerSploit/blob/26a0757612e5654b4f792b012ab8f10f95d391c9/Recon/PowerView.ps1#L5907-L6122
 - https://github.com/X-C3LL/GPOwned
@@ -49,7 +49,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: $src_user$ has added new GPO Client Side Extensions $newPolicy$ to the policy $policyName$
+  message: $src_user$ has added new GPO Client Side Extensions $folder$ to the policy $gpo_guid$
   mitre_attack_id:
   - T1484
   - T1484.001

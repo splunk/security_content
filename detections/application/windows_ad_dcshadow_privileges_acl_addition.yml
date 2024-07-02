@@ -44,7 +44,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: $targetDomain$ ACL modification Event Initiated by $src_user$ applying $user$ the minimum required extended rights to perform a DCShadow attack. 
+  message: ACL modification Event Initiated by $src_user$ applying $user$ the minimum required extended rights to perform a DCShadow attack. 
   mitre_attack_id:
   - T1484
   - T1207
@@ -56,10 +56,6 @@ tags:
         - Victim
     - name: src_user
       type: User
-      role:
-        - Victim
-    - name: src_ip
-      type: Hostname
       role:
         - Victim
   product:
