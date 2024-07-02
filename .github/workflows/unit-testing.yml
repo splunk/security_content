@@ -69,6 +69,7 @@ jobs:
         - name: Run ContentCTL test for changes against develop
           run: |
             git status
+            git pull
             source .venv/bin/activate
-            git checkout ${{ github.ref }}
+            git checkout unit-testing
             contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
