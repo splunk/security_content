@@ -77,7 +77,15 @@ jobs:
 
       - name: Check if total_fail is greater than one
         run: |
-          if [ "$total_fail" -gt 1 ]; then
+          # Debug: Print the content of summary.yml
+          cat summary.yml
+
+          # Extract total_fail value and debug print it
+          total_fail=$(yq e '.summary.total_fail' summary.yml)
+          echo "Extracted total_fail: [$total_fail]"
+
+          # Check if total_fail is a valid integer and greater than one
+          if [[ "$total_fail" =~ ^[0-9]+$ ]] && [ "$total_fail" -gt 1 ]; then
             echo "CI Failure: There are failed tests."
             echo -e "Name | Status | Test Type"
             echo -e "---- | ------ | ---------"
