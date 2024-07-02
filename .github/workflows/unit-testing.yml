@@ -79,7 +79,7 @@ jobs:
       - name: Check Test Summary
         run: |
           git status
-          total_fail=$(yq e '.summary.total_fail' summary.yml)
+          total_fail=$(yq e '.summary.total_fail' summary_2.yml)
 
           # Check if total_fail is greater than one
           if [ "$total_fail" -gt 1 ]; then
@@ -87,7 +87,7 @@ jobs:
             echo "Name | Status | Test Type"
             echo "---- | ------ | ---------"
             # Loop through each item in tested_detections and print required fields
-            yq e '.tested_detections[] | "\(.name) | \(.success) | \(.tests[].test_type)"' summary.yml
+            yq e '.tested_detections[] | "\(.name) | \(.success) | \(.tests[].test_type)"' summary_2.yml
           else
             echo "CI Success: No failed tests."
           fi
