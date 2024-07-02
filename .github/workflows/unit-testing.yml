@@ -56,10 +56,11 @@ jobs:
             git pull
             source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
-            cat summary.yml
-            # contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
+            # cat summary.yml
+            contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
             mkdir artifacts
-            mv summary.yml artifacts/
+            mv test_results/summary.yml artifacts/
+
         - name: store_artifacts
           uses: actions/upload-artifact@v3
           with:
@@ -68,7 +69,7 @@ jobs:
               artifacts/summary.yml
 
   summarize-test-results:
-    # needs: contentctl-unit-testing-setup
+    needs: contentctl-unit-testing-setup
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
     # needs: [validate-tag-if-present, quit-for-dependabot]
@@ -86,10 +87,10 @@ jobs:
       - name: Check if total_fail is greater than one
         run: |
           # Debug: Print the content of summary.yml
-          cat summary.yml
+          cat test_results/summary.yml
 
           # Extract total_fail value and debug print it
-          total_fail=$(yq e '.summary.total_fail' summary.yml)
+          total_fail=$(yq e '.summary.total_fail' test_results/summary.yml)
           echo "Extracted total_fail: [$total_fail]"
 
           # Check if total_fail is a valid integer and greater than one
@@ -98,7 +99,7 @@ jobs:
             echo -e "Name | Status | Test Type"
             echo -e "---- | ------ | ---------"
             # Loop through each item in tested_detections and print required fields with color
-            yq e '.tested_detections[] | .name as $name | .tests[].status as $status | .tests[].test_type as $test_type | "\($name) | \($status) | \($test_type)"' summary.yml | while read line; do
+            yq e '.tested_detections[] | .name as $name | .tests[].status as $status | .tests[].test_type as $test_type | "\($name) | \($status) | \($test_type)"' test_results/summary.yml | while read line; do
               name=$(echo $line | cut -d '|' -f 1)
               status=$(echo $line | cut -d '|' -f 2 | xargs)
               test_type=$(echo $line | cut -d '|' -f 3)
