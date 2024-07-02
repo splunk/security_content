@@ -98,7 +98,7 @@ jobs:
             echo -e "Name | Status | Test Type"
             echo -e "---- | ------ | ---------"
             # Loop through each item in tested_detections and print required fields with color
-            yq e '.tested_detections[] | .name as $name | .success as $status | .tests[].test_type as $test_type | "\($name) | \($status) | \($test_type)"' summary.yml | while read line; do
+            yq e '.tested_detections[] | .name as $name | .status as $status | .tests[].test_type as $test_type | "\($name) | \($status) | \($test_type)"' summary.yml | while read line; do
               name=$(echo $line | cut -d '|' -f 1)
               status=$(echo $line | cut -d '|' -f 2 | xargs)
               test_type=$(echo $line | cut -d '|' -f 3)
