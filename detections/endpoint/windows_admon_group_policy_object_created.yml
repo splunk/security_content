@@ -17,7 +17,7 @@ description: The following analytic detects the creation of a new Group Policy O
 search: ' `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" versionNumber=0 displayName!="New Group Policy Object"
   | appendpipe [
   | map search="search `wineventlog_security` EventCode=5136  AttributeSyntaxOID=2.5.5.12 AttributeValue=$displayName$" | rename AttributeValue as displayName] 
-  | stats min(_time) as _time values(displayName) as gp_name, values(gPCFileSysPath) as gPCFileSysPath, values(src_user) as src_user, values(dest) as dest, values(dest_category) as dest_category, values(src_user_category) as src_user_category by displayName
+  | stats min(_time) as _time values(displayName) as gp_name, values(gPCFileSysPath) as gPCFileSysPath, values(src_user) as src_user, values(dcName) as dcName, values(dest_category) as dest_category, values(src_user_category) as src_user_category by displayName
   | `windows_admon_group_policy_object_created_filter`'
 how_to_implement: To successfully implement this search, you need to be monitoring
   Active Directory logs using Admon. Details can be found here 
@@ -44,6 +44,10 @@ tags:
   observable:
   - name: dcName
     type: Endpoint
+    role:
+    - Victim
+  - name: src_user
+    type: User
     role:
     - Victim
   product:
