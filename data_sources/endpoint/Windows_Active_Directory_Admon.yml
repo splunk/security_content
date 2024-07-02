@@ -4,9 +4,12 @@ author: Patrick Bareiss, Splunk
 source: ActiveDirectory
 sourcetype: ActiveDirectory
 supported_TA:
-  name: Splunk Add-on for Microsoft Windows
+  - name: Splunk Add-on for Microsoft Windows
   version: 8.8.0
   url: https://splunkbase.splunk.com/app/742
+  - name: Splunk Add-on for Admon Enrichment
+  version: 1.1.0
+  url: https://apps.splunk.com/app/6853/
 event_names: []
 fields:
 - _time
