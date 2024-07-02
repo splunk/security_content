@@ -56,12 +56,12 @@ jobs:
             git status
             git pull
             source .venv/bin/activate
-            git checkout ${{ github.ref }}
+            git checkout ${GITHUB_REF#refs/heads/}
             cat summary_2.yml
             # contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
 
   summarize-test-results:
-    needs: contentctl-unit-testing-setup
+    # needs: contentctl-unit-testing-setup
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
     # needs: [validate-tag-if-present, quit-for-dependabot]
