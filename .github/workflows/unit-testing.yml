@@ -34,23 +34,20 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
     # needs: [validate-tag-if-present, quit-for-dependabot]
-    steps:  
-        # - name: Get branch and PR required for detection testing main.py
-        #   id: vars
-        #   run: |
-        #     echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-
-        # - name: Checkout Repo
-        #   uses: actions/checkout@v2
-        #   #with:
-        #   #  ref: develop      
-
+    steps: 
+        - name: Check out the repository code
+            uses: actions/checkout@v3
+          
         - uses: actions/setup-python@v4
           with:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-            cache: 'pip'
-        
+
+        - name: Install System Packages
+          run: |
+            sudo apt update -qq
+            sudo apt install jq -qq
+           
         - name: Install Python Dependencies
           run: |
             python3.11 -m venv .venv
