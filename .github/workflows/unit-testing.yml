@@ -59,7 +59,7 @@ jobs:
             # cat summary.yml
             contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
             mkdir artifacts
-            mv test_results/summary.yml artifacts/
+            cp test_results/summary.yml artifacts/
 
         - name: store_artifacts
           uses: actions/upload-artifact@v3
