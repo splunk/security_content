@@ -45,7 +45,8 @@ jobs:
         - name: Run ContentCTL test for changes against develop
           run: |
             pwd
-            cat security_content/summary.yml
+            ls
+            cat summary_2.yml
             # git status
             # git pull
             # source .venv/bin/activate
@@ -66,10 +67,11 @@ jobs:
 
       - name: Check Test Summary
         run: |
-          total_fail=$(cat security_content/summary.yml | yq e '.summary.total_fail' -)
+          git status
+          total_fail=$(cat summary_2.yml | yq e '.summary.total_fail' -)
           if [ "$total_fail" != "0" ]; then
             echo "CI Failure: There are failed tests."
-            cat security_content/summary.yml | yq e '.summary' -
+            cat summary_2.yml | jq e '.summary' -
             exit 1
           else
             echo "CI Success: No failed tests."

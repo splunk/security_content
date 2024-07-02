@@ -2,7 +2,7 @@ summary:
   success: true
   total_detections: 8
   total_pass: 8
-  total_fail: 0
+  total_fail: 2
   total_skipped: 0
   total_untested: 0
   total_experimental_or_deprecated: 0
