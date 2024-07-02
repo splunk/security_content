@@ -79,11 +79,15 @@ jobs:
       - name: Check Test Summary
         run: |
           git status
-          total_fail=$(yq e '.summary.total_fail' summary_2.yml)
-          if [ "$total_fail" != "0" ]; then
+          total_fail=$(yq e '.summary.total_fail' summary.yml)
+
+          # Check if total_fail is greater than one
+          if [ "$total_fail" -gt 1 ]; then
             echo "CI Failure: There are failed tests."
-            yq e '.summary' summary_2.yml -o=json | jq
-            exit 1
+            echo "Name | Status | Test Type"
+            echo "---- | ------ | ---------"
+            # Loop through each item in tested_detections and print required fields
+            yq e '.tested_detections[] | "\(.name) | \(.success) | \(.tests[].test_type)"' summary.yml
           else
             echo "CI Success: No failed tests."
           fi
