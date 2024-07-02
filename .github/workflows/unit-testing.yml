@@ -58,6 +58,14 @@ jobs:
             git checkout ${GITHUB_REF#refs/heads/}
             cat summary.yml
             # contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
+            mkdir artifacts
+            mv summary.yml artifacts/
+        - name: store_artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: content-latest
+            path: |
+              artifacts/summary.yml
 
   summarize-test-results:
     # needs: contentctl-unit-testing-setup
