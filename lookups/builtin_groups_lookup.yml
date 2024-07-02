@@ -1,0 +1,3 @@
+description: A lookup file that will contain translations for builtin AD group strings
+filename: builtin_groups_lookup.csv
+name: builtin_groups_lookup
