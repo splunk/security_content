@@ -46,11 +46,12 @@ jobs:
           run: |
             pwd
             ls
+            # cat summary_2.yml
+            git status
+            git pull
+            source .venv/bin/activate
+            git checkout unit-testing
             cat summary_2.yml
-            # git status
-            # git pull
-            # source .venv/bin/activate
-            # git checkout unit-testing
             # contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
 
   summarize-test-results:
