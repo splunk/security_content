@@ -56,7 +56,7 @@ jobs:
             git status
             git pull
             source .venv/bin/activate
-            git checkout unit-testing
+            git checkout ${{ github.ref }}
             cat summary_2.yml
             # contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
 
@@ -71,6 +71,7 @@ jobs:
 
       - name: Install dependencies
         run: sudo apt-get install -y jq
+
       - name: Print results
         run: |
           yq e '.summary' summary_2.yml -o=json | jq -r 'to_entries | .[] | "### \(.key)\n\(.value)\n"'
@@ -78,10 +79,10 @@ jobs:
       - name: Check Test Summary
         run: |
           git status
-          total_fail=$(cat summary_2.yml | yq e '.summary.total_fail' -)
+          total_fail=$(yq e '.summary.total_fail' summary_2.yml)
           if [ "$total_fail" != "0" ]; then
             echo "CI Failure: There are failed tests."
-            cat summary_2.yml | jq e '.summary' -
+            yq e '.summary' summary_2.yml -o=json | jq
             exit 1
           else
             echo "CI Success: No failed tests."
