@@ -19,8 +19,8 @@ search: ' `wineventlog_security` EventCode=5136
   | lookup identity_lookup_expanded objectSid as old_owner OUTPUT downLevelDomainName as old_owner_user 
   | lookup admon_groups_def objectSid as old_owner OUTPUT cn as old_owner_group
   ```
-  | lookup builtin_groups_lookup.csv builtin_group_string  as new_owner_group OUTPUT builtin_group_name as new_owner_group_builtin_group
-  | lookup builtin_groups_lookup.csv builtin_group_string  as old_owner OUTPUT builtin_group_name as old_owner_group_builtin_group
+  | lookup builtin_groups_lookup builtin_group_string  as new_owner_group OUTPUT builtin_group_name as new_owner_group_builtin_group
+  | lookup builtin_groups_lookup builtin_group_string  as old_owner OUTPUT builtin_group_name as old_owner_group_builtin_group
   | eval user=coalesce(new_owner_user, new_owner_group, new_owner_group_builtin_group, new_owner), previousOwner=coalesce(old_owner_user, old_owner_group, old_owner_group_builtin_group, old_owner)
   | stats values(previousOwner) as previousOwner values(user) as user values(SubjectLogonId) as SubjectLogonId by _time ObjectClass ObjectDN src_user OpCorrelationID DSName
   | `windows_ad_object_owner_updated_filter`'

@@ -18,14 +18,14 @@ search: >-
   | rex field=new_ace "(?P<aceType>.*?);(?P<aceFlags>.*?);(?P<aceAccessRights>.*?);(?P<aceObjectGuid>.*?);(?P<aceInheritedTypeGuid>.*?);(?P<aceSid>.*?)$" 
   | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
   | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
-  | lookup msad_guid_lookup.csv guid as aceObjectGuid OUTPUT displayName as ControlAccessRights 
-  | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
-  | lookup ace_type_lookup.csv ace_type_string as aceType OUTPUT ace_type_value as aceType
-  | lookup ace_flag_lookup.csv flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+  | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights 
+  | lookup ace_access_rights_lookup access_rights_string as AccessRights OUTPUT access_rights_value 
+  | lookup ace_type_lookup ace_type_string as aceType OUTPUT ace_type_value as aceType
+  | lookup ace_flag_lookup flag_string as aceFlags OUTPUT flag_value as ace_flag_value
   ``` Optional SID resolution lookups
   | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
   | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
-  | lookup builtin_groups_lookup.csv builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
+  | lookup builtin_groups_lookup builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
   | eval aceType=coalesce(ace_type_value,aceType), aceFlags=coalesce(ace_flag_value,"This object only"), aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",coalesce(access_rights_value,AccessRights)), aceControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid), user=coalesce(user, group, builtin_group, aceSid)
   | stats values(aceType) as aceType values(aceFlags) as aceFlags values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(aceInheritedTypeGuid) as aceInheritedTypeGuid by _time ObjectClass ObjectDN src_user SubjectLogonId user OpCorrelationID
   | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')

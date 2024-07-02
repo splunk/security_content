@@ -1,4 +1,4 @@
-name: Windows AD DCShadow ACL Addition
+name: Windows AD DCShadow Privileges ACL Addition
 id: ae915743-1aa8-4a94-975c-8062ebc8b723
 version: 1
 date: '2023-11-10'
@@ -20,17 +20,17 @@ search: >-
   | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
   | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
   | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights
-  | lookup ace_access_rights_lookup.csv access_rights_string as AccessRights OUTPUT access_rights_value 
-  | lookup ace_type_lookup.csv ace_type_string as aceType OUTPUT ace_type_value 
-  | lookup ace_flag_lookup.csv flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+  | lookup ace_access_rights_lookup access_rights_string as AccessRights OUTPUT access_rights_value 
+  | lookup ace_type_lookup ace_type_string as aceType OUTPUT ace_type_value 
+  | lookup ace_flag_lookup flag_string as aceFlags OUTPUT flag_value as ace_flag_value
   ``` Optional SID resolution lookups
   | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
   | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
-  | lookup builtin_groups_lookup.csv builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
+  | lookup builtin_groups_lookup builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
   | eval aceType=coalesce(ace_type_value,aceType), aceFlags=coalesce(ace_flag_value,"This object only"), aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",coalesce(access_rights_value,AccessRights)), aceControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid), user=coalesce(user, group, builtin_group, aceSid)
   | stats min(_time) as _time values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(SubjectLogonId) as SubjectLogonId by ObjectClass ObjectDN src_user user
   | search (aceControlAccessRights="DS-Install-Replica" AND aceControlAccessRights="DS-Replication-Manage-Topology" AND aceControlAccessRights="DS-Replication-Synchronize") OR (aceControlAccessRights="9923a32a-3607-11d2-b9be-0000f87a36b2" AND aceControlAccessRights="1131f6ab-9c07-11d1-f79f-00c04fc2dcd2" AND aceControlAccessRights="1131f6ac-9c07-11d1-f79f-00c04fc2dcd2")
-  | `windows_ad_dcshadow_acl_addition_filter`
+  | `windows_ad_dcshadow_privileges_acl_addition_filter`
 how_to_implement: See link in references for how to configure logging for these eventcodes. 
 known_false_positives: Unknown
 references:

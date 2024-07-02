@@ -15,7 +15,7 @@ search: '`wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer 
   | rex field=ObjectDN max_match=10000 "CN=(?P<policy_guid>\{.*?\})" 
   | mvexpand new_values 
   | where NOT new_values IN (old_values,"{00000000-0000-0000-0000-000000000000}",policy_guid) AND match(new_values, "^\{[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\}") 
-  | lookup msad_guid_lookup.csv guid as new_values OUTPUTNEW displayName as policyType 
+  | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType 
   | eval newPolicy=if(policyType like "%",policyType,new_values)
   | join ObjectDN  [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | stats latest(displayName) as displayName by distinguishedName | eval ObjectDN=upper(distinguishedName)] 
   | stats values(OpCorrelationID) as OpCorrelationID values(src_user) as src_user values(SubjectLogonId) as SubjectLogonId values(newPolicy) as newPolicy values(displayName) as policyName by ObjectDN

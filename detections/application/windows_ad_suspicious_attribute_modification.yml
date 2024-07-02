@@ -28,7 +28,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: $src_user$ has added $user$ $aceAccessRights$ ACL rights to $ObjectClass$ $ObjectDN$
+  message: $src_user$ has added $AttributeLDAPDisplayName$ ACL rights to $ObjectClass$ $ObjectDN$
   mitre_attack_id:
   - T1550
   - T1222

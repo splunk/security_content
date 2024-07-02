@@ -24,7 +24,7 @@ search: >-
      | rex field=ObjectDN max_match=10000 "CN=(?P<policy_guid>\{.*?\})" 
      | mvexpand new_values 
      | where NOT new_values IN (old_values,"{00000000-0000-0000-0000-000000000000}",policy_guid) AND match(new_values, "^\{[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\}") 
-     | lookup msad_guid_lookup.csv guid as new_values OUTPUTNEW displayName as policyType 
+     | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType 
      | eval newPolicy=if(policyType like "%",policyType,new_values) 
      | stats values(OpCorrelationID) as OpCorrelationID values(newPolicy) as newPolicy by ObjectDN 
      | rex field=ObjectDN max_match=10000 "CN=(?P<gpo_guid>\{.*?\})" 
