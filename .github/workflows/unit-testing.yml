@@ -52,12 +52,11 @@ jobs:
           run: |
             pwd
             ls
-            # cat summary_2.yml
             git status
             git pull
             source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
-            cat summary_2.yml
+            cat summary.yml
             # contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
 
   summarize-test-results:
@@ -72,24 +71,28 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install -y jq
 
-      - name: Print results
+      - name: Extract total_fail value
         run: |
-          yq e '.summary' summary_2.yml -o=json | jq -r 'to_entries | .[] | "### \(.key)\n\(.value)\n"'
+          total_fail=$(yq e '.summary.total_fail' summary.yml)
 
-      - name: Check Test Summary
+      - name: Check if total_fail is greater than one
         run: |
-          git status
-          total_fail=$(yq e '.summary.total_fail' summary_2.yml)
-
-          # Check if total_fail is greater than one
           if [ "$total_fail" -gt 1 ]; then
             echo "CI Failure: There are failed tests."
-            echo "Name | Status | Test Type"
-            echo "---- | ------ | ---------"
-            # Loop through each item in tested_detections and print required fields
-            yq e '.tested_detections[] | "\(.name) | \(.success) | \(.tests[].test_type)"' summary_2.yml
+            echo -e "Name | Status | Test Type"
+            echo -e "---- | ------ | ---------"
+            # Loop through each item in tested_detections and print required fields with color
+            yq e '.tested_detections[] | .name as $name | .success as $status | .tests[].test_type as $test_type | "\($name) | \($status) | \($test_type)"' summary.yml | while read line; do
+              name=$(echo $line | cut -d '|' -f 1)
+              status=$(echo $line | cut -d '|' -f 2 | xargs)
+              test_type=$(echo $line | cut -d '|' -f 3)
+              if [ "$status" == "true" ]; then
+                echo -e "${name} | \033[32m${status}\033[0m | ${test_type}"
+              else
+                echo -e "${name} | \033[31m${status}\033[0m | ${test_type}"
+              fi
+            done
+            exit 1  # Fail the CI job
           else
             echo "CI Success: No failed tests."
           fi
-
-      
