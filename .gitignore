@@ -1,6 +1,9 @@
 # Ignore example files from contentctl tool
 apps/
-dist/
+/dist/DA-ESS-ContentUpdate/**/*.xml
+/dist/DA-ESS-ContentUpdate/**/*.conf
+/dist/api/*.json
+/dist/ssa/srs/*.yml
 test_results/
 detections/*/.yml.example
 stories/*.yml.example
