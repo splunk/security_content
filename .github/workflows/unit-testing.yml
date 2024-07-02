@@ -102,7 +102,7 @@ jobs:
               name=$(echo $line | cut -d '|' -f 1)
               status=$(echo $line | cut -d '|' -f 2 | xargs)
               test_type=$(echo $line | cut -d '|' -f 3)
-              if [ "$status" == "true" ]; then
+              if [ "$status" == "pass" ]; then
                 echo -e "${name} | \033[32m${status}\033[0m | ${test_type}"
               else
                 echo -e "${name} | \033[31m${status}\033[0m | ${test_type}"
