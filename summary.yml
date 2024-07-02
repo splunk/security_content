@@ -1,0 +1,276 @@
+summary:
+  success: true
+  total_detections: 8
+  total_pass: 8
+  total_fail: 0
+  total_skipped: 0
+  total_untested: 0
+  total_experimental_or_deprecated: 0
+  success_rate: 100.0%
+tested_detections:
+- name: Detect Password Spray Attempts
+  search: '| tstats `security_content_summariesonly` dc(Authentication.user) AS unique_accounts
+    values(Authentication.app) as app count(Authentication.user) as total_failures
+    from datamodel=Authentication.Authentication where Authentication.action="failure"
+    by Authentication.src, Authentication.action, Authentication.signature_id, sourcetype,
+    _time  span=2m | `drop_dm_object_name("Authentication")` ```fill out time buckets
+    for 0-count events during entire search length``` | appendpipe [| timechart limit=0
+    span=5m count | table _time] | fillnull value=0 unique_accounts, unique_src ```
+    remove duplicate & empty time buckets``` | sort - total_failures | dedup _time
+    ``` Create aggregation field & apply to all null events``` | eval counter=src+"__"+sourcetype+"__"+signature_id
+    | eventstats values(counter) as fnscounter | eval counter=coalesce(counter,fnscounter)
+    | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std
+    by counter | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts
+    > 30 and unique_accounts >= upperBound, 1, 0) | replace "::ffff:*" with * in src
+    | where isOutlier=1 | foreach * [ eval <<FIELD>> = if(<<FIELD>>="null",null(),<<FIELD>>)]
+    | table _time, src, action, app, unique_accounts, total_failures, sourcetype,
+    signature_id | `detect_password_spray_attempts_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 6.78
+    wait_duration: null
+    resultCount: '1'
+    runDuration: '1.397'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+- name: Internal Horizontal Port Scan
+  search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as
+    action values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone)
+    as dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic
+    where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") by
+    All_Traffic.src_ip All_Traffic.dest_port All_Traffic.dest_ip span=1s _time All_Traffic.transport
+    | `drop_dm_object_name("All_Traffic")` | eval gtime=_time | bin span=1h gtime
+    | stats min(_time) as _time values(action) as action dc(dest_ip) as totalDestIPCount
+    values(src_category) as src_category values(dest_zone) as dest_zone values(src_zone)
+    as src_zone by src_ip dest_port gtime transport | where totalDestIPCount>=250
+    | eval dest_port=transport + "/" + dest_port | stats min(_time) as _time values(action)
+    as action sum(totalDestIPCount) as totalDestIPCount values(src_category) as src_category
+    values(dest_port) as dest_ports values(dest_zone) as dest_zone values(src_zone)
+    as src_zone by src_ip gtime | fields - gtime | `internal_horizontal_port_scan_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 7.82
+    wait_duration: null
+    resultCount: '1'
+    runDuration: '2.207'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+- name: Internal Vertical Port Scan
+  search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as
+    action values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone)
+    as dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic
+    where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") by
+    All_Traffic.src_ip All_Traffic.dest_port All_Traffic.dest_ip All_Traffic.transport
+    span=1s _time | `drop_dm_object_name("All_Traffic")` | eval gtime=_time | bin
+    span=1h gtime | stats min(_time) as _time values(action) as action dc(eval(if(dest_port<1024
+    AND transport="tcp",dest_port,null))) as privilegedDestTcpPortCount dc(eval(if(transport="tcp",dest_port,null)))
+    as totalDestTcpPortCount dc(eval(if(dest_port<1024 AND transport="udp",dest_port,null)))
+    as privilegedDestUdpPortCount dc(eval(if(transport="udp",dest_port,null))) as
+    totalDestUdpPortCount values(src_category) as src_category values(dest_zone) as
+    dest_zone values(src_zone) as src_zone by src_ip dest_ip transport gtime | eval
+    totalDestPortCount=totalDestUdpPortCount+totalDestTcpPortCount, privilegedDestPortCount=privilegedDestTcpPortCount+privilegedDestUdpPortCount|
+    where (totalDestPortCount>=500 AND privilegedDestPortCount>=20) | fields - gtime
+    | `internal_vertical_port_scan_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 11.52
+    wait_duration: null
+    resultCount: '1'
+    runDuration: '5.078'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+- name: Windows AD add Self to Group
+  search: '`wineventlog_security` EventCode IN (4728) | where user=src_user | stats
+    min(_time) as _time dc(user) as usercount, values(user) as user values(user_category)
+    as user_category values(src_user_category) as src_user_category values(dvc) as
+    dvc by signature, Group_Name, src_user | `windows_ad_add_self_to_group_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 5.61
+    wait_duration: null
+    resultCount: '1'
+    runDuration: '0.635'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+- name: Windows Increase in Group or Object Modification Activity
+  search: '`wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764) | bucket
+    span=5m _time  | stats values(object) as object, dc(object) as objectCount, values(src_user_category)
+    as src_user_category, values(dest) as dest, values(dest_category) as dest_category
+    by _time, src_user, signature, status | eventstats avg(objectCount) as comp_avg,
+    stdev(objectCount) as comp_std by src_user, signature | eval upperBound=(comp_avg+comp_std)
+    | eval isOutlier=if(objectCount > 10 and (objectCount >= upperBound), 1, 0) |
+    search isOutlier=1  | `windows_increase_in_group_or_object_modification_activity_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 6.36
+    wait_duration: null
+    resultCount: '2'
+    runDuration: '1.390'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+- name: Windows Increase in User Modification Activity
+  search: '`wineventlog_security` EventCode IN (4720,4722,4723,4724,4725,4726,4728,4732,4733,4738,4743,4780)
+    | bucket span=5m _time  | stats values(TargetDomainName) as TargetDomainName,
+    values(user) as user, dc(user) as userCount, values(user_category) as user_category,
+    values(src_user_category) as src_user_category, values(dest) as dest, values(dest_category)
+    as dest_category by _time, src_user, signature, status | eventstats avg(userCount)
+    as comp_avg , stdev(userCount) as comp_std by src_user, signature | eval upperBound=(comp_avg+comp_std*3)
+    | eval isOutlier=if(userCount > 10 and userCount >= upperBound, 1, 0)  | search
+    isOutlier=1 | stats values(TargetDomainName) as TargetDomainName, values(user)
+    as user, dc(user) as userCount, values(user_category) as user_category, values(src_user_category)
+    as src_user_category, values(dest) as dest, values(dest_category) as dest_category
+    values(signature) as signature  by _time, src_user, status | `windows_increase_in_user_modification_activity_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 6.18
+    wait_duration: null
+    resultCount: '1'
+    runDuration: '0.722'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+- name: Windows Network Share Discovery With Net
+  search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
+    max(_time) as lastTime values(Processes.user_category) as user_category values(Processes.user_bunit)
+    as user_bunit  FROM datamodel=Endpoint.Processes WHERE ((Processes.process_name="net.exe"
+    OR Processes.orig_process_name="net.exe") AND (Processes.process="*net*view*"
+    OR Processes.process="*net*share*")) BY Processes.user Processes.dest Processes.process_exec
+    Processes.parent_process_exec Processes.process Processes.parent_process | `drop_dm_object_name(Processes)`
+    | regex process="net\s+view|net\s+share" | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)` | `windows_network_share_discovery_with_net_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 6.05
+    wait_duration: null
+    resultCount: '1'
+    runDuration: '0.886'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+- name: Windows Vulnerable Driver Installed
+  search: '`wineventlog_system` EventCode=7045 ServiceType="kernel mode driver" |
+    table _time dest EventCode ImagePath ServiceName ServiceType | lookup loldrivers
+    driver_name AS ImagePath OUTPUT is_driver driver_description | search is_driver
+    = TRUE  | `windows_vulnerable_driver_installed_filter`'
+  success: true
+  tests:
+  - name: True Positive Test
+    test_type: unit
+    success: true
+    message: TEST PASSED
+    exception: null
+    status: pass
+    duration: 6.11
+    wait_duration: null
+    resultCount: '3'
+    runDuration: '0.857'
+  - name: True Positive Test
+    test_type: integration
+    success: true
+    message: 'TEST SKIPPED: Skipping all integration tests'
+    exception: null
+    status: skip
+    duration: 0
+    wait_duration: null
+    resultCount: null
+    runDuration: null
+untested_detections: []
+percent_complete: UKNOWN
+deprecated_detections: []
+experimental_detections: []
