@@ -18,15 +18,12 @@ jobs:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-        - name: Install System Packages
+        - name: Install System Packages and contentctl 
           run: |
             sudo apt update -qq
             sudo apt install jq -qq
-           
-        - name: Install Python Dependencies
-          run: |
             pip install contentctl
-            git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
+           
         
         - name: Run ContentCTL test for changes against develop
           run: |
@@ -35,7 +32,7 @@ jobs:
             git pull > /dev/null 2>&1
             git checkout ${{ github.head_ref }}
             echo "The target branch for this PR is ${{ github.base_ref }}"
-            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes target-branch ${{ github.base_ref }}
+            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             mkdir test_results
             mkdir artifacts
             cp summary.yml test_results/
