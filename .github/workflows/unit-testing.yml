@@ -29,7 +29,7 @@ jobs:
           run: |
             git pull
             git checkout ${GITHUB_REF#refs/heads/}
-            contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
+            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch develop
             head -n 9 test_results/summary.yml >> $GITHUB_STEP_SUMMARY
 
           continue-on-error: true
