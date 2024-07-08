@@ -5,8 +5,9 @@ echo "Extracted total_fail: [$total_fail]"
 # Check if total_fail is a valid integer and greater than one
 if [[ "$total_fail" =~ ^[0-9]+$ ]] && [ "$total_fail" -gt 1 ]; then
   echo "CI Failure: There are failed tests."
-  echo -e "Name | Status | Test Type"
-  echo -e "---- | ------ | ---------"
+  # Adjust the column widths here
+  printf "%-80s | %-6s | %-10s\n" "Name" "Status" "Test Type"
+  printf "%-80s | %-6s | %-10s\n" "----" "------" "---------"
   
   # Loop through each item in tested_detections and print required fields with color only for unit testing
   yq e '.tested_detections[] | .name as $name | .tests[] | select(.test_type == "unit") | "\($name) | \(.success) | \(.test_type)"' test_results/summary.yml | while IFS='|' read -r name status test_type; do
@@ -15,9 +16,9 @@ if [[ "$total_fail" =~ ^[0-9]+$ ]] && [ "$total_fail" -gt 1 ]; then
     test_type=$(echo $test_type | xargs)  # Trim whitespace
     
     if [ "$status" == "true" ]; then
-      echo -e "${name} | \033[32mPASS\033[0m | ${test_type}"
+      printf "%-80s | \033[32m%-6s\033[0m | %-10s\n" "$name" "PASS" "$test_type"
     else
-      echo -e "${name} | \033[31mFAIL\033[0m | ${test_type}"
+      printf "%-80s | \033[31m%-6s\033[0m | %-10s\n" "$name" "FAIL" "$test_type"
     fi
   done
   

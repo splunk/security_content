@@ -26,8 +26,6 @@ jobs:
            
         - name: Install Python Dependencies
           run: |
-            # python3.11 -m venv .venv
-            # source .venv/bin/activate
             pip install contentctl
             git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
         
@@ -37,19 +35,19 @@ jobs:
             # source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
-            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
-            mkdir artifacts
+            contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             mkdir test_results
             # cp summary.yml test_results/
-            cp test_results/summary.yml artifacts/
+            cp test_results/summary.yml artifacts/            
           continue-on-error: true
           
         - name: store_artifacts
           uses: actions/upload-artifact@v3
           with:
-            name: content-latest
+            name: test_summary_results
             path: |
-              artifacts/summary.yml
+              test_results/summary.yml
+              dist/DA-ESS-ContentUpdate-latest.tar.gz
 
         - name: Print entire test_results/summary.yml
           run: cat test_results/summary.yml
@@ -57,4 +55,4 @@ jobs:
         - name: Formatted Final Report
           run: |
             chmod +x .github/workflows/format_test_summary.sh
-            ./.github/workflows/format_test_summary.sh
+            ./.github/workflows/format_test_summary.sh >> $GITHUB_STEP_SUMMARY
