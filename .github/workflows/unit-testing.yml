@@ -31,8 +31,7 @@ jobs:
         
         - name: Run ContentCTL test for changes against develop
           run: |
-            git pull > /dev/null 2>&1
-            # source .venv/bin/activate
+            git pull
             git checkout ${GITHUB_REF#refs/heads/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
             contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
@@ -48,9 +47,11 @@ jobs:
             path: |
               test_results/summary.yml
               dist/DA-ESS-ContentUpdate-latest.tar.gz
+          continue-on-error: true
 
         - name: Print entire test_results/summary.yml
           run: cat test_results/summary.yml
+          
 
         - name: Formatted Final Report
           run: |
