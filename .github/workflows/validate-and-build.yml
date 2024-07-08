@@ -25,25 +25,21 @@ jobs:
 
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
-          # python3.11 -m venv .venv
-          # source .venv/bin/activate
           pip install contentctl
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
-      - name: content_ctl validate
+      - name: Running validate
         run: |
-          # source .venv/bin/activate
           contentctl validate 
 
-      - name: contentctl generate
+      - name: Running build with enrichments
         run: |
-          # source .venv/bin/activate
           contentctl build --enrichments
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: content-latest
           path: |
