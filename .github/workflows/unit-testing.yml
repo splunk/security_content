@@ -33,7 +33,7 @@ jobs:
         
         - name: Run ContentCTL test for changes against develop
           run: |
-            git pull
+            # git pull
             # source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
