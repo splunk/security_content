@@ -2,7 +2,7 @@ name: unit-testing
 on:
   push:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, synchronize, reopened]
 jobs:
   contentctl-unit-testing:
     runs-on: ubuntu-latest
