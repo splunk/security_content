@@ -31,25 +31,8 @@ jobs:
             pip install contentctl
             git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
         
-        - name: print variable names
-          run: |
-            source .venv/bin/activate
-            echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
-            echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
-            echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
-            echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
-            echo "github.event_name                  : [${{ github.event_name }}]"
-        - name: Extract Branch Name
-          run: |
-            echo "Branch name: ${GITHUB_REF#refs/heads/}"
-          env:
-             GITHUB_REF: ${{ github.ref }}
-
         - name: Run ContentCTL test for changes against develop
           run: |
-            pwd
-            ls
-            git status
             git pull
             source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
@@ -58,21 +41,23 @@ jobs:
             mkdir artifacts
             cp test_results/summary.yml artifacts/
             cat test_results/summary.yml
-            
+          continue-on-error: true
+          
         - name: store_artifacts
           uses: actions/upload-artifact@v3
           with:
             name: content-latest
             path: |
               artifacts/summary.yml
-        - name: Install dependencies
+
+        - name: Install JQ
           run: sudo apt-get install -y jq
 
         - name: Extract total_fail value
           run: |
             total_fail=$(yq e '.summary.total_fail' summary.yml)
 
-        - name: Print the failures
+        - name: Formatted Final Report
           run: |
             # Debug: Print the content of summary.yml
             cat test_results/summary.yml
