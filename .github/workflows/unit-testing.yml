@@ -2,7 +2,7 @@ name: unit-testing
 on:
   push:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
 jobs:
   contentctl-unit-testing:
     runs-on: ubuntu-latest
@@ -11,8 +11,8 @@ jobs:
     steps: 
         - name: Check out the repository code
           uses: actions/checkout@v3
-          with:
-            ref: develop
+          # with:
+          #   ref: develop
 
         - uses: actions/setup-python@v4
           with:
@@ -33,11 +33,13 @@ jobs:
           run: |
             echo "Current Branch (Head Ref): ${{ github.head_ref }}"
             echo "Target Branch (Base Ref): ${{ github.base_ref }}"
+            echo "reff - ${GITHUB_REF#refs/heads/}"      
             git pull
             git checkout ${GITHUB_REF#refs/heads/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
             # contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             mkdir test_results
+            mkdir artifacts
             cp summary.yml test_results/
             cp test_results/summary.yml artifacts/            
           continue-on-error: true
