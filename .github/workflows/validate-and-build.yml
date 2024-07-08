@@ -4,7 +4,6 @@ on:
   pull_request:
     types: [opened, reopened]
 jobs:
-
   validate-and-build:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
     #is to first start up a Virtual Machine, then we can by following:
@@ -23,23 +22,22 @@ jobs:
         run: |
           sudo apt update -qq
           sudo apt install jq -qq
-      
 
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
-          python3.11 -m venv .venv
-          source .venv/bin/activate
+          # python3.11 -m venv .venv
+          # source .venv/bin/activate
           pip install contentctl
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
       - name: content_ctl validate
         run: |
-          source .venv/bin/activate
+          # source .venv/bin/activate
           contentctl validate 
 
       - name: contentctl generate
         run: |
-          source .venv/bin/activate
+          # source .venv/bin/activate
           contentctl build --enrichments
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/

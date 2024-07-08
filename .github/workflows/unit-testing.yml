@@ -2,7 +2,7 @@ name: unit-testing
 on:
   push:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, synchronize, reopened]
 jobs:
   contentctl-unit-testing:
     runs-on: ubuntu-latest
@@ -26,20 +26,21 @@ jobs:
            
         - name: Install Python Dependencies
           run: |
-            python3.11 -m venv .venv
-            source .venv/bin/activate
+            # python3.11 -m venv .venv
+            # source .venv/bin/activate
             pip install contentctl
             git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
         
         - name: Run ContentCTL test for changes against develop
           run: |
             git pull
-            source .venv/bin/activate
+            # source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
-            contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
+            echo "The target branch for this PR is ${{ github.base_ref }}"
+            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             mkdir artifacts
-            # mkdir test_results
-            # cp summary.yml test_results/
+            mkdir test_results
+            cp summary.yml test_results/
             cp test_results/summary.yml artifacts/
             cat test_results/summary.yml
 
@@ -51,9 +52,6 @@ jobs:
             name: content-latest
             path: |
               artifacts/summary.yml
-
-        - name: Install JQ
-          run: sudo apt-get install -y jq
 
         - name: Print entire test_results/summary.yml
           run: cat test_results/summary.yml
