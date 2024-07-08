@@ -33,17 +33,15 @@ jobs:
         
         - name: Run ContentCTL test for changes against develop
           run: |
-            # git pull
+            git pull > /dev/null 2>&1
             # source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
             contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             mkdir artifacts
             mkdir test_results
-            cp summary.yml test_results/
+            # cp summary.yml test_results/
             cp test_results/summary.yml artifacts/
-            cat test_results/summary.yml
-
           continue-on-error: true
           
         - name: store_artifacts
