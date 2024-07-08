@@ -36,11 +36,10 @@ jobs:
             git pull
             source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
-            # cat summary.yml
-            # contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
+            contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
             mkdir artifacts
-            mkdir test_results
-            cp summary.yml test_results/
+            # mkdir test_results
+            # cp summary.yml test_results/
             cp test_results/summary.yml artifacts/
             cat test_results/summary.yml
 
