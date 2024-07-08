@@ -34,7 +34,7 @@ jobs:
             git pull
             git checkout ${GITHUB_REF#refs/heads/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
-            contentctl test --disable-tqdm never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
+            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             mkdir test_results
             # cp summary.yml test_results/
             cp test_results/summary.yml artifacts/            
