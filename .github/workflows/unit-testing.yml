@@ -1,0 +1,101 @@
+name: unit-testing
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
+jobs:
+  contentctl-unit-testing-setup:
+    runs-on: ubuntu-latest
+    if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
+    # needs: [validate-tag-if-present, quit-for-dependabot]
+    steps: 
+        - name: Check out the repository code
+          uses: actions/checkout@v3
+          with:
+            ref: develop
+
+        - uses: actions/setup-python@v4
+          with:
+            python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+        - name: Install System Packages
+          run: |
+            sudo apt update -qq
+            sudo apt install jq -qq
+           
+        - name: Install Python Dependencies
+          run: |
+            python3.11 -m venv .venv
+            source .venv/bin/activate
+            pip install contentctl
+            git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
+        
+        - name: print variable names
+          run: |
+            source .venv/bin/activate
+            echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
+            echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
+            echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
+            echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
+            echo "github.event_name                  : [${{ github.event_name }}]"
+        - name: Extract Branch Name
+          run: |
+            echo "Branch name: ${GITHUB_REF#refs/heads/}"
+          env:
+             GITHUB_REF: ${{ github.ref }}
+
+        - name: Run ContentCTL test for changes against develop
+          run: |
+            pwd
+            ls
+            git status
+            git pull
+            source .venv/bin/activate
+            git checkout ${GITHUB_REF#refs/heads/}
+            # cat summary.yml
+            contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
+            mkdir artifacts
+            cp test_results/summary.yml artifacts/
+            cat test_results/summary.yml
+            
+        - name: store_artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: content-latest
+            path: |
+              artifacts/summary.yml
+        - name: Install dependencies
+          run: sudo apt-get install -y jq
+
+        - name: Extract total_fail value
+          run: |
+            total_fail=$(yq e '.summary.total_fail' summary.yml)
+
+        - name: Print the failures
+          run: |
+            # Debug: Print the content of summary.yml
+            cat test_results/summary.yml
+            # Extract total_fail value and debug print it
+            total_fail=$(yq e '.summary.total_fail' test_results/summary.yml)
+            echo "Extracted total_fail: [$total_fail]"
+            # Check if total_fail is a valid integer and greater than one
+            if [[ "$total_fail" =~ ^[0-9]+$ ]] && [ "$total_fail" -gt 1 ]; then
+              echo "CI Failure: There are failed tests."
+              echo -e "Name | Status | Test Type"
+              echo -e "---- | ------ | ---------"
+              # Loop through each item in tested_detections and print required fields with color
+              yq e '.tested_detections[] | .name as $name | .tests[].status as $status | .tests[].test_type as $test_type | "\($name) | \($status) | \($test_type)"' test_results/summary.yml | while read line; do
+                name=$(echo $line | cut -d '|' -f 1)
+                status=$(echo $line | cut -d '|' -f 2 | xargs)
+                test_type=$(echo $line | cut -d '|' -f 3)
+                if [ "$status" == "pass" ]; then
+                  echo -e "${name} | \033[32m${status}\033[0m | ${test_type}"
+                else
+                  echo -e "${name} | \033[31m${status}\033[0m | ${test_type}"
+                fi
+              done
+              exit 1  # Fail the CI job
+            else
+              echo "CI Success: No failed tests."
+            fi
