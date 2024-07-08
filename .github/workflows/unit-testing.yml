@@ -1,6 +1,5 @@
 name: unit-testing
 on:
-  push:
   pull_request:
     types: [opened, reopened, synchronize]
 jobs:
@@ -37,7 +36,7 @@ jobs:
             git pull
             git checkout ${GITHUB_REF#refs/heads/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
-            # contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
+            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes target-branch ${{ github.base_ref }}
             mkdir test_results
             mkdir artifacts
             cp summary.yml test_results/
