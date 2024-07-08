@@ -2,8 +2,8 @@
 total_fail=$(yq e '.summary.total_fail' test_results/summary.yml)
 echo "Extracted total_fail: [$total_fail]"
 
-# Check if total_fail is a valid integer and greater than one
-if [[ "$total_fail" =~ ^[0-9]+$ ]] && [ "$total_fail" -gt 1 ]; then
+# Check if total_fail is a valid integer and greater than or equal to one
+if [[ "$total_fail" =~ ^[0-9]+$ ]] && [ "$total_fail" -ge 1 ]; then
   echo "CI Failure: There are failed tests."
   # Adjust the column widths here
   printf "%-80s | %-6s | %-10s\n" "Name" "Status" "Test Type"
