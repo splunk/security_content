@@ -10,8 +10,8 @@ jobs:
     steps: 
         - name: Check out the repository code
           uses: actions/checkout@v3
-          # with:
-          #   ref: develop
+          with:
+            ref: develop
 
         - uses: actions/setup-python@v4
           with:
