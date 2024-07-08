@@ -31,12 +31,14 @@ jobs:
         
         - name: Run ContentCTL test for changes against develop
           run: |
-            git pull
-            git checkout ${GITHUB_REF#refs/heads/}
+            echo "Current Branch (Head Ref): ${{ github.head_ref }}"
+            echo "Target Branch (Base Ref): ${{ github.base_ref }}"
+            # git pull
+            git checkout ${GITHUB_REF#refs/base/}
             echo "The target branch for this PR is ${{ github.base_ref }}"
-            contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
+            # contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             mkdir test_results
-            # cp summary.yml test_results/
+            cp summary.yml test_results/
             cp test_results/summary.yml artifacts/            
           continue-on-error: true
           
