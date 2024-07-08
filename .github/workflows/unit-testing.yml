@@ -32,9 +32,8 @@ jobs:
           run: |
             echo "Current Branch (Head Ref): ${{ github.head_ref }}"
             echo "Target Branch (Base Ref): ${{ github.base_ref }}"
-            echo "reff - ${GITHUB_REF#refs/heads/}"      
-            git pull
-            git checkout ${GITHUB_REF#refs/heads/}
+            git pull > /dev/null 2>&1
+            git checkout ${{ github.head_ref }}
             echo "The target branch for this PR is ${{ github.base_ref }}"
             contentctl test --disable-tqdm --post-test-behavior never_pause mode:changes target-branch ${{ github.base_ref }}
             mkdir test_results
