@@ -19,46 +19,27 @@ jobs:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-        - name: Install System Packages
-          run: |
-            sudo apt update -qq
-            sudo apt install jq -qq
+    
            
         - name: Install Python Dependencies
           run: |
-            python3.11 -m venv .venv
-            source .venv/bin/activate
             pip install contentctl
-            git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
         
         - name: Run ContentCTL test for changes against develop
           run: |
             git pull
-            source .venv/bin/activate
             git checkout ${GITHUB_REF#refs/heads/}
             contentctl test --post-test-behavior never_pause mode:changes --mode.target-branch develop
-            mkdir artifacts
-            # mkdir test_results
-            # cp summary.yml test_results/
-            cp test_results/summary.yml artifacts/
-            cat test_results/summary.yml
+            head -n 9 test_results/summary.yml >> $GITHUB_STEP_SUMMARY
 
           continue-on-error: true
           
         - name: store_artifacts
           uses: actions/upload-artifact@v3
           with:
-            name: content-latest
+            name: test-results
             path: |
-              artifacts/summary.yml
-
-        - name: Install JQ
-          run: sudo apt-get install -y jq
+              test_results/summary.yml
 
         - name: Print entire test_results/summary.yml
           run: cat test_results/summary.yml
-
-        - name: Formatted Final Report
-          run: |
-            chmod +x .github/workflows/format_test_summary.sh
-            ./.github/workflows/format_test_summary.sh
