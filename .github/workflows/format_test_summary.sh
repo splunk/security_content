@@ -16,9 +16,9 @@ if [[ "$total_fail" =~ ^[0-9]+$ ]] && [ "$total_fail" -ge 1 ]; then
     test_type=$(echo $test_type | xargs)  # Trim whitespace
     
     if [ "$status" == "true" ]; then
-      printf "%-80s | \033[32m%-6s\033[0m | %-10s\n" "$name" "PASS" "$test_type"
+      printf "%-80s | %-6s | %-10s\n" "$name" "PASS" "$test_type"
     else
-      printf "%-80s | \033[31m%-6s\033[0m | %-10s\n" "$name" "FAIL" "$test_type"
+      printf "%-80s | %-6s | %-10s\n" "$name" "FAIL" "$test_type"
     fi
   done
   
