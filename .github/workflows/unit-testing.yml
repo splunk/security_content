@@ -51,9 +51,11 @@ jobs:
           run: cat test_results/summary.yml
           continue-on-error: true
           
-        - name: Formatted Final Report
-          run: |            
+        - name: Check the Test Result Summary 
+          run: |       
+            echo "Check the Test Result Summary for pass/fail"  
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
+            echo "The Unit testing is completed. See details in the unit-testing job summary UI "
         
         # - name: Check Test Summary Results
         #   if: ${{ success() }}
