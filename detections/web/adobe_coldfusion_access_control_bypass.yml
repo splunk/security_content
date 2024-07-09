@@ -15,7 +15,7 @@ description: The following analytic detects potential exploitation attempts agai
   unauthorized access to ColdFusion administration endpoints. If confirmed malicious,
   this could result in data theft, brute force attacks, or further exploitation of
   other vulnerabilities, posing a serious security risk to the environment.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+search: 'x| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
   where Web.url IN ("//restplay*", "//CFIDE/restplay*", "//CFIDE/administrator*",
   "//CFIDE/adminapi*", "//CFIDE/main*", "//CFIDE/componentutils*", "//CFIDE/wizards*",
   "//CFIDE/servermanager*","/restplay*", "/CFIDE/restplay*", "/CFIDE/administrator*",

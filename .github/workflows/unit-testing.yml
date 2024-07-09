@@ -51,5 +51,6 @@ jobs:
           
         - name: Formatted Final Report
           run: |
-            chmod +x .github/workflows/format_test_summary.sh
-            ./.github/workflows/format_test_summary.sh >> $GITHUB_STEP_SUMMARY
+            pip install pyyaml
+            pip install re
+            python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
