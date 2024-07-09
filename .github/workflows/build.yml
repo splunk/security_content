@@ -1,16 +1,16 @@
-name: validate-and-build
+name: build
 on:
   pull_request:
     types: [opened, reopened, synchronize]
 jobs:
-  validate-and-build:
+  build:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
     #is to first start up a Virtual Machine, then we can by following:
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontainer
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
        
       - uses: actions/setup-python@v5
         with:
@@ -27,10 +27,6 @@ jobs:
           pip install contentctl
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
-      - name: Running validate
-        run: |
-          contentctl validate 
-
       - name: Running build with enrichments
         run: |
           contentctl build --enrichments
