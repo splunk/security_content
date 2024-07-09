@@ -25,7 +25,7 @@ def main():
     # Extract total_fail value and debug print it
     total_fail = data['summary']['total_fail']
     print("**Download the job artifacts of this run and view complete summary in test_results/summary.yml for troubleshooting failures.**\n")
-    print("** 📝 Experimental or manual_test detections are not tested 📝 **\n") 
+    print(" 📝 **Experimental or manual_test detections are not tested** 📝 **\n") 
     print(f"Extracted total_fail: [{total_fail}]\n")
     
     # Print all unit test details first
@@ -43,14 +43,16 @@ def main():
                     print(f"{name:<80} | 🔴 {status:<6} | {test_type:<10} | {exception:<50}")
                 else:
                     print(f"{name:<80} | 🟢  {status:<6} | {test_type:<10} | {'-':<50}")
+    # Print table footer
+    print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
 
     # Check if total_fail is a valid integer and greater than or equal to one
     if int(total_fail) >=1:
         # Print the message in bold
-        print("🔴 ** CI Failure: There are failed tests.**\n\n")
+        print("🔴 - **CI Failure: There are failed tests.**\n\n")
         sys.exit(1)
     else:
-        print("🟢 ** CI Success: No failed tests.**\n\n")
+        print("🟢 - **CI Success: No failed tests.**\n\n")
         sys.exit(0)
         
 if __name__ == "__main__":
