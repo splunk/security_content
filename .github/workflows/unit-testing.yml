@@ -57,9 +57,9 @@ jobs:
             ls -la .github/workflows
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY 2>&1
         
-        - name: Check script result
+        - name: Check Test Summary Results
           if: ${{ success() }}
-          run: echo "Script indicated failed tests, failing the CI job." && exit 1
+          run: echo "Test Summary failed tests, failing the CI job. See details in the unit-testing job summary UI" && exit 1
 
         - name: Success handling
           if: ${{ failure() }}

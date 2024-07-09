@@ -24,7 +24,7 @@ def main():
     
     # Extract total_fail value and debug print it
     total_fail = data['summary']['total_fail']
-    print("\033[1mDownload the job artifacts of this run and view complete summary in test_results/summary.yml for troubleshooting failures.\n\033[0m") 
+    print("**Download the job artifacts of this run and view complete summary in test_results/summary.yml for troubleshooting failures.**\n") 
     print(f"Extracted total_fail: [{total_fail}]\n")
     
     # Print all unit test details first
