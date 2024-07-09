@@ -27,8 +27,8 @@ jobs:
             python -m pip install --upgrade pip
             pip install contentctl
            
-        
-        - name: Run ContentCTL test for changes against develop
+        # Running contentctl test with a few arguments, before running the command make sure you checkout into the current branch of the pull request. This step only performs unit testing on all the changes against the target-branch. In most cases this target branch will be develop
+        - name: Run ContentCTL test for changes against target branch
           run: |
             echo "Current Branch (Head Ref): ${{ github.head_ref }}"
             echo "Target Branch (Base Ref): ${{ github.base_ref }}"
@@ -39,7 +39,7 @@ jobs:
             echo "contentctl test - COMPLETED"
           continue-on-error: true
 
-          
+        # Store test_results/summary.yml and dist/DA-ESS-ContentUpdate-latest.tar.gz to job artifact-test_summary_results.zip
         - name: store_artifacts
           uses: actions/upload-artifact@v4
           with:
@@ -49,10 +49,12 @@ jobs:
               dist/DA-ESS-ContentUpdate-latest.tar.gz
           continue-on-error: true
 
+        # Print entire result summary so that the users can view it in the Github Actions logs 
         - name: Print entire test_results/summary.yml
           run: cat test_results/summary.yml
           continue-on-error: true
-          
+
+        # Run a simple custom script created to pretty print results in a markdown friendly format in Github Actions Summary
         - name: Check the test_results/summary.yml for pass/fail.
           run: |       
             echo "This job will fail if there are failures in unit-testing"  

@@ -45,7 +45,7 @@ def main():
                 else:
                     print(f"{name:<80} | 🟢  {status:<6} | {test_type:<10} | {'-':<50}")
     # Print table footer
-    print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
+    # print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
 
     # Check if total_fail is a valid integer and greater than or equal to one
     print("\n")  # Print a newline for separation
