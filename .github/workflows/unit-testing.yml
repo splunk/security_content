@@ -44,23 +44,16 @@ jobs:
             name: test_summary_results
             path: |
               test_results/summary.yml
-              # dist/DA-ESS-ContentUpdate-latest.tar.gz
+              dist/DA-ESS-ContentUpdate-latest.tar.gz
           continue-on-error: true
 
         - name: Print entire test_results/summary.yml
           run: cat test_results/summary.yml
           continue-on-error: true
           
-        - name: Check the Test Result Summary 
+        - name: Check the test_results/summary.yml for pass/fail. 
           run: |       
-            echo "Check the Test Result Summary for pass/fail"  
+            echo "This job will fail if there are failures in unit-testing"  
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
             echo "The Unit testing is completed. See details in the unit-testing job summary UI "
-        
-        # - name: Check Test Summary Results
-        #   if: ${{ success() }}
-        #   run: echo "Test Summary failed tests, failing the CI job. See details in the unit-testing job summary UI" && exit 1
-
-        # - name: Success handling
-        #   if: ${{ failure() }}
-        #   run: echo "Unit Testing passed for all detections, CI job is successful."
+            
