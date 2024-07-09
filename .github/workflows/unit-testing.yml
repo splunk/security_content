@@ -60,4 +60,5 @@ jobs:
             echo "This job will fail if there are failures in unit-testing"  
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
             echo "The Unit testing is completed. See details in the unit-testing job summary UI "
+            echo '<img src="https://dianetarantini.com/wp-content/uploads/2023/05/YouShallNotPass.jpg" alt="Image" width="300">' >> "$GITHUB_STEP_SUMMARY"
             
