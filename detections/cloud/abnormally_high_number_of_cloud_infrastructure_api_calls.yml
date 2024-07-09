@@ -3,7 +3,7 @@ id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 version: 2
 date: '2024-05-12'
 author: David Dorsey, Splunk
-status: production
+status: experimental
 type: Anomaly
 description: The following analytic detects a spike in the number of API calls made
   to your cloud infrastructure by a user. It leverages cloud infrastructure logs and
