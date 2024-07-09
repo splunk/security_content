@@ -47,6 +47,10 @@ def main():
     print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
 
     # Check if total_fail is a valid integer and greater than or equal to one
+    print("\n")  # Print a newline for separation
+    print("**Overall Status**")
+    print("-------------------------------")
+    # Continue with additional prints or other logic
     if int(total_fail) >=1:
         # Print the message in bold
         print("🔴 - **CI Failure: There are failed tests.**\n\n")
