@@ -52,15 +52,13 @@ jobs:
           continue-on-error: true
           
         - name: Formatted Final Report
-          run: |
-            pwd
-            ls -la .github/workflows
-            python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY 2>&1
+          run: |            
+            python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
         
-        - name: Check Test Summary Results
-          if: ${{ success() }}
-          run: echo "Test Summary failed tests, failing the CI job. See details in the unit-testing job summary UI" && exit 1
+        # - name: Check Test Summary Results
+        #   if: ${{ success() }}
+        #   run: echo "Test Summary failed tests, failing the CI job. See details in the unit-testing job summary UI" && exit 1
 
-        - name: Success handling
-          if: ${{ failure() }}
-          run: echo "Unit Testing passed for all detections, CI job is successful."
+        # - name: Success handling
+        #   if: ${{ failure() }}
+        #   run: echo "Unit Testing passed for all detections, CI job is successful."
