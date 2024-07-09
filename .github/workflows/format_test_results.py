@@ -46,8 +46,10 @@ def main():
     if re.match(r'^[0-9]+$', str(total_fail)) and int(total_fail) >= 1:
         # Print the message in bold
         print("CI Failure: There are failed tests.\n")
+        sys.exit(0)
     else:
         print("CI Success: No failed tests.\n\n")
+        sys.exit(1)
         
 if __name__ == "__main__":
     main()
