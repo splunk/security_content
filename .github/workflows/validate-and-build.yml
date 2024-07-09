@@ -1,8 +1,7 @@
 name: validate-and-build
 on:
-  push:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
 jobs:
   validate-and-build:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions

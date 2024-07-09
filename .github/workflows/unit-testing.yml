@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 jobs:
-  contentctl-unit-testing:
+  unit-testing:
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
     # needs: [validate-tag-if-present, quit-for-dependabot]
@@ -36,7 +36,7 @@ jobs:
           continue-on-error: true
           
         - name: store_artifacts
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4
           with:
             name: test_summary_results
             path: |
