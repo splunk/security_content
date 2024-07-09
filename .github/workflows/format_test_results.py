@@ -24,13 +24,14 @@ def main():
     
     # Extract total_fail value and debug print it
     total_fail = data['summary']['total_fail']
-    print("**Download the job artifacts of this run and view complete summary in test_results/summary.yml for troubleshooting failures.**\n") 
+    print("**Download the job artifacts of this run and view complete summary in test_results/summary.yml for troubleshooting failures.**\n")
+    print("** 📝 Experimental or manual_test detections are not tested 📝 **\n") 
     print(f"Extracted total_fail: [{total_fail}]\n")
     
     # Print all unit test details first
-    print("Unit Test Details:\n")
-    print(f"{'Name':<80} | {'Status':<6} | 🔴  {'Test Type':<10} | {'Exception':<50}")
-    print(f"{'----':<80} | {'------':<6} | 🟢 {'---------':<10} | {'---------':<50}")
+    print("**Unit Test Details:**\n")
+    print(f"{'Name':<80} | {'Status':<6} | {'Test Type':<10} | {'Exception':<50}")
+    print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
     for detection in data['tested_detections']:
         for test in detection['tests']:
             if test['test_type'].strip() == "unit":  # Check if the test type is "unit"
@@ -39,9 +40,9 @@ def main():
                 test_type = test['test_type'].strip()
                 exception = test.get('exception', 'N/A')  # Get exception if exists, else 'N/A'
                 if status == 'FAIL':
-                    print(f"{name:<80} | {status:<6} | {test_type:<10} | {exception:<50}")
+                    print(f"{name:<80} | 🔴 {status:<6} | {test_type:<10} | {exception:<50}")
                 else:
-                    print(f"{name:<80} | {status:<6} | {test_type:<10} | {'-':<50}")
+                    print(f"{name:<80} | 🟢  {status:<6} | {test_type:<10} | {'-':<50}")
 
     # Check if total_fail is a valid integer and greater than or equal to one
     if int(total_fail) >=1:
