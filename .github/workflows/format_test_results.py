@@ -10,7 +10,7 @@ import sys
 def main():
 
     # Define the path to the YAML file
-    #yaml_file_path = 'test_results/summary.yml'
+    # yaml_file_path = 'summary.yml'
     yaml_file_path = '/home/runner/work/security_content/security_content/test_results/summary.yml'
    
     # Check if the YAML file exists
