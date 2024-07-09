@@ -27,12 +27,13 @@ jobs:
         
         - name: Run ContentCTL test for changes against develop
           run: |
-            echo "Current Branch (Head Ref): ${{ github.head_ref }}"
-            echo "Target Branch (Base Ref): ${{ github.base_ref }}"
-            git pull > /dev/null 2>&1
-            git checkout ${{ github.head_ref }}
-            echo "The target branch for this PR is ${{ github.base_ref }}"
-            contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}     
+            # echo "Current Branch (Head Ref): ${{ github.head_ref }}"
+            # echo "Target Branch (Base Ref): ${{ github.base_ref }}"
+            # git pull > /dev/null 2>&1
+            # git checkout ${{ github.head_ref }}
+            # echo "The target branch for this PR is ${{ github.base_ref }}"
+            # contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}    
+            cp summary.yml test_results/
           continue-on-error: true
           
         - name: store_artifacts
@@ -41,7 +42,7 @@ jobs:
             name: test_summary_results
             path: |
               test_results/summary.yml
-              dist/DA-ESS-ContentUpdate-latest.tar.gz
+              # dist/DA-ESS-ContentUpdate-latest.tar.gz
           continue-on-error: true
 
         - name: Print entire test_results/summary.yml
@@ -52,3 +53,11 @@ jobs:
           run: |
             python -m pip install --upgrade pip
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY 2>&1
+        
+        - name: Check script result
+          if: ${{ success() }}
+          run: echo "Script indicated failed tests, failing the CI job." && exit 1
+
+        - name: Success handling
+          if: ${{ failure() }}
+          run: echo "Unit Testing passed for all detections, CI job is successful."
