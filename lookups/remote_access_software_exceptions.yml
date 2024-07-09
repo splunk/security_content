@@ -1,0 +1,8 @@
+description: A list used to provide global exceptions to remote access monitoring content.
+filename: remote_access_software_exceptions.csv
+name: remote_access_software_exceptions
+default_match: 'false'
+match_type: WILDCARD(asset)
+min_matches: 1
+max_matches: 1
+case_sensitive_match: 'false'
