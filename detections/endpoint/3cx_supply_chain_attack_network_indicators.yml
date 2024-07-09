@@ -15,7 +15,7 @@ description: The following analytic identifies DNS queries to domains associated
   malicious, this activity could allow attackers to establish a foothold in the network,
   exfiltrate sensitive data, or further propagate malware, leading to extensive damage
   and data breaches.
-search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)
+search: 'x| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)
   as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(DNS)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | lookup
   3cx_ioc_domains domain as query OUTPUT Description isIOC | search isIOC=true | `3cx_supply_chain_attack_network_indicators_filter`'
