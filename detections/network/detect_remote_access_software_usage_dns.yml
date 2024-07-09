@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage DNS
 id: a16b797d-e309-41bd-8ba0-5067dae2e4be
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-07-09'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   DNS.query | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | lookup remote_access_software remote_domain
   AS query OUTPUT isutility, description as signature, comment_reference as desc,
-  category | eval dest = query | search isutility = True | `detect_remote_access_software_usage_dns_filter`'
+  category | eval dest = query | search isutility = True | `remote_access_software_usage_exception_filter` | `detect_remote_access_software_usage_dns_filter`'
 how_to_implement: To implement this search, you must ingest logs that contain the
   DNS query and the source of the query. These logs must be processed using the appropriate
   Splunk Technology Add-ons that are specific to the DNS logs. The logs must also
@@ -27,7 +27,9 @@ how_to_implement: To implement this search, you must ingest logs that contain th
   Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: It is possible that legitimate remote access software is used
   within the environment. Ensure that the lookup is reviewed and updated with any
-  additional remote access software that is used within the environment.
+  additional remote access software that is used within the environment. 
+  Known false positives can be added to the remote_access_software_usage_exception.csv 
+  lookup to globally suppress these situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
