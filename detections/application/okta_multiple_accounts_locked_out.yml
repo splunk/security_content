@@ -6,7 +6,7 @@ author: Michael Haag, Mauricio Velazco, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic detects multiple Okta accounts being locked out
+description: The  following analytic detects multiple Okta accounts being locked out
   within a short period. It uses the user.account.lock event from Okta logs, aggregated
   over a 5-minute window, to identify this behavior. This activity is significant
   as it may indicate a brute force or password spraying attack, where an adversary

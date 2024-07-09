@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic identifies multiple failed multi-factor authentication
+description: The  following analytic identifies multiple failed multi-factor authentication
   (MFA) requests for a single user within an Okta tenant. It triggers when more than
   10 MFA attempts fail within 5 minutes, using Okta event logs to detect this pattern.
   This activity is significant as it may indicate an adversary attempting to bypass

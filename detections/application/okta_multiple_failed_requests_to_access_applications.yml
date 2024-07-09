@@ -6,7 +6,7 @@ author: John Murphy, Okta, Michael Haag, Splunk
 type: Hunting
 status: experimental
 data_source: []
-description: 'The following analytic detects multiple failed attempts to access applications
+description: 'The  following analytic detects multiple failed attempts to access applications
   in Okta, potentially indicating the reuse of a stolen web session cookie. It leverages
   Okta logs to evaluate policy and SSO events, aggregating data by user, session,
   and IP. The detection triggers when more than half of the app sign-on attempts are
