@@ -9,7 +9,7 @@ jobs:
     # needs: [validate-tag-if-present, quit-for-dependabot]
     steps: 
         - name: Check out the repository code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           with:
             ref: develop
             node-version: '20'
@@ -18,7 +18,6 @@ jobs:
           with:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-            node-version: '20'
 
         - name: Install System Packages and contentctl 
           run: |
