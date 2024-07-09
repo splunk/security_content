@@ -35,27 +35,12 @@ jobs:
             git pull > /dev/null 2>&1
             git checkout ${{ github.head_ref }}
             echo "The target branch for this PR is ${{ github.base_ref }}"
-            # contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
-            output=$(echo "With Detection Testing Mode 'Changes', there were [0] detections found to test.")
-            detections=$(echo "$output" | grep -oP 'there were \[\K[0-9]+(?=\] detections found to test)')
-            echo "::set-output name=detections::$detections"
+            contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             echo "contentctl test - COMPLETED"
           continue-on-error: true
 
-        - name: Check detections
-          id: check_detections
-          run: |
-            detections="${{ steps.contentctl_run.outputs.detections }}"
-            if [[ "$detections" == "0" ]]; then
-              echo "::set-output name=has_detections::false"
-              echo "No detections to test."
-            else
-              echo "::set-output name=has_detections::true"
-              echo "Proceeding with $detections detections to test."
-            fi
           
         - name: store_artifacts
-          if: ${{ steps.check_detections.outputs.has_detections == 'true' }}
           uses: actions/upload-artifact@v4
           with:
             name: test_summary_results
@@ -65,12 +50,10 @@ jobs:
           continue-on-error: true
 
         - name: Print entire test_results/summary.yml
-          if: ${{ steps.check_detections.outputs.has_detections == 'true' }}
           run: cat test_results/summary.yml
           continue-on-error: true
           
-        - name: Check the test_results/summary.yml for pass/fail. 
-          if: ${{ steps.check_detections.outputs.has_detections == 'true' }}
+        - name: Check the test_results/summary.yml for pass/fail.
           run: |       
             echo "This job will fail if there are failures in unit-testing"  
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
