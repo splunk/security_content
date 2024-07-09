@@ -5,6 +5,7 @@ A simple script formatting test_results/summary.yml to display on github actions
 import yaml
 import re
 import os
+import sys
 
 def main():
 
