@@ -24,6 +24,7 @@ def main():
     
     # Extract total_fail value and debug print it
     total_fail = data['summary']['total_fail']
+    total_detections = data['summary']['total_detections']
     print("**Download the job artifacts of this run and view complete summary in test_results/summary.yml for troubleshooting failures.**\n")
     print(" 📝 **Experimental or manual_test detections are not tested** 📝 **\n") 
     print(f"Extracted total_fail: [{total_fail}]\n")
@@ -55,8 +56,11 @@ def main():
         # Print the message in bold
         print("🔴 - **CI Failure: There are failed tests.**\n\n")
         sys.exit(1)
-    else:
+    if int(total_fail) < 1:
         print("🟢 - **CI Success: No failed tests.**\n\n")
+        sys.exit(0)
+    if int(total_detections) < 1:
+        print("🟢 - **CI Success: No detections to test**\n\n")
         sys.exit(0)
         
 if __name__ == "__main__":
