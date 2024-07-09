@@ -37,6 +37,8 @@ jobs:
             echo "The target branch for this PR is ${{ github.base_ref }}"
             # contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             output = $(echo "With Detection Testing Mode 'Changes', there were [0] detections found to test.")
+            detections=$(echo "$output" | grep -oP 'there were \[\K[0-9]+(?=\] detections found to test)')
+            echo "::set-output name=detections::$detections"
             echo "contentctl test - COMPLETED"
           continue-on-error: true
 
