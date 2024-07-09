@@ -1,0 +1,63 @@
+name: unit-testing
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+jobs:
+  unit-testing:
+    runs-on: ubuntu-latest
+    outputs:
+      has_detections: ${{ steps.check_detections.outputs.has_detections }}
+    if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
+    # needs: [validate-tag-if-present, quit-for-dependabot]
+    steps: 
+        - name: Check out the repository code
+          uses: actions/checkout@v4
+          with:
+            ref: develop
+
+        - uses: actions/setup-python@v5
+          with:
+            python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+        - name: Install System Packages and contentctl 
+          run: |
+            sudo apt update -qq
+            sudo apt install jq -qq
+            python -m pip install --upgrade pip
+            pip install contentctl
+           
+        # Running contentctl test with a few arguments, before running the command make sure you checkout into the current branch of the pull request. This step only performs unit testing on all the changes against the target-branch. In most cases this target branch will be develop
+        - name: Run ContentCTL test for changes against target branch
+          run: |
+            echo "Current Branch (Head Ref): ${{ github.head_ref }}"
+            echo "Target Branch (Base Ref): ${{ github.base_ref }}"
+            git pull > /dev/null 2>&1
+            git checkout ${{ github.head_ref }}
+            echo "The target branch for this PR is ${{ github.base_ref }}"
+            contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
+            echo "contentctl test - COMPLETED"
+          continue-on-error: true
+
+        # Store test_results/summary.yml and dist/DA-ESS-ContentUpdate-latest.tar.gz to job artifact-test_summary_results.zip
+        - name: store_artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: test_summary_results
+            path: |
+              test_results/summary.yml
+              dist/DA-ESS-ContentUpdate-latest.tar.gz
+          continue-on-error: true
+
+        # Print entire result summary so that the users can view it in the Github Actions logs 
+        - name: Print entire test_results/summary.yml
+          run: cat test_results/summary.yml
+          continue-on-error: true
+
+        # Run a simple custom script created to pretty print results in a markdown friendly format in Github Actions Summary
+        - name: Check the test_results/summary.yml for pass/fail.
+          run: |       
+            echo "This job will fail if there are failures in unit-testing"  
+            python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
+            echo "The Unit testing is completed. See details in the unit-testing job summary UI "
+            
