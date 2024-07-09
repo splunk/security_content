@@ -13,7 +13,7 @@ jobs:
           with:
             ref: develop
 
-        - uses: actions/setup-python@v4
+        - uses: actions/setup-python@v5
           with:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
