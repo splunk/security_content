@@ -7,7 +7,7 @@ import re
 
 def main():
     # Load the YAML file
-    with open('test_results/summary.yml', 'r') as file:
+    with open('/home/runner/work/security_content/security_content/test_results/summary.yml', 'r') as file:
         data = yaml.safe_load(file)
     
     # Extract total_fail value and debug print it
