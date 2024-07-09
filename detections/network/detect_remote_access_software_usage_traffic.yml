@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-07-09'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app |
   `drop_dm_object_name("All_Traffic")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | lookup remote_access_software remote_appid AS app OUTPUT isutility, description
-  as signature, comment_reference as desc, category | search isutility = True | `detect_remote_access_software_usage_traffic_filter`'
+  as signature, comment_reference as desc, category | search isutility = True | `remote_access_software_usage_exception_filter` | `detect_remote_access_software_usage_traffic_filter`'
 how_to_implement: The following analytic was developed with Palo Alto traffic logs.
   Ensure that the logs are being ingested into Splunk and mapped to the Network_Traffic
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
@@ -28,6 +28,8 @@ how_to_implement: The following analytic was developed with Palo Alto traffic lo
 known_false_positives: It is possible that legitimate remote access software is used
   within the environment. Ensure that the lookup is reviewed and updated with any
   additional remote access software that is used within the environment.
+  Known false positives can be added to the remote_access_software_usage_exception.csv 
+  lookup to globally suppress these situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
