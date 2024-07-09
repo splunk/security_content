@@ -51,6 +51,6 @@ jobs:
           
         - name: Formatted Final Report
           run: |
+            python -m pip install --upgrade pip
             pip install pyyaml
-            pip install re
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
