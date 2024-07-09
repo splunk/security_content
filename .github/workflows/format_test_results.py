@@ -40,7 +40,7 @@ def main():
                 test_type = test['test_type'].strip()
                 exception = test.get('exception', 'N/A')  # Get exception if exists, else 'N/A'
                 if status == 'FAIL':
-                    print(f"{name:<80} | 🔴 {status:<6} | {test_type:<10} | {exception:<50}")
+                    print(f"{name:<80} | 🔴 {status:<6}  | {test_type:<10} | {exception:<50}")
                 else:
                     print(f"{name:<80} | 🟢  {status:<6} | {test_type:<10} | {'-':<50}")
     # Print table footer
