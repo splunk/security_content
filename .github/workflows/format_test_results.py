@@ -44,13 +44,13 @@ def main():
                     print(f"{name:<80} | {status:<6} | {test_type:<10} | {'-':<50}")
 
     # Check if total_fail is a valid integer and greater than or equal to one
-    if re.match(r'^[0-9]+$', str(total_fail)) and int(total_fail) >= 1:
+    if int(total_fail) >=1:
         # Print the message in bold
-        print("CI Failure: There are failed tests.\n")
-        sys.exit(0)
-    else:
-        print("CI Success: No failed tests.\n\n")
+        print("**CI Failure: There are failed tests.**\n")
         sys.exit(1)
+    else:
+        print("**CI Success: No failed tests.**\n\n")
+        sys.exit(0)
         
 if __name__ == "__main__":
     main()
