@@ -30,7 +30,7 @@ def main():
     print(f"Extracted total_fail: [{total_fail}]\n")
     
     # Print all unit test details first
-    print("**Unit Test Details:**\n")
+    print(" 🏗️⚒️ **Unit Test Details:**\n")
     print(f"{'Name':<80} | {'Status':<6} | {'Test Type':<10} | {'Exception':<50}")
     print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
     for detection in data['tested_detections']:
@@ -60,7 +60,7 @@ def main():
         print("🟢 - **CI Success: No failed tests.**\n\n")
         sys.exit(0)
     if int(total_detections) < 1:
-        print("🟢 - **CI Success: No detections to test**\n\n")
+        print("🔵 - **CI Success: No detections to test**\n\n")
         sys.exit(0)
         
 if __name__ == "__main__":
