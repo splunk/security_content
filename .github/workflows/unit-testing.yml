@@ -33,7 +33,8 @@ jobs:
             git pull > /dev/null 2>&1
             git checkout ${{ github.head_ref }}
             echo "The target branch for this PR is ${{ github.base_ref }}"
-            # contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}    
+            # contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}   
+            mkdir test_results/
             cp summary.yml test_results/
           continue-on-error: true
           
