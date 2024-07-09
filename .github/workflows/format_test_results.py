@@ -29,8 +29,8 @@ def main():
     
     # Print all unit test details first
     print("Unit Test Details:\n")
-    print(f"{'Name':<80} | {'Status':<6} | {'Test Type':<10} | {'Exception':<50}")
-    print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
+    print(f"{'Name':<80} | {'Status':<6} | 🔴  {'Test Type':<10} | {'Exception':<50}")
+    print(f"{'----':<80} | {'------':<6} | 🟢 {'---------':<10} | {'---------':<50}")
     for detection in data['tested_detections']:
         for test in detection['tests']:
             if test['test_type'].strip() == "unit":  # Check if the test type is "unit"
@@ -46,10 +46,10 @@ def main():
     # Check if total_fail is a valid integer and greater than or equal to one
     if int(total_fail) >=1:
         # Print the message in bold
-        print("**CI Failure: There are failed tests.**\n")
+        print("🔴 ** CI Failure: There are failed tests.**\n\n")
         sys.exit(1)
     else:
-        print("**CI Success: No failed tests.**\n\n")
+        print("🟢 ** CI Success: No failed tests.**\n\n")
         sys.exit(0)
         
 if __name__ == "__main__":
