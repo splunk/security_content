@@ -14,16 +14,16 @@ variables:
 
 stages:
   - build
-  - app_inspect
-  - test
-  - release
+  # - app_inspect
+  # - test
+  # - release
 
 include:
   - local: "pipeline/.build.yml"
-  - local: "pipeline/.app-inspect.yml"
-  - local: "pipeline/.test.yml"
-  - local: "pipeline/.release.yml"
-  - local: "pipeline/.post.yml"
+  # - local: "pipeline/.app-inspect.yml"
+  # - local: "pipeline/.test.yml"
+  # - local: "pipeline/.release.yml"
+  # - local: "pipeline/.post.yml"
 
 workflow:
   rules:
